@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@lp/*": ["src/*"]
+    },
+    "experimentalDecorators": true
+  },
+  "include": ["src"]
+}
