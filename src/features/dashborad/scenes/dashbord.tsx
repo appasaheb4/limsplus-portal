@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 
-const Login = observer(() => {
+const Dashbord = observer(() => {
   return (
     <>
       <div className="max-w-xl mx-auto  flex-wrap p-4  bg-gray-100  rounded-lg shadow-xl">
@@ -14,4 +14,4 @@ const Login = observer(() => {
   );
 });
 
-export default Login;
+export default Dashbord;

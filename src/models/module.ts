@@ -6,6 +6,7 @@ export interface Definition {
   category: string;
   component: string;
   description?: string;
+  enable?: boolean;
 }
 
 export interface Module {

@@ -9,6 +9,11 @@ import * as Utils from "@lp/library/utils";
 import LoginContext from "@lp/features/login/stores";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
+import {
+  ToastsContainer,
+  ToastsContainerPosition,
+  ToastsStore,
+} from "react-toasts";
 
 interface LoginPageProps extends RouteComponentProps {
   definitions: Models.Definition[];
@@ -83,10 +88,13 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                   Features.User.Pipes.User.onLogin(loginStore).then((res) => {
                     rootStore.setProcessLoading(false);
                     if (res.length <= 0) {
-                      alert("User not found");
+                      ToastsStore.error(
+                        "User not found. Please enter correct information!"
+                      );
                     } else {
+                      ToastsStore.error(`Welcome ${res[0].userId}`);
                       Clients.storageClient.setItem("isLogin", res[0]);
-                      navigate("/login");
+                      navigate("/dashbord");
                     }
                   });
                 }}
@@ -119,8 +127,12 @@ const App = observer(() => {
   const sceneMap = new Map<string, React.FunctionComponent>();
 
   Clients.storageClient.getItem("isLogin").then((isLogin) => {
+    console.log({ isLogin });
+
     if (isLogin) {
-      navigate("/login");
+      navigate("/dashbord");
+    } else {
+      navigate("/");
     }
   });
   const rootStore = useContext(RootStoreContext);
@@ -157,6 +169,49 @@ const App = observer(() => {
             </p>
           </div>
         </div>
+        {groups.map((group) => (
+          <div className="py-3 px-2">
+            <p className="px-2 m-0 text-xs text-indigo-300 leading-4 mb-2">
+              {group.label}
+            </p>
+            {group.items.map((item) => (
+              <Link
+                to={item.path.replace("/*", "")}
+                onClick={() => {
+                  if (item.category === "Login Out") {
+                    Clients.storageClient.setItem("isLogin", null);
+                    navigate(-1);
+                  }
+                }}
+                getProps={({ isCurrent }) => {
+                  return {
+                    className: isCurrent
+                      ? "block hover:bg-indigo-800 bg-indigo-800 rounded-lg"
+                      : "block hover:bg-indigo-800 rounded-lg",
+                  };
+                }}
+              >
+                <div className="px-2 py-2 flex flex-row items-center justify-start">
+                  <svg
+                    className="w-6 h-6 text-indigo-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d={item.icon}
+                    />
+                  </svg>
+                  <p className="block text-white text-sm ml-3">{item.label}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ))}
       </div>
       <div className="ml-52 bg-gray-100 min-h-screen">
         {rootStore.processLoading && <LibraryComponents.Loader />}
@@ -172,6 +227,10 @@ const App = observer(() => {
             return <Component path={feature.path} />;
           })}
         </Router>
+        <ToastsContainer
+          position={ToastsContainerPosition.BOTTOM_RIGHT}
+          store={ToastsStore}
+        />
       </div>
     </>
   );
