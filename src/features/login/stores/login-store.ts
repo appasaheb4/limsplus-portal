@@ -1,7 +1,6 @@
 import { ignore, version } from "mobx-sync";
 import { action, observable } from "mobx";
 import * as Models from "../models";
-import * as Services from "@lp/features/login/services";
 
 @version(0.1)
 class LoginStore {

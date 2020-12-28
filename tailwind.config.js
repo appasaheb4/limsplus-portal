@@ -4,6 +4,11 @@ module.exports = {
   theme: {
     extend: {},
   },
+  styles: {
+    colors: {
+      lightBack:'',
+    },
+  },
   variants: {
     extend: {
       opacity: ["disabled"],

@@ -1,5 +1,3 @@
-import Logo from "./banner.jpeg";
-import AppLogo from "./appLogo.jpg";
-import LogoTran from "./appIconTran.png";
+import logo from "./applogo.jpg";
 
-export { Logo, AppLogo, LogoTran };
+export { logo };

@@ -1,17 +1,17 @@
 export function getItem<T>(key: string): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
+  return new Promise<T>(async (resolve, reject) => {
     const result = window && window.localStorage.getItem(key);
     if (!result) {
       reject();
     } else {
-      resolve(JSON.parse(result) as T);
+      resolve((await JSON.parse(result)) as T);
     }
   });
 }
 
 export function setItem(key: string, value: any): Promise<boolean> {
-  return new Promise<boolean>((resolve, reject) => {
-    window && window.localStorage.setItem(key, JSON.stringify(value));
+  return new Promise<boolean>(async (resolve, reject) => {
+    (await window) && window.localStorage.setItem(key, JSON.stringify(value));
     resolve(true);
   });
 }

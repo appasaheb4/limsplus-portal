@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { Router, Link, RouteComponentProps } from "@reach/router";
+import { Router, Link, RouteComponentProps, navigate } from "@reach/router";
 import * as Features from "@lp/features";
 import * as LibraryComponents from "@lp/library/components";
 import RootStoreContext from "@lp/library/stores";
 import * as Models from "@lp/models";
 import * as Utils from "@lp/library/utils";
 import LoginContext from "@lp/features/login/stores";
-import { Alert } from "react-bootstrap";
+import * as Assets from "@lp/library/assets";
+import * as Clients from "@lp/library/clients";
 
 interface LoginPageProps extends RouteComponentProps {
   definitions: Models.Definition[];
@@ -19,9 +20,10 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
 
   return (
     <>
-      <div className="h-screen w-screen fixed left-0 top-0 bg-gray-600 flex flex-col justify-center">
+      <div className="h-screen w-screen fixed left-0   top-0 bg-gray-600 flex flex-col justify-center">
         <div className="grid grid-cols-2">
           <div className="flex flex-col justify-center items-center">
+            <img src={Assets.logo} className="w-20 h-15" alt="logo" />
             <h2 className="text-2xl text-white font-bold">Lims Plus</h2>
           </div>
 
@@ -80,8 +82,11 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                   rootStore.setProcessLoading(true);
                   Features.User.Pipes.User.onLogin(loginStore).then((res) => {
                     rootStore.setProcessLoading(false);
-                    if (!res) {
+                    if (res.length <= 0) {
                       alert("User not found");
+                    } else {
+                      Clients.storageClient.setItem("isLogin", res[0]);
+                      navigate("/login");
                     }
                   });
                 }}
@@ -113,7 +118,11 @@ const App = observer(() => {
   const modulesArray = moduleKeys.map((moduleKey) => moduleFeatures[moduleKey]);
   const sceneMap = new Map<string, React.FunctionComponent>();
 
-  const loginStore = useContext(LoginContext);
+  Clients.storageClient.getItem("isLogin").then((isLogin) => {
+    if (isLogin) {
+      navigate("/login");
+    }
+  });
   const rootStore = useContext(RootStoreContext);
 
   modulesArray.forEach((moduleObject) => {
