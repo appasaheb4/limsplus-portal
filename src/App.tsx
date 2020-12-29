@@ -85,18 +85,20 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 icon={LibraryComponents.Icons.Check}
                 onClick={() => {
                   rootStore.setProcessLoading(true);
-                  Features.User.Pipes.User.onLogin(loginStore).then((res) => {
-                    rootStore.setProcessLoading(false);
-                    if (res.length <= 0) {
-                      ToastsStore.error(
-                        "User not found. Please enter correct information!"
-                      );
-                    } else {
-                      ToastsStore.error(`Welcome ${res[0].userId}`);
-                      Clients.storageClient.setItem("isLogin", res[0]);
-                      navigate("/dashbord");
+                  Features.LoginOut.Pipes.User.onLogin(loginStore).then(
+                    (res) => {
+                      rootStore.setProcessLoading(false);
+                      if (res.length <= 0) {
+                        ToastsStore.error(
+                          "User not found. Please enter correct information!"
+                        );
+                      } else {
+                        ToastsStore.success(`Welcome ${res[0].userId}`);
+                        Clients.storageClient.setItem("isLogin", res[0]);
+                        navigate("/dashbord");
+                      }
                     }
-                  });
+                  );
                 }}
               >
                 Login
