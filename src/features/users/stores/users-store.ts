@@ -7,10 +7,7 @@ import * as LibraryUtils from "@lp/library/utils";
 class UsersStore {
   @ignore @observable user: Models.Users;
 
-  @ignore @observable temp: string;
-
   constructor() {
-    this.temp = "try";
     this.user = this.initUser();
   }
 
@@ -26,10 +23,6 @@ class UsersStore {
       exipreDate: new Date().toString(),
       role: "",
     };
-  }
-
-  @action updateTemp(temp: string) {
-    this.temp = temp;
   }
 
   @action updateUser(user: Models.Users) {

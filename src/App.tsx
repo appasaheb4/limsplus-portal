@@ -43,7 +43,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="Lab"
                 id="lab"
                 placeholder="Lab"
-                // value={loginStore.inputLogin.lab}
+                value={loginStore.inputLogin.lab}
                 onChange={(lab) => {
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,
@@ -55,7 +55,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="User Id"
                 id="userId"
                 placeholder="User Id"
-                //value={loginStore.inputLogin.userId}
+                value={loginStore.inputLogin.userId}
                 onChange={(userId) => {
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,
@@ -68,7 +68,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="Password"
                 id="password"
                 placeholder="Password"
-                // value={loginStore.inputLogin.password}
+                value={loginStore.inputLogin.password}
                 onChange={(password) => {
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,

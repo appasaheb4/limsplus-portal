@@ -6,7 +6,47 @@ import UsersContext from "@lp/features/users/stores";
 const Users = observer(() => {
   let usersStore = React.useContext(UsersContext);
 
-  console.log("user");
+  const [fields, setFields] = useState<any>({});
+  const [errors, setErrors] = useState<any>({});
+
+  const handleValidation = () => {
+    let formIsValid = true;
+    if (!fields["name"]) {
+      formIsValid = false;
+      setErrors({ name: "Cannot be empty" });
+    }
+
+    if (typeof fields["name"] !== "undefined") {
+      if (!fields["name"].match(/^[a-zA-Z]+$/)) {
+        formIsValid = false;
+        setErrors({ name: "Only letters" });
+      }
+    }
+
+    if (!fields["email"]) {
+      formIsValid = false;
+      setErrors({ email: "Cannot be empty" });
+    }
+
+    if (typeof fields["email"] !== "undefined") {
+      let lastAtPos = fields["email"].lastIndexOf("@");
+      let lastDotPos = fields["email"].lastIndexOf(".");
+      if (
+        !(
+          lastAtPos < lastDotPos &&
+          lastAtPos > 0 &&
+          fields["email"].indexOf("@@") == -1 &&
+          lastDotPos > 2 &&
+          fields["email"].length - lastDotPos > 2
+        )
+      ) {
+        formIsValid = false;
+        setErrors({ email: "Email is not valid" });
+      }
+    }
+    return formIsValid;
+  };
+
   return (
     <>
       <div className=" mx-auto  p-4  flex-wrap">
@@ -43,24 +83,24 @@ const Users = observer(() => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                //value={loginStore.inputLogin.userId}
-                onChange={(userId) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   userId,
-                  // });
+                value={usersStore.user.password}
+                onChange={(password) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    password,
+                  });
                 }}
               />
               <LibraryComponents.Form.Input
                 label="Deginisation"
                 id="deginisation"
                 placeholder="Deginisation"
-                // value={loginStore.inputLogin.password}
-                onChange={(password) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   password,
-                  // });
+                value={usersStore.user.deginisation}
+                onChange={(deginisation) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    deginisation,
+                  });
                 }}
               />
               <LibraryComponents.Form.Input
@@ -86,24 +126,24 @@ const Users = observer(() => {
                 label="Full Name"
                 id="fullName"
                 placeholder="Full Name"
-                // value={loginStore.inputLogin.lab}
-                onChange={(lab) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   lab,
-                  // });
+                value={usersStore.user.fullName}
+                onChange={(fullName) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    fullName,
+                  });
                 }}
               />
               <LibraryComponents.Form.Input
                 label="Department"
                 id="department"
                 placeholder="Department"
-                //value={loginStore.inputLogin.userId}
-                onChange={(userId) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   userId,
-                  // });
+                value={usersStore.user.department}
+                onChange={(department) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    department,
+                  });
                 }}
               />
               <LibraryComponents.Form.Input
@@ -111,24 +151,24 @@ const Users = observer(() => {
                 label="Exipre Date"
                 id="exipreData"
                 placeholder="Exipre Date"
-                // value={loginStore.inputLogin.password}
-                onChange={(password) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   password,
-                  // });
+                value={usersStore.user.exipreDate}
+                onChange={(exipreDate) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    exipreDate,
+                  });
                 }}
               />
               <LibraryComponents.Form.Input
                 label="Role"
                 id="role"
                 placeholder="Role"
-                //value={loginStore.inputLogin.userId}
-                onChange={(userId) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   userId,
-                  // });
+                value={usersStore.user.role}
+                onChange={(role) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    role,
+                  });
                 }}
               />
             </LibraryComponents.List>
@@ -165,7 +205,7 @@ const Users = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                // loginStore.clear();
+                usersStore.clear();
               }}
             >
               Clear
