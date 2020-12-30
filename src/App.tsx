@@ -216,7 +216,7 @@ const App = observer(() => {
         ))}
       </div>
       <div className="ml-52 bg-gray-100 min-h-screen">
-        {rootStore.processLoading && <LibraryComponents.Loader />}
+        {/* {rootStore.processLoading && <LibraryComponents.Loader />} */}
         <Router>
           <LoginPage
             path="/"

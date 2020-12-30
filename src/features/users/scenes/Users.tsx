@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
 
 const Users = observer(() => {
-  let usersStore = useContext(UsersContext);
+  let usersStore = React.useContext(UsersContext);
+
+  console.log("user");
   return (
     <>
-      <div className=" mx-auto  p-4  flex-wrap   ">
+      <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <h1 className="text-2xl mb-4 text-blue-800 leading-tight">Users</h1>
           <LibraryComponents.Grid cols={2}>

@@ -1,4 +1,4 @@
-import { ignore, version } from "mobx-sync";
+import { version, ignore } from "mobx-sync";
 import { action, observable } from "mobx";
 import * as Models from "../models";
 import * as LibraryUtils from "@lp/library/utils";
@@ -6,7 +6,11 @@ import * as LibraryUtils from "@lp/library/utils";
 @version(0.1)
 class UsersStore {
   @ignore @observable user: Models.Users;
+
+  @ignore @observable temp: string;
+
   constructor() {
+    this.temp = "try";
     this.user = this.initUser();
   }
 
@@ -22,6 +26,10 @@ class UsersStore {
       exipreDate: new Date().toString(),
       role: "",
     };
+  }
+
+  @action updateTemp(temp: string) {
+    this.temp = temp;
   }
 
   @action updateUser(user: Models.Users) {
