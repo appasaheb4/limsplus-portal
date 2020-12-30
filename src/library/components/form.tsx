@@ -36,6 +36,7 @@ interface InputProps extends InputWrapperProps {
   placeholder?: string;
   type?: string;
   required?: boolean;
+  disabled?: boolean;
   onChange?: (text: string) => void;
 }
 
@@ -46,6 +47,7 @@ export const Input = (props: InputProps) => (
       id={props.id}
       placeholder={props.placeholder}
       required={props.required || false}
+      disabled={props.disabled || false}
       autoComplete="given-name"
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
