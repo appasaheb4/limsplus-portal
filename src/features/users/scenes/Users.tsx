@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
+import UsersContext from "@lp/features/users/stores";
 
 const Users = observer(() => {
+  let usersStore = useContext(UsersContext);
   return (
     <>
       <div className=" mx-auto  p-4  flex-wrap   ">
@@ -20,18 +22,25 @@ const Users = observer(() => {
                 id="userId"
                 placeholder="User Id"
                 disabled={true}
-                // value={loginStore.inputLogin.lab}
-                onChange={(lab) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   lab,
-                  // });
-                }}
+                value={usersStore.user.userId}
               />
               <LibraryComponents.Form.Input
                 label="Lab"
                 id="lab"
                 placeholder="Lab"
+                value={usersStore.user.lab}
+                onChange={(lab) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    lab,
+                  });
+                }}
+              />
+              <LibraryComponents.Form.Input
+                label="Password"
+                id="password"
+                type="password"
+                placeholder="Password"
                 //value={loginStore.inputLogin.userId}
                 onChange={(userId) => {
                   // loginStore.updateInputUser({

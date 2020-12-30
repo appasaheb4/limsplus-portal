@@ -1,28 +1,35 @@
 import { ignore, version } from "mobx-sync";
 import { action, observable } from "mobx";
 import * as Models from "../models";
+import * as LibraryUtils from "@lp/library/utils";
 
 @version(0.1)
 class UsersStore {
-  @observable inputLogin: Models.Users;
+  @ignore @observable user: Models.Users;
   constructor() {
-    this.inputLogin = this.initUser();
+    this.user = this.initUser();
   }
 
   private initUser() {
     return {
+      userId: LibraryUtils.uuidv4(),
       lab: "",
-      userId: "",
       password: "",
+      deginisation: "",
+      status: "Active",
+      fullName: "",
+      department: "",
+      exipreDate: new Date().toString(),
+      role: "",
     };
   }
 
-  @action updateInputUser(user: Models.Users) {
-    this.inputLogin = user;
+  @action updateUser(user: Models.Users) {
+    this.user = user;
   }
 
   @action clear() {
-    this.inputLogin = this.initUser();
+    this.user = this.initUser();
   }
 }
 
