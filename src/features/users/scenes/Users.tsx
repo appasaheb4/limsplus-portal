@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
 import * as Models from "../models";
+import * as Utils from "@lp/library/utils";
 
 const validEmailRegex = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -19,6 +20,13 @@ const Users = observer(() => {
   let usersStore = React.useContext(UsersContext);
 
   const [errors, setErrors] = useState<Models.Users>();
+
+  console.log({
+    res: Utils.validate(
+      { password: "appa", username: "appasaheb lakade" },
+      Utils.constraints
+    ),
+  });
 
   const handleChange = (event: any) => {
     event.preventDefault();
