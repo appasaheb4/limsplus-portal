@@ -2,49 +2,51 @@ import React, { useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
+import * as Models from "../models";
+
+const validEmailRegex = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
+const validateForm = (errors: any) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    (val: any) => val.length > 0 && (valid = false)
+  );
+  return valid;
+};
 
 const Users = observer(() => {
   let usersStore = React.useContext(UsersContext);
 
-  const [fields, setFields] = useState<any>({});
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<Models.Users>();
 
-  const handleValidation = () => {
-    let formIsValid = true;
-    if (!fields["name"]) {
-      formIsValid = false;
-      setErrors({ name: "Cannot be empty" });
-    }
+  const handleChange = (event: any) => {
+    event.preventDefault();
+    const { name, value } = event.target;
+    console.log({ name, value });
 
-    if (typeof fields["name"] !== "undefined") {
-      if (!fields["name"].match(/^[a-zA-Z]+$/)) {
-        formIsValid = false;
-        setErrors({ name: "Only letters" });
-      }
+    switch (name) {
+      case "lab":
+        setErrors({
+          ...errors,
+          lab:
+            value.length < 5
+              ? `${name} must be at least 5 characters long!`
+              : "",
+        });
+        break;
+      case "password":
+        setErrors({
+          ...errors,
+          password:
+            value.length < 8
+              ? `${name} must be at least 8 characters long!`
+              : "",
+        });
+        break;
+      default:
+        break;
     }
-
-    if (!fields["email"]) {
-      formIsValid = false;
-      setErrors({ email: "Cannot be empty" });
-    }
-
-    if (typeof fields["email"] !== "undefined") {
-      let lastAtPos = fields["email"].lastIndexOf("@");
-      let lastDotPos = fields["email"].lastIndexOf(".");
-      if (
-        !(
-          lastAtPos < lastDotPos &&
-          lastAtPos > 0 &&
-          fields["email"].indexOf("@@") == -1 &&
-          lastDotPos > 2 &&
-          fields["email"].length - lastDotPos > 2
-        )
-      ) {
-        formIsValid = false;
-        setErrors({ email: "Email is not valid" });
-      }
-    }
-    return formIsValid;
   };
 
   return (
@@ -68,38 +70,50 @@ const Users = observer(() => {
               />
               <LibraryComponents.Form.Input
                 label="Lab"
-                id="lab"
+                name="lab"
                 placeholder="Lab"
                 value={usersStore.user.lab}
-                onChange={(lab) => {
+                onChange={(e: any) => {
+                  handleChange(e);
                   usersStore.updateUser({
                     ...usersStore.user,
-                    lab,
+                    lab: e.target.value,
                   });
                 }}
               />
+              {errors?.lab && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lab}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Password"
-                id="password"
+                name="password"
                 type="password"
                 placeholder="Password"
                 value={usersStore.user.password}
-                onChange={(password) => {
+                onChange={(e) => {
+                  handleChange(e);
                   usersStore.updateUser({
                     ...usersStore.user,
-                    password,
+                    password: e.target.value,
                   });
                 }}
               />
+              {errors?.password && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.password}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Deginisation"
                 id="deginisation"
                 placeholder="Deginisation"
                 value={usersStore.user.deginisation}
-                onChange={(deginisation) => {
+                onChange={(e: any) => {
                   usersStore.updateUser({
                     ...usersStore.user,
-                    deginisation,
+                    deginisation: e.target.value,
                   });
                 }}
               />
@@ -107,12 +121,12 @@ const Users = observer(() => {
                 label="Status"
                 id="status"
                 placeholder="Status"
-                // value={loginStore.inputLogin.password}
-                onChange={(password) => {
-                  // loginStore.updateInputUser({
-                  //   ...loginStore.inputLogin,
-                  //   password,
-                  // });
+                // value={usersStore.user.password}
+                onChange={(e) => {
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    password: e.target.value,
+                  });
                 }}
               />
             </LibraryComponents.List>
@@ -127,10 +141,10 @@ const Users = observer(() => {
                 id="fullName"
                 placeholder="Full Name"
                 value={usersStore.user.fullName}
-                onChange={(fullName) => {
+                onChange={(e) => {
                   usersStore.updateUser({
                     ...usersStore.user,
-                    fullName,
+                    fullName: e.target.value,
                   });
                 }}
               />
@@ -139,10 +153,10 @@ const Users = observer(() => {
                 id="department"
                 placeholder="Department"
                 value={usersStore.user.department}
-                onChange={(department) => {
+                onChange={(e) => {
                   usersStore.updateUser({
                     ...usersStore.user,
-                    department,
+                    department: e.target.value,
                   });
                 }}
               />
@@ -152,10 +166,10 @@ const Users = observer(() => {
                 id="exipreData"
                 placeholder="Exipre Date"
                 value={usersStore.user.exipreDate}
-                onChange={(exipreDate) => {
+                onChange={(e) => {
                   usersStore.updateUser({
                     ...usersStore.user,
-                    exipreDate,
+                    exipreDate: e.target.value,
                   });
                 }}
               />
@@ -164,10 +178,10 @@ const Users = observer(() => {
                 id="role"
                 placeholder="Role"
                 value={usersStore.user.role}
-                onChange={(role) => {
+                onChange={(e) => {
                   usersStore.updateUser({
                     ...usersStore.user,
-                    role,
+                    role: e.target.value,
                   });
                 }}
               />

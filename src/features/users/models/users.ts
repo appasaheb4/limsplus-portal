@@ -1,5 +1,5 @@
 export interface Users {
-  userId: string;
+  userId?: string;
   lab?: string;
   password?: string;
   deginisation?: string;

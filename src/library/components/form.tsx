@@ -18,7 +18,7 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
 );
 
 interface InputWrapperProps {
-  id: string;
+  id?: string;
   label: string;
 }
 
@@ -26,18 +26,19 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
   props
 ) => (
   <div>
-    <Label htmlFor={props.id}>{props.label}</Label>
+    <Label htmlFor={props.id || ""}>{props.label}</Label>
     {props.children}
   </div>
 );
 
 interface InputProps extends InputWrapperProps {
   value?: any;
+  name?: string;
   placeholder?: string;
   type?: string;
   required?: boolean;
   disabled?: boolean;
-  onChange?: (text: string) => void;
+  onChange?: (e: any) => void;
 }
 
 export const Input = (props: InputProps) => (
@@ -45,12 +46,13 @@ export const Input = (props: InputProps) => (
     <input
       type={props.type || "text"}
       id={props.id}
+      name={props.name}
       placeholder={props.placeholder}
       required={props.required || false}
       disabled={props.disabled || false}
       autoComplete="given-name"
       value={props.value}
-      onChange={(e) => props.onChange && props.onChange(e.target.value)}
+      onChange={(e) => props.onChange && props.onChange(e)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
@@ -74,47 +76,47 @@ interface TagInputProps extends InputWrapperProps {
   onChange: (tags: string[]) => void;
 }
 
-export const TagInput = (props: TagInputProps) => {
-  const [search, setSearch] = React.useState<string>("");
-  return (
-    <InputWrapper label={props.label} id={props.id}>
-      <div className="p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md flex flex-wrap">
-        {props.value?.map((tag, index) => (
-          <div className="my-0.5 mr-1">
-            <Button
-              pill={true}
-              size="small"
-              type="solid"
-              icon={Icons.Remove}
-              onClick={() => {
-                let newArray = [...(props.value || [])];
-                newArray.splice(index, 1);
-                props.onChange(newArray);
-              }}
-            >
-              {tag}
-            </Button>
-          </div>
-        ))}
-        <div className="self-stretch flex items-center">
-          <input
-            type="search"
-            value={search}
-            onChange={({ target: { value: search } }) => setSearch(search)}
-            className={`text-sm min-w-0 outline-none ring-0 ${
-              props.value?.length ? "w-16" : "w-full"
-            } my-0.5`}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                props.onChange(
-                  Array.from(new Set([...(props.value || []), search]))
-                );
-                setSearch("");
-              }
-            }}
-          />
-        </div>
-      </div>
-    </InputWrapper>
-  );
-};
+// export const TagInput = (props: TagInputProps) => {
+//   const [search, setSearch] = React.useState<string>("");
+//   return (
+//     <InputWrapper label={props.label} id={props.id}>
+//       <div className="p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md flex flex-wrap">
+//         {props.value?.map((tag, index) => (
+//           <div className="my-0.5 mr-1">
+//             <Button
+//               pill={true}
+//               size="small"
+//               type="solid"
+//               icon={Icons.Remove}
+//               onClick={() => {
+//                 let newArray = [...(props.value || [])];
+//                 newArray.splice(index, 1);
+//                 props.onChange(newArray);
+//               }}
+//             >
+//               {tag}
+//             </Button>
+//           </div>
+//         ))}
+//         <div className="self-stretch flex items-center">
+//           <input
+//             type="search"
+//             value={search}
+//             onChange={({ target: { value: search } }) => setSearch(search)}
+//             className={`text-sm min-w-0 outline-none ring-0 ${
+//               props.value?.length ? "w-16" : "w-full"
+//             } my-0.5`}
+//             onKeyDown={(e) => {
+//               if (e.key === "Enter") {
+//                 props.onChange(
+//                   Array.from(new Set([...(props.value || []), search]))
+//                 );
+//                 setSearch("");
+//               }
+//             }}
+//           />
+//         </div>
+//       </div>
+//     </InputWrapper>
+//   );
+// };
