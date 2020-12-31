@@ -18,6 +18,8 @@ class LoginStore {
   }
 
   @action updateInputUser(user: Models.Login) {
+    console.log({ user });
+
     this.inputLogin = user;
   }
 

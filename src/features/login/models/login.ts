@@ -1,5 +1,5 @@
 export interface Login {
-  lab: string;
-  userId: string;
-  password: string;
+  lab?: string;
+  userId?: string;
+  password?: string;
 }

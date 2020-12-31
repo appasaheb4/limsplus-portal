@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { observer } from "mobx-react";
 import { Router, Link, RouteComponentProps, navigate } from "@reach/router";
 import * as Features from "@lp/features";
 import * as LibraryComponents from "@lp/library/components";
 import RootStoreContext from "@lp/library/stores";
 import * as Models from "@lp/models";
+import * as ModelsLogin from "@lp/features/login/models";
 import * as Utils from "@lp/library/utils";
 import LoginContext from "@lp/features/login/stores";
 import * as Assets from "@lp/library/assets";
@@ -22,6 +23,7 @@ interface LoginPageProps extends RouteComponentProps {
 const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
   const rootStore = useContext(RootStoreContext);
   let loginStore = useContext(LoginContext);
+  const [errors, setErrors] = useState<ModelsLogin.Login>();
 
   return (
     <>
@@ -41,28 +43,50 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
             >
               <LibraryComponents.Form.Input
                 label="Lab"
-                id="lab"
+                name="lab"
                 placeholder="Lab"
                 value={loginStore.inputLogin.lab}
                 onChange={(lab) => {
-                  loginStore.updateInputUser({
-                    ...loginStore.inputLogin,
-                    lab,
+                  setErrors({
+                    ...errors,
+                    lab: Utils.validate.single(lab, Utils.constraints.lab),
                   });
+                  errors?.lab &&
+                    loginStore.updateInputUser({
+                      ...loginStore.inputLogin,
+                      lab,
+                    });
                 }}
               />
+              {errors?.lab && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lab}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="User Id"
                 id="userId"
                 placeholder="User Id"
                 value={loginStore.inputLogin.userId}
                 onChange={(userId) => {
+                  setErrors({
+                    ...errors,
+                    userId: Utils.validate.single(
+                      userId,
+                      Utils.constraints.userId
+                    ),
+                  });
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,
                     userId,
                   });
                 }}
               />
+              {errors?.userId && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.userId}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 type="password"
                 label="Password"
@@ -70,12 +94,24 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 placeholder="Password"
                 value={loginStore.inputLogin.password}
                 onChange={(password) => {
+                  setErrors({
+                    ...errors,
+                    password: Utils.validate.single(
+                      password,
+                      Utils.constraints.password
+                    ),
+                  });
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,
                     password,
                   });
                 }}
               />
+              {errors?.password && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.password}
+                </span>
+              )}
             </LibraryComponents.List>
             <br />
             <LibraryComponents.List direction="row" space={3} align="center">
@@ -84,21 +120,28 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Icons.Check}
                 onClick={() => {
-                  rootStore.setProcessLoading(true);
-                  Features.LoginOut.Pipes.User.onLogin(loginStore).then(
-                    (res) => {
-                      rootStore.setProcessLoading(false);
-                      if (res.length <= 0) {
-                        ToastsStore.error(
-                          "User not found. Please enter correct information!"
-                        );
-                      } else {
-                        ToastsStore.success(`Welcome ${res[0].userId}`);
-                        Clients.storageClient.setItem("isLogin", res[0]);
-                        navigate("/dashbord");
+                  if (
+                    Utils.validate(loginStore.inputLogin, Utils.constraints) ===
+                    undefined
+                  ) {
+                    rootStore.setProcessLoading(true);
+                    Features.LoginOut.Pipes.User.onLogin(loginStore).then(
+                      (res) => {
+                        rootStore.setProcessLoading(false);
+                        if (res.length <= 0) {
+                          ToastsStore.error(
+                            "User not found. Please enter correct information!"
+                          );
+                        } else {
+                          ToastsStore.success(`Welcome ${res[0].userId}`);
+                          Clients.storageClient.setItem("isLogin", res[0]);
+                          navigate("/dashbord");
+                        }
                       }
-                    }
-                  );
+                    );
+                  } else {
+                    ToastsStore.warning("Please enter all information!");
+                  }
                 }}
               >
                 Login

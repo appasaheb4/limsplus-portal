@@ -52,7 +52,7 @@ export const Input = (props: InputProps) => (
       disabled={props.disabled || false}
       autoComplete="given-name"
       value={props.value}
-      onChange={(e) => props.onChange && props.onChange(e)}
+      onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>

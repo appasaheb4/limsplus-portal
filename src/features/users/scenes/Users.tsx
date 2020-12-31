@@ -31,8 +31,6 @@ const Users = observer(() => {
   const handleChange = (event: any) => {
     event.preventDefault();
     const { name, value } = event.target;
-    console.log({ name, value });
-
     switch (name) {
       case "lab":
         setErrors({
