@@ -1,4 +1,5 @@
 import validate from "validate.js";
+import moment from "moment";
 export { validate };
 export const constraints = {
   lab: {
@@ -17,9 +18,33 @@ export const constraints = {
   },
   password: {
     presence: true,
-    length: {
-      minimum: 6,
-      message: "Password must be at least 6 characters",
+    format: {
+      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+      message:
+        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
     },
+  },
+  deginisation: {
+    presence: true,
+  },
+  fullName: {
+    presence: true,
+  },
+  department: {
+    presence: true,
+  },
+  exipreDate: {
+    presence: true,
+    //Must be born at least 18 years ago
+    date: {
+      latest: moment().subtract(18, "years"),
+      message: "^You must be at least 18 years old to use this service",
+    },
+  },
+  role: {
+    presence: true,
+  },
+  status: {
+    presence: true,
   },
 };

@@ -51,11 +51,10 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                     ...errors,
                     lab: Utils.validate.single(lab, Utils.constraints.lab),
                   });
-                  errors?.lab &&
-                    loginStore.updateInputUser({
-                      ...loginStore.inputLogin,
-                      lab,
-                    });
+                  loginStore.updateInputUser({
+                    ...loginStore.inputLogin,
+                    lab,
+                  });
                 }}
               />
               {errors?.lab && (

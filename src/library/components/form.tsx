@@ -1,6 +1,5 @@
 import React from "react";
-import Button from "./button";
-import * as Icons from "./icon";
+import * as LibraryComponents from "@lp/library/components";
 
 interface LabelProps {
   htmlFor: string;
@@ -57,6 +56,40 @@ export const Input = (props: InputProps) => (
     />
   </InputWrapper>
 );
+
+interface InputRadioProps extends InputWrapperProps {
+  values?: string[];
+  value?: string;
+  name?: string;
+  required?: boolean;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
+}
+
+export const InputRadio = (props: InputRadioProps) => (
+  <InputWrapper label={props.label} id={props.id}>
+    {props.values?.map((item, key) => (
+      <div className="ml-4">
+        <LibraryComponents.List space={3} direction="row">
+          <input
+            key={key}
+            type="radio"
+            id={props.id}
+            name={props.name}
+            value={props.value}
+            checked={item === props.value ? true : false}
+            onChange={(e) => props.onChange && props.onChange(item)}
+            className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+          />
+          <Label htmlFor={props.id || ""}>{item}</Label>
+        </LibraryComponents.List>
+      </div>
+    ))}
+  </InputWrapper>
+);
+
+
+
 
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id}>

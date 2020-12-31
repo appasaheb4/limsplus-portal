@@ -20,7 +20,7 @@ class UsersStore {
       status: "Active",
       fullName: "",
       department: "",
-      exipreDate: new Date().toString(),
+      exipreDate: new Date(),
       role: "",
     };
   }

@@ -6,6 +6,6 @@ export interface Users {
   status?: string | "Active" | "Retired" | "Disable";
   fullName?: string;
   department?: string;
-  exipreDate?: string;
+  exipreDate?: Date;
   role?: string;
 }

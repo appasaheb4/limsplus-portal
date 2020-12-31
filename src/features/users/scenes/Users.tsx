@@ -4,56 +4,11 @@ import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
 import * as Models from "../models";
 import * as Utils from "@lp/library/utils";
-
-const validEmailRegex = RegExp(
-  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-);
-const validateForm = (errors: any) => {
-  let valid = true;
-  Object.values(errors).forEach(
-    (val: any) => val.length > 0 && (valid = false)
-  );
-  return valid;
-};
+import moment from "moment";
 
 const Users = observer(() => {
   let usersStore = React.useContext(UsersContext);
-
   const [errors, setErrors] = useState<Models.Users>();
-
-  console.log({
-    res: Utils.validate(
-      { password: "appa", username: "appasaheb lakade" },
-      Utils.constraints
-    ),
-  });
-
-  const handleChange = (event: any) => {
-    event.preventDefault();
-    const { name, value } = event.target;
-    switch (name) {
-      case "lab":
-        setErrors({
-          ...errors,
-          lab:
-            value.length < 5
-              ? `${name} must be at least 5 characters long!`
-              : "",
-        });
-        break;
-      case "password":
-        setErrors({
-          ...errors,
-          password:
-            value.length < 8
-              ? `${name} must be at least 8 characters long!`
-              : "",
-        });
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <>
@@ -79,11 +34,14 @@ const Users = observer(() => {
                 name="lab"
                 placeholder="Lab"
                 value={usersStore.user.lab}
-                onChange={(e: any) => {
-                  handleChange(e);
+                onChange={(lab) => {
+                  setErrors({
+                    ...errors,
+                    lab: Utils.validate.single(lab, Utils.constraints.lab),
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    lab: e.target.value,
+                    lab,
                   });
                 }}
               />
@@ -98,11 +56,17 @@ const Users = observer(() => {
                 type="password"
                 placeholder="Password"
                 value={usersStore.user.password}
-                onChange={(e) => {
-                  handleChange(e);
+                onChange={(password) => {
+                  setErrors({
+                    ...errors,
+                    password: Utils.validate.single(
+                      password,
+                      Utils.constraints.password
+                    ),
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    password: e.target.value,
+                    password,
                   });
                 }}
               />
@@ -116,22 +80,47 @@ const Users = observer(() => {
                 id="deginisation"
                 placeholder="Deginisation"
                 value={usersStore.user.deginisation}
-                onChange={(e: any) => {
+                onChange={(deginisation) => {
+                  setErrors({
+                    ...errors,
+                    deginisation:
+                      deginisation !== ""
+                        ? Utils.validate.single(
+                            deginisation,
+                            Utils.constraints.deginisation
+                          )
+                        : "Deginisation requried",
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    deginisation: e.target.value,
+                    deginisation,
                   });
                 }}
               />
-              <LibraryComponents.Form.Input
+              {errors?.deginisation && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.deginisation}
+                </span>
+              )}
+              <LibraryComponents.Form.InputRadio
                 label="Status"
-                id="status"
-                placeholder="Status"
-                // value={usersStore.user.password}
-                onChange={(e) => {
+                name="status"
+                values={["Active", "Retired", "Disable"]}
+                value={usersStore.user.status}
+                onChange={(status) => {
+                  setErrors({
+                    ...errors,
+                    status:
+                      status !== ""
+                        ? Utils.validate.single(
+                            status,
+                            Utils.constraints.status
+                          )
+                        : "Status requried",
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    password: e.target.value,
+                    status,
                   });
                 }}
               />
@@ -147,50 +136,116 @@ const Users = observer(() => {
                 id="fullName"
                 placeholder="Full Name"
                 value={usersStore.user.fullName}
-                onChange={(e) => {
+                onChange={(fullName) => {
+                  setErrors({
+                    ...errors,
+                    fullName:
+                      fullName !== ""
+                        ? Utils.validate.single(
+                            fullName,
+                            Utils.constraints.fullName
+                          )
+                        : "Full Name required!",
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    fullName: e.target.value,
+                    fullName,
                   });
                 }}
               />
+              {errors?.fullName && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.fullName}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Department"
                 id="department"
                 placeholder="Department"
                 value={usersStore.user.department}
-                onChange={(e) => {
+                onChange={(department) => {
+                  setErrors({
+                    ...errors,
+                    department:
+                      department !== ""
+                        ? Utils.validate.single(
+                            department,
+                            Utils.constraints.department
+                          )
+                        : "Department required!",
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    department: e.target.value,
+                    department,
                   });
                 }}
               />
+              {errors?.department && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.department}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 type="date"
                 label="Exipre Date"
                 id="exipreData"
                 placeholder="Exipre Date"
                 value={usersStore.user.exipreDate}
-                onChange={(e) => {
-                  usersStore.updateUser({
-                    ...usersStore.user,
-                    exipreDate: e.target.value,
+                onChange={(exipreDate) => {
+                  console.log({ exipreDate });
+                  const d = new Date(exipreDate);
+
+                  const date = moment(d).format(
+                    "dddd, MMMM Do YYYY, h:mm:ss a"
+                  ); // June 1, 2019
+
+                  console.log({ date });
+
+                  setErrors({
+                    ...errors,
+                    exipreDate:
+                      exipreDate !== ""
+                        ? Utils.validate.single(
+                            date,
+                            Utils.constraints.exipreDate
+                          )
+                        : "Exipre Date required!",
                   });
+                  // usersStore.updateUser({
+                  //   ...usersStore.user,
+                  //   exipreDate,
+                  // });
                 }}
               />
+              {errors?.exipreDate && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.exipreDate}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Role"
                 id="role"
                 placeholder="Role"
                 value={usersStore.user.role}
-                onChange={(e) => {
+                onChange={(role) => {
+                  setErrors({
+                    ...errors,
+                    role:
+                      role !== ""
+                        ? Utils.validate.single(role, Utils.constraints.role)
+                        : "Role required!",
+                  });
                   usersStore.updateUser({
                     ...usersStore.user,
-                    role: e.target.value,
+                    role,
                   });
                 }}
               />
+              {errors?.role && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.role}
+                </span>
+              )}
             </LibraryComponents.List>
           </LibraryComponents.Grid>
           <br />
