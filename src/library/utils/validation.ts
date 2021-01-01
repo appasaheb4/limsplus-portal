@@ -39,7 +39,7 @@ export const constraintsLogin = {
   },
 };
 
-export const constraints = {
+export const constraintsUser = {
   lab: {
     presence: true,
     length: {
@@ -78,6 +78,9 @@ export const constraints = {
       earliest: moment.utc().subtract(1, "days"),
       message: "^You need to be at least 1 month earliest",
     },
+  },
+  exipreDays: {
+    presence: true,
   },
   role: {
     presence: true,

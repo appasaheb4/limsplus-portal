@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 
 const Login = observer(() => {
   return (
     <>
-      <div className="max-w-xl mx-auto  flex-wrap p-4  bg-gray-100  rounded-lg shadow-xl">
+      <div className="max-w-xl mx-auto  py-40  flex-wrap p-4  bg-gray-100 ">
         <h1 className="text-2xl text-blue-800 leading-tight text-center">
-          LIMS PLUS
+          Logouting ...
         </h1>
-        <p className="text-base text-gray-700">Building apps together</p>
       </div>
     </>
   );

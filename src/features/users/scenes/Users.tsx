@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
 import * as Models from "../models";
 import * as Utils from "@lp/library/utils";
 import moment from "moment";
+import * as Features from "@lp/features";
+import RootStoreContext from "@lp/library/stores";
 
 const Users = observer(() => {
+  const rootStore = useContext(RootStoreContext);
   let usersStore = React.useContext(UsersContext);
   const [errors, setErrors] = useState<Models.Users>();
 
@@ -37,7 +40,7 @@ const Users = observer(() => {
                 onChange={(lab) => {
                   setErrors({
                     ...errors,
-                    lab: Utils.validate.single(lab, Utils.constraints.lab),
+                    lab: Utils.validate.single(lab, Utils.constraintsUser.lab),
                   });
                   usersStore.updateUser({
                     ...usersStore.user,
@@ -61,7 +64,7 @@ const Users = observer(() => {
                     ...errors,
                     password: Utils.validate.single(
                       password,
-                      Utils.constraints.password
+                      Utils.constraintsUser.password
                     ),
                   });
                   usersStore.updateUser({
@@ -87,7 +90,7 @@ const Users = observer(() => {
                       deginisation !== ""
                         ? Utils.validate.single(
                             deginisation,
-                            Utils.constraints.deginisation
+                            Utils.constraintsUser.deginisation
                           )
                         : "Deginisation requried",
                   });
@@ -114,7 +117,7 @@ const Users = observer(() => {
                       status !== ""
                         ? Utils.validate.single(
                             status,
-                            Utils.constraints.status
+                            Utils.constraintsUser.status
                           )
                         : "Status requried",
                   });
@@ -143,7 +146,7 @@ const Users = observer(() => {
                       fullName !== ""
                         ? Utils.validate.single(
                             fullName,
-                            Utils.constraints.fullName
+                            Utils.constraintsUser.fullName
                           )
                         : "Full Name required!",
                   });
@@ -170,7 +173,7 @@ const Users = observer(() => {
                       department !== ""
                         ? Utils.validate.single(
                             department,
-                            Utils.constraints.department
+                            Utils.constraintsUser.department
                           )
                         : "Department required!",
                   });
@@ -185,32 +188,83 @@ const Users = observer(() => {
                   {errors.department}
                 </span>
               )}
-              <LibraryComponents.Form.InputDate
-                label="Exipre Date"
-                id="exipreData"
-                // value={usersStore.user.exipreDate}
-                onChange={(e: any) => {
-                  console.log({ e });
-                  const d = new Date(e.target.value);
-                  const date = moment(d).format("YYYY-MM-DD HH:mm:ss");
-                  setErrors({
-                    ...errors,
-                    exipreDate: Utils.validate.single(
-                      date,
-                      Utils.constraints.exipreDate
-                    ),
-                  });
-                  usersStore.updateUser({
-                    ...usersStore.user,
-                    exipreDate: new Date(date),
-                  });
-                }}
-              />
-              {errors?.exipreDate && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.exipreDate}
-                </span>
-              )}
+
+              <LibraryComponents.List space={3} direction="row">
+                <LibraryComponents.Form.InputDate
+                  label="Exipre Date"
+                  id="exipreData"
+                  value={moment(usersStore.user.exipreDate).format(
+                    "YYYY-MM-DD"
+                  )}
+                  onChange={(e: any) => {
+                    let date = new Date(e.target.value);
+                    date = new Date(
+                      moment(date)
+                        .add(usersStore.user.exipreDays, "days")
+                        .format("YYYY-MM-DD HH:mm:ss")
+                    );
+                    const formatDate = moment(date).format(
+                      "YYYY-MM-DD HH:mm:ss"
+                    );
+                    setErrors({
+                      ...errors,
+                      exipreDate: Utils.validate.single(
+                        formatDate,
+                        Utils.constraintsUser.exipreDate
+                      ),
+                    });
+                    usersStore.updateUser({
+                      ...usersStore.user,
+                      exipreDate: new Date(formatDate),
+                    });
+                  }}
+                />
+                {errors?.exipreDate && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.exipreDate}
+                  </span>
+                )}
+
+                <LibraryComponents.Form.Input
+                  type="number"
+                  label="Exipre Days"
+                  id="exipreDays"
+                  placeholder="Exipre Days"
+                  value={usersStore.user.exipreDays}
+                  onChange={(exipreDays) => {
+                    const date = new Date(
+                      moment(usersStore.user.exipreDate)
+                        .add(exipreDays, "days")
+                        .format("YYYY-MM-DD HH:mm:ss")
+                    );
+                    const exipreDate = new Date(
+                      moment(date).format("YYYY-MM-DD HH:mm:ss")
+                    );
+
+                    setErrors({
+                      ...errors,
+                      exipreDays:
+                        exipreDays !== ""
+                          ? Utils.validate.single(
+                              exipreDays,
+                              Utils.constraintsUser.exipreDays
+                            )
+                          : "Exipre Days required!",
+                    });
+                    usersStore.updateUser({
+                      ...usersStore.user,
+                      exipreDays,
+                      exipreDate,
+                    });
+                  }}
+                />
+                {errors?.exipreDays && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.exipreDays}
+                  </span>
+                )}
+              </LibraryComponents.List>
+
               <LibraryComponents.Form.Input
                 label="Role"
                 id="role"
@@ -221,7 +275,10 @@ const Users = observer(() => {
                     ...errors,
                     role:
                       role !== ""
-                        ? Utils.validate.single(role, Utils.constraints.role)
+                        ? Utils.validate.single(
+                            role,
+                            Utils.constraintsUser.role
+                          )
                         : "Role required!",
                   });
                   usersStore.updateUser({
@@ -245,21 +302,21 @@ const Users = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                // rootStore.setProcessLoading(true);
-                // Features.LoginOut.Pipes.User.onLogin(loginStore).then(
-                //   (res) => {
-                //     rootStore.setProcessLoading(false);
-                //     if (res.length <= 0) {
-                //       ToastsStore.error(
-                //         "User not found. Please enter correct information!"
-                //       );
-                //     } else {
-                //       ToastsStore.success(`Welcome ${res[0].userId}`);
-                //       Clients.storageClient.setItem("isLogin", res[0]);
-                //       navigate("/dashbord");
-                //     }
-                //   }
-                // );
+                if (
+                  Utils.validate(usersStore.user, Utils.constraintsLogin) ===
+                  undefined
+                ) {
+                  rootStore.setProcessLoading(true);
+                  Features.Users.Pipes.User.addUser(usersStore).then((res) => {
+                    rootStore.setProcessLoading(false);
+                    LibraryComponents.ToastsStore.success(`User created.`);
+                    usersStore.clear();
+                  });
+                } else {
+                  LibraryComponents.ToastsStore.warning(
+                    "Please enter all information!"
+                  );
+                }
               }}
             >
               Save

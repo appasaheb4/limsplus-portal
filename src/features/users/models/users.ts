@@ -7,5 +7,6 @@ export interface Users {
   fullName?: string;
   department?: string;
   exipreDate?: Date;
+  exipreDays?: number;
   role?: string;
 }

@@ -10,11 +10,6 @@ import * as Utils from "@lp/library/utils";
 import LoginContext from "@lp/features/login/stores";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
-import {
-  ToastsContainer,
-  ToastsContainerPosition,
-  ToastsStore,
-} from "react-toasts";
 
 interface LoginPageProps extends RouteComponentProps {
   definitions: Models.Definition[];
@@ -119,13 +114,6 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Icons.Check}
                 onClick={() => {
-                  console.log({
-                    value: Utils.validate(
-                      loginStore.inputLogin,
-                      Utils.constraintsLogin
-                    ),
-                  });
-
                   if (
                     Utils.validate(
                       loginStore.inputLogin,
@@ -137,18 +125,22 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                       (res) => {
                         rootStore.setProcessLoading(false);
                         if (res.length <= 0) {
-                          ToastsStore.error(
+                          LibraryComponents.ToastsStore.error(
                             "User not found. Please enter correct information!"
                           );
                         } else {
-                          ToastsStore.success(`Welcome ${res[0].userId}`);
+                          LibraryComponents.ToastsStore.success(
+                            `Welcome ${res[0].userId}`
+                          );
                           Clients.storageClient.setItem("isLogin", res[0]);
                           navigate("/dashbord");
                         }
                       }
                     );
                   } else {
-                    ToastsStore.warning("Please enter all information!");
+                    LibraryComponents.ToastsStore.warning(
+                      "Please enter all information!"
+                    );
                   }
                 }}
               >
@@ -183,7 +175,9 @@ const App = observer(() => {
     console.log({ isLogin });
 
     if (isLogin) {
-      navigate(window.location.pathname);
+      const path = window.location.pathname;
+      if (path !== "/") navigate(window.location.pathname);
+      else navigate("/dashbord");
     } else {
       navigate("/");
     }
@@ -233,7 +227,7 @@ const App = observer(() => {
                 onClick={() => {
                   if (item.category === "Login Out") {
                     Clients.storageClient.setItem("isLogin", null);
-                    navigate(-1);
+                    window.location.reload();
                   }
                 }}
                 getProps={({ isCurrent }) => {
@@ -266,6 +260,7 @@ const App = observer(() => {
           </div>
         ))}
       </div>
+
       <div className="ml-52 bg-gray-100 min-h-screen">
         {/* {rootStore.processLoading && <LibraryComponents.Loader />} */}
         <Router>
@@ -280,9 +275,9 @@ const App = observer(() => {
             return <Component path={feature.path} />;
           })}
         </Router>
-        <ToastsContainer
-          position={ToastsContainerPosition.BOTTOM_RIGHT}
-          store={ToastsStore}
+        <LibraryComponents.ToastsContainer
+          position={LibraryComponents.ToastsContainerPosition.BOTTOM_RIGHT}
+          store={LibraryComponents.ToastsStore}
         />
       </div>
     </>
