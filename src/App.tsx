@@ -49,7 +49,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 onChange={(lab) => {
                   setErrors({
                     ...errors,
-                    lab: Utils.validate.single(lab, Utils.constraints.lab),
+                    lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
                   });
                   loginStore.updateInputUser({
                     ...loginStore.inputLogin,
@@ -72,7 +72,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                     ...errors,
                     userId: Utils.validate.single(
                       userId,
-                      Utils.constraints.userId
+                      Utils.constraintsLogin.userId
                     ),
                   });
                   loginStore.updateInputUser({
@@ -97,7 +97,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                     ...errors,
                     password: Utils.validate.single(
                       password,
-                      Utils.constraints.password
+                      Utils.constraintsLogin.password
                     ),
                   });
                   loginStore.updateInputUser({
@@ -119,28 +119,37 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Icons.Check}
                 onClick={() => {
-                  // if (
-                  //   Utils.validate(loginStore.inputLogin, Utils.constraints) ===
-                  //   undefined
-                  // ) {
-                  rootStore.setProcessLoading(true);
-                  Features.LoginOut.Pipes.User.onLogin(loginStore).then(
-                    (res) => {
-                      rootStore.setProcessLoading(false);
-                      if (res.length <= 0) {
-                        ToastsStore.error(
-                          "User not found. Please enter correct information!"
-                        );
-                      } else {
-                        ToastsStore.success(`Welcome ${res[0].userId}`);
-                        Clients.storageClient.setItem("isLogin", res[0]);
-                        navigate("/dashbord");
+                  console.log({
+                    value: Utils.validate(
+                      loginStore.inputLogin,
+                      Utils.constraintsLogin
+                    ),
+                  });
+
+                  if (
+                    Utils.validate(
+                      loginStore.inputLogin,
+                      Utils.constraintsLogin
+                    ) === undefined
+                  ) {
+                    rootStore.setProcessLoading(true);
+                    Features.LoginOut.Pipes.User.onLogin(loginStore).then(
+                      (res) => {
+                        rootStore.setProcessLoading(false);
+                        if (res.length <= 0) {
+                          ToastsStore.error(
+                            "User not found. Please enter correct information!"
+                          );
+                        } else {
+                          ToastsStore.success(`Welcome ${res[0].userId}`);
+                          Clients.storageClient.setItem("isLogin", res[0]);
+                          navigate("/dashbord");
+                        }
                       }
-                    }
-                  );
-                  // } else {
-                  //   ToastsStore.warning("Please enter all information!");
-                  // }
+                    );
+                  } else {
+                    ToastsStore.warning("Please enter all information!");
+                  }
                 }}
               >
                 Login
@@ -174,7 +183,7 @@ const App = observer(() => {
     console.log({ isLogin });
 
     if (isLogin) {
-      navigate("/dashbord");
+      navigate(window.location.pathname);
     } else {
       navigate("/");
     }

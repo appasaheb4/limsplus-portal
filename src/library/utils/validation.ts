@@ -14,6 +14,31 @@ validate.extend(validate.validators.datetime, {
   },
 });
 
+export const constraintsLogin = {
+  lab: {
+    presence: true,
+    length: {
+      minimum: 4,
+      message: "Lab must be least 4 characters ",
+    },
+  },
+  userId: {
+    presence: true,
+    length: {
+      minimum: 4,
+      message: "UserId must be least 4 characters",
+    },
+  },
+  password: {
+    presence: true,
+    format: {
+      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+      message:
+        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
+    },
+  },
+};
+
 export const constraints = {
   lab: {
     presence: true,
