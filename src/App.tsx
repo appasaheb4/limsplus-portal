@@ -119,28 +119,28 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Icons.Check}
                 onClick={() => {
-                  if (
-                    Utils.validate(loginStore.inputLogin, Utils.constraints) ===
-                    undefined
-                  ) {
-                    rootStore.setProcessLoading(true);
-                    Features.LoginOut.Pipes.User.onLogin(loginStore).then(
-                      (res) => {
-                        rootStore.setProcessLoading(false);
-                        if (res.length <= 0) {
-                          ToastsStore.error(
-                            "User not found. Please enter correct information!"
-                          );
-                        } else {
-                          ToastsStore.success(`Welcome ${res[0].userId}`);
-                          Clients.storageClient.setItem("isLogin", res[0]);
-                          navigate("/dashbord");
-                        }
+                  // if (
+                  //   Utils.validate(loginStore.inputLogin, Utils.constraints) ===
+                  //   undefined
+                  // ) {
+                  rootStore.setProcessLoading(true);
+                  Features.LoginOut.Pipes.User.onLogin(loginStore).then(
+                    (res) => {
+                      rootStore.setProcessLoading(false);
+                      if (res.length <= 0) {
+                        ToastsStore.error(
+                          "User not found. Please enter correct information!"
+                        );
+                      } else {
+                        ToastsStore.success(`Welcome ${res[0].userId}`);
+                        Clients.storageClient.setItem("isLogin", res[0]);
+                        navigate("/dashbord");
                       }
-                    );
-                  } else {
-                    ToastsStore.warning("Please enter all information!");
-                  }
+                    }
+                  );
+                  // } else {
+                  //   ToastsStore.warning("Please enter all information!");
+                  // }
                 }}
               >
                 Login

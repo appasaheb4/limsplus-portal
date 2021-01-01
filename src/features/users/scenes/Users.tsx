@@ -185,36 +185,25 @@ const Users = observer(() => {
                   {errors.department}
                 </span>
               )}
-              <LibraryComponents.Form.Input
-                type="date"
+              <LibraryComponents.Form.InputDate
                 label="Exipre Date"
                 id="exipreData"
-                placeholder="Exipre Date"
-                value={usersStore.user.exipreDate}
-                onChange={(exipreDate) => {
-                  console.log({ exipreDate });
-                  const d = new Date(exipreDate);
-
-                  const date = moment(d).format(
-                    "dddd, MMMM Do YYYY, h:mm:ss a"
-                  ); // June 1, 2019
-
-                  console.log({ date });
-
+                // value={usersStore.user.exipreDate}
+                onChange={(e: any) => {
+                  console.log({ e });
+                  const d = new Date(e.target.value);
+                  const date = moment(d).format("YYYY-MM-DD HH:mm:ss");
                   setErrors({
                     ...errors,
-                    exipreDate:
-                      exipreDate !== ""
-                        ? Utils.validate.single(
-                            date,
-                            Utils.constraints.exipreDate
-                          )
-                        : "Exipre Date required!",
+                    exipreDate: Utils.validate.single(
+                      date,
+                      Utils.constraints.exipreDate
+                    ),
                   });
-                  // usersStore.updateUser({
-                  //   ...usersStore.user,
-                  //   exipreDate,
-                  // });
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    exipreDate: new Date(date),
+                  });
                 }}
               />
               {errors?.exipreDate && (

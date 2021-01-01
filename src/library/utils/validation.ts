@@ -1,6 +1,19 @@
 import validate from "validate.js";
 import moment from "moment";
 export { validate };
+validate.extend(validate.validators.datetime, {
+  // The value is guaranteed not to be null or undefined but otherwise it
+  // could be anything.
+  parse: function (value: any, options: any) {
+    return +moment.utc(value);
+  },
+  // Input is a unix timestamp
+  format: function (value: any, options: any) {
+    var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss";
+    return moment.utc(value).format(format);
+  },
+});
+
 export const constraints = {
   lab: {
     presence: true,
@@ -35,10 +48,10 @@ export const constraints = {
   },
   exipreDate: {
     presence: true,
-    //Must be born at least 18 years ago
-    date: {
-      latest: moment().subtract(18, "years"),
-      message: "^You must be at least 18 years old to use this service",
+    datetime: {
+      dateOnly: false,
+      earliest: moment.utc().subtract(1, "days"),
+      message: "^You need to be at least 1 month earliest",
     },
   },
   role: {
