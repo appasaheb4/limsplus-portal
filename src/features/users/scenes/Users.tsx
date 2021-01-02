@@ -189,7 +189,10 @@ const Users = observer(() => {
                 </span>
               )}
 
-              <LibraryComponents.List space={3} direction="row">
+              <LibraryComponents.List
+                space={3}
+                direction="row"
+              >
                 <LibraryComponents.Form.InputDate
                   label="Exipre Date"
                   id="exipreData"
@@ -232,15 +235,6 @@ const Users = observer(() => {
                   placeholder="Exipre Days"
                   value={usersStore.user.exipreDays}
                   onChange={(exipreDays) => {
-                    const date = new Date(
-                      moment(usersStore.user.exipreDate)
-                        .add(exipreDays, "days")
-                        .format("YYYY-MM-DD HH:mm:ss")
-                    );
-                    const exipreDate = new Date(
-                      moment(date).format("YYYY-MM-DD HH:mm:ss")
-                    );
-
                     setErrors({
                       ...errors,
                       exipreDays:
@@ -254,10 +248,30 @@ const Users = observer(() => {
                     usersStore.updateUser({
                       ...usersStore.user,
                       exipreDays,
-                      exipreDate,
                     });
                   }}
                 />
+
+                <LibraryComponents.Button
+                  size="small"
+                  type="solid"
+                  onClick={() => {
+                    const date = new Date(
+                      moment(usersStore.user.exipreDate)
+                        .add(usersStore.user.exipreDays, "days")
+                        .format("YYYY-MM-DD HH:mm:ss")
+                    );
+                    const exipreDate = new Date(
+                      moment(date).format("YYYY-MM-DD HH:mm:ss")
+                    );
+                    usersStore.updateUser({
+                      ...usersStore.user,
+                      exipreDate,
+                    });
+                  }}
+                >
+                  Apply Days
+                </LibraryComponents.Button>
                 {errors?.exipreDays && (
                   <span className="text-red-600 font-medium relative">
                     {errors.exipreDays}
