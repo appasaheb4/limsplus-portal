@@ -189,10 +189,7 @@ const Users = observer(() => {
                 </span>
               )}
 
-              <LibraryComponents.List
-                space={3}
-                direction="row"
-              >
+              <LibraryComponents.List space={3} direction="row">
                 <LibraryComponents.Form.InputDate
                   label="Exipre Date"
                   id="exipreData"
