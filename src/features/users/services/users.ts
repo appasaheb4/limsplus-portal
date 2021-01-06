@@ -54,3 +54,16 @@ export const deleteUser = (id: string) =>
         reject({ error });
       });
   });
+
+export const changePassword = (body: any) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .post(`${RELATIVE_PATH}/changePassword`, body)
+      .then((res) => {
+        resolve(res.data.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
