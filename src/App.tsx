@@ -5,9 +5,9 @@ import * as Features from "@lp/features";
 import * as LibraryComponents from "@lp/library/components";
 import RootStoreContext from "@lp/library/stores";
 import * as Models from "@lp/models";
-import * as ModelsLogin from "@lp/features/login/models";
+import * as ModelsUser from "@lp/features/users/models";
 import * as Utils from "@lp/library/utils";
-import LoginContext from "@lp/features/login/stores";
+import UsersContext from "@lp/features/users/stores";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
 
@@ -17,8 +17,8 @@ interface LoginPageProps extends RouteComponentProps {
 
 const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
   const rootStore = useContext(RootStoreContext);
-  let loginStore = useContext(LoginContext);
-  const [errors, setErrors] = useState<ModelsLogin.Login>();
+  let userStore = useContext(UsersContext);
+  const [errors, setErrors] = useState<ModelsUser.Login>();
 
   return (
     <>
@@ -40,14 +40,14 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="Lab"
                 name="lab"
                 placeholder="Lab"
-                value={loginStore.inputLogin.lab}
+                value={userStore.inputLogin.lab}
                 onChange={(lab) => {
                   setErrors({
                     ...errors,
                     lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
                   });
-                  loginStore.updateInputUser({
-                    ...loginStore.inputLogin,
+                  userStore.updateInputUser({
+                    ...userStore.inputLogin,
                     lab,
                   });
                 }}
@@ -61,7 +61,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="User Id"
                 id="userId"
                 placeholder="User Id"
-                value={loginStore.inputLogin.userId}
+                value={userStore.inputLogin.userId}
                 onChange={(userId) => {
                   setErrors({
                     ...errors,
@@ -70,8 +70,8 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                       Utils.constraintsLogin.userId
                     ),
                   });
-                  loginStore.updateInputUser({
-                    ...loginStore.inputLogin,
+                  userStore.updateInputUser({
+                    ...userStore.inputLogin,
                     userId,
                   });
                 }}
@@ -86,7 +86,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 label="Password"
                 id="password"
                 placeholder="Password"
-                value={loginStore.inputLogin.password}
+                value={userStore.inputLogin.password}
                 onChange={(password) => {
                   setErrors({
                     ...errors,
@@ -95,8 +95,8 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                       Utils.constraintsLogin.password
                     ),
                   });
-                  loginStore.updateInputUser({
-                    ...loginStore.inputLogin,
+                  userStore.updateInputUser({
+                    ...userStore.inputLogin,
                     password,
                   });
                 }}
@@ -116,27 +116,27 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 onClick={() => {
                   if (
                     Utils.validate(
-                      loginStore.inputLogin,
+                      userStore.inputLogin,
                       Utils.constraintsLogin
                     ) === undefined
                   ) {
                     rootStore.setProcessLoading(true);
-                    Features.LoginOut.Pipes.User.onLogin(loginStore).then(
-                      (res) => {
-                        rootStore.setProcessLoading(false);
-                        if (res.length <= 0) {
-                          LibraryComponents.ToastsStore.error(
-                            "User not found. Please enter correct information!"
-                          );
-                        } else {
-                          LibraryComponents.ToastsStore.success(
-                            `Welcome ${res[0].userId}`
-                          );
-                          Clients.storageClient.setItem("isLogin", res[0]);
-                          navigate("/dashbord");
-                        }
+                    Features.Users.Pipes.User.onLogin(
+                      userStore.inputLogin
+                    ).then((res) => {
+                      rootStore.setProcessLoading(false);
+                      if (res.length <= 0) {
+                        LibraryComponents.ToastsStore.error(
+                          "User not found. Please enter correct information!"
+                        );
+                      } else {
+                        LibraryComponents.ToastsStore.success(
+                          `Welcome ${res[0].userId}`
+                        );
+                        Clients.storageClient.setItem("isLogin", res[0]);
+                        navigate("/dashbord");
                       }
-                    );
+                    });
                   } else {
                     LibraryComponents.ToastsStore.warning(
                       "Please enter all information!"
@@ -151,7 +151,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
                 onClick={() => {
-                  loginStore.clear();
+                  userStore.clearLogin();
                 }}
               >
                 Clear

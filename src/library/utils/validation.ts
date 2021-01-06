@@ -63,7 +63,6 @@ export const constraintsChangePassword = {
       message:
         "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
     },
-    equality: "newPassword",
   },
 };
 

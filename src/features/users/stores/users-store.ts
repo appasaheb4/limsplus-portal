@@ -7,12 +7,21 @@ import * as Services from "../services";
 
 @version(0.1)
 class UsersStore {
+  @observable inputLogin: Models.Login;
   @ignore @observable user: Models.Users;
   @observable userList?: Models.Users[];
   @ignore @observable changePassword?: Models.ChangePassword;
 
   constructor() {
     this.user = this.initUser();
+    this.inputLogin = this.initLogin();
+  }
+  private initLogin() {
+    return {
+      lab: "",
+      userId: "",
+      password: "",
+    };
   }
 
   private initUser() {
@@ -30,6 +39,16 @@ class UsersStore {
       exipreDays: 30,
       role: "",
     };
+  }
+
+  @action updateInputUser(user: Models.Login) {
+    console.log({ user });
+
+    this.inputLogin = user;
+  }
+
+  @action clearLogin() {
+    this.inputLogin = this.initLogin();
   }
 
   @action loadUser() {

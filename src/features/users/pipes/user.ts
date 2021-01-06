@@ -1,6 +1,17 @@
 import * as Services from "../services";
 import * as Models from "../models";
 
+export const onLogin = (loginStore: Models.Login): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    try {
+      Services.Users.onLogin(loginStore).then((res: any) => {
+        resolve(res);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 export const addUser = (userStore: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     try {

@@ -1,3 +1,9 @@
+export interface Login {
+  lab?: string;
+  userId?: string;
+  password?: string;
+}
+
 export interface Users {
   _id?: string;
   userId?: string;
