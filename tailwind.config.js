@@ -2,11 +2,13 @@ module.exports = {
   purge: false,
   darkMode: "media", // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+
+    },
   },
   styles: {
     colors: {
-      lightBack:'',
+      lightBack: '',
     },
   },
   variants: {
@@ -15,7 +17,11 @@ module.exports = {
       cursor: ["disabled"],
       borderRadius: ["hover", "first", "last"],
       zIndex: ["hover"],
+      borderCollapse: ['hover', 'focus'],
     },
+  },
+  corePlugins: {
+    tableLayout: false,
   },
   plugins: [],
 };

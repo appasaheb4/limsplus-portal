@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
@@ -7,11 +7,17 @@ import * as Utils from "@lp/library/utils";
 import moment from "moment";
 import * as Features from "@lp/features";
 import RootStoreContext from "@lp/library/stores";
+import * as Services from "../services";
 
 const Users = observer(() => {
   const rootStore = useContext(RootStoreContext);
   let usersStore = React.useContext(UsersContext);
   const [errors, setErrors] = useState<Models.Users>();
+  const [deleteUser, setDeleteUser] = useState<any>({});
+
+  useEffect(() => {
+    usersStore.loadUser();
+  }, []);
 
   return (
     <>
@@ -322,6 +328,7 @@ const Users = observer(() => {
                     rootStore.setProcessLoading(false);
                     LibraryComponents.ToastsStore.success(`User created.`);
                     usersStore.clear();
+                    usersStore.loadUser();
                   });
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -344,6 +351,83 @@ const Users = observer(() => {
             </LibraryComponents.Button>
           </LibraryComponents.List>
         </div>
+        <br />
+        <div className="m-1 p-2 rounded-lg shadow-xl">
+          <table className="border-separate border border-green-800 w-full">
+            <thead>
+              <tr>
+                <th className="border border-green-600">User Id</th>
+                <th className="border border-green-600">Lab</th>
+                <th className="border border-green-600">Full Name</th>
+                <th className="border border-green-600">Department</th>
+                <th className="border border-green-600">Deginisation</th>
+                <th className="border border-green-600">Role</th>
+                <th className="border border-green-600">Exipre Date</th>
+                <th className="border border-green-600">Status</th>
+                <th className="border border-green-600">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usersStore.userList?.map((item, index) => (
+                <tr>
+                  <td className="border border-green-600 text-center">
+                    {item.userId}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.lab}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.fullName}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.department}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.deginisation}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.role}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {moment(item.exipreDate).format("YYYY-MM-DD")}
+                  </td>
+                  <td className="border border-green-600 text-center">
+                    {item.status}
+                  </td>
+                  <td className="border border-green-600 text-center p-1">
+                    <LibraryComponents.Button
+                      size="small"
+                      type="outline"
+                      icon={LibraryComponents.Icons.Remove}
+                      onClick={() => {
+                        setDeleteUser({
+                          show: true,
+                          id: item._id,
+                          title: "Are you sure?",
+                          body: `Delete ${item.fullName} user!`,
+                        });
+                      }}
+                    >
+                      Delete
+                    </LibraryComponents.Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <LibraryComponents.Modal.ModalConfirm
+          {...deleteUser}
+          click={() => {
+            Services.Users.deleteUser(deleteUser.id).then((res: any) => {
+              if (res.status) {
+                LibraryComponents.ToastsStore.success(`User deleted.`);
+                setDeleteUser({ show: false });
+                usersStore.loadUser();
+              }
+            });
+          }}
+        />
       </div>
     </>
   );

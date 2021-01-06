@@ -9,6 +9,7 @@ import {
   ToastsContainerPosition,
   ToastsStore,
 } from "react-toasts";
+import * as Modal from "./modal";
 
 export {
   Loader,
@@ -20,4 +21,5 @@ export {
   ToastsContainer,
   ToastsContainerPosition,
   ToastsStore,
+  Modal,
 };

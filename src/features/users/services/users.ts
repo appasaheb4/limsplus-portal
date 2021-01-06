@@ -15,3 +15,29 @@ export const addUser = (user: Models.Users) =>
         reject({ error });
       });
   });
+
+export const userList = () =>
+  new Promise<Models.Users[]>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .get(`${RELATIVE_PATH}/listUser`)
+      .then((res) => {
+        resolve(res.data.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
+
+export const deleteUser = (id: string) =>
+  new Promise<Models.Users[]>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .delete(`${RELATIVE_PATH}/deleteUser/${id}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });

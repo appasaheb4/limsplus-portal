@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
 import * as Models from "@lp/features/users/models";
@@ -11,7 +10,7 @@ interface ModalProps {
   click: () => void;
 }
 
-const ModalChangePassword = (props: ModalProps) => {
+export default function ModalChangePassword(props: ModalProps) {
   let usersStore = React.useContext(UsersContext);
   const [errors, setErrors] = useState<Models.ChangePassword>();
   const [showModal, setShowModal] = React.useState(props.show);
@@ -158,30 +157,4 @@ const ModalChangePassword = (props: ModalProps) => {
       )}
     </>
   );
-};
-
-const Dashbord = observer(() => {
-  return (
-    <>
-      <div className=" mx-auto  p-4  flex-wrap   ">
-        <div className="m-1 p-2 rounded-lg shadow-xl">
-          <h1 className="text-2xl text-blue-800 leading-tight">Dashborad</h1>
-        </div>
-      </div>
-      <ModalChangePassword
-        show={true}
-        click={() => {
-          // Services.Users.deleteUser(deleteUser.id).then((res: any) => {
-          //   if (res.status) {
-          //     LibraryComponents.ToastsStore.success(`User deleted.`);
-          //     setDeleteUser({ show: false });
-          //     usersStore.loadUser();
-          //   }
-          // });
-        }}
-      />
-    </>
-  );
-});
-
-export default Dashbord;
+}

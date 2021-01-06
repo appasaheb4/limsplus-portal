@@ -39,6 +39,34 @@ export const constraintsLogin = {
   },
 };
 
+export const constraintsChangePassword = {
+  oldPassword: {
+    presence: true,
+    format: {
+      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+      message:
+        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
+    },
+  },
+  newPassword: {
+    presence: true,
+    format: {
+      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+      message:
+        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
+    },
+  },
+  confirmPassword: {
+    presence: true,
+    format: {
+      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+      message:
+        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
+    },
+    equality: "newPassword",
+  },
+};
+
 export const constraintsUser = {
   lab: {
     presence: true,
