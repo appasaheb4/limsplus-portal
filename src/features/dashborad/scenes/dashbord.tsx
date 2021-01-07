@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import UsersContext from "@lp/features/users/stores";
@@ -10,9 +10,15 @@ import * as Services from "@lp/features/users/services";
 const Dashbord = observer(() => {
   const [changePassword, setChangePassword] = useState(false);
   let userStore = useContext(UsersContext);
-  Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
-    if (isLogin.changePass !== true) setChangePassword(true);
-  });
+
+  useEffect(() => {
+    Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
+      if (isLogin) {
+        if (isLogin.changePass !== true) setChangePassword(true);
+      }
+    });
+  }, []);
+
   return (
     <>
       <div className=" mx-auto  p-4  flex-wrap   ">
@@ -42,6 +48,13 @@ const Dashbord = observer(() => {
             setChangePassword(false);
           }}
           close={() => {
+            Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
+              Clients.storageClient.setItem("isLogin", {
+                ...isLogin,
+                changePass: true,
+              });
+            });
+            setChangePassword(false);
             console.log("close");
           }}
         />
