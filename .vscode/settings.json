@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/26f4ec5b-f445-48cb-a3ef-940cae382831/resourceGroups/LImsPlus/providers/Microsoft.Web/sites/limsplus-portal",
+    "appService.deploySubpath": "."
+}
