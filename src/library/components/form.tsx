@@ -110,6 +110,32 @@ export const InputDate = (props: InputDateProps) => (
   </InputWrapper>
 );
 
+interface SelectOptionProps extends InputWrapperProps {
+  value?: any;
+  values?: any[];
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
+}
+
+export const SelectOption = (props: SelectOptionProps) => (
+  <InputWrapper label={props.label} id={props.id}>
+    <select
+      id={props.id}
+      name={props.name}
+      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      onChange={(e) => props.onChange && props.onChange(e.target.value)}
+    >
+      {props.values?.map((item: any, index: number) => (
+        <option key={item.name} value={item.name}>
+          {item.name}
+        </option>
+      ))}
+    </select>
+  </InputWrapper>
+);
+
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <textarea

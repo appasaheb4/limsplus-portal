@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { Router, Link, RouteComponentProps, navigate } from "@reach/router";
 import * as Features from "@lp/features";
@@ -8,6 +8,7 @@ import * as Models from "@lp/models";
 import * as ModelsUser from "@lp/features/users/models";
 import * as Utils from "@lp/library/utils";
 import UsersContext from "@lp/features/users/stores";
+import LabContext from "@lp/features/labs/stores";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
 
@@ -18,7 +19,17 @@ interface LoginPageProps extends RouteComponentProps {
 const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
   const rootStore = useContext(RootStoreContext);
   let userStore = useContext(UsersContext);
+  let labStore = useContext(LabContext);
   const [errors, setErrors] = useState<ModelsUser.Login>();
+
+  useEffect(() => {
+    if (labStore.listLabs.length > 0) {
+      userStore.updateInputUser({
+        ...userStore.inputLogin,
+        lab: labStore.listLabs[0].name || "",
+      });
+    }
+  }, [labStore.listLabs]);
 
   return (
     <>
@@ -36,10 +47,11 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Form.SelectOption
                 label="Lab"
                 name="lab"
-                placeholder="Lab"
+                placeholder="Select"
+                values={labStore.listLabs}
                 value={userStore.inputLogin.lab}
                 onChange={(lab) => {
                   setErrors({
