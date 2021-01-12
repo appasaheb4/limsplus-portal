@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
-import UsersContext from "@lp/features/users/stores";
 import * as Models from "@lp/features/users/models";
 import * as Utils from "@lp/library/utils";
 import * as Clients from "@lp/library/clients";
 import * as Services from "@lp/features/users/services";
+import Contexts from "@lp/library/stores";
 
 const Dashbord = observer(() => {
   const [changePassword, setChangePassword] = useState(false);
-  let userStore = useContext(UsersContext);
+  const rootStore = React.useContext(Contexts.rootStore);
 
   useEffect(() => {
     Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
@@ -34,7 +34,10 @@ const Dashbord = observer(() => {
                 ...isLogin,
                 changePass: true,
               });
-              const body = Object.assign(isLogin, userStore.changePassword);
+              const body = Object.assign(
+                isLogin,
+                rootStore.userStore.changePassword
+              );
               Services.Users.changePassword(body).then((res) => {
                 if (res) {
                   LibraryComponents.ToastsStore.success(`Password changed!`);

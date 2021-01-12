@@ -4,10 +4,10 @@ import { navigate } from "@reach/router";
 import * as Clients from "@lp/library/clients";
 import * as LibraryComponents from "@lp/library/components";
 import * as Services from "@lp/features/users/services";
-import UsersContext from "@lp/features/users/stores";
+import Contexts from "@lp/library/stores";
 
 const ChangePassword = observer(() => {
-  let userStore = useContext(UsersContext);
+  const rootStore = React.useContext(Contexts.rootStore);
   const [changePassword, setChangePassword] = useState(true);
   useEffect(() => {
     Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
@@ -28,7 +28,10 @@ const ChangePassword = observer(() => {
                   ...isLogin,
                   changePass: true,
                 });
-                const body = Object.assign(isLogin, userStore.changePassword);
+                const body = Object.assign(
+                  isLogin,
+                  rootStore.userStore.changePassword
+                );
                 Services.Users.changePassword(body).then((res) => {
                   if (res) {
                     LibraryComponents.ToastsStore.success(`Password changed!`);
