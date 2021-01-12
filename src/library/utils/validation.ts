@@ -77,8 +77,8 @@ export const constraintsUser = {
   userId: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "UserId must be least 4 characters",
+      minimum: 6,
+      message: "UserId must be least 6 characters",
     },
   },
   password: {

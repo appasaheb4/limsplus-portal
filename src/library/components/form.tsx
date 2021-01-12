@@ -38,6 +38,7 @@ interface InputProps extends InputWrapperProps {
   required?: boolean;
   disabled?: boolean;
   onChange?: (e: any) => void;
+  onBlur?: (e: any) => void;
 }
 
 export const Input = (props: InputProps) => (
@@ -53,6 +54,7 @@ export const Input = (props: InputProps) => (
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
     />
   </InputWrapper>
 );
@@ -114,7 +116,7 @@ interface SelectOptionProps extends InputWrapperProps {
   value?: any;
   values?: any[];
   name?: string;
-  placeholder?: string;
+  key: string;
   disabled?: boolean;
   onChange?: (e: any) => void;
 }
@@ -122,14 +124,14 @@ interface SelectOptionProps extends InputWrapperProps {
 export const SelectOption = (props: SelectOptionProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <select
-      id={props.id}
       name={props.name}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
     >
+      <option selected>Select</option>
       {props.values?.map((item: any, index: number) => (
-        <option key={item.name} value={item.name}>
-          {item.name}
+        <option key={item[props.key]} value={item[props.key]}>
+          {item[props.key]}
         </option>
       ))}
     </select>

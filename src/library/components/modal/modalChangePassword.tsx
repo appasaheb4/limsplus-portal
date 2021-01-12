@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as LibraryComponents from "@lp/library/components";
-import UsersContext from "@lp/features/users/stores";
 import * as Models from "@lp/features/users/models";
 import * as Utils from "@lp/library/utils";
+import Contexts from "@lp/library/stores";
 
 interface ModalProps {
   title?: string;
@@ -11,7 +11,7 @@ interface ModalProps {
 }
 
 export default function ModalChangePassword(props: ModalProps) {
-  let usersStore = React.useContext(UsersContext);
+  const rootStore = React.useContext(Contexts.rootStore);
   const [errors, setErrors] = useState<Models.ChangePassword>();
 
   // useEffect(() => {
@@ -50,7 +50,7 @@ export default function ModalChangePassword(props: ModalProps) {
                     label="Old Password"
                     name="oldPassword"
                     placeholder="Old Password"
-                    value={usersStore.changePassword?.oldPassword}
+                    value={rootStore.userStore.changePassword?.oldPassword}
                     onChange={(oldPassword) => {
                       setErrors({
                         ...errors,
@@ -59,8 +59,8 @@ export default function ModalChangePassword(props: ModalProps) {
                           Utils.constraintsChangePassword.oldPassword
                         ),
                       });
-                      usersStore.updateChangePassword({
-                        ...usersStore.changePassword,
+                      rootStore.userStore.updateChangePassword({
+                        ...rootStore.userStore.changePassword,
                         oldPassword,
                       });
                     }}
@@ -75,20 +75,21 @@ export default function ModalChangePassword(props: ModalProps) {
                     label="New Password"
                     name="newPassword"
                     placeholder="New Password"
-                    value={usersStore.changePassword?.newPassword}
+                    value={rootStore.userStore.changePassword?.newPassword}
                     onChange={(newPassword) => {
                       setErrors({
                         ...errors,
                         newPassword:
-                          usersStore.changePassword?.oldPassword !== newPassword
+                          rootStore.userStore.changePassword?.oldPassword !==
+                          newPassword
                             ? Utils.validate.single(
                                 newPassword,
                                 Utils.constraintsChangePassword.newPassword
                               )
                             : "Please use diff password!",
                       });
-                      usersStore.updateChangePassword({
-                        ...usersStore.changePassword,
+                      rootStore.userStore.updateChangePassword({
+                        ...rootStore.userStore.changePassword,
                         newPassword,
                       });
                     }}
@@ -103,12 +104,12 @@ export default function ModalChangePassword(props: ModalProps) {
                     label="Confirm Password"
                     name="confirmPassword"
                     placeholder="Confirm Password"
-                    value={usersStore.changePassword?.confirmPassword}
+                    value={rootStore.userStore.changePassword?.confirmPassword}
                     onChange={(confirmPassword) => {
                       setErrors({
                         ...errors,
                         confirmPassword:
-                          usersStore.changePassword?.newPassword !==
+                          rootStore.userStore.changePassword?.newPassword !==
                           confirmPassword
                             ? "Please enter same password!"
                             : Utils.validate.single(
@@ -116,8 +117,8 @@ export default function ModalChangePassword(props: ModalProps) {
                                 Utils.constraintsChangePassword.confirmPassword
                               ),
                       });
-                      usersStore.updateChangePassword({
-                        ...usersStore.changePassword,
+                      rootStore.userStore.updateChangePassword({
+                        ...rootStore.userStore.changePassword,
                         confirmPassword,
                       });
                     }}
@@ -146,7 +147,7 @@ export default function ModalChangePassword(props: ModalProps) {
                   onClick={() => {
                     if (
                       Utils.validate(
-                        usersStore.changePassword,
+                        rootStore.userStore.changePassword,
                         Utils.constraintsChangePassword
                       ) === undefined &&
                       !Utils.checkNotUndefined(errors)
