@@ -1,26 +1,27 @@
 import React, { useState, useContext, useEffect } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
+import UsersContext from "@lp/features/users/stores";
 import * as Models from "../models";
 import * as Utils from "@lp/library/utils";
 import moment from "moment";
 import * as Features from "@lp/features";
-import Contexts from "@lp/library/stores";
-
+import RootStoreContext from "@lp/library/stores";
 import * as Services from "../services";
 
-const Users = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<Models.Users>();
-  const [deleteUser, setDeleteUser] = useState<any>({});
+const LabMapping = observer(() => {
+  // const rootStore = useContext(RootStoreContext);
+  // let usersStore = React.useContext(UsersContext);
+  // const [errors, setErrors] = useState<Models.Users>();
+  // const [deleteUser, setDeleteUser] = useState<any>({});
 
-  useEffect(() => {
-    rootStore.userStore.loadUser();
-  }, []);
+  // useEffect(() => {
+  //   usersStore.loadUser();
+  // }, []);
 
   return (
     <>
-      <div className=" mx-auto  p-4  flex-wrap">
+      {/* <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <h1 className="text-2xl mb-4 text-blue-800 leading-tight">Users</h1>
           <LibraryComponents.Grid cols={2}>
@@ -34,59 +35,25 @@ const Users = observer(() => {
                 label="User Id"
                 id="userId"
                 placeholder="User Id"
-                value={rootStore.userStore.user.userId}
-                onChange={(userId) => {
+                disabled={true}
+                value={usersStore.user.userId}
+              />
+              <LibraryComponents.Form.Input
+                label="Lab"
+                name="lab"
+                placeholder="Lab"
+                value={usersStore.user.lab}
+                onChange={(lab) => {
                   setErrors({
                     ...errors,
-                    userId: Utils.validate.single(
-                      userId,
-                      Utils.constraintsUser.userId
-                    ),
+                    lab: Utils.validate.single(lab, Utils.constraintsUser.lab),
                   });
-                  rootStore.userStore.updateUser({
-                    ...rootStore.userStore.user,
-                    userId,
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    lab,
                   });
-                }}
-                onBlur={(userId) => {
-                  console.log({ userId });
                 }}
               />
-              {errors?.userId && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.userId}
-                </span>
-              )}
-
-              <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
-                <select
-                  name="lab"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const lab = e.target.value;
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(
-                        lab,
-                        Utils.constraintsUser.lab
-                      ),
-                    });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      lab,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {rootStore.labStore.listLabs.map(
-                    (item: any, index: number) => (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
               {errors?.lab && (
                 <span className="text-red-600 font-medium relative">
                   {errors.lab}
@@ -97,7 +64,7 @@ const Users = observer(() => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                value={rootStore.userStore.user.password}
+                value={usersStore.user.password}
                 onChange={(password) => {
                   setErrors({
                     ...errors,
@@ -106,8 +73,8 @@ const Users = observer(() => {
                       Utils.constraintsUser.password
                     ),
                   });
-                  rootStore.userStore.updateUser({
-                    ...rootStore.userStore.user,
+                  usersStore.updateUser({
+                    ...usersStore.user,
                     password,
                   });
                 }}
@@ -117,41 +84,28 @@ const Users = observer(() => {
                   {errors.password}
                 </span>
               )}
-              <LibraryComponents.Form.InputWrapper
+              <LibraryComponents.Form.Input
                 label="Deginisation"
                 id="deginisation"
-              >
-                <select
-                  name="deginisation"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const deginisation = e.target.value;
-                    setErrors({
-                      ...errors,
-                      deginisation:
-                        deginisation !== ""
-                          ? Utils.validate.single(
-                              deginisation,
-                              Utils.constraintsUser.deginisation
-                            )
-                          : "Deginisation requried",
-                    });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      deginisation,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {rootStore.deginisationStore.listDeginisation.map(
-                    (item: any, index: number) => (
-                      <option key={item.description} value={item.description}>
-                        {item.description}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
+                placeholder="Deginisation"
+                value={usersStore.user.deginisation}
+                onChange={(deginisation) => {
+                  setErrors({
+                    ...errors,
+                    deginisation:
+                      deginisation !== ""
+                        ? Utils.validate.single(
+                            deginisation,
+                            Utils.constraintsUser.deginisation
+                          )
+                        : "Deginisation requried",
+                  });
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    deginisation,
+                  });
+                }}
+              />
               {errors?.deginisation && (
                 <span className="text-red-600 font-medium relative">
                   {errors.deginisation}
@@ -161,7 +115,7 @@ const Users = observer(() => {
                 label="Status"
                 name="status"
                 values={["Active", "Retired", "Disable"]}
-                value={rootStore.userStore.user.status}
+                value={usersStore.user.status}
                 onChange={(status) => {
                   setErrors({
                     ...errors,
@@ -173,8 +127,8 @@ const Users = observer(() => {
                           )
                         : "Status requried",
                   });
-                  rootStore.userStore.updateUser({
-                    ...rootStore.userStore.user,
+                  usersStore.updateUser({
+                    ...usersStore.user,
                     status,
                   });
                 }}
@@ -190,7 +144,7 @@ const Users = observer(() => {
                 label="Full Name"
                 id="fullName"
                 placeholder="Full Name"
-                value={rootStore.userStore.user.fullName}
+                value={usersStore.user.fullName}
                 onChange={(fullName) => {
                   setErrors({
                     ...errors,
@@ -202,8 +156,8 @@ const Users = observer(() => {
                           )
                         : "Full Name required!",
                   });
-                  rootStore.userStore.updateUser({
-                    ...rootStore.userStore.user,
+                  usersStore.updateUser({
+                    ...usersStore.user,
                     fullName,
                   });
                 }}
@@ -213,42 +167,28 @@ const Users = observer(() => {
                   {errors.fullName}
                 </span>
               )}
-
-              <LibraryComponents.Form.InputWrapper
+              <LibraryComponents.Form.Input
                 label="Department"
                 id="department"
-              >
-                <select
-                  name="department"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const department = e.target.value;
-                    setErrors({
-                      ...errors,
-                      department:
-                        department !== ""
-                          ? Utils.validate.single(
-                              department,
-                              Utils.constraintsUser.department
-                            )
-                          : "Department required!",
-                    });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      department,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {rootStore.departmentStore.listDepartment.map(
-                    (item: any, index: number) => (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
+                placeholder="Department"
+                value={usersStore.user.department}
+                onChange={(department) => {
+                  setErrors({
+                    ...errors,
+                    department:
+                      department !== ""
+                        ? Utils.validate.single(
+                            department,
+                            Utils.constraintsUser.department
+                          )
+                        : "Department required!",
+                  });
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    department,
+                  });
+                }}
+              />
               {errors?.department && (
                 <span className="text-red-600 font-medium relative">
                   {errors.department}
@@ -259,14 +199,14 @@ const Users = observer(() => {
                 <LibraryComponents.Form.InputDate
                   label="Exipre Date"
                   id="exipreData"
-                  value={moment(rootStore.userStore.user.exipreDate).format(
+                  value={moment(usersStore.user.exipreDate).format(
                     "YYYY-MM-DD"
                   )}
                   onChange={(e: any) => {
                     let date = new Date(e.target.value);
                     date = new Date(
                       moment(date)
-                        .add(rootStore.userStore.user.exipreDays, "days")
+                        .add(usersStore.user.exipreDays, "days")
                         .format("YYYY-MM-DD HH:mm:ss")
                     );
                     const formatDate = moment(date).format(
@@ -279,8 +219,8 @@ const Users = observer(() => {
                         Utils.constraintsUser.exipreDate
                       ),
                     });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    usersStore.updateUser({
+                      ...usersStore.user,
                       exipreDate: new Date(formatDate),
                     });
                   }}
@@ -296,7 +236,7 @@ const Users = observer(() => {
                   label="Exipre Days"
                   id="exipreDays"
                   placeholder="Exipre Days"
-                  value={rootStore.userStore.user.exipreDays}
+                  value={usersStore.user.exipreDays}
                   onChange={(exipreDays) => {
                     setErrors({
                       ...errors,
@@ -308,8 +248,8 @@ const Users = observer(() => {
                             )
                           : "Exipre Days required!",
                     });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    usersStore.updateUser({
+                      ...usersStore.user,
                       exipreDays,
                     });
                   }}
@@ -320,15 +260,15 @@ const Users = observer(() => {
                   type="solid"
                   onClick={() => {
                     const date = new Date(
-                      moment(rootStore.userStore.user.exipreDate)
-                        .add(rootStore.userStore.user.exipreDays, "days")
+                      moment(usersStore.user.exipreDate)
+                        .add(usersStore.user.exipreDays, "days")
                         .format("YYYY-MM-DD HH:mm:ss")
                     );
                     const exipreDate = new Date(
                       moment(date).format("YYYY-MM-DD HH:mm:ss")
                     );
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    usersStore.updateUser({
+                      ...usersStore.user,
                       exipreDate,
                     });
                   }}
@@ -342,38 +282,28 @@ const Users = observer(() => {
                 )}
               </LibraryComponents.List>
 
-              <LibraryComponents.Form.InputWrapper label="Role" id="role">
-                <select
-                  name="role"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const role = e.target.value;
-                    setErrors({
-                      ...errors,
-                      role:
-                        role !== ""
-                          ? Utils.validate.single(
-                              role,
-                              Utils.constraintsUser.role
-                            )
-                          : "Role required!",
-                    });
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      role,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {rootStore.roleStore.listRole.map(
-                    (item: any, index: number) => (
-                      <option key={item.description} value={item.description}>
-                        {item.description}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
+              <LibraryComponents.Form.Input
+                label="Role"
+                id="role"
+                placeholder="Role"
+                value={usersStore.user.role}
+                onChange={(role) => {
+                  setErrors({
+                    ...errors,
+                    role:
+                      role !== ""
+                        ? Utils.validate.single(
+                            role,
+                            Utils.constraintsUser.role
+                          )
+                        : "Role required!",
+                  });
+                  usersStore.updateUser({
+                    ...usersStore.user,
+                    role,
+                  });
+                }}
+              />
               {errors?.role && (
                 <span className="text-red-600 font-medium relative">
                   {errors.role}
@@ -390,20 +320,16 @@ const Users = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (
-                  Utils.validate(
-                    rootStore.userStore.user,
-                    Utils.constraintsLogin
-                  ) === undefined
+                  Utils.validate(usersStore.user, Utils.constraintsLogin) ===
+                  undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Features.Users.Pipes.User.addUser(rootStore.userStore).then(
-                    (res) => {
-                      rootStore.setProcessLoading(false);
-                      LibraryComponents.ToastsStore.success(`User created.`);
-                      rootStore.userStore.clear();
-                      rootStore.userStore.loadUser();
-                    }
-                  );
+                  Features.Users.Pipes.User.addUser(usersStore).then((res) => {
+                    rootStore.setProcessLoading(false);
+                    LibraryComponents.ToastsStore.success(`User created.`);
+                    usersStore.clear();
+                    usersStore.loadUser();
+                  });
                 } else {
                   LibraryComponents.ToastsStore.warning(
                     "Please enter all information!"
@@ -418,7 +344,7 @@ const Users = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.userStore.clear();
+                usersStore.clear();
               }}
             >
               Clear
@@ -442,7 +368,7 @@ const Users = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {rootStore.userStore.userList?.map((item, index) => (
+              {usersStore.userList?.map((item, index) => (
                 <tr>
                   <td className="border border-green-600 text-center">
                     {item.userId}
@@ -497,14 +423,14 @@ const Users = observer(() => {
               if (res.status) {
                 LibraryComponents.ToastsStore.success(`User deleted.`);
                 setDeleteUser({ show: false });
-                rootStore.userStore.loadUser();
+                usersStore.loadUser();
               }
             });
           }}
         />
-      </div>
+      </div> */}
     </>
   );
 });
 
-export default Users;
+export default LabMapping;
