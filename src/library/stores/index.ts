@@ -9,8 +9,19 @@ const trunk = new AsyncTrunk(RootStore, {
 });
 
 trunk.init().then(() => {
-  RootStore.labStore.fetchListLab();
-  RootStore.deginisationStore.fetchListDeginisation();
+  // setTimeout(() => {
+  //   RootStore.labStore.fetchListLab();
+  // }, 0);
+  // setTimeout(() => {
+  //   RootStore.deginisationStore.fetchListDeginisation();
+  // }, 5000);
+  // setTimeout(() => {
+  //   RootStore.departmentStore.fetchListDepartment();
+  // }, 10000);
+
+  setTimeout(() => {
+    RootStore.roleStore.fetchListRole();
+  }, 15000);
 });
 
 const Contexts = {
@@ -18,6 +29,8 @@ const Contexts = {
   userStore: React.createContext(RootStore.userStore),
   labStore: React.createContext(RootStore.labStore),
   deginisationStore: React.createContext(RootStore.deginisationStore),
+  departmentStore: React.createContext(RootStore.departmentStore),
+  roleStore: React.createContext(RootStore.roleStore),
 };
 
 export default Contexts;
