@@ -28,26 +28,27 @@ const Banner = observer(() => {
                 label="Title"
                 id="title"
                 placeholder="Title"
-                //value={rootStore.us}
+                value={rootStore.bannerStore.banner?.title}
                 onChange={(title) => {
-                  setErrors({
-                    ...errors,
-                    title: Utils.validate.single(
-                      title,
-                      Utils.constraintsUser.userId
-                    ),
+                  rootStore.bannerStore.updateBanner({
+                    ...rootStore.bannerStore.banner,
+                    title,
                   });
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   userId,
-                  // });
                 }}
               />
-              {/* {errors?.userId && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.userId}
-                </span>
-              )} */}
+              <LibraryComponents.Form.Input
+                type="file"
+                label="File"
+                id="file"
+                placeholder="File"
+                value={rootStore.bannerStore.banner?.imagePath}
+                onChange={(imagePath) => {
+                  rootStore.bannerStore.updateBanner({
+                    ...rootStore.bannerStore.banner,
+                    imagePath,
+                  });
+                }}
+              />
             </LibraryComponents.List>
           </LibraryComponents.Grid>
           <br />
@@ -58,27 +59,18 @@ const Banner = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                if (
-                  Utils.validate(
-                    rootStore.userStore.user,
-                    Utils.constraintsLogin
-                  ) === undefined &&
-                  !rootStore.userStore.checkExitsUserId
-                ) {
-                  rootStore.setProcessLoading(true);
-                  Features.Users.Pipes.addUser(rootStore.userStore).then(
-                    (res) => {
-                      rootStore.setProcessLoading(false);
-                      LibraryComponents.ToastsStore.success(`User created.`);
-                      rootStore.userStore.clear();
-                      rootStore.userStore.loadUser();
-                    }
-                  );
-                } else {
-                  LibraryComponents.ToastsStore.warning(
-                    "Please enter all information!"
-                  );
-                }
+                rootStore.setProcessLoading(true);
+                Services.addBanner(rootStore.bannerStore.banner).then((res) => {
+                  console.log({ res });
+                });
+                // Features.Banner.(rootStore.userStore).then(
+                //   (res) => {
+                //     rootStore.setProcessLoading(false);
+                //     LibraryComponents.ToastsStore.success(`User created.`);
+                //     rootStore.userStore.clear();
+                //     rootStore.userStore.loadUser();
+                //   }
+                // );
               }}
             >
               Save

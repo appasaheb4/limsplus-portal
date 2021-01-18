@@ -30,6 +30,7 @@ const Contexts = {
   deginisationStore: React.createContext(RootStore.deginisationStore),
   departmentStore: React.createContext(RootStore.departmentStore),
   roleStore: React.createContext(RootStore.roleStore),
+  bannerStore: React.createContext(RootStore.bannerStore),
 };
 
 export default Contexts;

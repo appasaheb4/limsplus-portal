@@ -12,5 +12,8 @@ class BannerStore {
       this.listBanner = banner;
     });
   }
+  @action updateBanner = (banner: Models.IBanner) => {
+    this.banner = banner;
+  };
 }
 export default BannerStore;
