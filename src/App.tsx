@@ -120,9 +120,7 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer((props) => {
                     ) === undefined
                   ) {
                     rootStore.setProcessLoading(true);
-                    Features.Users.Pipes.User.onLogin(
-                      rootStore.userStore.inputLogin
-                    )
+                    Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
                       .then((res) => {
                         rootStore.setProcessLoading(false);
                         if (res.length <= 0) {
