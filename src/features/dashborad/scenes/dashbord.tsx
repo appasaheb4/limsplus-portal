@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
-import * as Models from "@lp/features/users/models";
-import * as Utils from "@lp/library/utils";
 import * as Clients from "@lp/library/clients";
 import * as Services from "@lp/features/users/services";
 import Contexts from "@lp/library/stores";
@@ -38,7 +36,7 @@ const Dashbord = observer(() => {
                 isLogin,
                 rootStore.userStore.changePassword
               );
-              Services.Users.changePassword(body).then((res) => {
+              Services.changePassword(body).then((res) => {
                 if (res) {
                   LibraryComponents.ToastsStore.success(`Password changed!`);
                 } else {

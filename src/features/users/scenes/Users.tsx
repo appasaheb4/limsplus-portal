@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import * as Models from "../models";
@@ -49,12 +49,22 @@ const Users = observer(() => {
                   });
                 }}
                 onBlur={(userId) => {
-                  console.log({ userId });
+                  Services.checkExitsUserId(userId).then((res) => {
+                    if (res)
+                      if (res.length > 0)
+                        rootStore.userStore.setExitsUserId(true);
+                      else rootStore.userStore.setExitsUserId(false);
+                  });
                 }}
               />
               {errors?.userId && (
                 <span className="text-red-600 font-medium relative">
                   {errors.userId}
+                </span>
+              )}
+              {rootStore.userStore.checkExitsUserId && (
+                <span className="text-red-600 font-medium relative">
+                  UserId already exits. Please use other userid.
                 </span>
               )}
 
@@ -393,10 +403,11 @@ const Users = observer(() => {
                   Utils.validate(
                     rootStore.userStore.user,
                     Utils.constraintsLogin
-                  ) === undefined
+                  ) === undefined &&
+                  !rootStore.userStore.checkExitsUserId
                 ) {
                   rootStore.setProcessLoading(true);
-                  Features.Users.Pipes.User.addUser(rootStore.userStore).then(
+                  Features.Users.Pipes.addUser(rootStore.userStore).then(
                     (res) => {
                       rootStore.setProcessLoading(false);
                       LibraryComponents.ToastsStore.success(`User created.`);
@@ -493,7 +504,7 @@ const Users = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteUser}
           click={() => {
-            Services.Users.deleteUser(deleteUser.id).then((res: any) => {
+            Services.deleteUser(deleteUser.id).then((res: any) => {
               if (res.status) {
                 LibraryComponents.ToastsStore.success(`User deleted.`);
                 setDeleteUser({ show: false });

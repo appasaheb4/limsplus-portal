@@ -1,7 +1,6 @@
 import { version, ignore } from "mobx-sync";
 import { action, observable } from "mobx";
 import * as Models from "../models";
-import * as LibraryUtils from "@lp/library/utils";
 import moment from "moment";
 import * as Services from "../services";
 
@@ -11,6 +10,8 @@ class UsersStore {
   @ignore @observable user: Models.Users;
   @observable userList?: Models.Users[];
   @ignore @observable changePassword?: Models.ChangePassword;
+
+  @observable checkExitsUserId: boolean = false;
 
   constructor() {
     this.user = this.initUser();
@@ -50,7 +51,7 @@ class UsersStore {
   }
 
   @action loadUser() {
-    Services.Users.userList().then((user) => {
+    Services.userList().then((user) => {
       console.log({ user });
       this.userList = user;
     });
@@ -66,6 +67,10 @@ class UsersStore {
 
   @action clear() {
     this.user = this.initUser();
+  }
+
+  @action setExitsUserId(status: boolean) {
+    this.checkExitsUserId = status;
   }
 }
 

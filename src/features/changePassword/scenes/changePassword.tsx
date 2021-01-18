@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { navigate } from "@reach/router";
 import * as Clients from "@lp/library/clients";
@@ -32,7 +32,7 @@ const ChangePassword = observer(() => {
                   isLogin,
                   rootStore.userStore.changePassword
                 );
-                Services.Users.changePassword(body).then((res) => {
+                Services.changePassword(body).then((res) => {
                   if (res) {
                     LibraryComponents.ToastsStore.success(`Password changed!`);
                     navigate("/dashbord");
