@@ -7,6 +7,7 @@ import LabStore from "@lp/features/labs/stores";
 import DeginisationStore from "@lp/features/deginisation/stores";
 import DepartmentStore from "@lp/features/department/stores";
 import RoleStore from "@lp/features/roles/stores";
+import BannerStore from "@lp/features/banner/stores";
 
 @version(1.0)
 class RootStore {
@@ -18,6 +19,7 @@ class RootStore {
   @observable deginisationStore = new DeginisationStore();
   @observable departmentStore = new DepartmentStore();
   @observable roleStore = new RoleStore();
+  @observable bannerStore = new BannerStore();
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading;
