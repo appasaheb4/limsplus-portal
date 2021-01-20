@@ -14,13 +14,14 @@ trunk.init().then(() => {
   }, 0);
   setTimeout(() => {
     RootStore.deginisationStore.fetchListDeginisation();
-  }, 5000);
+  }, 1000);
   setTimeout(() => {
     RootStore.departmentStore.fetchListDepartment();
-  }, 10000);
+  }, 2000);
   setTimeout(() => {
     RootStore.roleStore.fetchListRole();
-  }, 15000);
+  }, 3000);
+  RootStore.bannerStore.fetchListBanner();
 });
 
 const Contexts = {

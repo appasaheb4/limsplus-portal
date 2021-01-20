@@ -1,4 +1,5 @@
 export interface IBanner {
+  _id?: string;
   title?: string;
-  imagePath?: string;
+  image?: any;
 }

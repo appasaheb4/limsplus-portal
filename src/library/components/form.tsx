@@ -138,6 +138,28 @@ export const SelectOption = (props: SelectOptionProps) => (
   </InputWrapper>
 );
 
+interface InputFileProps extends InputWrapperProps {
+  value?: any;
+  name?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  onChange?: (e: any) => void;
+}
+
+export const InputFile = (props: InputFileProps) => (
+  <InputWrapper label={props.label} id={props.id}>
+    <input
+      type="file"
+      id={props.id}
+      name={props.name}
+      disabled={props.disabled || false}
+      value={props.value}
+      onChange={(e) => props.onChange && props.onChange(e)}
+      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+    />
+  </InputWrapper>
+);
+
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <textarea
