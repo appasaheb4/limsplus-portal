@@ -36,16 +36,16 @@ const Banner = observer(() => {
                   });
                 }}
               />
-              <LibraryComponents.Form.Input
-                type="file"
+              <LibraryComponents.Form.InputFile
                 label="File"
                 id="file"
                 placeholder="File"
-                value={rootStore.bannerStore.banner?.imagePath}
-                onChange={(imagePath) => {
+                //value={rootStore.bannerStore.banner?.image}
+                onChange={(e) => {
+                  const image = e.target.files[0];
                   rootStore.bannerStore.updateBanner({
                     ...rootStore.bannerStore.banner,
-                    imagePath,
+                    image,
                   });
                 }}
               />
@@ -97,45 +97,28 @@ const Banner = observer(() => {
                 <th className="border border-green-600">Delete</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {rootStore.userStore.userList?.map((item, index) => (
+            <tbody>
+              {rootStore.bannerStore.listBanner?.map((item, index) => (
                 <tr>
                   <td className="border border-green-600 text-center">
-                    {item.userId}
+                    {item.title}
                   </td>
                   <td className="border border-green-600 text-center">
-                    {item.lab}
+                    {item.image}
                   </td>
-                  <td className="border border-green-600 text-center">
-                    {item.fullName}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.department}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.deginisation}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.role}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {moment(item.exipreDate).format("YYYY-MM-DD")}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.status}
-                  </td>
+
                   <td className="border border-green-600 text-center p-1">
                     <LibraryComponents.Button
                       size="small"
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
                       onClick={() => {
-                        setDeleteUser({
-                          show: true,
-                          id: item._id,
-                          title: "Are you sure?",
-                          body: `Delete ${item.fullName} user!`,
-                        });
+                        // setDeleteUser({
+                        //   show: true,
+                        //   id: item._id,
+                        //   title: "Are you sure?",
+                        //   body: `Delete ${item.title}!`,
+                        // });
                       }}
                     >
                       Delete
@@ -143,7 +126,7 @@ const Banner = observer(() => {
                   </td>
                 </tr>
               ))}
-            </tbody> */}
+            </tbody>
           </table>
         </div>
         {/* <LibraryComponents.Modal.ModalConfirm

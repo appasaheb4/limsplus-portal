@@ -34,23 +34,35 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer((props) => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Form.SelectOption
-                label="Lab"
-                name="lab"
-                key="name"
-                values={rootStore.labStore.listLabs}
-                value={rootStore.userStore.inputLogin.lab}
-                onChange={(lab) => {
-                  setErrors({
-                    ...errors,
-                    lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
-                  });
-                  rootStore.userStore.updateInputUser({
-                    ...rootStore.userStore.inputLogin,
-                    lab,
-                  });
-                }}
-              />
+              <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+                <select
+                  name="lab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const lab = e.target.value;
+                    setErrors({
+                      ...errors,
+                      lab: Utils.validate.single(
+                        lab,
+                        Utils.constraintsLogin.lab
+                      ),
+                    });
+                    rootStore.userStore.updateInputUser({
+                      ...rootStore.userStore.inputLogin,
+                      lab,
+                    });
+                  }}
+                >
+                  <option selected>Select</option>
+                  {rootStore.labStore.listLabs.map(
+                    (item: any, index: number) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
               {errors?.lab && (
                 <span className="text-red-600 font-medium relative">
                   {errors.lab}
