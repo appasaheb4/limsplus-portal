@@ -10,6 +10,8 @@ import {
   ToastsStore,
 } from "react-toasts";
 import * as Modal from "./modal";
+import Header from "./header";
+import PageHeading from "./page-heading";
 
 export {
   Loader,
@@ -22,4 +24,6 @@ export {
   ToastsContainerPosition,
   ToastsStore,
   Modal,
+  Header,
+  PageHeading,
 };

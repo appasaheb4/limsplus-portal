@@ -9,6 +9,7 @@ import * as ModelsUser from "@lp/features/users/models";
 import * as Utils from "@lp/library/utils";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
+import * as Bootstrap from "react-bootstrap";
 
 interface LoginPageProps extends RouteComponentProps {
   definitions: Models.Definition[];
@@ -20,10 +21,29 @@ const LoginPage: React.FunctionComponent<LoginPageProps> = observer((props) => {
 
   return (
     <>
-      <div className="h-screen w-screen fixed left-0   top-0 bg-gray-600 flex flex-col justify-center">
+      <div className="h-screen w-screen fixed left-0 top-0 bg-gray-600 flex flex-col justify-center">
         <div className="grid grid-cols-2">
-          <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col justify-center items-center md:w-32 lg:w-48">
             <img src={Assets.logo} className="w-20 h-15" alt="logo" />
+            <div className="mt-2 mb-2">
+              <Bootstrap.Carousel>
+                {rootStore.bannerStore.listBanner.map((item, index) => (
+                  <Bootstrap.Carousel.Item interval={5000}>
+                    <img
+                      src={item.image}
+                      style={{
+                        width: window.innerWidth / 3,
+                        height: window.innerHeight / 2,
+                      }}
+                      alt="First slide"
+                    />
+                    <Bootstrap.Carousel.Caption>
+                      <h3 className="text-black">{item.title}</h3>
+                    </Bootstrap.Carousel.Caption>
+                  </Bootstrap.Carousel.Item>
+                ))}
+              </Bootstrap.Carousel>
+            </div>
             <h2 className="text-2xl text-white font-bold">Lims Plus</h2>
           </div>
 
