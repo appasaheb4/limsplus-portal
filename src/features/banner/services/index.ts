@@ -23,7 +23,7 @@ export const addBanner = (banner: any) =>
         },
       })
       .then((res) => {
-        resolve(res.data.data as Models.IBanner);
+        resolve(res as Models.IBanner);
       })
       .catch((error) => {
         reject({ error });
@@ -39,6 +39,18 @@ export const listBanner = () =>
         console.log({ banner: res });
 
         resolve(res.data.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
+export const deleteBanner = (id: string) =>
+  new Promise<Models.IBanner[]>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .delete(`${RELATIVE_PATH}/deleteBanner/${id}`)
+      .then((res) => {
+        resolve(res.data);
       })
       .catch((error) => {
         reject({ error });

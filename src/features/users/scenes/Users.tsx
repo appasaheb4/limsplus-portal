@@ -20,9 +20,14 @@ const Users = observer(() => {
 
   return (
     <>
+      <LibraryComponents.Header>
+        <LibraryComponents.PageHeading
+          title="User"
+          subTitle="Add, Edit & Delete User"
+        />
+      </LibraryComponents.Header>
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
-          <h1 className="text-2xl mb-4 text-blue-800 leading-tight">Users</h1>
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List
               direction="col"

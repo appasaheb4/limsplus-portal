@@ -9,18 +9,10 @@ const trunk = new AsyncTrunk(RootStore, {
 });
 
 trunk.init().then(() => {
-  setTimeout(() => {
-    RootStore.labStore.fetchListLab();
-  }, 0);
-  setTimeout(() => {
-    RootStore.deginisationStore.fetchListDeginisation();
-  }, 1000);
-  setTimeout(() => {
-    RootStore.departmentStore.fetchListDepartment();
-  }, 2000);
-  setTimeout(() => {
-    RootStore.roleStore.fetchListRole();
-  }, 3000);
+  RootStore.labStore.fetchListLab();
+  RootStore.deginisationStore.fetchListDeginisation();
+  RootStore.departmentStore.fetchListDepartment();
+  RootStore.roleStore.fetchListRole();
   RootStore.bannerStore.fetchListBanner();
 });
 

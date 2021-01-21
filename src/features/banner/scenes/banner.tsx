@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
+import * as LibraryModels from "@lp/library/models";
 import * as Models from "../models";
 import * as Utils from "@lp/library/utils";
 import moment from "moment";
@@ -11,12 +12,18 @@ import * as Services from "../services";
 const Banner = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore);
   const [errors, setErrors] = useState<Models.IBanner>();
+  const [deleteItem, setDeleteItem] = useState<any>({});
 
   return (
     <>
+      <LibraryComponents.Header>
+        <LibraryComponents.PageHeading
+          title="Banner"
+          subTitle="Add, Edit & Delete Banner"
+        />
+      </LibraryComponents.Header>
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
-          <h1 className="text-2xl mb-4 text-blue-800 leading-tight">Banner</h1>
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List
               direction="col"
@@ -61,16 +68,13 @@ const Banner = observer(() => {
               onClick={() => {
                 rootStore.setProcessLoading(true);
                 Services.addBanner(rootStore.bannerStore.banner).then((res) => {
-                  console.log({ res });
+                  if (res.status === LibraryModels.StatusCode.CREATED) {
+                    LibraryComponents.ToastsStore.success(`Banner created.`);
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  }
                 });
-                // Features.Banner.(rootStore.userStore).then(
-                //   (res) => {
-                //     rootStore.setProcessLoading(false);
-                //     LibraryComponents.ToastsStore.success(`User created.`);
-                //     rootStore.userStore.clear();
-                //     rootStore.userStore.loadUser();
-                //   }
-                // );
               }}
             >
               Save
@@ -103,8 +107,12 @@ const Banner = observer(() => {
                   <td className="border border-green-600 text-center">
                     {item.title}
                   </td>
-                  <td className="border border-green-600 text-center">
-                    {item.image}
+                  <td className="border border-green-600">
+                    <img
+                      src={item.image}
+                      className="w-60 h-40 ml-6"
+                      alt="logo"
+                    />
                   </td>
 
                   <td className="border border-green-600 text-center p-1">
@@ -113,12 +121,12 @@ const Banner = observer(() => {
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
                       onClick={() => {
-                        // setDeleteUser({
-                        //   show: true,
-                        //   id: item._id,
-                        //   title: "Are you sure?",
-                        //   body: `Delete ${item.title}!`,
-                        // });
+                        setDeleteItem({
+                          show: true,
+                          id: item._id,
+                          title: "Are you sure?",
+                          body: `Delete ${item.title}!`,
+                        });
                       }}
                     >
                       Delete
@@ -129,18 +137,20 @@ const Banner = observer(() => {
             </tbody>
           </table>
         </div>
-        {/* <LibraryComponents.Modal.ModalConfirm
-          {...deleteUser}
+        <LibraryComponents.Modal.ModalConfirm
+          {...deleteItem}
           click={() => {
-            Services.deleteUser(deleteUser.id).then((res: any) => {
+            Services.deleteBanner(deleteItem.id).then((res: any) => {
+              console.log({ res });
+
               if (res.status) {
-                LibraryComponents.ToastsStore.success(`User deleted.`);
-                setDeleteUser({ show: false });
-                rootStore.userStore.loadUser();
+                LibraryComponents.ToastsStore.success(`Banner deleted.`);
+                setDeleteItem({ show: false });
+                rootStore.bannerStore.fetchListBanner();
               }
             });
           }}
-        /> */}
+        />
       </div>
     </>
   );
