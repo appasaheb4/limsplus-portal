@@ -6,8 +6,12 @@ import * as Utils from "@lp/library/utils";
 import moment from "moment";
 import * as Features from "@lp/features";
 import Contexts from "@lp/library/stores";
-
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from "react-bootstrap-table2-editor";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import * as Services from "../services";
+
+const { SearchBar, ClearSearchButton } = Search;
 
 const Users = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore);
@@ -17,6 +21,13 @@ const Users = observer(() => {
   useEffect(() => {
     rootStore.userStore.loadUser();
   }, []);
+
+  const afterSaveCell = (oldValue, newValue) => {
+    console.log("--after save cell--");
+    console.log("New Value was apply as");
+    console.log({ newValue });
+    console.log(`and the type is ${typeof newValue}`);
+  };
 
   return (
     <>
@@ -442,49 +453,53 @@ const Users = observer(() => {
           </LibraryComponents.List>
         </div>
         <br />
-        <div className="m-1 p-2 rounded-lg shadow-xl">
-          <table className="border-separate border border-green-800 w-full">
-            <thead>
-              <tr>
-                <th className="border border-green-600">User Id</th>
-                <th className="border border-green-600">Lab</th>
-                <th className="border border-green-600">Full Name</th>
-                <th className="border border-green-600">Department</th>
-                <th className="border border-green-600">Deginisation</th>
-                <th className="border border-green-600">Role</th>
-                <th className="border border-green-600">Exipre Date</th>
-                <th className="border border-green-600">Status</th>
-                <th className="border border-green-600">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rootStore.userStore.userList?.map((item, index) => (
-                <tr>
-                  <td className="border border-green-600 text-center">
-                    {item.userId}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.lab}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.fullName}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.department}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.deginisation}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.role}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {moment(item.exipreDate).format("YYYY-MM-DD")}
-                  </td>
-                  <td className="border border-green-600 text-center">
-                    {item.status}
-                  </td>
-                  <td className="border border-green-600 text-center p-1">
+        <div className="m-1  rounded-lg shadow-xl">
+          <ToolkitProvider
+            keyField="id"
+            data={rootStore.userStore.userList || []}
+            columns={[
+              {
+                dataField: "userId",
+                text: "UserId",
+                sort: true,
+              },
+              {
+                dataField: "lab",
+                text: "Lab",
+              },
+              {
+                dataField: "fullName",
+                text: "Full Name",
+              },
+              {
+                dataField: "department",
+                text: "Department",
+              },
+              {
+                dataField: "deginisation",
+                text: "Deginisation",
+              },
+              {
+                dataField: "role",
+                text: "Role",
+              },
+              {
+                text: "Exipre Date",
+                dataField: "exipreDate",
+              },
+              {
+                text: "Status",
+                dataField: "status",
+              },
+              {
+                dataField: "opration",
+                text: "Action",
+                style: {
+                  width: 10,
+                },
+                editable: false,
+                formatter: (cellContent, row) => (
+                  <>
                     <LibraryComponents.Button
                       size="small"
                       type="outline"
@@ -492,19 +507,38 @@ const Users = observer(() => {
                       onClick={() => {
                         setDeleteUser({
                           show: true,
-                          id: item._id,
+                          id: row._id,
                           title: "Are you sure?",
-                          body: `Delete ${item.fullName} user!`,
+                          body: `Delete ${row.fullName} user!`,
                         });
                       }}
                     >
                       Delete
                     </LibraryComponents.Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </>
+                ),
+              },
+            ]}
+            search
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton {...props.searchProps} />
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  noDataIndication="Table is Empty"
+                  hover
+                  cellEdit={cellEditFactory({
+                    mode: "dbclick",
+                    blurToSave: true,
+                    afterSaveCell,
+                  })}
+                />
+              </div>
+            )}
+          </ToolkitProvider>
         </div>
         <LibraryComponents.Modal.ModalConfirm
           {...deleteUser}
