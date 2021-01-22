@@ -7,11 +7,15 @@ import moment from "moment";
 import * as Features from "@lp/features";
 import Contexts from "@lp/library/stores";
 import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
-import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import ToolkitProvider, {
+  Search,
+  CSVExport,
+} from "react-bootstrap-table2-toolkit";
 import * as Services from "../services";
 
 const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 const Users = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore);
@@ -22,11 +26,8 @@ const Users = observer(() => {
     rootStore.userStore.loadUser();
   }, []);
 
-  const afterSaveCell = (oldValue, newValue) => {
-    console.log("--after save cell--");
-    console.log("New Value was apply as");
-    console.log({ newValue });
-    console.log(`and the type is ${typeof newValue}`);
+  const afterSaveCell = (oldValue, newValue, row, column) => {
+    console.log({ oldValue, newValue, row, column });
   };
 
   return (
@@ -462,6 +463,7 @@ const Users = observer(() => {
                 dataField: "userId",
                 text: "UserId",
                 sort: true,
+                editable: false,
               },
               {
                 dataField: "lab",
@@ -490,14 +492,34 @@ const Users = observer(() => {
               {
                 text: "Status",
                 dataField: "status",
+                style: {
+                  width: 120,
+                },
+                editor: {
+                  type: Type.SELECT,
+                  getOptions: () => {
+                    return [
+                      {
+                        value: "Active",
+                        label: "Active",
+                      },
+                      {
+                        value: "Retired",
+                        label: "Retired",
+                      },
+                      {
+                        value: "Disable",
+                        label: "Disable",
+                      },
+                    ];
+                  },
+                },
               },
               {
                 dataField: "opration",
-                text: "Action",
-                style: {
-                  width: 10,
-                },
+                text: "Delete",
                 editable: false,
+                csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
                     <LibraryComponents.Button
@@ -520,11 +542,27 @@ const Users = observer(() => {
               },
             ]}
             search
+            exportCSV={{
+              fileName: `users_${moment(new Date()).format(
+                "YYYY-MM-DD HH:mm"
+              )}.csv`,
+              noAutoBOM: false,
+              blobType: "text/csv;charset=ansi",
+            }}
           >
             {(props) => (
               <div>
                 <SearchBar {...props.searchProps} />
-                <ClearSearchButton {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
                 <hr />
                 <BootstrapTable
                   {...props.baseProps}
