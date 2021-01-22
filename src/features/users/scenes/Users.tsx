@@ -27,7 +27,19 @@ const Users = observer(() => {
   }, []);
 
   const afterSaveCell = (oldValue, newValue, row, column) => {
-    console.log({ oldValue, newValue, row, column });
+    if (oldValue !== newValue) {
+      Services.updateUserSingleFiled({
+        newValue,
+        dataField: column.dataField,
+        id: row._id,
+      }).then((res) => {
+        if (res.data) {
+          rootStore.userStore.loadUser();
+          LibraryComponents.ToastsStore.success(`User update.`);
+        }
+      });
+      console.log({ oldValue, newValue, row, column });
+    }
   };
 
   return (

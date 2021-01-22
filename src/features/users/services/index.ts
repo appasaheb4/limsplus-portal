@@ -80,3 +80,16 @@ export const checkExitsUserId = (userId: string) =>
         reject({ error });
       });
   });
+
+export const updateUserSingleFiled = (userInfo: any) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .post(`${RELATIVE_PATH}/updateUserSingleFiled`, userInfo)
+      .then((res) => {
+        resolve(res);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
