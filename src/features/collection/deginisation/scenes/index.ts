@@ -1,3 +1,4 @@
-import LabMapping from "./LabMapping";
-
-export { LabMapping };
+import Deginisation from "./deginisation";
+   
+export { Deginisation };
+  

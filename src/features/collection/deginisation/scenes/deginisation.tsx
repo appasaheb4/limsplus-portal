@@ -17,17 +17,17 @@ import * as Services from "../services";
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-const Lab = observer(() => {
+const Deginisation = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.Labs>();
+  const [errors, setErrors] = useState<Models.IDeginisation>();
   const [deleteItem, setDeleteItem] = useState<any>({});
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="Lab"
-          subTitle="Add, Edit & Delete Lab"
+          title="Deginisation"
+          subTitle="Add, Edit & Delete Deginisation"
         />
       </LibraryComponents.Header>
       <div className=" mx-auto  p-4  flex-wrap">
@@ -43,14 +43,17 @@ const Lab = observer(() => {
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.labStore.labs?.code}
+                value={rootStore.deginisationStore.deginisation?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
-                    code: Util.validate.single(code, Util.constraintsLabs.code),
+                    code: Util.validate.single(
+                      code,
+                      Util.constraintsDeginisation.code
+                    ),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  rootStore.deginisationStore.updateDescription({
+                    ...rootStore.deginisationStore.deginisation,
                     code,
                   });
                 }}
@@ -61,24 +64,27 @@ const Lab = observer(() => {
                 </span>
               )}
               <LibraryComponents.Form.Input
-                label="Name"
-                name="name"
-                placeholder="Name"
-                value={rootStore.labStore.labs?.name}
-                onChange={(name) => {
+                label="Description"
+                name="description"
+                placeholder="description"
+                value={rootStore.deginisationStore.deginisation?.description}
+                onChange={(description) => {
                   setErrors({
                     ...errors,
-                    name: Util.validate.single(name, Util.constraintsLabs.name),
+                    description: Util.validate.single(
+                      description,
+                      Util.constraintsDeginisation.description
+                    ),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
-                    name,
+                  rootStore.deginisationStore.updateDescription({
+                    ...rootStore.deginisationStore.deginisation,
+                    description,
                   });
                 }}
               />
-              {errors?.name && (
+              {errors?.description && (
                 <span className="text-red-600 font-medium relative">
-                  {errors.name}
+                  {errors.description}
                 </span>
               )}
             </LibraryComponents.List>
@@ -93,16 +99,20 @@ const Lab = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(
-                    rootStore.labStore.labs,
-                    Util.constraintsLabs
+                    rootStore.deginisationStore.deginisation,
+                    Util.constraintsDeginisation
                   ) === undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Services.addLab(rootStore.labStore.labs).then((res) => {
+                  Services.addDeginisation(
+                    rootStore.deginisationStore.deginisation
+                  ).then((res) => {
                     rootStore.setProcessLoading(false);
-                    LibraryComponents.ToastsStore.success(`Lab created.`);
-                    rootStore.labStore.fetchListLab();
-                    rootStore.labStore.clear();
+                    LibraryComponents.ToastsStore.success(
+                      `Deginisation created.`
+                    );
+                    rootStore.deginisationStore.fetchListDeginisation();
+                    rootStore.deginisationStore.clear();
                   });
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -118,7 +128,7 @@ const Lab = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.labStore.clear();
+                rootStore.deginisationStore.clear();
               }}
             >
               Clear
@@ -129,7 +139,7 @@ const Lab = observer(() => {
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.labStore.listLabs || []}
+            data={rootStore.deginisationStore.listDeginisation || []}
             columns={[
               {
                 dataField: "code",
@@ -137,8 +147,8 @@ const Lab = observer(() => {
                 sort: true,
               },
               {
-                dataField: "name",
-                text: "name",
+                dataField: "description",
+                text: "Description",
               },
               {
                 dataField: "opration",
@@ -156,7 +166,7 @@ const Lab = observer(() => {
                           show: true,
                           id: row._id,
                           title: "Are you sure?",
-                          body: `Delete ${row.name} lab!`,
+                          body: `Delete ${row.description} deginisation!`,
                         });
                       }}
                     >
@@ -168,7 +178,7 @@ const Lab = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `labs_${moment(new Date()).format(
+              fileName: `deginisation_${moment(new Date()).format(
                 "YYYY-MM-DD HH:mm"
               )}.csv`,
               noAutoBOM: false,
@@ -206,11 +216,11 @@ const Lab = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            Services.deleteLab(deleteItem.id).then((res: any) => {
+            Services.deleteDeginisation(deleteItem.id).then((res: any) => {
               if (res.status) {
-                LibraryComponents.ToastsStore.success(`Lab deleted.`);
+                LibraryComponents.ToastsStore.success(`Deginisation deleted.`);
                 setDeleteItem({ show: false });
-                rootStore.labStore.fetchListLab();
+                rootStore.deginisationStore.fetchListDeginisation();
               }
             });
           }}
@@ -220,4 +230,4 @@ const Lab = observer(() => {
   );
 });
 
-export default Lab;
+export default Deginisation;
