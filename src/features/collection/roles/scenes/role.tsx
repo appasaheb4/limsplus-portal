@@ -17,16 +17,16 @@ import * as Services from "../services";
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-const Lab = observer(() => {
+const role = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.Labs>();
+  const [errors, setErrors] = useState<Models.IRole>();
   const [deleteItem, setDeleteItem] = useState<any>({});
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="Lab"
+          title="Role"
           subTitle="Add, Edit & Delete Lab"
         />
       </LibraryComponents.Header>
@@ -43,14 +43,14 @@ const Lab = observer(() => {
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.labStore.labs?.code}
+                value={rootStore.roleStore.role?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
-                    code: Util.validate.single(code, Util.constraintsLabs.code),
+                    code: Util.validate.single(code, Util.constraintsRole.code),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  rootStore.roleStore.updateRole({
+                    ...rootStore.roleStore.role,
                     code,
                   });
                 }}
@@ -61,25 +61,28 @@ const Lab = observer(() => {
                 </span>
               )}
               <LibraryComponents.Form.Input
-                label="Name"
-                name="name"
-                placeholder="Name"
-                value={rootStore.labStore.labs?.name}
-                onChange={(name) => {
+                label="Description"
+                name="description"
+                placeholder="Description"
+                value={rootStore.roleStore.role?.description}
+                onChange={(description) => {
                   setErrors({
                     ...errors,
-                    name: Util.validate.single(name, Util.constraintsLabs.name),
+                    description: Util.validate.single(
+                      description,
+                      Util.constraintsRole.description
+                    ),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
-                    name,
+                  rootStore.roleStore.updateRole({
+                    ...rootStore.roleStore.role,
+                    description,
                   });
                 }}
               />
-              
-              {errors?.name && (
+
+              {errors?.description && (
                 <span className="text-red-600 font-medium relative">
-                  {errors.name}
+                  {errors.description}
                 </span>
               )}
             </LibraryComponents.List>
@@ -94,16 +97,16 @@ const Lab = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(
-                    rootStore.labStore.labs,
-                    Util.constraintsLabs
+                    rootStore.roleStore.role,
+                    Util.constraintsRole
                   ) === undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Services.addLab(rootStore.labStore.labs).then((res) => {
+                  Services.addrole(rootStore.roleStore.role).then((res) => {
                     rootStore.setProcessLoading(false);
-                    LibraryComponents.ToastsStore.success(`Lab created.`);
-                    rootStore.labStore.fetchListLab();
-                    rootStore.labStore.clear();
+                    LibraryComponents.ToastsStore.success(`Role created.`);
+                    rootStore.roleStore.fetchListRole();
+                    rootStore.roleStore.clear();
                   });
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -119,7 +122,7 @@ const Lab = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.labStore.clear();
+                rootStore.roleStore.clear();
               }}
             >
               Clear
@@ -130,7 +133,7 @@ const Lab = observer(() => {
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.labStore.listLabs || []}
+            data={rootStore.roleStore.listRole || []}
             columns={[
               {
                 dataField: "code",
@@ -138,8 +141,8 @@ const Lab = observer(() => {
                 sort: true,
               },
               {
-                dataField: "name",
-                text: "name",
+                dataField: "description",
+                text: "Description",
               },
               {
                 dataField: "opration",
@@ -157,7 +160,7 @@ const Lab = observer(() => {
                           show: true,
                           id: row._id,
                           title: "Are you sure?",
-                          body: `Delete ${row.name} lab!`,
+                          body: `Delete ${row.description} lab!`,
                         });
                       }}
                     >
@@ -169,7 +172,7 @@ const Lab = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `labs_${moment(new Date()).format(
+              fileName: `roles_${moment(new Date()).format(
                 "YYYY-MM-DD HH:mm"
               )}.csv`,
               noAutoBOM: false,
@@ -207,11 +210,11 @@ const Lab = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            Services.deleteLab(deleteItem.id).then((res: any) => {
+            Services.deleterole(deleteItem.id).then((res: any) => {
               if (res.status) {
-                LibraryComponents.ToastsStore.success(`Lab deleted.`);
+                LibraryComponents.ToastsStore.success(`Role deleted.`);
                 setDeleteItem({ show: false });
-                rootStore.labStore.fetchListLab();
+                rootStore.roleStore.fetchListRole();
               }
             });
           }}
@@ -221,4 +224,4 @@ const Lab = observer(() => {
   );
 });
 
-export default Lab;
+export default role;
