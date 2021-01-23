@@ -15,3 +15,28 @@ export const listDepartment = () =>
         reject({ error });
       });
   });
+  export const adddepartment= (lab?: Models.IDepartment) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .post(`${RELATIVE_PATH}/adddepartment`, lab)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
+
+export const deletedepartment = (id: string) =>
+  new Promise<Models.IDepartment[]>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .delete(`${RELATIVE_PATH}/deletedepartment/${id}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });

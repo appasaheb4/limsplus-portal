@@ -1,3 +1,3 @@
-import LabMapping from "./LabMapping";
+import Role from "./role";
 
-export { LabMapping };
+export { Role };
