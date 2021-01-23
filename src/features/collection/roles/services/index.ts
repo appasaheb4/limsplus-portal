@@ -15,3 +15,28 @@ export const listRole = () =>
         reject({ error });
       });
   });
+export const addrole = (lab?: Models.IRole) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .post(`${RELATIVE_PATH}/addRole`, lab)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });
+
+export const deleterole = (id: string) =>
+  new Promise<Models.IRole[]>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient();
+    client
+      .delete(`${RELATIVE_PATH}/deleteRole/${id}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        reject({ error });
+      });
+  });

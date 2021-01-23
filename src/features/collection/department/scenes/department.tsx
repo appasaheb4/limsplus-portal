@@ -17,16 +17,16 @@ import * as Services from "../services";
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-const Lab = observer(() => {
+const department = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.Labs>();
+  const [errors, setErrors] = useState<Models.IDepartment>();
   const [deleteItem, setDeleteItem] = useState<any>({});
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="Lab"
+          title="Department"
           subTitle="Add, Edit & Delete Lab"
         />
       </LibraryComponents.Header>
@@ -39,18 +39,51 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+                <select
+                  name="lab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const lab = e.target.value;
+                    setErrors({
+                      ...errors,
+                      lab: Util.validate.single(
+                        lab,
+                        Util.constraintsDepartment.lab
+                      ),
+                    });
+                    rootStore.departmentStore.updateDepartment({
+                      ...rootStore.departmentStore.department,
+                      lab,
+                    });
+                  }}
+                >
+                  <option selected>Select</option>
+                  {rootStore.labStore.listLabs.map(
+                    (item: any, index: number) => (
+                      <option key={item.name} value={item.code}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
               <LibraryComponents.Form.Input
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.labStore.labs?.code}
+                value={rootStore.departmentStore.department?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
-                    code: Util.validate.single(code, Util.constraintsLabs.code),
+                    code: Util.validate.single(
+                      code,
+                      Util.constraintsDepartment.code
+                    ),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  rootStore.departmentStore.updateDepartment({
+                    ...rootStore.departmentStore.department,
                     code,
                   });
                 }}
@@ -64,19 +97,22 @@ const Lab = observer(() => {
                 label="Name"
                 name="name"
                 placeholder="Name"
-                value={rootStore.labStore.labs?.name}
+                value={rootStore.departmentStore.department?.name}
                 onChange={(name) => {
                   setErrors({
                     ...errors,
-                    name: Util.validate.single(name, Util.constraintsLabs.name),
+                    name: Util.validate.single(
+                      name,
+                      Util.constraintsDepartment.name
+                    ),
                   });
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  rootStore.departmentStore.updateDepartment({
+                    ...rootStore.departmentStore.department,
                     name,
                   });
                 }}
               />
-              
+
               {errors?.name && (
                 <span className="text-red-600 font-medium relative">
                   {errors.name}
@@ -94,16 +130,20 @@ const Lab = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(
-                    rootStore.labStore.labs,
-                    Util.constraintsLabs
+                    rootStore.departmentStore.department,
+                    Util.constraintsDepartment
                   ) === undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Services.addLab(rootStore.labStore.labs).then((res) => {
+                  Services.adddepartment(
+                    rootStore.departmentStore.department
+                  ).then((res) => {
                     rootStore.setProcessLoading(false);
-                    LibraryComponents.ToastsStore.success(`Lab created.`);
-                    rootStore.labStore.fetchListLab();
-                    rootStore.labStore.clear();
+                    LibraryComponents.ToastsStore.success(
+                      `Department created.`
+                    );
+                    rootStore.departmentStore.fetchListDepartment();
+                    rootStore.departmentStore.clear();
                   });
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -119,7 +159,7 @@ const Lab = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.labStore.clear();
+                rootStore.departmentStore.clear();
               }}
             >
               Clear
@@ -130,8 +170,13 @@ const Lab = observer(() => {
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.labStore.listLabs || []}
+            data={rootStore.departmentStore.listDepartment || []}
             columns={[
+              {
+                dataField: "lab",
+                text: "Lab",
+                sort: true,
+              },
               {
                 dataField: "code",
                 text: "Code",
@@ -169,7 +214,7 @@ const Lab = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `labs_${moment(new Date()).format(
+              fileName: `department_${moment(new Date()).format(
                 "YYYY-MM-DD HH:mm"
               )}.csv`,
               noAutoBOM: false,
@@ -207,11 +252,11 @@ const Lab = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            Services.deleteLab(deleteItem.id).then((res: any) => {
+            Services.deletedepartment(deleteItem.id).then((res: any) => {
               if (res.status) {
-                LibraryComponents.ToastsStore.success(`Lab deleted.`);
+                LibraryComponents.ToastsStore.success(`Department deleted.`);
                 setDeleteItem({ show: false });
-                rootStore.labStore.fetchListLab();
+                rootStore.departmentStore.fetchListDepartment();
               }
             });
           }}
@@ -221,4 +266,4 @@ const Lab = observer(() => {
   );
 });
 
-export default Lab;
+export default department;

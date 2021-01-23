@@ -1,3 +1,3 @@
-import LabMapping from "./LabMapping";
+import Department from "./department";
 
-export { LabMapping };
+export { Department };
