@@ -38,7 +38,6 @@ const Users = observer(() => {
           LibraryComponents.ToastsStore.success(`User update.`);
         }
       });
-      console.log({ oldValue, newValue, row, column });
     }
   };
 
@@ -119,7 +118,7 @@ const Users = observer(() => {
                   <option selected>Select</option>
                   {rootStore.labStore.listLabs.map(
                     (item: any, index: number) => (
-                      <option key={item.name} value={item.name}>
+                      <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
                     )
@@ -184,7 +183,7 @@ const Users = observer(() => {
                   <option selected>Select</option>
                   {rootStore.deginisationStore.listDeginisation.map(
                     (item: any, index: number) => (
-                      <option key={item.description} value={item.description}>
+                      <option key={item.description} value={item.code}>
                         {item.description}
                       </option>
                     )
@@ -281,7 +280,7 @@ const Users = observer(() => {
                   <option selected>Select</option>
                   {rootStore.departmentStore.listDepartment.map(
                     (item: any, index: number) => (
-                      <option key={item.name} value={item.name}>
+                      <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
                     )
@@ -306,11 +305,9 @@ const Users = observer(() => {
                     date = new Date(
                       moment(date)
                         .add(rootStore.userStore.user.exipreDays, "days")
-                        .format("YYYY-MM-DD HH:mm:ss")
+                        .format("YYYY-MM-DD HH:mm")
                     );
-                    const formatDate = moment(date).format(
-                      "YYYY-MM-DD HH:mm:ss"
-                    );
+                    const formatDate = moment(date).format("YYYY-MM-DD HH:mm");
                     setErrors({
                       ...errors,
                       exipreDate: Utils.validate.single(
@@ -361,10 +358,10 @@ const Users = observer(() => {
                     const date = new Date(
                       moment(rootStore.userStore.user.exipreDate)
                         .add(rootStore.userStore.user.exipreDays, "days")
-                        .format("YYYY-MM-DD HH:mm:ss")
+                        .format("YYYY-MM-DD HH:mm")
                     );
                     const exipreDate = new Date(
-                      moment(date).format("YYYY-MM-DD HH:mm:ss")
+                      moment(date).format("YYYY-MM-DD HH:mm")
                     );
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
@@ -406,7 +403,7 @@ const Users = observer(() => {
                   <option selected>Select</option>
                   {rootStore.roleStore.listRole.map(
                     (item: any, index: number) => (
-                      <option key={item.description} value={item.description}>
+                      <option key={item.description} value={item.code}>
                         {item.description}
                       </option>
                     )
@@ -480,6 +477,45 @@ const Users = observer(() => {
               {
                 dataField: "lab",
                 text: "Lab",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <select
+                      name="lab"
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const lab = e.target.value;
+                        Services.updateUserSingleFiled({
+                          newValue: lab,
+                          dataField: column.dataField,
+                          id: row._id,
+                        }).then((res) => {
+                          if (res.data) {
+                            rootStore.userStore.loadUser();
+                            LibraryComponents.ToastsStore.success(
+                              `User update.`
+                            );
+                          }
+                        });
+                      }}
+                    >
+                      <option selected>{row.lab}</option>
+                      {rootStore.labStore.listLabs.map(
+                        (item: any, index: number) => (
+                          <option key={item.name} value={item.code}>
+                            {item.name}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </>
+                ),
               },
               {
                 dataField: "fullName",
@@ -488,18 +524,176 @@ const Users = observer(() => {
               {
                 dataField: "department",
                 text: "Department",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <select
+                      name="department"
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const department = e.target.value;
+                        Services.updateUserSingleFiled({
+                          newValue: department,
+                          dataField: column.dataField,
+                          id: row._id,
+                        }).then((res) => {
+                          if (res.data) {
+                            rootStore.userStore.loadUser();
+                            LibraryComponents.ToastsStore.success(
+                              `User update.`
+                            );
+                          }
+                        });
+                      }}
+                    >
+                      <option selected>{row.department}</option>
+                      {rootStore.departmentStore.listDepartment.map(
+                        (item: any, index: number) => (
+                          <option key={item.name} value={item.code}>
+                            {item.name}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </>
+                ),
               },
               {
                 dataField: "deginisation",
                 text: "Deginisation",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <select
+                      name="deginisation"
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const deginisation = e.target.value;
+                        Services.updateUserSingleFiled({
+                          newValue: deginisation,
+                          dataField: column.dataField,
+                          id: row._id,
+                        }).then((res) => {
+                          if (res.data) {
+                            rootStore.userStore.loadUser();
+                            LibraryComponents.ToastsStore.success(
+                              `User update.`
+                            );
+                          }
+                        });
+                      }}
+                    >
+                      <option selected>{row.deginisation}</option>
+                      {rootStore.deginisationStore.listDeginisation.map(
+                        (item: any, index: number) => (
+                          <option key={item.description} value={item.code}>
+                            {item.description}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </>
+                ),
               },
               {
                 dataField: "role",
                 text: "Role",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <select
+                      name="role"
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const role = e.target.value;
+                        Services.updateUserSingleFiled({
+                          newValue: role,
+                          dataField: column.dataField,
+                          id: row._id,
+                        }).then((res) => {
+                          if (res.data) {
+                            rootStore.userStore.loadUser();
+                            LibraryComponents.ToastsStore.success(
+                              `User update.`
+                            );
+                          }
+                        });
+                      }}
+                    >
+                      <option selected>{row.role}</option>
+                      {rootStore.roleStore.listRole.map(
+                        (item: any, index: number) => (
+                          <option key={item.description} value={item.code}>
+                            {item.description}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </>
+                ),
               },
               {
                 text: "Exipre Date",
                 dataField: "exipreDate",
+                formatter: (cell, row) => {
+                  return moment(row.exipreDate).format("YYYY-MM-DD");
+                },
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.InputDate
+                      label="Exipre Date"
+                      id="exipreData"
+                      value={moment(row.exipreDate).format("YYYY-MM-DD")}
+                      onChange={(e: any) => {
+                        let date = new Date(e.target.value);
+                        date = new Date(
+                          moment(date).format("YYYY-MM-DD HH:mm")
+                        );
+                        const formatDate = moment(date).format(
+                          "YYYY-MM-DD HH:mm"
+                        );
+
+                        Services.updateUserSingleFiled({
+                          newValue: new Date(formatDate),
+                          dataField: column.dataField,
+                          id: row._id,
+                        }).then((res) => {
+                          if (res.data) {
+                            rootStore.userStore.loadUser();
+                            LibraryComponents.ToastsStore.success(
+                              `User update.`
+                            );
+                          }
+                        });
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 text: "Status",

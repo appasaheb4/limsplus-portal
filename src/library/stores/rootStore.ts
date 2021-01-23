@@ -3,10 +3,10 @@ import { version, ignore } from "mobx-sync";
 import * as Clients from "@lp/library/clients";
 
 import UsersStore from "@lp/features/users/stores";
-import LabStore from "@lp/features/labs/stores";
-import DeginisationStore from "@lp/features/deginisation/stores";
-import DepartmentStore from "@lp/features/department/stores";
-import RoleStore from "@lp/features/roles/stores";
+import LabStore from "@lp/features/collection/labs/stores";
+import DeginisationStore from "@lp/features/collection/deginisation/stores";
+import DepartmentStore from "@lp/features/collection/department/stores";
+import RoleStore from "@lp/features/collection/roles/stores";
 import BannerStore from "@lp/features/banner/stores";
 
 @version(1.0)
