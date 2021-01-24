@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import { navigate } from "@reach/router";
 import * as Clients from "@lp/library/clients";
 import * as LibraryComponents from "@lp/library/components";
 import * as Services from "@lp/features/users/services";
 import Contexts from "@lp/library/stores";
+import { useHistory } from "react-router-dom";
 
 const ChangePassword = observer(() => {
+  const history = useHistory();
   const rootStore = React.useContext(Contexts.rootStore);
   const [changePassword, setChangePassword] = useState(true);
   useEffect(() => {
@@ -35,7 +36,7 @@ const ChangePassword = observer(() => {
                 Services.changePassword(body).then((res) => {
                   if (res) {
                     LibraryComponents.ToastsStore.success(`Password changed!`);
-                    navigate("/dashbord");
+                    history.push("/dashboard");
                   } else {
                     LibraryComponents.ToastsStore.error(
                       `Please enter correct old password`
@@ -52,7 +53,7 @@ const ChangePassword = observer(() => {
                   changePass: true,
                 });
               });
-              navigate("/dashbord");
+              history.push("/dashboard");
               setChangePassword(false);
               console.log("close");
             }}

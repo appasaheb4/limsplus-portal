@@ -10,10 +10,10 @@ const trunk = new AsyncTrunk(RootStore, {
 
 trunk.init().then(() => {
   RootStore.labStore.fetchListLab();
+  RootStore.bannerStore.fetchListBanner();
   RootStore.deginisationStore.fetchListDeginisation();
   RootStore.departmentStore.fetchListDepartment();
   RootStore.roleStore.fetchListRole();
-  RootStore.bannerStore.fetchListBanner();
 });
 
 const Contexts = {
