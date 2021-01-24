@@ -10,6 +10,12 @@ import * as Utils from "@lp/library/utils";
 import * as Assets from "@lp/library/assets";
 import * as Clients from "@lp/library/clients";
 import * as Bootstrap from "react-bootstrap";
+import { Provider } from "react-redux";
+import ReduxToastr from "react-redux-toastr";
+
+import store from "./redux/store/index";
+
+import Routes from "./routes/Routes";
 
 interface LoginPageProps extends RouteComponentProps {
   definitions: Models.Definition[];
@@ -206,16 +212,16 @@ const App = observer(() => {
   const modulesArray = moduleKeys.map((moduleKey) => moduleFeatures[moduleKey]);
   const sceneMap = new Map<string, React.FunctionComponent>();
 
-  Clients.storageClient.getItem("isLogin").then((isLogin) => {
-    console.log({ isLogin });
-    if (isLogin) {
-      const path = window.location.pathname;
-      if (path !== "/") navigate(window.location.pathname);
-      else navigate("/dashbord");
-    } else {
-      navigate("/");
-    }
-  });
+  // Clients.storageClient.getItem("isLogin").then((isLogin) => {
+  //   console.log({ isLogin });
+  //   if (isLogin) {
+  //     const path = window.location.pathname;
+  //     if (path !== "/") navigate(window.location.pathname);
+  //     else navigate("/dashbord");
+  //   } else {
+  //     navigate("/");
+  //   }
+  // });
 
   modulesArray.forEach((moduleObject) => {
     Object.keys(moduleObject.Scenes).forEach((sceneKey) => {
@@ -238,7 +244,7 @@ const App = observer(() => {
 
   return (
     <>
-      <div className="fixed w-52 bg-gray-800 h-screen">
+      {/* <div className="fixed w-52 bg-gray-800 h-screen">
         <div className="px-4 py-3 flex flex-row justify-start items-center mb-3">
           <div className="flex-1 mt-1">
             <p className="m-0 flex-1 text-lg font-bold text-white leading-4">
@@ -292,10 +298,10 @@ const App = observer(() => {
             ))}
           </div>
         ))}
-      </div>
+      </div> */}
 
-      <div className="ml-52 bg-gray-100 min-h-screen">
-        {/* {rootStore.processLoading && <LibraryComponents.Loader />} */}
+      {/* <div className="ml-52 bg-gray-100 min-h-screen">
+         {rootStore.processLoading && <LibraryComponents.Loader />}
         <Router>
           <LoginPage
             path="/"
@@ -308,11 +314,25 @@ const App = observer(() => {
             return <Component path={feature.path} />;
           })}
         </Router>
-        <LibraryComponents.ToastsContainer
-          position={LibraryComponents.ToastsContainerPosition.BOTTOM_RIGHT}
-          store={LibraryComponents.ToastsStore}
+        
+      </div> */}
+      <Provider store={store}>
+        <Routes />
+        <ReduxToastr
+          timeOut={5000}
+          newestOnTop={true}
+          position="top-right"
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+          closeOnToastrClick
         />
-      </div>
+      </Provider>
+      <LibraryComponents.ToastsContainer
+        position={LibraryComponents.ToastsContainerPosition.BOTTOM_RIGHT}
+        store={LibraryComponents.ToastsStore}
+        className="h-20"
+      />
     </>
   );
 });
