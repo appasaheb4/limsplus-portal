@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Container } from "reactstrap";
 
 interface ModalProps {
   show?: boolean;
@@ -14,11 +15,11 @@ export default function ModalConfirm(props: ModalProps) {
   }, [props]);
 
   return (
-    <>
+    <Container>
       {showModal && (
         <>
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             onClick={() => setShowModal(false)}
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -70,6 +71,6 @@ export default function ModalConfirm(props: ModalProps) {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       )}
-    </>
+    </Container>
   );
 }
