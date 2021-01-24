@@ -76,7 +76,7 @@ const Lab = observer(() => {
                   });
                 }}
               />
-              
+
               {errors?.name && (
                 <span className="text-red-600 font-medium relative">
                   {errors.name}
@@ -189,7 +189,7 @@ const Lab = observer(() => {
                 >
                   Export CSV!!
                 </ExportCSVButton>
-                <hr />
+                <br />
                 <BootstrapTable
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
