@@ -12582,7 +12582,7 @@ body.toastr-confirm-active {
   z-index: 1; }
 
 .react-bootstrap-table table {
-  table-layout: fixed; }
+  table-layout: auto; }
 
 .react-bootstrap-table th.sortable {
   cursor: pointer; }

@@ -57,10 +57,7 @@ const Login = observer(() => {
                     <Bootstrap.Carousel.Item interval={5000}>
                       <img
                         src={item.image}
-                        style={{
-                          width: window.innerWidth / 2,
-                          height: window.innerHeight / 2,
-                        }}
+                        className="flex flex-col-reverse"
                         alt="First slide"
                       />
                     </Bootstrap.Carousel.Item>
