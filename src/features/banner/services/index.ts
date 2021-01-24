@@ -36,8 +36,6 @@ export const listBanner = () =>
     client
       .get(`${RELATIVE_PATH}/listBanner`)
       .then((res) => {
-        console.log({ banner: res });
-
         resolve(res.data.data);
       })
       .catch((error) => {
