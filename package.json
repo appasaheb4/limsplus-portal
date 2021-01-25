@@ -54,6 +54,7 @@
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
+    "build-prod": "craco build && rimraf build/static/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
