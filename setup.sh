@@ -1,0 +1,1 @@
+cp mods/tsconfig.json tsconfig.json
