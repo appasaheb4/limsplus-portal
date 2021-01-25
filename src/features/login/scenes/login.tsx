@@ -16,15 +16,15 @@ const Login = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   const [errors, setErrors] = useState<ModelsUser.Login>()
 
-  useEffect(() => {
-    Clients.storageClient.getItem("isLogin").then((isLogin) => {
-      if (isLogin) {
-        history.push("/dashboard")
-      } else {
-        history.push("/")
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   Clients.storageClient.getItem("isLogin").then((isLogin) => {
+  //     if (isLogin) {
+  //       history.push("/dashboard")
+  //     } else {
+  //       history.push("/")
+  //     }
+  //   })
+  // }, [])
 
   return (
     <>
