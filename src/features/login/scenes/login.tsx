@@ -1,48 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Collapse,
-  Container,
-  Media,
-  Nav,
-  NavItem,
-  NavLink,
-  Navbar,
-  NavbarBrand,
-  Row,
-} from "reactstrap";
-import * as Assets from "@lp/library/assets";
-import * as Bootstrap from "react-bootstrap";
-import Contexts from "@lp/library/stores";
-import * as Models from "@lp/models";
-import * as Utils from "@lp/library/utils";
-import * as ModelsUser from "@lp/features/users/models";
-import * as Features from "@lp/features";
-import * as Clients from "@lp/library/clients";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import { Col, Container, Row } from "reactstrap"
+import * as Assets from "@lp/library/assets"
+import * as Bootstrap from "react-bootstrap"
+import Contexts from "@lp/library/stores"
+import * as Utils from "@lp/library/utils"
+import * as ModelsUser from "@lp/features/users/models"
+import * as Features from "@lp/features"
+import * as Clients from "@lp/library/clients"
+import { useHistory } from "react-router-dom"
 
 const Login = observer(() => {
-  const history = useHistory();
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<ModelsUser.Login>();
+  const history = useHistory()
+  const rootStore = React.useContext(Contexts.rootStore)
+  const [errors, setErrors] = useState<ModelsUser.Login>()
 
   useEffect(() => {
     Clients.storageClient.getItem("isLogin").then((isLogin) => {
-      console.log({ isLogin });
+      console.log({ isLogin })
       if (isLogin) {
-        history.push("/dashboard");
+        history.push("/dashboard")
       } else {
-        history.push("/");
+        history.push("/")
       }
-    });
-  }, []);
+    })
+  }, [])
 
   return (
     <>
@@ -80,28 +63,23 @@ const Login = observer(() => {
                     name="lab"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const lab = e.target.value;
+                      const lab = e.target.value
                       setErrors({
                         ...errors,
-                        lab: Utils.validate.single(
-                          lab,
-                          Utils.constraintsLogin.lab
-                        ),
-                      });
+                        lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
+                      })
                       rootStore.userStore.updateInputUser({
                         ...rootStore.userStore.inputLogin,
                         lab,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map(
-                      (item: any, index: number) => (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={item.name} value={item.name}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
                 {errors?.lab && (
@@ -121,11 +99,11 @@ const Login = observer(() => {
                         userId,
                         Utils.constraintsLogin.userId
                       ),
-                    });
+                    })
                     rootStore.userStore.updateInputUser({
                       ...rootStore.userStore.inputLogin,
                       userId,
-                    });
+                    })
                   }}
                 />
                 {errors?.userId && (
@@ -146,11 +124,11 @@ const Login = observer(() => {
                         password,
                         Utils.constraintsLogin.password
                       ),
-                    });
+                    })
                     rootStore.userStore.updateInputUser({
                       ...rootStore.userStore.inputLogin,
                       password,
-                    });
+                    })
                   }}
                 />
                 {errors?.password && (
@@ -172,33 +150,31 @@ const Login = observer(() => {
                         Utils.constraintsLogin
                       ) === undefined
                     ) {
-                      rootStore.setProcessLoading(true);
-                      Features.Users.Pipes.onLogin(
-                        rootStore.userStore.inputLogin
-                      )
+                      rootStore.setProcessLoading(true)
+                      Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
                         .then((res) => {
-                          rootStore.setProcessLoading(false);
+                          rootStore.setProcessLoading(false)
                           if (res.length <= 0) {
                             LibraryComponents.ToastsStore.error(
                               "User not found. Please enter correct information!"
-                            );
+                            )
                           } else {
                             LibraryComponents.ToastsStore.success(
                               `Welcome ${res[0].userId}`
-                            );
-                            Clients.storageClient.setItem("isLogin", res[0]);
-                            history.push("/dashboard");
+                            )
+                            Clients.storageClient.setItem("isLogin", res[0])
+                            history.push("/dashboard")
                           }
                         })
                         .catch(() => {
                           LibraryComponents.ToastsStore.error(
                             "User not found. Please enter correct information!"
-                          );
-                        });
+                          )
+                        })
                     } else {
                       LibraryComponents.ToastsStore.warning(
                         "Please enter all information!"
-                      );
+                      )
                     }
                   }}
                 >
@@ -209,7 +185,7 @@ const Login = observer(() => {
                   type="outline"
                   icon={LibraryComponents.Icons.Remove}
                   onClick={() => {
-                    rootStore.userStore.clearLogin();
+                    rootStore.userStore.clearLogin()
                   }}
                 >
                   Clear
@@ -220,7 +196,7 @@ const Login = observer(() => {
         </Row>
       </Container>
     </>
-  );
-});
+  )
+})
 
-export default Login;
+export default Login

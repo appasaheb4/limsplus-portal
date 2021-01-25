@@ -3,15 +3,11 @@ import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import * as LibraryModels from "@lp/library/models";
 import * as Models from "../models";
-import * as Utils from "@lp/library/utils";
-import moment from "moment";
-import * as Features from "@lp/features";
 import Contexts from "@lp/library/stores";
 import * as Services from "../services";
 
 const Banner = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<Models.IBanner>();
   const [deleteItem, setDeleteItem] = useState<any>({});
 
   return (

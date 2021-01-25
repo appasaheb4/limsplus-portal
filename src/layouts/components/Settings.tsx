@@ -4,9 +4,6 @@ import { connect } from "react-redux";
 import { toggleBoxedLayout } from "../../redux/actions/layoutActions";
 import { toggleStickySidebar } from "../../redux/actions/sidebarActions";
 import { toggleSidebar } from "../../redux/actions/sidebarActions";
-import { enableClassicTheme } from "../../redux/actions/themeActions";
-import { enableCorporateTheme } from "../../redux/actions/themeActions";
-import { enableModernTheme } from "../../redux/actions/themeActions";
 
 import { Badge, Button } from "reactstrap";
 import PerfectScrollbar from "react-perfect-scrollbar";
@@ -15,7 +12,6 @@ import { Settings as SettingsIcon } from "react-feather";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleRight,
-  faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 
 type Props = { layout; sidebar; dispatch };

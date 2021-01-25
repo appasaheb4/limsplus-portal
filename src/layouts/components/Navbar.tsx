@@ -29,7 +29,6 @@ import {
   MessageCircle,
   PieChart,
   Settings,
-  User,
   UserPlus,
 } from "react-feather";
 

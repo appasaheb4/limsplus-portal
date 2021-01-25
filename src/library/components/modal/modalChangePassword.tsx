@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import * as LibraryComponents from "@lp/library/components";
-import * as Models from "@lp/features/users/models";
-import * as Utils from "@lp/library/utils";
-import Contexts from "@lp/library/stores";
+import React, { useState } from "react"
+import * as LibraryComponents from "@lp/library/components"
+import * as Models from "@lp/features/users/models"
+import * as Utils from "@lp/library/utils"
+import Contexts from "@lp/library/stores"
 
 interface ModalProps {
-  title?: string;
-  click: () => void;
-  close: () => void;
+  title?: string
+  click: () => void
+  close: () => void
 }
 
 export default function ModalChangePassword(props: ModalProps) {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<Models.ChangePassword>();
+  const rootStore = React.useContext(Contexts.rootStore)
+  const [errors, setErrors] = useState<Models.ChangePassword>()
 
   // useEffect(() => {
   //   setShowModal(props.show);
@@ -58,11 +58,11 @@ export default function ModalChangePassword(props: ModalProps) {
                           oldPassword,
                           Utils.constraintsChangePassword.oldPassword
                         ),
-                      });
+                      })
                       rootStore.userStore.updateChangePassword({
                         ...rootStore.userStore.changePassword,
                         oldPassword,
-                      });
+                      })
                     }}
                   />
                   {errors?.oldPassword && (
@@ -87,11 +87,11 @@ export default function ModalChangePassword(props: ModalProps) {
                                 Utils.constraintsChangePassword.newPassword
                               )
                             : "Please use diff password!",
-                      });
+                      })
                       rootStore.userStore.updateChangePassword({
                         ...rootStore.userStore.changePassword,
                         newPassword,
-                      });
+                      })
                     }}
                   />
                   {errors?.newPassword && (
@@ -116,11 +116,11 @@ export default function ModalChangePassword(props: ModalProps) {
                                 confirmPassword,
                                 Utils.constraintsChangePassword.confirmPassword
                               ),
-                      });
+                      })
                       rootStore.userStore.updateChangePassword({
                         ...rootStore.userStore.changePassword,
                         confirmPassword,
-                      });
+                      })
                     }}
                   />
                   {errors?.confirmPassword && (
@@ -152,11 +152,11 @@ export default function ModalChangePassword(props: ModalProps) {
                       ) === undefined &&
                       !Utils.checkNotUndefined(errors)
                     ) {
-                      props.click();
+                      props.click()
                     } else {
                       LibraryComponents.ToastsStore.warning(
                         "Please enter all information!"
-                      );
+                      )
                     }
                   }}
                 >
@@ -169,5 +169,5 @@ export default function ModalChangePassword(props: ModalProps) {
         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
       </>
     </>
-  );
+  )
 }

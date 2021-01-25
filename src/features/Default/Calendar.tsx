@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Card,
   CardBody,
@@ -8,11 +8,9 @@ import {
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
-} from "reactstrap";
+} from "reactstrap"
 
-import { MoreHorizontal } from "react-feather";
-
-import DateTime from "react-datetime";
+import { MoreHorizontal } from "react-feather"
 
 const Calendar = () => (
   <Card className="flex-fill w-100">
@@ -44,6 +42,6 @@ const Calendar = () => (
       </div>
     </CardBody>
   </Card>
-);
+)
 
-export default Calendar;
+export default Calendar
