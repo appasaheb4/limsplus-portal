@@ -1,216 +1,195 @@
-import React, { useContext, useEffect, useState } from "react";
-import { observer } from "mobx-react";
-import { Router, Link, RouteComponentProps, navigate } from "@reach/router";
-import * as Features from "@lp/features";
-import * as LibraryComponents from "@lp/library/components";
-import Contexts from "@lp/library/stores";
-import * as Models from "@lp/models";
-import * as ModelsUser from "@lp/features/users/models";
-import * as Utils from "@lp/library/utils";
-import * as Assets from "@lp/library/assets";
-import * as Clients from "@lp/library/clients";
-import * as Bootstrap from "react-bootstrap";
-import { Provider } from "react-redux";
-import ReduxToastr from "react-redux-toastr";
+import React from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import { Provider } from "react-redux"
+import ReduxToastr from "react-redux-toastr"
+import store from "./redux/store/index"
+import Routes from "./routes/Routes"
 
-import store from "./redux/store/index";
+// interface LoginPageProps extends RouteComponentProps {
+//   definitions: Models.Definition[]
+// }
 
-import Routes from "./routes/Routes";
+// const LoginPage: React.FunctionComponent<LoginPageProps> = observer((props) => {
+//   const rootStore = React.useContext(Contexts.rootStore)
+//   const [errors, setErrors] = useState<ModelsUser.Login>()
 
-interface LoginPageProps extends RouteComponentProps {
-  definitions: Models.Definition[];
-}
+//   return (
+//     <>
+//       <div className="h-screen w-screen fixed left-0 top-0 bg-gray-600 flex flex-col justify-center">
+//         <div className="grid grid-cols-2">
+//           <div className="flex flex-col justify-center items-center md:w-32 lg:w-48">
+//             <img src={Assets.logo} className="w-20 h-15" alt="logo" />
+//             <div className="mt-2 mb-2">
+//               <Bootstrap.Carousel>
+//                 {rootStore.bannerStore.listBanner.map((item, index) => (
+//                   <Bootstrap.Carousel.Item interval={5000}>
+//                     <img
+//                       src={item.image}
+//                       style={{
+//                         width: window.innerWidth / 3,
+//                         height: window.innerHeight / 2,
+//                       }}
+//                       alt="First slide"
+//                     />
+//                     <Bootstrap.Carousel.Caption>
+//                       <h3 className="text-black">{item.title}</h3>
+//                     </Bootstrap.Carousel.Caption>
+//                   </Bootstrap.Carousel.Item>
+//                 ))}
+//               </Bootstrap.Carousel>
+//             </div>
+//             <h2 className="text-2xl text-white font-bold">Lims Plus</h2>
+//           </div>
 
-const LoginPage: React.FunctionComponent<LoginPageProps> = observer((props) => {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<ModelsUser.Login>();
-
-  return (
-    <>
-      <div className="h-screen w-screen fixed left-0 top-0 bg-gray-600 flex flex-col justify-center">
-        <div className="grid grid-cols-2">
-          <div className="flex flex-col justify-center items-center md:w-32 lg:w-48">
-            <img src={Assets.logo} className="w-20 h-15" alt="logo" />
-            <div className="mt-2 mb-2">
-              <Bootstrap.Carousel>
-                {rootStore.bannerStore.listBanner.map((item, index) => (
-                  <Bootstrap.Carousel.Item interval={5000}>
-                    <img
-                      src={item.image}
-                      style={{
-                        width: window.innerWidth / 3,
-                        height: window.innerHeight / 2,
-                      }}
-                      alt="First slide"
-                    />
-                    <Bootstrap.Carousel.Caption>
-                      <h3 className="text-black">{item.title}</h3>
-                    </Bootstrap.Carousel.Caption>
-                  </Bootstrap.Carousel.Item>
-                ))}
-              </Bootstrap.Carousel>
-            </div>
-            <h2 className="text-2xl text-white font-bold">Lims Plus</h2>
-          </div>
-
-          <div className="bg-white p-6 rounded-md max-w-md">
-            <LibraryComponents.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
-                <select
-                  name="lab"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const lab = e.target.value;
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(
-                        lab,
-                        Utils.constraintsLogin.lab
-                      ),
-                    });
-                    rootStore.userStore.updateInputUser({
-                      ...rootStore.userStore.inputLogin,
-                      lab,
-                    });
-                  }}
-                >
-                  <option selected>Select</option>
-                  {rootStore.labStore.listLabs.map(
-                    (item: any, index: number) => (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
-              {errors?.lab && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.lab}
-                </span>
-              )}
-              <LibraryComponents.Form.Input
-                label="User Id"
-                id="userId"
-                placeholder="User Id"
-                value={rootStore.userStore.inputLogin.userId}
-                onChange={(userId) => {
-                  setErrors({
-                    ...errors,
-                    userId: Utils.validate.single(
-                      userId,
-                      Utils.constraintsLogin.userId
-                    ),
-                  });
-                  rootStore.userStore.updateInputUser({
-                    ...rootStore.userStore.inputLogin,
-                    userId,
-                  });
-                }}
-              />
-              {errors?.userId && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.userId}
-                </span>
-              )}
-              <LibraryComponents.Form.Input
-                type="password"
-                label="Password"
-                id="password"
-                placeholder="Password"
-                value={rootStore.userStore.inputLogin.password}
-                onChange={(password) => {
-                  setErrors({
-                    ...errors,
-                    password: Utils.validate.single(
-                      password,
-                      Utils.constraintsLogin.password
-                    ),
-                  });
-                  rootStore.userStore.updateInputUser({
-                    ...rootStore.userStore.inputLogin,
-                    password,
-                  });
-                }}
-              />
-              {errors?.password && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.password}
-                </span>
-              )}
-            </LibraryComponents.List>
-            <br />
-            <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Button
-                size="medium"
-                type="solid"
-                icon={LibraryComponents.Icons.Check}
-                onClick={() => {
-                  if (
-                    Utils.validate(
-                      rootStore.userStore.inputLogin,
-                      Utils.constraintsLogin
-                    ) === undefined
-                  ) {
-                    rootStore.setProcessLoading(true);
-                    Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
-                      .then((res) => {
-                        rootStore.setProcessLoading(false);
-                        if (res.length <= 0) {
-                          LibraryComponents.ToastsStore.error(
-                            "User not found. Please enter correct information!"
-                          );
-                        } else {
-                          LibraryComponents.ToastsStore.success(
-                            `Welcome ${res[0].userId}`
-                          );
-                          Clients.storageClient.setItem("isLogin", res[0]);
-                          navigate("/dashbord");
-                        }
-                      })
-                      .catch(() => {
-                        LibraryComponents.ToastsStore.error(
-                          "User not found. Please enter correct information!"
-                        );
-                      });
-                  } else {
-                    LibraryComponents.ToastsStore.warning(
-                      "Please enter all information!"
-                    );
-                  }
-                }}
-              >
-                Login
-              </LibraryComponents.Button>
-              <LibraryComponents.Button
-                size="medium"
-                type="outline"
-                icon={LibraryComponents.Icons.Remove}
-                onClick={() => {
-                  rootStore.userStore.clearLogin();
-                }}
-              >
-                Clear
-              </LibraryComponents.Button>
-            </LibraryComponents.List>
-          </div>
-        </div>
-      </div>
-      ;
-    </>
-  );
-});
+//           <div className="bg-white p-6 rounded-md max-w-md">
+//             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+//               <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+//                 <select
+//                   name="lab"
+//                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+//                   onChange={(e) => {
+//                     const lab = e.target.value
+//                     setErrors({
+//                       ...errors,
+//                       lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
+//                     })
+//                     rootStore.userStore.updateInputUser({
+//                       ...rootStore.userStore.inputLogin,
+//                       lab,
+//                     })
+//                   }}
+//                 >
+//                   <option selected>Select</option>
+//                   {rootStore.labStore.listLabs.map((item: any, index: number) => (
+//                     <option key={item.name} value={item.name}>
+//                       {item.name}
+//                     </option>
+//                   ))}
+//                 </select>
+//               </LibraryComponents.Form.InputWrapper>
+//               {errors?.lab && (
+//                 <span className="text-red-600 font-medium relative">
+//                   {errors.lab}
+//                 </span>
+//               )}
+//               <LibraryComponents.Form.Input
+//                 label="User Id"
+//                 id="userId"
+//                 placeholder="User Id"
+//                 value={rootStore.userStore.inputLogin.userId}
+//                 onChange={(userId) => {
+//                   setErrors({
+//                     ...errors,
+//                     userId: Utils.validate.single(
+//                       userId,
+//                       Utils.constraintsLogin.userId
+//                     ),
+//                   })
+//                   rootStore.userStore.updateInputUser({
+//                     ...rootStore.userStore.inputLogin,
+//                     userId,
+//                   })
+//                 }}
+//               />
+//               {errors?.userId && (
+//                 <span className="text-red-600 font-medium relative">
+//                   {errors.userId}
+//                 </span>
+//               )}
+//               <LibraryComponents.Form.Input
+//                 type="password"
+//                 label="Password"
+//                 id="password"
+//                 placeholder="Password"
+//                 value={rootStore.userStore.inputLogin.password}
+//                 onChange={(password) => {
+//                   setErrors({
+//                     ...errors,
+//                     password: Utils.validate.single(
+//                       password,
+//                       Utils.constraintsLogin.password
+//                     ),
+//                   })
+//                   rootStore.userStore.updateInputUser({
+//                     ...rootStore.userStore.inputLogin,
+//                     password,
+//                   })
+//                 }}
+//               />
+//               {errors?.password && (
+//                 <span className="text-red-600 font-medium relative">
+//                   {errors.password}
+//                 </span>
+//               )}
+//             </LibraryComponents.List>
+//             <br />
+//             <LibraryComponents.List direction="row" space={3} align="center">
+//               <LibraryComponents.Button
+//                 size="medium"
+//                 type="solid"
+//                 icon={LibraryComponents.Icons.Check}
+//                 onClick={() => {
+//                   if (
+//                     Utils.validate(
+//                       rootStore.userStore.inputLogin,
+//                       Utils.constraintsLogin
+//                     ) === undefined
+//                   ) {
+//                     rootStore.setProcessLoading(true)
+//                     Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
+//                       .then((res) => {
+//                         rootStore.setProcessLoading(false)
+//                         if (res.length <= 0) {
+//                           LibraryComponents.ToastsStore.error(
+//                             "User not found. Please enter correct information!"
+//                           )
+//                         } else {
+//                           LibraryComponents.ToastsStore.success(
+//                             `Welcome ${res[0].userId}`
+//                           )
+//                           Clients.storageClient.setItem("isLogin", res[0])
+//                           navigate("/dashbord")
+//                         }
+//                       })
+//                       .catch(() => {
+//                         LibraryComponents.ToastsStore.error(
+//                           "User not found. Please enter correct information!"
+//                         )
+//                       })
+//                   } else {
+//                     LibraryComponents.ToastsStore.warning(
+//                       "Please enter all information!"
+//                     )
+//                   }
+//                 }}
+//               >
+//                 Login
+//               </LibraryComponents.Button>
+//               <LibraryComponents.Button
+//                 size="medium"
+//                 type="outline"
+//                 icon={LibraryComponents.Icons.Remove}
+//                 onClick={() => {
+//                   rootStore.userStore.clearLogin()
+//                 }}
+//               >
+//                 Clear
+//               </LibraryComponents.Button>
+//             </LibraryComponents.List>
+//           </div>
+//         </div>
+//       </div>
+//       ;
+//     </>
+//   )
+// })
 
 const App = observer(() => {
-  const moduleKeys = Object.keys(Features);
-  const moduleFeatures = (Features as any) as Models.Modules;
-  const modulesArray = moduleKeys.map((moduleKey) => moduleFeatures[moduleKey]);
-  const sceneMap = new Map<string, React.FunctionComponent>();
+  // const moduleKeys = Object.keys(Features);
+  // const moduleFeatures = (Features as any) as Models.Modules;
+  // const modulesArray = moduleKeys.map((moduleKey) => moduleFeatures[moduleKey]);
+  // const sceneMap = new Map<string, React.FunctionComponent>();
 
   // Clients.storageClient.getItem("isLogin").then((isLogin) => {
   //   console.log({ isLogin });
@@ -223,24 +202,24 @@ const App = observer(() => {
   //   }
   // });
 
-  modulesArray.forEach((moduleObject) => {
-    Object.keys(moduleObject.Scenes).forEach((sceneKey) => {
-      sceneMap.set(sceneKey, moduleObject.Scenes[sceneKey]);
-    });
-  });
+  // modulesArray.forEach((moduleObject) => {
+  //   Object.keys(moduleObject.Scenes).forEach((sceneKey) => {
+  //     sceneMap.set(sceneKey, moduleObject.Scenes[sceneKey]);
+  //   });
+  // });
 
-  const featuresArray = Utils.flatten(
-    modulesArray.map((module) => module.Definition)
-  );
+  // const featuresArray = Utils.flatten(
+  //   modulesArray.map((module) => module.Definition)
+  // );
 
-  const featureGroups = Utils.unique(
-    featuresArray.map((feature) => feature.category)
-  );
+  // const featureGroups = Utils.unique(
+  //   featuresArray.map((feature) => feature.category)
+  // );
 
-  const groups = featureGroups.map((group) => ({
-    label: group,
-    items: featuresArray.filter((feature) => feature.category === group),
-  }));
+  // const groups = featureGroups.map((group) => ({
+  //   label: group,
+  //   items: featuresArray.filter((feature) => feature.category === group),
+  // }));
 
   return (
     <>
@@ -334,7 +313,7 @@ const App = observer(() => {
         className="h-20"
       />
     </>
-  );
-});
+  )
+})
 
-export default App;
+export default App

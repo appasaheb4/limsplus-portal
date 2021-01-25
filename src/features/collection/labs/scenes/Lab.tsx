@@ -1,8 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { observer } from "mobx-react";
 import * as LibraryComponents from "@lp/library/components";
 import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import ToolkitProvider, {
   Search,
   CSVExport,

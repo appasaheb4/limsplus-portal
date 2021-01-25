@@ -1,4 +1,4 @@
-import Dashbord from "./dashborad";
+
 import Banner from "./banner";
 
 // collection
@@ -12,7 +12,6 @@ import LoginOut from "./login";
 import ChangePassword from "./changePassword";
 
 export {
-  Dashbord,
   Banner,
   Lab,
   Department,

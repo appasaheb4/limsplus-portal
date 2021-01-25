@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import * as Models from "../models";
-import * as Utils from "@lp/library/utils";
-import moment from "moment";
-import * as Features from "@lp/features";
-import Contexts from "@lp/library/stores";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-} from "react-bootstrap-table2-toolkit";
-import * as Services from "../services";
-import { Container } from "reactstrap";
+import React, { useState, useEffect } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import * as Models from "../models"
+import * as Utils from "@lp/library/utils"
+import moment from "moment"
+import * as Features from "@lp/features"
+import Contexts from "@lp/library/stores"
+import BootstrapTable from "react-bootstrap-table-next"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import * as Services from "../services"
+import { Container } from "reactstrap"
 
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
+const { SearchBar, ClearSearchButton } = Search
+const { ExportCSVButton } = CSVExport
 
 const Users = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [errors, setErrors] = useState<Models.Users>();
-  const [deleteUser, setDeleteUser] = useState<any>({});
+  const rootStore = React.useContext(Contexts.rootStore)
+  const [errors, setErrors] = useState<Models.Users>()
+  const [deleteUser, setDeleteUser] = useState<any>({})
 
   useEffect(() => {
-    rootStore.userStore.loadUser();
-  }, []);
+    rootStore.userStore.loadUser()
+  }, [rootStore.userStore])
 
   const afterSaveCell = (oldValue, newValue, row, column) => {
     if (oldValue !== newValue) {
@@ -35,12 +32,12 @@ const Users = observer(() => {
         id: row._id,
       }).then((res) => {
         if (res.data) {
-          rootStore.userStore.loadUser();
-          LibraryComponents.ToastsStore.success(`User update.`);
+          rootStore.userStore.loadUser()
+          LibraryComponents.ToastsStore.success(`User update.`)
         }
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -72,19 +69,18 @@ const Users = observer(() => {
                         userId,
                         Utils.constraintsUser.userId
                       ),
-                    });
+                    })
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
                       userId,
-                    });
+                    })
                   }}
                   onBlur={(userId) => {
                     Services.checkExitsUserId(userId).then((res) => {
                       if (res)
-                        if (res.length > 0)
-                          rootStore.userStore.setExitsUserId(true);
-                        else rootStore.userStore.setExitsUserId(false);
-                    });
+                        if (res.length > 0) rootStore.userStore.setExitsUserId(true)
+                        else rootStore.userStore.setExitsUserId(false)
+                    })
                   }}
                 />
                 {errors?.userId && (
@@ -103,28 +99,23 @@ const Users = observer(() => {
                     name="lab"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const lab = e.target.value;
+                      const lab = e.target.value
                       setErrors({
                         ...errors,
-                        lab: Utils.validate.single(
-                          lab,
-                          Utils.constraintsUser.lab
-                        ),
-                      });
+                        lab: Utils.validate.single(lab, Utils.constraintsUser.lab),
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         lab,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map(
-                      (item: any, index: number) => (
-                        <option key={item.name} value={item.code}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={item.name} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
                 {errors?.lab && (
@@ -145,11 +136,11 @@ const Users = observer(() => {
                         password,
                         Utils.constraintsUser.password
                       ),
-                    });
+                    })
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
                       password,
-                    });
+                    })
                   }}
                 />
                 {errors?.password && (
@@ -165,7 +156,7 @@ const Users = observer(() => {
                     name="deginisation"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const deginisation = e.target.value;
+                      const deginisation = e.target.value
                       setErrors({
                         ...errors,
                         deginisation:
@@ -175,11 +166,11 @@ const Users = observer(() => {
                                 Utils.constraintsUser.deginisation
                               )
                             : "Deginisation requried",
-                      });
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         deginisation,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
@@ -212,11 +203,11 @@ const Users = observer(() => {
                               Utils.constraintsUser.status
                             )
                           : "Status requried",
-                    });
+                    })
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
                       status,
-                    });
+                    })
                   }}
                 />
               </LibraryComponents.List>
@@ -241,11 +232,11 @@ const Users = observer(() => {
                               Utils.constraintsUser.fullName
                             )
                           : "Full Name required!",
-                    });
+                    })
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
                       fullName,
-                    });
+                    })
                   }}
                 />
                 {errors?.fullName && (
@@ -262,7 +253,7 @@ const Users = observer(() => {
                     name="department"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const department = e.target.value;
+                      const department = e.target.value
                       setErrors({
                         ...errors,
                         department:
@@ -272,11 +263,11 @@ const Users = observer(() => {
                                 Utils.constraintsUser.department
                               )
                             : "Department required!",
-                      });
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         department,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
@@ -303,26 +294,24 @@ const Users = observer(() => {
                       "YYYY-MM-DD"
                     )}
                     onChange={(e: any) => {
-                      let date = new Date(e.target.value);
+                      let date = new Date(e.target.value)
                       date = new Date(
                         moment(date)
                           .add(rootStore.userStore.user.exipreDays, "days")
                           .format("YYYY-MM-DD HH:mm")
-                      );
-                      const formatDate = moment(date).format(
-                        "YYYY-MM-DD HH:mm"
-                      );
+                      )
+                      const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
                       setErrors({
                         ...errors,
                         exipreDate: Utils.validate.single(
                           formatDate,
                           Utils.constraintsUser.exipreDate
                         ),
-                      });
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         exipreDate: new Date(formatDate),
-                      });
+                      })
                     }}
                   />
                   {errors?.exipreDate && (
@@ -347,11 +336,11 @@ const Users = observer(() => {
                                 Utils.constraintsUser.exipreDays
                               )
                             : "Exipre Days required!",
-                      });
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         exipreDays,
-                      });
+                      })
                     }}
                   />
 
@@ -363,14 +352,14 @@ const Users = observer(() => {
                         moment(rootStore.userStore.user.exipreDate)
                           .add(rootStore.userStore.user.exipreDays, "days")
                           .format("YYYY-MM-DD HH:mm")
-                      );
+                      )
                       const exipreDate = new Date(
                         moment(date).format("YYYY-MM-DD HH:mm")
-                      );
+                      )
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         exipreDate,
-                      });
+                      })
                     }}
                   >
                     Apply Days
@@ -387,31 +376,26 @@ const Users = observer(() => {
                     name="role"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const role = e.target.value;
+                      const role = e.target.value
                       setErrors({
                         ...errors,
                         role:
                           role !== ""
-                            ? Utils.validate.single(
-                                role,
-                                Utils.constraintsUser.role
-                              )
+                            ? Utils.validate.single(role, Utils.constraintsUser.role)
                             : "Role required!",
-                      });
+                      })
                       rootStore.userStore.updateUser({
                         ...rootStore.userStore.user,
                         role,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.roleStore.listRole.map(
-                      (item: any, index: number) => (
-                        <option key={item.description} value={item.code}>
-                          {item.description}
-                        </option>
-                      )
-                    )}
+                    {rootStore.roleStore.listRole.map((item: any, index: number) => (
+                      <option key={item.description} value={item.code}>
+                        {item.description}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
                 {errors?.role && (
@@ -436,19 +420,17 @@ const Users = observer(() => {
                     ) === undefined &&
                     !rootStore.userStore.checkExitsUserId
                   ) {
-                    rootStore.setProcessLoading(true);
-                    Features.Users.Pipes.addUser(rootStore.userStore).then(
-                      (res) => {
-                        rootStore.setProcessLoading(false);
-                        LibraryComponents.ToastsStore.success(`User created.`);
-                        rootStore.userStore.clear();
-                        rootStore.userStore.loadUser();
-                      }
-                    );
+                    rootStore.setProcessLoading(true)
+                    Features.Users.Pipes.addUser(rootStore.userStore).then((res) => {
+                      rootStore.setProcessLoading(false)
+                      LibraryComponents.ToastsStore.success(`User created.`)
+                      rootStore.userStore.clear()
+                      rootStore.userStore.loadUser()
+                    })
                   } else {
                     LibraryComponents.ToastsStore.warning(
                       "Please enter all information!"
-                    );
+                    )
                   }
                 }}
               >
@@ -459,7 +441,7 @@ const Users = observer(() => {
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
                 onClick={() => {
-                  rootStore.userStore.clear();
+                  rootStore.userStore.clear()
                 }}
               >
                 Clear
@@ -467,10 +449,7 @@ const Users = observer(() => {
             </LibraryComponents.List>
           </div>
           <br />
-          <div
-            className="m-1  rounded-lg shadow-xl"
-            style={{ overflowX: "scroll" }}
-          >
+          <div className="m-1  rounded-lg shadow-xl" style={{ overflowX: "scroll" }}>
             <ToolkitProvider
               keyField="id"
               data={rootStore.userStore.userList || []}
@@ -498,19 +477,17 @@ const Users = observer(() => {
                         name="lab"
                         className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                         onChange={(e) => {
-                          const lab = e.target.value;
+                          const lab = e.target.value
                           Services.updateUserSingleFiled({
                             newValue: lab,
                             dataField: column.dataField,
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser();
-                              LibraryComponents.ToastsStore.success(
-                                `User update.`
-                              );
+                              rootStore.userStore.loadUser()
+                              LibraryComponents.ToastsStore.success(`User update.`)
                             }
-                          });
+                          })
                         }}
                       >
                         <option selected>{row.lab}</option>
@@ -545,19 +522,17 @@ const Users = observer(() => {
                         name="department"
                         className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                         onChange={(e) => {
-                          const department = e.target.value;
+                          const department = e.target.value
                           Services.updateUserSingleFiled({
                             newValue: department,
                             dataField: column.dataField,
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser();
-                              LibraryComponents.ToastsStore.success(
-                                `User update.`
-                              );
+                              rootStore.userStore.loadUser()
+                              LibraryComponents.ToastsStore.success(`User update.`)
                             }
-                          });
+                          })
                         }}
                       >
                         <option selected>{row.department}</option>
@@ -588,19 +563,17 @@ const Users = observer(() => {
                         name="deginisation"
                         className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                         onChange={(e) => {
-                          const deginisation = e.target.value;
+                          const deginisation = e.target.value
                           Services.updateUserSingleFiled({
                             newValue: deginisation,
                             dataField: column.dataField,
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser();
-                              LibraryComponents.ToastsStore.success(
-                                `User update.`
-                              );
+                              rootStore.userStore.loadUser()
+                              LibraryComponents.ToastsStore.success(`User update.`)
                             }
-                          });
+                          })
                         }}
                       >
                         <option selected>{row.deginisation}</option>
@@ -631,19 +604,17 @@ const Users = observer(() => {
                         name="role"
                         className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                         onChange={(e) => {
-                          const role = e.target.value;
+                          const role = e.target.value
                           Services.updateUserSingleFiled({
                             newValue: role,
                             dataField: column.dataField,
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser();
-                              LibraryComponents.ToastsStore.success(
-                                `User update.`
-                              );
+                              rootStore.userStore.loadUser()
+                              LibraryComponents.ToastsStore.success(`User update.`)
                             }
-                          });
+                          })
                         }}
                       >
                         <option selected>{row.role}</option>
@@ -662,7 +633,7 @@ const Users = observer(() => {
                   text: "Exipre Date",
                   dataField: "exipreDate",
                   formatter: (cell, row) => {
-                    return moment(row.exipreDate).format("YYYY-MM-DD");
+                    return moment(row.exipreDate).format("YYYY-MM-DD")
                   },
                   editorRenderer: (
                     editorProps,
@@ -678,13 +649,9 @@ const Users = observer(() => {
                         id="exipreData"
                         value={moment(row.exipreDate).format("YYYY-MM-DD")}
                         onChange={(e: any) => {
-                          let date = new Date(e.target.value);
-                          date = new Date(
-                            moment(date).format("YYYY-MM-DD HH:mm")
-                          );
-                          const formatDate = moment(date).format(
-                            "YYYY-MM-DD HH:mm"
-                          );
+                          let date = new Date(e.target.value)
+                          date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
+                          const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
 
                           Services.updateUserSingleFiled({
                             newValue: new Date(formatDate),
@@ -692,12 +659,10 @@ const Users = observer(() => {
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser();
-                              LibraryComponents.ToastsStore.success(
-                                `User update.`
-                              );
+                              rootStore.userStore.loadUser()
+                              LibraryComponents.ToastsStore.success(`User update.`)
                             }
-                          });
+                          })
                         }}
                       />
                     </>
@@ -725,7 +690,7 @@ const Users = observer(() => {
                           value: "Disable",
                           label: "Disable",
                         },
-                      ];
+                      ]
                     },
                   },
                 },
@@ -746,7 +711,7 @@ const Users = observer(() => {
                             id: row._id,
                             title: "Are you sure?",
                             body: `Delete ${row.fullName} user!`,
-                          });
+                          })
                         }}
                       >
                         Delete
@@ -797,17 +762,17 @@ const Users = observer(() => {
             click={() => {
               Services.deleteUser(deleteUser.id).then((res: any) => {
                 if (res.status) {
-                  LibraryComponents.ToastsStore.success(`User deleted.`);
-                  setDeleteUser({ show: false });
-                  rootStore.userStore.loadUser();
+                  LibraryComponents.ToastsStore.success(`User deleted.`)
+                  setDeleteUser({ show: false })
+                  rootStore.userStore.loadUser()
                 }
-              });
+              })
             }}
           />
         </div>
       </Container>
     </>
-  );
-});
+  )
+})
 
-export default Users;
+export default Users
