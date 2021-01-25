@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   purge: false,
   darkMode: "media", // or 'media' or 'class'

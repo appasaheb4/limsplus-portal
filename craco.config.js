@@ -1,4 +1,4 @@
-// craco.config.js
+/* eslint-disable */
 module.exports = {
   plugins: [
     {
