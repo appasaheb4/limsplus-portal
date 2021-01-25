@@ -51,6 +51,7 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
+    "tsconfig": "setup.sh",
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
@@ -59,11 +60,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\"",
-    "tsconfig": "setup.sh"
+    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
   "pre-commit": [
-    "lint",
     "tsconfig"
   ],
   "eslintConfig": {
