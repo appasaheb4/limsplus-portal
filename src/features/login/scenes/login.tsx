@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { Col, Container, Row } from "reactstrap"
@@ -16,15 +16,15 @@ const Login = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   const [errors, setErrors] = useState<ModelsUser.Login>()
 
-  // useEffect(() => {
-  //   Clients.storageClient.getItem("isLogin").then((isLogin) => {
-  //     if (isLogin) {
-  //       history.push("/dashboard")
-  //     } else {
-  //       history.push("/")
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    Clients.storageClient.getItem("isLogin").then((isLogin) => {
+      if (isLogin) {
+        history.push("/dashboard")
+      } else {
+        history.push("/")
+      }
+    })
+  }, [null])
 
   return (
     <>
