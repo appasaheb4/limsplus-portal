@@ -18,7 +18,6 @@ const Login = observer(() => {
 
   useEffect(() => {
     Clients.storageClient.getItem("isLogin").then((isLogin) => {
-      console.log({ isLogin })
       if (isLogin) {
         history.push("/dashboard")
       } else {
