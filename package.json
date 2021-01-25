@@ -20,6 +20,7 @@
     "axios": "^0.20.0",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
+    "eslint": "^6.6.0",
     "mobx": "^5.15.6",
     "mobx-react": "^6.3.0",
     "mobx-react-lite": "^2.2.1",
