@@ -52,6 +52,7 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
+    "setup": "git reset tsconfig.json",
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
@@ -62,9 +63,12 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
+  "pre-commit": [
+    "setup"
+  ],
   "husky": {
     "hooks": {
-      "pre-commit": "eslint ."
+      "pre-commit": "npm run setup"
     }
   },
   "eslintConfig": {
