@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { login, dashboard as dashboardRoutes } from "./index";
+import { loginRouter as loginRouters, dashboardRouter as dashboardRoutes } from "./index";
 
 import DashboardLayout from "../layouts/Dashboard";
 import LandingLayout from "../layouts/Landing";
@@ -44,7 +44,7 @@ const Routes = () => (
   <Router>
     <ScrollToTop>
       <Switch>
-        {childRoutes(LandingLayout, login)}
+        {childRoutes(LandingLayout, loginRouters)}
         {childRoutes(DashboardLayout, dashboardRoutes)}
         <Route
           render={() => (
