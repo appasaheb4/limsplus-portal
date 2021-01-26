@@ -52,7 +52,6 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "setup": "setup.sh",
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
@@ -63,12 +62,9 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
-  "pre-commit": [
-    "setup"
-  ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run setup"
+      "pre-commit": "eslint ."
     }
   },
   "eslintConfig": {
