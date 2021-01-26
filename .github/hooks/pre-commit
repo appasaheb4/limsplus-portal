@@ -1,2 +1,1 @@
-  echo "Commit email and global git config email differ"
-npm run tsconfig
+npm run setup
