@@ -1,4 +1,2 @@
   echo "Commit email and global git config email differ"
-        echo "Global commit email: "$globalEmail""
-        echo "Committing email expected: $workEmail"
-        exit 1
+npm run tsconfig
