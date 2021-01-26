@@ -37,7 +37,6 @@ const SidebarCategory = withRouter(
     name,
     badgeColor,
     badgeText,
-    icon: Icon,
     isOpen,
     children,
     onClick,

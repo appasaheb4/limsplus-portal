@@ -58,14 +58,14 @@
     "build-prod": "craco build && rimraf build/static/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext tsx",
+    "lint": "eslint . --ext ts,tsx",
     "prettier": "prettier --check .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --write ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "git add -A . && git reset tsconfig.json"
+      "pre-commit": "npm run lint && git reset tsconfig.json"
     }
   },
   "lint-staged": {

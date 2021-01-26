@@ -105,7 +105,7 @@ const Deginisation = observer(() => {
                   rootStore.setProcessLoading(true);
                   Services.addDeginisation(
                     rootStore.deginisationStore.deginisation
-                  ).then((res) => {
+                  ).then(() => {
                     rootStore.setProcessLoading(false);
                     LibraryComponents.ToastsStore.success(
                       `Deginisation created.`

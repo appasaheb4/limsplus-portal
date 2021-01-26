@@ -16,7 +16,7 @@ import * as Services from "../services";
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-const role = observer(() => {
+const Role = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore);
   const [errors, setErrors] = useState<Models.IRole>();
   const [deleteItem, setDeleteItem] = useState<any>({});
@@ -101,7 +101,7 @@ const role = observer(() => {
                   ) === undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Services.addrole(rootStore.roleStore.role).then((res) => {
+                  Services.addrole(rootStore.roleStore.role).then(() => {
                     rootStore.setProcessLoading(false);
                     LibraryComponents.ToastsStore.success(`Role created.`);
                     rootStore.roleStore.fetchListRole();
@@ -223,4 +223,4 @@ const role = observer(() => {
   );
 });
 
-export default role;
+export default Role;

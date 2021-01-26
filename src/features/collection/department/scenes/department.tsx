@@ -19,7 +19,7 @@ import * as Services from "../services";
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-const department = observer(() => {
+const Department = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore);
   const [errors, setErrors] = useState<Models.IDepartment>();
   const [deleteItem, setDeleteItem] = useState<any>({});
@@ -63,7 +63,7 @@ const department = observer(() => {
                   >
                     <option selected>Select</option>
                     {rootStore.labStore.listLabs.map(
-                      (item: any, index: number) => (
+                      (item: any) => (
                         <option key={item.name} value={item.code}>
                           {item.name}
                         </option>
@@ -140,7 +140,7 @@ const department = observer(() => {
                     rootStore.setProcessLoading(true);
                     Services.adddepartment(
                       rootStore.departmentStore.department
-                    ).then((res) => {
+                    ).then(() => {
                       rootStore.setProcessLoading(false);
                       LibraryComponents.ToastsStore.success(
                         `Department created.`
@@ -271,4 +271,4 @@ const department = observer(() => {
   );
 });
 
-export default department;
+export default Department;

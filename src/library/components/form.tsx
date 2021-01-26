@@ -1,8 +1,8 @@
-import React from "react";
-import * as LibraryComponents from "@lp/library/components";
+import React from "react"
+import * as LibraryComponents from "@lp/library/components"
 
 interface LabelProps {
-  htmlFor: string;
+  htmlFor: string
 }
 
 export const Label: React.FunctionComponent<LabelProps> = (props) => (
@@ -14,31 +14,29 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
       {props.children}
     </label>
   </>
-);
+)
 
 interface InputWrapperProps {
-  id?: string;
-  label: string;
+  id?: string
+  label: string
 }
 
-export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
-  props
-) => (
+export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
   <div>
     <Label htmlFor={props.id || ""}>{props.label}</Label>
     {props.children}
   </div>
-);
+)
 
 interface InputProps extends InputWrapperProps {
-  value?: any;
-  name?: string;
-  placeholder?: string;
-  type?: string;
-  required?: boolean;
-  disabled?: boolean;
-  onChange?: (e: any) => void;
-  onBlur?: (e: any) => void;
+  value?: any
+  name?: string
+  placeholder?: string
+  type?: string
+  required?: boolean
+  disabled?: boolean
+  onChange?: (e: any) => void
+  onBlur?: (e: any) => void
 }
 
 export const Input = (props: InputProps) => (
@@ -57,21 +55,21 @@ export const Input = (props: InputProps) => (
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
     />
   </InputWrapper>
-);
+)
 
 interface InputRadioProps extends InputWrapperProps {
-  values?: string[];
-  value?: string;
-  name?: string;
-  required?: boolean;
-  disabled?: boolean;
-  onChange?: (e: any) => void;
+  values?: string[]
+  value?: string
+  name?: string
+  required?: boolean
+  disabled?: boolean
+  onChange?: (e: any) => void
 }
 
 export const InputRadio = (props: InputRadioProps) => (
   <InputWrapper label={props.label} id={props.id}>
     {props.values?.map((item, key) => (
-      <div className="ml-4">
+      <div className="ml-4" key={key}>
         <LibraryComponents.List space={3} direction="row">
           <input
             key={key}
@@ -80,7 +78,7 @@ export const InputRadio = (props: InputRadioProps) => (
             name={props.name}
             value={props.value}
             checked={item === props.value ? true : false}
-            onChange={(e) => props.onChange && props.onChange(item)}
+            onChange={() => props.onChange && props.onChange(item)}
             className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
           />
           <Label htmlFor={props.id || ""}>{item}</Label>
@@ -88,14 +86,14 @@ export const InputRadio = (props: InputRadioProps) => (
       </div>
     ))}
   </InputWrapper>
-);
+)
 
 interface InputDateProps extends InputWrapperProps {
-  value?: any;
-  name?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  onChange?: (e: any) => void;
+  value?: any
+  name?: string
+  placeholder?: string
+  disabled?: boolean
+  onChange?: (e: any) => void
 }
 
 export const InputDate = (props: InputDateProps) => (
@@ -110,15 +108,15 @@ export const InputDate = (props: InputDateProps) => (
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
-);
+)
 
 interface SelectOptionProps extends InputWrapperProps {
-  value?: any;
-  values?: any[];
-  name?: string;
-  key: string;
-  disabled?: boolean;
-  onChange?: (e: any) => void;
+  value?: any
+  values?: any[]
+  name?: string
+  key: string
+  disabled?: boolean
+  onChange?: (e: any) => void
 }
 
 export const SelectOption = (props: SelectOptionProps) => (
@@ -129,21 +127,21 @@ export const SelectOption = (props: SelectOptionProps) => (
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
     >
       <option selected>Select</option>
-      {props.values?.map((item: any, index: number) => (
+      {props.values?.map((item: any) => (
         <option key={item[props.key]} value={item[props.key]}>
           {item[props.key]}
         </option>
       ))}
     </select>
   </InputWrapper>
-);
+)
 
 interface InputFileProps extends InputWrapperProps {
-  value?: any;
-  name?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  onChange?: (e: any) => void;
+  value?: any
+  name?: string
+  placeholder?: string
+  disabled?: boolean
+  onChange?: (e: any) => void
 }
 
 export const InputFile = (props: InputFileProps) => (
@@ -158,7 +156,7 @@ export const InputFile = (props: InputFileProps) => (
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
-);
+)
 
 export const MultilineInput = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id}>
@@ -171,11 +169,11 @@ export const MultilineInput = (props: InputProps) => (
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
-);
+)
 
 interface TagInputProps extends InputWrapperProps {
-  value?: string[];
-  onChange: (tags: string[]) => void;
+  value?: string[]
+  onChange: (tags: string[]) => void
 }
 
 // export const TagInput = (props: TagInputProps) => {

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import * as LibraryModels from "@lp/library/models";
-import Contexts from "@lp/library/stores";
-import * as Services from "../services";
+import React, { useState } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import * as LibraryModels from "@lp/library/models"
+import Contexts from "@lp/library/stores"
+import * as Services from "../services"
 
 const Banner = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [deleteItem, setDeleteItem] = useState<any>({});
+  const rootStore = React.useContext(Contexts.rootStore)
+  const [deleteItem, setDeleteItem] = useState<any>({})
 
   return (
     <>
@@ -20,12 +20,7 @@ const Banner = observer(() => {
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
                 label="Title"
                 id="title"
@@ -35,7 +30,7 @@ const Banner = observer(() => {
                   rootStore.bannerStore.updateBanner({
                     ...rootStore.bannerStore.banner,
                     title,
-                  });
+                  })
                 }}
               />
               <LibraryComponents.Form.InputFile
@@ -44,11 +39,11 @@ const Banner = observer(() => {
                 placeholder="File"
                 //value={rootStore.bannerStore.banner?.image}
                 onChange={(e) => {
-                  const image = e.target.files[0];
+                  const image = e.target.files[0]
                   rootStore.bannerStore.updateBanner({
                     ...rootStore.bannerStore.banner,
                     image,
-                  });
+                  })
                 }}
               />
             </LibraryComponents.List>
@@ -61,15 +56,15 @@ const Banner = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                rootStore.setProcessLoading(true);
+                rootStore.setProcessLoading(true)
                 Services.addBanner(rootStore.bannerStore.banner).then((res) => {
                   if (res.status === LibraryModels.StatusCode.CREATED) {
-                    LibraryComponents.ToastsStore.success(`Banner created.`);
+                    LibraryComponents.ToastsStore.success(`Banner created.`)
                     setTimeout(() => {
-                      window.location.reload();
-                    }, 2000);
+                      window.location.reload()
+                    }, 2000)
                   }
-                });
+                })
               }}
             >
               Save
@@ -79,7 +74,7 @@ const Banner = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.userStore.clear();
+                rootStore.userStore.clear()
               }}
             >
               Clear
@@ -97,17 +92,13 @@ const Banner = observer(() => {
               </tr>
             </thead>
             <tbody>
-              {rootStore.bannerStore.listBanner?.map((item, index) => (
-                <tr>
+              {rootStore.bannerStore.listBanner?.map((item, key) => (
+                <tr key={key}>
                   <td className="border border-green-600 text-center">
                     {item.title}
                   </td>
                   <td className="border border-green-600">
-                    <img
-                      src={item.image}
-                      className="w-60 h-40 ml-6"
-                      alt="logo"
-                    />
+                    <img src={item.image} className="w-60 h-40 ml-6" alt="logo" />
                   </td>
 
                   <td className="border border-green-600 text-center p-1">
@@ -121,7 +112,7 @@ const Banner = observer(() => {
                           id: item._id,
                           title: "Are you sure?",
                           body: `Delete ${item.title}!`,
-                        });
+                        })
                       }}
                     >
                       Delete
@@ -136,19 +127,19 @@ const Banner = observer(() => {
           {...deleteItem}
           click={() => {
             Services.deleteBanner(deleteItem.id).then((res: any) => {
-              console.log({ res });
+              console.log({ res })
 
               if (res.status) {
-                LibraryComponents.ToastsStore.success(`Banner deleted.`);
-                setDeleteItem({ show: false });
-                rootStore.bannerStore.fetchListBanner();
+                LibraryComponents.ToastsStore.success(`Banner deleted.`)
+                setDeleteItem({ show: false })
+                rootStore.bannerStore.fetchListBanner()
               }
-            });
+            })
           }}
         />
       </div>
     </>
-  );
-});
+  )
+})
 
-export default Banner;
+export default Banner

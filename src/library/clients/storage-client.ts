@@ -10,7 +10,7 @@ export function getItem<T>(key: string): Promise<T> {
 }
 
 export function setItem(key: string, value: any): Promise<boolean> {
-  return new Promise<boolean>(async (resolve, reject) => {
+  return new Promise<boolean>(async (resolve) => {
     (await window) && window.localStorage.setItem(key, JSON.stringify(value));
     resolve(true);
   });
