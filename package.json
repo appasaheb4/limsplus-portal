@@ -20,6 +20,7 @@
     "axios": "^0.20.0",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
+    "husky": "^4.3.8",
     "mobx": "^5.15.6",
     "mobx-react": "^6.3.0",
     "mobx-react-lite": "^2.2.1",
@@ -51,7 +52,7 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "tsconfig": "setup.sh",
+    "setup": "setup.sh",
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
@@ -63,8 +64,13 @@
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
   "pre-commit": [
-    "tsconfig"
+    "setup"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "echo [Husky] pre-commit"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
