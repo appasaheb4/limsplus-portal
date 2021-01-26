@@ -1,11 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface CarouselProps {
-  images?: string[];
+  images?: string[]
 }
 
 const Carousel = (props: CarouselProps) => {
-  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [currentSlide, setCurrentSlide] = React.useState(0)
 
   return (
     <div className="overflow-hidden relative">
@@ -18,8 +18,9 @@ const Carousel = (props: CarouselProps) => {
         }}
         className="flex flex-row items-start transition-transform ease-in-out duration-500"
       >
-        {props.images?.map((image) => (
+        {props.images?.map((image, key) => (
           <img
+            key={key}
             src={image}
             style={{ width: 100 / (props.images?.length || 1) + "%" }}
             alt={image}
@@ -71,7 +72,7 @@ const Carousel = (props: CarouselProps) => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Carousel;
+export default Carousel

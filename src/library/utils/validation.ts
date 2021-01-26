@@ -4,7 +4,7 @@ export { validate };
 validate.extend(validate.validators.datetime, {
   // The value is guaranteed not to be null or undefined but otherwise it
   // could be anything.
-  parse: function (value: any, options: any) {
+  parse: function (value: any) {
     return +moment.utc(value);
   },
   // Input is a unix timestamp

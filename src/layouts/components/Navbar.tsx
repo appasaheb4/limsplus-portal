@@ -135,7 +135,6 @@ const NavbarDropdownItem: React.FunctionComponent<NavbarItemProps> = ({
   title,
   description,
   time,
-  spacing,
 }) => (
   <ListGroupItem>
     <Row noGutters className="align-items-center">

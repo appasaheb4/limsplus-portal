@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -111,7 +112,7 @@ const Users = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                    {rootStore.labStore.listLabs.map((item: any) => (
                       <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
@@ -175,7 +176,7 @@ const Users = observer(() => {
                   >
                     <option selected>Select</option>
                     {rootStore.deginisationStore.listDeginisation.map(
-                      (item: any, index: number) => (
+                      (item: any) => (
                         <option key={item.description} value={item.code}>
                           {item.description}
                         </option>
@@ -271,13 +272,11 @@ const Users = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.departmentStore.listDepartment.map(
-                      (item: any, index: number) => (
-                        <option key={item.name} value={item.code}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {rootStore.departmentStore.listDepartment.map((item: any) => (
+                      <option key={item.name} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
                 {errors?.department && (
@@ -391,7 +390,7 @@ const Users = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.roleStore.listRole.map((item: any, index: number) => (
+                    {rootStore.roleStore.listRole.map((item: any) => (
                       <option key={item.description} value={item.code}>
                         {item.description}
                       </option>
@@ -421,7 +420,7 @@ const Users = observer(() => {
                     !rootStore.userStore.checkExitsUserId
                   ) {
                     rootStore.setProcessLoading(true)
-                    Features.Users.Pipes.addUser(rootStore.userStore).then((res) => {
+                    Features.Users.Pipes.addUser(rootStore.userStore).then(() => {
                       rootStore.setProcessLoading(false)
                       LibraryComponents.ToastsStore.success(`User created.`)
                       rootStore.userStore.clear()

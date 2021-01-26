@@ -24,7 +24,7 @@ const Login = observer(() => {
         history.push("/")
       }
     })
-  }, [])
+  }, [history])
 
   return (
     <>
@@ -35,9 +35,10 @@ const Login = observer(() => {
               <img src={Assets.logo} className="w-20 h-15" alt="logo" />
               <div className="mt-2 mb-2">
                 <Bootstrap.Carousel>
-                  {rootStore.bannerStore.listBanner.map((item, index) => (
-                    <Bootstrap.Carousel.Item interval={5000}>
+                  {rootStore.bannerStore.listBanner.map((item, key) => (
+                    <Bootstrap.Carousel.Item interval={5000} key={key}>
                       <img
+                        key={key}
                         src={item.image}
                         className="flex flex-col-reverse"
                         alt="First slide"

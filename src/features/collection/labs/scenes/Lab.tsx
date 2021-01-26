@@ -98,7 +98,7 @@ const Lab = observer(() => {
                   ) === undefined
                 ) {
                   rootStore.setProcessLoading(true);
-                  Services.addLab(rootStore.labStore.labs).then((res) => {
+                  Services.addLab(rootStore.labStore.labs).then(() => {
                     rootStore.setProcessLoading(false);
                     LibraryComponents.ToastsStore.success(`Lab created.`);
                     rootStore.labStore.fetchListLab();
