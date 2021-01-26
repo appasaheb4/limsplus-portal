@@ -74,7 +74,7 @@ const Login = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                    {rootStore.labStore.listLabs.map((item: any) => (
                       <option key={item.name} value={item.name}>
                         {item.name}
                       </option>
