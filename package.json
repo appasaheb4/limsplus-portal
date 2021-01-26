@@ -63,9 +63,6 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
   },
-  "pre-commit": [
-    "setup"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm run setup"
