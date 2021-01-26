@@ -68,7 +68,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "echo [Husky] pre-commit"
+      "pre-commit": "npm run setup"
     }
   },
   "eslintConfig": {
