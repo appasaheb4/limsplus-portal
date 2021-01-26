@@ -52,7 +52,6 @@
     "validate.js": "^0.13.1"
   },
   "scripts": {
-    "setup": "git reset tsconfig.json",
     "start": "craco start",
     "dev": "craco start",
     "build": "craco build",
@@ -60,23 +59,17 @@
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint .",
+    "prettier": "prettier --check .",
     "lint:fix": "eslint --fix .",
-    "format": "prettier --write \"**/*.+(js|jsx|json|css|md)\""
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix --no-warning",
-      "git add"
-    ],
-    "*.{js, jsx, json, html, css,.ts,.tsx}": [
-      "prettier --write --no-warning",
-      "git add"
-    ]
+    "format": "prettier --write ."
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged; npm run setup && npm run lint"
+      "pre-commit": "git add -A . && git reset tsconfig.json"
     }
+  },
+  "lint-staged": {
+    "*": "prettier --write"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -101,7 +94,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.2.1"
   }
 }
