@@ -24,7 +24,7 @@ const Login = observer(() => {
         history.push("/")
       }
     })
-  }, [null])
+  }, [])
 
   return (
     <>
