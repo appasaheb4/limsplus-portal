@@ -24,8 +24,6 @@ const Default = observer(() => {
     async function fetchData() {
       try {
         const isLogin: any = await Clients.storageClient.getItem("isLogin")
-        console.log({ isLogin })
-
         if (isLogin.passChanged !== true) setChangePassword(true)
       } catch (e) {
         console.error(e)
@@ -94,10 +92,10 @@ const Default = observer(() => {
             }}
             close={() => {
               Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
-                // Clients.storageClient.setItem("isLogin", {
-                //   ...isLogin,
-                //   passChanged: true,
-                // })
+                Clients.storageClient.setItem("isLogin", {
+                  ...isLogin,
+                  passChanged: true,
+                })
               })
               setChangePassword(false)
               console.log("close")
