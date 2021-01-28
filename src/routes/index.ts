@@ -24,7 +24,7 @@ const collection_Role = async(
 )
 
 // User
-const user = async(() => import("@lp/features/users/scenes/Users"))
+const user = async(() => import("@lp/features/users/scenes/users"))
 const changePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )
@@ -44,7 +44,7 @@ const dashboardRoutes = {
   icon: SlidersIcon,
   children: [
     {
-      path: "/dashboard",
+      path: "/dashboard/default",
       name: "Default",
       component: defaultDashboard,
     },
@@ -57,7 +57,7 @@ const bannerRoutes = {
   icon: LayoutIcon,
   children: [
     {
-      path: "/banner",
+      path: "/banner/banner",
       name: "Banner",
       component: banner,
     },
@@ -98,7 +98,7 @@ const userRoutes = {
   icon: LayoutIcon,
   children: [
     {
-      path: "/user",
+      path: "/user/user",
       name: "User",
       component: user,
     },

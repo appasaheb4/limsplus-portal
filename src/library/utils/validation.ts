@@ -1,25 +1,25 @@
-import validate from "validate.js";
-import moment from "moment";
-export { validate };
+import validate from "validate.js"
+import moment from "moment"
+export { validate }
 validate.extend(validate.validators.datetime, {
   // The value is guaranteed not to be null or undefined but otherwise it
   // could be anything.
   parse: function (value: any) {
-    return +moment.utc(value);
+    return +moment.utc(value)
   },
   // Input is a unix timestamp
   format: function (value: any, options: any) {
-    var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss";
-    return moment.utc(value).format(format);
+    var format = options.dateOnly ? "YYYY-MM-DD" : "YYYY-MM-DD hh:mm:ss"
+    return moment.utc(value).format(format)
   },
-});
+})
 
 export const constraintsLogin = {
   lab: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "Lab must be least 4 characters ",
+      minimum: 2,
+      message: "Lab must be least 2 characters ",
     },
   },
   userId: {
@@ -37,7 +37,7 @@ export const constraintsLogin = {
         "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
     },
   },
-};
+}
 
 export const constraintsChangePassword = {
   oldPassword: {
@@ -64,14 +64,14 @@ export const constraintsChangePassword = {
         "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
     },
   },
-};
+}
 
 export const constraintsUser = {
   lab: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "Lab must be least 4 characters ",
+      minimum: 2,
+      message: "Lab must be least 2 characters ",
     },
   },
   userId: {
@@ -115,4 +115,4 @@ export const constraintsUser = {
   status: {
     presence: true,
   },
-};
+}
