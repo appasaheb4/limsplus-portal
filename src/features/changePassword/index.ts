@@ -1,4 +1,3 @@
-import * as Scenes from "./scenes";
-import Definition from "./definition.json";
+import * as Scenes from "./scenes"
 
-export default { Scenes, Definition };
+export default { Scenes }

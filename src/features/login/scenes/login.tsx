@@ -17,13 +17,25 @@ const Login = observer(() => {
   const [errors, setErrors] = useState<ModelsUser.Login>()
 
   useEffect(() => {
-    Clients.storageClient.getItem("isLogin").then((isLogin) => {
-      if (isLogin) {
-        history.push("/dashboard")
-      } else {
-        history.push("/")
+    async function fetchData() {
+      try {
+        await Clients.storageClient
+          .getItem("isLogin")
+          .then((isLogin) => {
+            if (isLogin) {
+              history.push("/dashboard/default")
+            } else {
+              history.push("/")
+            }
+          })
+          .catch(() => {
+            history.push("/")
+          })
+      } catch (e) {
+        console.error(e)
       }
-    })
+    }
+    fetchData()
   }, [history])
 
   return (
@@ -40,7 +52,13 @@ const Login = observer(() => {
                       <img
                         key={key}
                         src={item.image}
-                        className="flex flex-col-reverse"
+                        className="img-thumbnail img-fluid"
+                        style={{
+                          maxWidth: 600,
+                          maxHeight: 400,
+                          minWidth: 600,
+                          minHeight: 400,
+                        }}
                         alt="First slide"
                       />
                     </Bootstrap.Carousel.Item>
@@ -76,7 +94,7 @@ const Login = observer(() => {
                   >
                     <option selected>Select</option>
                     {rootStore.labStore.listLabs.map((item: any) => (
-                      <option key={item.name} value={item.name}>
+                      <option key={item.code} value={item.code}>
                         {item.name}
                       </option>
                     ))}
@@ -153,17 +171,19 @@ const Login = observer(() => {
                       rootStore.setProcessLoading(true)
                       Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
                         .then((res) => {
+                          console.log({ res })
+
                           rootStore.setProcessLoading(false)
-                          if (res.length <= 0) {
+                          if (res.status === 200) {
+                            LibraryComponents.ToastsStore.success(
+                              `Welcome ${res.data.data.userId}`
+                            )
+                            Clients.storageClient.setItem("isLogin", res.data.data)
+                            history.push("/dashboard/default")
+                          } else if (res.status === 203) {
                             LibraryComponents.ToastsStore.error(
                               "User not found. Please enter correct information!"
                             )
-                          } else {
-                            LibraryComponents.ToastsStore.success(
-                              `Welcome ${res[0].userId}`
-                            )
-                            Clients.storageClient.setItem("isLogin", res[0])
-                            history.push("/dashboard")
                           }
                         })
                         .catch(() => {
