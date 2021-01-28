@@ -10,7 +10,7 @@ const ChangePassword = observer(() => {
   const history = useHistory()
   const rootStore = React.useContext(Contexts.rootStore)
   const [changePassword, setChangePassword] = useState(true)
-
+  
   // useEffect(() => {
   //   Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
   //     if (isLogin) {
@@ -18,7 +18,7 @@ const ChangePassword = observer(() => {
   //     }
   //   });
   // }, []);
-
+  
   return (
     <>
       <div className="max-w-xl mx-auto  py-20  flex-wrap p-4  bg-gray-100 ">
@@ -29,7 +29,7 @@ const ChangePassword = observer(() => {
                 Clients.storageClient.setItem("isLogin", {
                   ...isLogin,
                   changePass: true,
-                })
+                })  
                 const body = Object.assign(
                   isLogin,
                   rootStore.userStore.changePassword
@@ -37,7 +37,8 @@ const ChangePassword = observer(() => {
                 Services.changePassword(body).then((res) => {
                   if (res) {
                     LibraryComponents.ToastsStore.success(`Password changed!`)
-                    // history.push("/dashboard/default")
+                    history.push("/dashboard/default")
+                    setChangePassword(false)
                   } else {
                     LibraryComponents.ToastsStore.error(
                       `Please enter correct old password`
@@ -45,7 +46,6 @@ const ChangePassword = observer(() => {
                   }
                 })
               })
-             // setChangePassword(false)
             }}
             close={() => {
               Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
@@ -56,7 +56,6 @@ const ChangePassword = observer(() => {
               })
               history.push("/dashboard/default")
               setChangePassword(false)
-              console.log("close")
             }}
           />
         )}
