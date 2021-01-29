@@ -1,7 +1,9 @@
 export interface Login {
   lab?: string
   userId?: string
+  fullName?: string
   password?: string
+  passChanged?: boolean
 }
 
 export interface Users {

@@ -8,7 +8,6 @@ import Contexts from "@lp/library/stores"
 import * as Utils from "@lp/library/utils"
 import * as ModelsUser from "@lp/features/users/models"
 import * as Features from "@lp/features"
-import * as Clients from "@lp/library/clients"
 import { useHistory } from "react-router-dom"
 
 const Login = observer(() => {
@@ -17,25 +16,11 @@ const Login = observer(() => {
   const [errors, setErrors] = useState<ModelsUser.Login>()
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        await Clients.storageClient
-          .getItem("isLogin")
-          .then((isLogin) => {
-            if (isLogin) {
-              history.push("/dashboard/default")
-            } else {
-              history.push("/")
-            }
-          })
-          .catch(() => {
-            history.push("/")
-          })
-      } catch (e) {
-        console.error(e)
-      }
+    if (rootStore.isLogin()) {
+      history.push("/dashboard/default")
+    } else {
+      history.push("/")
     }
-    fetchData()
   }, [history])
 
   return (
@@ -53,12 +38,6 @@ const Login = observer(() => {
                         key={key}
                         src={item.image}
                         className="img-thumbnail img-fluid"
-                        style={{
-                          maxWidth: 600,
-                          maxHeight: 400,
-                          minWidth: 600,
-                          minHeight: 400,
-                        }}
                         alt="First slide"
                       />
                     </Bootstrap.Carousel.Item>
@@ -176,9 +155,10 @@ const Login = observer(() => {
                           rootStore.setProcessLoading(false)
                           if (res.status === 200) {
                             LibraryComponents.ToastsStore.success(
-                              `Welcome ${res.data.data.userId}`
+                              `Welcome ${res.data.data.fullName}`
                             )
-                            Clients.storageClient.setItem("isLogin", res.data.data)
+                            rootStore.userStore.updateLogin(res.data.data)
+                            rootStore.userStore.clearInputLogin()
                             history.push("/dashboard/default")
                           } else if (res.status === 203) {
                             LibraryComponents.ToastsStore.error(

@@ -1,54 +1,45 @@
-import React, { useState } from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { observer } from "mobx-react";
-import Contexts from "@lp/library/stores";
+import React, { useState } from "react"
+import { NavLink, withRouter } from "react-router-dom"
+import { connect } from "react-redux"
+import { observer } from "mobx-react"
+import Contexts from "@lp/library/stores"
 
-import { Badge, Collapse } from "reactstrap";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import { Badge, Collapse } from "reactstrap"
+import PerfectScrollbar from "react-perfect-scrollbar"
 
-import { Box } from "react-feather";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { Box } from "react-feather"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircle } from "@fortawesome/free-solid-svg-icons"
 
-import routes from "../../routes/index";
+import routes from "../../routes/index"
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
-  const pathName = location.pathname;
+  const pathName = location.pathname
 
-  let _routes = {};
+  let _routes = {}
 
   routes.forEach((route: any, index) => {
-    const isActive = pathName.indexOf(route.path) === 0;
-    const isOpen = route.open;
-    const isHome = route.containsHome && pathName === "/" ? true : false;
+    const isActive = pathName.indexOf(route.path) === 0
+    const isOpen = route.open
+    const isHome = route.containsHome && pathName === "/" ? true : false
 
     _routes = Object.assign({}, _routes, {
       [index]: isActive || isOpen || isHome,
-    });
-  });
+    })
+  })
 
-  return _routes;
-};
+  return _routes
+}
 
 const SidebarCategory = withRouter(
-  ({
-    name,
-    badgeColor,
-    badgeText,
-    isOpen,
-    children,
-    onClick,
-    location,
-    to,
-  }) => {
+  ({ name, badgeColor, badgeText, isOpen, children, onClick, location, to }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname.indexOf(path) !== -1 ||
         (location.pathname === "/" && path === "/dashboard")
         ? "active"
-        : "";
-    };
+        : ""
+    }
 
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
@@ -71,15 +62,15 @@ const SidebarCategory = withRouter(
           </ul>
         </Collapse>
       </li>
-    );
+    )
   }
-);
+)
 
 const SidebarItem = withRouter(
   ({ name, badgeColor, badgeText, icon: Icon, location, to }) => {
     const getSidebarItemClass = (path) => {
-      return location.pathname === path ? "active" : "";
-    };
+      return location.pathname === path ? "active" : ""
+    }
 
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
@@ -93,13 +84,13 @@ const SidebarItem = withRouter(
           ) : null}
         </NavLink>
       </li>
-    );
+    )
   }
-);
+)
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
-  const rootStore = React.useContext(Contexts.rootStore);
-  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location));
+  const rootStore = React.useContext(Contexts.rootStore)
+  const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
 
   const toggle = (index) => {
     // Collapse all elements
@@ -109,13 +100,13 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
         setOpenRoutes((openRoutes) =>
           Object.assign({}, openRoutes, { [item]: false })
         )
-    );
+    )
 
     // Toggle selected element
     setOpenRoutes((openRoutes) =>
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
-    );
-  };
+    )
+  }
 
   return (
     <nav
@@ -170,7 +161,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                     />
                   )}
                 </React.Fragment>
-              );
+              )
             })}
           </ul>
 
@@ -185,9 +176,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                   height="40"
                 /> */}
                 <div className="media-body">
-                  <h5 className="mb-1">
-                    {rootStore.userStore.inputLogin.userId}
-                  </h5>
+                  <h5 className="mb-1">{rootStore.userStore.login?.fullName}</h5>
                   <div>
                     <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
                     Online
@@ -199,12 +188,12 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
         </PerfectScrollbar>
       </div>
     </nav>
-  );
-});
+  )
+})
 
 export default withRouter(
   connect((store) => ({
     sidebar: store.sidebar,
     layout: store.layout,
   }))(Sidebar)
-);
+)

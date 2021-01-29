@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { toggleSidebar } from "../../redux/actions/sidebarActions";
-import * as Clients from "@lp/library/clients";
 import { useHistory } from "react-router-dom";
 import Contexts from "@lp/library/stores";
 
@@ -258,7 +257,6 @@ const NavbarComponent = ({ dispatch }) => {
               <DropdownItem>Help</DropdownItem>
               <DropdownItem
                 onClick={() => {
-                  Clients.storageClient.setItem("isLogin", null);
                   rootStore.userStore.clearLogin();
                   history.push("/");
                 }}

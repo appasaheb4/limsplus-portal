@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
 import Contexts from "@lp/library/stores"
-import * as Clients from "@lp/library/clients"
 import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
@@ -21,16 +20,8 @@ const Default = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const isLogin: any = await Clients.storageClient.getItem("isLogin")
-        if (isLogin.passChanged !== true) setChangePassword(true)
-      } catch (e) {
-        console.error(e)
-      }
-    }
-    fetchData()
-  }, [])
+    if (rootStore.isLogin() !== true) setChangePassword(true)
+  }, [rootStore])
   return (
     <>
       <Container fluid className="p-0">
@@ -66,36 +57,32 @@ const Default = observer(() => {
         {changePassword && (
           <LibraryComponents.Modal.ModalChangePassword
             click={() => {
-              Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
-                const body = Object.assign(
-                  isLogin,
-                  rootStore.userStore.changePassword
-                )
-                Services.changePassword(body).then((res) => {
-                  console.log({ res })
-                  if (res.status === 200) {
-                    Clients.storageClient.setItem("isLogin", {
-                      ...isLogin,
-                      passChanged: true,
-                    })
-                    LibraryComponents.ToastsStore.success(`Password changed!`)
-                    setChangePassword(false)
-                  } else if (res.status === 203) {
-                    LibraryComponents.ToastsStore.error(res.data.data.message)
-                  } else {
-                    LibraryComponents.ToastsStore.error(
-                      `Please enter correct old password`
-                    )
-                  }
-                })
+              const body = Object.assign(
+                rootStore.userStore.login,
+                rootStore.userStore.changePassword
+              )
+              Services.changePassword(body).then((res) => {
+                console.log({ res })
+                if (res.status === 200) {
+                  rootStore.userStore.updateLogin({
+                    ...rootStore.userStore.login,
+                    passChanged: true,
+                  })
+                  LibraryComponents.ToastsStore.success(`Password changed!`)
+                  setChangePassword(false)
+                } else if (res.status === 203) {
+                  LibraryComponents.ToastsStore.error(res.data.data.message)
+                } else {
+                  LibraryComponents.ToastsStore.error(
+                    `Please enter correct old password`
+                  )
+                }
               })
             }}
             close={() => {
-              Clients.storageClient.getItem("isLogin").then((isLogin: any) => {
-                Clients.storageClient.setItem("isLogin", {
-                  ...isLogin,
-                  passChanged: true,
-                })
+              rootStore.userStore.updateLogin({
+                ...rootStore.userStore.login,
+                passChanged: true,
               })
               setChangePassword(false)
               console.log("close")
