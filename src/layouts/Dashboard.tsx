@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-
+import { observer } from "mobx-react"
 import Wrapper from "./components/Wrapper"
 import Sidebar from "./components/Sidebar"
 import Main from "./components/Main"
@@ -7,25 +7,17 @@ import Navbar from "./components/Navbar"
 import Content from "./components/Content"
 import Footer from "./components/Footer"
 import Settings from "./components/Settings"
-import * as Clients from "@lp/library/clients"
 import { useHistory } from "react-router-dom"
+import Contexts from "@lp/library/stores"
 
-const Dashboard = ({ children }) => {
+const Dashboard = observer(({ children }) => {
+  const rootStore = React.useContext(Contexts.rootStore)
   const history: any = useHistory()
   useEffect(() => {
-    async function fetchData() {
-      await Clients.storageClient
-        .getItem("isLogin")
-        .then((isLogin) => {
-          if (!isLogin) {
-            history.push("/")
-          }
-        })
-        .catch(() => {
-          history.push("/")
-        })
+    console.log({ islogin: rootStore.isLogin() })
+    if (!rootStore.isLogin()) {
+      history.push("/")
     }
-    fetchData()
   }, [history])
   return (
     <React.Fragment>
@@ -40,6 +32,6 @@ const Dashboard = ({ children }) => {
       <Settings />
     </React.Fragment>
   )
-}
+})
 
 export default Dashboard
