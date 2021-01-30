@@ -21,7 +21,7 @@ const Login = observer(() => {
     } else {
       history.push("/")
     }
-  }, [history])
+  }, [rootStore.userStore.login])
 
   return (
     <>

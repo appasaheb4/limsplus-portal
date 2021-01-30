@@ -25,6 +25,8 @@ class RootStore {
   }
 
   @action isLogin(): boolean {
+    console.log({ val: this.userStore.login })
+
     if (
       this.userStore.login?.fullName != "" &&
       this.userStore.login?.fullName !== undefined

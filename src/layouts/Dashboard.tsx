@@ -18,7 +18,7 @@ const Dashboard = observer(({ children }) => {
     if (!rootStore.isLogin()) {
       history.push("/")
     }
-  }, [history])
+  }, [rootStore.userStore.login])
   return (
     <React.Fragment>
       <Wrapper>
