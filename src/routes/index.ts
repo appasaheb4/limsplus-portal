@@ -29,6 +29,8 @@ const changePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )
 
+// Mapping
+const userMapping = async(() => import("@lp/features/mapping/user/scenes/user"))
 // Routes
 const loginRoutes = {
   path: "/",
@@ -110,16 +112,37 @@ const userRoutes = {
   ],
 }
 
+const mappingRoutes = {
+  path: "/mapping",
+  name: "Mapping",
+  icon: LayoutIcon,
+  children: [
+    {
+      path: "/mapping/userMapping",
+      name: "User Mapping",
+      component: userMapping,
+    },
+  ],
+}
+
+
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
   bannerRoutes,
   collectionRoutes,
   userRoutes,
+  mappingRoutes,
 ]
 
 // Landing specific routes
 export const loginRouter = [loginRoutes]
 
 // All routes
-export default [dashboardRoutes, bannerRoutes, collectionRoutes, userRoutes]
+export default [
+  dashboardRoutes,
+  bannerRoutes,
+  collectionRoutes,
+  userRoutes,
+  mappingRoutes,
+]

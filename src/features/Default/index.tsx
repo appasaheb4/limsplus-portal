@@ -21,7 +21,7 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (rootStore.isLogin() !== true) setChangePassword(true)
-  }, [rootStore])
+  }, [rootStore.userStore.login])
   return (
     <>
       <Container fluid className="p-0">
