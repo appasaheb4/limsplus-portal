@@ -25,7 +25,6 @@ const UserMapping = observer(() => {
   const [value, setValue] = React.useState<string | null>(fullName)
   const [inputValue, setInputValue] = React.useState("")
   const [selectedUserInfo, setSelectedUserInfo] = useState<any>()
-  const [deleteUser, setDeleteUser] = useState<any>({})
 
   return (
     <>
@@ -276,7 +275,6 @@ const UserMapping = observer(() => {
                 text: "Delete",
                 editable: false,
                 csvExport: false,
-
                 formatter: (cellContent, row) => (
                   <>
                     <LibraryComponents.Button
@@ -284,7 +282,7 @@ const UserMapping = observer(() => {
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
                       onClick={() => {
-                        setDeleteUser({
+                        setDeleteItem({
                           show: true,
                           id: row._id,
                           title: "Are you sure?",
@@ -333,14 +331,13 @@ const UserMapping = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            // Services.deleteBanner(deleteItem.id).then((res: any) => {
-            //   console.log({ res })
-            //   if (res.status) {
-            //     LibraryComponents.ToastsStore.success(`Banner deleted.`)
-            //     setDeleteItem({ show: false })
-            //     rootStore.bannerStore.fetchListBanner()
-            //   }
-            // })
+            Services.deleteUserMapping(deleteItem.id).then((res: any) => {
+              if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                LibraryComponents.ToastsStore.success(`Deleted.`)
+                setDeleteItem({ show: false })
+                rootStore.userMappingStore.fetchUserMappingList()
+              }
+            })
           }}
         />
       </div>
