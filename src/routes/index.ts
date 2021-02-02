@@ -125,7 +125,6 @@ const mappingRoutes = {
   ],
 }
 
-
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
@@ -145,4 +144,37 @@ export default [
   collectionRoutes,
   userRoutes,
   mappingRoutes,
+]
+
+export const UserPermission = [
+  {
+    path: "banner",
+    name: "Banner",
+    component: banner,
+  },
+  {
+    path: "collection",
+    name: "Collection Lab",
+    component: collection_Lab,
+  },
+  {
+    path: "collection",
+    name: "Collection Deginisation",
+    component: collection_Deginisation,
+  },
+  {
+    path: "collection",
+    name: "Collection Department",
+    component: collection_Department,
+  },
+  {
+    path: "collection",
+    name: "Collection Role",
+    component: collection_Role,
+  },
+  {
+    path: "user",
+    name: "Users",
+    component: user,
+  },
 ]

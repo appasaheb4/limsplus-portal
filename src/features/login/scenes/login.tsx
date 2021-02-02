@@ -17,6 +17,11 @@ const Login = observer(() => {
 
   useEffect(() => {
     if (rootStore.isLogin()) {
+      const path = window.location.pathname
+      console.log({ path })
+
+      if (path !== "/") history.push(window.location.pathname)
+      else history.push("/dashboard/default")
       history.push("/dashboard/default")
     } else {
       history.push("/")
