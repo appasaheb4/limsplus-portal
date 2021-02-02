@@ -28,3 +28,18 @@ export const addUserMapping = (userMapping: any) =>
         reject({ error })
       })
   })
+
+export const deleteUserMapping = (id: string) =>
+  new Promise<Models.User[]>((resolve, reject) => {
+    console.log({ id })
+
+    const client = Clients.createLimsPlusClient()
+    client
+      .delete(`${RELATIVE_PATH}/deleteUserMapping/${id}`)
+      .then((res) => {
+        resolve(res.data)
+      })
+      .catch((error) => {
+        reject({ error })
+      })
+  })
