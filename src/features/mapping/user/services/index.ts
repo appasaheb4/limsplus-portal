@@ -1,29 +1,28 @@
 import * as Clients from "@lp/library/clients"
 import * as Models from "../models"
 
-const RELATIVE_PATH = "/banner"
+const RELATIVE_PATH = "/mapping"
 
-export const addBanner = (banner: any) =>
-  new Promise<any>((resolve, reject) => {
-    const form = new FormData()
-    form.append("title", banner.title)
-    form.append("file", banner.image)
-    form.append("folder", "banner")
-    form.append("name", banner.image.name)
-    form.append(
-      "image",
-      `https://limsplus.blob.core.windows.net/banner/${banner.image.name}`
-    )
+export const userMappingList = () =>
+  new Promise<Models.User[]>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
     client
-      .post(`${RELATIVE_PATH}/addBanner`, form, {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .get(`${RELATIVE_PATH}/userMappingList`)
       .then((res) => {
-        resolve(res as Models.User)
+        resolve(res.data.data)
+      })
+      .catch((error) => {
+        reject({ error })
+      })
+  })
+
+export const addUserMapping = (userMapping: any) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient()
+    client
+      .post(`${RELATIVE_PATH}/addUserMapping`, userMapping)
+      .then((res) => {
+        resolve(res)
       })
       .catch((error) => {
         reject({ error })

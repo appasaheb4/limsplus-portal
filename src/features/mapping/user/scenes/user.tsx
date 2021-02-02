@@ -4,47 +4,120 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import Contexts from "@lp/library/stores"
 import * as Services from "../services"
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import Checkbox from "@material-ui/core/Checkbox"
+import * as Router from "@lp/routes"
 
 const UserMapping = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const userList: any = rootStore.userStore.userList || []
+  const fullName = userList[0].fullName
+  const [value, setValue] = React.useState<string | null>(fullName)
+  const [inputValue, setInputValue] = React.useState("")
+  const [selectedUserInfo, setSelectedUserInfo] = useState<any>()
+  const [selectedPages, setSelectedPages] = useState<any>()
+  const [selectedUserPermision, setSelectedUserPermission] = useState<any>()
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="Banner"
-          subTitle="Add, Edit & Delete Banner"
+          title="User Mapping"
+          subTitle="Add, Edit & Delete User Roles"
         />
       </LibraryComponents.Header>
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
-                label="Title"
-                id="title"
-                placeholder="Title"
-                value={rootStore.bannerStore.banner?.title}
-                onChange={(title) => {
-                  rootStore.bannerStore.updateBanner({
-                    ...rootStore.bannerStore.banner,
-                    title,
-                  })
+              <Autocomplete
+                value={value}
+                onChange={(event: any, newValue: string | null) => {
+                  setSelectedUserInfo(newValue)
+                  setValue(newValue)
                 }}
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                  console.log({ newInputValue })
+                  setInputValue(newInputValue)
+                }}
+                id="fullName"
+                options={userList}
+                getOptionLabel={(option: any) => option.fullName}
+                renderInput={(params) => (
+                  <TextField {...params} label="Full Name" variant="outlined" />
+                )}
               />
-              <LibraryComponents.Form.InputFile
-                label="File"
-                id="file"
-                placeholder="File"
-                //value={rootStore.bannerStore.banner?.image}
-                onChange={(e) => {
-                  const image = e.target.files[0]
-                  rootStore.bannerStore.updateBanner({
-                    ...rootStore.bannerStore.banner,
-                    image,
-                  })
+              <LibraryComponents.Form.Input
+                label="User Id"
+                id="userId"
+                placeholder="User Id"
+                disabled={true}
+                value={selectedUserInfo?.userId}
+              />
+              <LibraryComponents.Form.Input
+                label="Role"
+                id="role"
+                placeholder="Role"
+                disabled={true}
+                value={selectedUserInfo?.role}
+              />
+            </LibraryComponents.List>
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              <Autocomplete
+                multiple
+                id="pages"
+                options={Router.UserPermission}
+                disableCloseOnSelect
+                onChange={(event, newValue) => {
+                  setSelectedPages(newValue)
                 }}
+                groupBy={(option) => option.path}
+                getOptionLabel={(option) => option.name}
+                renderOption={(option, { selected }) => (
+                  <React.Fragment>
+                    <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                    {option.name}
+                  </React.Fragment>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Pages"
+                    placeholder="Pages"
+                  />
+                )}
+              />
+              <Autocomplete
+                multiple
+                id="userPermision"
+                options={[
+                  { title: "Add" },
+                  { title: "Delete" },
+                  { title: "Edit/Update" },
+                ]}
+                disableCloseOnSelect
+                onChange={(event, newValue) => {
+                  setSelectedUserPermission(newValue)
+                }}
+                getOptionLabel={(option) => option.title}
+                renderOption={(option, { selected }) => (
+                  <React.Fragment>
+                    <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                    {option.title}
+                  </React.Fragment>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="User Permission"
+                    placeholder="User Permission"
+                  />
+                )}
               />
             </LibraryComponents.List>
           </LibraryComponents.Grid>
@@ -56,15 +129,26 @@ const UserMapping = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                rootStore.setProcessLoading(true)
-                Services.addBanner(rootStore.bannerStore.banner).then((res) => {
-                  if (res.status === LibraryModels.StatusCode.CREATED) {
-                    LibraryComponents.ToastsStore.success(`Banner created.`)
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
-                  }
-                })
+                if (
+                  selectedUserInfo !== undefined &&
+                  selectedPages !== undefined &&
+                  selectedUserPermision !== undefined
+                ) {
+                  Services.addUserMapping({
+                    user: selectedUserInfo,
+                    pages: selectedPages,
+                    userPermissions: selectedUserPermision,
+                  }).then((res) => {
+                    if (res.status === LibraryModels.StatusCode.CREATED) {
+                      LibraryComponents.ToastsStore.success(`Created.`)
+                      setTimeout(() => {
+                        window.location.reload()
+                      }, 2000)
+                    } else {
+                      alert("Not added data.")
+                    }
+                  })
+                }
               }}
             >
               Save

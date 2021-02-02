@@ -1,13 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { loginRouter as loginRouters, dashboardRouter as dashboardRoutes } from "./index";
+import React from "react"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import {
+  loginRouter as loginRouters,
+  dashboardRouter as dashboardRoutes,
+} from "./index"
 
-import DashboardLayout from "../layouts/Dashboard";
-import LandingLayout from "../layouts/Landing";
-import AuthLayout from "../layouts/Auth";
-import Page404 from "@lp/features/login/scenes/Page404";
+import DashboardLayout from "../layouts/Dashboard"
+import LandingLayout from "../layouts/Landing"
+import AuthLayout from "../layouts/Auth"
+import Page404 from "@lp/features/login/scenes/Page404"
 
-import ScrollToTop from "@lp/layouts/components/ScrollToTop";
+import ScrollToTop from "@lp/layouts/components/ScrollToTop"
 
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
@@ -38,7 +41,7 @@ const childRoutes = (Layout, routes) =>
         )}
       />
     )
-  );
+  )
 
 const Routes = () => (
   <Router>
@@ -56,6 +59,6 @@ const Routes = () => (
       </Switch>
     </ScrollToTop>
   </Router>
-);
+)
 
-export default Routes;
+export default Routes
