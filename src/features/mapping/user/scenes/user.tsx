@@ -8,8 +8,16 @@ import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import Checkbox from "@material-ui/core/Checkbox"
 import * as Router from "@lp/routes"
+import moment from "moment"
+import BootstrapTable from "react-bootstrap-table-next"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+
+const { SearchBar, ClearSearchButton } = Search
+const { ExportCSVButton } = CSVExport
 
 const UserMapping = observer(() => {
+  const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
   const userList: any = rootStore.userStore.userList || []
@@ -17,8 +25,7 @@ const UserMapping = observer(() => {
   const [value, setValue] = React.useState<string | null>(fullName)
   const [inputValue, setInputValue] = React.useState("")
   const [selectedUserInfo, setSelectedUserInfo] = useState<any>()
-  const [selectedPages, setSelectedPages] = useState<any>()
-  const [selectedUserPermision, setSelectedUserPermission] = useState<any>()
+  const [deleteUser, setDeleteUser] = useState<any>({})
 
   return (
     <>
@@ -72,7 +79,7 @@ const UserMapping = observer(() => {
                 options={Router.UserPermission}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
-                  setSelectedPages(newValue)
+                  rootStore.userMappingStore.updatePages(newValue)
                 }}
                 groupBy={(option) => option.path}
                 getOptionLabel={(option) => option.name}
@@ -94,14 +101,10 @@ const UserMapping = observer(() => {
               <Autocomplete
                 multiple
                 id="userPermision"
-                options={[
-                  { title: "Add" },
-                  { title: "Delete" },
-                  { title: "Edit/Update" },
-                ]}
+                options={option}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
-                  setSelectedUserPermission(newValue)
+                  rootStore.userMappingStore.updateUserPermision(newValue)
                 }}
                 getOptionLabel={(option) => option.title}
                 renderOption={(option, { selected }) => (
@@ -131,13 +134,13 @@ const UserMapping = observer(() => {
               onClick={() => {
                 if (
                   selectedUserInfo !== undefined &&
-                  selectedPages !== undefined &&
-                  selectedUserPermision !== undefined
+                  rootStore.userMappingStore.arrPages !== undefined &&
+                  rootStore.userMappingStore.arrUserPermision !== undefined
                 ) {
                   Services.addUserMapping({
                     user: selectedUserInfo,
-                    pages: selectedPages,
-                    userPermissions: selectedUserPermision,
+                    pages: rootStore.userMappingStore.arrPages,
+                    userPermissions: rootStore.userMappingStore.arrUserPermision,
                   }).then((res) => {
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Created.`)
@@ -167,45 +170,165 @@ const UserMapping = observer(() => {
         </div>
         <br />
         <div className="m-1 p-2 rounded-lg shadow-xl">
-          <table className="border-separate border border-green-800 w-full">
-            <thead>
-              <tr>
-                <th className="border border-green-600">Title</th>
-                <th className="border border-green-600">Image</th>
-                <th className="border border-green-600">Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rootStore.bannerStore.listBanner?.map((item, key) => (
-                <tr key={key}>
-                  <td className="border border-green-600 text-center">
-                    {item.title}
-                  </td>
-                  <td className="border border-green-600">
-                    <img src={item.image} className="w-60 h-40 ml-6" alt="logo" />
-                  </td>
+          <ToolkitProvider
+            keyField="id"
+            data={rootStore.userMappingStore.userMappingList || []}
+            columns={[
+              {
+                dataField: "user.fullName",
+                text: "User name",
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: "user.userId",
+                text: "User Id",
+              },
+              {
+                dataField: "user.role",
+                text: "Role",
+              },
+              {
+                dataField: "pages",
+                text: "Pages",
+                style: { width: 200 },
+                csvFormatter: (cell, row, rowIndex) =>
+                  `${row.pages.map((item) => item.name)}`,
+                formatter: (cellContent, row) => (
+                  <>
+                    {/* <Autocomplete
+                      disabled
+                      multiple
+                      id="pages"
+                      options={row.pages}
+                      disableCloseOnSelect
+                      onChange={(event, newValue) => {
+                        rootStore.userMappingStore.updatePages(newValue)
+                      }}
+                      groupBy={(option: any) => option.path}
+                      getOptionLabel={(option) => option.name}
+                      renderOption={(option, { selected }) => (
+                        <React.Fragment>
+                          <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                          {option.name}
+                        </React.Fragment>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          label="Pages"
+                          placeholder="Pages"
+                        />
+                      )}
+                    />*/}
+                    <ul>
+                      {row.pages.map((item) => (
+                        <li>{item.name}</li>
+                      ))}
+                    </ul>
+                  </>
+                ),
+              },
+              {
+                dataField: "userPermissions",
+                text: "User Permissions",
+                csvFormatter: (cell, row, rowIndex) =>
+                  `${row.userPermissions.map((item) => item.title)}`,
+                formatter: (cellContent, row) => (
+                  <>
+                    {/* <Autocomplete
+                      multiple
+                      disabled
+                      id="userPermision"
+                      options={option}
+                      disableCloseOnSelect
+                      onChange={(event, newValue) => {
+                        rootStore.userMappingStore.updateUserPermision(newValue)
+                      }}
+                      getOptionLabel={(option) => option.title}
+                      renderOption={(option, { selected }) => (
+                        <React.Fragment>
+                          <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                          {option.title}
+                        </React.Fragment>
+                      )}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          label="User Permission"
+                          placeholder="User Permission"
+                        />
+                      )}
+                    /> */}
+                    <ul>
+                      {row.userPermissions.map((item) => (
+                        <li>{item.title}</li>
+                      ))}
+                    </ul>
+                  </>
+                ),
+              },
 
-                  <td className="border border-green-600 text-center p-1">
+              {
+                dataField: "opration",
+                text: "Delete",
+                editable: false,
+                csvExport: false,
+
+                formatter: (cellContent, row) => (
+                  <>
                     <LibraryComponents.Button
                       size="small"
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
                       onClick={() => {
-                        setDeleteItem({
+                        setDeleteUser({
                           show: true,
-                          id: item._id,
+                          id: row._id,
                           title: "Are you sure?",
-                          body: `Delete ${item.title}!`,
+                          body: `Delete this user mapping!`,
                         })
                       }}
                     >
                       Delete
                     </LibraryComponents.Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </>
+                ),
+              },
+            ]}
+            search
+            exportCSV={{
+              fileName: `usersMapping_${moment(new Date()).format(
+                "YYYY-MM-DD HH:mm"
+              )}.csv`,
+              noAutoBOM: false,
+              blobType: "text/csv;charset=ansi",
+            }}
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  noDataIndication="Table is Empty"
+                  hover
+                />
+              </div>
+            )}
+          </ToolkitProvider>
         </div>
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
