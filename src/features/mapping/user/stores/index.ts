@@ -8,7 +8,7 @@ class UserMappingStore {
   @ignore @observable user?: Models.User
   @observable userMappingList?: Models.User[] = []
   @observable arrPages?: any[] = []
-  @observable arrUserPermision?: any[] = []
+  @observable arrUserPermision?: [] = []
 
   @action fetchUserMappingList() {
     Services.userMappingList().then((list) => {
