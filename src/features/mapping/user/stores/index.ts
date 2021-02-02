@@ -7,6 +7,8 @@ import * as Services from "../services"
 class UserMappingStore {
   @ignore @observable user?: Models.User
   @observable userMappingList?: Models.User[] = []
+  @observable arrPages?: any[] = []
+  @observable arrUserPermision?: any[] = []
 
   @action fetchUserMappingList() {
     Services.userMappingList().then((list) => {
@@ -17,6 +19,14 @@ class UserMappingStore {
 
   @action updateUser = (user: Models.User) => {
     this.user = user
+  }
+
+  @action updatePages(pages: any) {
+    this.arrPages = pages
+  }
+
+  @action updateUserPermision(permission: any) {
+    this.arrUserPermision = permission
   }
 }
 export default UserMappingStore

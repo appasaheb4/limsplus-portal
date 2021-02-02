@@ -125,13 +125,26 @@ const mappingRoutes = {
   ],
 }
 
+const settingsRoutes = {
+  path: "/settings",
+  name: "Settings",
+  icon: LayoutIcon,
+  children: [
+    {
+      path: "/settings/mapping/userMapping",
+      name: "User Mapping",
+      component: userMapping,
+    },
+  ],
+}
+
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
   bannerRoutes,
   collectionRoutes,
   userRoutes,
-  mappingRoutes,
+  settingsRoutes,
 ]
 
 // Landing specific routes
@@ -143,7 +156,7 @@ export default [
   bannerRoutes,
   collectionRoutes,
   userRoutes,
-  mappingRoutes,
+  settingsRoutes,
 ]
 
 export const UserPermission = [

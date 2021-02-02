@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Link } from "react-router-dom"
 
-import { Button } from "reactstrap";
+import { Button } from "reactstrap"
 
 const Page404 = () => (
   <div className="text-center">
@@ -10,12 +10,12 @@ const Page404 = () => (
     <p className="h2 font-weight-normal mt-3 mb-4">
       The page you are looking for might have been removed.
     </p>
-    <Link to="/dashboard">
+    <Link to="/dashboard/default">
       <Button color="primary" size="lg">
         Return to website
       </Button>
     </Link>
   </div>
-);
+)
 
-export default Page404;
+export default Page404

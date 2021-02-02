@@ -14,12 +14,16 @@ const Dashboard = observer(({ children }) => {
   const rootStore = React.useContext(Contexts.rootStore)
   const history: any = useHistory()
 
-  useEffect(() => {
-    console.log({ islogin: rootStore.isLogin() })
-    if (!rootStore.isLogin()) {
-      history.push("/")
-    }
-  }, [rootStore.userStore.login])
+  // useEffect(() => {
+  //   async function isLogin() {
+  //     const isLogin = await rootStore.isLogin()
+  //     if (!isLogin) {
+  //       history.push("/")
+  //     } else {
+  //     }
+  //   }
+  //   isLogin()
+  // }, [rootStore.userStore.login])
 
   return (
     <React.Fragment>
