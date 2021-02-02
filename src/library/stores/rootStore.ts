@@ -20,7 +20,7 @@ class RootStore {
   @observable departmentStore = new DepartmentStore()
   @observable roleStore = new RoleStore()
   @observable bannerStore = new BannerStore()
-  @observable userMappingStore = new UserMappingStore()
+   @observable userMappingStore = new UserMappingStore()
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading

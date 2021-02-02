@@ -18,6 +18,8 @@ export const userMappingList = () =>
 
 export const addUserMapping = (userMapping: any) =>
   new Promise<any>((resolve, reject) => {
+    console.log({ userMapping })
+
     const client = Clients.createLimsPlusClient()
     client
       .post(`${RELATIVE_PATH}/addUserMapping`, userMapping)
@@ -30,14 +32,14 @@ export const addUserMapping = (userMapping: any) =>
   })
 
 export const deleteUserMapping = (id: string) =>
-  new Promise<Models.User[]>((resolve, reject) => {
+  new Promise<any>((resolve, reject) => {
     console.log({ id })
 
     const client = Clients.createLimsPlusClient()
     client
       .delete(`${RELATIVE_PATH}/deleteUserMapping/${id}`)
       .then((res) => {
-        resolve(res.data)
+        resolve(res)
       })
       .catch((error) => {
         reject({ error })
