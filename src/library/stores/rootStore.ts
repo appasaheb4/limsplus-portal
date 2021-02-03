@@ -30,7 +30,7 @@ class RootStore {
     console.log({ val: this.userStore.login })
 
     if (
-      this.userStore.login?.fullName != "" &&
+      this.userStore.login?.fullName !== "" &&
       this.userStore.login?.fullName !== undefined
     ) {
       return true
