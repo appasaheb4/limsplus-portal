@@ -112,18 +112,18 @@ const userRoutes = {
   ],
 }
 
-const mappingRoutes = {
-  path: "/mapping",
-  name: "Mapping",
-  icon: LayoutIcon,
-  children: [
-    {
-      path: "/mapping/userMapping",
-      name: "User Mapping",
-      component: userMapping,
-    },
-  ],
-}
+// const mappingRoutes = {
+//   path: "/mapping",
+//   name: "Mapping",
+//   icon: LayoutIcon,
+//   children: [
+//     {
+//       path: "/mapping/userMapping",
+//       name: "User Mapping",
+//       component: userMapping,
+//     },
+//   ],
+// }
 
 const settingsRoutes = {
   path: "/settings",
