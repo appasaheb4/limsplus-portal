@@ -6,9 +6,9 @@ import * as Config from "@lp/config"
 
 interface ModalProps {
   show?: boolean
-  title?: string
-  body?: string
-  click: () => void
+  data?: any
+  click: (action: string) => void
+  onClose: () => void
 }
 
 export default function ModalNoticeBoard(props: ModalProps) {
@@ -32,7 +32,7 @@ export default function ModalNoticeBoard(props: ModalProps) {
                 <div>
                   <button
                     className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => props.onClose()}
                   >
                     <span className=" text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
                       ×
@@ -50,12 +50,14 @@ export default function ModalNoticeBoard(props: ModalProps) {
                   </div>
                   <div>
                     <div className="items-center justify-center flex">
-                      <Sad
-                        size={60}
-                        color={Config.Styles.COLORS.BLACK}
-                        style={{ marginRight: 10 }}
-                      />
-                      <h1 className="text-4xl">{`System is under maintance`}</h1>
+                      {props.data.action !== "login" && (
+                        <Sad
+                          size={60}
+                          color={Config.Styles.COLORS.BLACK}
+                          style={{ marginRight: 10 }}
+                        />
+                      )}
+                      <h1 className="text-4xl">{`${props.data.header}`}</h1>
                     </div>
                   </div>
                 </div>
@@ -63,7 +65,7 @@ export default function ModalNoticeBoard(props: ModalProps) {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-gray-600 text-lg leading-relaxed">
-                    {`System is under Mentinance Mode, can not available from 11:00 PM to 12...`}
+                    {`${props.data.message}`}
                   </p>
                 </div>
                 {/*footer*/}
@@ -73,11 +75,10 @@ export default function ModalNoticeBoard(props: ModalProps) {
                     type="button"
                     style={{ transition: "all .15s ease" }}
                     onClick={() => {
-                      setShowModal(false)
-                      props.click()
+                      props.click(props.data.action)
                     }}
                   >
-                    Logout
+                    {props.data.action !== "login" ? `Logout` : "Login"}
                   </button>
                 </div>
                 <div className="justify-center items-center flex">
