@@ -1,3 +1,4 @@
+/* eslint-disable */  
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -10,7 +11,6 @@ import Checkbox from "@material-ui/core/Checkbox"
 import * as Router from "@lp/routes"
 import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 
 const { SearchBar, ClearSearchButton } = Search
