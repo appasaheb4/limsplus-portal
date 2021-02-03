@@ -45,6 +45,7 @@ export default function ModalNoticeBoard(props: ModalProps) {
                       src={Assets.logo}
                       className=" img-thumbnail img-fluid"
                       style={{ width: 70, height: 55, marginRight: 10 }}
+                      alt="lims plus"
                     />
                     <h4 className="font-semibold">{`Lims Plus`}</h4>
                   </div>
