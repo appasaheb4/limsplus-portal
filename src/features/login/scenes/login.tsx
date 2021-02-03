@@ -9,6 +9,7 @@ import * as Utils from "@lp/library/utils"
 import * as ModelsUser from "@lp/features/users/models"
 import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
+import { ModalNoticeBoard } from "../components"
 
 const Login = observer(() => {
   const history = useHistory()
@@ -155,15 +156,14 @@ const Login = observer(() => {
                       Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
                         .then((res) => {
                           console.log({ res })
-
                           rootStore.setProcessLoading(false)
                           if (res.status === 200) {
-                            LibraryComponents.ToastsStore.success(
-                              `Welcome ${res.data.data.fullName}`
-                            )
-                            rootStore.userStore.updateLogin(res.data.data)
-                            rootStore.userStore.clearInputLogin()
-                            history.push("/dashboard/default")
+                            // LibraryComponents.ToastsStore.success(
+                            //   `Welcome ${res.data.data.fullName}`
+                            // )
+                            // rootStore.userStore.updateLogin(res.data.data)
+                            // rootStore.userStore.clearInputLogin()
+                            // history.push("/dashboard/default")
                           } else if (res.status === 203) {
                             LibraryComponents.ToastsStore.error(
                               "User not found. Please enter correct information!"
@@ -198,6 +198,7 @@ const Login = observer(() => {
             </div>
           </Col>
         </Row>
+        <ModalNoticeBoard click={() => console.log("hi")} />
       </Container>
     </>
   )
