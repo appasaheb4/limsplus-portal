@@ -15,6 +15,7 @@ const Login = observer(() => {
   const history = useHistory()
   const rootStore = React.useContext(Contexts.rootStore)
   const [errors, setErrors] = useState<ModelsUser.Login>()
+  const [noticeBoard, setNoticeBoard] = useState<any>({})
 
   useEffect(() => {
     if (rootStore.isLogin()) {
@@ -158,12 +159,20 @@ const Login = observer(() => {
                           console.log({ res })
                           rootStore.setProcessLoading(false)
                           if (res.status === 200) {
-                            // LibraryComponents.ToastsStore.success(
-                            //   `Welcome ${res.data.data.fullName}`
-                            // )
-                            // rootStore.userStore.updateLogin(res.data.data)
-                            // rootStore.userStore.clearInputLogin()
-                            // history.push("/dashboard/default")
+                            if (res.data.data.noticeBoard !== undefined) {
+                              setNoticeBoard({
+                                show: true,
+                                userInfo: res.data.data,
+                                data: res.data.data.noticeBoard,
+                              })
+                            } else {
+                              LibraryComponents.ToastsStore.success(
+                                `Welcome ${res.data.data.fullName}`
+                              )
+                              rootStore.userStore.updateLogin(res.data.data)
+                              rootStore.userStore.clearInputLogin()
+                              history.push("/dashboard/default")
+                            }
                           } else if (res.status === 203) {
                             LibraryComponents.ToastsStore.error(
                               "User not found. Please enter correct information!"
@@ -198,7 +207,32 @@ const Login = observer(() => {
             </div>
           </Col>
         </Row>
-        <ModalNoticeBoard click={() => console.log("hi")} />
+        <ModalNoticeBoard
+          {...noticeBoard}
+          click={(action) => {
+            setNoticeBoard({
+              ...noticeBoard,
+              show: false,
+            })
+            if (action !== "login") {
+              rootStore.userStore.clearInputLogin()
+              LibraryComponents.ToastsStore.warning(`Please use diff lab`)
+            } else {
+              LibraryComponents.ToastsStore.success(
+                `Welcome ${noticeBoard.userInfo.fullName}`
+              )
+              rootStore.userStore.updateLogin(noticeBoard.userInfo)
+              rootStore.userStore.clearInputLogin()
+              history.push("/dashboard/default")
+            }
+          }}
+          onClose={() => {
+            setNoticeBoard({
+              ...noticeBoard,
+              show: false,
+            })
+          }}
+        />
       </Container>
     </>
   )
