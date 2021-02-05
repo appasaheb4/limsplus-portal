@@ -31,6 +31,13 @@ const changePassword = async(
 
 // Mapping
 const userMapping = async(() => import("@lp/features/mapping/user/scenes/user"))
+const LabMapping = async(
+  () => import("@lp/features/mapping/lab/scenes/LapMappingScreen")
+)
+const RoleMapping = async(
+  () => import("@lp/features/mapping/role/scenes/RoleMappingScreen")
+)
+
 // Routes
 const loginRoutes = {
   path: "/",
@@ -134,6 +141,16 @@ const settingsRoutes = {
       path: "/settings/mapping/userMapping",
       name: "User Mapping",
       component: userMapping,
+    },
+    {
+      path: "/settings/mapping/labMapping",
+      name: "Lab Mapping",
+      component: LabMapping,
+    },
+    {
+      path: "/settings/mapping/roleMapping",
+      name: "Role Mapping",
+      component: RoleMapping,
     },
   ],
 }
