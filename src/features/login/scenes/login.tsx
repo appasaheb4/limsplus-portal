@@ -1,4 +1,4 @@
-/* eslint-disable */  
+/* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -19,16 +19,14 @@ const Login = observer(() => {
   const [noticeBoard, setNoticeBoard] = useState<any>({})
 
   useEffect(() => {
-    if (rootStore.isLogin()) {
-      const path = window.location.pathname
-      console.log({ path })
-      if (path !== "/") history.push(window.location.pathname)
-      else history.push("/dashboard/default")
-      history.push("/dashboard/default")
-    } else {
-      history.push("/")
-    }
-  }, [rootStore.userStore.login])
+    rootStore.isLogin().then((isLogin) => {
+      if (isLogin) {
+        history.push("/dashboard/default")
+      } else {
+        history.push("/")
+      }
+    })
+  }, [rootStore.userStore.login?.fullName])
 
   return (
     <>

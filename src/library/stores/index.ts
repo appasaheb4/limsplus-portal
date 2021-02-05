@@ -14,6 +14,7 @@ trunk.init().then(() => {
   RootStore.deginisationStore.fetchListDeginisation()
   RootStore.departmentStore.fetchListDepartment()
   RootStore.roleStore.fetchListRole()
+  RootStore.userStore.loadUser()
   RootStore.userMappingStore.fetchUserMappingList()
 })
 

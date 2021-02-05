@@ -20,22 +20,26 @@ class RootStore {
   @observable departmentStore = new DepartmentStore()
   @observable roleStore = new RoleStore()
   @observable bannerStore = new BannerStore()
-   @observable userMappingStore = new UserMappingStore()
+  @observable userMappingStore = new UserMappingStore()
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading
   }
 
-  @action isLogin(): boolean {
-    console.log({ val: this.userStore.login })
-
-    if (
-      this.userStore.login?.fullName !== "" &&
-      this.userStore.login?.fullName !== undefined
-    ) {
-      return true
-    }
-    return false
+  @action isLogin(): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      try {
+        if (
+          this.userStore.login?.fullName !== "" &&
+          this.userStore.login?.fullName !== undefined
+        ) {
+          resolve(true)
+        }
+        resolve(false)
+      } catch (error) {
+        reject(error)
+      }
+    })
   }
 }
 const store = new RootStore()
