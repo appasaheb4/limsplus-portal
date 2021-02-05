@@ -1,4 +1,4 @@
-/* eslint-disable */  
+/* eslint-disable */
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import Wrapper from "./components/Wrapper"
@@ -16,15 +16,12 @@ const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
 
   useEffect(() => {
-    async function isLogin() {
-      const isLogin = await rootStore.isLogin()
-      if (!isLogin) {
-        history.push("/")
-      } else {
-      }
-    }
-    isLogin()
-  }, [rootStore.userStore.login])
+    setTimeout(() => {
+      rootStore.isLogin().then((isLogin) => {
+        if (!isLogin) history.push("/")
+      })
+    }, 1000)
+  }, [rootStore.userStore.login?.fullName])
 
   return (
     <React.Fragment>
