@@ -15,7 +15,7 @@ trunk.init().then(() => {
   RootStore.departmentStore.fetchListDepartment()
   RootStore.roleStore.fetchListRole()
   RootStore.userStore.loadUser()
-  RootStore.userMappingStore.fetchUserMappingList()
+  RootStore.roleMappingStore.fetchUserMappingList()
 })
 
 const Contexts = {
@@ -26,9 +26,9 @@ const Contexts = {
   departmentStore: React.createContext(RootStore.departmentStore),
   roleStore: React.createContext(RootStore.roleStore),
   bannerStore: React.createContext(RootStore.bannerStore),
-  userMappingStore: React.createContext(RootStore.userMappingStore),
-  labMappingStore: React.createContext(RootStore.labMappingStore),
   roleMappingStore: React.createContext(RootStore.roleMappingStore),
+  labMappingStore: React.createContext(RootStore.labMappingStore),
+  roleRightsMappingStore: React.createContext(RootStore.roleRightsMappingStore),
 }
 
 export default Contexts

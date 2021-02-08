@@ -6,37 +6,37 @@ import { Layout as LayoutIcon, Sliders as SlidersIcon } from "react-feather"
 import login from "@lp/features/login/scenes/login"
 
 // Dashboards
-const defaultDashboard = async(() => import("@lp/features/Default"))
+const DefaultDashboard = async(() => import("@lp/features/Default"))
 
 // Banner
-const banner = async(() => import("@lp/features/banner/scenes/banner"))
+const Banner = async(() => import("@lp/features/banner/scenes/banner"))
 
 // Collection
-const collection_Lab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
-const collection_Deginisation = async(
+const CollectionLab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
+const CollectionDeginisation = async(
   () => import("@lp/features/collection/deginisation/scenes/deginisation")
 )
-const collection_Department = async(
+const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/department")
 )
-const collection_Role = async(
-  () => import("@lp/features/collection/labs/scenes/Lab")
-)
+const CollectionRole = async(() => import("@lp/features/collection/labs/scenes/Lab"))
 
 // User
-const user = async(() => import("@lp/features/users/scenes/user"))
-const changePassword = async(
+const User = async(() => import("@lp/features/users/scenes/user"))
+const ChangePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )
 
 // Mapping
-const userMapping = async(() => import("@lp/features/mapping/user/scenes/user"))
-const LabMapping = async(
-  () => import("@lp/features/mapping/lab/scenes/LapMappingScreen")
-)
 const RoleMapping = async(
-  () => import("@lp/features/mapping/role/scenes/RoleMappingScreen")
+  () => import("@lp/features/mapping/role/scenes/RoleMapping")
 )
+// const LabMapping = async(
+//   () => import("@lp/features/mapping/lab/scenes/LapMappingScreen")
+// )
+// const RoleRightsMapping = async(
+//   () => import("@lp/features/mapping/rolerights/scenes/RoleRightsMapping")
+// )
 
 // Routes
 const loginRoutes = {
@@ -55,7 +55,7 @@ const dashboardRoutes = {
     {
       path: "/dashboard/default",
       name: "Default",
-      component: defaultDashboard,
+      component: DefaultDashboard,
     },
   ],
 }
@@ -68,7 +68,7 @@ const bannerRoutes = {
     {
       path: "/banner/banner",
       name: "Banner",
-      component: banner,
+      component: Banner,
     },
   ],
 }
@@ -81,22 +81,22 @@ const collectionRoutes = {
     {
       path: "/collection/lab",
       name: "Lab",
-      component: collection_Lab,
+      component: CollectionLab,
     },
     {
       path: "/collection/deginisation",
       name: "Deginisation",
-      component: collection_Deginisation,
+      component: CollectionDeginisation,
     },
     {
       path: "/collection/department",
       name: "Department",
-      component: collection_Department,
+      component: CollectionDepartment,
     },
     {
       path: "/collection/role",
       name: "Role",
-      component: collection_Role,
+      component: CollectionRole,
     },
   ],
 }
@@ -109,12 +109,12 @@ const userRoutes = {
     {
       path: "/user/user",
       name: "User",
-      component: user,
+      component: User,
     },
     {
       path: "/user/changePassword",
       name: "Change Password",
-      component: changePassword,
+      component: ChangePassword,
     },
   ],
 }
@@ -138,20 +138,20 @@ const settingsRoutes = {
   icon: LayoutIcon,
   children: [
     {
-      path: "/settings/mapping/userMapping",
-      name: "User Mapping",
-      component: userMapping,
-    },
-    {
-      path: "/settings/mapping/labMapping",
-      name: "Lab Mapping",
-      component: LabMapping,
-    },
-    {
       path: "/settings/mapping/roleMapping",
       name: "Role Mapping",
       component: RoleMapping,
     },
+    // {
+    //   path: "/settings/mapping/labMapping",
+    //   name: "Lab Mapping",
+    //   component: LabMapping,
+    // },
+    // {
+    //   path: "/settings/mapping/rolerightsMapping",
+    //   name: "Role Rights Mapping",
+    //   component: RoleRightsMapping,
+    // },
   ],
 }
 
@@ -174,37 +174,4 @@ export default [
   collectionRoutes,
   userRoutes,
   settingsRoutes,
-]
-
-export const UserPermission = [
-  {
-    path: "banner",
-    name: "Banner",
-    component: banner,
-  },
-  {
-    path: "collection",
-    name: "Collection Lab",
-    component: collection_Lab,
-  },
-  {
-    path: "collection",
-    name: "Collection Deginisation",
-    component: collection_Deginisation,
-  },
-  {
-    path: "collection",
-    name: "Collection Department",
-    component: collection_Department,
-  },
-  {
-    path: "collection",
-    name: "Collection Role",
-    component: collection_Role,
-  },
-  {
-    path: "user",
-    name: "Users",
-    component: user,
-  },
 ]

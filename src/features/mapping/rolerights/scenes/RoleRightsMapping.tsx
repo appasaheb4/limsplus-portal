@@ -16,7 +16,7 @@ import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolk
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-const RoleMapping = observer(() => {
+const RoleRightsMapping = observer(() => {
   const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
@@ -27,14 +27,14 @@ const RoleMapping = observer(() => {
   const [selectedUserInfo, setSelectedUserInfo] = useState<any>()
 
   useEffect(() => {
-    rootStore.roleMappingStore.fetchRoleMappingList()
+    rootStore.roleRightsMappingStore.fetchRoleMappingList()
   }, [])
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="Role Mapping"
+          title="Role Rights Mapping"
           subTitle="Add, Edit & Delete"
         />
       </LibraryComponents.Header>
@@ -81,7 +81,7 @@ const RoleMapping = observer(() => {
                 options={rootStore.roleStore.listRole}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
-                  rootStore.roleMappingStore.updateRole(newValue)
+                  rootStore.roleRightsMappingStore.updateRole(newValue)
                 }}
                 getOptionLabel={(option) => option.description || ""}
                 renderOption={(option, { selected }) => (
@@ -110,11 +110,11 @@ const RoleMapping = observer(() => {
               onClick={() => {
                 if (
                   selectedUserInfo !== undefined &&
-                  rootStore.roleMappingStore.arrSelectedRole !== undefined
+                  rootStore.roleRightsMappingStore.arrSelectedRole !== undefined
                 ) {
                   Services.addRoleMapping({
                     user: selectedUserInfo,
-                    roles: rootStore.roleMappingStore.arrSelectedRole,
+                    roles: rootStore.roleRightsMappingStore.arrSelectedRole,
                   }).then((res) => {
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Created.`)
@@ -146,7 +146,7 @@ const RoleMapping = observer(() => {
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.roleMappingStore.roleMappingList || []}
+            data={rootStore.roleRightsMappingStore.roleMappingList || []}
             columns={[
               {
                 dataField: "user.fullName",
@@ -269,7 +269,7 @@ const RoleMapping = observer(() => {
               if (res.status === LibraryModels.StatusCode.SUCCESS) {
                 LibraryComponents.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.roleMappingStore.fetchRoleMappingList()
+                rootStore.roleRightsMappingStore.fetchRoleMappingList()
               }
             })
           }}
@@ -279,4 +279,4 @@ const RoleMapping = observer(() => {
   )
 })
 
-export default RoleMapping
+export default RoleRightsMapping
