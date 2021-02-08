@@ -21,6 +21,7 @@ class UsersStore {
   private initLogin() {
     return {
       lab: "",
+      role: "",
       userId: "",
       password: "",
     }
@@ -31,15 +32,17 @@ class UsersStore {
     date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
     return {
       userId: "",
-      lab: "",
+      lab: [],
       password: "",
       deginisation: "",
       status: "Active",
       fullName: "",
-      department: "",
+      mobileNo: "",
+      email: "",
+      department: [],
       exipreDate: new Date(date),
       exipreDays: 30,
-      role: "",
+      role: [],
     }
   }
 

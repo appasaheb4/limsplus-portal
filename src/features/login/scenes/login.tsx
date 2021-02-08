@@ -60,35 +60,6 @@ const Login = observer(() => {
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
-                  <select
-                    name="lab"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value
-                      setErrors({
-                        ...errors,
-                        lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
-                      })
-                      rootStore.userStore.updateInputUser({
-                        ...rootStore.userStore.inputLogin,
-                        lab,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any) => (
-                      <option key={item.code} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
-                {errors?.lab && (
-                  <span className="text-red-600 font-medium relative">
-                    {errors.lab}
-                  </span>
-                )}
                 <LibraryComponents.Form.Input
                   label="User Id"
                   id="userId"
@@ -136,6 +107,67 @@ const Login = observer(() => {
                 {errors?.password && (
                   <span className="text-red-600 font-medium relative">
                     {errors.password}
+                  </span>
+                )}
+                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+                  <select
+                    name="lab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const lab = e.target.value
+                      setErrors({
+                        ...errors,
+                        lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
+                      })
+                      rootStore.userStore.updateInputUser({
+                        ...rootStore.userStore.inputLogin,
+                        lab,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {rootStore.labStore.listLabs.map((item: any) => (
+                      <option key={item.code} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                {errors?.lab && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.lab}
+                  </span>
+                )}
+                <LibraryComponents.Form.InputWrapper label="Role" id="role">
+                  <select
+                    name="role"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const role = e.target.value
+                      setErrors({
+                        ...errors,
+                        role: Utils.validate.single(
+                          role,
+                          Utils.constraintsLogin.role
+                        ),
+                      })
+                      rootStore.userStore.updateInputUser({
+                        ...rootStore.userStore.inputLogin,
+                        role,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {rootStore.roleStore.listRole.map((item: any) => (
+                      <option key={item.code} value={item.code}>
+                        {item.description}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                {errors?.lab && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.lab}
                   </span>
                 )}
               </LibraryComponents.List>

@@ -22,6 +22,13 @@ export const constraintsLogin = {
       message: "Lab must be least 2 characters ",
     },
   },
+  role: {
+    presence: true,
+    length: {
+      minimum: 2,
+      message: "Role must be least 2 characters ",
+    },
+  },
   userId: {
     presence: true,
     length: {

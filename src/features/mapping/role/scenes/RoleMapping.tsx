@@ -258,7 +258,7 @@ const RoleMapping = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `usersMapping_${moment(new Date()).format(
+              fileName: `roleMapping_${moment(new Date()).format(
                 "YYYY-MM-DD HH:mm"
               )}.csv`,
               noAutoBOM: false,
