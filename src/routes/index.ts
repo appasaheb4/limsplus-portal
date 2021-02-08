@@ -22,7 +22,7 @@ const CollectionDepartment = async(
 const CollectionRole = async(() => import("@lp/features/collection/labs/scenes/Lab"))
 
 // User
-const User = async(() => import("@lp/features/users/scenes/user"))
+const User = async(() => import("@lp/features/users/scenes/Users"))
 const ChangePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )

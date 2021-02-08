@@ -1,4 +1,4 @@
-/* eslint-disable */  
+/* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -10,6 +10,11 @@ import Contexts from "@lp/library/stores"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import Checkbox from "@material-ui/core/Checkbox"
+
 import * as Services from "../services"
 import { Container } from "reactstrap"
 
@@ -94,33 +99,40 @@ const Users = observer(() => {
                     UserId already exits. Please use other userid.
                   </span>
                 )}
-
-                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
-                  <select
-                    name="lab"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value
-                      console.log({ lab })
-
-                      setErrors({
-                        ...errors,
-                        lab: Utils.validate.single(lab, Utils.constraintsUser.lab),
-                      })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
-                        lab,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
+                <Autocomplete
+                  multiple
+                  id="labs"
+                  options={rootStore.labStore.listLabs}
+                  disableCloseOnSelect
+                  onChange={(event, newValue) => {
+                    setErrors({
+                      ...errors,
+                      lab: Utils.validate.single(
+                        newValue,
+                        Utils.constraintsUser.lab
+                      ),
+                    })
+                    rootStore.userStore.updateUser({
+                      ...rootStore.userStore.user,
+                      lab: newValue,
+                    })
+                  }}
+                  getOptionLabel={(option) => option.name || ""}
+                  renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                      {option.name}
+                    </React.Fragment>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Labs"
+                      placeholder="Labs"
+                    />
+                  )}
+                />
                 {errors?.lab && (
                   <span className="text-red-600 font-medium relative">
                     {errors.lab}
@@ -248,39 +260,67 @@ const Users = observer(() => {
                   </span>
                 )}
 
-                <LibraryComponents.Form.InputWrapper
-                  label="Department"
+                <LibraryComponents.Form.Input
+                  label="Mobile No"
+                  id="mobileNo"
+                  placeholder="Mobile No"
+                  value={rootStore.userStore.user.mobileNo}
+                  onChange={(mobileNo) => {
+                    rootStore.userStore.updateUser({
+                      ...rootStore.userStore.user,
+                      mobileNo,
+                    })
+                  }}
+                />
+                <LibraryComponents.Form.Input
+                  type="mail"
+                  label="Email"
+                  id="email"
+                  placeholder="Email"
+                  value={rootStore.userStore.user.email}
+                  onChange={(email) => {
+                    rootStore.userStore.updateUser({
+                      ...rootStore.userStore.user,
+                      email,
+                    })
+                  }}
+                />
+
+                <Autocomplete
+                  multiple
                   id="department"
-                >
-                  <select
-                    name="department"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const department = e.target.value
-                      setErrors({
-                        ...errors,
-                        department:
-                          department !== ""
-                            ? Utils.validate.single(
-                                department,
-                                Utils.constraintsUser.department
-                              )
-                            : "Department required!",
-                      })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
-                        department,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {rootStore.departmentStore.listDepartment.map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
+                  options={rootStore.departmentStore.listDepartment}
+                  disableCloseOnSelect
+                  onChange={(event, newValue) => {
+                    setErrors({
+                      ...errors,
+                      department: Utils.validate.single(
+                        newValue,
+                        Utils.constraintsUser.department
+                      ),
+                    })
+                    rootStore.userStore.updateUser({
+                      ...rootStore.userStore.user,
+                      department: newValue,
+                    })
+                  }}
+                  getOptionLabel={(option) => option.name || ""}
+                  renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                      {option.name}
+                    </React.Fragment>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Labs"
+                      placeholder="Labs"
+                    />
+                  )}
+                />
+
                 {errors?.department && (
                   <span className="text-red-600 font-medium relative">
                     {errors.department}
@@ -371,34 +411,40 @@ const Users = observer(() => {
                     </span>
                   )}
                 </LibraryComponents.List>
-
-                <LibraryComponents.Form.InputWrapper label="Role" id="role">
-                  <select
-                    name="role"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const role = e.target.value
-                      setErrors({
-                        ...errors,
-                        role:
-                          role !== ""
-                            ? Utils.validate.single(role, Utils.constraintsUser.role)
-                            : "Role required!",
-                      })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
-                        role,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {rootStore.roleStore.listRole.map((item: any) => (
-                      <option key={item.description} value={item.code}>
-                        {item.description}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
+                <Autocomplete
+                  multiple
+                  id="role"
+                  options={rootStore.roleStore.listRole}
+                  disableCloseOnSelect
+                  onChange={(event, newValue) => {
+                    setErrors({
+                      ...errors,
+                      role: Utils.validate.single(
+                        newValue,
+                        Utils.constraintsUser.role
+                      ),
+                    })
+                    rootStore.userStore.updateUser({
+                      ...rootStore.userStore.user,
+                      role: newValue,
+                    })
+                  }}
+                  getOptionLabel={(option) => option.description || ""}
+                  renderOption={(option, { selected }) => (
+                    <React.Fragment>
+                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                      {option.description}
+                    </React.Fragment>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Labs"
+                      placeholder="Labs"
+                    />
+                  )}
+                />
                 {errors?.role && (
                   <span className="text-red-600 font-medium relative">
                     {errors.role}
@@ -460,93 +506,122 @@ const Users = observer(() => {
                   text: "UserId",
                   sort: true,
                   editable: false,
-                  style: { width: 200 },
                 },
                 {
                   dataField: "lab",
                   text: "Lab",
-                  editorRenderer: (
-                    editorProps,
-                    value,
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex
-                  ) => (
+                  headerStyle: { minWidth: "200px" },
+                  formatter: (cellContent, row) => (
                     <>
-                      <select
-                        name="lab"
-                        className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const lab = e.target.value
-                          Services.updateUserSingleFiled({
-                            newValue: lab,
-                            dataField: column.dataField,
-                            id: row._id,
-                          }).then((res) => {
-                            if (res.data) {
-                              rootStore.userStore.loadUser()
-                              LibraryComponents.ToastsStore.success(`User update.`)
-                            }
-                          })
-                        }}
-                      >
-                        <option selected>{row.lab}</option>
-                        {rootStore.labStore.listLabs.map(
-                          (item: any, index: number) => (
-                            <option key={item.name} value={item.code}>
-                              {item.name}
-                            </option>
-                          )
-                        )}
-                      </select>
+                      <ul style={{ listStyle: "inside" }}>
+                        {row.lab.map((item) => (
+                          <li>{item.code}</li>
+                        ))}
+                      </ul>
                     </>
                   ),
+                  editable: false,
+                  // editorRenderer: (
+                  //   editorProps,
+                  //   value,
+                  //   row,
+                  //   column,
+                  //   rowIndex,
+                  //   columnIndex
+                  // ) => (
+                  //   <>
+                  //     <select
+                  //       name="lab"
+                  //       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  //       onChange={(e) => {
+                  //         const lab = e.target.value
+                  //         Services.updateUserSingleFiled({
+                  //           newValue: lab,
+                  //           dataField: column.dataField,
+                  //           id: row._id,
+                  //         }).then((res) => {
+                  //           if (res.data) {
+                  //             rootStore.userStore.loadUser()
+                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //           }
+                  //         })
+                  //       }}
+                  //     >
+                  //       <option selected>{row.lab}</option>
+                  //       {rootStore.labStore.listLabs.map(
+                  //         (item: any, index: number) => (
+                  //           <option key={item.name} value={item.code}>
+                  //             {item.name}
+                  //           </option>
+                  //         )
+                  //       )}
+                  //     </select>
+                  //   </>
+                  // ),
                 },
                 {
                   dataField: "fullName",
                   text: "Full Name",
                 },
                 {
+                  dataField: "mobileNo",
+                  text: "Mobile No",
+                },
+                {
+                  dataField: "email",
+                  text: "Email",
+                },
+                {
                   dataField: "department",
                   text: "Department",
-                  editorRenderer: (
-                    editorProps,
-                    value,
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex
-                  ) => (
+                  headerStyle: { minWidth: "200px" },
+                  formatter: (cellContent, row) => (
                     <>
-                      <select
-                        name="department"
-                        className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const department = e.target.value
-                          Services.updateUserSingleFiled({
-                            newValue: department,
-                            dataField: column.dataField,
-                            id: row._id,
-                          }).then((res) => {
-                            if (res.data) {
-                              rootStore.userStore.loadUser()
-                              LibraryComponents.ToastsStore.success(`User update.`)
-                            }
-                          })
-                        }}
-                      >
-                        <option selected>{row.department}</option>
-                        {rootStore.departmentStore.listDepartment.map(
-                          (item: any, index: number) => (
-                            <option key={item.name} value={item.code}>
-                              {item.name}
-                            </option>
-                          )
-                        )}
-                      </select>
+                      <ul style={{ listStyle: "inside" }}>
+                        {row.department.map((item) => (
+                          <li>{item.code}</li>
+                        ))}
+                      </ul>
                     </>
                   ),
+                  editable: false,
+                  // editorRenderer: (
+                  //   editorProps,
+                  //   value,
+                  //   row,
+                  //   column,
+                  //   rowIndex,
+                  //   columnIndex
+                  // ) => (
+                  //   <>
+                  //     <select
+                  //       name="department"
+                  //       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  //       onChange={(e) => {
+                  //         const department = e.target.value
+                  //         Services.updateUserSingleFiled({
+                  //           newValue: department,
+                  //           dataField: column.dataField,
+                  //           id: row._id,
+                  //         }).then((res) => {
+                  //           if (res.data) {
+                  //             rootStore.userStore.loadUser()
+                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //           }
+                  //         })
+                  //       }}
+                  //     >
+                  //       <option selected>{row.department}</option>
+                  //       {rootStore.departmentStore.listDepartment.map(
+                  //         (item: any, index: number) => (
+                  //           <option key={item.name} value={item.code}>
+                  //             {item.name}
+                  //           </option>
+                  //         )
+                  //       )}
+                  //     </select>
+                  //   </>
+                  // ),
                 },
                 {
                   dataField: "deginisation",
@@ -592,43 +667,54 @@ const Users = observer(() => {
                 {
                   dataField: "role",
                   text: "Role",
-                  editorRenderer: (
-                    editorProps,
-                    value,
-                    row,
-                    column,
-                    rowIndex,
-                    columnIndex
-                  ) => (
+                  headerStyle: { minWidth: "200px" },
+                  formatter: (cellContent, row) => (
                     <>
-                      <select
-                        name="role"
-                        className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const role = e.target.value
-                          Services.updateUserSingleFiled({
-                            newValue: role,
-                            dataField: column.dataField,
-                            id: row._id,
-                          }).then((res) => {
-                            if (res.data) {
-                              rootStore.userStore.loadUser()
-                              LibraryComponents.ToastsStore.success(`User update.`)
-                            }
-                          })
-                        }}
-                      >
-                        <option selected>{row.role}</option>
-                        {rootStore.roleStore.listRole.map(
-                          (item: any, index: number) => (
-                            <option key={item.description} value={item.code}>
-                              {item.description}
-                            </option>
-                          )
-                        )}
-                      </select>
+                      <ul style={{ listStyle: "inside" }}>
+                        {row.role.map((item) => (
+                          <li>{item.code}</li>
+                        ))}
+                      </ul>
                     </>
                   ),
+                  editable: false,
+                  // editorRenderer: (
+                  //   editorProps,
+                  //   value,
+                  //   row,
+                  //   column,
+                  //   rowIndex,
+                  //   columnIndex
+                  // ) => (
+                  //   <>
+                  //     <select
+                  //       name="role"
+                  //       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  //       onChange={(e) => {
+                  //         const role = e.target.value
+                  //         Services.updateUserSingleFiled({
+                  //           newValue: role,
+                  //           dataField: column.dataField,
+                  //           id: row._id,
+                  //         }).then((res) => {
+                  //           if (res.data) {
+                  //             rootStore.userStore.loadUser()
+                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //           }
+                  //         })
+                  //       }}
+                  //     >
+                  //       <option selected>{row.role}</option>
+                  //       {rootStore.roleStore.listRole.map(
+                  //         (item: any, index: number) => (
+                  //           <option key={item.description} value={item.code}>
+                  //             {item.description}
+                  //           </option>
+                  //         )
+                  //       )}
+                  //     </select>
+                  //   </>
+                  // ),
                 },
                 {
                   text: "Exipre Date",
@@ -694,6 +780,26 @@ const Users = observer(() => {
                       ]
                     },
                   },
+                },
+                {
+                  dataField: "opration",
+                  text: "Password Re-Send",
+                  editable: false,
+                  csvExport: false,
+                  formatter: (cellContent, row) => (
+                    <>
+                      <LibraryComponents.Button
+                        size="small"
+                        type="outline"
+                        icon={LibraryComponents.Icons.Tick}
+                        onClick={() => {
+                          alert("working")
+                        }}
+                      >
+                        Send
+                      </LibraryComponents.Button>
+                    </>
+                  ),
                 },
                 {
                   dataField: "opration",
