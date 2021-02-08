@@ -1,5 +1,5 @@
-export interface IRoleMapping {
+export interface IRole {
   _id?: string
-  user?: {}
-  roles?: [string]
+  role?: any
+  rolePermission?: [any]
 }

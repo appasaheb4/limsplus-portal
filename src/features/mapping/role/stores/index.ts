@@ -5,18 +5,23 @@ import * as Services from "../services"
 
 @version(0.1)
 class RoleMappingStore {
-  @ignore @observable role?: Models.IRoleMapping
-  @observable roleMappingList?: Models.IRoleMapping[] = []
-  @observable arrSelectedRole?: any[] = []
+  @ignore @observable user?: Models.IRole
+  @observable roleMappingList?: Models.IRole[] = []
+  @observable rolePermission?: any
 
-  @action fetchRoleMappingList() {
+  @action fetchUserMappingList() {
     Services.roleMappingList().then((list) => {
+      console.log({ userMappinglist: list })
       this.roleMappingList = list
     })
   }
 
-  @action updateRole = (roles: any) => {
-    this.arrSelectedRole = roles
+  @action updateUser = (user: Models.IRole) => {
+    this.user = user
+  }
+
+  @action updateRolePermission(permission: any) {
+    this.rolePermission = permission
   }
 }
 export default RoleMappingStore

@@ -4,7 +4,7 @@ import * as Models from "../models"
 const RELATIVE_PATH = "/mapping"
 
 export const roleMappingList = () =>
-  new Promise<Models.IRoleMapping[]>((resolve, reject) => {
+  new Promise<Models.IRole[]>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
     client
       .get(`${RELATIVE_PATH}/roleMappingList`)
@@ -16,11 +16,11 @@ export const roleMappingList = () =>
       })
   })
 
-export const addRoleMapping = (mapping: any) =>
+export const addRoleMapping = (userMapping: any) =>
   new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
     client
-      .post(`${RELATIVE_PATH}/addRoleMapping`, mapping)
+      .post(`${RELATIVE_PATH}/addRoleMapping`, userMapping)
       .then((res) => {
         resolve(res)
       })
@@ -31,6 +31,8 @@ export const addRoleMapping = (mapping: any) =>
 
 export const deleteRoleMapping = (id: string) =>
   new Promise<any>((resolve, reject) => {
+    console.log({ id })
+
     const client = Clients.createLimsPlusClient()
     client
       .delete(`${RELATIVE_PATH}/deleteRoleMapping/${id}`)

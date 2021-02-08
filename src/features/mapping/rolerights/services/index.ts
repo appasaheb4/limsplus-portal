@@ -3,11 +3,11 @@ import * as Models from "../models"
 
 const RELATIVE_PATH = "/mapping"
 
-export const userMappingList = () =>
-  new Promise<Models.User[]>((resolve, reject) => {
+export const roleMappingList = () =>
+  new Promise<Models.IRoleRightsMapping[]>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
     client
-      .get(`${RELATIVE_PATH}/userMappingList`)
+      .get(`${RELATIVE_PATH}/roleRightsMappingList`)
       .then((res) => {
         resolve(res.data.data)
       })
@@ -16,13 +16,11 @@ export const userMappingList = () =>
       })
   })
 
-export const addUserMapping = (userMapping: any) =>
+export const addRoleMapping = (mapping: any) =>
   new Promise<any>((resolve, reject) => {
-    console.log({ userMapping })
-
     const client = Clients.createLimsPlusClient()
     client
-      .post(`${RELATIVE_PATH}/addUserMapping`, userMapping)
+      .post(`${RELATIVE_PATH}/addRoleRightsMapping`, mapping)
       .then((res) => {
         resolve(res)
       })
@@ -31,13 +29,11 @@ export const addUserMapping = (userMapping: any) =>
       })
   })
 
-export const deleteUserMapping = (id: string) =>
+export const deleteRoleMapping = (id: string) =>
   new Promise<any>((resolve, reject) => {
-    console.log({ id })
-
     const client = Clients.createLimsPlusClient()
     client
-      .delete(`${RELATIVE_PATH}/deleteUserMapping/${id}`)
+      .delete(`${RELATIVE_PATH}/deleteRoleRightsMapping/${id}`)
       .then((res) => {
         resolve(res)
       })

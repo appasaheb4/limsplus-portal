@@ -7,9 +7,9 @@ import DeginisationStore from "@lp/features/collection/deginisation/stores"
 import DepartmentStore from "@lp/features/collection/department/stores"
 import RoleStore from "@lp/features/collection/roles/stores"
 import BannerStore from "@lp/features/banner/stores"
-import UserMappingStore from "@lp/features/mapping/user/stores"
-import LabMappingStore from "@lp/features/mapping/lab/stores"
 import RoleMappingStore from "@lp/features/mapping/role/stores"
+import LabMappingStore from "@lp/features/mapping/lab/stores"
+import RoleRightsMappingStore from "@lp/features/mapping/rolerights/stores"
 
 @version(1.0)
 class RootStore {
@@ -22,9 +22,9 @@ class RootStore {
   @observable departmentStore = new DepartmentStore()
   @observable roleStore = new RoleStore()
   @observable bannerStore = new BannerStore()
-  @observable userMappingStore = new UserMappingStore()
-  @observable labMappingStore = new LabMappingStore()
   @observable roleMappingStore = new RoleMappingStore()
+  @observable labMappingStore = new LabMappingStore()
+  @observable roleRightsMappingStore = new RoleRightsMappingStore()
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading

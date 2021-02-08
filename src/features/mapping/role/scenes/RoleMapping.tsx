@@ -1,4 +1,4 @@
-/* eslint-disable */  
+/* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -7,30 +7,42 @@ import Contexts from "@lp/library/stores"
 import * as Services from "../services"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
-import Checkbox from "@material-ui/core/Checkbox"
-import * as Router from "@lp/routes"
 import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import DropdownTreeSelect from "react-dropdown-tree-select"
+import "react-dropdown-tree-select/dist/styles.css"
+import "./style.css"
+import data from "./pages.json"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-const UserMapping = observer(() => {
+const RoleMapping = observer(() => {
   const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
-  const userList: any = rootStore.userStore.userList || []
-  const fullName = userList[0].fullName
-  const [value, setValue] = React.useState<string | null>(fullName)
+  const roleList: any = rootStore.roleStore.listRole || []
+  const description = roleList[0].description
+  const [value, setValue] = React.useState<string | null>(description)
   const [inputValue, setInputValue] = React.useState("")
-  const [selectedUserInfo, setSelectedUserInfo] = useState<any>()
+  const [selectedRole, setSelectedUserRole] = useState<any>()
+
+  const onChange = (currentNode, selectedNodes) => {
+    console.log("onChange::", currentNode, selectedNodes)
+  }
+  const onAction = (node, action) => {
+    console.log("onAction::", action, node)
+  }
+  const onNodeToggle = (currentNode) => {
+    console.log("onNodeToggle::", currentNode)
+  }
 
   return (
     <>
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading
-          title="User Mapping"
+          title="Role Mapping"
           subTitle="Add, Edit & Delete User Roles"
         />
       </LibraryComponents.Header>
@@ -41,7 +53,7 @@ const UserMapping = observer(() => {
               <Autocomplete
                 value={value}
                 onChange={(event: any, newValue: string | null) => {
-                  setSelectedUserInfo(newValue)
+                  setSelectedUserRole(newValue)
                   setValue(newValue)
                 }}
                 inputValue={inputValue}
@@ -49,36 +61,56 @@ const UserMapping = observer(() => {
                   console.log({ newInputValue })
                   setInputValue(newInputValue)
                 }}
-                id="fullName"
-                options={userList}
-                getOptionLabel={(option: any) => option.fullName}
-                renderInput={(params) => (
-                  <TextField {...params} label="Full Name" variant="outlined" />
-                )}
-              />
-              <LibraryComponents.Form.Input
-                label="User Id"
-                id="userId"
-                placeholder="User Id"
-                disabled={true}
-                value={selectedUserInfo?.userId}
-              />
-              <LibraryComponents.Form.Input
-                label="Role"
                 id="role"
-                placeholder="Role"
-                disabled={true}
-                value={selectedUserInfo?.role}
+                options={roleList}
+                getOptionLabel={(option: any) => option.description}
+                renderInput={(params) => (
+                  <TextField {...params} label="Role" variant="outlined" />
+                )}
               />
             </LibraryComponents.List>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <Autocomplete
+              <DropdownTreeSelect
+                data={data}
+                className="mdl-demo leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                texts={{ placeholder: "Set Permission" }}
+                onChange={(currentNode, selectedNodes) => {
+                  let selectedItem: [any] = [{}]
+                  selectedNodes.forEach((item, index) => {
+                    if (item._children) {
+                      selectedItem.push({
+                        category: item.value,
+                        children: ["Add", "Edit/Modify", "Delete"],
+                      })
+                    } else {
+                      selectedItem.forEach((selectedItem) => {
+                        if (selectedItem.category === item.value) {
+                          const addedArray = selectedItem.children
+                          addedArray.push(item.label)
+                          selectedItem = [{ ...selectedItem, children: addedArray }]
+                        }
+                      })
+                      const found = selectedItem.some(
+                        (el) => el.category === item.value
+                      )
+                      if (!found)
+                        selectedItem.push({
+                          category: item.value,
+                          children: [item.label],
+                        })
+                    }
+                  })
+                  selectedItem.shift()
+                  rootStore.roleMappingStore.updateRolePermission(selectedItem)
+                }}
+              />
+              {/* <Autocomplete
                 multiple
                 id="pages"
                 options={Router.UserPermission}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
-                  rootStore.userMappingStore.updatePages(newValue)
+                  rootStore.roleMappingStore.updatePages(newValue)
                 }}
                 groupBy={(option) => option.path}
                 getOptionLabel={(option) => option.name}
@@ -103,7 +135,7 @@ const UserMapping = observer(() => {
                 options={option}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
-                  rootStore.userMappingStore.updateUserPermision(newValue)
+                  rootStore.roleMappingStore.updateUserPermision(newValue)
                 }}
                 getOptionLabel={(option) => option.title}
                 renderOption={(option, { selected }) => (
@@ -120,7 +152,7 @@ const UserMapping = observer(() => {
                     placeholder="User Permission"
                   />
                 )}
-              />
+              /> */}
             </LibraryComponents.List>
           </LibraryComponents.Grid>
           <br />
@@ -132,14 +164,12 @@ const UserMapping = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (
-                  selectedUserInfo !== undefined &&
-                  rootStore.userMappingStore.arrPages !== undefined &&
-                  rootStore.userMappingStore.arrUserPermision !== undefined
+                  selectedRole !== undefined &&
+                  rootStore.roleMappingStore.rolePermission !== undefined
                 ) {
-                  Services.addUserMapping({
-                    user: selectedUserInfo,
-                    pages: rootStore.userMappingStore.arrPages,
-                    userPermissions: rootStore.userMappingStore.arrUserPermision,
+                  Services.addRoleMapping({
+                    role: selectedRole,
+                    rolePermission: rootStore.roleMappingStore.rolePermission,
                   }).then((res) => {
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Created.`)
@@ -171,105 +201,35 @@ const UserMapping = observer(() => {
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.userMappingStore.userMappingList || []}
+            data={rootStore.roleMappingStore.roleMappingList || []}
             columns={[
               {
-                dataField: "user.fullName",
-                text: "User name",
+                dataField: "role.description",
+                text: "Role",
                 sort: true,
                 editable: false,
               },
               {
-                dataField: "user.userId",
-                text: "User Id",
-              },
-              {
-                dataField: "user.role",
-                text: "Role",
-              },
-              {
-                dataField: "pages",
-                text: "Pages",
+                dataField: "rolePermission",
+                text: "Role Permission",
                 style: { width: 200 },
-                csvFormatter: (cell, row, rowIndex) =>
-                  `${row.pages.map((item) => item.name)}`,
                 formatter: (cellContent, row) => (
                   <>
-                    {/* <Autocomplete
-                      disabled
-                      multiple
-                      id="pages"
-                      options={row.pages}
-                      disableCloseOnSelect
-                      onChange={(event, newValue) => {
-                        rootStore.userMappingStore.updatePages(newValue)
-                      }}
-                      groupBy={(option: any) => option.path}
-                      getOptionLabel={(option) => option.name}
-                      renderOption={(option, { selected }) => (
-                        <React.Fragment>
-                          <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                          {option.name}
-                        </React.Fragment>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label="Pages"
-                          placeholder="Pages"
-                        />
-                      )}
-                    />*/}
                     <ul>
-                      {row.pages.map((item) => (
-                        <li>{item.name}</li>
+                      {row.rolePermission.map((item) => (
+                        <li>
+                          {item.category}
+                          <ul style={{ marginLeft: 20 }}>
+                            {item.children.map((permission) => (
+                              <li>{permission}</li>
+                            ))}
+                          </ul>
+                        </li>
                       ))}
                     </ul>
                   </>
                 ),
               },
-              {
-                dataField: "userPermissions",
-                text: "User Permissions",
-                csvFormatter: (cell, row, rowIndex) =>
-                  `${row.userPermissions.map((item) => item.title)}`,
-                formatter: (cellContent, row) => (
-                  <>
-                    {/* <Autocomplete
-                      multiple
-                      disabled
-                      id="userPermision"
-                      options={option}
-                      disableCloseOnSelect
-                      onChange={(event, newValue) => {
-                        rootStore.userMappingStore.updateUserPermision(newValue)
-                      }}
-                      getOptionLabel={(option) => option.title}
-                      renderOption={(option, { selected }) => (
-                        <React.Fragment>
-                          <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                          {option.title}
-                        </React.Fragment>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          variant="outlined"
-                          label="User Permission"
-                          placeholder="User Permission"
-                        />
-                      )}
-                    /> */}
-                    <ul>
-                      {row.userPermissions.map((item) => (
-                        <li>{item.title}</li>
-                      ))}
-                    </ul>
-                  </>
-                ),
-              },
-
               {
                 dataField: "opration",
                 text: "Delete",
@@ -331,11 +291,11 @@ const UserMapping = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            Services.deleteUserMapping(deleteItem.id).then((res: any) => {
+            Services.deleteRoleMapping(deleteItem.id).then((res: any) => {
               if (res.status === LibraryModels.StatusCode.SUCCESS) {
                 LibraryComponents.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.userMappingStore.fetchUserMappingList()
+                rootStore.roleMappingStore.fetchUserMappingList()
               }
             })
           }}
@@ -345,4 +305,4 @@ const UserMapping = observer(() => {
   )
 })
 
-export default UserMapping
+export default RoleMapping
