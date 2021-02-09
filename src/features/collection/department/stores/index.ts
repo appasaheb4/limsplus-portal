@@ -18,7 +18,7 @@ class DepartmentStore {
 
   fetchListDepartment() {
     Services.listDepartment().then((res) => {
-      console.log({ department: res });
+      //console.log({ department: res });
       this.listDepartment = res;
     });
   }

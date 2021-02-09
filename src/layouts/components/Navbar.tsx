@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
-import { toggleSidebar } from "../../redux/actions/sidebarActions";
-import { useHistory } from "react-router-dom";
-import Contexts from "@lp/library/stores";
+import React from "react"
+import { connect } from "react-redux"
+import { toggleSidebar } from "../../redux/actions/sidebarActions"
+import { useHistory } from "react-router-dom"
+import Contexts from "@lp/library/stores"
 
 import {
   Row,
@@ -18,7 +18,7 @@ import {
   ListGroupItem,
   Form,
   Input,
-} from "reactstrap";
+} from "reactstrap"
 
 import {
   AlertCircle,
@@ -29,7 +29,7 @@ import {
   PieChart,
   Settings,
   UserPlus,
-} from "react-feather";
+} from "react-feather"
 
 const notifications = [
   {
@@ -56,7 +56,7 @@ const notifications = [
     description: "Anna accepted your request.",
     time: "12h ago",
   },
-];
+]
 
 const messages = [
   {
@@ -83,15 +83,15 @@ const messages = [
     description: "Aenean tellus metus, bibendum sed, posuere ac, mattis non.",
     time: "5h ago",
   },
-];
+]
 
 interface InputProps {
-  children: any;
-  count?: any;
-  showBadge?: any;
-  header?: any;
-  footer?: any;
-  icon?: any;
+  children: any
+  count?: any
+  showBadge?: any
+  header?: any
+  footer?: any
+  icon?: any
 }
 
 const NavbarDropdown: React.FunctionComponent<InputProps> = ({
@@ -119,14 +119,14 @@ const NavbarDropdown: React.FunctionComponent<InputProps> = ({
       </DropdownItem>
     </DropdownMenu>
   </UncontrolledDropdown>
-);
+)
 
 interface NavbarItemProps {
-  icon: any;
-  title?: any;
-  description?: any;
-  time?: any;
-  spacing?: any;
+  icon: any
+  title?: any
+  description?: any
+  time?: any
+  spacing?: any
 }
 
 const NavbarDropdownItem: React.FunctionComponent<NavbarItemProps> = ({
@@ -145,17 +145,17 @@ const NavbarDropdownItem: React.FunctionComponent<NavbarItemProps> = ({
       </Col>
     </Row>
   </ListGroupItem>
-);
+)
 
 const NavbarComponent = ({ dispatch }) => {
-  const history = useHistory();
-  const rootStore = React.useContext(Contexts.rootStore);
+  const history = useHistory()
+  const rootStore = React.useContext(Contexts.rootStore)
   return (
     <Navbar color="white" light expand>
       <span
         className="sidebar-toggle d-flex mr-2"
         onClick={() => {
-          dispatch(toggleSidebar());
+          dispatch(toggleSidebar())
         }}
       >
         <i className="hamburger align-self-center" />
@@ -195,7 +195,7 @@ const NavbarComponent = ({ dispatch }) => {
                   time={item.time}
                   spacing
                 />
-              );
+              )
             })}
           </NavbarDropdown>
 
@@ -206,18 +206,18 @@ const NavbarComponent = ({ dispatch }) => {
             count={notifications.length}
           >
             {notifications.map((item, key) => {
-              let icon = <Bell size={18} className="text-warning" />;
+              let icon = <Bell size={18} className="text-warning" />
 
               if (item.type === "important") {
-                icon = <AlertCircle size={18} className="text-danger" />;
+                icon = <AlertCircle size={18} className="text-danger" />
               }
 
               if (item.type === "login") {
-                icon = <Home size={18} className="text-primary" />;
+                icon = <Home size={18} className="text-primary" />
               }
 
               if (item.type === "request") {
-                icon = <UserPlus size={18} className="text-success" />;
+                icon = <UserPlus size={18} className="text-success" />
               }
 
               return (
@@ -228,7 +228,7 @@ const NavbarComponent = ({ dispatch }) => {
                   description={item.description}
                   time={item.time}
                 />
-              );
+              )
             })}
           </NavbarDropdown>
 
@@ -257,8 +257,12 @@ const NavbarComponent = ({ dispatch }) => {
               <DropdownItem>Help</DropdownItem>
               <DropdownItem
                 onClick={() => {
-                  rootStore.userStore.clearLogin();
-                  history.push("/");
+                  //rootStore.userStore.clearLogin();
+                  rootStore.userStore.removeUser().then((res) => {
+                    if (res) {
+                      history.push("/")
+                    }
+                  })
                 }}
               >
                 Sign out
@@ -268,9 +272,9 @@ const NavbarComponent = ({ dispatch }) => {
         </Nav>
       </Collapse>
     </Navbar>
-  );
-};
+  )
+}
 
 export default connect((store) => ({
   app: store.app,
-}))(NavbarComponent);
+}))(NavbarComponent)

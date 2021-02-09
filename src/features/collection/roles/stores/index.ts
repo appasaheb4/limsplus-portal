@@ -17,7 +17,7 @@ class RoleStore {
 
   fetchListRole() {
     Services.listRole().then((res) => {
-      console.log({ role: res });
+     // console.log({ role: res });
       this.listRole = res;
     });
   }

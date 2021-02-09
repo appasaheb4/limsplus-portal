@@ -17,7 +17,7 @@ class DeginisationStore {
 
   fetchListDeginisation() {
     Services.listDeginisation().then((res) => {
-      console.log({ deginisation: res });
+     // console.log({ deginisation: res });
       this.listDeginisation = res;
     });
   }

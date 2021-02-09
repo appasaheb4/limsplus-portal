@@ -17,7 +17,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 
 import * as Services from "../services"
 import { Container } from "reactstrap"
-import { async } from "validate.js"
+
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport

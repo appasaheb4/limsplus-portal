@@ -1,5 +1,6 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable } from "mobx"
+import { action, observable, extendObservable, runInAction } from "mobx"
+import SessionStore from "mobx-session"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
@@ -17,7 +18,45 @@ class UsersStore {
   constructor() {
     this.user = this.initUser()
     this.inputLogin = this.initLogin()
+
+    SessionStore.initialize({ name: "limsplus" })
+    extendObservable(this, {
+      login: null,
+      loginError: false,
+      logoutError: false,
+      get loggedIn() {
+        return this.login !== null && SessionStore.hasSession
+      },
+    })
+    runInAction("Load user", async () => {
+      this.login = await SessionStore.getSession()
+      console.log({ login: this.login })
+    })
   }
+
+  // session
+  @action saveLogin = (session) => {
+    SessionStore.saveSession(session)
+    runInAction("Save user", () => {
+      this.login = session
+    })
+  }
+  @action removeUser = (): Promise<boolean> => {
+    return new Promise<any>((resolve) => {
+      if (SessionStore.hasSession) {
+        Services.logout(this.login?.loginActivityId || "").then((res) => {
+          if (res.status === 200) {
+            SessionStore.deleteSession()
+            runInAction("Logout user", () => {
+              this.login = undefined
+            })
+            resolve(true)
+          }
+        })
+      }
+    })
+  }
+
   private initLogin() {
     return {
       lab: "",
@@ -63,7 +102,7 @@ class UsersStore {
 
   @action loadUser() {
     Services.userList().then((user) => {
-      console.log({ user })
+      //console.log({ user })
       this.userList = user
     })
   }

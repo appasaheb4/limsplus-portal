@@ -29,6 +29,7 @@ const Contexts = {
   roleMappingStore: React.createContext(RootStore.roleMappingStore),
   labMappingStore: React.createContext(RootStore.labMappingStore),
   roleRightsMappingStore: React.createContext(RootStore.roleRightsMappingStore),
+  loginActivityStore: React.createContext(RootStore.loginActivityStore),
 }
 
 export default Contexts

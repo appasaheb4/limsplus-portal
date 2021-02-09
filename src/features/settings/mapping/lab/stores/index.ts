@@ -11,7 +11,7 @@ class LabMappingStore {
 
   @action fetchLabMappingList() {
     Services.labMappingList().then((list) => {
-      console.log({ userMappinglist: list })
+     // console.log({ rolMapping: list })
       this.labMappingList = list
     })
   }

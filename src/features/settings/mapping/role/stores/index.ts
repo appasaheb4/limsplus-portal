@@ -11,7 +11,7 @@ class RoleMappingStore {
 
   @action fetchUserMappingList() {
     Services.roleMappingList().then((list) => {
-      console.log({ userMappinglist: list })
+    //  console.log({ roleMapping: list })
       this.roleMappingList = list
     })
   }

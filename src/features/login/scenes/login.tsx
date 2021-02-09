@@ -11,6 +11,7 @@ import * as ModelsUser from "@lp/features/users/models"
 import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
 import { ModalNoticeBoard } from "../components"
+const publicIp = require("public-ip")
 
 const Login = observer(() => {
   const history = useHistory()
@@ -177,7 +178,9 @@ const Login = observer(() => {
                   size="medium"
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
-                  onClick={() => {
+                  onClick={async () => {
+                    const v4 = await publicIp.v4()
+                    const v6 = await publicIp.v6()
                     if (
                       Utils.validate(
                         rootStore.userStore.inputLogin,
@@ -185,7 +188,10 @@ const Login = observer(() => {
                       ) === undefined
                     ) {
                       rootStore.setProcessLoading(true)
-                      Features.Users.Pipes.onLogin(rootStore.userStore.inputLogin)
+                      Features.Users.Pipes.onLogin({
+                        login: rootStore.userStore.inputLogin,
+                        loginActivity: { v4, v6 },
+                      })
                         .then((res) => {
                           console.log({ res })
                           rootStore.setProcessLoading(false)
@@ -200,7 +206,8 @@ const Login = observer(() => {
                               LibraryComponents.ToastsStore.success(
                                 `Welcome ${res.data.data.fullName}`
                               )
-                              rootStore.userStore.updateLogin(res.data.data)
+                              rootStore.userStore.saveLogin(res.data.data)
+                              //  rootStore.userStore.updateLogin(res.data.data)
                               rootStore.userStore.clearInputLogin()
                               history.push("/dashboard/default")
                             }
@@ -253,7 +260,8 @@ const Login = observer(() => {
               LibraryComponents.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
               )
-              rootStore.userStore.updateLogin(noticeBoard.userInfo)
+              rootStore.userStore.saveLogin(noticeBoard.userInfo)
+              // rootStore.userStore.updateLogin(noticeBoard.userInfo)
               rootStore.userStore.clearInputLogin()
               history.push("/dashboard/default")
             }

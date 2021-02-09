@@ -17,7 +17,7 @@ class LabStore {
 
   fetchListLab() {
     Services.listLabs().then((res) => {
-      console.log({ lab: res });
+     // console.log({ lab: res });
       this.listLabs = res;
     });
   }
