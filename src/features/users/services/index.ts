@@ -93,3 +93,16 @@ export const updateUserSingleFiled = (userInfo: any) =>
         reject({ error })
       })
   })
+
+export const reSendPassword = (userInfo: any) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient()
+    client
+      .post(`${RELATIVE_PATH}/reSendPassword`, userInfo)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((error) => {
+        reject({ error })
+      })
+  })

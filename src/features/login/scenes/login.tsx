@@ -229,7 +229,8 @@ const Login = observer(() => {
                   type="outline"
                   icon={LibraryComponents.Icons.Remove}
                   onClick={() => {
-                    rootStore.userStore.clearLogin()
+                    // rootStore.userStore.clearLogin()
+                    window.location.reload()
                   }}
                 >
                   Clear
