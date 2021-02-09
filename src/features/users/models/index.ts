@@ -8,6 +8,7 @@ export interface Login {
   fullName?: string
   password?: string
   passChanged?: boolean
+  loginActivityId?: string
 }
 
 export interface Users {

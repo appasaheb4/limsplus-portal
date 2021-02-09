@@ -1,5 +1,6 @@
 import { action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
+import SessionStore from "mobx-session"
 
 import UsersStore from "@lp/features/users/stores"
 import LabStore from "@lp/features/collection/labs/stores"
@@ -7,9 +8,10 @@ import DeginisationStore from "@lp/features/collection/deginisation/stores"
 import DepartmentStore from "@lp/features/collection/department/stores"
 import RoleStore from "@lp/features/collection/roles/stores"
 import BannerStore from "@lp/features/banner/stores"
-import RoleMappingStore from "@lp/features/mapping/role/stores"
-import LabMappingStore from "@lp/features/mapping/lab/stores"
-import RoleRightsMappingStore from "@lp/features/mapping/rolerights/stores"
+import RoleMappingStore from "@lp/features/settings/mapping/role/stores"
+import LabMappingStore from "@lp/features/settings/mapping/lab/stores"
+import RoleRightsMappingStore from "@lp/features/settings/mapping/rolerights/stores"
+import LoginActivityStore from "@lp/features/settings/loginActivity/stores"
 
 @version(1.0)
 class RootStore {
@@ -25,6 +27,7 @@ class RootStore {
   @observable roleMappingStore = new RoleMappingStore()
   @observable labMappingStore = new LabMappingStore()
   @observable roleRightsMappingStore = new RoleRightsMappingStore()
+  @observable loginActivityStore = new LoginActivityStore()
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading
@@ -33,13 +36,12 @@ class RootStore {
   @action isLogin(): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       try {
-        if (
-          this.userStore.login?.fullName !== "" &&
-          this.userStore.login?.fullName !== undefined
-        ) {
-          resolve(true)
+        if (SessionStore.initialized) {
+          if (SessionStore.hasSession) {
+            resolve(true)
+          }
+          resolve(false)
         }
-        resolve(false)
       } catch (error) {
         reject(error)
       }

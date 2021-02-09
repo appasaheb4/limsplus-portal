@@ -3,7 +3,7 @@ import * as Models from "@lp/features/users/models"
 
 const RELATIVE_PATH = "/auth"
 
-export const onLogin = (user: Models.Login) =>
+export const onLogin = (user: any) =>
   new Promise<Models.Login>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
     client
@@ -99,6 +99,19 @@ export const reSendPassword = (userInfo: any) =>
     const client = Clients.createLimsPlusClient()
     client
       .post(`${RELATIVE_PATH}/reSendPassword`, userInfo)
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((error) => {
+        reject({ error })
+      })
+  })
+
+export const logout = (id: string) =>
+  new Promise<any>((resolve, reject) => {
+    const client = Clients.createLimsPlusClient()
+    client
+      .post(`${RELATIVE_PATH}/logout`, { id })
       .then((res) => {
         resolve(res)
       })

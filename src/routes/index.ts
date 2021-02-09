@@ -29,9 +29,12 @@ const ChangePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )
 
-// Mapping
+// Settings
 const RoleMapping = async(
-  () => import("@lp/features/mapping/role/scenes/RoleMapping")
+  () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
+)
+const LoginActivity = async(
+  () => import("@lp/features/settings/loginActivity/scenes/LoginActivity")
 )
 // const LabMapping = async(
 //   () => import("@lp/features/mapping/lab/scenes/LapMappingScreen")
@@ -140,10 +143,16 @@ const settingsRoutes = {
   icon: LayoutIcon,
   children: [
     {
+      path: "/settings/loginActivity",
+      name: "Login Activity",
+      component: LoginActivity,
+    },
+    {
       path: "/settings/mapping/roleMapping",
       name: "Role Mapping",
       component: RoleMapping,
     },
+
     // {
     //   path: "/settings/mapping/labMapping",
     //   name: "Lab Mapping",

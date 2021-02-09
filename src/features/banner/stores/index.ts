@@ -9,7 +9,7 @@ class BannerStore {
   @observable listBanner: Models.IBanner[] = [];
   @action fetchListBanner() {
     Services.listBanner().then((banner) => {   
-      console.log({ banner });
+      //console.log({ banner });
       this.listBanner = banner;
     });
   }
