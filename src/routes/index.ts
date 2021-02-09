@@ -19,7 +19,9 @@ const CollectionDeginisation = async(
 const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/department")
 )
-const CollectionRole = async(() => import("@lp/features/collection/labs/scenes/Lab"))
+const CollectionRole = async(
+  () => import("@lp/features/collection/roles/scenes/role")
+)
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))

@@ -17,6 +17,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 
 import * as Services from "../services"
 import { Container } from "reactstrap"
+import { async } from "validate.js"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -792,8 +793,24 @@ const Users = observer(() => {
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.Tick}
-                        onClick={() => {
-                          alert("working")
+                        onClick={async () => {
+                          Services.reSendPassword({
+                            userId: row.userId,
+                            lab: row.lab[0].code,
+                            role: row.role[0].code,
+                            email: row.email,
+                          }).then((res) => {
+                            console.log({ res })
+                            if (res.status === 200) {
+                              LibraryComponents.ToastsStore.success(
+                                `Password re-send successfully.`
+                              )
+                            } else {
+                              LibraryComponents.ToastsStore.error(
+                                `Password re-send not successfully please try again.`
+                              )
+                            }
+                          })
                         }}
                       >
                         Send
