@@ -1,5 +1,4 @@
 import * as Services from "../services"
-import * as Models from "../models"
 
 export const onLogin = (loginStore: any): Promise<any> => {
   return new Promise((resolve, reject) => {
