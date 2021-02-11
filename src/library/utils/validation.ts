@@ -74,7 +74,7 @@ export const constraintsChangePassword = {
 }
 
 export const constraintsUser = {
-  lab: {
+  defaultLab: {
     presence: true,
     length: {
       minimum: 2,

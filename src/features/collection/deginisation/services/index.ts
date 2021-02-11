@@ -22,7 +22,7 @@ export const addDeginisation = (deginisation?: Models.IDeginisation) =>
     client
       .post(`${RELATIVE_PATH}/addDeginisation`, deginisation)
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch((error) => {
         reject({ error });

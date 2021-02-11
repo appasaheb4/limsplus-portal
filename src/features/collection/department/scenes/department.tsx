@@ -162,7 +162,8 @@ const Department = observer(() => {
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
                 onClick={() => {
-                  rootStore.departmentStore.clear();
+                  //rootStore.departmentStore.clear();
+                  window.location.reload();
                 }}
               >
                 Clear

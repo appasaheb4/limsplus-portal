@@ -118,7 +118,8 @@ const Lab = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.labStore.clear();
+                //rootStore.labStore.clear();
+                window.location.reload();
               }}
             >
               Clear

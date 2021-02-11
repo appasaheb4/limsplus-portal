@@ -58,6 +58,7 @@ const Banner = observer(() => {
               onClick={() => {
                 rootStore.setProcessLoading(true)
                 Services.addBanner(rootStore.bannerStore.banner).then((res) => {
+                  rootStore.setProcessLoading(false)
                   if (res.status === LibraryModels.StatusCode.CREATED) {
                     LibraryComponents.ToastsStore.success(`Banner created.`)
                     setTimeout(() => {
@@ -74,7 +75,8 @@ const Banner = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.userStore.clear()
+                //rootStore.userStore.clear()
+                window.location.reload()
               }}
             >
               Clear
@@ -126,10 +128,10 @@ const Banner = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
+            rootStore.setProcessLoading(true)
             Services.deleteBanner(deleteItem.id).then((res: any) => {
-              console.log({ res })
-
-              if (res.status) {
+              rootStore.setProcessLoading(false)
+              if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Banner deleted.`)
                 setDeleteItem({ show: false })
                 rootStore.bannerStore.fetchListBanner()

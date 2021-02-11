@@ -121,7 +121,8 @@ const Role = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.roleStore.clear();
+                //rootStore.roleStore.clear();
+                window.location.reload();
               }}
             >
               Clear

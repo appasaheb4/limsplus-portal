@@ -236,7 +236,6 @@ const Login = observer(() => {
                   type="outline"
                   icon={LibraryComponents.Icons.Remove}
                   onClick={() => {
-                    // rootStore.userStore.clearLogin()
                     window.location.reload()
                   }}
                 >

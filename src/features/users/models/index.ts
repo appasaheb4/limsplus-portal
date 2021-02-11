@@ -14,6 +14,7 @@ export interface Login {
 export interface Users {
   _id?: string
   userId?: string
+  defaultLab?: string
   lab?: ModelsLab.Labs[]
   password?: string
   passChanged?: boolean
