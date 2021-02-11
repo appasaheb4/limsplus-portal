@@ -18,7 +18,6 @@ import Checkbox from "@material-ui/core/Checkbox"
 import * as Services from "../services"
 import { Container } from "reactstrap"
 
-
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -100,19 +99,47 @@ const Users = observer(() => {
                     UserId already exits. Please use other userid.
                   </span>
                 )}
+                <LibraryComponents.Form.InputWrapper
+                  label="Default Lab"
+                  id="defaultLab"
+                >
+                  <select
+                    name="defualtLab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const defaultLab = e.target.value
+                      setErrors({
+                        ...errors,
+                        defaultLab: Utils.validate.single(
+                          defaultLab,
+                          Utils.constraintsUser.defaultLab
+                        ),
+                      })
+                      rootStore.userStore.updateUser({
+                        ...rootStore.userStore.user,
+                        defaultLab,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={item.name} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                {errors?.defaultLab && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.defaultLab}
+                  </span>
+                )}
                 <Autocomplete
                   multiple
                   id="labs"
                   options={rootStore.labStore.listLabs}
                   disableCloseOnSelect
                   onChange={(event, newValue) => {
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(
-                        newValue,
-                        Utils.constraintsUser.lab
-                      ),
-                    })
                     rootStore.userStore.updateUser({
                       ...rootStore.userStore.user,
                       lab: newValue,
@@ -292,6 +319,7 @@ const Users = observer(() => {
                   id="department"
                   options={rootStore.departmentStore.listDepartment}
                   disableCloseOnSelect
+                  value={rootStore.userStore.user.department}
                   onChange={(event, newValue) => {
                     setErrors({
                       ...errors,
@@ -300,15 +328,23 @@ const Users = observer(() => {
                         Utils.constraintsUser.department
                       ),
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      department: newValue,
-                    })
+                    if (newValue.length > 2) {
+                      alert("Please select max 2 department")
+                    } else {
+                      rootStore.userStore.updateUser({
+                        ...rootStore.userStore.user,
+                        department: newValue,
+                      })
+                    }
                   }}
                   getOptionLabel={(option) => option.name || ""}
                   renderOption={(option, { selected }) => (
                     <React.Fragment>
-                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                      <Checkbox
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                        disabled={true}
+                      />
                       {option.name}
                     </React.Fragment>
                   )}
@@ -316,8 +352,8 @@ const Users = observer(() => {
                     <TextField
                       {...params}
                       variant="outlined"
-                      label="Labs"
-                      placeholder="Labs"
+                      label="Department"
+                      placeholder="Department"
                     />
                   )}
                 />
@@ -417,6 +453,7 @@ const Users = observer(() => {
                   id="role"
                   options={rootStore.roleStore.listRole}
                   disableCloseOnSelect
+                  value={rootStore.userStore.user.role}
                   onChange={(event, newValue) => {
                     setErrors({
                       ...errors,
@@ -425,10 +462,14 @@ const Users = observer(() => {
                         Utils.constraintsUser.role
                       ),
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
-                      role: newValue,
-                    })
+                    if (newValue.length > 2) {
+                      alert("Please select max 2 labs")
+                    } else {
+                      rootStore.userStore.updateUser({
+                        ...rootStore.userStore.user,
+                        role: newValue,
+                      })
+                    }
                   }}
                   getOptionLabel={(option) => option.description || ""}
                   renderOption={(option, { selected }) => (
@@ -489,7 +530,8 @@ const Users = observer(() => {
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
                 onClick={() => {
-                  rootStore.userStore.clear()
+                  //rootStore.userStore.clear()
+                  window.location.reload()
                 }}
               >
                 Clear

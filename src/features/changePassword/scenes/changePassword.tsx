@@ -20,7 +20,9 @@ const ChangePassword = observer(() => {
                 rootStore.userStore.login,
                 rootStore.userStore.changePassword
               )
+              rootStore.setProcessLoading(true)
               Services.changePassword(body).then((res) => {
+                rootStore.setProcessLoading(false)
                 console.log({ res })
                 if (res.status === 200) {
                   rootStore.userStore.updateLogin({

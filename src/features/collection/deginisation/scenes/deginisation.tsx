@@ -1,25 +1,22 @@
-import React, { useState, useContext } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-} from "react-bootstrap-table2-toolkit";
-import moment from "moment";
+import React, { useState, useContext } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import BootstrapTable from "react-bootstrap-table-next"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import moment from "moment"
 
-import * as Models from "../models";
-import * as Util from "../util";
-import RootStoreContext from "@lp/library/stores";
-import * as Services from "../services";
+import * as Models from "../models"
+import * as Util from "../util"
+import RootStoreContext from "@lp/library/stores"
+import * as Services from "../services"
 
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
+const { SearchBar, ClearSearchButton } = Search
+const { ExportCSVButton } = CSVExport
 
 const Deginisation = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.IDeginisation>();
-  const [deleteItem, setDeleteItem] = useState<any>({});
+  const rootStore = useContext(RootStoreContext.rootStore)
+  const [errors, setErrors] = useState<Models.IDeginisation>()
+  const [deleteItem, setDeleteItem] = useState<any>({})
 
   return (
     <>
@@ -32,12 +29,7 @@ const Deginisation = observer(() => {
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
                 label="Code"
                 id="code"
@@ -50,11 +42,11 @@ const Deginisation = observer(() => {
                       code,
                       Util.constraintsDeginisation.code
                     ),
-                  });
+                  })
                   rootStore.deginisationStore.updateDescription({
                     ...rootStore.deginisationStore.deginisation,
                     code,
-                  });
+                  })
                 }}
               />
               {errors?.code && (
@@ -74,11 +66,11 @@ const Deginisation = observer(() => {
                       description,
                       Util.constraintsDeginisation.description
                     ),
-                  });
+                  })
                   rootStore.deginisationStore.updateDescription({
                     ...rootStore.deginisationStore.deginisation,
                     description,
-                  });
+                  })
                 }}
               />
               {errors?.description && (
@@ -102,21 +94,23 @@ const Deginisation = observer(() => {
                     Util.constraintsDeginisation
                   ) === undefined
                 ) {
-                  rootStore.setProcessLoading(true);
+                  rootStore.setProcessLoading(true)
                   Services.addDeginisation(
                     rootStore.deginisationStore.deginisation
-                  ).then(() => {
-                    rootStore.setProcessLoading(false);
-                    LibraryComponents.ToastsStore.success(
-                      `Deginisation created.`
-                    );
-                    rootStore.deginisationStore.fetchListDeginisation();
-                    rootStore.deginisationStore.clear();
-                  });
+                  ).then((res) => {
+                    rootStore.setProcessLoading(false)
+                    if (res.status === 200) {
+                      LibraryComponents.ToastsStore.success(`Deginisation created.`)
+                      rootStore.deginisationStore.fetchListDeginisation()
+                      rootStore.deginisationStore.clear()
+                    } else {
+                      LibraryComponents.ToastsStore.error("Please try again")
+                    }
+                  })
                 } else {
                   LibraryComponents.ToastsStore.warning(
                     "Please enter all information!"
-                  );
+                  )
                 }
               }}
             >
@@ -127,7 +121,8 @@ const Deginisation = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.deginisationStore.clear();
+                //rootStore.deginisationStore.clear();
+                window.location.reload()
               }}
             >
               Clear
@@ -166,7 +161,7 @@ const Deginisation = observer(() => {
                           id: row._id,
                           title: "Are you sure?",
                           body: `Delete ${row.description} deginisation!`,
-                        });
+                        })
                       }}
                     >
                       Delete
@@ -215,18 +210,20 @@ const Deginisation = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
+            rootStore.setProcessLoading(true)
             Services.deleteDeginisation(deleteItem.id).then((res: any) => {
-              if (res.status) {
-                LibraryComponents.ToastsStore.success(`Deginisation deleted.`);
-                setDeleteItem({ show: false });
-                rootStore.deginisationStore.fetchListDeginisation();
+              rootStore.setProcessLoading(false)
+              if (res.status === 200) {
+                LibraryComponents.ToastsStore.success(`Deginisation deleted.`)
+                setDeleteItem({ show: false })
+                rootStore.deginisationStore.fetchListDeginisation()
               }
-            });
+            })
           }}
         />
       </div>
     </>
-  );
-});
+  )
+})
 
-export default Deginisation;
+export default Deginisation

@@ -190,7 +190,8 @@ const RoleMapping = observer(() => {
               type="outline"
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
-                rootStore.userStore.clear()
+                //rootStore.userStore.clear()
+                window.location.reload();
               }}
             >
               Clear
