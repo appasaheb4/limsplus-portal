@@ -26,14 +26,18 @@ const Default = observer(() => {
       moment(new Date()),
       "days"
     )
-    if (diffInDays <= 5) {
+    if (diffInDays <= 5 && rootStore.userStore.changePassword?.tempHide !== true) {
       rootStore.userStore.updateChangePassword({
         ...rootStore.userStore.changePassword,
         subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
       })
       setChangePassword(true)
     }
-    if (rootStore.loginStore.login?.passChanged !== true) setChangePassword(true)
+    if (
+      rootStore.loginStore.login?.passChanged !== true &&
+      rootStore.userStore.changePassword?.tempHide !== false
+    )
+      setChangePassword(true)
   }, [rootStore.loginStore.login])
 
   return (
@@ -90,6 +94,10 @@ const Default = observer(() => {
                     exipreDate,
                     passChanged: true,
                   })
+                  rootStore.userStore.updateChangePassword({
+                    ...rootStore.userStore.changePassword,
+                    tempHide: true,
+                  })
                   LibraryComponents.ToastsStore.success(`Password changed!`)
                   setChangePassword(false)
                 } else if (res.status === 203) {
@@ -105,6 +113,10 @@ const Default = observer(() => {
               rootStore.loginStore.updateLogin({
                 ...rootStore.loginStore.login,
                 passChanged: true,
+              })
+              rootStore.userStore.updateChangePassword({
+                ...rootStore.userStore.changePassword,
+                tempHide: true,
               })
               setChangePassword(false)
               console.log("close")
