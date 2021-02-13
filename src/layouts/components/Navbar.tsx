@@ -257,12 +257,16 @@ const NavbarComponent = ({ dispatch }) => {
               <DropdownItem>Help</DropdownItem>
               <DropdownItem
                 onClick={() => {
-                  //rootStore.userStore.clearLogin();
-                  rootStore.userStore.removeUser().then((res) => {
-                    if (res) {
-                      history.push("/")
-                    }
-                  })
+                  rootStore.loginStore
+                    .removeUser()
+                    .then((res) => {
+                      if (res) {
+                        history.push("/")
+                      }
+                    })
+                    .catch(() => {
+                      alert("Please try again")
+                    })
                 }}
               >
                 Sign out

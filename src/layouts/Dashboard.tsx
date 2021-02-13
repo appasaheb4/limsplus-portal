@@ -21,7 +21,7 @@ const Dashboard = observer(({ children }) => {
         if (!isLogin) history.push("/")
       })
     }, 1000)
-  }, [rootStore.userStore.login?.fullName])
+  }, [rootStore.loginStore.login])
 
   return (
     <React.Fragment>

@@ -1,3 +1,3 @@
-import logo from "./applogo.jpg";
+import logo from "./applogo.png"
 
-export { logo };
+export { logo }

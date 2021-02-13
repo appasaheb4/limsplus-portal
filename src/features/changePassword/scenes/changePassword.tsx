@@ -17,7 +17,7 @@ const ChangePassword = observer(() => {
           <LibraryComponents.Modal.ModalChangePassword
             click={() => {
               const body = Object.assign(
-                rootStore.userStore.login,
+                rootStore.loginStore.login,
                 rootStore.userStore.changePassword
               )
               rootStore.setProcessLoading(true)
@@ -25,8 +25,8 @@ const ChangePassword = observer(() => {
                 rootStore.setProcessLoading(false)
                 console.log({ res })
                 if (res.status === 200) {
-                  rootStore.userStore.updateLogin({
-                    ...rootStore.userStore.login,
+                  rootStore.loginStore.updateLogin({
+                    ...rootStore.loginStore.login,
                     passChanged: true,
                   })
                   LibraryComponents.ToastsStore.success(`Password changed!`)
@@ -42,8 +42,8 @@ const ChangePassword = observer(() => {
               })
             }}
             close={() => {
-              rootStore.userStore.updateLogin({
-                ...rootStore.userStore.login,
+              rootStore.loginStore.updateLogin({
+                ...rootStore.loginStore.login,
                 passChanged: true,
               })
               setChangePassword(false)

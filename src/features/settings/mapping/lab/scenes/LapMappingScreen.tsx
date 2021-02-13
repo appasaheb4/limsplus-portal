@@ -113,10 +113,12 @@ const LabMapping = observer(() => {
                   selectedUserInfo !== undefined &&
                   rootStore.labMappingStore.arrSelectedLabs !== undefined
                 ) {
+                  rootStore.setProcessLoading(true)
                   Services.addLabMapping({
                     user: selectedUserInfo,
                     labs: rootStore.labMappingStore.arrSelectedLabs,
                   }).then((res) => {
+                    rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Created.`)
                       setTimeout(() => {

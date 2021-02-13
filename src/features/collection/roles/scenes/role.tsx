@@ -1,25 +1,22 @@
-import React, { useState, useContext } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-} from "react-bootstrap-table2-toolkit";
-import moment from "moment";
+import React, { useState, useContext } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import BootstrapTable from "react-bootstrap-table-next"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import moment from "moment"
 
-import * as Models from "../models";
-import * as Util from "../util";
-import RootStoreContext from "@lp/library/stores";
-import * as Services from "../services";
+import * as Models from "../models"
+import * as Util from "../util"
+import RootStoreContext from "@lp/library/stores"
+import * as Services from "../services"
 
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
+const { SearchBar, ClearSearchButton } = Search
+const { ExportCSVButton } = CSVExport
 
 const Role = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.IRole>();
-  const [deleteItem, setDeleteItem] = useState<any>({});
+  const rootStore = useContext(RootStoreContext.rootStore)
+  const [errors, setErrors] = useState<Models.IRole>()
+  const [deleteItem, setDeleteItem] = useState<any>({})
 
   return (
     <>
@@ -32,12 +29,7 @@ const Role = observer(() => {
       <div className=" mx-auto  p-4  flex-wrap">
         <div className="m-1 p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
                 label="Code"
                 id="code"
@@ -47,11 +39,11 @@ const Role = observer(() => {
                   setErrors({
                     ...errors,
                     code: Util.validate.single(code, Util.constraintsRole.code),
-                  });
+                  })
                   rootStore.roleStore.updateRole({
                     ...rootStore.roleStore.role,
                     code,
-                  });
+                  })
                 }}
               />
               {errors?.code && (
@@ -71,11 +63,11 @@ const Role = observer(() => {
                       description,
                       Util.constraintsRole.description
                     ),
-                  });
+                  })
                   rootStore.roleStore.updateRole({
                     ...rootStore.roleStore.role,
                     description,
-                  });
+                  })
                 }}
               />
 
@@ -95,22 +87,20 @@ const Role = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (
-                  Util.validate(
-                    rootStore.roleStore.role,
-                    Util.constraintsRole
-                  ) === undefined
+                  Util.validate(rootStore.roleStore.role, Util.constraintsRole) ===
+                  undefined
                 ) {
-                  rootStore.setProcessLoading(true);
+                  rootStore.setProcessLoading(true)
                   Services.addrole(rootStore.roleStore.role).then(() => {
-                    rootStore.setProcessLoading(false);
-                    LibraryComponents.ToastsStore.success(`Role created.`);
-                    rootStore.roleStore.fetchListRole();
-                    rootStore.roleStore.clear();
-                  });
+                    rootStore.setProcessLoading(false)
+                    LibraryComponents.ToastsStore.success(`Role created.`)
+                    rootStore.roleStore.fetchListRole()
+                    rootStore.roleStore.clear()
+                  })
                 } else {
                   LibraryComponents.ToastsStore.warning(
                     "Please enter all information!"
-                  );
+                  )
                 }
               }}
             >
@@ -122,7 +112,7 @@ const Role = observer(() => {
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
                 //rootStore.roleStore.clear();
-                window.location.reload();
+                window.location.reload()
               }}
             >
               Clear
@@ -161,7 +151,7 @@ const Role = observer(() => {
                           id: row._id,
                           title: "Are you sure?",
                           body: `Delete ${row.description} lab!`,
-                        });
+                        })
                       }}
                     >
                       Delete
@@ -172,9 +162,7 @@ const Role = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `roles_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
+              fileName: `roles_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
               noAutoBOM: false,
               blobType: "text/csv;charset=ansi",
             }}
@@ -210,18 +198,20 @@ const Role = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
+            rootStore.setProcessLoading(true)
             Services.deleterole(deleteItem.id).then((res: any) => {
-              if (res.status) {
-                LibraryComponents.ToastsStore.success(`Role deleted.`);
-                setDeleteItem({ show: false });
-                rootStore.roleStore.fetchListRole();
+              rootStore.setProcessLoading(false)
+              if (res.status === 200) {
+                LibraryComponents.ToastsStore.success(`Role deleted.`)
+                setDeleteItem({ show: false })
+                rootStore.roleStore.fetchListRole()
               }
-            });
+            })
           }}
         />
       </div>
     </>
-  );
-});
+  )
+})
 
-export default Role;
+export default Role
