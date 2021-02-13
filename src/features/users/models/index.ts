@@ -26,4 +26,5 @@ export interface ChangePassword {
   confirmPassword?: string
   title?: string
   subTitle?: string
+  tempHide?: boolean
 }
