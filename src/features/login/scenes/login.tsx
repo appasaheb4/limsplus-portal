@@ -189,8 +189,8 @@ const Login = observer(() => {
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
                   onClick={async () => {
-                    const v4 = "dasfd" //await publicIp.v4()
-                    const v6 = "fdas" //await publicIp.v6()
+                    const v4 = await publicIp.v4()
+                    const v6 = await publicIp.v6()
                     const loginFailedCount =
                       rootStore.loginStore.loginFailedCount || 0
                     if (
