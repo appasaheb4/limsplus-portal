@@ -20,6 +20,7 @@ trunk.init().then(() => {
 
 const Contexts = {
   rootStore: React.createContext(RootStore),
+  loginStore: React.createContext(RootStore.loginStore),
   userStore: React.createContext(RootStore.userStore),
   labStore: React.createContext(RootStore.labStore),
   deginisationStore: React.createContext(RootStore.deginisationStore),

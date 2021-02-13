@@ -7,18 +7,24 @@ import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
 import Contexts from "@lp/library/stores"
 import * as Utils from "@lp/library/utils"
-import * as ModelsUser from "@lp/features/users/models"
+import * as Models from "../models"
 import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
 import { ModalNoticeBoard } from "../components"
 const publicIp = require("public-ip")
 
+import * as Services from "../services"
+
 const Login = observer(() => {
   const history = useHistory()
   const rootStore = React.useContext(Contexts.rootStore)
-  const [errors, setErrors] = useState<ModelsUser.Login>()
+  const [errors, setErrors] = useState<Models.ILogin>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
+  const [width, setWidth] = useState<number>(window.innerWidth)
 
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth)
+  }
   useEffect(() => {
     rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
@@ -27,7 +33,11 @@ const Login = observer(() => {
         history.push("/")
       }
     })
-  }, [rootStore.userStore.login?.fullName])
+    window.addEventListener("resize", handleWindowSizeChange)
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange)
+    }
+  }, [rootStore.loginStore.login])
 
   return (
     <>
@@ -65,7 +75,7 @@ const Login = observer(() => {
                   label="User Id"
                   id="userId"
                   placeholder="User Id"
-                  value={rootStore.userStore.inputLogin.userId}
+                  value={rootStore.loginStore.inputLogin?.userId}
                   onChange={(userId) => {
                     setErrors({
                       ...errors,
@@ -74,8 +84,8 @@ const Login = observer(() => {
                         Utils.constraintsLogin.userId
                       ),
                     })
-                    rootStore.userStore.updateInputUser({
-                      ...rootStore.userStore.inputLogin,
+                    rootStore.loginStore.updateInputUser({
+                      ...rootStore.loginStore.inputLogin,
                       userId,
                     })
                   }}
@@ -90,7 +100,7 @@ const Login = observer(() => {
                   label="Password"
                   id="password"
                   placeholder="Password"
-                  value={rootStore.userStore.inputLogin.password}
+                  value={rootStore.loginStore.inputLogin?.password}
                   onChange={(password) => {
                     setErrors({
                       ...errors,
@@ -99,8 +109,8 @@ const Login = observer(() => {
                         Utils.constraintsLogin.password
                       ),
                     })
-                    rootStore.userStore.updateInputUser({
-                      ...rootStore.userStore.inputLogin,
+                    rootStore.loginStore.updateInputUser({
+                      ...rootStore.loginStore.inputLogin,
                       password,
                     })
                   }}
@@ -120,8 +130,8 @@ const Login = observer(() => {
                         ...errors,
                         lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
                       })
-                      rootStore.userStore.updateInputUser({
-                        ...rootStore.userStore.inputLogin,
+                      rootStore.loginStore.updateInputUser({
+                        ...rootStore.loginStore.inputLogin,
                         lab,
                       })
                     }}
@@ -152,8 +162,8 @@ const Login = observer(() => {
                           Utils.constraintsLogin.role
                         ),
                       })
-                      rootStore.userStore.updateInputUser({
-                        ...rootStore.userStore.inputLogin,
+                      rootStore.loginStore.updateInputUser({
+                        ...rootStore.loginStore.inputLogin,
                         role,
                       })
                     }}
@@ -179,49 +189,75 @@ const Login = observer(() => {
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
                   onClick={async () => {
-                    const v4 = await publicIp.v4()
-                    const v6 = await publicIp.v6()
+                    const v4 = "dasfd" //await publicIp.v4()
+                    const v6 = "fdas" //await publicIp.v6()
+                    const loginFailedCount =
+                      rootStore.loginStore.loginFailedCount || 0
                     if (
                       Utils.validate(
-                        rootStore.userStore.inputLogin,
+                        rootStore.loginStore.inputLogin,
                         Utils.constraintsLogin
                       ) === undefined
                     ) {
                       rootStore.setProcessLoading(true)
-                      Features.Users.Pipes.onLogin({
-                        login: rootStore.userStore.inputLogin,
-                        loginActivity: { v4, v6 },
-                      })
-                        .then((res) => {
-                          console.log({ res })
+                      if (loginFailedCount > 4) {
+                        Services.accountStatusUpdate({
+                          userId: rootStore.loginStore.inputLogin?.userId,
+                          status: "Disable",
+                        }).then((res) => {
                           rootStore.setProcessLoading(false)
-                          if (res.status === 200) {
-                            if (res.data.data.noticeBoard !== undefined) {
-                              setNoticeBoard({
-                                show: true,
-                                userInfo: res.data.data,
-                                data: res.data.data.noticeBoard,
-                              })
-                            } else {
-                              LibraryComponents.ToastsStore.success(
-                                `Welcome ${res.data.data.fullName}`
+                          LibraryComponents.ToastsStore.error(
+                            "Your account is disable. Please contact admin"
+                          )
+                          rootStore.loginStore.updateLoginFailedCount(0)
+                        })
+                      } else {
+                        Services.onLogin({
+                          login: rootStore.loginStore.inputLogin,
+                          loginActivity: {
+                            v4,
+                            v6,
+                            device: width <= 768 ? "Mobile" : "Desktop",
+                          },
+                        })
+                          .then((res) => {
+                            console.log({ res })
+                            rootStore.setProcessLoading(false)
+                            if (res.status === 200) {
+                              rootStore.loginStore.updateLoginFailedCount(0)
+                              if (res.data.data.noticeBoard !== undefined) {
+                                setNoticeBoard({
+                                  show: true,
+                                  userInfo: res.data.data,
+                                  data: res.data.data.noticeBoard,
+                                })
+                              } else {
+                                LibraryComponents.ToastsStore.success(
+                                  `Welcome ${res.data.data.fullName}`
+                                )
+                                rootStore.loginStore.saveLogin(res.data.data)
+                                history.push("/dashboard/default")
+                              }
+                            } else if (res.status === 203) {
+                              console.log({ failed: loginFailedCount })
+                              rootStore.loginStore.updateLoginFailedCount(
+                                loginFailedCount + 1
                               )
-                              rootStore.userStore.saveLogin(res.data.data)
-                              //  rootStore.userStore.updateLogin(res.data.data)
-                              rootStore.userStore.clearInputLogin()
-                              history.push("/dashboard/default")
+                              LibraryComponents.ToastsStore.error(
+                                res.data.data.message
+                              )
                             }
-                          } else if (res.status === 203) {
+                          })
+                          .catch(() => {
+                            console.log({ failed: loginFailedCount })
+                            rootStore.loginStore.updateLoginFailedCount(
+                              loginFailedCount + 1
+                            )
                             LibraryComponents.ToastsStore.error(
                               "User not found. Please enter correct information!"
                             )
-                          }
-                        })
-                        .catch(() => {
-                          LibraryComponents.ToastsStore.error(
-                            "User not found. Please enter correct information!"
-                          )
-                        })
+                          })
+                      }
                     } else {
                       LibraryComponents.ToastsStore.warning(
                         "Please enter all information!"
@@ -253,15 +289,15 @@ const Login = observer(() => {
               show: false,
             })
             if (action !== "login") {
-              rootStore.userStore.clearInputLogin()
               LibraryComponents.ToastsStore.warning(`Please use diff lab`)
+              setTimeout(() => {
+                window.location.reload()
+              }, 3000)
             } else {
               LibraryComponents.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
               )
-              rootStore.userStore.saveLogin(noticeBoard.userInfo)
-              // rootStore.userStore.updateLogin(noticeBoard.userInfo)
-              rootStore.userStore.clearInputLogin()
+              rootStore.loginStore.saveLogin(noticeBoard.userInfo)
               history.push("/dashboard/default")
             }
           }}

@@ -1,15 +1,6 @@
 import * as ModelsLab from "../..//collection/labs/models"
 import * as ModelsDepartment from "../../collection/department/models"
 import * as ModelsRole from "../../collection/roles/models"
-export interface Login {
-  lab?: string
-  role?: string
-  userId?: string
-  fullName?: string
-  password?: string
-  passChanged?: boolean
-  loginActivityId?: string
-}
 
 export interface Users {
   _id?: string
@@ -33,4 +24,6 @@ export interface ChangePassword {
   oldPassword?: string
   newPassword?: string
   confirmPassword?: string
+  title?: string
+  subTitle?: string
 }

@@ -176,7 +176,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                   height="40"
                 /> */}
                 <div className="media-body">
-                  <h5 className="mb-1">{rootStore.userStore.login?.fullName}</h5>
+                  <h5 className="mb-1">{rootStore.loginStore.login?.fullName}</h5>
                   <div>
                     <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
                     Online

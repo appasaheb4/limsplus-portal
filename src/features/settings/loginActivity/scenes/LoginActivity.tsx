@@ -16,6 +16,8 @@ const LoginActivity = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   useEffect(() => {
     rootStore.loginActivityStore.fetchLoginActivity()
+
+    console.log({ rooStore: rootStore.loginActivityStore.listLoginActivity })
   }, [])
   return (
     <>
@@ -39,6 +41,14 @@ const LoginActivity = observer(() => {
                 text: "User Id",
               },
               {
+                dataField: "user.lab",
+                text: "Lab",
+              },
+              {
+                dataField: "systemInfo.device",
+                text: "Device",
+              },
+              {
                 dataField: "systemInfo.v4",
                 text: "Ip address(v4)",
               },
@@ -57,7 +67,9 @@ const LoginActivity = observer(() => {
                 dataField: "lastUpdated",
                 text: "Out",
                 formatter: (cell, row) => {
-                  return moment(row.lastUpdated).format("YYYY-MM-DD HH:mm:ss")
+                  return row.lastUpdated !== undefined
+                    ? moment(row.lastUpdated).format("YYYY-MM-DD HH:mm:ss")
+                    : "Active User"
                 },
               },
             ]}

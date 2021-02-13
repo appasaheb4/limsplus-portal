@@ -2,6 +2,7 @@ import { action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import SessionStore from "mobx-session"
 
+import LoginStore from "@lp/features/login/stores"
 import UsersStore from "@lp/features/users/stores"
 import LabStore from "@lp/features/collection/labs/stores"
 import DeginisationStore from "@lp/features/collection/deginisation/stores"
@@ -18,6 +19,7 @@ class RootStore {
   @ignore @observable processLoading: boolean = false
   //@observable isLogin = Clients.storageClient.getItem("isLogin")
 
+  @observable loginStore = new LoginStore()
   @observable userStore = new UsersStore()
   @observable labStore = new LabStore()
   @observable deginisationStore = new DeginisationStore()

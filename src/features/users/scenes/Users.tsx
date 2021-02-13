@@ -32,11 +32,13 @@ const Users = observer(() => {
 
   const afterSaveCell = (oldValue, newValue, row, column) => {
     if (oldValue !== newValue) {
+      rootStore.setProcessLoading(true)
       Services.updateUserSingleFiled({
         newValue,
         dataField: column.dataField,
         id: row._id,
       }).then((res) => {
+        rootStore.setProcessLoading(false)
         if (res.data) {
           rootStore.userStore.loadUser()
           LibraryComponents.ToastsStore.success(`User update.`)
@@ -926,8 +928,10 @@ const Users = observer(() => {
           <LibraryComponents.Modal.ModalConfirm
             {...deleteUser}
             click={() => {
+              rootStore.setProcessLoading(true)
               Services.deleteUser(deleteUser.id).then((res: any) => {
-                if (res.status) {
+                if (res.status === 200) {
+                  rootStore.setProcessLoading(false)
                   LibraryComponents.ToastsStore.success(`User deleted.`)
                   setDeleteUser({ show: false })
                   rootStore.userStore.loadUser()

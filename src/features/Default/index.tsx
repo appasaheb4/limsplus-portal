@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
@@ -14,16 +15,28 @@ import LineChart from "./LineChart"
 import PieChart from "./PieChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
+import moment from "moment"
 
 const Default = observer(() => {
   const [changePassword, setChangePassword] = useState(false)
   const rootStore = React.useContext(Contexts.rootStore)
 
   useEffect(() => {
-    if (rootStore.userStore.login?.passChanged !== true) setChangePassword(true)
-  }, [rootStore.userStore.login])
+    const diffInDays = moment(rootStore.loginStore.login?.exipreDate).diff(
+      moment(new Date()),
+      "days"
+    )
+    if (diffInDays <= 5) {
+      rootStore.userStore.updateChangePassword({
+        ...rootStore.userStore.changePassword,
+        subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
+      })
+      setChangePassword(true)
+    }
+    if (rootStore.loginStore.login?.passChanged !== true) setChangePassword(true)
+  }, [rootStore.loginStore.login])
 
-  return (  
+  return (
     <>
       <Container fluid className="p-0">
         <Header />
@@ -58,15 +71,23 @@ const Default = observer(() => {
         {changePassword && (
           <LibraryComponents.Modal.ModalChangePassword
             click={() => {
-              const body = Object.assign(
-                rootStore.userStore.login,
+              const exipreDate = new Date(
+                moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+              )
+              let body = Object.assign(
+                rootStore.loginStore.login,
                 rootStore.userStore.changePassword
               )
+              body = {
+                ...body,
+                exipreDate,
+              }
               Services.changePassword(body).then((res) => {
                 console.log({ res })
                 if (res.status === 200) {
-                  rootStore.userStore.updateLogin({
-                    ...rootStore.userStore.login,
+                  rootStore.loginStore.updateLogin({
+                    ...rootStore.loginStore.login,
+                    exipreDate,
                     passChanged: true,
                   })
                   LibraryComponents.ToastsStore.success(`Password changed!`)
@@ -81,8 +102,8 @@ const Default = observer(() => {
               })
             }}
             close={() => {
-              rootStore.userStore.updateLogin({
-                ...rootStore.userStore.login,
+              rootStore.loginStore.updateLogin({
+                ...rootStore.loginStore.login,
                 passChanged: true,
               })
               setChangePassword(false)

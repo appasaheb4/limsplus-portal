@@ -1,22 +1,5 @@
 import * as Services from "../services"
 
-export const onLogin = (loginStore: any): Promise<any> => {
-  return new Promise((resolve, reject) => {
-    try {
-      Services.onLogin(loginStore)
-        .then((res: any) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    } catch (error) {
-      console.log("error new")
-
-      reject(error)
-    }
-  })
-}
 export const addUser = (userStore: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     try {

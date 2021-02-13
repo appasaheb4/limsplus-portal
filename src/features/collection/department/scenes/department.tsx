@@ -1,28 +1,23 @@
-import React, { useState, useContext } from "react";
-import { observer } from "mobx-react";
-import * as LibraryComponents from "@lp/library/components";
-import BootstrapTable from "react-bootstrap-table-next";
-import ToolkitProvider, {
-  Search,
-  CSVExport,
-} from "react-bootstrap-table2-toolkit";
-import moment from "moment";
-import {
-  Container,
-} from "reactstrap";
+import React, { useState, useContext } from "react"
+import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
+import BootstrapTable from "react-bootstrap-table-next"
+import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import moment from "moment"
+import { Container } from "reactstrap"
 
-import * as Models from "../models";
-import * as Util from "../util";
-import RootStoreContext from "@lp/library/stores";
-import * as Services from "../services";
+import * as Models from "../models"
+import * as Util from "../util"
+import RootStoreContext from "@lp/library/stores"
+import * as Services from "../services"
 
-const { SearchBar, ClearSearchButton } = Search;
-const { ExportCSVButton } = CSVExport;
+const { SearchBar, ClearSearchButton } = Search
+const { ExportCSVButton } = CSVExport
 
 const Department = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore);
-  const [errors, setErrors] = useState<Models.IDepartment>();
-  const [deleteItem, setDeleteItem] = useState<any>({});
+  const rootStore = useContext(RootStoreContext.rootStore)
+  const [errors, setErrors] = useState<Models.IDepartment>()
+  const [deleteItem, setDeleteItem] = useState<any>({})
 
   return (
     <>
@@ -47,28 +42,26 @@ const Department = observer(() => {
                     name="lab"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const lab = e.target.value;
+                      const lab = e.target.value
                       setErrors({
                         ...errors,
                         lab: Util.validate.single(
                           lab,
                           Util.constraintsDepartment.lab
                         ),
-                      });
+                      })
                       rootStore.departmentStore.updateDepartment({
                         ...rootStore.departmentStore.department,
                         lab,
-                      });
+                      })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map(
-                      (item: any) => (
-                        <option key={item.name} value={item.code}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {rootStore.labStore.listLabs.map((item: any) => (
+                      <option key={item.name} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
 
@@ -84,11 +77,11 @@ const Department = observer(() => {
                         code,
                         Util.constraintsDepartment.code
                       ),
-                    });
+                    })
                     rootStore.departmentStore.updateDepartment({
                       ...rootStore.departmentStore.department,
                       code,
-                    });
+                    })
                   }}
                 />
                 {errors?.code && (
@@ -108,11 +101,11 @@ const Department = observer(() => {
                         name,
                         Util.constraintsDepartment.name
                       ),
-                    });
+                    })
                     rootStore.departmentStore.updateDepartment({
                       ...rootStore.departmentStore.department,
                       name,
-                    });
+                    })
                   }}
                 />
 
@@ -137,21 +130,19 @@ const Department = observer(() => {
                       Util.constraintsDepartment
                     ) === undefined
                   ) {
-                    rootStore.setProcessLoading(true);
+                    rootStore.setProcessLoading(true)
                     Services.adddepartment(
                       rootStore.departmentStore.department
                     ).then(() => {
-                      rootStore.setProcessLoading(false);
-                      LibraryComponents.ToastsStore.success(
-                        `Department created.`
-                      );
-                      rootStore.departmentStore.fetchListDepartment();
-                      rootStore.departmentStore.clear();
-                    });
+                      rootStore.setProcessLoading(false)
+                      LibraryComponents.ToastsStore.success(`Department created.`)
+                      rootStore.departmentStore.fetchListDepartment()
+                      rootStore.departmentStore.clear()
+                    })
                   } else {
                     LibraryComponents.ToastsStore.warning(
                       "Please enter all information!"
-                    );
+                    )
                   }
                 }}
               >
@@ -163,7 +154,7 @@ const Department = observer(() => {
                 icon={LibraryComponents.Icons.Remove}
                 onClick={() => {
                   //rootStore.departmentStore.clear();
-                  window.location.reload();
+                  window.location.reload()
                 }}
               >
                 Clear
@@ -172,7 +163,6 @@ const Department = observer(() => {
           </div>
           <br />
           <div className="m-1 p-1 rounded-lg shadow-xl flex flex-row">
-            
             <ToolkitProvider
               keyField="id"
               data={rootStore.departmentStore.listDepartment || []}
@@ -208,7 +198,7 @@ const Department = observer(() => {
                             id: row._id,
                             title: "Are you sure?",
                             body: `Delete ${row.name} lab!`,
-                          });
+                          })
                         }}
                       >
                         Delete
@@ -257,19 +247,21 @@ const Department = observer(() => {
           <LibraryComponents.Modal.ModalConfirm
             {...deleteItem}
             click={() => {
+              rootStore.setProcessLoading(true)
               Services.deletedepartment(deleteItem.id).then((res: any) => {
-                if (res.status) {
-                  LibraryComponents.ToastsStore.success(`Department deleted.`);
-                  setDeleteItem({ show: false });
-                  rootStore.departmentStore.fetchListDepartment();
+                rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.ToastsStore.success(`Department deleted.`)
+                  setDeleteItem({ show: false })
+                  rootStore.departmentStore.fetchListDepartment()
                 }
-              });
+              })
             }}
           />
         </div>
       </Container>
     </>
-  );
-});
+  )
+})
 
-export default Department;
+export default Department
