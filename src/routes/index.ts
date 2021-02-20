@@ -36,12 +36,11 @@ const RoleMapping = async(
 const LoginActivity = async(
   () => import("@lp/features/settings/loginActivity/scenes/LoginActivity")
 )
-// const LabMapping = async(
-//   () => import("@lp/features/mapping/lab/scenes/LapMappingScreen")
-// )
-// const RoleRightsMapping = async(
-//   () => import("@lp/features/mapping/rolerights/scenes/RoleRightsMapping")
-// )
+
+// Communication
+const HostCommunication = async(
+  () => import("@lp/features/communication/scenes/HostCommunication")
+)
 
 // Routes
 const loginRoutes = {
@@ -124,18 +123,18 @@ const userRoutes = {
   ],
 }
 
-// const mappingRoutes = {
-//   path: "/mapping",
-//   name: "Mapping",
-//   icon: LayoutIcon,
-//   children: [
-//     {
-//       path: "/mapping/userMapping",
-//       name: "User Mapping",
-//       component: userMapping,
-//     },
-//   ],
-// }
+const communicationRoutes = {
+  path: "/communication",
+  name: "Communication",
+  icon: LayoutIcon,
+  children: [
+    {
+      path: "/communication/hostCommunication",
+      name: "Host Communication",
+      component: HostCommunication,
+    },
+  ],
+}
 
 const settingsRoutes = {
   path: "/settings",
@@ -152,17 +151,6 @@ const settingsRoutes = {
       name: "Role Mapping",
       component: RoleMapping,
     },
-
-    // {
-    //   path: "/settings/mapping/labMapping",
-    //   name: "Lab Mapping",
-    //   component: LabMapping,
-    // },
-    // {
-    //   path: "/settings/mapping/rolerightsMapping",
-    //   name: "Role Rights Mapping",
-    //   component: RoleRightsMapping,
-    // },
   ],
 }
 
@@ -172,6 +160,7 @@ export const dashboardRouter = [
   bannerRoutes,
   collectionRoutes,
   userRoutes,
+  communicationRoutes,
   settingsRoutes,
 ]
 
@@ -184,5 +173,6 @@ export default [
   bannerRoutes,
   collectionRoutes,
   userRoutes,
+  communicationRoutes,
   settingsRoutes,
 ]

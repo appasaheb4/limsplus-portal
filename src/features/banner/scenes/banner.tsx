@@ -17,8 +17,8 @@ const Banner = observer(() => {
           subTitle="Add, Edit & Delete Banner"
         />
       </LibraryComponents.Header>
-      <div className=" mx-auto  p-4  flex-wrap">
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+      <div className="mx-auto flex-wrap">
+        <div className="p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
@@ -84,7 +84,7 @@ const Banner = observer(() => {
           </LibraryComponents.List>
         </div>
         <br />
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <table className="border-separate border border-green-800 w-full">
             <thead>
               <tr>

@@ -46,8 +46,8 @@ const RoleMapping = observer(() => {
           subTitle="Add, Edit & Delete User Roles"
         />
       </LibraryComponents.Header>
-      <div className=" mx-auto  p-4  flex-wrap">
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+      <div className=" mx-auto  flex-wrap">
+        <div className="p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <Autocomplete
@@ -191,7 +191,7 @@ const RoleMapping = observer(() => {
               icon={LibraryComponents.Icons.Remove}
               onClick={() => {
                 //rootStore.userStore.clear()
-                window.location.reload();
+                window.location.reload()
               }}
             >
               Clear
@@ -199,7 +199,7 @@ const RoleMapping = observer(() => {
           </LibraryComponents.List>
         </div>
         <br />
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider
             keyField="id"
             data={rootStore.roleMappingStore.roleMappingList || []}

@@ -1,6 +1,5 @@
-import * as Scenes from "./scenes";
-import * as Services from "./services";
-import Stores from "./stores";
-import Definition from "./definition.json";
-
-export default { Scenes, Stores, Services, Definition };
+import * as Scenes from "./scenes"
+import * as Services from "./services"
+import Stores from "./stores"
+  
+export default { Scenes, Stores, Services }

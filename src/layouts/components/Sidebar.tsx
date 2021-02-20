@@ -7,9 +7,9 @@ import Contexts from "@lp/library/stores"
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
-import { Box } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
+import * as Assets from "@lp/library/assets"
 
 import routes from "../../routes/index"
 
@@ -119,7 +119,11 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
       <div className="sidebar-content">
         <PerfectScrollbar>
           <a className="sidebar-brand" href="/">
-            <Box className="align-middle text-primary" size={24} />{" "}
+            <img
+              src={Assets.appIcon}
+              alt="appIcon"
+              style={{ width: 40, height: 40 }}
+            />
             <span className="align-middle">Lims Plus</span>
           </a>
 

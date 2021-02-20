@@ -70,7 +70,6 @@ const Login = observer(() => {
                   ))}
                 </Bootstrap.Carousel>
               </div>
-              <h2 className="text-2xl text-white font-bold">Lims Plus</h2>
             </div>
           </Col>
           <Col md="5">
