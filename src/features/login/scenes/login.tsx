@@ -11,8 +11,6 @@ import * as Models from "../models"
 import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
 import { ModalNoticeBoard } from "../components"
-const publicIp = require("public-ip")
-
 import * as Services from "../services"
 
 const Login = observer(() => {
@@ -38,6 +36,18 @@ const Login = observer(() => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
   }, [rootStore.loginStore.login])
+
+  const json = (url) => {
+    return fetch(url).then((res) => res.json())
+  }
+
+  let apiKey = "1ba55b890d19cd2e01784dfb6fb89e0901802fcdf243cc1b5b386d80"
+  json(`https://api.ipdata.co?api-key=${apiKey}`).then((data) => {
+    console.log(data.ip)
+    console.log(data.city)
+    console.log(data.country_code)
+    // so many more properties
+  })
 
   return (
     <>
@@ -189,8 +199,6 @@ const Login = observer(() => {
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
                   onClick={async () => {
-                    const v4 = await publicIp.v4()
-                    const v6 = await publicIp.v6()
                     const loginFailedCount =
                       rootStore.loginStore.loginFailedCount || 0
                     if (
@@ -215,8 +223,6 @@ const Login = observer(() => {
                         Services.onLogin({
                           login: rootStore.loginStore.inputLogin,
                           loginActivity: {
-                            v4,
-                            v6,
                             device: width <= 768 ? "Mobile" : "Desktop",
                           },
                         })
