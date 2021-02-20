@@ -56,8 +56,8 @@ const Users = observer(() => {
             subTitle="Add, Edit & Delete User"
           />
         </LibraryComponents.Header>
-        <div className=" mx-auto  p-4  flex-wrap">
-          <div className="m-1 p-2 rounded-lg shadow-xl">
+        <div className=" mx-auto  flex-wrap">
+          <div className="p-2 rounded-lg shadow-xl">
             <LibraryComponents.Grid cols={2}>
               <LibraryComponents.List
                 direction="col"
@@ -484,8 +484,8 @@ const Users = observer(() => {
                     <TextField
                       {...params}
                       variant="outlined"
-                      label="Labs"
-                      placeholder="Labs"
+                      label="Role"
+                      placeholder="Role"
                     />
                   )}
                 />
@@ -541,7 +541,10 @@ const Users = observer(() => {
             </LibraryComponents.List>
           </div>
           <br />
-          <div className="m-1  rounded-lg shadow-xl" style={{ overflowX: "scroll" }}>
+          <div
+            className="p-2 rounded-lg shadow-xl overflow-auto"
+            style={{ overflowX: "scroll" }}
+          >
             <ToolkitProvider
               keyField="id"
               data={rootStore.userStore.userList || []}
@@ -607,14 +610,17 @@ const Users = observer(() => {
                 {
                   dataField: "fullName",
                   text: "Full Name",
+                  headerStyle: { minWidth: "200px" },
                 },
                 {
                   dataField: "mobileNo",
                   text: "Mobile No",
+                  headerStyle: { minWidth: "200px" },
                 },
                 {
                   dataField: "email",
                   text: "Email",
+                  headerStyle: { minWidth: "200px" },
                 },
                 {
                   dataField: "department",
@@ -671,6 +677,7 @@ const Users = observer(() => {
                 {
                   dataField: "deginisation",
                   text: "Deginisation",
+                  headerStyle: { minWidth: "200px" },
                   editorRenderer: (
                     editorProps,
                     value,
@@ -764,6 +771,7 @@ const Users = observer(() => {
                 {
                   text: "Exipre Date",
                   dataField: "exipreDate",
+                  headerStyle: { minWidth: "200px" },
                   formatter: (cell, row) => {
                     return moment(row.exipreDate).format("YYYY-MM-DD")
                   },
@@ -803,9 +811,7 @@ const Users = observer(() => {
                 {
                   text: "Status",
                   dataField: "status",
-                  style: {
-                    width: 120,
-                  },
+                  headerStyle: { minWidth: "200px" },
                   editor: {
                     type: Type.SELECT,
                     getOptions: () => {
@@ -829,6 +835,7 @@ const Users = observer(() => {
                 {
                   dataField: "opration",
                   text: "Password Re-Send",
+                  headerStyle: { minWidth: "200px" },
                   editable: false,
                   csvExport: false,
                   formatter: (cellContent, row) => (
@@ -836,7 +843,7 @@ const Users = observer(() => {
                       <LibraryComponents.Button
                         size="small"
                         type="outline"
-                        icon={LibraryComponents.Icons.Tick}
+                        icon={LibraryComponents.Icons.ReSendPassword}
                         onClick={async () => {
                           Services.reSendPassword({
                             userId: row.userId,

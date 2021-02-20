@@ -1,5 +1,6 @@
 import React from "react"
 import * as LibraryComponents from "@lp/library/components"
+import { Switch } from "@material-ui/core"
 
 interface LabelProps {
   htmlFor: string
@@ -186,52 +187,20 @@ export const MultilineInput = (props: InputProps) => (
   </InputWrapper>
 )
 
-interface TagInputProps extends InputWrapperProps {
-  value?: string[]
-  onChange: (tags: string[]) => void
+interface ToggleProps extends InputWrapperProps {
+  value?: boolean
+  name?: string
+  disabled?: boolean
+  onChange?: (e: boolean) => void
 }
 
-// export const TagInput = (props: TagInputProps) => {
-//   const [search, setSearch] = React.useState<string>("");
-//   return (
-//     <InputWrapper label={props.label} id={props.id}>
-//       <div className="p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md flex flex-wrap">
-//         {props.value?.map((tag, index) => (
-//           <div className="my-0.5 mr-1">
-//             <Button
-//               pill={true}
-//               size="small"
-//               type="solid"
-//               icon={Icons.Remove}
-//               onClick={() => {
-//                 let newArray = [...(props.value || [])];
-//                 newArray.splice(index, 1);
-//                 props.onChange(newArray);
-//               }}
-//             >
-//               {tag}
-//             </Button>
-//           </div>
-//         ))}
-//         <div className="self-stretch flex items-center">
-//           <input
-//             type="search"
-//             value={search}
-//             onChange={({ target: { value: search } }) => setSearch(search)}
-//             className={`text-sm min-w-0 outline-none ring-0 ${
-//               props.value?.length ? "w-16" : "w-full"
-//             } my-0.5`}
-//             onKeyDown={(e) => {
-//               if (e.key === "Enter") {
-//                 props.onChange(
-//                   Array.from(new Set([...(props.value || []), search]))
-//                 );
-//                 setSearch("");
-//               }
-//             }}
-//           />
-//         </div>
-//       </div>
-//     </InputWrapper>
-//   );
-// };
+export const Toggle = (props: ToggleProps) => (
+  <InputWrapper label={props.label} id={props.id}>
+    <Switch
+      checked={props.value}
+      onChange={(e) => props.onChange && props.onChange(e.target.checked)}
+      name={props.name}
+      inputProps={{ "aria-label": "secondary checkbox" }}
+    />
+  </InputWrapper>
+)

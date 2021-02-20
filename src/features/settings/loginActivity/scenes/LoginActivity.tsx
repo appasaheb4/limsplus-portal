@@ -24,8 +24,8 @@ const LoginActivity = observer(() => {
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading title="Login Activity" />
       </LibraryComponents.Header>
-      <div className=" mx-auto  p-4  flex-wrap">
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+      <div className=" mx-auto  flex-wrap">
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider
             keyField="id"
             data={rootStore.loginActivityStore.listLoginActivity || []}
@@ -45,12 +45,18 @@ const LoginActivity = observer(() => {
                 text: "Lab",
               },
               {
+                dataField: "user.role",
+                text: "Role",
+              },
+              {
                 dataField: "systemInfo.device",
                 text: "Device",
               },
               {
                 dataField: "systemInfo.v4",
                 text: "Ip Information",
+                csvFormatter: (cell, row, rowIndex) =>
+                  `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
                 formatter: (cell, row) => {
                   return (
                     <>
@@ -75,7 +81,7 @@ const LoginActivity = observer(() => {
                 dataField: "dateOfEntry",
                 text: "In",
                 formatter: (cell, row) => {
-                  return moment(row.dateOfEntry).format("YYYY-MM-DD HH:mm:ss")
+                  return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                 },
               },
               {
@@ -83,7 +89,7 @@ const LoginActivity = observer(() => {
                 text: "Out",
                 formatter: (cell, row) => {
                   return row.lastUpdated !== undefined
-                    ? moment(row.lastUpdated).format("YYYY-MM-DD HH:mm:ss")
+                    ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
                     : "Active User"
                 },
               },

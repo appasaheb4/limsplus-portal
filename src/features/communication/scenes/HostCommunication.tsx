@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useContext } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -14,9 +15,9 @@ import * as Services from "../services"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-const Department = observer(() => {
+const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
-  const [errors, setErrors] = useState<Models.IDepartment>()
+  const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
 
   return (
@@ -24,8 +25,8 @@ const Department = observer(() => {
       <Container>
         <LibraryComponents.Header>
           <LibraryComponents.PageHeading
-            title="Department"
-            subTitle="Add, Edit & Delete Lab"
+            title="Host Communication"
+            subTitle="Add, Edit & Delete"
           />
         </LibraryComponents.Header>
         <div className="mx-auto">
@@ -37,83 +38,35 @@ const Department = observer(() => {
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
-                  <select
-                    name="lab"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value
-                      setErrors({
-                        ...errors,
-                        lab: Util.validate.single(
-                          lab,
-                          Util.constraintsDepartment.lab
-                        ),
-                      })
-                      rootStore.departmentStore.updateDepartment({
-                        ...rootStore.departmentStore.department,
-                        lab,
+                <LibraryComponents.Grid cols={2}>
+                  <LibraryComponents.Form.Toggle
+                    label="Manual/Automatic  Mode"
+                    id="manualAutomaticMode"
+                    value={
+                      rootStore.communicationStore.hostCommuication
+                        ?.manualAutomaticMode
+                    }
+                    onChange={(manualAutomaticMode) => {
+                      console.log({ manualAutomaticMode })
+
+                      rootStore.communicationStore.updateHostCommuication({
+                        ...rootStore.communicationStore.hostCommuication,
+                        manualAutomaticMode,
                       })
                     }}
-                  >
-                    <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
-
-                <LibraryComponents.Form.Input
-                  label="Code"
-                  id="code"
-                  placeholder="Code"
-                  value={rootStore.departmentStore.department?.code}
-                  onChange={(code) => {
-                    setErrors({
-                      ...errors,
-                      code: Util.validate.single(
-                        code,
-                        Util.constraintsDepartment.code
-                      ),
-                    })
-                    rootStore.departmentStore.updateDepartment({
-                      ...rootStore.departmentStore.department,
-                      code,
-                    })
-                  }}
-                />
-                {errors?.code && (
-                  <span className="text-red-600 font-medium relative">
-                    {errors.code}
-                  </span>
-                )}
-                <LibraryComponents.Form.Input
-                  label="Name"
-                  name="name"
-                  placeholder="Name"
-                  value={rootStore.departmentStore.department?.name}
-                  onChange={(name) => {
-                    setErrors({
-                      ...errors,
-                      name: Util.validate.single(
-                        name,
-                        Util.constraintsDepartment.name
-                      ),
-                    })
-                    rootStore.departmentStore.updateDepartment({
-                      ...rootStore.departmentStore.department,
-                      name,
-                    })
-                  }}
-                />
-
-                {errors?.name && (
-                  <span className="text-red-600 font-medium relative">
-                    {errors.name}
-                  </span>
-                )}
+                  />
+                  <div>
+                    <label>
+                      Connection Estabilished :{" "}
+                      {`${
+                        rootStore.communicationStore.hostCommuication
+                          ?.manualAutomaticMode
+                          ? `On`
+                          : `Off`
+                      }`}
+                    </label>
+                  </div>
+                </LibraryComponents.Grid>
               </LibraryComponents.List>
             </LibraryComponents.Grid>
             <br />
@@ -131,9 +84,7 @@ const Department = observer(() => {
                     ) === undefined
                   ) {
                     rootStore.setProcessLoading(true)
-                    Services.adddepartment(
-                      rootStore.departmentStore.department
-                    ).then(() => {
+                    Services.adddepartment({}).then(() => {
                       rootStore.setProcessLoading(false)
                       LibraryComponents.ToastsStore.success(`Department created.`)
                       rootStore.departmentStore.fetchListDepartment()
@@ -162,8 +113,8 @@ const Department = observer(() => {
             </LibraryComponents.List>
           </div>
           <br />
-          <div className="p-2 rounded-lg shadow-xl flex flex-row">
-            <ToolkitProvider
+          <div className="p-2 rounded-lg shadow-xl overflow-auto">
+            {/* <ToolkitProvider
               keyField="id"
               data={rootStore.departmentStore.listDepartment || []}
               columns={[
@@ -242,7 +193,7 @@ const Department = observer(() => {
                   />
                 </div>
               )}
-            </ToolkitProvider>
+            </ToolkitProvider> */}
           </div>
           <LibraryComponents.Modal.ModalConfirm
             {...deleteItem}
@@ -264,4 +215,4 @@ const Department = observer(() => {
   )
 })
 
-export default Department
+export default HostCommunication

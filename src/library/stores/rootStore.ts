@@ -13,6 +13,7 @@ import RoleMappingStore from "@lp/features/settings/mapping/role/stores"
 import LabMappingStore from "@lp/features/settings/mapping/lab/stores"
 import RoleRightsMappingStore from "@lp/features/settings/mapping/rolerights/stores"
 import LoginActivityStore from "@lp/features/settings/loginActivity/stores"
+import CommunicationStore from "@lp/features/communication/stores"
 
 @version(1.0)
 class RootStore {
@@ -30,6 +31,7 @@ class RootStore {
   @observable labMappingStore = new LabMappingStore()
   @observable roleRightsMappingStore = new RoleRightsMappingStore()
   @observable loginActivityStore = new LoginActivityStore()
+  @observable communicationStore = new CommunicationStore();
 
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading

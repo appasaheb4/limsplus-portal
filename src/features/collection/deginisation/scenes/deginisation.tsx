@@ -26,8 +26,8 @@ const Deginisation = observer(() => {
           subTitle="Add, Edit & Delete Deginisation"
         />
       </LibraryComponents.Header>
-      <div className=" mx-auto  p-4  flex-wrap">
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+      <div className=" mx-auto flex-wrap">
+        <div className="p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={2}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
@@ -130,7 +130,7 @@ const Deginisation = observer(() => {
           </LibraryComponents.List>
         </div>
         <br />
-        <div className="m-1 p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
             data={rootStore.deginisationStore.listDeginisation || []}
