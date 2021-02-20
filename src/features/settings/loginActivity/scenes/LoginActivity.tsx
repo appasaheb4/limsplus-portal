@@ -50,12 +50,27 @@ const LoginActivity = observer(() => {
               },
               {
                 dataField: "systemInfo.v4",
-                text: "Ip address(v4)",
+                text: "Ip Information",
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      <div>
+                        <h6>Ip: {row.systemInfo.ipInfo.ip}</h6>
+                        {row.systemInfo.ipInfo.city && (
+                          <>
+                            <h6>
+                              Address:{" "}
+                              {`${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}`}
+                            </h6>
+                            <h6>Location: {`${row.systemInfo.ipInfo.ll}`}</h6>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )
+                },
               },
-              {
-                dataField: "systemInfo.v6",
-                text: "Ip address(v6)",
-              },
+
               {
                 dataField: "dateOfEntry",
                 text: "In",
