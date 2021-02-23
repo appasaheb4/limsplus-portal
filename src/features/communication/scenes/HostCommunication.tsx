@@ -12,6 +12,8 @@ import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
+import { SettingForRS232Table, SettingForTCP_IPTable } from "../components/atoms"
+
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -24,10 +26,7 @@ const HostCommunication = observer(() => {
     <>
       <Container>
         <LibraryComponents.Header>
-          <LibraryComponents.PageHeading
-            title="Host Communication"
-            subTitle="Add, Edit & Delete"
-          />
+          <LibraryComponents.PageHeading title="Host Communication" />
         </LibraryComponents.Header>
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
@@ -67,10 +66,236 @@ const HostCommunication = observer(() => {
                     </label>
                   </div>
                 </LibraryComponents.Grid>
+                <LibraryComponents.Form.Input
+                  label="Instrument Type"
+                  id="instrumentType"
+                  placeholder="Instrument Type"
+                  value={rootStore.userStore.user.fullName}
+                  onChange={(fullName) => {
+                    // rootStore.userStore.updateUser({
+                    //   ...rootStore.userStore.user,
+                    //   fullName,
+                    // })
+                  }}
+                />
+                {/* {errors?.fullName && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.fullName}
+                  </span>
+                )} */}
+                <LibraryComponents.Form.Input
+                  label="Instrument Name"
+                  id="instrumentName"
+                  placeholder="Instrument Name"
+                  value={rootStore.userStore.user.fullName}
+                  onChange={(fullName) => {
+                    // rootStore.userStore.updateUser({
+                    //   ...rootStore.userStore.user,
+                    //   fullName,
+                    // })
+                  }}
+                />
+                {/* {errors?.fullName && (
+                  <span className="text-red-600 font-medium relative">
+                    {errors.fullName}
+                  </span>
+                )} */}
+                <LibraryComponents.Form.InputWrapper
+                  label="Mode of Communication"
+                  id="modeOfCommunication"
+                >
+                  <select
+                    name="defualtLab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const defaultLab = e.target.value
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      { title: "Broadcasting" },
+                      { title: "Host Query" },
+                      { title: "File based" },
+                    ].map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                <LibraryComponents.Form.InputWrapper
+                  label="Type of Query"
+                  id="typeOfQuery"
+                >
+                  <select
+                    name="defualtLab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const defaultLab = e.target.value
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      { title: "Unidirectional" },
+                      { title: "Bidirectional" },
+                      { title: "Host Query " },
+                    ].map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                <LibraryComponents.Form.InputWrapper
+                  label="Apply Filtr on"
+                  id="applyFiltrOn"
+                >
+                  <select
+                    name="defualtLab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const defaultLab = e.target.value
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      { title: "Patient Data / QC Data" },
+                      { title: "Output Filter" },
+                    ].map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
               </LibraryComponents.List>
-            </LibraryComponents.Grid>
-            <br />
 
+              <LibraryComponents.List
+                direction="col"
+                space={4}
+                justify="stretch"
+                fill
+              >
+                <LibraryComponents.Form.InputWrapper
+                  label="Mode of Connection "
+                  id="modeOfConnection"
+                >
+                  <select
+                    name="defualtLab"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const modeOfConnection = e.target.value
+                      rootStore.communicationStore.updateHostCommuication({
+                        ...rootStore.communicationStore.hostCommuication,
+                        modeOfConnection,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      { title: "Serial Port Communication" },
+                      { title: "TCP/IP Communication" },
+                    ].map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                {rootStore.communicationStore.hostCommuication?.modeOfConnection ===
+                  "Serial Port Communication" && <SettingForRS232Table />}
+                {rootStore.communicationStore.hostCommuication?.modeOfConnection ===
+                  "TCP/IP Communication" && <SettingForTCP_IPTable />}
+              </LibraryComponents.List>
+              <div className="clearfix"></div>
+            </LibraryComponents.Grid>
+
+            <LibraryComponents.Grid cols={3}>
+              <LibraryComponents.Form.InputWrapper
+                label="Source File"
+                id="sourceFileDataReceivefromInstrument"
+              >
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Hex decimal" },
+                    { title: "HL7" },
+                    { title: "ASTM" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <LibraryComponents.Form.Input
+                label="Log File"
+                id="logFileDataReceivefromInstrument"
+                placeholder="Log File"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <LibraryComponents.Form.InputWrapper
+                label="Source Repository"
+                id="SourceRepositoryDataReceivefromInstrument"
+              >
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Phiysical file Location" },
+                    { title: "Collection of a database" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <div className="clearfix"></div>
+            </LibraryComponents.Grid>
+            <LibraryComponents.Form.MultilineInput
+              label=""
+              id="txtDataReceivefromInstrument"
+              placeholder="Source file (Data Received Data from Instrument)"
+              value={rootStore.userStore.user.fullName}
+              onChange={(fullName) => {
+                // rootStore.userStore.updateUser({
+                //   ...rootStore.userStore.user,
+                //   fullName,
+                // })
+              }}
+            />
+            <LibraryComponents.Form.MultilineInput
+              label=""
+              id="txtSendDatafromInstrument"
+              placeholder="Send data to Instrument"
+              value={rootStore.userStore.user.fullName}
+              onChange={(fullName) => {
+                // rootStore.userStore.updateUser({
+                //   ...rootStore.userStore.user,
+                //   fullName,
+                // })
+              }}
+            />
+
+            <br />
             <LibraryComponents.List direction="row" space={3} align="center">
               <LibraryComponents.Button
                 size="medium"
