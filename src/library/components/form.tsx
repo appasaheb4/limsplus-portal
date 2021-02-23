@@ -20,10 +20,11 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
 interface InputWrapperProps {
   id?: string
   label: string
+  className?: string
 }
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
-  <div>
+  <div className={props.className}>
     <Label htmlFor={props.id || ""}>{props.label}</Label>
     {props.children}
   </div>
@@ -36,6 +37,7 @@ interface InputProps extends InputWrapperProps {
   type?: string
   required?: boolean
   disabled?: boolean
+  className?: string
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
 }
@@ -175,12 +177,13 @@ export const InputFile = (props: InputFileProps) => (
 )
 
 export const MultilineInput = (props: InputProps) => (
-  <InputWrapper label={props.label} id={props.id}>
+  <InputWrapper label={props.label} id={props.id} className={props.className}>
     <textarea
       id={props.id}
       autoComplete="given-name"
       value={props.value}
       rows={5}
+      placeholder={props.placeholder}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
