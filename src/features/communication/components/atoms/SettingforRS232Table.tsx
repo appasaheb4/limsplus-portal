@@ -1,5 +1,7 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Table } from "reactstrap"
+import { observer } from "mobx-react"
+import RootStoreContext from "@lp/library/stores"
 
 interface SettingForRS232TableProps {
   onClick?: () => void
@@ -12,23 +14,43 @@ const comPort = [
   { title: "COM4" },
   { title: "COM5" },
 ]
-// const baudRate = []
-// 110
-// 300
-// 600
-// 1200
-// 2400
-// 4800
-// 9600
-// 14400
-// 19200
-// 38400
-// 57600
-// 115200
-// 128000
-// 256000
+const baudRate = [
+  { title: "110" },
+  { title: "300" },
+  { title: "600" },
+  { title: "1200" },
+  { title: "2400" },
+  { title: "4800" },
+  { title: "9600" },
+  { title: "14400" },
+  { title: "19200" },
+  { title: "38400" },
+  { title: "57600" },
+  { title: "115200" },
+  { title: "128000" },
+  { title: "256000" },
+]
 
-const SettingForRS232Table: React.FunctionComponent = () => {
+const stopBits = [{ title: "1" }, { title: "1.5" }, { title: "2" }]
+
+const dataBits = [{ title: "7" }, { title: "8" }]
+const parity = [
+  { title: "None (N)" },
+  { title: "Odd (O)" },
+  { title: "Even €" },
+  { title: "Mark (M)" },
+  { title: "Space (S)" },
+]
+const flowControl = [
+  { title: "On" },
+  { title: "Off" },
+  { title: "None" },
+  { title: "Hardware" },
+]
+const protocol = [{ title: "1381" }, { title: "1394" }]
+
+const SettingForRS232Table: React.FunctionComponent = observer(() => {
+  const rootStore = useContext(RootStoreContext.rootStore)
   return (
     <>
       <Table striped bordered hover>
@@ -44,10 +66,21 @@ const SettingForRS232Table: React.FunctionComponent = () => {
             <td>
               <select
                 name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.comPort
+                }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
-                  const defaultLab = e.target.value
-                  console.log({ defaultLab })
+                  const comPort = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      comPort,
+                    },
+                  })
                 }}
               >
                 <option selected>Select</option>
@@ -62,32 +95,198 @@ const SettingForRS232Table: React.FunctionComponent = () => {
 
           <tr>
             <td>Baud rate</td>
-            <td>9600</td>
+            <td>
+              {" "}
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.baudRate
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const baudRate = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      baudRate,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {baudRate.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Data bits</td>
-            <td>8</td>
+            <td>
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.dataBits
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const dataBits = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      dataBits,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {dataBits.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Stop bits</td>
-            <td>1</td>
+            <td>
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.stopBits
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const stopBits = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      stopBits,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {stopBits.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Parity</td>
-            <td>None</td>
+            <td>
+              {" "}
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.parity
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const parity = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      parity,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {parity.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Flow control (Handshaking)</td>
-            <td>On</td>
+            <td>
+              {" "}
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.flowControl
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const flowControl = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      flowControl,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {flowControl.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
           <tr>
             <td>Protocol</td>
-            <td>1381</td>
+            <td>
+              {" "}
+              <select
+                name="defualtLab"
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.serialPortCommunication?.protocol
+                }
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const protocol = e.target.value
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    serialPortCommunication: {
+                      ...rootStore.communicationStore.hostCommuication
+                        ?.serialPortCommunication,
+                      protocol,
+                    },
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {protocol.map((item: any) => (
+                  <option key={item.title} value={item.title}>
+                    {item.title}
+                  </option>
+                ))}
+              </select>
+            </td>
           </tr>
         </tbody>
       </Table>
     </>
   )
-}
+})
 
 export default SettingForRS232Table

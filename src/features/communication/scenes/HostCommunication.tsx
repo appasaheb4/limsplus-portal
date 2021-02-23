@@ -46,8 +46,6 @@ const HostCommunication = observer(() => {
                         ?.manualAutomaticMode
                     }
                     onChange={(manualAutomaticMode) => {
-                      console.log({ manualAutomaticMode })
-
                       rootStore.communicationStore.updateHostCommuication({
                         ...rootStore.communicationStore.hostCommuication,
                         manualAutomaticMode,
@@ -70,12 +68,14 @@ const HostCommunication = observer(() => {
                   label="Instrument Type"
                   id="instrumentType"
                   placeholder="Instrument Type"
-                  value={rootStore.userStore.user.fullName}
-                  onChange={(fullName) => {
-                    // rootStore.userStore.updateUser({
-                    //   ...rootStore.userStore.user,
-                    //   fullName,
-                    // })
+                  value={
+                    rootStore.communicationStore.hostCommuication?.instrumentType
+                  }
+                  onChange={(instrumentType) => {
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      instrumentType,
+                    })
                   }}
                 />
                 {/* {errors?.fullName && (
@@ -87,12 +87,14 @@ const HostCommunication = observer(() => {
                   label="Instrument Name"
                   id="instrumentName"
                   placeholder="Instrument Name"
-                  value={rootStore.userStore.user.fullName}
-                  onChange={(fullName) => {
-                    // rootStore.userStore.updateUser({
-                    //   ...rootStore.userStore.user,
-                    //   fullName,
-                    // })
+                  value={
+                    rootStore.communicationStore.hostCommuication?.instrumentName
+                  }
+                  onChange={(instrumentName) => {
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      instrumentName,
+                    })
                   }}
                 />
                 {/* {errors?.fullName && (
@@ -106,9 +108,17 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
+                    value={
+                      rootStore.communicationStore.hostCommuication
+                        ?.modeOfCommunication
+                    }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const defaultLab = e.target.value
+                      const modeOfCommunication = e.target.value
+                      rootStore.communicationStore.updateHostCommuication({
+                        ...rootStore.communicationStore.hostCommuication,
+                        modeOfCommunication,
+                      })
                     }}
                   >
                     <option selected>Select</option>
@@ -129,9 +139,16 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
+                    value={
+                      rootStore.communicationStore.hostCommuication?.typeOfQuery
+                    }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const defaultLab = e.target.value
+                      const typeOfQuery = e.target.value
+                      rootStore.communicationStore.updateHostCommuication({
+                        ...rootStore.communicationStore.hostCommuication,
+                        typeOfQuery,
+                      })
                     }}
                   >
                     <option selected>Select</option>
@@ -152,9 +169,16 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
+                    value={
+                      rootStore.communicationStore.hostCommuication?.applyFiltrOn
+                    }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const defaultLab = e.target.value
+                      const applyFiltrOn = e.target.value
+                      rootStore.communicationStore.updateHostCommuication({
+                        ...rootStore.communicationStore.hostCommuication,
+                        applyFiltrOn,
+                      })
                     }}
                   >
                     <option selected>Select</option>
@@ -182,6 +206,9 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
+                    value={
+                      rootStore.communicationStore.hostCommuication?.modeOfConnection
+                    }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfConnection = e.target.value
@@ -270,30 +297,196 @@ const HostCommunication = observer(() => {
               </LibraryComponents.Form.InputWrapper>
               <div className="clearfix"></div>
             </LibraryComponents.Grid>
-            <LibraryComponents.Form.MultilineInput
-              label=""
-              id="txtDataReceivefromInstrument"
-              placeholder="Source file (Data Received Data from Instrument)"
-              value={rootStore.userStore.user.fullName}
-              onChange={(fullName) => {
-                // rootStore.userStore.updateUser({
-                //   ...rootStore.userStore.user,
-                //   fullName,
-                // })
-              }}
-            />
-            <LibraryComponents.Form.MultilineInput
-              label=""
-              id="txtSendDatafromInstrument"
-              placeholder="Send data to Instrument"
-              value={rootStore.userStore.user.fullName}
-              onChange={(fullName) => {
-                // rootStore.userStore.updateUser({
-                //   ...rootStore.userStore.user,
-                //   fullName,
-                // })
-              }}
-            />
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Form.MultilineInput
+                label=""
+                id="txtDataReceivefromInstrument"
+                placeholder="Source file (Data Received Data from Instrument)"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <LibraryComponents.Form.MultilineInput
+                label=""
+                id="txtSendDatafromInstrument"
+                placeholder="Send data to Instrument"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <div className="clearfix" />
+            </LibraryComponents.List>
+
+            <LibraryComponents.Grid cols={2}>
+              <LibraryComponents.Form.InputWrapper label="Convert to" id="convertTo">
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Hex decimal" },
+                    { title: "HL7" },
+                    { title: "ASTM" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
+              <LibraryComponents.Form.InputWrapper
+                label="Output Repository"
+                id="outputRepository"
+              >
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Phiysical file Location" },
+                    { title: "Collection of a database" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <div className="clearfix"></div>
+            </LibraryComponents.Grid>
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Form.MultilineInput
+                id="txtConvertedfile"
+                placeholder="Converted file"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <div className="clearfix" />
+            </LibraryComponents.List>
+
+            <LibraryComponents.List direction="col" space={4} justify="start">
+              <LibraryComponents.Form.InputWrapper label="Output in" id="outputIn">
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "PDF" },
+                    { title: "CSV" },
+                    { title: "TXT" },
+                    { title: "Table/Collection" },
+                    { title: "API" },
+                    { title: "Graph" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <div className="clearfix"></div>
+            </LibraryComponents.List>
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Form.MultilineInput
+                id="txtOutputin"
+                placeholder="Output in"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <div className="clearfix" />
+            </LibraryComponents.List>
+
+            <LibraryComponents.Grid cols={3}>
+              <LibraryComponents.Form.InputWrapper
+                label="Output for Third party Software"
+                id="outputforThirdpartySoftware"
+              >
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Serial to Serial" },
+                    { title: "HL7" },
+                    { title: "ASTM" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <LibraryComponents.Form.Input
+                label="Log File"
+                id="logFileDataReceivefromInstrument"
+                placeholder="Log File"
+                value={rootStore.userStore.user.fullName}
+                onChange={(fullName) => {
+                  // rootStore.userStore.updateUser({
+                  //   ...rootStore.userStore.user,
+                  //   fullName,
+                  // })
+                }}
+              />
+              <LibraryComponents.Form.InputWrapper
+                label="Source Repository"
+                id="SourceRepositoryDataReceivefromInstrument"
+              >
+                <select
+                  name="defualtLab"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const defaultLab = e.target.value
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[
+                    { title: "Phiysical file Location" },
+                    { title: "Collection of a database" },
+                  ].map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              <div className="clearfix"></div>
+            </LibraryComponents.Grid>
 
             <br />
             <LibraryComponents.List direction="row" space={3} align="center">
