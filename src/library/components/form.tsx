@@ -19,7 +19,7 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
 
 interface InputWrapperProps {
   id?: string
-  label: string
+  label?: string
   className?: string
 }
 
