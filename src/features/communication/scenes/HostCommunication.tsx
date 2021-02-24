@@ -244,9 +244,17 @@ const HostCommunication = observer(() => {
               >
                 <select
                   name="defualtLab"
+                  value={
+                    rootStore.communicationStore.hostCommuication
+                      ?.sourceFileDataReceivefromInstrument
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const sourceFileDataReceivefromInstrument = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      sourceFileDataReceivefromInstrument,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -266,11 +274,11 @@ const HostCommunication = observer(() => {
                 id="logFileDataReceivefromInstrument"
                 placeholder="Log File"
                 value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                onChange={(logFileDataReceivefromInstrument) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    logFileDataReceivefromInstrument,
+                  })
                 }}
               />
               <LibraryComponents.Form.InputWrapper
@@ -279,9 +287,17 @@ const HostCommunication = observer(() => {
               >
                 <select
                   name="defualtLab"
+                  value={
+                    rootStore.communicationStore.hostCommuication
+                      ?.SourceRepositoryDataReceivefromInstrument
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const SourceRepositoryDataReceivefromInstrument = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      SourceRepositoryDataReceivefromInstrument,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -302,24 +318,30 @@ const HostCommunication = observer(() => {
                 label=""
                 id="txtDataReceivefromInstrument"
                 placeholder="Source file (Data Received Data from Instrument)"
-                value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.txtDataReceivefromInstrument
+                }
+                onChange={(txtDataReceivefromInstrument) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    txtDataReceivefromInstrument,
+                  })
                 }}
               />
               <LibraryComponents.Form.MultilineInput
                 label=""
                 id="txtSendDatafromInstrument"
                 placeholder="Send data to Instrument"
-                value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.txtSendDatafromInstrument
+                }
+                onChange={(txtSendDatafromInstrument) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    txtSendDatafromInstrument,
+                  })
                 }}
               />
               <div className="clearfix" />
@@ -329,9 +351,14 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.InputWrapper label="Convert to" id="convertTo">
                 <select
                   name="defualtLab"
+                  value={rootStore.communicationStore.hostCommuication?.convertTo}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const convertTo = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      convertTo,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -353,9 +380,16 @@ const HostCommunication = observer(() => {
               >
                 <select
                   name="defualtLab"
+                  value={
+                    rootStore.communicationStore.hostCommuication?.outputRepository
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const outputRepository = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      outputRepository,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -375,24 +409,31 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.MultilineInput
                 id="txtConvertedfile"
                 placeholder="Converted file"
-                value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                value={
+                  rootStore.communicationStore.hostCommuication?.txtConvertedfile
+                }
+                onChange={(txtConvertedfile) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    txtConvertedfile,
+                  })
                 }}
               />
               <div className="clearfix" />
             </LibraryComponents.List>
 
             <LibraryComponents.List direction="col" space={4} justify="start">
-              <LibraryComponents.Form.InputWrapper label="Output in" id="outputIn">
+              <LibraryComponents.Form.InputWrapper label="Output in" id="outPutIn">
                 <select
                   name="defualtLab"
+                  value={rootStore.communicationStore.hostCommuication?.outPutIn}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const outPutIn = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      outPutIn,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -416,12 +457,12 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.MultilineInput
                 id="txtOutputin"
                 placeholder="Output in"
-                value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                value={rootStore.communicationStore.hostCommuication?.txtOutputin}
+                onChange={(txtOutputin) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    txtOutputin,
+                  })
                 }}
               />
               <div className="clearfix" />
@@ -434,9 +475,17 @@ const HostCommunication = observer(() => {
               >
                 <select
                   name="defualtLab"
+                  value={
+                    rootStore.communicationStore.hostCommuication
+                      ?.outputforThirdpartySoftware
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const outputforThirdpartySoftware = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      outputforThirdpartySoftware,
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -453,25 +502,36 @@ const HostCommunication = observer(() => {
               </LibraryComponents.Form.InputWrapper>
               <LibraryComponents.Form.Input
                 label="Log File"
-                id="logFileDataReceivefromInstrument"
+                id="logFileThiredPartySoftare"
                 placeholder="Log File"
-                value={rootStore.userStore.user.fullName}
-                onChange={(fullName) => {
-                  // rootStore.userStore.updateUser({
-                  //   ...rootStore.userStore.user,
-                  //   fullName,
-                  // })
+                value={
+                  rootStore.communicationStore.hostCommuication
+                    ?.logFileThiredPartySoftare
+                }
+                onChange={(logFileThiredPartySoftare) => {
+                  rootStore.communicationStore.updateHostCommuication({
+                    ...rootStore.communicationStore.hostCommuication,
+                    logFileThiredPartySoftare,
+                  })
                 }}
               />
               <LibraryComponents.Form.InputWrapper
                 label="Source Repository"
-                id="SourceRepositoryDataReceivefromInstrument"
+                id="SourceRepositoryThiredPartySoftare"
               >
                 <select
                   name="defualtLab"
+                  value={
+                    rootStore.communicationStore.hostCommuication
+                      ?.SourceRepositoryThiredPartySoftare
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const defaultLab = e.target.value
+                    const SourceRepositoryThiredPartySoftare = e.target.value
+                    rootStore.communicationStore.updateHostCommuication({
+                      ...rootStore.communicationStore.hostCommuication,
+                      SourceRepositoryThiredPartySoftare,
+                    })
                   }}
                 >
                   <option selected>Select</option>
