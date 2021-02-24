@@ -22,4 +22,18 @@ export interface IHostCommunication {
     timeout?: string
     responseTime?: string
   }
+  sourceFileDataReceivefromInstrument?: string
+  logFileDataReceivefromInstrument?: string
+  SourceRepositoryDataReceivefromInstrument?: string
+  txtDataReceivefromInstrument?: string
+  txtSendDatafromInstrument?: string
+  convertTo?: string
+  outputRepository?: string
+  txtConvertedfile?: string
+  outPutIn?: string
+  txtOutputin?: string
+
+  outputforThirdpartySoftware?: string
+  logFileThiredPartySoftare?: string
+  SourceRepositoryThiredPartySoftare?: string
 }
