@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients";
 import * as Models from "../models";
 
+import DepartmentService from './department-services'
+export{DepartmentService}
+
 const RELATIVE_PATH = "/department";
 
 export const listDepartment = () =>
@@ -29,12 +32,12 @@ export const adddepartment = (department?: Models.IDepartment) =>
   });
 
 export const deletedepartment = (id: string) =>
-  new Promise<Models.IDepartment[]>((resolve, reject) => {
+  new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient();
     client
       .delete(`${RELATIVE_PATH}/deleteDepartment/${id}`)
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch((error) => {
         reject({ error });

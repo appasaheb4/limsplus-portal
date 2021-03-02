@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients";
 import * as Models from "../models";
 
+import LabService from './lab-services'
+export{LabService}
+
 const RELATIVE_PATH = "/lab";
 
 export const listLabs = () =>
@@ -30,12 +33,12 @@ export const addLab = (lab?: Models.Labs) =>
   });
 
 export const deleteLab = (id: string) =>
-  new Promise<Models.Labs[]>((resolve, reject) => {
+  new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient();
     client
       .delete(`${RELATIVE_PATH}/deleteLab/${id}`)
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch((error) => {
         reject({ error });

@@ -25,11 +25,12 @@ const CollectionRole = async(
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
+
+
+// Settings
 const ChangePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
 )
-
-// Settings
 const RoleMapping = async(
   () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
 )
@@ -114,12 +115,7 @@ const userRoutes = {
       path: "/user/user",
       name: "User",
       component: User,
-    },
-    {
-      path: "/user/changePassword",
-      name: "Change Password",
-      component: ChangePassword,
-    },
+    }
   ],
 }
 
@@ -150,6 +146,11 @@ const settingsRoutes = {
       path: "/settings/mapping/roleMapping",
       name: "Role Mapping",
       component: RoleMapping,
+    },
+    {
+      path: "/settings/changePassword",
+      name: "Change Password",
+      component: ChangePassword,
     },
   ],
 }

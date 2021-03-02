@@ -10,6 +10,7 @@ import Footer from "./components/Footer"
 import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
 import Contexts from "@lp/library/stores"
+import {Stores as LoginStores} from '@lp/features/login/stores';
 
 const Dashboard = observer(({ children }) => {
   const rootStore = React.useContext(Contexts.rootStore)
@@ -21,7 +22,7 @@ const Dashboard = observer(({ children }) => {
         if (!isLogin) history.push("/")
       })
     }, 1000)
-  }, [rootStore.loginStore.login])
+  }, [LoginStores.loginStore.login])
 
   return (
     <React.Fragment>

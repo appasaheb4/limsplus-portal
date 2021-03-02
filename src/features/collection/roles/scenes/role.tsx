@@ -3,12 +3,15 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
+
+import {Stores} from '../stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -34,15 +37,23 @@ const Role = observer(() => {
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.roleStore.role?.code}
+                value={Stores.roleStore.role?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
                     code: Util.validate.single(code, Util.constraintsRole.code),
                   })
-                  rootStore.roleStore.updateRole({
-                    ...rootStore.roleStore.role,
+                  Stores.roleStore.updateRole({
+                    ...Stores.roleStore.role,
                     code,
+                  })
+                }}
+                onBlur={(code) => {
+                  Stores.roleStore.RoleService.checkExitsCode(code).then((res) => {
+                    console.log({res});
+                    if (res)
+                      if (res.length > 0)  Stores.roleStore.setExitsCode(true)
+                      else Stores.roleStore.setExitsCode(false)
                   })
                 }}
               />
@@ -51,11 +62,16 @@ const Role = observer(() => {
                   {errors.code}
                 </span>
               )}
+               {Stores.roleStore.checkExitsCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Code already exits. Please use other code.
+                  </span>
+                )}
               <LibraryComponents.Form.Input
                 label="Description"
                 name="description"
                 placeholder="Description"
-                value={rootStore.roleStore.role?.description}
+                value={Stores.roleStore.role?.description}
                 onChange={(description) => {
                   setErrors({
                     ...errors,
@@ -64,8 +80,8 @@ const Role = observer(() => {
                       Util.constraintsRole.description
                     ),
                   })
-                  rootStore.roleStore.updateRole({
-                    ...rootStore.roleStore.role,
+                  Stores.roleStore.updateRole({
+                    ...Stores.roleStore.role,
                     description,
                   })
                 }}
@@ -87,15 +103,15 @@ const Role = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (
-                  Util.validate(rootStore.roleStore.role, Util.constraintsRole) ===
-                  undefined
+                  Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
+                  undefined && !Stores.roleStore.checkExitsCode
                 ) {
                   rootStore.setProcessLoading(true)
-                  Services.addrole(rootStore.roleStore.role).then(() => {
+                  Services.addrole(Stores.roleStore.role).then(() => {
                     rootStore.setProcessLoading(false)
                     LibraryComponents.ToastsStore.success(`Role created.`)
-                    rootStore.roleStore.fetchListRole()
-                    rootStore.roleStore.clear()
+                    Stores.roleStore.fetchListRole()
+                    Stores.roleStore.clear()
                   })
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -123,7 +139,7 @@ const Role = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.roleStore.listRole || []}
+            data={Stores.roleStore.listRole || []}
             columns={[
               {
                 dataField: "code",
@@ -185,6 +201,7 @@ const Role = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
+                  pagination={ paginationFactory() }
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -204,7 +221,7 @@ const Role = observer(() => {
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Role deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.roleStore.fetchListRole()
+                Stores.roleStore.fetchListRole()
               }
             })
           }}

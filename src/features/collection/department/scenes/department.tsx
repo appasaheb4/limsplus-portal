@@ -3,6 +3,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import moment from "moment"
 import { Container } from "reactstrap"
 
@@ -10,6 +11,9 @@ import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
+
+import {Stores} from '../stores';
+import {Stores as LabStore} from '@lp/features/collection/labs/stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -50,14 +54,14 @@ const Department = observer(() => {
                           Util.constraintsDepartment.lab
                         ),
                       })
-                      rootStore.departmentStore.updateDepartment({
-                        ...rootStore.departmentStore.department,
+                      Stores.departmentStore.updateDepartment({
+                        ...Stores.departmentStore.department,
                         lab,
                       })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any) => (
+                    {LabStore.labStore.listLabs.map((item: any) => (
                       <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
@@ -69,7 +73,7 @@ const Department = observer(() => {
                   label="Code"
                   id="code"
                   placeholder="Code"
-                  value={rootStore.departmentStore.department?.code}
+                  value={Stores.departmentStore.department?.code}
                   onChange={(code) => {
                     setErrors({
                       ...errors,
@@ -78,9 +82,17 @@ const Department = observer(() => {
                         Util.constraintsDepartment.code
                       ),
                     })
-                    rootStore.departmentStore.updateDepartment({
-                      ...rootStore.departmentStore.department,
+                    Stores.departmentStore.updateDepartment({
+                      ...Stores.departmentStore.department,
                       code,
+                    })
+                  }}
+                  onBlur={(code) => {
+                    Stores.departmentStore.DepartmentService.checkExitsCode(code).then((res) => {
+                      console.log({res});
+                      if (res)
+                        if (res.length > 0)  Stores.departmentStore.setExitsCode(true)
+                        else Stores.departmentStore.setExitsCode(false)
                     })
                   }}
                 />
@@ -89,11 +101,16 @@ const Department = observer(() => {
                     {errors.code}
                   </span>
                 )}
+                 {Stores.departmentStore.checkExitsCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Code already exits. Please use other code.
+                  </span>
+                )}
                 <LibraryComponents.Form.Input
                   label="Name"
                   name="name"
                   placeholder="Name"
-                  value={rootStore.departmentStore.department?.name}
+                  value={Stores.departmentStore.department?.name}
                   onChange={(name) => {
                     setErrors({
                       ...errors,
@@ -102,8 +119,8 @@ const Department = observer(() => {
                         Util.constraintsDepartment.name
                       ),
                     })
-                    rootStore.departmentStore.updateDepartment({
-                      ...rootStore.departmentStore.department,
+                    Stores.departmentStore.updateDepartment({
+                      ...Stores.departmentStore.department,
                       name,
                     })
                   }}
@@ -126,18 +143,18 @@ const Department = observer(() => {
                 onClick={() => {
                   if (
                     Util.validate(
-                      rootStore.departmentStore.department,
+                      Stores.departmentStore.department,
                       Util.constraintsDepartment
                     ) === undefined
                   ) {
                     rootStore.setProcessLoading(true)
                     Services.adddepartment(
-                      rootStore.departmentStore.department
+                      Stores.departmentStore.department
                     ).then(() => {
                       rootStore.setProcessLoading(false)
                       LibraryComponents.ToastsStore.success(`Department created.`)
-                      rootStore.departmentStore.fetchListDepartment()
-                      rootStore.departmentStore.clear()
+                      Stores.departmentStore.fetchListDepartment()
+                      Stores.departmentStore.clear()
                     })
                   } else {
                     LibraryComponents.ToastsStore.warning(
@@ -162,10 +179,10 @@ const Department = observer(() => {
             </LibraryComponents.List>
           </div>
           <br />
-          <div className="p-2 rounded-lg shadow-xl flex flex-row">
+          <div className="p-2 rounded-lg shadow-xl">
             <ToolkitProvider
               keyField="id"
-              data={rootStore.departmentStore.listDepartment || []}
+              data={Stores.departmentStore.listDepartment || []}
               columns={[
                 {
                   dataField: "lab",
@@ -234,6 +251,7 @@ const Department = observer(() => {
                     {...props.baseProps}
                     noDataIndication="Table is Empty"
                     hover
+                    pagination={ paginationFactory() }
                     // cellEdit={cellEditFactory({
                     //   mode: "dbclick",
                     //   blurToSave: true,
@@ -253,7 +271,7 @@ const Department = observer(() => {
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
-                  rootStore.departmentStore.fetchListDepartment()
+                  Stores.departmentStore.fetchListDepartment()
                 }
               })
             }}

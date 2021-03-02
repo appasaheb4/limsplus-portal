@@ -13,6 +13,8 @@ import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 
+import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
+
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -78,7 +80,7 @@ const RoleRightsMapping = observer(() => {
               <Autocomplete
                 multiple
                 id="rols"
-                options={rootStore.roleStore.listRole}
+                options={RoleStore.roleStore.listRole}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
                   rootStore.roleRightsMappingStore.updateRole(newValue)
@@ -125,7 +127,7 @@ const RoleRightsMapping = observer(() => {
                       alert("Not added data.")
                     }
                   })
-                }
+                }  
               }}
             >
               Save

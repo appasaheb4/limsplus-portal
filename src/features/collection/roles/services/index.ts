@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients";
 import * as Models from "../models";
 
+import RoleService from './role-services'
+export{RoleService}
+
 const RELATIVE_PATH = "/role";
 
 export const listRole = () =>
@@ -29,12 +32,12 @@ export const addrole = (lab?: Models.IRole) =>
   });
 
 export const deleterole = (id: string) =>
-  new Promise<Models.IRole[]>((resolve, reject) => {
+  new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient();
     client
       .delete(`${RELATIVE_PATH}/deleteRole/${id}`)
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch((error) => {
         reject({ error });

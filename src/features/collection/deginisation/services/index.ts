@@ -1,7 +1,12 @@
 import * as Clients from "@lp/library/clients";
 import * as Models from "../models";
 
+import DeginisationService from './deginisation-services';
+export{DeginisationService}
+
 const RELATIVE_PATH = "/deginisation";
+
+
 
 export const listDeginisation = () =>
   new Promise<Models.IDeginisation[]>((resolve, reject) => {
@@ -30,12 +35,12 @@ export const addDeginisation = (deginisation?: Models.IDeginisation) =>
   });
 
 export const deleteDeginisation = (id: string) =>
-  new Promise<Models.IDeginisation[]>((resolve, reject) => {
+  new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient();
     client
       .delete(`${RELATIVE_PATH}/deleteDeginisation/${id}`)
       .then((res) => {
-        resolve(res.data);
+        resolve(res);
       })
       .catch((error) => {
         reject({ error });

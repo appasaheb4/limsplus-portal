@@ -1,34 +1,11 @@
-import { version, ignore } from "mobx-sync";
-import { action, observable } from "mobx";
-import * as Models from "../models";
-import * as Services from "../services";
+import React from 'react';
 
-@version(0.1)
-class RoleStore {
-  @observable listRole: Models.IRole[] = [];
-  @ignore @observable role?: Models.IRole;
+import RoleStore from './role-store';
 
-  private init() {
-    return {
-      code: "",
-      name: "",
-    };
-  }
+export const Stores = {
+  roleStore: new RoleStore(),
+};
 
-  fetchListRole() {
-    Services.listRole().then((res) => {
-     // console.log({ role: res });
-      this.listRole = res;
-    });
-  }
-
-  @action updateRole = (role: Models.IRole) => {
-    this.role = role;
-  };
-
-  @action clear() {
-    this.role = this.init();
-  }
-}
-
-export default RoleStore;
+export const Contexts = {
+  roleContext: React.createContext(Stores.roleStore),
+};

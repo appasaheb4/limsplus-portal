@@ -7,9 +7,28 @@ import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 import Contexts from "@lp/library/stores"
 
+import * as Banner from '@lp/features/banner';
+import * as Deginisation from "@lp/features/collection/deginisation"
+import * as Lab from '@lp/features/collection/labs'
+import * as Role from '@lp/features/collection/roles'
+import * as Department from "@lp/features/collection/department"
+
 const App = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
-  return (
+
+  
+  const loader = async () => {
+    await Banner.startup();
+    await Deginisation.startup();
+    await Lab.startup();
+    await Role.startup();
+    await Department.startup();
+  };
+  
+  React.useEffect(() => {
+    loader();
+  }, []);
+  return (   
     <>
       <Provider store={store}>
         <Routes />

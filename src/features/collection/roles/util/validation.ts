@@ -4,8 +4,8 @@ export const constraintsRole = {
   code: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "Code must be least 4 characters ",
+      minimum: 2,
+      message: "Code must be least 2 characters ",
     },
   },
   description: {

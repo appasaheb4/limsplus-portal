@@ -13,6 +13,8 @@ import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 
+import {Stores as LabStore} from '@lp/features/collection/labs/stores';
+
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -78,7 +80,7 @@ const LabMapping = observer(() => {
               <Autocomplete
                 multiple
                 id="labs"
-                options={rootStore.labStore.listLabs}
+                options={LabStore.labStore.listLabs}
                 disableCloseOnSelect
                 onChange={(event, newValue) => {
                   rootStore.labMappingStore.updateLab(newValue)
@@ -101,8 +103,8 @@ const LabMapping = observer(() => {
               />
             </LibraryComponents.List>
           </LibraryComponents.Grid>
-          <br />
-
+          <br />  
+  
           <LibraryComponents.List direction="row" space={3} align="center">
             <LibraryComponents.Button
               size="medium"

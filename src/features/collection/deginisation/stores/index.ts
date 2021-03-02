@@ -1,34 +1,11 @@
-import { version, ignore } from "mobx-sync";
-import { action, observable } from "mobx";
-import * as Models from "../models";
-import * as Services from "../services";
+import React from 'react';
 
-@version(0.1)
-class DeginisationStore {
-  @observable listDeginisation: Models.IDeginisation[] = [];
-  @ignore @observable deginisation?: Models.IDeginisation;
+import DeginisationStore from './deginisation-store';
 
-  private init() {
-    return {
-      code: "",
-      description: "",
-    };
-  }
+export const Stores = {
+  deginisationStore: new DeginisationStore(),
+};
 
-  fetchListDeginisation() {
-    Services.listDeginisation().then((res) => {
-     // console.log({ deginisation: res });
-      this.listDeginisation = res;
-    });
-  }
-
-  @action updateDescription = (deginisation: Models.IDeginisation) => {
-    this.deginisation = deginisation;
-  };
-
-  @action clear() {
-    this.deginisation = this.init();
-  }
-}
-
-export default DeginisationStore;
+export const Contexts = {
+  deginisationContext: React.createContext(Stores.deginisationStore),
+};

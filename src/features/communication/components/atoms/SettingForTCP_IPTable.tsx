@@ -10,7 +10,7 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
     <>
       <Table striped bordered hover>
         <thead>
-          <tr style={{ backgroundColor: "gray" }}>
+          <tr>
             <th style={{ color: "red" }}>Setting for TCP/IP</th>
             <th style={{ color: "red" }}>Value</th>
           </tr>
