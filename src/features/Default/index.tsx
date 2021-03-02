@@ -7,6 +7,7 @@ import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
 import {Stores as LoginStores} from '@lp/features/login/stores';
+import {Stores as UserStores} from '@lp/features/users/stores';
 
 
 import Appointments from "./Appointments"
@@ -29,16 +30,16 @@ const Default = observer(() => {
       moment(new Date()),
       "days"
     )
-    if (diffInDays <= 5 && rootStore.userStore.changePassword?.tempHide !== true) {
-      rootStore.userStore.updateChangePassword({
-        ...rootStore.userStore.changePassword,
+    if (diffInDays <= 5 && UserStores.userStore.changePassword?.tempHide !== true) {
+      UserStores.userStore.updateChangePassword({
+        ...UserStores.userStore.changePassword,
         subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
       })
       setChangePassword(true)
     }
     if (
       LoginStores.loginStore.login?.passChanged !== true &&
-      rootStore.userStore.changePassword?.tempHide !== false
+      UserStores.userStore.changePassword?.tempHide !== false
     )
       setChangePassword(true)
   }, [LoginStores.loginStore.login])
@@ -83,7 +84,7 @@ const Default = observer(() => {
               )
               let body = Object.assign(
                 LoginStores.loginStore.login,
-                rootStore.userStore.changePassword
+                UserStores.userStore.changePassword
               )
               body = {
                 ...body,
@@ -97,8 +98,8 @@ const Default = observer(() => {
                     exipreDate,
                     passChanged: true,
                   })
-                  rootStore.userStore.updateChangePassword({
-                    ...rootStore.userStore.changePassword,
+                  UserStores.userStore.updateChangePassword({
+                    ...UserStores.userStore.changePassword,
                     tempHide: true,
                   })
                   LibraryComponents.ToastsStore.success(`Password changed!`)
@@ -117,8 +118,8 @@ const Default = observer(() => {
                 ...LoginStores.loginStore.login,
                 passChanged: true,
               })
-              rootStore.userStore.updateChangePassword({
-                ...rootStore.userStore.changePassword,
+              UserStores.userStore.updateChangePassword({
+                ...UserStores.userStore.changePassword,
                 tempHide: true,
               })
               setChangePassword(false)

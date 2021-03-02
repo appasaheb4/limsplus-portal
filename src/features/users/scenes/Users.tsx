@@ -18,6 +18,7 @@ import Checkbox from "@material-ui/core/Checkbox"
 import * as Services from "../services"
 import { Container } from "reactstrap"
 
+import {Stores} from '../stores';
 import {Stores as DeginisationStore} from '@lp/features/collection/deginisation/stores';
 import {Stores as LabStore} from '@lp/features/collection/labs/stores';
 import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
@@ -32,8 +33,8 @@ const Users = observer(() => {
   const [deleteUser, setDeleteUser] = useState<any>({})
 
   useEffect(() => {
-    rootStore.userStore.loadUser()
-  }, [rootStore.userStore])
+    Stores.userStore.loadUser()
+  }, [Stores.userStore])
 
   const afterSaveCell = (oldValue, newValue, row, column) => {
     if (oldValue !== newValue) {
@@ -45,7 +46,7 @@ const Users = observer(() => {
       }).then((res) => {
         rootStore.setProcessLoading(false)
         if (res.data) {
-          rootStore.userStore.loadUser()
+          Stores.userStore.loadUser()
           LibraryComponents.ToastsStore.success(`User update.`)
         }
       })
@@ -74,7 +75,7 @@ const Users = observer(() => {
                   label="User Id"
                   id="userId"
                   placeholder="User Id"
-                  value={rootStore.userStore.user.userId}
+                  value={Stores.userStore.user.userId}
                   onChange={(userId) => {
                     setErrors({
                       ...errors,
@@ -83,16 +84,16 @@ const Users = observer(() => {
                         Utils.constraintsUser.userId
                       ),
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       userId,
                     })
                   }}
                   onBlur={(userId) => {
                     Services.checkExitsUserId(userId).then((res) => {
                       if (res)
-                        if (res.length > 0) rootStore.userStore.setExitsUserId(true)
-                        else rootStore.userStore.setExitsUserId(false)
+                        if (res.length > 0) Stores.userStore.setExitsUserId(true)
+                        else Stores.userStore.setExitsUserId(false)
                     })
                   }}
                 />
@@ -101,7 +102,7 @@ const Users = observer(() => {
                     {errors.userId}
                   </span>
                 )}
-                {rootStore.userStore.checkExitsUserId && (
+                {Stores.userStore.checkExitsUserId && (
                   <span className="text-red-600 font-medium relative">
                     UserId already exits. Please use other userid.
                   </span>
@@ -122,8 +123,8 @@ const Users = observer(() => {
                           Utils.constraintsUser.defaultLab
                         ),
                       })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         defaultLab,
                       })
                     }}
@@ -147,8 +148,8 @@ const Users = observer(() => {
                   options={LabStore.labStore.listLabs}
                   disableCloseOnSelect
                   onChange={(event, newValue) => {
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       lab: newValue,
                     })
                   }}
@@ -178,7 +179,7 @@ const Users = observer(() => {
                   name="password"
                   type="password"
                   placeholder="Password"
-                  value={rootStore.userStore.user.password}
+                  value={Stores.userStore.user.password}
                   onChange={(password) => {
                     setErrors({
                       ...errors,
@@ -187,8 +188,8 @@ const Users = observer(() => {
                         Utils.constraintsUser.password
                       ),
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       password,
                     })
                   }}
@@ -217,8 +218,8 @@ const Users = observer(() => {
                               )
                             : "Deginisation requried",
                       })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         deginisation,
                       })
                     }}
@@ -242,7 +243,7 @@ const Users = observer(() => {
                   label="Status"
                   name="status"
                   values={["Active", "Retired", "Disable"]}
-                  value={rootStore.userStore.user.status}
+                  value={Stores.userStore.user.status}
                   onChange={(status) => {
                     setErrors({
                       ...errors,
@@ -254,8 +255,8 @@ const Users = observer(() => {
                             )
                           : "Status requried",
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       status,
                     })
                   }}
@@ -271,7 +272,7 @@ const Users = observer(() => {
                   label="Full Name"
                   id="fullName"
                   placeholder="Full Name"
-                  value={rootStore.userStore.user.fullName}
+                  value={Stores.userStore.user.fullName}
                   onChange={(fullName) => {
                     setErrors({
                       ...errors,
@@ -283,8 +284,8 @@ const Users = observer(() => {
                             )
                           : "Full Name required!",
                     })
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       fullName,
                     })
                   }}
@@ -299,10 +300,10 @@ const Users = observer(() => {
                   label="Mobile No"
                   id="mobileNo"
                   placeholder="Mobile No"
-                  value={rootStore.userStore.user.mobileNo}
+                  value={Stores.userStore.user.mobileNo}
                   onChange={(mobileNo) => {
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       mobileNo,
                     })
                   }}
@@ -312,10 +313,10 @@ const Users = observer(() => {
                   label="Email"
                   id="email"
                   placeholder="Email"
-                  value={rootStore.userStore.user.email}
+                  value={Stores.userStore.user.email}
                   onChange={(email) => {
-                    rootStore.userStore.updateUser({
-                      ...rootStore.userStore.user,
+                    Stores.userStore.updateUser({
+                      ...Stores.userStore.user,
                       email,
                     })
                   }}
@@ -326,7 +327,7 @@ const Users = observer(() => {
                   id="department"
                   options={DepartmentStore.departmentStore.listDepartment}
                   disableCloseOnSelect
-                  value={rootStore.userStore.user.department}
+                  value={Stores.userStore.user.department}
                   onChange={(event, newValue) => {
                     setErrors({
                       ...errors,
@@ -338,8 +339,8 @@ const Users = observer(() => {
                     if (newValue.length > 2) {
                       alert("Please select max 2 department")
                     } else {
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         department: newValue,
                       })
                     }
@@ -375,14 +376,14 @@ const Users = observer(() => {
                   <LibraryComponents.Form.InputDate
                     label="Exipre Date"
                     id="exipreData"
-                    value={moment(rootStore.userStore.user.exipreDate).format(
+                    value={moment(Stores.userStore.user.exipreDate).format(
                       "YYYY-MM-DD"
                     )}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
                       date = new Date(
                         moment(date)
-                          .add(rootStore.userStore.user.exipreDays, "days")
+                          .add(Stores.userStore.user.exipreDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
                       const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
@@ -393,8 +394,8 @@ const Users = observer(() => {
                           Utils.constraintsUser.exipreDate
                         ),
                       })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         exipreDate: new Date(formatDate),
                       })
                     }}
@@ -410,7 +411,7 @@ const Users = observer(() => {
                     label="Exipre Days"
                     id="exipreDays"
                     placeholder="Exipre Days"
-                    value={rootStore.userStore.user.exipreDays}
+                    value={Stores.userStore.user.exipreDays}
                     onChange={(exipreDays) => {
                       setErrors({
                         ...errors,
@@ -422,8 +423,8 @@ const Users = observer(() => {
                               )
                             : "Exipre Days required!",
                       })
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         exipreDays,
                       })
                     }}
@@ -434,15 +435,15 @@ const Users = observer(() => {
                     type="solid"
                     onClick={() => {
                       const date = new Date(
-                        moment(rootStore.userStore.user.exipreDate)
-                          .add(rootStore.userStore.user.exipreDays, "days")
+                        moment(Stores.userStore.user.exipreDate)
+                          .add(Stores.userStore.user.exipreDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
                       const exipreDate = new Date(
                         moment(date).format("YYYY-MM-DD HH:mm")
                       )
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         exipreDate,
                       })
                     }}
@@ -460,7 +461,7 @@ const Users = observer(() => {
                   id="role"
                   options={RoleStore.roleStore.listRole}
                   disableCloseOnSelect
-                  value={rootStore.userStore.user.role}
+                  value={Stores.userStore.user.role}
                   onChange={(event, newValue) => {
                     setErrors({
                       ...errors,
@@ -472,8 +473,8 @@ const Users = observer(() => {
                     if (newValue.length > 2) {
                       alert("Please select max 2 labs")
                     } else {
-                      rootStore.userStore.updateUser({
-                        ...rootStore.userStore.user,
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
                         role: newValue,
                       })
                     }
@@ -511,18 +512,18 @@ const Users = observer(() => {
                 onClick={() => {
                   if (
                     Utils.validate(
-                      rootStore.userStore.user,
+                      Stores.userStore.user,
                       Utils.constraintsLogin
                     ) === undefined &&
-                    !rootStore.userStore.checkExitsUserId
+                    !Stores.userStore.checkExitsUserId
                   ) {
                     rootStore.setProcessLoading(true)
-                    Features.Users.Pipes.addUser(rootStore.userStore).then(() => {
-                      rootStore.setProcessLoading(false)
-                      LibraryComponents.ToastsStore.success(`User created.`)
-                      rootStore.userStore.clear()
-                      rootStore.userStore.loadUser()
-                    })
+                    // Features.Users.Pipes.addUser(Stores.userStore).then(() => {
+                    //   rootStore.setProcessLoading(false)
+                    //   LibraryComponents.ToastsStore.success(`User created.`)
+                    //   Stores.userStore.clear()
+                    //   Stores.userStore.loadUser()
+                    // })
                   } else {
                     LibraryComponents.ToastsStore.warning(
                       "Please enter all information!"
@@ -552,7 +553,7 @@ const Users = observer(() => {
           >
             <ToolkitProvider
               keyField="id"
-              data={rootStore.userStore.userList || []}
+              data={Stores.userStore.userList || []}
               columns={[
                 {
                   dataField: "userId",
@@ -703,7 +704,7 @@ const Users = observer(() => {
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser()
+                              Stores.userStore.loadUser()
                               LibraryComponents.ToastsStore.success(`User update.`)
                             }
                           })
@@ -804,7 +805,7 @@ const Users = observer(() => {
                             id: row._id,
                           }).then((res) => {
                             if (res.data) {
-                              rootStore.userStore.loadUser()
+                              Stores.userStore.loadUser()
                               LibraryComponents.ToastsStore.success(`User update.`)
                             }
                           })
@@ -947,7 +948,7 @@ const Users = observer(() => {
                   rootStore.setProcessLoading(false)
                   LibraryComponents.ToastsStore.success(`User deleted.`)
                   setDeleteUser({ show: false })
-                  rootStore.userStore.loadUser()
+                  Stores.userStore.loadUser()
                 }
               })
             }}
