@@ -6,6 +6,9 @@ import Contexts from "@lp/library/stores"
 import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
+import {Stores as LoginStores} from '@lp/features/login/stores';
+
+
 import Appointments from "./Appointments"
 import BarChart from "./BarChart"
 import Calendar from "./Calendar"
@@ -22,7 +25,7 @@ const Default = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
 
   useEffect(() => {
-    const diffInDays = moment(rootStore.loginStore.login?.exipreDate).diff(
+    const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
       moment(new Date()),
       "days"
     )
@@ -34,11 +37,11 @@ const Default = observer(() => {
       setChangePassword(true)
     }
     if (
-      rootStore.loginStore.login?.passChanged !== true &&
+      LoginStores.loginStore.login?.passChanged !== true &&
       rootStore.userStore.changePassword?.tempHide !== false
     )
       setChangePassword(true)
-  }, [rootStore.loginStore.login])
+  }, [LoginStores.loginStore.login])
 
   return (
     <>
@@ -79,7 +82,7 @@ const Default = observer(() => {
                 moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
               )
               let body = Object.assign(
-                rootStore.loginStore.login,
+                LoginStores.loginStore.login,
                 rootStore.userStore.changePassword
               )
               body = {
@@ -89,8 +92,8 @@ const Default = observer(() => {
               Services.changePassword(body).then((res) => {
                 console.log({ res })
                 if (res.status === 200) {
-                  rootStore.loginStore.updateLogin({
-                    ...rootStore.loginStore.login,
+                  LoginStores.loginStore.updateLogin({
+                    ...LoginStores.loginStore.login,
                     exipreDate,
                     passChanged: true,
                   })
@@ -110,8 +113,8 @@ const Default = observer(() => {
               })
             }}
             close={() => {
-              rootStore.loginStore.updateLogin({
-                ...rootStore.loginStore.login,
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
                 passChanged: true,
               })
               rootStore.userStore.updateChangePassword({

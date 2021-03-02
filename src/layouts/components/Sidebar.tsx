@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
-import Contexts from "@lp/library/stores"
+import {Stores as LoginStores} from '@lp/features/login/stores';
 
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
@@ -89,7 +89,6 @@ const SidebarItem = withRouter(
 )
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
-  const rootStore = React.useContext(Contexts.rootStore)
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
 
   const toggle = (index) => {
@@ -180,7 +179,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                   height="40"
                 /> */}
                 <div className="media-body">
-                  <h5 className="mb-1">{rootStore.loginStore.login?.fullName}</h5>
+                  <h5 className="mb-1">{LoginStores.loginStore.login?.fullName}</h5>
                   <div>
                     <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
                     Online

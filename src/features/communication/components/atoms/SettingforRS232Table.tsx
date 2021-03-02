@@ -55,7 +55,7 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
     <>
       <Table striped bordered hover>
         <thead>
-          <tr style={{ backgroundColor: "gray" }}>
+          <tr>
             <th style={{ color: "red" }}>Setting for RS232</th>
             <th style={{ color: "red" }}>Value</th>
           </tr>

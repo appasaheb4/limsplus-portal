@@ -9,8 +9,7 @@ class UsersStore {
   @ignore @observable user: Models.Users
   @observable userList?: Models.Users[]
   @ignore @observable changePassword?: Models.ChangePassword
-
-  @observable checkExitsUserId: boolean = false
+  @ignore @observable checkExitsUserId: boolean = false
 
   constructor() {
     this.user = this.initUser()

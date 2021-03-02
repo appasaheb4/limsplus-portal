@@ -1,34 +1,11 @@
-import { version, ignore } from "mobx-sync";
-import { action, observable } from "mobx";
-import * as Models from "../models";
-import * as Services from "../services";
+import React from 'react';
 
-@version(0.1)
-class LabStore {
-  @observable listLabs: Models.Labs[] = [];
-  @ignore @observable labs?: Models.Labs;
+import LabStore from './lab-store';
 
-  private initLab() {
-    return {
-      code: "",
-      name: "",
-    };
-  }
+export const Stores = {
+  labStore: new LabStore(),
+};
 
-  fetchListLab() {
-    Services.listLabs().then((res) => {
-     // console.log({ lab: res });
-      this.listLabs = res;
-    });
-  }
-
-  @action updateLabs = (labs: Models.Labs) => {
-    this.labs = labs;
-  };
-
-  @action clear() {
-    this.labs = this.initLab();
-  }
-}
-
-export default LabStore;
+export const Contexts = {
+  labContext: React.createContext(Stores.labStore),
+};

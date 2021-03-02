@@ -5,6 +5,8 @@ import * as Services from "@lp/features/users/services"
 import Contexts from "@lp/library/stores"
 import { useHistory } from "react-router-dom"
 
+import {Stores as LoginStores} from '@lp/features/login/stores';
+
 const ChangePassword = observer(() => {
   const history = useHistory()
   const rootStore = React.useContext(Contexts.rootStore)
@@ -17,7 +19,7 @@ const ChangePassword = observer(() => {
           <LibraryComponents.Modal.ModalChangePassword
             click={() => {
               const body = Object.assign(
-                rootStore.loginStore.login,
+                LoginStores.loginStore.login,
                 rootStore.userStore.changePassword
               )
               rootStore.setProcessLoading(true)
@@ -25,8 +27,8 @@ const ChangePassword = observer(() => {
                 rootStore.setProcessLoading(false)
                 console.log({ res })
                 if (res.status === 200) {
-                  rootStore.loginStore.updateLogin({
-                    ...rootStore.loginStore.login,
+                  LoginStores.loginStore.updateLogin({
+                    ...LoginStores.loginStore.login,
                     passChanged: true,
                   })
                   LibraryComponents.ToastsStore.success(`Password changed!`)
@@ -42,8 +44,8 @@ const ChangePassword = observer(() => {
               })
             }}
             close={() => {
-              rootStore.loginStore.updateLogin({
-                ...rootStore.loginStore.login,
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
                 passChanged: true,
               })
               setChangePassword(false)

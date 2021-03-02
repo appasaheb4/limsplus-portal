@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-import Contexts from "@lp/library/stores"
+import {Stores as LoginStores} from '@lp/features/login/stores';
 
 import {
   Row,
@@ -149,7 +149,6 @@ const NavbarDropdownItem: React.FunctionComponent<NavbarItemProps> = ({
 
 const NavbarComponent = ({ dispatch }) => {
   const history = useHistory()
-  const rootStore = React.useContext(Contexts.rootStore)
   return (
     <Navbar color="white" light expand>
       <span
@@ -257,7 +256,7 @@ const NavbarComponent = ({ dispatch }) => {
               <DropdownItem>Help</DropdownItem>
               <DropdownItem
                 onClick={() => {
-                  rootStore.loginStore
+                  LoginStores.loginStore
                     .removeUser()
                     .then((res) => {
                       if (res) {

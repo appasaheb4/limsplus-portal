@@ -10,13 +10,18 @@ import Contexts from "@lp/library/stores"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import Checkbox from "@material-ui/core/Checkbox"
 
 import * as Services from "../services"
 import { Container } from "reactstrap"
+
+import {Stores as DeginisationStore} from '@lp/features/collection/deginisation/stores';
+import {Stores as LabStore} from '@lp/features/collection/labs/stores';
+import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
+import {Stores as DepartmentStore} from '@lp/features/collection/department/stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -124,7 +129,7 @@ const Users = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any, index: number) => (
+                    {LabStore.labStore.listLabs.map((item: any, index: number) => (
                       <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
@@ -139,7 +144,7 @@ const Users = observer(() => {
                 <Autocomplete
                   multiple
                   id="labs"
-                  options={rootStore.labStore.listLabs}
+                  options={LabStore.labStore.listLabs}
                   disableCloseOnSelect
                   onChange={(event, newValue) => {
                     rootStore.userStore.updateUser({
@@ -219,7 +224,7 @@ const Users = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.deginisationStore.listDeginisation.map(
+                    {DeginisationStore.deginisationStore.listDeginisation.map(
                       (item: any) => (
                         <option key={item.description} value={item.code}>
                           {item.description}
@@ -319,7 +324,7 @@ const Users = observer(() => {
                 <Autocomplete
                   multiple
                   id="department"
-                  options={rootStore.departmentStore.listDepartment}
+                  options={DepartmentStore.departmentStore.listDepartment}
                   disableCloseOnSelect
                   value={rootStore.userStore.user.department}
                   onChange={(event, newValue) => {
@@ -453,7 +458,7 @@ const Users = observer(() => {
                 <Autocomplete
                   multiple
                   id="role"
-                  options={rootStore.roleStore.listRole}
+                  options={RoleStore.roleStore.listRole}
                   disableCloseOnSelect
                   value={rootStore.userStore.user.role}
                   onChange={(event, newValue) => {
@@ -705,7 +710,7 @@ const Users = observer(() => {
                         }}
                       >
                         <option selected>{row.deginisation}</option>
-                        {rootStore.deginisationStore.listDeginisation.map(
+                        {DeginisationStore.deginisationStore.listDeginisation.map(
                           (item: any, index: number) => (
                             <option key={item.description} value={item.code}>
                               {item.description}
@@ -922,6 +927,7 @@ const Users = observer(() => {
                     {...props.baseProps}
                     noDataIndication="Table is Empty"
                     hover
+                    pagination={ paginationFactory() }
                     cellEdit={cellEditFactory({
                       mode: "dbclick",
                       blurToSave: true,

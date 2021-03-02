@@ -555,24 +555,7 @@ const HostCommunication = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Icons.Save}
                 onClick={() => {
-                  if (
-                    Util.validate(
-                      rootStore.departmentStore.department,
-                      Util.constraintsDepartment
-                    ) === undefined
-                  ) {
-                    rootStore.setProcessLoading(true)
-                    Services.adddepartment({}).then(() => {
-                      rootStore.setProcessLoading(false)
-                      LibraryComponents.ToastsStore.success(`Department created.`)
-                      rootStore.departmentStore.fetchListDepartment()
-                      rootStore.departmentStore.clear()
-                    })
-                  } else {
-                    LibraryComponents.ToastsStore.warning(
-                      "Please enter all information!"
-                    )
-                  }
+                
                 }}
               >
                 Save
@@ -682,7 +665,7 @@ const HostCommunication = observer(() => {
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
-                  rootStore.departmentStore.fetchListDepartment()
+                 // rootStore.departmentStore.fetchListDepartment()
                 }
               })
             }}

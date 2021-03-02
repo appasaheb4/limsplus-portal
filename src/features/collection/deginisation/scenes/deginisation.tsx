@@ -3,12 +3,15 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
+
+import {Stores} from '../stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -34,7 +37,7 @@ const Deginisation = observer(() => {
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.deginisationStore.deginisation?.code}
+                value={Stores.deginisationStore.deginisation?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
@@ -43,9 +46,17 @@ const Deginisation = observer(() => {
                       Util.constraintsDeginisation.code
                     ),
                   })
-                  rootStore.deginisationStore.updateDescription({
-                    ...rootStore.deginisationStore.deginisation,
+                  Stores.deginisationStore.updateDescription({
+                    ...Stores.deginisationStore.deginisation,
                     code,
+                  })
+                }}
+                onBlur={(code) => {
+                  Stores.deginisationStore.DeginisationService.checkExitsCode(code).then((res) => {
+                    console.log({res});
+                    if (res)
+                      if (res.length > 0)  Stores.deginisationStore.setExitsCode(true)
+                      else Stores.deginisationStore.setExitsCode(false)
                   })
                 }}
               />
@@ -54,11 +65,16 @@ const Deginisation = observer(() => {
                   {errors.code}
                 </span>
               )}
+               {Stores.deginisationStore.checkExitsCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Code already exits. Please use other code.
+                  </span>
+                )}
               <LibraryComponents.Form.Input
                 label="Description"
                 name="description"
                 placeholder="description"
-                value={rootStore.deginisationStore.deginisation?.description}
+                value={Stores.deginisationStore.deginisation?.description}
                 onChange={(description) => {
                   setErrors({
                     ...errors,
@@ -67,8 +83,8 @@ const Deginisation = observer(() => {
                       Util.constraintsDeginisation.description
                     ),
                   })
-                  rootStore.deginisationStore.updateDescription({
-                    ...rootStore.deginisationStore.deginisation,
+                  Stores.deginisationStore.updateDescription({
+                    ...Stores.deginisationStore.deginisation,
                     description,
                   })
                 }}
@@ -90,19 +106,19 @@ const Deginisation = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(
-                    rootStore.deginisationStore.deginisation,
+                    Stores.deginisationStore.deginisation,
                     Util.constraintsDeginisation
-                  ) === undefined
+                  ) === undefined && !Stores.deginisationStore.checkExitsCode
                 ) {
                   rootStore.setProcessLoading(true)
                   Services.addDeginisation(
-                    rootStore.deginisationStore.deginisation
+                    Stores.deginisationStore.deginisation
                   ).then((res) => {
                     rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       LibraryComponents.ToastsStore.success(`Deginisation created.`)
-                      rootStore.deginisationStore.fetchListDeginisation()
-                      rootStore.deginisationStore.clear()
+                      Stores.deginisationStore.fetchListDeginisation()
+                      Stores.deginisationStore.clear()
                     } else {
                       LibraryComponents.ToastsStore.error("Please try again")
                     }
@@ -133,7 +149,7 @@ const Deginisation = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.deginisationStore.listDeginisation || []}
+            data={Stores.deginisationStore.listDeginisation || []}
             columns={[
               {
                 dataField: "code",
@@ -197,6 +213,7 @@ const Deginisation = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
+                  pagination={ paginationFactory() }
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -216,7 +233,7 @@ const Deginisation = observer(() => {
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Deginisation deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.deginisationStore.fetchListDeginisation()
+                Stores.deginisationStore.fetchListDeginisation()
               }
             })
           }}

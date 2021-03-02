@@ -3,12 +3,14 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
+import {Stores} from '../stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -34,15 +36,23 @@ const Lab = observer(() => {
                 label="Code"
                 id="code"
                 placeholder="Code"
-                value={rootStore.labStore.labs?.code}
+                value={Stores.labStore.labs?.code}
                 onChange={(code) => {
                   setErrors({
                     ...errors,
                     code: Util.validate.single(code, Util.constraintsLabs.code),
                   })
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
                     code,
+                  })
+                }}
+                onBlur={(code) => {
+                  Stores.labStore.LabService.checkExitsCode(code).then((res) => {
+                    console.log({res});
+                    if (res)
+                      if (res.length > 0)  Stores.labStore.setExitsCode(true)
+                      else Stores.labStore.setExitsCode(false)
                   })
                 }}
               />
@@ -51,18 +61,23 @@ const Lab = observer(() => {
                   {errors.code}
                 </span>
               )}
+               {Stores.labStore.checkExitsCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Code already exits. Please use other code.
+                  </span>
+                )}
               <LibraryComponents.Form.Input
                 label="Name"
                 name="name"
                 placeholder="Name"
-                value={rootStore.labStore.labs?.name}
+                value={Stores.labStore.labs?.name}
                 onChange={(name) => {
                   setErrors({
                     ...errors,
                     name: Util.validate.single(name, Util.constraintsLabs.name),
                   })
-                  rootStore.labStore.updateLabs({
-                    ...rootStore.labStore.labs,
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
                     name,
                   })
                 }}
@@ -84,15 +99,15 @@ const Lab = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (
-                  Util.validate(rootStore.labStore.labs, Util.constraintsLabs) ===
-                  undefined
+                  Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
+                  undefined && !Stores.labStore.checkExitsCode
                 ) {
                   rootStore.setProcessLoading(true)
-                  Services.addLab(rootStore.labStore.labs).then(() => {
+                  Services.addLab(Stores.labStore.labs).then(() => {
                     rootStore.setProcessLoading(false)
                     LibraryComponents.ToastsStore.success(`Lab created.`)
-                    rootStore.labStore.fetchListLab()
-                    rootStore.labStore.clear()
+                    Stores.labStore.fetchListLab()
+                    Stores.labStore.clear()
                   })
                 } else {
                   LibraryComponents.ToastsStore.warning(
@@ -120,7 +135,7 @@ const Lab = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.labStore.listLabs || []}
+            data={Stores.labStore.listLabs || []}
             columns={[
               {
                 dataField: "code",
@@ -182,6 +197,7 @@ const Lab = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
+                  pagination={ paginationFactory() }
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -201,7 +217,7 @@ const Lab = observer(() => {
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Lab deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.labStore.fetchListLab()
+                Stores.labStore.fetchListLab()
               }
             })
           }}

@@ -12,6 +12,10 @@ import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
 import { ModalNoticeBoard } from "../components"
 import * as Services from "../services"
+import {Stores} from '@lp/features/login/stores';
+import {Stores as BannerStores} from '@lp/features/banner/stores';
+import {Stores as LabStore} from '@lp/features/collection/labs/stores';
+import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
 
 const Login = observer(() => {
   const history = useHistory()
@@ -35,7 +39,7 @@ const Login = observer(() => {
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
-  }, [rootStore.loginStore.login])
+  }, [Stores.loginStore.login])
 
   const json = (url) => {
     return fetch(url).then((res) => res.json())
@@ -58,7 +62,7 @@ const Login = observer(() => {
               <img src={Assets.logo} className="w-20 h-15" alt="logo" />
               <div className="mt-2 mb-2">
                 <Bootstrap.Carousel>
-                  {rootStore.bannerStore.listBanner.map((item, key) => (
+                  {BannerStores.bannerStore.listBanner.map((item, key) => (
                     <Bootstrap.Carousel.Item interval={5000} key={key}>
                       <img
                         key={key}
@@ -84,7 +88,7 @@ const Login = observer(() => {
                   label="User Id"
                   id="userId"
                   placeholder="User Id"
-                  value={rootStore.loginStore.inputLogin?.userId}
+                  value={Stores.loginStore.inputLogin?.userId}
                   onChange={(userId) => {
                     setErrors({
                       ...errors,
@@ -93,8 +97,8 @@ const Login = observer(() => {
                         Utils.constraintsLogin.userId
                       ),
                     })
-                    rootStore.loginStore.updateInputUser({
-                      ...rootStore.loginStore.inputLogin,
+                    Stores.loginStore.updateInputUser({
+                      ...Stores.loginStore.inputLogin,
                       userId,
                     })
                   }}
@@ -109,7 +113,7 @@ const Login = observer(() => {
                   label="Password"
                   id="password"
                   placeholder="Password"
-                  value={rootStore.loginStore.inputLogin?.password}
+                  value={Stores.loginStore.inputLogin?.password}
                   onChange={(password) => {
                     setErrors({
                       ...errors,
@@ -118,8 +122,8 @@ const Login = observer(() => {
                         Utils.constraintsLogin.password
                       ),
                     })
-                    rootStore.loginStore.updateInputUser({
-                      ...rootStore.loginStore.inputLogin,
+                    Stores.loginStore.updateInputUser({
+                      ...Stores.loginStore.inputLogin,
                       password,
                     })
                   }}
@@ -139,14 +143,14 @@ const Login = observer(() => {
                         ...errors,
                         lab: Utils.validate.single(lab, Utils.constraintsLogin.lab),
                       })
-                      rootStore.loginStore.updateInputUser({
-                        ...rootStore.loginStore.inputLogin,
+                      Stores.loginStore.updateInputUser({
+                        ...Stores.loginStore.inputLogin,
                         lab,
                       })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.labStore.listLabs.map((item: any) => (
+                    {LabStore.labStore.listLabs.map((item: any) => (
                       <option key={item.code} value={item.code}>
                         {item.name}
                       </option>
@@ -171,14 +175,14 @@ const Login = observer(() => {
                           Utils.constraintsLogin.role
                         ),
                       })
-                      rootStore.loginStore.updateInputUser({
-                        ...rootStore.loginStore.inputLogin,
+                      Stores.loginStore.updateInputUser({
+                        ...Stores.loginStore.inputLogin,
                         role,
                       })
                     }}
                   >
                     <option selected>Select</option>
-                    {rootStore.roleStore.listRole.map((item: any) => (
+                    {RoleStore.roleStore.listRole.map((item: any) => (
                       <option key={item.code} value={item.code}>
                         {item.description}
                       </option>
@@ -199,28 +203,28 @@ const Login = observer(() => {
                   icon={LibraryComponents.Icons.Check}
                   onClick={async () => {
                     const loginFailedCount =
-                      rootStore.loginStore.loginFailedCount || 0
+                    Stores.loginStore.loginFailedCount || 0
                     if (
                       Utils.validate(
-                        rootStore.loginStore.inputLogin,
+                        Stores.loginStore.inputLogin,
                         Utils.constraintsLogin
                       ) === undefined
                     ) {
                       rootStore.setProcessLoading(true)
                       if (loginFailedCount > 4) {
                         Services.accountStatusUpdate({
-                          userId: rootStore.loginStore.inputLogin?.userId,
+                          userId: Stores.loginStore.inputLogin?.userId,
                           status: "Disable",
                         }).then((res) => {
                           rootStore.setProcessLoading(false)
                           LibraryComponents.ToastsStore.error(
                             "Your account is disable. Please contact admin"
-                          )
-                          rootStore.loginStore.updateLoginFailedCount(0)
+                          )   
+                          Stores.loginStore.updateLoginFailedCount(0)
                         })
                       } else {
                         Services.onLogin({
-                          login: rootStore.loginStore.inputLogin,
+                          login: Stores.loginStore.inputLogin,
                           loginActivity: {
                             device: width <= 768 ? "Mobile" : "Desktop",
                           },
@@ -229,7 +233,7 @@ const Login = observer(() => {
                             console.log({ res })
                             rootStore.setProcessLoading(false)
                             if (res.status === 200) {
-                              rootStore.loginStore.updateLoginFailedCount(0)
+                              Stores.loginStore.updateLoginFailedCount(0)
                               if (res.data.data.noticeBoard !== undefined) {
                                 setNoticeBoard({
                                   show: true,
@@ -240,12 +244,12 @@ const Login = observer(() => {
                                 LibraryComponents.ToastsStore.success(
                                   `Welcome ${res.data.data.fullName}`
                                 )
-                                rootStore.loginStore.saveLogin(res.data.data)
+                                Stores.loginStore.saveLogin(res.data.data)
                                 history.push("/dashboard/default")
                               }
                             } else if (res.status === 203) {
                               console.log({ failed: loginFailedCount })
-                              rootStore.loginStore.updateLoginFailedCount(
+                              Stores.loginStore.updateLoginFailedCount(
                                 loginFailedCount + 1
                               )
                               LibraryComponents.ToastsStore.error(
@@ -255,7 +259,7 @@ const Login = observer(() => {
                           })
                           .catch(() => {
                             console.log({ failed: loginFailedCount })
-                            rootStore.loginStore.updateLoginFailedCount(
+                            Stores.loginStore.updateLoginFailedCount(
                               loginFailedCount + 1
                             )
                             LibraryComponents.ToastsStore.error(
@@ -302,7 +306,7 @@ const Login = observer(() => {
               LibraryComponents.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
               )
-              rootStore.loginStore.saveLogin(noticeBoard.userInfo)
+              Stores.loginStore.saveLogin(noticeBoard.userInfo)
               history.push("/dashboard/default")
             }
           }}

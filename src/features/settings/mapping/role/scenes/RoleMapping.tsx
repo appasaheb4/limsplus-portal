@@ -10,10 +10,13 @@ import Autocomplete from "@material-ui/lab/Autocomplete"
 import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import DropdownTreeSelect from "react-dropdown-tree-select"
 import "react-dropdown-tree-select/dist/styles.css"
 import "./style.css"
 import data from "./pages.json"
+
+import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -22,7 +25,7 @@ const RoleMapping = observer(() => {
   const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
-  const roleList: any = rootStore.roleStore.listRole || []
+  const roleList: any = RoleStore.roleStore.listRole || []
   const description = roleList[0].description
   const [value, setValue] = React.useState<string | null>(description)
   const [inputValue, setInputValue] = React.useState("")
@@ -284,6 +287,7 @@ const RoleMapping = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
+                  pagination={ paginationFactory() }
                 />
               </div>
             )}
