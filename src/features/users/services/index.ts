@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients"
 import * as Models from "@lp/features/users/models"
 
+import UserService from "./user-service";
+export{UserService}
+
 const RELATIVE_PATH = "/auth"
 
 

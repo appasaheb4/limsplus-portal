@@ -273,7 +273,7 @@ const HostCommunication = observer(() => {
                 label="Log File"
                 id="logFileDataReceivefromInstrument"
                 placeholder="Log File"
-                value={rootStore.userStore.user.fullName}
+                //value={rootStore.userStore.user.fullName}
                 onChange={(logFileDataReceivefromInstrument) => {
                   rootStore.communicationStore.updateHostCommuication({
                     ...rootStore.communicationStore.hostCommuication,

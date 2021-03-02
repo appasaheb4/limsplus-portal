@@ -6,6 +6,7 @@ import Contexts from "@lp/library/stores"
 import { useHistory } from "react-router-dom"
 
 import {Stores as LoginStores} from '@lp/features/login/stores';
+import {Stores as UserStores} from '@lp/features/users/stores';
 
 const ChangePassword = observer(() => {
   const history = useHistory()
@@ -20,7 +21,7 @@ const ChangePassword = observer(() => {
             click={() => {
               const body = Object.assign(
                 LoginStores.loginStore.login,
-                rootStore.userStore.changePassword
+                UserStores.userStore.changePassword
               )
               rootStore.setProcessLoading(true)
               Services.changePassword(body).then((res) => {

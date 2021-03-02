@@ -7,7 +7,7 @@
 // import Department from "./collection/department";
 // import Role from "./collection/roles";
 
-import Users from "./users";
+// import Users from "./users";
 import LoginOut from "./login";
 import ChangePassword from "./changePassword";
 
@@ -17,7 +17,7 @@ export {
   // Department,
   // Deginisation,
   // Role,
-  Users,
+  // Users,
   ChangePassword,
   LoginOut,
 };
