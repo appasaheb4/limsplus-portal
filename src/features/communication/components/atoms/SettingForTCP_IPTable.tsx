@@ -1,11 +1,11 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Table } from "reactstrap"
 import * as LibraryComponents from "@lp/library/components"
 import { observer } from "mobx-react"
-import RootStoreContext from "@lp/library/stores"
+
+import {Stores} from '../../stores';
 
 const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   return (
     <>
       <Table striped bordered hover>
@@ -23,14 +23,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="hostIpAddress"
                 placeholder="Host Ip Address"
                 value={
-                  rootStore.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.communicationStore.hostCommuication?.tcpipCommunication
                     ?.hostIpAddress
                 }
                 onChange={(hostIpAddress) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...rootStore.communicationStore.hostCommuication
+                      ...Stores.communicationStore.hostCommuication
                         ?.tcpipCommunication,
                       hostIpAddress,
                     },
@@ -48,14 +48,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="portNumber"
                 placeholder="Port Number"
                 value={
-                  rootStore.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.communicationStore.hostCommuication?.tcpipCommunication
                     ?.portNumber
                 }
                 onChange={(portNumber) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...rootStore.communicationStore.hostCommuication
+                      ...Stores.communicationStore.hostCommuication
                         ?.tcpipCommunication,
                       portNumber,
                     },
@@ -72,14 +72,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="timeout"
                 placeholder="Timeout"
                 value={
-                  rootStore.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.communicationStore.hostCommuication?.tcpipCommunication
                     ?.timeout
                 }
                 onChange={(timeout) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...rootStore.communicationStore.hostCommuication
+                      ...Stores.communicationStore.hostCommuication
                         ?.tcpipCommunication,
                       timeout,
                     },
@@ -96,14 +96,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="responseTime"
                 placeholder="Response Time"
                 value={
-                  rootStore.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.communicationStore.hostCommuication?.tcpipCommunication
                     ?.responseTime
                 }
                 onChange={(responseTime) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...rootStore.communicationStore.hostCommuication
+                      ...Stores.communicationStore.hostCommuication
                         ?.tcpipCommunication,
                       responseTime,
                     },

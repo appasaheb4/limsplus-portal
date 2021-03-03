@@ -13,6 +13,7 @@ import * as Lab from '@lp/features/collection/labs'
 import * as Role from '@lp/features/collection/roles'
 import * as Department from "@lp/features/collection/department"
 import * as User from "@lp/features/users"
+import * as RoleMappping from "@lp/features/settings/mapping/role"
 
 const App = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
@@ -25,6 +26,7 @@ const App = observer(() => {
     await Role.startup();
     await Department.startup();
     await User.startup();
+    await RoleMappping.startup();
   };
   
   React.useEffect(() => {

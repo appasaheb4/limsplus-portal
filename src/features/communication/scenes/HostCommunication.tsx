@@ -17,6 +17,8 @@ import { SettingForRS232Table, SettingForTCP_IPTable } from "../components/atoms
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
+import {Stores} from '../stores';
+
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
@@ -42,12 +44,12 @@ const HostCommunication = observer(() => {
                     label="Manual/Automatic  Mode"
                     id="manualAutomaticMode"
                     value={
-                      rootStore.communicationStore.hostCommuication
+                      Stores.communicationStore.hostCommuication
                         ?.manualAutomaticMode
                     }
                     onChange={(manualAutomaticMode) => {
-                      rootStore.communicationStore.updateHostCommuication({
-                        ...rootStore.communicationStore.hostCommuication,
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
                         manualAutomaticMode,
                       })
                     }}
@@ -56,7 +58,7 @@ const HostCommunication = observer(() => {
                     <label>
                       Connection Estabilished :{" "}
                       {`${
-                        rootStore.communicationStore.hostCommuication
+                        Stores.communicationStore.hostCommuication
                           ?.manualAutomaticMode
                           ? `On`
                           : `Off`
@@ -69,11 +71,11 @@ const HostCommunication = observer(() => {
                   id="instrumentType"
                   placeholder="Instrument Type"
                   value={
-                    rootStore.communicationStore.hostCommuication?.instrumentType
+                    Stores.communicationStore.hostCommuication?.instrumentType
                   }
                   onChange={(instrumentType) => {
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       instrumentType,
                     })
                   }}
@@ -88,11 +90,11 @@ const HostCommunication = observer(() => {
                   id="instrumentName"
                   placeholder="Instrument Name"
                   value={
-                    rootStore.communicationStore.hostCommuication?.instrumentName
+                    Stores.communicationStore.hostCommuication?.instrumentName
                   }
                   onChange={(instrumentName) => {
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       instrumentName,
                     })
                   }}
@@ -109,14 +111,14 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      rootStore.communicationStore.hostCommuication
+                      Stores.communicationStore.hostCommuication
                         ?.modeOfCommunication
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfCommunication = e.target.value
-                      rootStore.communicationStore.updateHostCommuication({
-                        ...rootStore.communicationStore.hostCommuication,
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
                         modeOfCommunication,
                       })
                     }}
@@ -140,13 +142,13 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      rootStore.communicationStore.hostCommuication?.typeOfQuery
+                      Stores.communicationStore.hostCommuication?.typeOfQuery
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const typeOfQuery = e.target.value
-                      rootStore.communicationStore.updateHostCommuication({
-                        ...rootStore.communicationStore.hostCommuication,
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
                         typeOfQuery,
                       })
                     }}
@@ -170,13 +172,13 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      rootStore.communicationStore.hostCommuication?.applyFiltrOn
+                      Stores.communicationStore.hostCommuication?.applyFiltrOn
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const applyFiltrOn = e.target.value
-                      rootStore.communicationStore.updateHostCommuication({
-                        ...rootStore.communicationStore.hostCommuication,
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
                         applyFiltrOn,
                       })
                     }}
@@ -207,13 +209,13 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      rootStore.communicationStore.hostCommuication?.modeOfConnection
+                      Stores.communicationStore.hostCommuication?.modeOfConnection
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfConnection = e.target.value
-                      rootStore.communicationStore.updateHostCommuication({
-                        ...rootStore.communicationStore.hostCommuication,
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
                         modeOfConnection,
                       })
                     }}
@@ -229,9 +231,9 @@ const HostCommunication = observer(() => {
                     ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
-                {rootStore.communicationStore.hostCommuication?.modeOfConnection ===
+                {Stores.communicationStore.hostCommuication?.modeOfConnection ===
                   "Serial Port Communication" && <SettingForRS232Table />}
-                {rootStore.communicationStore.hostCommuication?.modeOfConnection ===
+                {Stores.communicationStore.hostCommuication?.modeOfConnection ===
                   "TCP/IP Communication" && <SettingForTCP_IPTable />}
               </LibraryComponents.List>
               <div className="clearfix"></div>
@@ -245,14 +247,14 @@ const HostCommunication = observer(() => {
                 <select
                   name="defualtLab"
                   value={
-                    rootStore.communicationStore.hostCommuication
+                    Stores.communicationStore.hostCommuication
                       ?.sourceFileDataReceivefromInstrument
                   }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sourceFileDataReceivefromInstrument = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       sourceFileDataReceivefromInstrument,
                     })
                   }}
@@ -275,8 +277,8 @@ const HostCommunication = observer(() => {
                 placeholder="Log File"
                 //value={rootStore.userStore.user.fullName}
                 onChange={(logFileDataReceivefromInstrument) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     logFileDataReceivefromInstrument,
                   })
                 }}
@@ -288,14 +290,14 @@ const HostCommunication = observer(() => {
                 <select
                   name="defualtLab"
                   value={
-                    rootStore.communicationStore.hostCommuication
+                    Stores.communicationStore.hostCommuication
                       ?.SourceRepositoryDataReceivefromInstrument
                   }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const SourceRepositoryDataReceivefromInstrument = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       SourceRepositoryDataReceivefromInstrument,
                     })
                   }}
@@ -319,12 +321,12 @@ const HostCommunication = observer(() => {
                 id="txtDataReceivefromInstrument"
                 placeholder="Source file (Data Received Data from Instrument)"
                 value={
-                  rootStore.communicationStore.hostCommuication
+                  Stores.communicationStore.hostCommuication
                     ?.txtDataReceivefromInstrument
                 }
                 onChange={(txtDataReceivefromInstrument) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     txtDataReceivefromInstrument,
                   })
                 }}
@@ -334,12 +336,12 @@ const HostCommunication = observer(() => {
                 id="txtSendDatafromInstrument"
                 placeholder="Send data to Instrument"
                 value={
-                  rootStore.communicationStore.hostCommuication
+                  Stores.communicationStore.hostCommuication
                     ?.txtSendDatafromInstrument
                 }
                 onChange={(txtSendDatafromInstrument) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     txtSendDatafromInstrument,
                   })
                 }}
@@ -351,12 +353,12 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.InputWrapper label="Convert to" id="convertTo">
                 <select
                   name="defualtLab"
-                  value={rootStore.communicationStore.hostCommuication?.convertTo}
+                  value={Stores.communicationStore.hostCommuication?.convertTo}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const convertTo = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       convertTo,
                     })
                   }}
@@ -381,13 +383,13 @@ const HostCommunication = observer(() => {
                 <select
                   name="defualtLab"
                   value={
-                    rootStore.communicationStore.hostCommuication?.outputRepository
+                    Stores.communicationStore.hostCommuication?.outputRepository
                   }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const outputRepository = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       outputRepository,
                     })
                   }}
@@ -410,11 +412,11 @@ const HostCommunication = observer(() => {
                 id="txtConvertedfile"
                 placeholder="Converted file"
                 value={
-                  rootStore.communicationStore.hostCommuication?.txtConvertedfile
+                  Stores.communicationStore.hostCommuication?.txtConvertedfile
                 }
                 onChange={(txtConvertedfile) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     txtConvertedfile,
                   })
                 }}
@@ -426,12 +428,12 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.InputWrapper label="Output in" id="outPutIn">
                 <select
                   name="defualtLab"
-                  value={rootStore.communicationStore.hostCommuication?.outPutIn}
+                  value={Stores.communicationStore.hostCommuication?.outPutIn}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const outPutIn = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       outPutIn,
                     })
                   }}
@@ -457,10 +459,10 @@ const HostCommunication = observer(() => {
               <LibraryComponents.Form.MultilineInput
                 id="txtOutputin"
                 placeholder="Output in"
-                value={rootStore.communicationStore.hostCommuication?.txtOutputin}
+                value={Stores.communicationStore.hostCommuication?.txtOutputin}
                 onChange={(txtOutputin) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     txtOutputin,
                   })
                 }}
@@ -476,14 +478,14 @@ const HostCommunication = observer(() => {
                 <select
                   name="defualtLab"
                   value={
-                    rootStore.communicationStore.hostCommuication
+                    Stores.communicationStore.hostCommuication
                       ?.outputforThirdpartySoftware
                   }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const outputforThirdpartySoftware = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       outputforThirdpartySoftware,
                     })
                   }}
@@ -505,12 +507,12 @@ const HostCommunication = observer(() => {
                 id="logFileThiredPartySoftare"
                 placeholder="Log File"
                 value={
-                  rootStore.communicationStore.hostCommuication
+                  Stores.communicationStore.hostCommuication
                     ?.logFileThiredPartySoftare
                 }
                 onChange={(logFileThiredPartySoftare) => {
-                  rootStore.communicationStore.updateHostCommuication({
-                    ...rootStore.communicationStore.hostCommuication,
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
                     logFileThiredPartySoftare,
                   })
                 }}
@@ -522,14 +524,14 @@ const HostCommunication = observer(() => {
                 <select
                   name="defualtLab"
                   value={
-                    rootStore.communicationStore.hostCommuication
+                    Stores.communicationStore.hostCommuication
                       ?.SourceRepositoryThiredPartySoftare
                   }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const SourceRepositoryThiredPartySoftare = e.target.value
-                    rootStore.communicationStore.updateHostCommuication({
-                      ...rootStore.communicationStore.hostCommuication,
+                    Stores.communicationStore.updateHostCommuication({
+                      ...Stores.communicationStore.hostCommuication,
                       SourceRepositoryThiredPartySoftare,
                     })
                   }}

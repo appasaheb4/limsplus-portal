@@ -1,17 +1,11 @@
-import { version } from "mobx-sync"
-import { action, observable } from "mobx"
-import * as Models from "../models"
-import * as Services from "../services"
+import React from 'react';
 
-@version(0.1)
-class LoginActivityStore {
-  @observable listLoginActivity?: Models.ILoginActivity[] = []
+import LoginActivityStore from './loginActivity-store';
+  
+export const Stores = {
+  loginActivityStore: new LoginActivityStore(),
+};
 
-  @action fetchLoginActivity() {
-    Services.listLoginActivity().then((list) => {
-      // console.log({ rolMapping: list })
-      this.listLoginActivity = list
-    })
-  }
-}
-export default LoginActivityStore
+export const Contexts = {
+  loginActivityContext: React.createContext(Stores.loginActivityStore),
+};
