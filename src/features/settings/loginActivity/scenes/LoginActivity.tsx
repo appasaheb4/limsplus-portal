@@ -11,12 +11,14 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
+import {Stores} from '../stores';
+
 const LoginActivity = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   useEffect(() => {
-    rootStore.loginActivityStore.fetchLoginActivity()
+    Stores.loginActivityStore.fetchLoginActivity()
 
-    console.log({ rooStore: rootStore.loginActivityStore.listLoginActivity })
+    console.log({ rooStore: Stores.loginActivityStore.listLoginActivity })
   }, [])
   return (
     <>
@@ -27,7 +29,7 @@ const LoginActivity = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.loginActivityStore.listLoginActivity || []}
+            data={Stores.loginActivityStore.listLoginActivity || []}
             columns={[
               {
                 dataField: "user.fullName",

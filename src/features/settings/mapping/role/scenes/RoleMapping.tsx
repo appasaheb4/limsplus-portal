@@ -16,6 +16,7 @@ import "react-dropdown-tree-select/dist/styles.css"
 import "./style.css"
 import data from "./pages.json"
 
+import {Stores} from '../stores';
 import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
 
 const { SearchBar, ClearSearchButton } = Search
@@ -104,7 +105,7 @@ const RoleMapping = observer(() => {
                     }
                   })
                   selectedItem.shift()
-                  rootStore.roleMappingStore.updateRolePermission(selectedItem)
+                  Stores.roleMappingStore.updateRolePermission(selectedItem)
                 }}
               />
               {/* <Autocomplete
@@ -168,11 +169,11 @@ const RoleMapping = observer(() => {
               onClick={() => {
                 if (
                   selectedRole !== undefined &&
-                  rootStore.roleMappingStore.rolePermission !== undefined
+                  Stores.roleMappingStore.rolePermission !== undefined
                 ) {
                   Services.addRoleMapping({
                     role: selectedRole,
-                    rolePermission: rootStore.roleMappingStore.rolePermission,
+                    rolePermission: Stores.roleMappingStore.rolePermission,
                   }).then((res) => {
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Created.`)
@@ -205,7 +206,7 @@ const RoleMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider
             keyField="id"
-            data={rootStore.roleMappingStore.roleMappingList || []}
+            data={Stores.roleMappingStore.roleMappingList || []}
             columns={[
               {
                 dataField: "role.description",
@@ -300,7 +301,7 @@ const RoleMapping = observer(() => {
               if (res.status === LibraryModels.StatusCode.SUCCESS) {
                 LibraryComponents.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
-                rootStore.roleMappingStore.fetchUserMappingList()
+                Stores.roleMappingStore.fetchRoleMappingList()
               }
             })
           }}

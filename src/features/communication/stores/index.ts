@@ -1,17 +1,11 @@
-import { version } from "mobx-sync"
-import { action, observable } from "mobx"
-import * as Models from "../models"
-//import * as Services from "../services"
+import React from 'react';
 
-@version(0.1)
-class CommunicationStore {
-  @observable hostCommuication?: Models.IHostCommunication
+import CommunicationStore from './communication-store';
 
-  @action updateHostCommuication = (
-    hostCommunication: Models.IHostCommunication
-  ) => {
-    this.hostCommuication = hostCommunication
-  }
-}
+export const Stores = {
+  communicationStore: new CommunicationStore(),
+};
 
-export default CommunicationStore
+export const Contexts = {
+  communicationContext: React.createContext(Stores.communicationStore),
+};

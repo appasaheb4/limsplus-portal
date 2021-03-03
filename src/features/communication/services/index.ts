@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients"
 import * as Models from "../models"
 
+import CommunicationService from './communication-services';
+export{CommunicationService}
+
 const RELATIVE_PATH = "/communication"
 
 export const listDepartment = () =>

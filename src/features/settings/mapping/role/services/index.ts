@@ -1,6 +1,9 @@
 import * as Clients from "@lp/library/clients"
 import * as Models from "../models"
 
+import RoleMappingService from './rolemapping-services';
+export {RoleMappingService}
+
 const RELATIVE_PATH = "/mapping"
 
 export const roleMappingList = () =>
