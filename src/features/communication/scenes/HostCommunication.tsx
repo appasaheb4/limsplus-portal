@@ -17,7 +17,7 @@ import { SettingForRS232Table, SettingForTCP_IPTable } from "../components/atoms
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-import {Stores} from '../stores';
+import { Stores } from "../stores"
 
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
@@ -32,7 +32,7 @@ const HostCommunication = observer(() => {
         </LibraryComponents.Header>
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Grid cols={2}>
+            <LibraryComponents.Grid cols={3}>
               <LibraryComponents.List
                 direction="col"
                 space={4}
@@ -44,8 +44,7 @@ const HostCommunication = observer(() => {
                     label="Manual/Automatic  Mode"
                     id="manualAutomaticMode"
                     value={
-                      Stores.communicationStore.hostCommuication
-                        ?.manualAutomaticMode
+                      Stores.communicationStore.hostCommuication?.manualAutomaticMode
                     }
                     onChange={(manualAutomaticMode) => {
                       Stores.communicationStore.updateHostCommuication({
@@ -64,15 +63,16 @@ const HostCommunication = observer(() => {
                           : `Off`
                       }`}
                     </label>
+                    <label style={{ color: "green" }}>
+                      Connection estabilished success.
+                    </label>
                   </div>
                 </LibraryComponents.Grid>
                 <LibraryComponents.Form.Input
                   label="Instrument Type"
                   id="instrumentType"
                   placeholder="Instrument Type"
-                  value={
-                    Stores.communicationStore.hostCommuication?.instrumentType
-                  }
+                  value={Stores.communicationStore.hostCommuication?.instrumentType}
                   onChange={(instrumentType) => {
                     Stores.communicationStore.updateHostCommuication({
                       ...Stores.communicationStore.hostCommuication,
@@ -89,9 +89,7 @@ const HostCommunication = observer(() => {
                   label="Instrument Name"
                   id="instrumentName"
                   placeholder="Instrument Name"
-                  value={
-                    Stores.communicationStore.hostCommuication?.instrumentName
-                  }
+                  value={Stores.communicationStore.hostCommuication?.instrumentName}
                   onChange={(instrumentName) => {
                     Stores.communicationStore.updateHostCommuication({
                       ...Stores.communicationStore.hostCommuication,
@@ -111,8 +109,7 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      Stores.communicationStore.hostCommuication
-                        ?.modeOfCommunication
+                      Stores.communicationStore.hostCommuication?.modeOfCommunication
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
@@ -141,9 +138,7 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
-                    value={
-                      Stores.communicationStore.hostCommuication?.typeOfQuery
-                    }
+                    value={Stores.communicationStore.hostCommuication?.typeOfQuery}
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const typeOfQuery = e.target.value
@@ -171,9 +166,7 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
-                    value={
-                      Stores.communicationStore.hostCommuication?.applyFiltrOn
-                    }
+                    value={Stores.communicationStore.hostCommuication?.applyFiltrOn}
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const applyFiltrOn = e.target.value
@@ -236,6 +229,35 @@ const HostCommunication = observer(() => {
                 {Stores.communicationStore.hostCommuication?.modeOfConnection ===
                   "TCP/IP Communication" && <SettingForTCP_IPTable />}
               </LibraryComponents.List>
+
+              <LibraryComponents.List
+                direction="col"
+                space={10}
+                align="between"
+                justify="center"
+              >
+                <div className="flex mt-6">
+                <LibraryComponents.Button
+                  size="medium"
+                  type="solid"
+                  onClick={() => {}}
+                >
+                  Save Setting
+                </LibraryComponents.Button>
+                </div>
+               
+<div className="flex mb-6">
+<LibraryComponents.Button
+                  size="medium"
+                  type="solid"
+                  onClick={() => {}}
+                >
+                  Generate Driver
+                </LibraryComponents.Button>
+</div>
+                
+              </LibraryComponents.List>
+
               <div className="clearfix"></div>
             </LibraryComponents.Grid>
 
@@ -316,21 +338,40 @@ const HostCommunication = observer(() => {
               <div className="clearfix"></div>
             </LibraryComponents.Grid>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.MultilineInput
-                label=""
-                id="txtDataReceivefromInstrument"
-                placeholder="Source file (Data Received Data from Instrument)"
-                value={
-                  Stores.communicationStore.hostCommuication
-                    ?.txtDataReceivefromInstrument
-                }
-                onChange={(txtDataReceivefromInstrument) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
-                    txtDataReceivefromInstrument,
-                  })
-                }}
-              />
+              <div className={`grid grid-cols-3 gap-4`}>
+                <div className="col-span-2">
+                  <LibraryComponents.Form.MultilineInput
+                    label=""
+                    id="txtDataReceivefromInstrument"
+                    placeholder="Source file (Data Received Data from Instrument)"
+                    value={
+                      Stores.communicationStore.hostCommuication
+                        ?.txtDataReceivefromInstrument
+                    }
+                    onChange={(txtDataReceivefromInstrument) => {
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
+                        txtDataReceivefromInstrument,
+                      })
+                    }}
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <div>
+                  <LibraryComponents.Button
+                    size="medium"
+                    type="solid"
+                    onClick={() => {}}
+                  >
+                    Receive
+                  </LibraryComponents.Button>
+                  </div>
+                
+                </div>
+              </div>
+
+              <div className={`grid grid-cols-3 gap-4`}>
+                <div className="col-span-2">
               <LibraryComponents.Form.MultilineInput
                 label=""
                 id="txtSendDatafromInstrument"
@@ -346,6 +387,25 @@ const HostCommunication = observer(() => {
                   })
                 }}
               />
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                  <div>
+                  <LibraryComponents.Button
+                    size="medium"
+                    type="solid"
+                    onClick={() => {}}
+                  >
+                    Send
+                  </LibraryComponents.Button>
+                  </div>
+                
+                </div>
+
+              </div>
+
+
+
+
               <div className="clearfix" />
             </LibraryComponents.List>
 
@@ -408,12 +468,13 @@ const HostCommunication = observer(() => {
               <div className="clearfix"></div>
             </LibraryComponents.Grid>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              
+            <div className={`grid grid-cols-3 gap-4`}>
+                <div className="col-span-2">
               <LibraryComponents.Form.MultilineInput
                 id="txtConvertedfile"
                 placeholder="Converted file"
-                value={
-                  Stores.communicationStore.hostCommuication?.txtConvertedfile
-                }
+                value={Stores.communicationStore.hostCommuication?.txtConvertedfile}
                 onChange={(txtConvertedfile) => {
                   Stores.communicationStore.updateHostCommuication({
                     ...Stores.communicationStore.hostCommuication,
@@ -421,6 +482,20 @@ const HostCommunication = observer(() => {
                   })
                 }}
               />
+</div>
+<div className="flex flex-col items-center justify-center">
+                  <div>
+                  <LibraryComponents.Button
+                    size="medium"
+                    type="solid"
+                    onClick={() => {}}
+                  >
+                    Convert
+                  </LibraryComponents.Button>
+                  </div>
+                </div>
+</div>
+
               <div className="clearfix" />
             </LibraryComponents.List>
 
@@ -456,6 +531,8 @@ const HostCommunication = observer(() => {
               <div className="clearfix"></div>
             </LibraryComponents.List>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+            <div className={`grid grid-cols-3 gap-4`}>
+                <div className="col-span-2">
               <LibraryComponents.Form.MultilineInput
                 id="txtOutputin"
                 placeholder="Output in"
@@ -467,6 +544,19 @@ const HostCommunication = observer(() => {
                   })
                 }}
               />
+              </div>
+              <div className="flex flex-col items-center justify-center">
+                  <div>
+                  <LibraryComponents.Button
+                    size="medium"
+                    type="solid"
+                    onClick={() => {}}
+                  >
+                    Output
+                  </LibraryComponents.Button>
+                  </div>
+                </div>
+              </div>
               <div className="clearfix" />
             </LibraryComponents.List>
 
@@ -556,9 +646,7 @@ const HostCommunication = observer(() => {
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Icons.Save}
-                onClick={() => {
-                
-                }}
+                onClick={() => {}}
               >
                 Save
               </LibraryComponents.Button>
@@ -667,7 +755,7 @@ const HostCommunication = observer(() => {
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
-                 // rootStore.departmentStore.fetchListDepartment()
+                  // rootStore.departmentStore.fetchListDepartment()
                 }
               })
             }}

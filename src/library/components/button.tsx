@@ -1,9 +1,11 @@
 import React from "react";
+import { StyledProps } from "styled-components";
 import { IconProps } from "./icon";
 
 interface ButtonProps {
   type?: "solid" | "outline";
   onClick?: () => void;
+  style?: StyledProps<ButtonProps>,
   size?: "small" | "medium" | "large";
   icon?: React.FunctionComponent<IconProps>;
   pill?: boolean;
