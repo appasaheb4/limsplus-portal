@@ -122,7 +122,7 @@ const Banner = observer(() => {
                   },
                 },
                 {
-                  dataField: "opration",
+                  dataField: "operation",
                   text: "Delete",
                   editable: false,
                   csvExport: false,

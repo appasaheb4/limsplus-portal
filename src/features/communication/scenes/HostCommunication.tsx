@@ -29,6 +29,15 @@ const HostCommunication = observer(() => {
       <Container>
         <LibraryComponents.Header>
           <LibraryComponents.PageHeading title="Host Communication" />
+          <LibraryComponents.Button
+                  size="medium"
+                  type="solid"
+                  onClick={() => {
+                    window.location.href = '/dashboard/default';
+                  }}
+                >
+                  Dashboard
+                </LibraryComponents.Button>
         </LibraryComponents.Header>
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
@@ -41,7 +50,7 @@ const HostCommunication = observer(() => {
               >
                 <LibraryComponents.Grid cols={2}>
                   <LibraryComponents.Form.Toggle
-                    label="Manual/Automatic  Mode"
+                    label="Manual Mode"
                     id="manualAutomaticMode"
                     value={
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
@@ -160,33 +169,7 @@ const HostCommunication = observer(() => {
                     ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
-                <LibraryComponents.Form.InputWrapper
-                  label="Apply Filtr on"
-                  id="applyFiltrOn"
-                >
-                  <select
-                    name="defualtLab"
-                    value={Stores.communicationStore.hostCommuication?.applyFiltrOn}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const applyFiltrOn = e.target.value
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
-                        applyFiltrOn,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {[
-                      { title: "Patient Data / QC Data" },
-                      { title: "Output Filter" },
-                    ].map((item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Form.InputWrapper>
+              
               </LibraryComponents.List>
 
               <LibraryComponents.List
@@ -236,7 +219,8 @@ const HostCommunication = observer(() => {
                 align="between"
                 justify="center"
               >
-                <div className="flex mt-6">
+                <label>Status : Pending</label>
+                <div className="flex">
                 <LibraryComponents.Button
                   size="medium"
                   type="solid"
@@ -246,7 +230,7 @@ const HostCommunication = observer(() => {
                 </LibraryComponents.Button>
                 </div>
                
-<div className="flex mb-6">
+<div className="flex mb-2">
 <LibraryComponents.Button
                   size="medium"
                   type="solid"
@@ -261,7 +245,55 @@ const HostCommunication = observer(() => {
               <div className="clearfix"></div>
             </LibraryComponents.Grid>
 
-            <LibraryComponents.Grid cols={3}>
+
+
+            <LibraryComponents.Grid cols={2}>
+            <LibraryComponents.Form.InputWrapper
+                  label="Apply Filtr on"
+                  id="applyFiltrOn"
+                >
+                  <select
+                    name="defualtLab"
+                    value={Stores.communicationStore.hostCommuication?.applyFiltrOn}
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const applyFiltrOn = e.target.value
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
+                        applyFiltrOn,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[
+                      { title: "Patient Data / QC Data" },
+                      { title: "Output Filter" },
+                      { title: "Import" },
+                    ].map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+                <LibraryComponents.Form.Input
+                label="Log File"
+                id="logFileDataReceivefromInstrument"
+                placeholder="Log File"
+                //value={rootStore.userStore.user.fullName}
+                onChange={(logFileDataReceivefromInstrument) => {
+                  Stores.communicationStore.updateHostCommuication({
+                    ...Stores.communicationStore.hostCommuication,
+                    logFileDataReceivefromInstrument,
+                  })
+                }}
+              />
+<div className="clerfix"/>
+              </LibraryComponents.Grid>
+
+
+
+            <LibraryComponents.Grid cols={2}>
               <LibraryComponents.Form.InputWrapper
                 label="Source File"
                 id="sourceFileDataReceivefromInstrument"
@@ -293,18 +325,7 @@ const HostCommunication = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-              <LibraryComponents.Form.Input
-                label="Log File"
-                id="logFileDataReceivefromInstrument"
-                placeholder="Log File"
-                //value={rootStore.userStore.user.fullName}
-                onChange={(logFileDataReceivefromInstrument) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
-                    logFileDataReceivefromInstrument,
-                  })
-                }}
-              />
+             
               <LibraryComponents.Form.InputWrapper
                 label="Source Repository"
                 id="SourceRepositoryDataReceivefromInstrument"
@@ -560,7 +581,7 @@ const HostCommunication = observer(() => {
               <div className="clearfix" />
             </LibraryComponents.List>
 
-            <LibraryComponents.Grid cols={3}>
+            <LibraryComponents.Grid cols={2}>
               <LibraryComponents.Form.InputWrapper
                 label="Output for Third party Software"
                 id="outputforThirdpartySoftware"
@@ -592,7 +613,7 @@ const HostCommunication = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-              <LibraryComponents.Form.Input
+              {/* <LibraryComponents.Form.Input
                 label="Log File"
                 id="logFileThiredPartySoftare"
                 placeholder="Log File"
@@ -606,9 +627,9 @@ const HostCommunication = observer(() => {
                     logFileThiredPartySoftare,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Form.InputWrapper
-                label="Source Repository"
+                label="Output Repository"
                 id="SourceRepositoryThiredPartySoftare"
               >
                 <select
