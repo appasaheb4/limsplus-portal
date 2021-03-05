@@ -1,6 +1,6 @@
 import React from "react"
 import * as LibraryComponents from "@lp/library/components"
-import { Switch } from "@material-ui/core"
+import { Switch,makeStyles } from "@material-ui/core"
 
 interface LabelProps {
   htmlFor: string
@@ -197,13 +197,38 @@ interface ToggleProps extends InputWrapperProps {
   onChange?: (e: boolean) => void
 }
 
-export const Toggle = (props: ToggleProps) => (
-  <InputWrapper label={props.label} id={props.id}>
-    <Switch
-      checked={props.value}
-      onChange={(e) => props.onChange && props.onChange(e.target.checked)}
-      name={props.name}
-      inputProps={{ "aria-label": "secondary checkbox" }}
-    />
-  </InputWrapper>
-)
+const useStyles = makeStyles({
+  switchBase: {
+    color: "#8F1500",
+    "&$checked": {
+      color: '#006400'
+    },
+    "&$checked + $track": {
+      backgroundColor: '#006400'
+    }
+  },
+  checked: {
+  },
+  track: {
+  }
+
+});
+
+export const Toggle = (props: ToggleProps) => {
+  const classes = useStyles(); 
+  return(
+    <InputWrapper label={props.label} id={props.id}>
+      <Switch
+        checked={props.value}
+        classes={{
+          switchBase: classes.switchBase,
+          track: classes.track,
+          checked: classes.checked
+        }}
+        onChange={(e) => props.onChange && props.onChange(e.target.checked)}
+        name={props.name}
+        inputProps={{ "aria-label": "secondary checkbox" }}
+      />
+    </InputWrapper>
+  )
+} 
