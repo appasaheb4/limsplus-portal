@@ -11,8 +11,8 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{ color: "red" }}>Communication Settins</th>
-            <th style={{ color: "red" }}>Value</th>
+            <th style={{ color: "green" }}>Communication Settins</th>
+            <th style={{ color: "green" }}>Value</th>
           </tr>
         </thead>
         <tbody>
