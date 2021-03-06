@@ -199,9 +199,9 @@ interface ToggleProps extends InputWrapperProps {
 
 const useStyles = makeStyles({
   switchBase: {
-    color: "#8F1500",
+    color: 'red',
     "&$checked": {
-      color: '#006400'
+      color: 'green'
     },
     "&$checked + $track": {
       backgroundColor: '#006400'
