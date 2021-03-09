@@ -48,6 +48,7 @@
     "react-dom": "^16.13.1",
     "react-dropdown-tree-select": "^2.5.1",
     "react-dropzone": "^11.1.0",
+    "react-eva-icons": "^0.0.8",
     "react-excel-renderer": "^1.1.0",
     "react-feather": "^2.0.9",
     "react-perfect-scrollbar": "^1.5.8",
