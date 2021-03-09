@@ -47,18 +47,18 @@ export interface SegmentMapping {
   segment_usage?: string
   field_no?: string
   item_no?: string
-  field_required?: string;
+  field_required?: boolean;
   element_name?: string
   transmitted_data?: string
   field_array?: string
   field_length?: string
   field_type?: string
-  repeat_delimiter?: string
-  mandatory?: string
+  repeat_delimiter?: boolean
+  mandatory?: boolean
   lims_descriptions?: string
   lims_tables?: string
   lims_fields?: string
-  required_for_lims?: string
+  required_for_lims?: boolean
   notes?: string
   attachments?: string
 }

@@ -10,6 +10,8 @@ import * as Models from "../../models"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../../services"
 import * as XLSX from "xlsx"
+import * as Config from "@lp/config"
+import * as FeatureComponents from '../../components';
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -20,14 +22,12 @@ const SegmentMapping = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalImportFile,setModalImportFile]= useState({});
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0]
+  const handleFileUpload = (file:any) => {
     const reader = new FileReader()
     reader.onload = (evt: any) => {
       /* Parse data */
-      console.log({ evt })
-
       const bstr = evt.target.result
       const wb = XLSX.read(bstr, { type: "binary" })
       /* Get first worksheet */
@@ -62,17 +62,18 @@ const SegmentMapping = observer(() => {
             lims_fields: item[17],
             required_for_lims: item[18],
             notes: item[19],
-            attachments: item[20]
+            attachments: item[20],
           })
         }
-      })  
-      console.log({object});
+      })
+      rootStore.setProcessLoading(true)
       Stores.segmentMappingStore.segmentMappingService
         .importSegmentMapping(object)
         .then((res) => {
+          rootStore.setProcessLoading(false)
+          LibraryComponents.ToastsStore.success(`File import success.`)
           console.log({ res })
         })
-      console.log({ headers, object })
     }
     reader.readAsBinaryString(file)
   }
@@ -83,31 +84,116 @@ const SegmentMapping = observer(() => {
         <LibraryComponents.PageHeading title="Segment Mapping" />
       </LibraryComponents.Header>
       <div className=" mx-auto  flex-wrap">
-
-        {/* <div className="p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl">
           <LibraryComponents.Grid cols={3}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.InputWrapper
-                label="Source Data"
-                id="sourceData"
+                label="SUBMITTER SUBMITTER"
+                id="submitter_submitter"
               >
                 <select
-                  name="sourceData"
-                  value={Stores.segmentMappingStore.segmentMapping?.sourceData}
+                  name="submitter_submitter"
+                  value={
+                    Stores.segmentMappingStore.segmentMapping?.submitter_submitter
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const sourceData = e.target.value
+                    const submitter_submitter = e.target.value
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
-                      sourceData,
+                      submitter_submitter,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "Host > LIS" }, { title: "LIS > Host" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
+              <LibraryComponents.Form.InputWrapper label="DATA TYPE" id="data_type">
+                <select
+                  name="data_type"
+                  value={Stores.segmentMappingStore.segmentMapping?.data_type}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const data_type = e.target.value
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      data_type,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "HL7" }, { title: "ASTM" }, { title: "HEX" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
+              <LibraryComponents.Form.InputWrapper
+                label="EQUIPMENT TYPE"
+                id="equipment_type"
+              >
+                <select
+                  name="equipment_type"
+                  value={Stores.segmentMappingStore.segmentMapping?.equipmentType}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const equipmentType = e.target.value
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      equipmentType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "ERP" }, { title: "HORIBA" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
+              <LibraryComponents.Form.InputWrapper label="SEGMENTS" id="segments">
+                <select
+                  name="segments"
+                  value={Stores.segmentMappingStore.segmentMapping?.segments}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const segments = e.target.value
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      segments,
                     })
                   }}
                 >
                   <option selected>Select</option>
                   {[
-                    { title: "HL7" },
-                    { title: "ASTM" },
-                    { title: "Hex Decimal" },
+                    { title: "MSH" },
+                    { title: "PID" },
+                    { title: "ORC" },
+                    { title: "OBR" },
+                    { title: "H" },
+                    { title: "P" },
+                    { title: "O" },
+                    { title: "R" },
+                    { title: "C" },
+                    { title: "Q" },
+                    { title: "M" },
+                    { title: "L" },
                   ].map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
@@ -115,47 +201,34 @@ const SegmentMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-              <LibraryComponents.Form.Input
-                label="EQUIPMENT TYPE"
-                id="equipment_type"
-                placeholder="EQUIPMENT TYPE"
-                value={Stores.segmentMappingStore.segmentMapping?.equipmentType}
-                onChange={(equipmentType) => {
-                  Stores.segmentMappingStore.updateSegmentMapping({
-                    ...Stores.segmentMappingStore.segmentMapping,
-                    equipmentType,
-                  })
-                }}
-              />
-              {errors?.equipmentType && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.equipmentType}
-                </span>
-              )}
-              <LibraryComponents.Form.Input
-                label="Segments"
-                name="segments"
-                placeholder="Segments"
-                value={Stores.segmentMappingStore.segmentMapping?.segments}
-                onChange={(segments) => {
-                  Stores.segmentMappingStore.updateSegmentMapping({
-                    ...Stores.segmentMappingStore.segmentMapping,
-                    segments,
-                  })
-                }}
-              />
-              <LibraryComponents.Form.Input
-                label="Usate"
-                name="usate"
-                placeholder="Usate"
-                value={Stores.segmentMappingStore.segmentMapping?.usate}
-                onChange={(usate) => {
-                  Stores.segmentMappingStore.updateSegmentMapping({
-                    ...Stores.segmentMappingStore.segmentMapping,
-                    usate,
-                  })
-                }}
-              />
+
+              <LibraryComponents.Form.InputWrapper
+                label="SEGMENT USAGE"
+                id="segment_usage"
+              >
+                <select
+                  name="segment_usage"
+                  value={Stores.segmentMappingStore.segmentMapping?.segment_usage}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const segment_usage = e.target.value
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      segment_usage,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "Required" }, { title: "Optional" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+
               <LibraryComponents.Form.Input
                 type="number"
                 label="Field No"
@@ -185,23 +258,17 @@ const SegmentMapping = observer(() => {
             </LibraryComponents.List>
 
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
-                label="Required For"
-                id="required_for"
-                placeholder="Required For"
-                value={Stores.segmentMappingStore.segmentMapping?.required_for}
-                onChange={(required_for) => {
+              <LibraryComponents.Form.Toggle
+                label="FIELD REQUIRED"
+                id="field_required"
+                value={Stores.segmentMappingStore.segmentMapping?.field_required}
+                onChange={(field_required) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    required_for,
+                    field_required,
                   })
                 }}
               />
-              {errors?.equipmentType && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.equipmentType}
-                </span>
-              )}
               <LibraryComponents.Form.Input
                 label="Element Name"
                 name="element_name"
@@ -215,36 +282,84 @@ const SegmentMapping = observer(() => {
                 }}
               />
               <LibraryComponents.Form.Input
-                label="Example for field content"
-                name="example_for_field_content"
-                placeholder="Example for field content"
-                value={
-                  Stores.segmentMappingStore.segmentMapping
-                    ?.example_for_field_content
-                }
-                onChange={(example_for_field_content) => {
+                label="TRANSMITTED DATA"
+                name="transmitted_data"
+                placeholder="TRANSMITTED DATA"
+                value={Stores.segmentMappingStore.segmentMapping?.transmitted_data}
+                onChange={(transmitted_data) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    example_for_field_content,
+                    transmitted_data,
                   })
                 }}
               />
               <LibraryComponents.Form.Input
-                label="Sub field"
-                name="sub_field"
-                placeholder="Sub field"
-                value={Stores.segmentMappingStore.segmentMapping?.sub_field}
-                onChange={(sub_field) => {
+                label="FIELD ARRAY"
+                name="field_array"
+                placeholder="FIELD ARRAY"
+                value={Stores.segmentMappingStore.segmentMapping?.field_array}
+                onChange={(field_array) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    sub_field,
+                    field_array,
                   })
                 }}
               />
               <LibraryComponents.Form.Input
-                label="Lims descriptions"
-                name="lims_descriptions"
-                placeholder="Lims descriptions"
+                type="number"
+                label="FIELD LENGTH"
+                name="field_length"
+                placeholder="FIELD LENGTH"
+                value={Stores.segmentMappingStore.segmentMapping?.field_length}
+                onChange={(field_length) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    field_length,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Form.Input
+                label="FIELD TYPE"
+                name="field_type"
+                placeholder="FIELD TYPE"
+                value={Stores.segmentMappingStore.segmentMapping?.field_type}
+                onChange={(field_type) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    field_type,
+                  })
+                }}
+              />
+              <LibraryComponents.Form.Toggle
+                label="REPEAT DELIMITER"
+                id="repeat_delimiter"
+                value={Stores.segmentMappingStore.segmentMapping?.repeat_delimiter}
+                onChange={(repeat_delimiter) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    repeat_delimiter,
+                  })
+                }}
+              />
+            </LibraryComponents.List>
+
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Form.Toggle
+                label="MANDATORY"
+                id="mandatory"
+                value={Stores.segmentMappingStore.segmentMapping?.mandatory}
+                onChange={(mandatory) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    mandatory,
+                  })
+                }}
+              />
+              <LibraryComponents.Form.Input
+                label="LIMS DESCRIPTIONS"
+                id="lims_descriptions"
+                placeholder="LIMS DESCRIPTIONS"
                 value={Stores.segmentMappingStore.segmentMapping?.lims_descriptions}
                 onChange={(lims_descriptions) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
@@ -253,28 +368,8 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.List>
-
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
-                label="Lims table name"
-                id="limstablename"
-                placeholder="lims table name"
-                value={Stores.segmentMappingStore.segmentMapping?.limstablename}
-                onChange={(limstablename) => {
-                  Stores.segmentMappingStore.updateSegmentMapping({
-                    ...Stores.segmentMappingStore.segmentMapping,
-                    limstablename,
-                  })
-                }}
-              />
-              {errors?.equipmentType && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.equipmentType}
-                </span>
-              )}
-              <LibraryComponents.Form.Input
-                label="Lims fields"
+                label="LIMS TABLES"
                 name="lims_fields"
                 placeholder="Lims fields"
                 value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
@@ -286,14 +381,51 @@ const SegmentMapping = observer(() => {
                 }}
               />
               <LibraryComponents.Form.Input
-                label="Required for lims"
-                name="required_for_lims"
-                placeholder="Required for lims"
+                label="LIMS FIELDS"
+                name="lims_fields"
+                placeholder="LIMS FIELDS"
+                value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
+                onChange={(lims_fields) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    lims_fields,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Form.Toggle
+                label="REQUIRED FOR LIMS"
+                id="required_for_lims"
                 value={Stores.segmentMappingStore.segmentMapping?.required_for_lims}
                 onChange={(required_for_lims) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     required_for_lims,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Form.Input
+                label="NOTES"
+                name="notes"
+                placeholder="NOTES"
+                value={Stores.segmentMappingStore.segmentMapping?.notes}
+                onChange={(notes) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    notes,
+                  })
+                }}
+              />
+              <LibraryComponents.Form.Input
+                label="ATTACHMENTS"
+                name="attachments"
+                placeholder="ATTACHMENTS"
+                value={Stores.segmentMappingStore.segmentMapping?.attachments}
+                onChange={(attachments) => {
+                  Stores.segmentMappingStore.updateSegmentMapping({
+                    ...Stores.segmentMappingStore.segmentMapping,
+                    attachments,
                   })
                 }}
               />
@@ -323,8 +455,25 @@ const SegmentMapping = observer(() => {
                 //   )
                 // }
               }}
-            >
+            >  
               Save
+            </LibraryComponents.Button>
+            <LibraryComponents.Button
+              size="medium"
+              type="outline"
+              onClick={() => {
+                setModalImportFile({
+                  show:true,
+                  title:"Note: Before all collection remove."
+                })
+              }}
+            >
+               <LibraryComponents.Icons.EvaIcon
+                icon="arrowhead-down-outline"
+                size="medium"
+                color={Config.Styles.COLORS.BLACK}
+              />
+              Import
             </LibraryComponents.Button>
             <LibraryComponents.Button
               size="medium"
@@ -337,9 +486,7 @@ const SegmentMapping = observer(() => {
               Clear
             </LibraryComponents.Button>
           </LibraryComponents.List>
-        </div> */}
-
-
+        </div>
 
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
@@ -404,13 +551,7 @@ const SegmentMapping = observer(() => {
                     Export CSV!!
                   </ExportCSVButton>
                   <div className="ml-2 -mt-3 h-6">
-                    <LibraryComponents.Form.InputFile
-                      label="Import"
-                      id="file"
-                      accept=".csv,.xlsx,.xls"
-                      placeholder="Import File"
-                      onChange={handleFileUpload}
-                    />
+                   
                     {/* const file = e.target.files[0]
                       console.log({file}); 
                         
@@ -468,6 +609,14 @@ const SegmentMapping = observer(() => {
           </ToolkitProvider>
         </div>
       </div>
+
+      <FeatureComponents.Atoms.ModalImportFile
+     {...modalImportFile}
+      click={(file:any)=>{
+        setModalImportFile({show:false})
+        handleFileUpload(file);
+      }}
+      />
     </>
   )
 })

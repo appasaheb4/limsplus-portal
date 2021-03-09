@@ -1,10 +1,13 @@
 import React from "react"
+import Icon  from "react-eva-icons"
 
 export interface IconProps {
   type?: "solid" | "inverse"
   size?: "small" | "medium" | "large"
   buttonOffset?: boolean
   small?: boolean
+  icon?: string
+  color?: string
 }
 
 const getIconClass = (props: IconProps) => {
@@ -20,6 +23,21 @@ const getIconClass = (props: IconProps) => {
   return `${
     props.buttonOffset && "-ml-1 -mt-1 mr-2"
   } ${iconSizeClass} ${iconColorClass}`
+}
+
+export const EvaIcon: React.FunctionComponent<IconProps> = (props: IconProps) => {
+  return (
+    <Icon 
+    name={props.icon}
+    size={props.size}     // small, medium, large, xlarge
+    animation={{
+      type: "pulse",  // zoom, pulse, shake, flip
+      hover: true,
+      infinite: false 
+    }}
+    fill={props.color}
+  />
+  )
 }
 
 export const Save: React.FunctionComponent<IconProps> = (props: IconProps) => {
