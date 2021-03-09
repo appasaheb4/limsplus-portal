@@ -14,15 +14,39 @@ import "./accordion.css"
 import * as SerialPort from "serialport"
 
 // var fs=require('fs');
-var parser = require("./index.js")
-var serializer = require("./index.js")
-var translate = require("./lib/translate.js")
+// var parser = require("./index.js")
+// var serializer = require("./index.js")
+// var translate = require("./lib/translate.js")
+// import {decode} from '@rimiti/hl7-object-parser'
+ import s12Mapping from './s12.json'
+
+// import * as parser from '@rimiti/object-hl7-parser'
+ //import siu12Config from './s12.json'
+
+// var hl7parser = require("hl7parser");
+
+// var message = hl7parser.create(`MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
+// PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
+// OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
+// OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`);
+// console.log({message});
+
+// console.log(message.get()); // prints "Bob"
+
+import {decode} from '@rimiti/hl7-object-parser'
+const s12 = `MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
+PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
+OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
+OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`;
+const obj = decode(s12, s12Mapping)
+console.log(obj)
+
 
 
 //console.log(data);
 
 // import hl7 from "hl7"
-import { assert, expect, should } from "chai"
+// import { assert, expect, should } from "chai"
 
 // var parsed = hl7.parseString(data);
 
@@ -435,23 +459,20 @@ const HostCommunication = observer(() => {
                                     ...Stores.communicationStore.hostCommuication,
                                     txtDataReceivefromInstrument,
                                   })
-                                  var hl7 = parser.parseString(txtDataReceivefromInstrument)
-                                  console.log({ hl7 })
-                                  var text = serializer.serializeJSON(hl7)
-                                  console.log(text.split("\r").join("\n"))
-                                  console.log()
-                                  console.log(text == txtDataReceivefromInstrument)
-                                  Stores.communicationStore.updateHostCommuication({
-                                    ...Stores.communicationStore.hostCommuication,
-                                    txtConvertedfile:text,
-                                  })
-                                  //console.log(JSON.stringify(hl7,null,4));
-                                  // console.log(
-                                  //   JSON.stringify(translate.translate(hl7), null, 4)
-                                  // )
+                              
+    
+//                                   const message_to_encode = `MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
+// PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
+// OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
+// OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`
+                                  
+//                                   const getSIU12 = parser.getSIU26(message_to_encode, siu12Config)
 
-                                  // var parsed = hl7.parseString(txtDataReceivefromInstrument);
-                                  // console.log({parsed});
+//                                   // If you want a stringified output
+//                                   console.log(getSIU12.getMessage())
+                                  
+//                                   // If you want an object output
+//                                    console.log(getSIU12.getObject())
                                 }}
                               />
                             </div>

@@ -26,7 +26,6 @@ const CollectionRole = async(
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
 
-
 // Settings
 const ChangePassword = async(
   () => import("@lp/features/changePassword/scenes/changePassword")
@@ -41,6 +40,9 @@ const LoginActivity = async(
 // Communication
 const HostCommunication = async(
   () => import("@lp/features/communication/scenes/HostCommunication")
+)
+const SegmentMapping = async(
+  () => import("@lp/features/communication/scenes/mapping/SegmentMapping")
 )
 
 // Routes
@@ -115,7 +117,7 @@ const userRoutes = {
       path: "/user/user",
       name: "User",
       component: User,
-    }
+    },
   ],
 }
 
@@ -125,10 +127,16 @@ const communicationRoutes = {
   icon: LayoutIcon,
   children: [
     {
+      path: "/communication/mapping/SegmentMapping",
+      name: "Segment Mapping",
+      component: SegmentMapping,
+    },
+    {
       path: "/communication/hostCommunication",
       name: "Host Communication",
       component: HostCommunication,
-    },
+    }
+    
   ],
 }
 
