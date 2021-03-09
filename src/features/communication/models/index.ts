@@ -37,3 +37,28 @@ export interface IHostCommunication {
   logFileThiredPartySoftare?: string
   SourceRepositoryThiredPartySoftare?: string
 }
+
+export interface SegmentMapping {
+  _id?: string
+  submitter_submitter?: string
+  data_type?: string
+  equipmentType?: string
+  segments?: string
+  segment_usage?: string
+  field_no?: string
+  item_no?: string
+  field_required?: string;
+  element_name?: string
+  transmitted_data?: string
+  field_array?: string
+  field_length?: string
+  field_type?: string
+  repeat_delimiter?: string
+  mandatory?: string
+  lims_descriptions?: string
+  lims_tables?: string
+  lims_fields?: string
+  required_for_lims?: string
+  notes?: string
+  attachments?: string
+}
