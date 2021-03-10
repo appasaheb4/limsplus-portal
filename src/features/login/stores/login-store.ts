@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, extendObservable, runInAction, computed } from "mobx"
+import { action, observable, extendObservable, runInAction } from "mobx"
 import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -34,9 +34,6 @@ class LoginStore {
     })
   }
 
-  @action getUserInfo = async () => {
-    return await this.login;
-  }
 
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
