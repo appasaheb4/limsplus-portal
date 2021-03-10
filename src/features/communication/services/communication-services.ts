@@ -31,6 +31,17 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
+  listSegmentMapping = () =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .get(`communication/listSegmentMapping`)
+        .then((res) => {
+          resolve(res.data.data)
+        })   
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default CommunicationService

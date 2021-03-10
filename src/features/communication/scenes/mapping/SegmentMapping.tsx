@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
@@ -11,7 +11,7 @@ import RootStoreContext from "@lp/library/stores"
 import * as Services from "../../services"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
-import * as FeatureComponents from '../../components';
+import * as FeatureComponents from "../../components"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -22,9 +22,13 @@ const SegmentMapping = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [deleteItem, setDeleteItem] = useState<any>({})
-  const [modalImportFile,setModalImportFile]= useState({});
+  const [modalImportFile, setModalImportFile] = useState({})
 
-  const handleFileUpload = (file:any) => {
+  useEffect(() => {
+    Stores.segmentMappingStore.fetchListSegmentMapping()
+  }, [])
+
+  const handleFileUpload = (file: any) => {
     const reader = new FileReader()
     reader.onload = (evt: any) => {
       /* Parse data */
@@ -37,33 +41,39 @@ const SegmentMapping = observer(() => {
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 })
       const headers: string[] = []
       const object = new Array()
+
       data.forEach((item: any, index: number) => {
         if (index === 0) {
           headers.push(item)
         } else {
-          object.push({
-            submitter_submitter: item[0],
-            data_type: item[1],
-            equipmentType: item[2],
-            segments: item[3],
-            segment_usage: item[4],
-            field_no: item[5],
-            item_no: item[6],
-            field_required: item[7],
-            element_name: item[8],
-            transmitted_data: item[9],
-            field_array: item[10],
-            field_length: item[11],
-            field_type: item[12],
-            repeat_delimiter: item[13],
-            mandatory: item[14],
-            lims_descriptions: item[15],
-            lims_tables: item[16],
-            lims_fields: item[17],
-            required_for_lims: item[18],
-            notes: item[19],
-            attachments: item[20],
-          })
+          if (item.length === 19) {
+            object.push({
+              submitter_submitter: item[0],
+              data_type: item[1],
+              equipmentType: item[2],
+              segments: item[3],
+              segment_usage: item[4],
+              field_no: item[5],
+              item_no: item[6],
+              field_required: item[7],
+              element_name: item[8],
+              transmitted_data: item[9],
+              field_array: item[10],
+              field_length: item[11],
+              field_type: item[12],
+              repeat_delimiter: item[13],
+              mandatory: item[14],
+              lims_descriptions: item[15],
+              lims_tables: item[16],
+              lims_fields: item[17],
+              required_for_lims: item[18],
+              notes: item[19],
+              attachments: item[20],
+            })
+          } else {
+            alert("Please select correct file!")
+           return;
+          }
         }
       })
       rootStore.setProcessLoading(true)
@@ -455,7 +465,7 @@ const SegmentMapping = observer(() => {
                 //   )
                 // }
               }}
-            >  
+            >
               Save
             </LibraryComponents.Button>
             <LibraryComponents.Button
@@ -463,12 +473,12 @@ const SegmentMapping = observer(() => {
               type="outline"
               onClick={() => {
                 setModalImportFile({
-                  show:true,
-                  title:"Note: Before all collection remove."
+                  show: true,
+                  title: "Note: Before all collection remove.",
                 })
               }}
             >
-               <LibraryComponents.Icons.EvaIcon
+              <LibraryComponents.Icons.EvaIcon
                 icon="arrowhead-down-outline"
                 size="medium"
                 color={Config.Styles.COLORS.BLACK}
@@ -495,14 +505,93 @@ const SegmentMapping = observer(() => {
             data={Stores.segmentMappingStore.listSegmentMapping || []}
             columns={[
               {
-                dataField: "code",
-                text: "Code",
-                sort: true,
+                dataField: "submitter_submitter",
+                text: "SUBMITTER_SUBMITTER",
               },
               {
-                dataField: "name",
-                text: "name",
+                dataField: "data_type",
+                text: "DATA_TYPE",
               },
+              {
+                dataField: "equipmentType",
+                text: "EQUIPMENTTYPE",
+              },
+              {
+                dataField: "segments",
+                text: "SEGMENTS",
+              },
+              {
+                dataField: "segment_usage",
+                text: "SEGMENT_USAGE",
+              },
+              {
+                dataField: "field_no",
+                text: "FIELD_NO",
+              },
+              {
+                dataField: "item_no",
+                text: "ITEM_NO",
+              },
+              {
+                dataField: "field_required",
+                text: "FIELD_REQUIRED",
+              },
+              {
+                dataField: "element_name",
+                text: "ELEMENT_NAME",
+              },
+              {
+                dataField: "transmitted_data",
+                text: "TRANSMITTED_DATA",
+              },
+              {
+                dataField: "field_array",
+                text: "FIELD_ARRAY",
+              },
+              {
+                dataField: "field_length",
+                text: "FIELD_LENGTH",
+              },
+              {
+                dataField: "field_type",
+                text: "FIELD_TYPE",
+              },
+              {
+                dataField: "repeat_delimiter",
+                text: "REPEAT_DELIMITER",
+              },
+              {
+                dataField: "mandatory",
+                text: "MANDATORY",
+              },
+              {
+                dataField: "lims_descriptions",
+                text: "LIMS_DESCRIPTIONS",
+              },
+              {
+                dataField: "lims_tables",
+                text: "LIMS_TABLES",
+              },
+
+              {
+                dataField: "lims_fields",
+                text: "LIMS_FIELDS",
+              },
+
+              {
+                dataField: "required_for_lims",
+                text: "REQUIRED_FOR_LIMS",
+              },
+              {
+                dataField: "notes",
+                text: "NOTES",
+              },
+
+              {
+                dataField: "attachments",
+                text: "ATTACHMENTS",
+              },
+
               {
                 dataField: "opration",
                 text: "Delete",
@@ -531,67 +620,26 @@ const SegmentMapping = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `labs_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
+              fileName: `segmentMapping_${moment(new Date()).format(
+                "YYYY-MM-DD HH:mm"
+              )}.csv`,
               noAutoBOM: false,
               blobType: "text/csv;charset=ansi",
             }}
           >
             {(props) => (
               <div>
-                <div className="row">
-                  <SearchBar {...props.searchProps} />
-                  <ClearSearchButton
-                    className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.searchProps}
-                  />
-                  <ExportCSVButton
-                    className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                  <div className="ml-2 -mt-3 h-6">
-                   
-                    {/* const file = e.target.files[0]
-                      console.log({file}); 
-                        
-                        const reader = new FileReader()
-                        reader.onload = (evt:any) => {
-                        
-                          console.log({evt});
-                          
-                          const bstr = evt.target.result 
-                          const wb = XLSX.read(bstr, { type: "binary" })
-                         
-                          const wsname = wb.SheetNames[0]
-                          const ws = wb.Sheets[wsname]
-
-                          console.log({wsname,ws});
-                          
-                  
-                          const data = XLSX.utils.sheet_to_csv(ws)
-                          console.log({data});
-                          
-                          //processData(data)
-                        }
-
-                        //just pass the fileObj as parameter
-                        // readXlsxFile(e.target.files[0]).then((rows) => {
-                        //   // `rows` is an array of rows
-                        //   // each row being an array of cells.
-                        //   console.log({ rows })
-                        // })
-                        // const image = e.target.files[0]
-                        // Stores.bannerStore.updateBanner({
-                        //   ...Stores.bannerStore.banner,
-                        //   image,
-                        // })
-                      }}
-                      */}
-                  </div>
-                  <div className="clerfix" />
-                </div>
-                <br />
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
                 <br />
                 <BootstrapTable
                   {...props.baseProps}
@@ -611,11 +659,11 @@ const SegmentMapping = observer(() => {
       </div>
 
       <FeatureComponents.Atoms.ModalImportFile
-     {...modalImportFile}
-      click={(file:any)=>{
-        setModalImportFile({show:false})
-        handleFileUpload(file);
-      }}
+        {...modalImportFile}
+        click={(file: any) => {
+          setModalImportFile({ show: false })
+          handleFileUpload(file)
+        }}
       />
     </>
   )

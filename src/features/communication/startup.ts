@@ -1,6 +1,6 @@
-//import {Stores} from './stores';
+import {Stores} from './stores';
 const startup = async () => {
-    //Stores.bannerStore.fetchListBanner();
+    Stores.segmentMappingStore.segmentMappingService.listSegmentMapping();
 }
 
 export default startup;
