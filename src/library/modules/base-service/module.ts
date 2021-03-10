@@ -35,7 +35,7 @@ function createMemeToonsClient(
 class BaseService {
   client: AxiosInstance;
 
-  constructor(token: string) {
+  constructor(token?: string) {
     this.client = createMemeToonsClient('node', token);
     this.client.interceptors.request.use((request) => {
       console.log(

@@ -1,4 +1,5 @@
 import HotCommunication from "./HostCommunication"
+import SegmentMapping from './mapping/SegmentMapping';
 
-export { HotCommunication }
+export { HotCommunication,SegmentMapping }
   

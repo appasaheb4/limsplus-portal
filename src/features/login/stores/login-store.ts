@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, extendObservable, runInAction } from "mobx"
+import { action, observable, extendObservable, runInAction, computed } from "mobx"
 import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -32,6 +32,10 @@ class LoginStore {
     runInAction("Save user", () => {
       this.login = session
     })
+  }
+
+  @action getUserInfo = async () => {
+    return await this.login;
   }
 
   @action removeUser = (): Promise<boolean> => {

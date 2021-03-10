@@ -14,6 +14,7 @@ import * as Role from '@lp/features/collection/roles'
 import * as Department from "@lp/features/collection/department"
 import * as User from "@lp/features/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
+import * as SegmentMapping from "@lp/features/communication"
 
 const App = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
@@ -27,6 +28,7 @@ const App = observer(() => {
     await Department.startup();
     await User.startup();
     await RoleMappping.startup();
+    await SegmentMapping.startup()
   };
   
   React.useEffect(() => {
