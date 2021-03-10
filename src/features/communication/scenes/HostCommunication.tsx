@@ -100,7 +100,7 @@ const HostCommunication = observer(() => {
                     id="manualAutomaticMode"
                     value={
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
-                    }
+                    }  
                     onChange={(manualAutomaticMode) => {
                       Stores.communicationStore.updateHostCommuication({
                         ...Stores.communicationStore.hostCommuication,
