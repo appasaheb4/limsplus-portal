@@ -41,7 +41,7 @@ const SegmentMapping = observer(() => {
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 })
       const headers: string[] = []
       const object = new Array()
-
+      let fileImaport : boolean = true
       data.forEach((item: any, index: number) => {
         if (index === 0) {
           headers.push(item)
@@ -71,19 +71,23 @@ const SegmentMapping = observer(() => {
               attachments: item[20],
             })
           } else {
+            fileImaport = false;
             alert("Please select correct file!")
            return;
           }
         }
       })
-      rootStore.setProcessLoading(true)
-      Stores.segmentMappingStore.segmentMappingService
-        .importSegmentMapping(object)
-        .then((res) => {
-          rootStore.setProcessLoading(false)
-          LibraryComponents.ToastsStore.success(`File import success.`)
-          console.log({ res })
-        })
+      if(fileImaport){
+        rootStore.setProcessLoading(true)
+        Stores.segmentMappingStore.segmentMappingService
+          .importSegmentMapping(object)
+          .then((res) => {
+            rootStore.setProcessLoading(false)
+            LibraryComponents.ToastsStore.success(`File import success.`)
+            Stores.segmentMappingStore.fetchListSegmentMapping();
+          })
+      }
+      
     }
     reader.readAsBinaryString(file)
   }
