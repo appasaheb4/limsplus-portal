@@ -75,15 +75,6 @@ const HostCommunication = observer(() => {
       <Container>
         <LibraryComponents.Header>
           <LibraryComponents.PageHeading title="Host Communication" />
-          <LibraryComponents.Button
-            size="medium"
-            type="solid"
-            onClick={() => {
-              window.location.href = "/dashboard/default"
-            }}
-          >
-            Dashboard
-          </LibraryComponents.Button>
         </LibraryComponents.Header>
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
@@ -273,23 +264,23 @@ const HostCommunication = observer(() => {
               >
                 <label>Status : Pending</label>
                 <div className="flex">
-                  <LibraryComponents.Button
+                  <LibraryComponents.Buttons.Button
                     size="medium"
                     type="solid"
                     onClick={() => {}}
                   >
                     Save Setting
-                  </LibraryComponents.Button>
+                  </LibraryComponents.Buttons.Button>
                 </div>
 
                 <div className="flex mb-2">
-                  <LibraryComponents.Button
+                  <LibraryComponents.Buttons.Button
                     size="medium"
                     type="solid"
                     onClick={() => {}}
                   >
                     Generate Driver
-                  </LibraryComponents.Button>
+                  </LibraryComponents.Buttons.Button>
                 </div>
               </LibraryComponents.List>
 
@@ -478,13 +469,13 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Button
+                                <LibraryComponents.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {}}
                                 >
                                   Receive
-                                </LibraryComponents.Button>
+                                </LibraryComponents.Buttons.Button>
                               </div>
                             </div>
                           </div>
@@ -515,13 +506,13 @@ const HostCommunication = observer(() => {
                           </div>
                           <div className="flex flex-col items-center justify-center">
                             <div>
-                              <LibraryComponents.Button
+                              <LibraryComponents.Buttons.Button
                                 size="medium"
                                 type="solid"
                                 onClick={() => {}}
                               >
                                 Send
-                              </LibraryComponents.Button>
+                              </LibraryComponents.Buttons.Button>
                             </div>
                           </div>
                         </div>
@@ -618,13 +609,13 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Button
+                                <LibraryComponents.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {}}
                                 >
                                   Convert
-                                </LibraryComponents.Button>
+                                </LibraryComponents.Buttons.Button>
                               </div>
                             </div>
                           </div>
@@ -700,13 +691,13 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Button
+                                <LibraryComponents.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {}}
                                 >
                                   Output
-                                </LibraryComponents.Button>
+                                </LibraryComponents.Buttons.Button>
                               </div>
                             </div>
                           </div>
@@ -802,15 +793,15 @@ const HostCommunication = observer(() => {
 
             <br />
             <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Button
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Icons.Save}
                 onClick={() => {}}
               >
                 Save
-              </LibraryComponents.Button>
-              <LibraryComponents.Button
+              </LibraryComponents.Buttons.Button>
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
@@ -820,7 +811,7 @@ const HostCommunication = observer(() => {
                 }}
               >
                 Clear
-              </LibraryComponents.Button>
+              </LibraryComponents.Buttons.Button>
             </LibraryComponents.List>
           </div>
           <br />
@@ -850,7 +841,7 @@ const HostCommunication = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Button
+                      <LibraryComponents.Buttons.Button
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.Remove}
@@ -864,7 +855,7 @@ const HostCommunication = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Button>
+                      </LibraryComponents.Buttons.Button>
                     </>
                   ),
                 },

@@ -1,6 +1,9 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import * as LibraryComponents from "@lp/library/components"
-import { Switch,makeStyles } from "@material-ui/core"
+import { Switch, makeStyles } from "@material-ui/core"
+import "./css/toggle.css"
+import PropTypes from "prop-types"
+import classNames from "classnames"
 
 interface LabelProps {
   htmlFor: string
@@ -201,36 +204,113 @@ interface ToggleProps extends InputWrapperProps {
 
 const useStyles = makeStyles({
   switchBase: {
-    color: 'red',
+    color: "red",
     "&$checked": {
-      color: 'green'
+      color: "green",
     },
     "&$checked + $track": {
-      backgroundColor: '#006400'
-    }
+      backgroundColor: "#006400",
+    },
   },
-  checked: {
-  },
-  track: {
-  }
+  checked: {},
+  track: {},
+})
 
-});
+// export const Toggle = (props: ToggleProps) => {
+//   const classes = useStyles();
+//   return(
+//     <InputWrapper label={props.label} id={props.id}>
+//       <Switch
+//         checked={props.value}
+//         classes={{
+//           switchBase: classes.switchBase,
+//           track: classes.track,
+//           checked: classes.checked
+//         }}
+//         onChange={(e) => props.onChange && props.onChange(e.target.checked)}
+//         name={props.name}
+//         inputProps={{ "aria-label": "secondary checkbox" }}
+//       />
+//     </InputWrapper>
+//   )
+// }
+
+interface ToggleProps extends InputWrapperProps {
+  disabled?: boolean
+  defaultChecked?: boolean
+  className?: string
+  icons?: any
+  value?: boolean
+  name?: string
+  onChange?: (e: boolean) => void
+}
+
+const CheckedIcon = () => <>On</>
+const UncheckedIcon = () => <>Off</>
 
 export const Toggle = (props: ToggleProps) => {
-  const classes = useStyles(); 
-  return(
+  const [toggle, setToggle] = useState(false)
+  const { defaultChecked, onChange, disabled, className } = props
+
+  useEffect(() => {
+    if (defaultChecked) {
+      setToggle(defaultChecked)
+    }
+  }, [defaultChecked])
+
+  const triggerToggle = () => {
+    if (disabled) {
+      return
+    }
+
+    setToggle(!toggle)
+
+    if (typeof onChange === "function") {
+      onChange(!toggle)
+    }
+  }
+
+  // const getIcon = (type) => {
+  //   const { icons } = props
+  //   if (!icons) {
+  //     return null
+  //   }
+
+  //   return icons[type] === undefined ? Toggle.defaultProps.icons[type] : icons[type]
+  // }
+
+  const toggleClasses = classNames(
+    "wrg-toggle ",
+    {
+      "wrg-toggle--checked": toggle,
+      "wrg-toggle--disabled": disabled,
+    },
+    className
+  )
+
+  return (
     <InputWrapper label={props.label} id={props.id}>
-      <Switch
-        checked={props.value}
-        classes={{
-          switchBase: classes.switchBase,
-          track: classes.track,
-          checked: classes.checked
-        }}
-        onChange={(e) => props.onChange && props.onChange(e.target.checked)}
-        name={props.name}
-        inputProps={{ "aria-label": "secondary checkbox" }}
-      />
+      <div onClick={triggerToggle} className={toggleClasses}>
+        <div
+          className={
+            "wrg-toggle-container " + (toggle ? "bg-green-700" : "bg-black")
+          }
+        >
+          <div className="wrg-toggle-check">
+            <span className="text-white">On</span>
+          </div>
+          <div className="wrg-toggle-uncheck">
+            <span className="text-white">Off</span>
+          </div>
+        </div>
+        <div className="wrg-toggle-circle"></div>
+        <input
+          type="checkbox"
+          aria-label="Toggle Button"
+          className="wrg-toggle-input"
+        />
+      </div>
     </InputWrapper>
   )
-} 
+}
+

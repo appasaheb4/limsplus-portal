@@ -5,6 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
+import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
 import * as Models from "../../models"
 import RootStoreContext from "@lp/library/stores"
@@ -15,6 +16,17 @@ import * as FeatureComponents from "../../components"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
+const selectRow = {
+  mode: "checkbox",
+  onSelect: (row, isSelect, rowIndex, e) => {
+    console.log(row, isSelect)
+  },
+  onSelectAll: (isSelect, rows, e) => {
+    console.log(isSelect)
+    console.log(rows)
+    console.log(e)
+  },
+}
 
 import { Stores } from "../../stores"
 
@@ -23,6 +35,7 @@ const SegmentMapping = observer(() => {
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
+  const [hideAddDiv, setHideAddDiv] = useState(true)
 
   useEffect(() => {
     Stores.segmentMappingStore.fetchListSegmentMapping()
@@ -41,7 +54,7 @@ const SegmentMapping = observer(() => {
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 })
       const headers: string[] = []
       const object = new Array()
-      let fileImaport : boolean = true
+      let fileImaport: boolean = true
       data.forEach((item: any, index: number) => {
         if (index === 0) {
           headers.push(item)
@@ -71,25 +84,133 @@ const SegmentMapping = observer(() => {
               attachments: item[20],
             })
           } else {
-            fileImaport = false;
+            fileImaport = false
             alert("Please select correct file!")
-           return;
+            return
           }
         }
       })
-      if(fileImaport){
+      if (fileImaport) {
         rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
           .importSegmentMapping(object)
           .then((res) => {
             rootStore.setProcessLoading(false)
             LibraryComponents.ToastsStore.success(`File import success.`)
-            Stores.segmentMappingStore.fetchListSegmentMapping();
+            Stores.segmentMappingStore.fetchListSegmentMapping()
           })
       }
-      
     }
     reader.readAsBinaryString(file)
+  }
+
+  const customTotal = (from, to, size) => {
+    return (
+      <>
+        <div className="clearfix" />
+        <span className="ml-2 react-bootstrap-table-pagination-total">
+          Showing {from} to {to} of {size} Results
+        </span>
+      </>
+    )
+  }
+
+  const sizePerPageRenderer = ({
+    options,
+    currSizePerPage,
+    onSizePerPageChange,
+  }) => (
+    <div className="btn-group items-center" role="group">
+      <LibraryComponents.Buttons.Button
+        style={{ height: 10, width: 200 }}
+        size="small"
+        type="solid"
+        onClick={() => setHideAddDiv(!hideAddDiv)}
+      >
+        <LibraryComponents.Icons.EvaIcon
+          icon="trash-outline"
+          size="large"
+          color={Config.Styles.COLORS.BLACK}
+        />
+        Remove Selected
+      </LibraryComponents.Buttons.Button>
+      <input
+        type="number"
+        min="0"
+        placeholder="Number"
+        onChange={(e) => {
+          if (e.target.value) {
+            onSizePerPageChange(e.target.value)
+          }
+        }}
+        className="mr-2 ml-2 leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      />
+      {options.map((option) => (
+        <button
+          key={option.text}
+          type="button"
+          onClick={() => onSizePerPageChange(option.page)}
+          className={`btn ${
+            currSizePerPage === `${option.page}` ? "btn-primary" : "btn-secondary"
+          }`}
+        >
+          {option.text}
+        </button>
+      ))}
+    </div>
+  )
+
+  const options = {
+    paginationSize: 5,
+    pageStartIndex: 0,
+    // alwaysShowAllBtns: true, // Always show next and previous button
+    // withFirstAndLast: false, // Hide the going to First and Last page button
+    // hideSizePerPage: true, // Hide the sizePerPage dropdown always
+    // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+    firstPageText: "First",
+    prePageText: "Back",
+    nextPageText: "Next",
+    lastPageText: "Last",
+    nextPageTitle: "First page",
+    prePageTitle: "Pre page",
+    firstPageTitle: "Next page",
+    lastPageTitle: "Last page",
+    showTotal: true,
+    disablePageTitle: true,
+    paginationTotalRenderer: customTotal,
+    sizePerPageList: [
+      {
+        text: "10",
+        value: 10,
+      },
+      {
+        text: "20",
+        value: 20,
+      },
+      {
+        text: "30",
+        value: 30,
+      },
+      {
+        text: "40",
+        value: 40,
+      },
+      {
+        text: "50",
+        value: 50,
+      },
+      {
+        text: "All",
+        value: Stores.segmentMappingStore.listSegmentMapping?.length,
+      },
+    ], // A numeric array is also available. the purpose of above example is custom the text
+    onPageChange: (page, sizePerPage) => {
+      // console.log(page, sizePerPage)
+    },
+    sizePerPageRenderer: sizePerPageRenderer,
+    onSizePerPageChange: (page, sizePerPage) => {
+      //console.log(page, sizePerPage)
+    },
   }
 
   return (
@@ -97,8 +218,16 @@ const SegmentMapping = observer(() => {
       <LibraryComponents.Header>
         <LibraryComponents.PageHeading title="Segment Mapping" />
       </LibraryComponents.Header>
-      <div className=" mx-auto  flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl">
+
+      <LibraryComponents.Buttons.ButtonCircleAddRemove
+        add={hideAddDiv}
+        onClick={(status) => setHideAddDiv(!hideAddDiv)}
+      />
+
+      <div className=" mx-auto flex-wrap">
+        <div
+          className={"p-2 rounded-lg shadow-xl " + (hideAddDiv ? "hidden" : "shown")}
+        >
           <LibraryComponents.Grid cols={3}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.InputWrapper
@@ -447,7 +576,7 @@ const SegmentMapping = observer(() => {
           </LibraryComponents.Grid>
           <br />
           <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Button
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="solid"
               icon={LibraryComponents.Icons.Save}
@@ -471,8 +600,8 @@ const SegmentMapping = observer(() => {
               }}
             >
               Save
-            </LibraryComponents.Button>
-            <LibraryComponents.Button
+            </LibraryComponents.Buttons.Button>
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="outline"
               onClick={() => {
@@ -488,8 +617,8 @@ const SegmentMapping = observer(() => {
                 color={Config.Styles.COLORS.BLACK}
               />
               Import
-            </LibraryComponents.Button>
-            <LibraryComponents.Button
+            </LibraryComponents.Buttons.Button>
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="outline"
               icon={LibraryComponents.Icons.Remove}
@@ -498,71 +627,117 @@ const SegmentMapping = observer(() => {
               }}
             >
               Clear
-            </LibraryComponents.Button>
+            </LibraryComponents.Buttons.Button>
           </LibraryComponents.List>
         </div>
 
         <br />
-        <div className="p-2 rounded-lg shadow-xl overflow-auto">
+        <div className="p-2 rounded-lg shadow-xl  overflow-auto">
           <ToolkitProvider
-            keyField="id"
+            keyField="_id"
+            bootstrap4
             data={Stores.segmentMappingStore.listSegmentMapping || []}
             columns={[
               {
-                dataField: "submitter_submitter",
-                text: "SUBMITTER_SUBMITTER",
-              },
-              {
-                dataField: "data_type",
-                text: "DATA_TYPE",
+                dataField: "_id",
+                text: "no",
+                hidden: true,
               },
               {
                 dataField: "equipmentType",
-                text: "EQUIPMENTTYPE",
+                text: "EQUIPMENT TYPE",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
+              {
+                dataField: "submitter_submitter",
+                text: "SUBMITTER SUBMITTER",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
+                formatter: (cellContent, row) => (
+                  <>
+                    <label>{row.submitter_submitter.split('&gt;').join('>')}</label>
+                  </>
+                ),
+              },
+              {
+                dataField: "data_type",
+                text: "DATA TYPE",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
+              },
+
               {
                 dataField: "segments",
                 text: "SEGMENTS",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "segment_usage",
-                text: "SEGMENT_USAGE",
+                text: "SEGMENT USAGE",
               },
               {
                 dataField: "field_no",
-                text: "FIELD_NO",
+                text: "FIELD NO",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "item_no",
-                text: "ITEM_NO",
+                text: "ITEM NO",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "field_required",
-                text: "FIELD_REQUIRED",
+                text: "FIELD REQUIRED",
               },
               {
                 dataField: "element_name",
-                text: "ELEMENT_NAME",
+                text: "ELEMENT NAME",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "transmitted_data",
-                text: "TRANSMITTED_DATA",
+                text: "TRANSMITTED DATA",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
+
               {
                 dataField: "field_array",
-                text: "FIELD_ARRAY",
+                text: "FIELD ARRAY",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "field_length",
-                text: "FIELD_LENGTH",
+                text: "FIELD LENGTH",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "field_type",
-                text: "FIELD_TYPE",
+                text: "FIELD TYPE",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "repeat_delimiter",
-                text: "REPEAT_DELIMITER",
+                text: "REPEAT DELIMITER",
               },
               {
                 dataField: "mandatory",
@@ -570,25 +745,37 @@ const SegmentMapping = observer(() => {
               },
               {
                 dataField: "lims_descriptions",
-                text: "LIMS_DESCRIPTIONS",
+                text: "LIMS DESCRIPTIONS",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
               {
                 dataField: "lims_tables",
-                text: "LIMS_TABLES",
+                text: "LIMS TABLES",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
 
               {
                 dataField: "lims_fields",
-                text: "LIMS_FIELDS",
+                text: "LIMS FIELDS",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
 
               {
                 dataField: "required_for_lims",
-                text: "REQUIRED_FOR_LIMS",
+                text: "REQUIRED FOR LIMS",
               },
               {
                 dataField: "notes",
                 text: "NOTES",
+                sort: true,
+                filter: textFilter(),
+                headerStyle: { minWidth: "230px" },
               },
 
               {
@@ -603,7 +790,7 @@ const SegmentMapping = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Button
+                    <LibraryComponents.Buttons.Button
                       size="small"
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
@@ -617,7 +804,7 @@ const SegmentMapping = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Button>
+                    </LibraryComponents.Buttons.Button>
                   </>
                 ),
               },
@@ -649,7 +836,9 @@ const SegmentMapping = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
-                  pagination={paginationFactory()}
+                  pagination={paginationFactory(options)}
+                  filter={filterFactory()}
+                  selectRow={selectRow}
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,

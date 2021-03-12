@@ -136,7 +136,7 @@ const Department = observer(() => {
             <br />
 
             <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Button
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Icons.Save}
@@ -164,8 +164,8 @@ const Department = observer(() => {
                 }}
               >
                 Save
-              </LibraryComponents.Button>
-              <LibraryComponents.Button
+              </LibraryComponents.Buttons.Button>
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
@@ -175,7 +175,7 @@ const Department = observer(() => {
                 }}
               >
                 Clear
-              </LibraryComponents.Button>
+              </LibraryComponents.Buttons.Button>
             </LibraryComponents.List>
           </div>
           <br />
@@ -205,7 +205,7 @@ const Department = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Button
+                      <LibraryComponents.Buttons.Button
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.Remove}
@@ -219,7 +219,7 @@ const Department = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Button>
+                      </LibraryComponents.Buttons.Button>
                     </>
                   ),
                 },

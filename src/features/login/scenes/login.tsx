@@ -197,7 +197,7 @@ const Login = observer(() => {
               </LibraryComponents.List>
               <br />
               <LibraryComponents.List direction="row" space={3} align="center">
-                <LibraryComponents.Button
+                <LibraryComponents.Buttons.Button
                   size="medium"
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
@@ -275,8 +275,8 @@ const Login = observer(() => {
                   }}
                 >
                   Login
-                </LibraryComponents.Button>
-                <LibraryComponents.Button
+                </LibraryComponents.Buttons.Button>
+                <LibraryComponents.Buttons.Button
                   size="medium"
                   type="outline"
                   icon={LibraryComponents.Icons.Remove}
@@ -285,7 +285,7 @@ const Login = observer(() => {
                   }}
                 >
                   Clear
-                </LibraryComponents.Button>
+                </LibraryComponents.Buttons.Button>
               </LibraryComponents.List>
             </div>
           </Col>

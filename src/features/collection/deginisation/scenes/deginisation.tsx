@@ -99,7 +99,7 @@ const Deginisation = observer(() => {
           <br />
 
           <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Button
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="solid"
               icon={LibraryComponents.Icons.Save}
@@ -131,8 +131,8 @@ const Deginisation = observer(() => {
               }}
             >
               Save
-            </LibraryComponents.Button>
-            <LibraryComponents.Button
+            </LibraryComponents.Buttons.Button>
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="outline"
               icon={LibraryComponents.Icons.Remove}
@@ -142,7 +142,7 @@ const Deginisation = observer(() => {
               }}
             >
               Clear
-            </LibraryComponents.Button>
+            </LibraryComponents.Buttons.Button>
           </LibraryComponents.List>
         </div>
         <br />
@@ -167,7 +167,7 @@ const Deginisation = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Button
+                    <LibraryComponents.Buttons.Button
                       size="small"
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
@@ -181,7 +181,7 @@ const Deginisation = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Button>
+                    </LibraryComponents.Buttons.Button>
                   </>
                 ),
               },
