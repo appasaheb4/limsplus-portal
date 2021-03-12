@@ -1,13 +1,15 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 
 interface CircleButtonProps {
-  backgroundColor?: string;
+  style?: CSSProperties;
+  onClick: () => void;
 }
 
 const CircleButton: React.FunctionComponent<CircleButtonProps> = (props) => (
   <div
-    style={{ backgroundColor: props.backgroundColor }}
+    style={props.style}
     className="rounded-full h-7 w-7 border border-gray-200 text-gray-400 flex justify-center items-center"
+    onClick={props.onClick}
   >
     {props.children}
   </div>

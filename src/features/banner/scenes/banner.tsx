@@ -60,7 +60,7 @@ const Banner = observer(() => {
           <br />
 
           <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Button
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="solid"
               icon={LibraryComponents.Icons.Save}
@@ -82,8 +82,8 @@ const Banner = observer(() => {
               }}
             >
               Save
-            </LibraryComponents.Button>
-            <LibraryComponents.Button
+            </LibraryComponents.Buttons.Button>
+            <LibraryComponents.Buttons.Button
               size="medium"
               type="outline"
               icon={LibraryComponents.Icons.Remove}
@@ -92,7 +92,7 @@ const Banner = observer(() => {
               }}
             >
               Clear
-            </LibraryComponents.Button>
+            </LibraryComponents.Buttons.Button>
           </LibraryComponents.List>
         </div>
         <br />
@@ -128,7 +128,7 @@ const Banner = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Button
+                      <LibraryComponents.Buttons.Button
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.Remove}
@@ -142,7 +142,7 @@ const Banner = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Button>
+                      </LibraryComponents.Buttons.Button>
                     </>
                   ),
                 },

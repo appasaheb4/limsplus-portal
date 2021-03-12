@@ -1,7 +1,7 @@
 import Loader from "./loader";
 import List from "./list";
 import * as Form from "./form";
-import Button from "./button";
+import * as Buttons from "./buttons";
 import * as Icons from "./icon";
 import Grid from "./grid";
 import {
@@ -12,12 +12,13 @@ import {
 import * as Modal from "./modal";
 import Header from "./header";
 import PageHeading from "./page-heading";
+import CircleButton from './circle-button';
 
 export {
   Loader,
   List,
   Form,
-  Button,
+  Buttons,
   Icons,
   Grid,
   ToastsContainer,
@@ -26,4 +27,5 @@ export {
   Modal,
   Header,
   PageHeading,
+  CircleButton
 };

@@ -430,7 +430,7 @@ const Users = observer(() => {
                     }}
                   />
 
-                  <LibraryComponents.Button
+                  <LibraryComponents.Buttons.Button
                     size="small"
                     type="solid"
                     onClick={() => {
@@ -449,7 +449,7 @@ const Users = observer(() => {
                     }}
                   >
                     Apply Days
-                  </LibraryComponents.Button>
+                  </LibraryComponents.Buttons.Button>
                   {errors?.exipreDays && (
                     <span className="text-red-600 font-medium relative">
                       {errors.exipreDays}
@@ -505,7 +505,7 @@ const Users = observer(() => {
             <br />
 
             <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Button
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Icons.Save}
@@ -532,8 +532,8 @@ const Users = observer(() => {
                 }}
               >
                 Save
-              </LibraryComponents.Button>
-              <LibraryComponents.Button
+              </LibraryComponents.Buttons.Button>
+              <LibraryComponents.Buttons.Button
                 size="medium"
                 type="outline"
                 icon={LibraryComponents.Icons.Remove}
@@ -543,7 +543,7 @@ const Users = observer(() => {
                 }}
               >
                 Clear
-              </LibraryComponents.Button>
+              </LibraryComponents.Buttons.Button>
             </LibraryComponents.List>
           </div>
           <br />
@@ -846,7 +846,7 @@ const Users = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Button
+                      <LibraryComponents.Buttons.Button
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.ReSendPassword}
@@ -871,7 +871,7 @@ const Users = observer(() => {
                         }}
                       >
                         Send
-                      </LibraryComponents.Button>
+                      </LibraryComponents.Buttons.Button>
                     </>
                   ),
                 },
@@ -882,7 +882,7 @@ const Users = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Button
+                      <LibraryComponents.Buttons.Button
                         size="small"
                         type="outline"
                         icon={LibraryComponents.Icons.Remove}
@@ -896,7 +896,7 @@ const Users = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Button>
+                      </LibraryComponents.Buttons.Button>
                     </>
                   ),
                 },
