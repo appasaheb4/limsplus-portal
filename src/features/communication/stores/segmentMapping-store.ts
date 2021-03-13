@@ -8,11 +8,10 @@ import * as Services from "../services"
 class SegmentMappingStore {
   @ignore @observable segmentMapping?: Models.SegmentMapping
   @observable listSegmentMapping?: Models.SegmentMapping[] = []
+  @ignore @observable selectedItems?: Models.SegmentMapping[] =[]
 
   @action fetchListSegmentMapping() {
     this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {
-      console.log({listSegmentMapping});
-      
       this.listSegmentMapping = listSegmentMapping
     })
   }
@@ -24,6 +23,10 @@ class SegmentMappingStore {
 
   @action updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {
     this.segmentMapping = segmentMapping
+  }
+
+  @action updateSelectedItem =(items: Models.SegmentMapping[])=>{
+    this.selectedItems = items;
   }
 }
 

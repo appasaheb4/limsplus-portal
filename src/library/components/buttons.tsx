@@ -1,5 +1,4 @@
 import React, { CSSProperties } from "react"
-import { StyledProps } from "styled-components"
 import { IconProps } from "./icon"
 import * as LibraryComponents from "@lp/library/components"
 import * as Config from "@lp/config"
@@ -84,7 +83,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           <LibraryComponents.Icons.EvaIcon
             icon="plus-outline"
             size="large"
-            color={Config.Styles.COLORS.BLACK}
+            color={Config.Styles.COLORS.WHITE}
           />
         </LibraryComponents.CircleButton>
       )}
@@ -106,7 +105,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           <LibraryComponents.Icons.EvaIcon
             icon="minus-outline"
             size="large"
-            color={Config.Styles.COLORS.BLACK}
+            color={Config.Styles.COLORS.WHITE}
           />
         </LibraryComponents.CircleButton>
       )}

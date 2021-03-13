@@ -1,2 +1,2 @@
-import SegmentMapping from './SegmentMapping';
+import SegmentMapping from './segmentMapping/SegmentMapping';
 export {SegmentMapping}
