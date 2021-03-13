@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import * as LibraryComponents from "@lp/library/components"
-import { Switch, makeStyles } from "@material-ui/core"
 import "./css/toggle.css"
-import PropTypes from "prop-types"
 import classNames from "classnames"
 
 interface LabelProps {
@@ -202,19 +200,19 @@ interface ToggleProps extends InputWrapperProps {
   onChange?: (e: boolean) => void
 }
 
-const useStyles = makeStyles({
-  switchBase: {
-    color: "red",
-    "&$checked": {
-      color: "green",
-    },
-    "&$checked + $track": {
-      backgroundColor: "#006400",
-    },
-  },
-  checked: {},
-  track: {},
-})
+// const useStyles = makeStyles({
+//   switchBase: {
+//     color: "red",
+//     "&$checked": {
+//       color: "green",
+//     },
+//     "&$checked + $track": {
+//       backgroundColor: "#006400",
+//     },
+//   },
+//   checked: {},
+//   track: {},
+// })
 
 // export const Toggle = (props: ToggleProps) => {
 //   const classes = useStyles();
@@ -245,8 +243,8 @@ interface ToggleProps extends InputWrapperProps {
   onChange?: (e: boolean) => void
 }
 
-const CheckedIcon = () => <>On</>
-const UncheckedIcon = () => <>Off</>
+// const CheckedIcon = () => <>On</>
+// const UncheckedIcon = () => <>Off</>
 
 export const Toggle = (props: ToggleProps) => {
   const [toggle, setToggle] = useState(false)

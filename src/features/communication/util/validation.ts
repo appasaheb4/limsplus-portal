@@ -1,25 +1,39 @@
-import validate from "validate.js";
-export { validate };
-export const constraintsDepartment = {
-  lab: {
+import validate from "validate.js"
+export { validate }
+export const constraintsSegmentMapping = {
+  equipmentType: {
     presence: true,
     length: {
       minimum: 2,
-      message: "Lab must be least 2 characters ",
+      message: "EQUIPMENT TYPE must be least 2 characters ",
     },
   },
-  code: {
+  submitter_submitter: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "Code must be least 4 characters ",
+      minimum: 2,
+      message: "SUBMITTER SUBMITTER must be least 2 characters ",
     },
   },
-  name: {
+  data_type: {
     presence: true,
     length: {
-      minimum: 4,
-      message: "Name must be least 4 characters",
+      minimum: 2,
+      message: "DATA TYPE must be least 2 characters",
     },
   },
-};
+  lims_tables: {
+    presence: true,
+    length: {
+      minimum: 2,  
+      message: "Lims Tables must be least 2 characters",
+    },
+  },
+  lims_fields: {
+    presence: true,
+    length: {
+      minimum: 2,
+      message: "LIMS FIELDS must be least 2 characters",
+    },
+  },
+}

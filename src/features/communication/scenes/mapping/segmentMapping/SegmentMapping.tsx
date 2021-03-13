@@ -2,33 +2,25 @@
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
-import * as Models from "../../models"
+import * as Models from "../../../models"
 import RootStoreContext from "@lp/library/stores"
-import * as Services from "../../services"
+import * as Services from "../../../services"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
-import * as FeatureComponents from "../../components"
+import * as FeatureComponents from "../../../components"
+import SegmentList from "./SegmentList"
+import * as Utils from "../../../util"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-const selectRow = {
-  mode: "checkbox",
-  onSelect: (row, isSelect, rowIndex, e) => {
-    console.log(row, isSelect)
-  },
-  onSelectAll: (isSelect, rows, e) => {
-    console.log(isSelect)
-    console.log(rows)
-    console.log(e)
-  },
-}
 
-import { Stores } from "../../stores"
+import { Stores } from "../../../stores"
 
 const SegmentMapping = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
@@ -36,6 +28,7 @@ const SegmentMapping = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddDiv, setHideAddDiv] = useState(true)
+  const arrSelectedItem = new Array()
 
   useEffect(() => {
     Stores.segmentMappingStore.fetchListSegmentMapping()
@@ -53,7 +46,7 @@ const SegmentMapping = observer(() => {
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 })
       const headers: string[] = []
-      const object = new Array()
+      let object = new Array()
       let fileImaport: boolean = true
       data.forEach((item: any, index: number) => {
         if (index === 0) {
@@ -91,6 +84,20 @@ const SegmentMapping = observer(() => {
         }
       })
       if (fileImaport) {
+        if (Stores.segmentMappingStore.listSegmentMapping) {
+          Stores.segmentMappingStore.listSegmentMapping.forEach((item) => {
+            object.push(item)
+          })
+          //object = object.map(({ _id, ...rest }) => ({ ...rest }))
+          console.log({ object })
+          //object = LibraryUtils.unique(object);
+          object = Object.values(
+            object.reduce(
+              (acc, cur) => Object.assign(acc, { [cur.element_name]: cur }),
+              {}
+            )
+          )
+        }
         rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
           .importSegmentMapping(object)
@@ -102,115 +109,6 @@ const SegmentMapping = observer(() => {
       }
     }
     reader.readAsBinaryString(file)
-  }
-
-  const customTotal = (from, to, size) => {
-    return (
-      <>
-        <div className="clearfix" />
-        <span className="ml-2 react-bootstrap-table-pagination-total">
-          Showing {from} to {to} of {size} Results
-        </span>
-      </>
-    )
-  }
-
-  const sizePerPageRenderer = ({
-    options,
-    currSizePerPage,
-    onSizePerPageChange,
-  }) => (
-    <div className="btn-group items-center" role="group">
-      <LibraryComponents.Buttons.Button
-        style={{ height: 10, width: 200 }}
-        size="small"
-        type="solid"
-        onClick={() => setHideAddDiv(!hideAddDiv)}
-      >
-        <LibraryComponents.Icons.EvaIcon
-          icon="trash-outline"
-          size="large"
-          color={Config.Styles.COLORS.BLACK}
-        />
-        Remove Selected
-      </LibraryComponents.Buttons.Button>
-      <input
-        type="number"
-        min="0"
-        placeholder="Number"
-        onChange={(e) => {
-          if (e.target.value) {
-            onSizePerPageChange(e.target.value)
-          }
-        }}
-        className="mr-2 ml-2 leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-      />
-      {options.map((option) => (
-        <button
-          key={option.text}
-          type="button"
-          onClick={() => onSizePerPageChange(option.page)}
-          className={`btn ${
-            currSizePerPage === `${option.page}` ? "btn-primary" : "btn-secondary"
-          }`}
-        >
-          {option.text}
-        </button>
-      ))}
-    </div>
-  )
-
-  const options = {
-    paginationSize: 5,
-    pageStartIndex: 0,
-    // alwaysShowAllBtns: true, // Always show next and previous button
-    // withFirstAndLast: false, // Hide the going to First and Last page button
-    // hideSizePerPage: true, // Hide the sizePerPage dropdown always
-    // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
-    firstPageText: "First",
-    prePageText: "Back",
-    nextPageText: "Next",
-    lastPageText: "Last",
-    nextPageTitle: "First page",
-    prePageTitle: "Pre page",
-    firstPageTitle: "Next page",
-    lastPageTitle: "Last page",
-    showTotal: true,
-    disablePageTitle: true,
-    paginationTotalRenderer: customTotal,
-    sizePerPageList: [
-      {
-        text: "10",
-        value: 10,
-      },
-      {
-        text: "20",
-        value: 20,
-      },
-      {
-        text: "30",
-        value: 30,
-      },
-      {
-        text: "40",
-        value: 40,
-      },
-      {
-        text: "50",
-        value: 50,
-      },
-      {
-        text: "All",
-        value: Stores.segmentMappingStore.listSegmentMapping?.length,
-      },
-    ], // A numeric array is also available. the purpose of above example is custom the text
-    onPageChange: (page, sizePerPage) => {
-      // console.log(page, sizePerPage)
-    },
-    sizePerPageRenderer: sizePerPageRenderer,
-    onSizePerPageChange: (page, sizePerPage) => {
-      //console.log(page, sizePerPage)
-    },
   }
 
   return (
@@ -231,59 +129,6 @@ const SegmentMapping = observer(() => {
           <LibraryComponents.Grid cols={3}>
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.InputWrapper
-                label="SUBMITTER SUBMITTER"
-                id="submitter_submitter"
-              >
-                <select
-                  name="submitter_submitter"
-                  value={
-                    Stores.segmentMappingStore.segmentMapping?.submitter_submitter
-                  }
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const submitter_submitter = e.target.value
-                    Stores.segmentMappingStore.updateSegmentMapping({
-                      ...Stores.segmentMappingStore.segmentMapping,
-                      submitter_submitter,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[{ title: "Host > LIS" }, { title: "LIS > Host" }].map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
-
-              <LibraryComponents.Form.InputWrapper label="DATA TYPE" id="data_type">
-                <select
-                  name="data_type"
-                  value={Stores.segmentMappingStore.segmentMapping?.data_type}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const data_type = e.target.value
-                    Stores.segmentMappingStore.updateSegmentMapping({
-                      ...Stores.segmentMappingStore.segmentMapping,
-                      data_type,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[{ title: "HL7" }, { title: "ASTM" }, { title: "HEX" }].map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Form.InputWrapper>
-
-              <LibraryComponents.Form.InputWrapper
                 label="EQUIPMENT TYPE"
                 id="equipment_type"
               >
@@ -293,6 +138,13 @@ const SegmentMapping = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const equipmentType = e.target.value
+                    setErrors({
+                      ...errors,
+                      equipmentType: Utils.validate.single(
+                        equipmentType,
+                        Utils.constraintsSegmentMapping.equipmentType
+                      ),
+                    })
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       equipmentType,
@@ -309,7 +161,86 @@ const SegmentMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-
+              {errors?.equipmentType && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.equipmentType}
+                </span>
+              )}
+              <LibraryComponents.Form.InputWrapper
+                label="SUBMITTER SUBMITTER"
+                id="submitter_submitter"
+              >
+                <select
+                  name="submitter_submitter"
+                  value={
+                    Stores.segmentMappingStore.segmentMapping?.submitter_submitter
+                  }
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const submitter_submitter = e.target.value
+                    setErrors({
+                      ...errors,
+                      submitter_submitter: Utils.validate.single(
+                        submitter_submitter,
+                        Utils.constraintsSegmentMapping.submitter_submitter
+                      ),
+                    })
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      submitter_submitter,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "Host > LIS" }, { title: "LIS > Host" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              {errors?.submitter_submitter && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.submitter_submitter}
+                </span>
+              )}
+              <LibraryComponents.Form.InputWrapper label="DATA TYPE" id="data_type">
+                <select
+                  name="data_type"
+                  value={Stores.segmentMappingStore.segmentMapping?.data_type}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const data_type = e.target.value
+                    setErrors({
+                      ...errors,
+                      data_type: Utils.validate.single(
+                        data_type,
+                        Utils.constraintsSegmentMapping.data_type
+                      ),
+                    })
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      data_type,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[{ title: "HL7" }, { title: "ASTM" }, { title: "HEX" }].map(
+                    (item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Form.InputWrapper>
+              {errors?.data_type && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.data_type}
+                </span>
+              )}
               <LibraryComponents.Form.InputWrapper label="SEGMENTS" id="segments">
                 <select
                   name="segments"
@@ -513,29 +444,52 @@ const SegmentMapping = observer(() => {
               />
               <LibraryComponents.Form.Input
                 label="LIMS TABLES"
-                name="lims_fields"
-                placeholder="Lims fields"
-                value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
-                onChange={(lims_fields) => {
+                name="lims_tables"
+                placeholder="Lims Tables"
+                value={Stores.segmentMappingStore.segmentMapping?.lims_tables}
+                onChange={(lims_tables) => {
+                  setErrors({
+                    ...errors,
+                    lims_tables: Utils.validate.single(
+                      lims_tables,
+                      Utils.constraintsSegmentMapping.lims_tables
+                    ),
+                  })
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    lims_fields,
+                    lims_tables,
                   })
                 }}
               />
+              {errors?.lims_tables && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lims_tables}
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="LIMS FIELDS"
                 name="lims_fields"
                 placeholder="LIMS FIELDS"
                 value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
                 onChange={(lims_fields) => {
+                  setErrors({
+                    ...errors,
+                    lims_fields: Utils.validate.single(
+                      lims_fields,
+                      Utils.constraintsSegmentMapping.lims_fields
+                    ),
+                  })
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_fields,
                   })
                 }}
               />
-
+              {errors?.lims_fields && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lims_fields}
+                </span>
+              )}
               <LibraryComponents.Form.Toggle
                 label="REQUIRED FOR LIMS"
                 id="required_for_lims"
@@ -560,7 +514,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Form.InputFile
                 label="ATTACHMENTS"
                 name="attachments"
                 placeholder="ATTACHMENTS"
@@ -581,6 +535,27 @@ const SegmentMapping = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
+                if (
+                  Utils.validate(
+                    Stores.segmentMappingStore.segmentMapping,
+                    Utils.constraintsSegmentMapping
+                  ) === undefined
+                ) {
+                  Stores.segmentMappingStore.segmentMappingService
+                    .addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
+                    .then((res) => {
+                      if (res.status === 200) {
+                        LibraryComponents.ToastsStore.success(
+                          `Segment Mapping created.`
+                        )
+                        Stores.segmentMappingStore.fetchListSegmentMapping()
+                      }
+                    })
+                } else {
+                  LibraryComponents.ToastsStore.warning(
+                    "Please enter all information!"
+                  )
+                }
                 // if (
                 //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
                 //   undefined && !Stores.labStore.checkExitsCode
@@ -593,9 +568,7 @@ const SegmentMapping = observer(() => {
                 //     Stores.labStore.clear()
                 //   })
                 // } else {
-                //   LibraryComponents.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
+
                 // }
               }}
             >
@@ -630,232 +603,19 @@ const SegmentMapping = observer(() => {
             </LibraryComponents.Buttons.Button>
           </LibraryComponents.List>
         </div>
-
-        <br />
-        <div className="p-2 rounded-lg shadow-xl  overflow-auto">
-          <ToolkitProvider
-            keyField="_id"
-            bootstrap4
-            data={Stores.segmentMappingStore.listSegmentMapping || []}
-            columns={[
-              {
-                dataField: "_id",
-                text: "no",
-                hidden: true,
-              },
-              {
-                dataField: "equipmentType",
-                text: "EQUIPMENT TYPE",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "submitter_submitter",
-                text: "SUBMITTER SUBMITTER",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-                formatter: (cellContent, row) => (
-                  <>
-                    <label>{row.submitter_submitter.split('&gt;').join('>')}</label>
-                  </>
-                ),
-              },
-              {
-                dataField: "data_type",
-                text: "DATA TYPE",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-
-              {
-                dataField: "segments",
-                text: "SEGMENTS",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "segment_usage",
-                text: "SEGMENT USAGE",
-              },
-              {
-                dataField: "field_no",
-                text: "FIELD NO",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "item_no",
-                text: "ITEM NO",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "field_required",
-                text: "FIELD REQUIRED",
-              },
-              {
-                dataField: "element_name",
-                text: "ELEMENT NAME",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "transmitted_data",
-                text: "TRANSMITTED DATA",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-
-              {
-                dataField: "field_array",
-                text: "FIELD ARRAY",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "field_length",
-                text: "FIELD LENGTH",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "field_type",
-                text: "FIELD TYPE",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "repeat_delimiter",
-                text: "REPEAT DELIMITER",
-              },
-              {
-                dataField: "mandatory",
-                text: "MANDATORY",
-              },
-              {
-                dataField: "lims_descriptions",
-                text: "LIMS DESCRIPTIONS",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-              {
-                dataField: "lims_tables",
-                text: "LIMS TABLES",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-
-              {
-                dataField: "lims_fields",
-                text: "LIMS FIELDS",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-
-              {
-                dataField: "required_for_lims",
-                text: "REQUIRED FOR LIMS",
-              },
-              {
-                dataField: "notes",
-                text: "NOTES",
-                sort: true,
-                filter: textFilter(),
-                headerStyle: { minWidth: "230px" },
-              },
-
-              {
-                dataField: "attachments",
-                text: "ATTACHMENTS",
-              },
-
-              {
-                dataField: "opration",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Buttons.Button
-                      size="small"
-                      type="outline"
-                      icon={LibraryComponents.Icons.Remove}
-                      onClick={() => {
-                        setDeleteItem({
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete ${row.name} lab!`,
-                        })
-                      }}
-                    >
-                      Delete
-                    </LibraryComponents.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `segmentMapping_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <br />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory(options)}
-                  filter={filterFactory()}
-                  selectRow={selectRow}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
-                />
-              </div>
-            )}
-          </ToolkitProvider>
-        </div>
       </div>
 
+      <div className=" mx-auto flex-wrap">
+        <SegmentList />
+      </div>
       <FeatureComponents.Atoms.ModalImportFile
         {...modalImportFile}
         click={(file: any) => {
           setModalImportFile({ show: false })
           handleFileUpload(file)
+        }}
+        close={() => {
+          setModalImportFile({ show: false })
         }}
       />
     </>

@@ -8,10 +8,10 @@
 import BaseService from "@lp/library/modules/base-service"
 
 class CommunicationService extends BaseService {
-  deleteBanner = (id: string) =>
+  deleteSegmentMapping = (id: string[]) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`banner/deleteBanner/${id}`)
+        .delete(`communication/deleteSegmentMapping/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -20,6 +20,17 @@ class CommunicationService extends BaseService {
         })
     })
 
+  addSegmentMapping = (segments: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`communication/addSegmentMapping`, segments)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   importSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
@@ -37,7 +48,7 @@ class CommunicationService extends BaseService {
         .get(`communication/listSegmentMapping`)
         .then((res) => {
           resolve(res.data.data)
-        })   
+        })
         .catch((error) => {
           reject({ error })
         })

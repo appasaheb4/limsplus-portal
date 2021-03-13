@@ -42,7 +42,7 @@ const HostCommunication = async(
   () => import("@lp/features/communication/scenes/HostCommunication")
 )
 const SegmentMapping = async(
-  () => import("@lp/features/communication/scenes/mapping/SegmentMapping")
+  () => import("@lp/features/communication/scenes/mapping/segmentMapping/SegmentMapping")
 )
 
 // Routes
