@@ -248,7 +248,7 @@ interface ToggleProps extends InputWrapperProps {
 
 export const Toggle = (props: ToggleProps) => {
   const [toggle, setToggle] = useState(props.value)
-  const { defaultChecked, onChange, disabled, className } = props
+  const { onChange, disabled, className } = props
 
   useEffect(() => {
     setToggle(props.value)
