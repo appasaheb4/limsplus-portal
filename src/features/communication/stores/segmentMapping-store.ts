@@ -8,16 +8,18 @@ import * as Services from "../services"
 class SegmentMappingStore {
   @ignore @observable segmentMapping?: Models.SegmentMapping
   @observable listSegmentMapping?: Models.SegmentMapping[] = []
-  @ignore @observable selectedItems?: Models.SegmentMapping[] =[]
+  @ignore @observable selectedItems?: Models.SegmentMapping[] = []
+  @ignore @observable updateItem?: Models.UpdateItem
 
   @action fetchListSegmentMapping() {
     this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {
+      console.log({ listSegmentMapping })
       this.listSegmentMapping = listSegmentMapping
     })
   }
 
   @computed get segmentMappingService() {
-   //Stores.loginStore.login?.token as string
+    //Stores.loginStore.login?.token as string
     return new Services.CommunicationService()
   }
 
@@ -25,8 +27,12 @@ class SegmentMappingStore {
     this.segmentMapping = segmentMapping
   }
 
-  @action updateSelectedItem =(items: Models.SegmentMapping[])=>{
-    this.selectedItems = items;
+  @action updateSelectedItem = (items: Models.SegmentMapping[]) => {
+    this.selectedItems = items
+  }
+
+  @action changeUpdateItem = (item: Models.UpdateItem) => {
+    this.updateItem = item
   }
 }
 

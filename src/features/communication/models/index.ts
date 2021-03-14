@@ -47,7 +47,7 @@ export interface SegmentMapping {
   segment_usage?: string
   field_no?: string
   item_no?: string
-  field_required?: boolean;
+  field_required?: boolean
   element_name?: string
   transmitted_data?: string
   field_array?: string
@@ -62,3 +62,11 @@ export interface SegmentMapping {
   notes?: string
   attachments?: string
 }
+
+export interface UpdateItem {
+  value: string | boolean
+  dataField: string
+  id: string
+}
+
+export * from "./constants"

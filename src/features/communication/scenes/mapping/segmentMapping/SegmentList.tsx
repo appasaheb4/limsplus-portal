@@ -5,23 +5,24 @@ import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
 import * as Models from "../../../models"
 import RootStoreContext from "@lp/library/stores"
-import * as Services from "../../../services"
-import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
-import * as FeatureComponents from "../../../components"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../../../stores"
 
-const SegmentList = observer(() => {
+interface SegmentListProps {
+  duplicate: (item: Models.SegmentMapping) => void
+}
+
+const SegmentList = observer((props: SegmentListProps) => {
   const rootStore = useContext(RootStoreContext.rootStore)
-  const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalConfirm, setModalConfirm] = useState<any>()
 
   useEffect(() => {
@@ -220,6 +221,44 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="equipmentType"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const equipmentType = e.target.value
+                      if (row.equipmentType !== equipmentType) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: equipmentType,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${equipmentType}`,
+                        })
+                      }
+                    }}
+                  >
+                    <option selected>{row.equipmentType}</option>
+                    {Models.options.equipmentType.map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "submitter_submitter",
@@ -236,6 +275,50 @@ const SegmentList = observer(() => {
                   </label>
                 </>
               ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="submitter_submitter"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const submitter_submitter = e.target.value
+                      if (row.submitter_submitter !== submitter_submitter) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: submitter_submitter,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${submitter_submitter}`,
+                        })
+                      }
+                    }}
+                  >
+                    <option selected>
+                      {row.submitter_submitter !== undefined
+                        ? row.submitter_submitter.split("&gt;").join(">")
+                        : ""}
+                    </option>
+                    {Models.options.submitter_submitter.map(
+                      (item: any, index: number) => (
+                        <option key={item.title} value={item.title}>
+                          {item.title}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "data_type",
@@ -243,6 +326,44 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="data_type"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const data_type = e.target.value
+                      if (row.submitter_submitter !== data_type) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: data_type,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${data_type}`,
+                        })
+                      }
+                    }}
+                  >
+                    <option selected>{row.data_type}</option>
+                    {Models.options.data_type.map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
             },
 
             {
@@ -251,10 +372,86 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="segments"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const segments = e.target.value
+                      if (row.segments !== segments) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: segments,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${segments}`,
+                        })
+                      }
+                    }}
+                  >
+                    <option selected>{row.segments}</option>
+                    {Models.options.segments.map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "segment_usage",
               text: "SEGMENT USAGE",
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="segments"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const segment_usage = e.target.value
+                      if (row.segment_usage !== segment_usage) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: segment_usage,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${segment_usage}`,
+                        })
+                      }
+                    }}
+                  >
+                    <option selected>{row.segment_usage}</option>
+                    {Models.options.segment_usage.map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "field_no",
@@ -262,6 +459,37 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    type="number"
+                    name="field_no"
+                    placeholder="Field No"
+                    onBlur={(field_no) => {
+                      if (row.field_no !== field_no && field_no) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: field_no,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${field_no}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "item_no",
@@ -269,10 +497,67 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    type="number"
+                    name="item_no"
+                    placeholder="Item No"
+                    onBlur={(item_no) => {
+                      if (row.item_no !== item_no && item_no) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: item_no,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${item_no}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "field_required",
               text: "FIELD REQUIRED",
+              editable: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Form.Toggle
+                    id="field_required"
+                    value={row.field_required}
+                    onChange={(field_required) => {
+                      if (row.field_required !== field_required) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: field_required,
+                          dataField: "field_required",
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${
+                            field_required === true ? "Yes" : "No"
+                          }`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "element_name",
@@ -280,6 +565,36 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="element_name"
+                    placeholder="Element name"
+                    onBlur={(element_name) => {
+                      if (row.field_no !== element_name && element_name) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: element_name,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${element_name}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "transmitted_data",
@@ -287,6 +602,36 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="transmitted_data"
+                    placeholder="Transmitted data"
+                    onBlur={(transmitted_data) => {
+                      if (row.field_no !== transmitted_data && transmitted_data) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: transmitted_data,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${transmitted_data}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
 
             {
@@ -295,6 +640,36 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="field_array"
+                    placeholder="Field array"
+                    onBlur={(field_array) => {
+                      if (row.field_no !== field_array && field_array) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: field_array,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${field_array}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "field_length",
@@ -302,6 +677,37 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    type="number"
+                    name="field_length"
+                    placeholder="Field length"
+                    onBlur={(field_length) => {
+                      if (row.field_no !== field_length && field_length) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: field_length,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${field_length}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "field_type",
@@ -309,14 +715,94 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="field_type"
+                    placeholder="Field type"
+                    onBlur={(field_type) => {
+                      if (row.field_no !== field_type && field_type) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: field_type,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${field_type}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "repeat_delimiter",
               text: "REPEAT DELIMITER",
+              editable: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Form.Toggle
+                    id="field_required"
+                    value={row.repeat_delimiter}
+                    onChange={(repeat_delimiter) => {
+                      if (row.repeat_delimiter !== repeat_delimiter) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: repeat_delimiter,
+                          dataField: "repeat_delimiter",
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${
+                            repeat_delimiter === true ? "Yes" : "No"
+                          }`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "mandatory",
               text: "MANDATORY",
+              editable: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Form.Toggle
+                    id="mandatory"
+                    value={row.mandatory}
+                    onChange={(mandatory) => {
+                      if (row.mandatory !== mandatory) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: mandatory,
+                          dataField: "mandatory",
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${mandatory === true ? "Yes" : "No"}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "lims_descriptions",
@@ -324,6 +810,36 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="lims_descriptions"
+                    placeholder="Lims descriptions"
+                    onBlur={(lims_descriptions) => {
+                      if (row.lims_descriptions !== lims_descriptions) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: lims_descriptions,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${lims_descriptions}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "lims_tables",
@@ -331,6 +847,36 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="lims_tables"
+                    placeholder="Lims tables"
+                    onBlur={(lims_tables) => {
+                      if (row.lims_tables !== lims_tables) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: lims_tables,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${lims_tables}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
 
             {
@@ -339,11 +885,67 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="lims_fields"
+                    placeholder="Lims fields"
+                    onBlur={(lims_fields) => {
+                      if (row.lims_fields !== lims_fields) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: lims_fields,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${lims_fields}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
 
             {
               dataField: "required_for_lims",
               text: "REQUIRED FOR LIMS",
+              editable: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Form.Toggle
+                    id="required_for_lims"
+                    value={row.required_for_lims}
+                    onChange={(required_for_lims) => {
+                      if (row.required_for_lims !== required_for_lims) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: required_for_lims,
+                          dataField: "required_for_lims",
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${
+                            required_for_lims === true ? "Yes" : "No"
+                          }`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "notes",
@@ -351,13 +953,93 @@ const SegmentList = observer(() => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.Input
+                    name="notes"
+                    placeholder="Notes"
+                    onBlur={(notes) => {
+                      if (row.notes !== notes) {
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: notes,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                          body: `New value = ${notes}`,
+                        })
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
-
             {
               dataField: "attachments",
               text: "ATTACHMENTS",
+              headerStyle: { minWidth: "230px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Form.InputFile
+                    name="attachments"
+                    placeholder="ATTACHMENTS"
+                  />
+                </>
+              ),
             },
-
+            {
+              dataField: "opration",
+              text: "Duplicate",
+              editable: false,
+              csvExport: false,
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Buttons.Button
+                    size="small"
+                    type="outline"
+                    onClick={() => {
+                      Stores.segmentMappingStore.updateSelectedItem([])
+                      Stores.segmentMappingStore.updateSelectedItem([row])
+                      if (Stores.segmentMappingStore.selectedItems) {
+                        if (Stores.segmentMappingStore.selectedItems.length > 0) {
+                          setModalConfirm({
+                            type: "duplicate",
+                            show: true,
+                            title: "Are you sure duplicate recoard? ",
+                          })
+                        }
+                      } else {
+                        alert("Please select any item.")
+                      }
+                    }}
+                  >
+                    <LibraryComponents.Icons.EvaIcon
+                      icon="copy-outline"
+                      size="medium"
+                      color={Config.Styles.COLORS.BLACK}
+                    />
+                    Duplicate
+                  </LibraryComponents.Buttons.Button>
+                </>
+              ),
+            },
             {
               dataField: "opration",
               text: "Delete",
@@ -378,7 +1060,6 @@ const SegmentList = observer(() => {
                             type: "delete",
                             show: true,
                             title: "Are you sure delete recoard? ",
-                            body: `Item id= ${row._id}`,
                           })
                         }
                       } else {
@@ -423,15 +1104,15 @@ const SegmentList = observer(() => {
                 filter={filterFactory()}
                 selectRow={{
                   mode: "checkbox",
-                  clickToSelect: true,
+                  // clickToSelect: true,
                   onSelect: handleOnSelect,
                   onSelectAll: handleOnSelectAll,
                 }}
-                // cellEdit={cellEditFactory({
-                //   mode: "dbclick",
-                //   blurToSave: true,
-                //   // afterSaveCell,
-                // })}
+                cellEdit={cellEditFactory({
+                  mode: "dbclick",
+                  blurToSave: true,
+                  // afterSaveCell,
+                })}
               />
             </div>
           )}
@@ -463,6 +1144,19 @@ const SegmentList = observer(() => {
                     LibraryComponents.ToastsStore.success(`Items deleted.`)
                   }
                 })
+            } else if (type == "update") {
+              Stores.segmentMappingStore.segmentMappingService
+                .updateSingleFiled(Stores.segmentMappingStore.updateItem)
+                .then((res) => {
+                  rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    Stores.segmentMappingStore.fetchListSegmentMapping()
+                    LibraryComponents.ToastsStore.success(`Updated.`)
+                  }
+                })
+            } else if (type == "duplicate") {
+              rootStore.setProcessLoading(false)
+              props.duplicate(Stores.segmentMappingStore.selectedItems[0])
             }
           }
         }}

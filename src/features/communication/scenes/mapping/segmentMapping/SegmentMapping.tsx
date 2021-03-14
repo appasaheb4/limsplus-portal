@@ -1,38 +1,23 @@
 /* eslint-disable */
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
-import moment from "moment"
 import * as Models from "../../../models"
 import RootStoreContext from "@lp/library/stores"
-import * as Services from "../../../services"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
 import * as FeatureComponents from "../../../components"
 import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
-
 import { Stores } from "../../../stores"
 
 const SegmentMapping = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.SegmentMapping>()
-  const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddDiv, setHideAddDiv] = useState(true)
-  const arrSelectedItem = new Array()
-
-  useEffect(() => {
-    Stores.segmentMappingStore.fetchListSegmentMapping()
-  }, [])
+  const [saveTitle, setSaveTitle] = useState("Save")
 
   const handleFileUpload = (file: any) => {
     const reader = new FileReader()
@@ -61,18 +46,18 @@ const SegmentMapping = observer(() => {
               segment_usage: item[4],
               field_no: item[5],
               item_no: item[6],
-              field_required: item[7],
+              field_required: item[7] === "Yes" ? true : false,
               element_name: item[8],
               transmitted_data: item[9],
               field_array: item[10],
               field_length: item[11],
               field_type: item[12],
-              repeat_delimiter: item[13],
-              mandatory: item[14],
+              repeat_delimiter: item[13] === "Yes" ? true : false,
+              mandatory: item[14] === "Yes" ? true : false,
               lims_descriptions: item[15],
               lims_tables: item[16],
               lims_fields: item[17],
-              required_for_lims: item[18],
+              required_for_lims: item[18] === "Yes" ? true : false,
               notes: item[19],
               attachments: item[20],
             })
@@ -84,20 +69,20 @@ const SegmentMapping = observer(() => {
         }
       })
       if (fileImaport) {
-        if (Stores.segmentMappingStore.listSegmentMapping) {
-          Stores.segmentMappingStore.listSegmentMapping.forEach((item) => {
-            object.push(item)
-          })
-          //object = object.map(({ _id, ...rest }) => ({ ...rest }))
-          console.log({ object })
-          //object = LibraryUtils.unique(object);
-          object = Object.values(
-            object.reduce(
-              (acc, cur) => Object.assign(acc, { [cur.element_name]: cur }),
-              {}
-            )
-          )
-        }
+        // if (Stores.segmentMappingStore.listSegmentMapping) {
+        //   Stores.segmentMappingStore.listSegmentMapping.forEach((item) => {
+        //     object.push(item)
+        //   })
+        //   //object = object.map(({ _id, ...rest }) => ({ ...rest }))
+        //   console.log({ object })
+        //   //object = LibraryUtils.unique(object);
+        //   object = Object.values(
+        //     object.reduce(
+        //       (acc, cur) => Object.assign(acc, { [cur.element_name]: cur }),
+        //       {}
+        //     )
+        //   )
+        // }
         rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
           .importSegmentMapping(object)
@@ -152,13 +137,11 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[{ title: "ERP" }, { title: "HORIBA" }].map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
+                  {Models.options.equipmentType.map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
               {errors?.equipmentType && (
@@ -192,7 +175,7 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[{ title: "Host > LIS" }, { title: "LIS > Host" }].map(
+                  {Models.options.submitter_submitter.map(
                     (item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
@@ -227,13 +210,11 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[{ title: "HL7" }, { title: "ASTM" }, { title: "HEX" }].map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
+                  {Models.options.data_type.map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
               {errors?.data_type && (
@@ -255,20 +236,7 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[
-                    { title: "MSH" },
-                    { title: "PID" },
-                    { title: "ORC" },
-                    { title: "OBR" },
-                    { title: "H" },
-                    { title: "P" },
-                    { title: "O" },
-                    { title: "R" },
-                    { title: "C" },
-                    { title: "Q" },
-                    { title: "M" },
-                    { title: "L" },
-                  ].map((item: any, index: number) => (
+                  {Models.options.segments.map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
                     </option>
@@ -293,16 +261,13 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[{ title: "Required" }, { title: "Optional" }].map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
+                  {Models.options.segment_usage.map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-
               <LibraryComponents.Form.Input
                 type="number"
                 label="Field No"
@@ -572,7 +537,7 @@ const SegmentMapping = observer(() => {
                 // }
               }}
             >
-              Save
+              {saveTitle}
             </LibraryComponents.Buttons.Button>
             <LibraryComponents.Buttons.Button
               size="medium"
@@ -580,7 +545,7 @@ const SegmentMapping = observer(() => {
               onClick={() => {
                 setModalImportFile({
                   show: true,
-                  title: "Note: Before all collection remove.",
+                  title: "Import excel file!",
                 })
               }}
             >
@@ -606,7 +571,19 @@ const SegmentMapping = observer(() => {
       </div>
 
       <div className=" mx-auto flex-wrap">
-        <SegmentList />
+        <SegmentList
+          duplicate={(item: Models.SegmentMapping) => {
+            setSaveTitle("Duplicate")
+            setHideAddDiv(false)
+            Stores.segmentMappingStore.updateSegmentMapping({
+              ...item,
+              submitter_submitter:
+                item.submitter_submitter !== undefined
+                  ? item.submitter_submitter.split("&gt;").join(">")
+                  : "",
+            })
+          }}
+        />
       </div>
       <FeatureComponents.Atoms.ModalImportFile
         {...modalImportFile}

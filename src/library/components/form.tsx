@@ -247,22 +247,18 @@ interface ToggleProps extends InputWrapperProps {
 // const UncheckedIcon = () => <>Off</>
 
 export const Toggle = (props: ToggleProps) => {
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(props.value)
   const { defaultChecked, onChange, disabled, className } = props
 
   useEffect(() => {
-    if (defaultChecked) {
-      setToggle(defaultChecked)
-    }
-  }, [defaultChecked])
+    setToggle(props.value)
+  }, [props.value])
 
   const triggerToggle = () => {
     if (disabled) {
       return
     }
-
     setToggle(!toggle)
-
     if (typeof onChange === "function") {
       onChange(!toggle)
     }
@@ -273,7 +269,6 @@ export const Toggle = (props: ToggleProps) => {
   //   if (!icons) {
   //     return null
   //   }
-
   //   return icons[type] === undefined ? Toggle.defaultProps.icons[type] : icons[type]
   // }
 
@@ -295,10 +290,10 @@ export const Toggle = (props: ToggleProps) => {
           }
         >
           <div className="wrg-toggle-check">
-            <span className="text-white">On</span>
+            <span className="text-white">Yes</span>
           </div>
           <div className="wrg-toggle-uncheck">
-            <span className="text-white">Off</span>
+            <span className="text-white">No</span>
           </div>
         </div>
         <div className="wrg-toggle-circle"></div>
@@ -311,4 +306,3 @@ export const Toggle = (props: ToggleProps) => {
     </InputWrapper>
   )
 }
-
