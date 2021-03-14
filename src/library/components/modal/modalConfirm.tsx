@@ -46,11 +46,16 @@ export default function ModalConfirm(props: ModalProps) {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-gray-600 text-lg leading-relaxed">
-                    {props.body}
-                  </p>
-                </div>
+                {props.body && (
+                  <>
+                    <div className="relative p-6 flex-auto">
+                      <p className="my-4 text-gray-600 text-lg leading-relaxed">
+                        {props.body}
+                      </p>
+                    </div>
+                  </>
+                )}
+
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
                   <button

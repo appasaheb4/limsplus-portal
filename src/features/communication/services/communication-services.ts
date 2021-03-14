@@ -11,7 +11,7 @@ class CommunicationService extends BaseService {
   deleteSegmentMapping = (id: string[]) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`communication/deleteSegmentMapping/${id}`)
+        .delete(`/communication/deleteSegmentMapping/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -22,8 +22,9 @@ class CommunicationService extends BaseService {
 
   addSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
+      delete segments._id;
       this.client
-        .post(`communication/addSegmentMapping`, segments)
+        .post(`/communication/addSegmentMapping`, segments)
         .then((res) => {
           resolve(res)
         })
@@ -34,7 +35,7 @@ class CommunicationService extends BaseService {
   importSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`communication/importSegmentMapping`, segments)
+        .post(`/communication/importSegmentMapping`, segments)
         .then((res) => {
           resolve(res)
         })
@@ -45,9 +46,21 @@ class CommunicationService extends BaseService {
   listSegmentMapping = () =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .get(`communication/listSegmentMapping`)
+        .get(`/communication/listSegmentMapping`)
         .then((res) => {
           resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/communication/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })
