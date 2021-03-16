@@ -483,7 +483,8 @@ const SegmentMapping = observer(() => {
                 label="ATTACHMENTS"
                 name="attachments"
                 placeholder="ATTACHMENTS"
-                value={Stores.segmentMappingStore.segmentMapping?.attachments}
+                multiple={true}
+                // value={Stores.segmentMappingStore.segmentMapping?.attachments}
                 onChange={(attachments) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,

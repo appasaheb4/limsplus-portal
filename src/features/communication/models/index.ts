@@ -60,7 +60,7 @@ export interface SegmentMapping {
   lims_fields?: string
   required_for_lims?: boolean
   notes?: string
-  attachments?: string
+  attachments?: any
 }
 
 export interface UpdateItem {

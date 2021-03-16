@@ -161,6 +161,7 @@ interface InputFileProps extends InputWrapperProps {
   placeholder?: string
   disabled?: boolean
   accept?: string
+  multiple?: boolean
   onChange?: (e: any) => void
 }
 
@@ -175,6 +176,7 @@ export const InputFile = (props: InputFileProps) => (
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      multiple={props.multiple}
     />
   </InputWrapper>
 )
