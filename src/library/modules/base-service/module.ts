@@ -23,7 +23,6 @@ function createMemeToonsClient(client: keyof typeof apiHost, token?: string) {
       baseURL: apiHost[client],
       headers: {
         "x-limsplus-Key":
-          token ||
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJsYWIiOiJEUiBMQUwgUEFUSExBQlMgLSBERUxISSIsInVzZXJJZCI6IjEyMzQ1NiJ9.OqExKrvy2AdzunV942z7U23shX7A0AJZrrIhi2qmq3rUFk9bXCrTRGdoa2k1k2iT",
       },
       timeout: 1000 * 30,

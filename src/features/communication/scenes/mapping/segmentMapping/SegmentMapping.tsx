@@ -485,7 +485,8 @@ const SegmentMapping = observer(() => {
                 placeholder="ATTACHMENTS"
                 multiple={true}
                 // value={Stores.segmentMappingStore.segmentMapping?.attachments}
-                onChange={(attachments) => {
+                onChange={(e) => {
+                  const attachments = e.target.files
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     attachments,
@@ -522,20 +523,6 @@ const SegmentMapping = observer(() => {
                     "Please enter all information!"
                   )
                 }
-                // if (
-                //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                //   undefined && !Stores.labStore.checkExitsCode
-                // ) {
-                //   rootStore.setProcessLoading(true)
-                //   Services.addLab(Stores.labStore.labs).then(() => {
-                //     rootStore.setProcessLoading(false)
-                //     LibraryComponents.ToastsStore.success(`Lab created.`)
-                //     Stores.labStore.fetchListLab()
-                //     Stores.labStore.clear()
-                //   })
-                // } else {
-
-                // }
               }}
             >
               {saveTitle}

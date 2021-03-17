@@ -11,6 +11,7 @@ import moment from "moment"
 import * as Models from "../../../models"
 import RootStoreContext from "@lp/library/stores"
 import * as Config from "@lp/config"
+import * as Assets from "@lp/features/assets"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -988,6 +989,15 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "attachments",
               text: "ATTACHMENTS",
               headerStyle: { minWidth: "230px" },
+              formatter: (cellContent, row) => (
+                <>
+                  {JSON.parse(row.attachments).map((item) => (
+                    <>
+                      <label>{item}</label>
+                    </>
+                  ))}
+                </>
+              ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -998,8 +1008,37 @@ const SegmentList = observer((props: SegmentListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Form.InputFile
+                    multiple={true}
                     name="attachments"
                     placeholder="ATTACHMENTS"
+                    onChange={async (e) => {
+                      if (e) {
+                        const files = e.target.files
+                        const path: string[] = []
+                        if (files) {
+                          for (let i = 0; i < files.length; i++) {
+                            await Assets.Stores.Stores.assetsStore.assetsService.uploadFile(
+                              files[i],
+                              "communication",
+                              files[i].name
+                            )
+                            path.push(
+                              `https://limsplus.blob.core.windows.net/communication/${files[i].name}`
+                            )
+                          }
+                        }
+                        Stores.segmentMappingStore.changeUpdateItem({
+                          value: JSON.stringify(path),
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                        })
+                      }
+                    }}
                   />
                 </>
               ),
