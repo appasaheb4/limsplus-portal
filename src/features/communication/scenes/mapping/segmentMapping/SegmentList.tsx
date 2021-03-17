@@ -991,11 +991,13 @@ const SegmentList = observer((props: SegmentListProps) => {
               headerStyle: { minWidth: "230px" },
               formatter: (cellContent, row) => (
                 <>
-                  {JSON.parse(row.attachments).map((item) => (
-                    <>
-                      <label>{item}</label>
-                    </>
-                  ))}
+                  {row.attachments !== undefined
+                    ? JSON.parse(row.attachments).map((item) => (
+                        <>
+                          <label>{item}</label>
+                        </>
+                      ))
+                    : ""}
                 </>
               ),
               editorRenderer: (
