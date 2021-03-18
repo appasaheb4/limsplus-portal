@@ -74,8 +74,8 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
             width: 60,
             height: 60,
             position: "fixed",
-            bottom: 20,
-            right: 10,
+            bottom: 60,
+            right: 40,
             zIndex: 1,
           }}
           onClick={() => props.onClick(true)}
@@ -96,8 +96,8 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
             width: 60,
             height: 60,
             position: "fixed",
-            bottom: 20,
-            right: 10,
+            bottom: 60,
+            right: 40,
             zIndex: 1,
           }}
           onClick={() => props.onClick(false)}
