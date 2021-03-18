@@ -2,8 +2,9 @@ import React from "react"
 import { connect } from "react-redux"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-import {Stores as LoginStores} from '@lp/features/login/stores';
+import { Stores as LoginStores } from "@lp/features/login/stores"
 import * as LibraryComponents from "@lp/library/components"
+import * as Config from "@lp/config"
 
 import {
   Row,
@@ -168,15 +169,20 @@ const NavbarComponent = ({ dispatch }) => {
           aria-label="Search"
           className="form-control-no-border mr-sm-2"
         />
-            <LibraryComponents.Buttons.Button
-            size="medium"
-            type="solid"
-            onClick={() => {
-              window.location.href = "/dashboard/default"
-            }}
-          >
-            Dashboard
-          </LibraryComponents.Buttons.Button>
+        <LibraryComponents.Buttons.Button
+          size="medium"
+          type="outline"
+          onClick={() => {
+            window.location.href = "/dashboard/default"
+          }}
+        >
+          <LibraryComponents.Icons.EvaIcon
+            icon="home-outline"
+            size="large"
+            color={Config.Styles.COLORS.BLACK}
+          />
+          
+        </LibraryComponents.Buttons.Button>
       </Form>
 
       <Collapse navbar>
