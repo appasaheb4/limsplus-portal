@@ -58,7 +58,6 @@ const SegmentList = observer((props: SegmentListProps) => {
                 type: "delete",
                 show: true,
                 title: "Are you sure delete recoard? ",
-                body: "Multiple recoard delete. 🙂",
               })
             } else {
               alert("Please select any item.")
@@ -164,9 +163,11 @@ const SegmentList = observer((props: SegmentListProps) => {
       } else {
         if (Stores.segmentMappingStore.selectedItems) {
           const position = Stores.segmentMappingStore.selectedItems.indexOf(row)
+          console.log({ position })
+
           const newItem = Stores.segmentMappingStore.selectedItems.splice(
-            position,
-            1
+            0,
+            position
           )
           Stores.segmentMappingStore.updateSelectedItem(newItem)
         }
@@ -204,7 +205,7 @@ const SegmentList = observer((props: SegmentListProps) => {
 
   return (
     <>
-      <div style={{ width: "100%", height: "100%" }}>
+      <div style={{ position:'relative'}}>
         <ToolkitProvider
           keyField="_id"
           bootstrap4
@@ -954,6 +955,17 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              formatter: (cellContent, row) => (
+                <>
+                  {row.notes !== undefined ? (
+                    <>
+                      <label>{row.notes}</label>
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
+              ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -991,13 +1003,21 @@ const SegmentList = observer((props: SegmentListProps) => {
               headerStyle: { minWidth: "230px" },
               formatter: (cellContent, row) => (
                 <>
-                  {row.attachments !== undefined
-                    ? JSON.parse(row.attachments).map((item) => (
-                        <>
-                          <label>{item}</label>
-                        </>
-                      ))
-                    : ""}
+                  {row.attachments !== undefined ? (
+                    <>
+                      <ul>
+                        {JSON.parse(row.attachments).map((item) => (
+                          <>
+                            <li>
+                              <a href={item}>{item}</a>
+                            </li>
+                          </>
+                        ))}
+                      </ul>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </>
               ),
               editorRenderer: (
@@ -1169,7 +1189,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                   (item: any) => item._id
                 ),
               })
-              rootStore.setProcessLoading(true)
+              //rootStore.setProcessLoading(true)
               if (type === "delete") {
                 Stores.segmentMappingStore.segmentMappingService
                   .deleteSegmentMapping(

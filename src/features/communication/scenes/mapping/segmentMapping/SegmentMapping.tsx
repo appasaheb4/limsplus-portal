@@ -508,13 +508,18 @@ const SegmentMapping = observer(() => {
                     Utils.constraintsSegmentMapping
                   ) === undefined
                 ) {
+                  rootStore.setProcessLoading(true)
                   Stores.segmentMappingStore.segmentMappingService
                     .addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
                     .then((res) => {
+                      rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.ToastsStore.success(
                           `Segment Mapping created.`
                         )
+                        if (saveTitle === "Save") {
+                          window.location.reload()
+                        }
                         Stores.segmentMappingStore.fetchListSegmentMapping()
                       }
                     })
@@ -558,20 +563,23 @@ const SegmentMapping = observer(() => {
         </div>
       </div>
 
-      <div className="p-2 rounded-lg shadow-xl flex flex-row  overflow-scroll" style={{tableLayout:'fixed'}}>
-        <SegmentList
-          duplicate={(item: Models.SegmentMapping) => {
-            setSaveTitle("Duplicate")
-            setHideAddDiv(false)
-            Stores.segmentMappingStore.updateSegmentMapping({
-              ...item,
-              submitter_submitter:
-                item.submitter_submitter !== undefined
-                  ? item.submitter_submitter.split("&gt;").join(">")
-                  : "",
-            })
-          }}
-        />
+      <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+        <div>
+          <SegmentList
+            duplicate={(item: Models.SegmentMapping) => {
+              setSaveTitle("Duplicate")
+              setHideAddDiv(false)
+              Stores.segmentMappingStore.updateSegmentMapping({
+                ...item,
+                submitter_submitter:
+                  item.submitter_submitter !== undefined
+                    ? item.submitter_submitter.split("&gt;").join(">")
+                    : "",
+                attachments: "",
+              })
+            }}
+          />
+        </div>
       </div>
       <FeatureComponents.Atoms.ModalImportFile
         {...modalImportFile}
