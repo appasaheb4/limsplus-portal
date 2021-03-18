@@ -558,7 +558,7 @@ const SegmentMapping = observer(() => {
         </div>
       </div>
 
-      <div className=" mx-auto flex-wrap">
+      <div className="p-2 rounded-lg shadow-xl flex flex-row  overflow-scroll" style={{tableLayout:'fixed'}}>
         <SegmentList
           duplicate={(item: Models.SegmentMapping) => {
             setSaveTitle("Duplicate")

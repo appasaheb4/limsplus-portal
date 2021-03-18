@@ -204,7 +204,7 @@ const SegmentList = observer((props: SegmentListProps) => {
 
   return (
     <>
-      <div className="p-2 rounded-lg shadow-xl overflow-auto">
+      <div style={{ width: "100%", height: "100%" }}>
         <ToolkitProvider
           keyField="_id"
           bootstrap4
@@ -263,7 +263,7 @@ const SegmentList = observer((props: SegmentListProps) => {
             },
             {
               dataField: "submitter_submitter",
-              text: "SUBMITTER SUBMITTER",
+              text: "DATA FLOW FROM",
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
@@ -1158,51 +1158,52 @@ const SegmentList = observer((props: SegmentListProps) => {
             </div>
           )}
         </ToolkitProvider>
-      </div>
-      <LibraryComponents.Modal.ModalConfirm
-        {...modalConfirm}
-        click={(type) => {
-          setModalConfirm({ show: false })
-          if (Stores.segmentMappingStore.selectedItems) {
-            console.log({
-              selected: Stores.segmentMappingStore.selectedItems.map(
-                (item: any) => item._id
-              ),
-            })
-            rootStore.setProcessLoading(true)
-            if (type === "delete") {
-              Stores.segmentMappingStore.segmentMappingService
-                .deleteSegmentMapping(
-                  Stores.segmentMappingStore.selectedItems.map(
-                    (item: any) => item._id
+
+        <LibraryComponents.Modal.ModalConfirm
+          {...modalConfirm}
+          click={(type) => {
+            setModalConfirm({ show: false })
+            if (Stores.segmentMappingStore.selectedItems) {
+              console.log({
+                selected: Stores.segmentMappingStore.selectedItems.map(
+                  (item: any) => item._id
+                ),
+              })
+              rootStore.setProcessLoading(true)
+              if (type === "delete") {
+                Stores.segmentMappingStore.segmentMappingService
+                  .deleteSegmentMapping(
+                    Stores.segmentMappingStore.selectedItems.map(
+                      (item: any) => item._id
+                    )
                   )
-                )
-                .then((res) => {
-                  rootStore.setProcessLoading(false)
-                  if (res.status === 200) {
-                    Stores.segmentMappingStore.fetchListSegmentMapping()
-                    Stores.segmentMappingStore.updateSelectedItem([])
-                    LibraryComponents.ToastsStore.success(`Items deleted.`)
-                  }
-                })
-            } else if (type == "update") {
-              Stores.segmentMappingStore.segmentMappingService
-                .updateSingleFiled(Stores.segmentMappingStore.updateItem)
-                .then((res) => {
-                  rootStore.setProcessLoading(false)
-                  if (res.status === 200) {
-                    Stores.segmentMappingStore.fetchListSegmentMapping()
-                    LibraryComponents.ToastsStore.success(`Updated.`)
-                  }
-                })
-            } else if (type == "duplicate") {
-              rootStore.setProcessLoading(false)
-              props.duplicate(Stores.segmentMappingStore.selectedItems[0])
+                  .then((res) => {
+                    rootStore.setProcessLoading(false)
+                    if (res.status === 200) {
+                      Stores.segmentMappingStore.fetchListSegmentMapping()
+                      Stores.segmentMappingStore.updateSelectedItem([])
+                      LibraryComponents.ToastsStore.success(`Items deleted.`)
+                    }
+                  })
+              } else if (type == "update") {
+                Stores.segmentMappingStore.segmentMappingService
+                  .updateSingleFiled(Stores.segmentMappingStore.updateItem)
+                  .then((res) => {
+                    rootStore.setProcessLoading(false)
+                    if (res.status === 200) {
+                      Stores.segmentMappingStore.fetchListSegmentMapping()
+                      LibraryComponents.ToastsStore.success(`Updated.`)
+                    }
+                  })
+              } else if (type == "duplicate") {
+                rootStore.setProcessLoading(false)
+                props.duplicate(Stores.segmentMappingStore.selectedItems[0])
+              }
             }
-          }
-        }}
-        close={() => setModalConfirm({ show: false })}
-      />
+          }}
+          close={() => setModalConfirm({ show: false })}
+        />
+      </div>
     </>
   )
 })
