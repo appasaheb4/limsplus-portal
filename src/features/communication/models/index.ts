@@ -38,6 +38,14 @@ export interface IHostCommunication {
   SourceRepositoryThiredPartySoftare?: string
 }
 
+export interface ConvertTo {
+  hl7?: any
+  hexDecimal?: any
+  astom?: any
+}
+
+// segment
+
 export interface SegmentMapping {
   _id?: string
   submitter_submitter?: string
@@ -67,6 +75,19 @@ export interface UpdateItem {
   value: string | boolean
   dataField: string
   id: string
+}
+
+export interface MappingValues {
+  segments?: string
+  field?: string
+  component?: [number?, number?]
+  default?: string
+}
+
+export interface Mapping {
+  [key: string]: {
+    values: MappingValues[]
+  }
 }
 
 export * from "./constants"

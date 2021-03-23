@@ -10,11 +10,19 @@ class SegmentMappingStore {
   @observable listSegmentMapping?: Models.SegmentMapping[] = []
   @ignore @observable selectedItems?: Models.SegmentMapping[] = []
   @ignore @observable updateItem?: Models.UpdateItem
+  @observable mapping?: Models.Mapping[] = []
+
 
   @action fetchListSegmentMapping() {
     this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {
-      console.log({ listSegmentMapping })
+      //console.log({ listSegmentMapping })
       this.listSegmentMapping = listSegmentMapping
+    })
+  }
+
+  @action fetchmappingList() {
+    this.segmentMappingService.mappingList().then((mapping) => {
+      this.mapping = mapping
     })
   }
 

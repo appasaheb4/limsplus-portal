@@ -7,6 +7,7 @@
 //import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 import * as Assets from "@lp/features/assets"
+import * as Models from "../models"
 
 class CommunicationService extends BaseService {
   deleteSegmentMapping = (id: string[]) =>
@@ -107,6 +108,49 @@ class CommunicationService extends BaseService {
         .post(`/communication/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  mappingList = () =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .get(`/communication/listSegmentMapping`)
+        .then((res) => {
+          const data = res.data.data
+          const mapping: any[] = []
+          const values: Models.MappingValues[] = []
+          data.forEach((item: Models.SegmentMapping) => {
+            if (
+              item.equipmentType === "ERP" &&
+              (item.submitter_submitter === "Host &gt; LIS" ||
+                item.submitter_submitter === "Host > LIS")
+            ) {
+              values.push({
+                segments: item.segments,
+                field: `${item.segments?.toLowerCase()}.${item.element_name
+                  ?.toLowerCase()
+                  .replaceAll(" ", "_")}`,
+                component: [Number(item.field_no), 1],
+                default: "",
+              })
+            }
+          })
+          const group = values.reduce((r: any, a: any) => {
+            r[a.segments] = [...(r[a.segments] || []), a]
+            return r
+          }, {})
+          //console.log({ group })
+          const entries = Object.entries(group)
+          entries.forEach((item: any) => {
+            mapping.push({
+              [item[0].toLowerCase() || ""]: { values: item[1] },
+            })
+          })
+          console.log(mapping)
+          resolve(mapping)
         })
         .catch((error) => {
           reject({ error })

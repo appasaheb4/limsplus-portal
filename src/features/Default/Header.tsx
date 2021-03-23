@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 import {
   Button,
@@ -7,16 +7,18 @@ import {
   DropdownMenu,
   DropdownToggle,
   Row,
-  UncontrolledDropdown
-} from "reactstrap";
+  UncontrolledDropdown,
+} from "reactstrap"
+import { observer } from "mobx-react"
 
-import { Calendar, Filter, RefreshCw } from "react-feather";
+import { Calendar, Filter, RefreshCw } from "react-feather"
+import { Stores as LoginStores } from "@lp/features/login/stores"
 
-const Header = () => {
+const Header = observer(() => {
   return (
     <Row className="mb-2 mb-xl-4">
       <Col xs="auto" className="d-none d-sm-block">
-        <h3>Welcome back, Chris!</h3>
+        <h3>Welcome back, {LoginStores.loginStore.login?.fullName}</h3>
       </Col>
 
       <Col xs="auto" className="ml-auto text-right mt-n1">
@@ -41,7 +43,7 @@ const Header = () => {
         </Button>
       </Col>
     </Row>
-  );
-};
+  )
+})
 
-export default Header;
+export default Header

@@ -22,7 +22,7 @@ class LoginStore {
     })
     runInAction("Load user", async () => {
       this.login = await SessionStore.getSession()
-      console.log({ login: this.login })
+      //console.log({ login: this.login })
     })
   }
 

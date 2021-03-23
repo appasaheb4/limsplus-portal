@@ -36,14 +36,14 @@ class BaseService {
   constructor(token?: string) {
     this.client = createMemeToonsClient("node", token)
     this.client.interceptors.request.use((request) => {
-      console.log(
-        `${request.method?.toUpperCase()} ${request.baseURL}${request.url}`
-      )
-      console.log(`${JSON.stringify(request.data)}`)
+      // console.log(
+      //   `${request.method?.toUpperCase()} ${request.baseURL}${request.url}`
+      // )
+      // console.log(`${JSON.stringify(request.data)}`)
       return request
     })
     this.client.interceptors.response.use((response) => {
-      console.log(`RESPONSE: ${response.status}: ${response.data.data}`)
+      //console.log(`RESPONSE: ${response.status}: ${response.data.data}`)
       return response
     })
   }

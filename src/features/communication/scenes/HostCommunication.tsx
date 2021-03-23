@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext } from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
@@ -8,67 +8,30 @@ import moment from "moment"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "./accordion.css"
-
-// convert
-//import { HoribaPentra60Reader, HoribaPentra60Parser } from "node-astm"
-import * as SerialPort from "serialport"
-
-// var fs=require('fs');
-// var parser = require("./index.js")
-// var serializer = require("./index.js")
-// var translate = require("./lib/translate.js")
-// import {decode} from '@rimiti/hl7-object-parser'
- import s12Mapping from './s12.json'
-
-// import * as parser from '@rimiti/object-hl7-parser'
- //import siu12Config from './s12.json'
-
-// var hl7parser = require("hl7parser");
-
-// var message = hl7parser.create(`MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
-// PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
-// OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
-// OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`);
-// console.log({message});
-
-// console.log(message.get()); // prints "Bob"
-
-import {decode} from '@rimiti/hl7-object-parser'
-const s12 = `MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
-PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
-OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
-OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`;
-const obj = decode(s12, s12Mapping)
-console.log(obj)
-
-
-
-//console.log(data);
-
-// import hl7 from "hl7"
-// import { assert, expect, should } from "chai"
-
-// var parsed = hl7.parseString(data);
-
-// const result = assert.equal("185L29839X64489JLPF", hl7[3][3][0][0])
-// console.log({ result })
-
+import { toJS } from "mobx"
+import { Stores } from "../stores"
+import { decode } from "@lp/library/modules/parser"
 import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
+
+import * as Config from "@lp/config"
+
+import { TreeView, TreeItem } from "@material-ui/lab"
+
+//import  from "@material-ui/lab/TreeItem"
 
 import { SettingForRS232Table, SettingForTCP_IPTable } from "../components/atoms"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-import { Stores } from "../stores"
-
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
+  useEffect(() => {}, [Stores.segmentMappingStore.mapping])
 
   return (
     <>
@@ -91,7 +54,7 @@ const HostCommunication = observer(() => {
                     id="manualAutomaticMode"
                     value={
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
-                    }  
+                    }
                     onChange={(manualAutomaticMode) => {
                       Stores.communicationStore.updateHostCommuication({
                         ...Stores.communicationStore.hostCommuication,
@@ -361,26 +324,6 @@ const HostCommunication = observer(() => {
                                   ...Stores.communicationStore.hostCommuication,
                                   sourceFileDataReceivefromInstrument,
                                 })
-                                // //convert
-                                // let machine = new HoribaPentra60Reader()
-                                // machine.on("log", (...args) => {
-                                //   console.log(...args)
-                                // })
-                                // machine.on("error", (error) => {
-                                //   console.log(error)
-                                // })
-                                // machine.on("parse-error", (error) => {
-                                //   console.log(error)
-                                // })
-                                // machine.on("data", (transmission) => {
-                                //   let string = machine.summarizeTransmission(
-                                //     transmission
-                                //   )
-                                //   let parser = new HoribaPentra60Parser()
-                                //   let results = parser.parse(string)
-                                //   console.log(results) // outputs { testResultList, suspectedPathologyList }
-                                // })
-                                // machine.initiate("COM4")
                               }}
                             >
                               <option selected>Select</option>
@@ -441,6 +384,13 @@ const HostCommunication = observer(() => {
                                 label=""
                                 id="txtDataReceivefromInstrument"
                                 placeholder="Source file (Data Received Data from Instrument)"
+                                disabled={
+                                  Stores.segmentMappingStore.mapping != undefined
+                                    ? Stores.segmentMappingStore.mapping?.length > 0
+                                      ? false
+                                      : true
+                                    : true
+                                }
                                 value={
                                   Stores.communicationStore.hostCommuication
                                     ?.txtDataReceivefromInstrument
@@ -450,20 +400,38 @@ const HostCommunication = observer(() => {
                                     ...Stores.communicationStore.hostCommuication,
                                     txtDataReceivefromInstrument,
                                   })
-                              
-    
-//                                   const message_to_encode = `MSH|^~\&|SOME LAB|LAB|HOSPITAL|BLDG4|200202150930||ORU^R01|CNTRL-3456|P|2.4
-// PID|||555-44-4444||EVERYWOMAN^EVE^E^^^^L|JONES|19620320|F|||153 FERNWOOD DR.^^STATESVILLE^OH^35292||(206)3345232|(206)752-121||||AC555444444||67-A4335^OH^20030520
-// OBR|1|845439^GHH OE|1045813^GHH LAB|15545^GLUCOSE|||200202150730|||||||||555-55-5555^PRIMARY^PATRICIA P^^^^MD^^|||||||||F||||||444-44-4444^HIPPOCRATES^HOWARD H^^^^MD
-// OBX|1|SN|1554-5^GLUCOSE^POST 12H CFST:MCNC:PT:SER/PLAS:QN||^182|mg/dl|70_105|H|||F`
-                                  
-//                                   const getSIU12 = parser.getSIU26(message_to_encode, siu12Config)
+                                  // decode
+                                  if (Stores.segmentMappingStore.mapping) {
+                                    if (
+                                      Stores.segmentMappingStore.mapping.length > 0
+                                    ) {
+                                      const mappingList = toJS(
+                                        Stores.segmentMappingStore.mapping
+                                      )
+                                      let tempData = {}
+                                      mappingList.forEach((item) => {
+                                        Object.keys(item).forEach((key) => {
+                                          tempData[key] = item[key]
+                                        })
+                                      })
+                                      const mapping = {
+                                        mapping: tempData,
+                                      }
+                                      console.log({ mapping })
 
-//                                   // If you want a stringified output
-//                                   console.log(getSIU12.getMessage())
-                                  
-//                                   // If you want an object output
-//                                    console.log(getSIU12.getObject())
+                                      const obj = decode(
+                                        txtDataReceivefromInstrument,
+                                        mapping
+                                      )
+                                      const hl7 = Object.entries(obj)
+                                      console.log({ hl7 })
+
+                                      Stores.communicationStore.updateConvertTo({
+                                        ...Stores.communicationStore.convertTo,
+                                        hl7,
+                                      })
+                                    }
+                                  }
                                 }}
                               />
                             </div>
@@ -592,7 +560,47 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              <LibraryComponents.Form.MultilineInput
+                              <TreeView
+                                //className={classes.root}
+                                defaultCollapseIcon={
+                                  <LibraryComponents.Icons.EvaIcon
+                                    icon="arrow-ios-downward-outline"
+                                    size="small"
+                                    color={Config.Styles.COLORS.BLACK}
+                                  />
+                                }
+                                defaultExpandIcon={
+                                  <LibraryComponents.Icons.EvaIcon
+                                    icon="arrow-ios-forward-outline"
+                                    size="small"
+                                    color={Config.Styles.COLORS.BLACK}
+                                  />
+                                }
+                              >
+                                {Stores.communicationStore.convertTo?.hl7.map(
+                                  (item: any, index: number) => (
+                                    <>
+                                      <TreeItem nodeId={item[0]} label={item[0]}>
+                                        {item[1].map((filed: any) => (
+                                          <>
+                                            <TreeItem
+                                              nodeId={filed.filed}
+                                              label={`${
+                                                filed.filed.charAt(0).toUpperCase() +
+                                                filed.filed
+                                                  .slice(1)
+                                                  .replaceAll("_", " ")
+                                              } - ${filed.value}`}
+                                            />
+                                          </>
+                                        ))}
+                                      </TreeItem>
+                                    </>
+                                  )
+                                )}
+                              </TreeView>
+
+                              {/* <LibraryComponents.Form.MultilineInput
                                 id="txtConvertedfile"
                                 placeholder="Converted file"
                                 value={
@@ -605,7 +613,7 @@ const HostCommunication = observer(() => {
                                     txtConvertedfile,
                                   })
                                 }}
-                              />
+                              /> */}
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
