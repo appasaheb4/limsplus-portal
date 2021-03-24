@@ -205,7 +205,7 @@ const SegmentList = observer((props: SegmentListProps) => {
 
   return (
     <>
-      <div style={{ position:'relative'}}>
+      <div style={{ position: "relative" }}>
         <ToolkitProvider
           keyField="_id"
           bootstrap4
@@ -268,6 +268,12 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.submitter_submitter !== undefined
+                    ? row.submitter_submitter.split("&gt;").join(">")
+                    : ""
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <label>
@@ -535,6 +541,14 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "field_required",
               text: "FIELD REQUIRED",
               editable: false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.field_required !== undefined
+                    ? row.field_required
+                      ? "Yes"
+                      : "No"
+                    : "No"
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Form.Toggle
@@ -567,6 +581,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.element_name !== undefined ? row.element_name : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -604,6 +620,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.transmitted_data !== undefined ? row.transmitted_data : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -642,6 +660,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.field_array !== undefined ? row.field_array : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -679,6 +699,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.field_length !== undefined ? row.field_length : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -717,6 +739,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.field_type !== undefined ? row.field_type : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -752,6 +776,14 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "repeat_delimiter",
               text: "REPEAT DELIMITER",
               editable: false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.repeat_delimiter !== undefined
+                    ? row.repeat_delimiter
+                      ? "Yes"
+                      : "No"
+                    : "No"
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Form.Toggle
@@ -782,6 +814,10 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "mandatory",
               text: "MANDATORY",
               editable: false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.mandatory !== undefined ? (row.mandatory ? "Yes" : "No") : "No"
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Form.Toggle
@@ -812,6 +848,10 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.lims_descriptions !== undefined ? row.lims_descriptions : ""
+                }`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -849,6 +889,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.lims_tables !== undefined ? row.lims_tables : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -887,6 +929,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.lims_fields !== undefined ? row.lims_fields : ""}`,
               editorRenderer: (
                 editorProps,
                 value,
@@ -923,6 +967,14 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "required_for_lims",
               text: "REQUIRED FOR LIMS",
               editable: false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `${
+                  row.required_for_lims !== undefined
+                    ? row.required_for_lims
+                      ? "Yes"
+                      : "No"
+                    : "No"
+                }`,
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Form.Toggle
@@ -955,6 +1007,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.notes !== undefined ? row.notes : ""}`,
               formatter: (cellContent, row) => (
                 <>
                   {row.notes !== undefined ? (
@@ -1001,6 +1055,8 @@ const SegmentList = observer((props: SegmentListProps) => {
               dataField: "attachments",
               text: "ATTACHMENTS",
               headerStyle: { minWidth: "230px" },
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.attachments !== undefined ? row.attachments : ""}`,
               formatter: (cellContent, row) => (
                 <>
                   {row.attachments !== undefined ? (
