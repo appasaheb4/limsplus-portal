@@ -30,7 +30,7 @@ const HL7Table = (props: HL7TableProps) => {
         </LibraryComponents.List>
       </div>
       <div className="rounded-lg overflow-auto">
-        <Table striped bordered hover>
+        <Table bordered>
           <thead>
             <th style={{ color: "green" }}>{field}</th>
             <th style={{ color: "green" }}>Value</th>
@@ -38,7 +38,12 @@ const HL7Table = (props: HL7TableProps) => {
           <tbody>
             {selectSegment.map((item: any, index: number) => (
               <tr key={index}>
-                <th>{item.filed}</th>
+                <th>
+                  {`${item.field_no}. ${
+                    item.filed.charAt(0).toUpperCase() +
+                    item.filed.slice(1).replaceAll("_", " ")
+                  }`}
+                </th>
                 <th>{item.value}</th>
               </tr>
             ))}
