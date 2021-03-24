@@ -81,6 +81,8 @@ export interface MappingValues {
   segments?: string
   field?: string
   component?: [number?, number?]
+  field_no?: number
+  mandatory?: boolean
   default?: string
 }
 

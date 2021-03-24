@@ -21,19 +21,5 @@ export const constraintsSegmentMapping = {
       minimum: 2,
       message: "DATA TYPE must be least 2 characters",
     },
-  },
-  lims_tables: {
-    presence: true,
-    length: {
-      minimum: 2,  
-      message: "Lims Tables must be least 2 characters",
-    },
-  },
-  lims_fields: {
-    presence: true,
-    length: {
-      minimum: 2,
-      message: "LIMS FIELDS must be least 2 characters",
-    },
-  },
+  }
 }

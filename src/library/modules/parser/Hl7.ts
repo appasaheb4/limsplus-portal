@@ -26,22 +26,8 @@ export default class Hl7 {
    */
   process() {
     const obj = {}
-    // for (const segment in this._config.mapping) {
-    //   console.log({ segment })
-    //const segmentType = segment.toUpperCase()
-    // console.log({ segmentType })
-    //console.log({ header: this._message.header })
-
-    // const segmentsOfType =
-    //   segmentType === "MSH" ? [this._message] : [this._message]
-    // //this.getSegmentsByType(segment.toUpperCase())
-
-    // console.log({ segmentsOfType })
-
-    //console.log({ configM: this._config })
-
     for (const message of this._message) {
-      //      console.log({ message })
+      console.log({ message })
       // ///console.log({ tmpObj })
       const values: any = []
       for (const value of this._config.mapping[message.fields.toLowerCase()]
@@ -51,51 +37,25 @@ export default class Hl7 {
             const index1 = value.component[0]
             const object = this._generateObject(
               value.field,
-              message.values[index1 - 1]
+              message.values[index1 - 1],
+              value.field_no
             )
-            
-            
-            //if (message.values[index1 - 1] !== "") {
+            if (message.values[index1 - 1] !== "") {
               values.push(object)
-            //}
+            } else {
+              if (value.mandatory) {
+                values.push(object)
+              }
+            }
           }
         }
       }
+      values.sort((a, b) => {
+        return a.field_no - b.field_no
+      })
       console.log({ values })
       obj[message.fields] = values
     }
-
-    //     // console.log({ tmpObj })
-    //     console.log({ index1, index2 })
-    //     console.log({ field: s[index1] })
-    //     if (s[index1].includes("~")) {
-    //       // const split = s[index1].split("~")
-    //       // console.log({ split })
-    //       // const array: any = []
-    //       // for (const v of split) {
-    //       //   array.push(v.split("^"))
-    //       // }
-    //       // const output: any = []
-    //       // for (const v in array) {
-    //       //   array[v][value.component[1] - 1]
-    //       //     ? output.push(array[v][value.component[1] - 1])
-    //       //     : output.push("")
-    //       // }
-    //       console.log({ output: s[index1] })
-    //       this._generateObject(tmpObj, value.field, s[index1])
-    //     } else {
-    //       // console.log({ tmpObj, vlaue: value.field })
-    //       this._generateObject(tmpObj, value.field, s[index1][0])
-    //     }
-    //   }
-    // }
-
-    // if (segmentsOfType.length > 1) {
-    //   obj[segment].push(tmpObj[segment])
-    // } else {
-    //   obj[segment] = tmpObj[segment]
-    // }
-    //}
     return obj
   }
 
@@ -106,8 +66,8 @@ export default class Hl7 {
    * @param value
    * @private
    */
-  _generateObject(property, value) {
+  _generateObject(property, value, field_no) {
     const paths = property.split(".")
-    return { filed: paths[1], value: value }
+    return { filed: paths[1], value: value, field_no }
   }
 }

@@ -413,48 +413,25 @@ const SegmentMapping = observer(() => {
                 placeholder="Lims Tables"
                 value={Stores.segmentMappingStore.segmentMapping?.lims_tables}
                 onChange={(lims_tables) => {
-                  setErrors({
-                    ...errors,
-                    lims_tables: Utils.validate.single(
-                      lims_tables,
-                      Utils.constraintsSegmentMapping.lims_tables
-                    ),
-                  })
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_tables,
                   })
                 }}
               />
-              {errors?.lims_tables && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.lims_tables}
-                </span>
-              )}
               <LibraryComponents.Form.Input
                 label="LIMS FIELDS"
                 name="lims_fields"
                 placeholder="LIMS FIELDS"
                 value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
                 onChange={(lims_fields) => {
-                  setErrors({
-                    ...errors,
-                    lims_fields: Utils.validate.single(
-                      lims_fields,
-                      Utils.constraintsSegmentMapping.lims_fields
-                    ),
-                  })
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_fields,
                   })
                 }}
               />
-              {errors?.lims_fields && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.lims_fields}
-                </span>
-              )}
+
               <LibraryComponents.Form.Toggle
                 label="REQUIRED FOR LIMS"
                 id="required_for_lims"
