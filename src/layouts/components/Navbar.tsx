@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react"
 import { connect } from "react-redux"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
@@ -295,6 +294,6 @@ const NavbarComponent = ({ dispatch }) => {
   )
 }
 
-export default connect((store) => ({
-  app: store.app,
+export default connect(() => ({
+  //app: store.app,
 }))(NavbarComponent)
