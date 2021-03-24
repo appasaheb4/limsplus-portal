@@ -10,7 +10,7 @@ import { Accordion, AccordionItem } from "react-sanfona"
 import "./accordion.css"
 import { toJS } from "mobx"
 import { Stores } from "../stores"
-import { decode } from "@lp/library/modules/parser"
+
 import * as Models from "../models"
 import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
@@ -22,7 +22,9 @@ import { TreeView, TreeItem } from "@material-ui/lab"
 
 //import  from "@material-ui/lab/TreeItem"
 
-import { SettingForRS232Table, SettingForTCP_IPTable } from "../components/atoms"
+import * as FeatureComponents from "../components"
+
+import { HostCommunicationFlows } from "../flows"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -214,9 +216,13 @@ const HostCommunication = observer(() => {
                   </select>
                 </LibraryComponents.Form.InputWrapper>
                 {Stores.communicationStore.hostCommuication?.modeOfConnection ===
-                  "Serial Port Communication" && <SettingForRS232Table />}
+                  "Serial Port Communication" && (
+                  <FeatureComponents.Atoms.SettingForRS232Table />
+                )}
                 {Stores.communicationStore.hostCommuication?.modeOfConnection ===
-                  "TCP/IP Communication" && <SettingForTCP_IPTable />}
+                  "TCP/IP Communication" && (
+                  <FeatureComponents.Atoms.SettingForTCP_IPTable />
+                )}
               </LibraryComponents.List>
 
               <LibraryComponents.List
@@ -385,8 +391,12 @@ const HostCommunication = observer(() => {
                                 id="txtDataReceivefromInstrument"
                                 placeholder="Source file (Data Received Data from Instrument)"
                                 disabled={
-                                  Stores.segmentMappingStore.mapping != undefined
-                                    ? Stores.segmentMappingStore.mapping?.length > 0
+                                  Stores.segmentMappingStore.listSegmentMapping !=
+                                    undefined &&
+                                  Stores.communicationStore.hostCommuication
+                                    ?.instrumentType !== undefined
+                                    ? Stores.segmentMappingStore.listSegmentMapping
+                                        ?.length > 0
                                       ? false
                                       : true
                                     : true
@@ -400,38 +410,6 @@ const HostCommunication = observer(() => {
                                     ...Stores.communicationStore.hostCommuication,
                                     txtDataReceivefromInstrument,
                                   })
-                                  // decode
-                                  if (Stores.segmentMappingStore.mapping) {
-                                    if (
-                                      Stores.segmentMappingStore.mapping.length > 0
-                                    ) {
-                                      const mappingList = toJS(
-                                        Stores.segmentMappingStore.mapping
-                                      )
-                                      let tempData = {}
-                                      mappingList.forEach((item) => {
-                                        Object.keys(item).forEach((key) => {
-                                          tempData[key] = item[key]
-                                        })
-                                      })
-                                      const mapping = {
-                                        mapping: tempData,
-                                      }
-                                      console.log({ mapping })
-
-                                      const obj = decode(
-                                        txtDataReceivefromInstrument,
-                                        mapping
-                                      )
-                                      const hl7 = Object.entries(obj)
-                                      console.log({ hl7 })
-
-                                      Stores.communicationStore.updateConvertTo({
-                                        ...Stores.communicationStore.convertTo,
-                                        hl7,
-                                      })
-                                    }
-                                  }
                                 }}
                               />
                             </div>
@@ -499,12 +477,19 @@ const HostCommunication = observer(() => {
                                 Stores.communicationStore.hostCommuication?.convertTo
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                              onChange={(e) => {
+                              onChange={async (e) => {
                                 const convertTo = e.target.value
                                 Stores.communicationStore.updateHostCommuication({
                                   ...Stores.communicationStore.hostCommuication,
                                   convertTo,
                                 })
+                                await HostCommunicationFlows.convetTo(
+                                  convertTo,
+                                  Stores.communicationStore.hostCommuication
+                                    ?.instrumentType || "",
+                                  Stores.communicationStore.hostCommuication
+                                    ?.txtDataReceivefromInstrument || ""
+                                )
                               }}
                             >
                               <option selected>Select</option>
@@ -560,60 +545,12 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              <TreeView
-                                //className={classes.root}
-                                defaultCollapseIcon={
-                                  <LibraryComponents.Icons.EvaIcon
-                                    icon="arrow-ios-downward-outline"
-                                    size="small"
-                                    color={Config.Styles.COLORS.BLACK}
-                                  />
-                                }
-                                defaultExpandIcon={
-                                  <LibraryComponents.Icons.EvaIcon
-                                    icon="arrow-ios-forward-outline"
-                                    size="small"
-                                    color={Config.Styles.COLORS.BLACK}
-                                  />
-                                }
-                              >
-                                {Stores.communicationStore.convertTo?.hl7.map(
-                                  (item: any, index: number) => (
-                                    <>
-                                      <TreeItem nodeId={item[0]} label={item[0]}>
-                                        {item[1].map((filed: any) => (
-                                          <>
-                                            <TreeItem
-                                              nodeId={filed.filed}
-                                              label={`${
-                                                filed.filed.charAt(0).toUpperCase() +
-                                                filed.filed
-                                                  .slice(1)
-                                                  .replaceAll("_", " ")
-                                              } - ${filed.value}`}
-                                            />
-                                          </>
-                                        ))}
-                                      </TreeItem>
-                                    </>
-                                  )
-                                )}
-                              </TreeView>
-
-                              {/* <LibraryComponents.Form.MultilineInput
-                                id="txtConvertedfile"
-                                placeholder="Converted file"
-                                value={
-                                  Stores.communicationStore.hostCommuication
-                                    ?.txtConvertedfile
-                                }
-                                onChange={(txtConvertedfile) => {
-                                  Stores.communicationStore.updateHostCommuication({
-                                    ...Stores.communicationStore.hostCommuication,
-                                    txtConvertedfile,
-                                  })
-                                }}
-                              /> */}
+                              {Stores.communicationStore.convertTo?.hl7 !==
+                                undefined && (
+                                <FeatureComponents.Organisms.HL7Table
+                                  data={Stores.communicationStore.convertTo.hl7}
+                                />
+                              )}
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>

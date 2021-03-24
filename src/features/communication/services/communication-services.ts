@@ -120,6 +120,7 @@ class CommunicationService extends BaseService {
         .get(`/communication/listSegmentMapping`)
         .then((res) => {
           const data = res.data.data
+          
           const mapping: any[] = []
           const values: Models.MappingValues[] = []
           data.forEach((item: Models.SegmentMapping) => {
@@ -134,6 +135,7 @@ class CommunicationService extends BaseService {
                   ?.toLowerCase()
                   .replaceAll(" ", "_")}`,
                 component: [Number(item.field_no), 1],
+                field_no: Number(item.field_no),
                 default: "",
               })
             }
@@ -141,7 +143,7 @@ class CommunicationService extends BaseService {
           const group = values.reduce((r: any, a: any) => {
             r[a.segments] = [...(r[a.segments] || []), a]
             return r
-          }, {})
+          }, {})  
           //console.log({ group })
           const entries = Object.entries(group)
           entries.forEach((item: any) => {
