@@ -263,22 +263,22 @@ const SegmentList = observer((props: SegmentListProps) => {
               ),
             },
             {
-              dataField: "submitter_submitter",
+              dataField: "dataFlowFrom",
               text: "DATA FLOW FROM",
               sort: true,
               filter: textFilter(),
               headerStyle: { minWidth: "230px" },
               csvFormatter: (cell, row, rowIndex) =>
                 `${
-                  row.submitter_submitter !== undefined
-                    ? row.submitter_submitter.split("&gt;").join(">")
+                  row.dataFlowFrom !== undefined
+                    ? row.dataFlowFrom.split("&gt;").join(">")
                     : ""
                 }`,
               formatter: (cellContent, row) => (
                 <>
                   <label>
-                    {row.submitter_submitter !== undefined
-                      ? row.submitter_submitter.split("&gt;").join(">")
+                    {row.dataFlowFrom !== undefined
+                      ? row.dataFlowFrom.split("&gt;").join(">")
                       : ""}
                   </label>
                 </>
@@ -293,13 +293,13 @@ const SegmentList = observer((props: SegmentListProps) => {
               ) => (
                 <>
                   <select
-                    name="submitter_submitter"
+                    name="dataFlowFrom"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const submitter_submitter = e.target.value
-                      if (row.submitter_submitter !== submitter_submitter) {
+                      const dataFlowFrom = e.target.value
+                      if (row.dataFlowFrom !== dataFlowFrom) {
                         Stores.segmentMappingStore.changeUpdateItem({
-                          value: submitter_submitter,
+                          value: dataFlowFrom,
                           dataField: column.dataField,
                           id: row._id,
                         })
@@ -307,23 +307,21 @@ const SegmentList = observer((props: SegmentListProps) => {
                           type: "update",
                           show: true,
                           title: "Are you sure update recoard?",
-                          body: `New value = ${submitter_submitter}`,
+                          body: `New value = ${dataFlowFrom}`,
                         })
                       }
                     }}
                   >
                     <option selected>
-                      {row.submitter_submitter !== undefined
-                        ? row.submitter_submitter.split("&gt;").join(">")
+                      {row.dataFlowFrom !== undefined
+                        ? row.dataFlowFrom.split("&gt;").join(">")
                         : ""}
                     </option>
-                    {Models.options.submitter_submitter.map(
-                      (item: any, index: number) => (
-                        <option key={item.title} value={item.title}>
-                          {item.title}
-                        </option>
-                      )
-                    )}
+                    {Models.options.dataFlowFrom.map((item: any, index: number) => (
+                      <option key={item.title} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
@@ -348,7 +346,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const data_type = e.target.value
-                      if (row.submitter_submitter !== data_type) {
+                      if (row.dataFlowFrom !== data_type) {
                         Stores.segmentMappingStore.changeUpdateItem({
                           value: data_type,
                           dataField: column.dataField,

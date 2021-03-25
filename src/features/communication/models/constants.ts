@@ -1,6 +1,6 @@
 export const options = {
   equipmentType: [{ title: "ERP" }, { title: "HORIBA" }],
-  submitter_submitter: [{ title: "Host > LIS" }, { title: "LIS > Host" }],
+  dataFlowFrom: [{ title: "Host > LIS" }, { title: "LIS > Host" }],
   data_type: [{ title: "HL7" }, { title: "ASTM" }, { title: "HEX" }],
   segments: [
     { title: "MSH" },

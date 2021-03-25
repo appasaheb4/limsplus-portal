@@ -8,7 +8,7 @@ export const constraintsSegmentMapping = {
       message: "EQUIPMENT TYPE must be least 2 characters ",
     },
   },
-  submitter_submitter: {
+  dataFlowFrom: {
     presence: true,
     length: {
       minimum: 2,

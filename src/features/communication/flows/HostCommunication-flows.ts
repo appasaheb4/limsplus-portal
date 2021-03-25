@@ -10,8 +10,8 @@ class HostCommunicationFlows {
     data?.forEach((item: Models.SegmentMapping) => {
       if (
         item.equipmentType === instrumentType &&
-        (item.submitter_submitter === "Host &gt; LIS" ||
-          item.submitter_submitter === "Host > LIS")
+        (item.dataFlowFrom === "Host &gt; LIS" ||
+          item.dataFlowFrom === "Host > LIS")
       ) {
         values.push({
           segments: item.segments,

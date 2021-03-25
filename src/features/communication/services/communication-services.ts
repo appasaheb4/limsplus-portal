@@ -43,7 +43,7 @@ class CommunicationService extends BaseService {
 
         delete segments._id
         const form = new FormData()
-        form.append("submitter_submitter", segments.submitter_submitter)
+        form.append("dataFlowFrom", segments.dataFlowFrom)
         form.append("data_type", segments.data_type)
         form.append("equipmentType", segments.equipmentType)
         form.append("segments", segments.segments)
@@ -126,8 +126,8 @@ class CommunicationService extends BaseService {
           data.forEach((item: Models.SegmentMapping) => {
             if (
               item.equipmentType === "ERP" &&
-              (item.submitter_submitter === "Host &gt; LIS" ||
-                item.submitter_submitter === "Host > LIS")
+              (item.dataFlowFrom === "Host &gt; LIS" ||
+                item.dataFlowFrom === "Host > LIS")
             ) {
               values.push({
                 segments: item.segments,
