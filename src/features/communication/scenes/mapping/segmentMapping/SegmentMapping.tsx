@@ -11,6 +11,7 @@ import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
 
 import { Stores } from "../../../stores"
+import { toJS } from "mobx"
 
 const SegmentMapping = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
@@ -30,25 +31,49 @@ const SegmentMapping = observer(() => {
       const ws = wb.Sheets[wsname]
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_json(ws, { header: 1 })
-      const headers: string[] = []
+      const defaultHeader: string[] = [
+        "EQUIPMENT TYPE",
+        "DATA FLOW FROM",
+        "DATA TYPE",
+        "SEGMENTS",
+        "SEGMENT USAGE",
+        "FIELD NO",
+        "ITEM NO",
+        "FIELD REQUIRED",
+        "ELEMENT NAME",
+        "TRANSMITTED DATA",
+        "FIELD ARRAY",
+        "FIELD LENGTH",
+        "FIELD TYPE",
+        "REPEAT DELIMITER",
+        "MANDATORY",
+        "LIMS DESCRIPTIONS",
+        "LIMS TABLES",
+        "LIMS FIELDS",
+        "REQUIRED FOR LIMS",
+        "NOTES",
+        "ATTACHMENTS",
+      ]
+      const headers: any = []
       let object = new Array()
       let fileImaport: boolean = true
       data.forEach((item: any, index: number) => {
         if (index === 0) {
           headers.push(item)
         } else {
-          if (item.length === 19) {
+          if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
             object.push({
-              submitter_submitter: item[0],
-              data_type: item[1],
-              equipmentType: item[2],
+              equipmentType: item[0],
+              dataFlowFrom: item[1],
+              data_type: item[2],
               segments: item[3],
               segment_usage: item[4],
-              field_no: item[5],
-              item_no: item[6],
+              field_no: item[5].toString(),
+              item_no: item[6].toString(),
               field_required: item[7] === "Yes" ? true : false,
               element_name: item[8],
-              transmitted_data: item[9],
+              transmitted_data:
+                item[9] !== undefined ? item[9].toString() : undefined,
               field_array: item[10],
               field_length: item[11],
               field_type: item[12],
@@ -68,24 +93,55 @@ const SegmentMapping = observer(() => {
           }
         }
       })
+      object = JSON.parse(JSON.stringify(object))
+      // object = object.map((item) => {
+      //   Object.keys(item).forEach((key) => {
+      //     if (item[key] === undefined) {
+      //       delete item[key]
+      //     }
+      //     console.log({ item })
+
+      //     return item
+      //   })
+      // })
+      //console.log({ object })
+      let listSegmentMapping = toJS(Stores.segmentMappingStore.listSegmentMapping)
+      listSegmentMapping?.forEach(function (v) {
+        delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
+      })
+      listSegmentMapping = listSegmentMapping?.map((item) => {
+        item.dataFlowFrom =
+          item.dataFlowFrom !== undefined
+            ? item.dataFlowFrom.split("&gt;").join(">")
+            : ""
+        return item
+      })
+      //console.log({ listSegmentMapping })
+      //console.log({ object })
+      object = object.concat(listSegmentMapping)
+      //console.log({ object })
+      const uniqueData = object.reduce((filtered, item) => {
+        if (
+          !filtered.some(
+            (filteredItem) => JSON.stringify(filteredItem) == JSON.stringify(item)
+          )
+        )
+          filtered.push(item)
+        return filtered
+      }, [])
+
+      console.log({ uniqueData })
+
+      let stringified = uniqueData.map((i) => JSON.stringify(i))
+      let unique = stringified
+        .filter((k, idx) => stringified.indexOf(k) === idx)
+        .map((j) => JSON.parse(j))
+      console.log({ unique })
+
       if (fileImaport) {
-        // if (Stores.segmentMappingStore.listSegmentMapping) {
-        //   Stores.segmentMappingStore.listSegmentMapping.forEach((item) => {
-        //     object.push(item)
-        //   })
-        //   //object = object.map(({ _id, ...rest }) => ({ ...rest }))
-        //   console.log({ object })
-        //   //object = LibraryUtils.unique(object);
-        //   object = Object.values(
-        //     object.reduce(
-        //       (acc, cur) => Object.assign(acc, { [cur.element_name]: cur }),
-        //       {}
-        //     )
-        //   )
-        // }
         rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
-          .importSegmentMapping(object)
+          .importSegmentMapping(uniqueData)
           .then((res) => {
             rootStore.setProcessLoading(false)
             LibraryComponents.ToastsStore.success(`File import success.`)
@@ -151,42 +207,38 @@ const SegmentMapping = observer(() => {
               )}
               <LibraryComponents.Form.InputWrapper
                 label="SUBMITTER SUBMITTER"
-                id="submitter_submitter"
+                id="dataFlowFrom"
               >
                 <select
-                  name="submitter_submitter"
-                  value={
-                    Stores.segmentMappingStore.segmentMapping?.submitter_submitter
-                  }
+                  name="dataFlowFrom"
+                  value={Stores.segmentMappingStore.segmentMapping?.dataFlowFrom}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const submitter_submitter = e.target.value
+                    const dataFlowFrom = e.target.value
                     setErrors({
                       ...errors,
-                      submitter_submitter: Utils.validate.single(
-                        submitter_submitter,
-                        Utils.constraintsSegmentMapping.submitter_submitter
+                      dataFlowFrom: Utils.validate.single(
+                        dataFlowFrom,
+                        Utils.constraintsSegmentMapping.dataFlowFrom
                       ),
                     })
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
-                      submitter_submitter,
+                      dataFlowFrom,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {Models.options.submitter_submitter.map(
-                    (item: any, index: number) => (
-                      <option key={item.title} value={item.title}>
-                        {item.title}
-                      </option>
-                    )
-                  )}
+                  {Models.options.dataFlowFrom.map((item: any, index: number) => (
+                    <option key={item.title} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Form.InputWrapper>
-              {errors?.submitter_submitter && (
+              {errors?.dataFlowFrom && (
                 <span className="text-red-600 font-medium relative">
-                  {errors.submitter_submitter}
+                  {errors.dataFlowFrom}
                 </span>
               )}
               <LibraryComponents.Form.InputWrapper label="DATA TYPE" id="data_type">
@@ -548,9 +600,9 @@ const SegmentMapping = observer(() => {
               setHideAddDiv(false)
               Stores.segmentMappingStore.updateSegmentMapping({
                 ...item,
-                submitter_submitter:
-                  item.submitter_submitter !== undefined
-                    ? item.submitter_submitter.split("&gt;").join(">")
+                dataFlowFrom:
+                  item.dataFlowFrom !== undefined
+                    ? item.dataFlowFrom.split("&gt;").join(">")
                     : "",
                 attachments: "",
               })

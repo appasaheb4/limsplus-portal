@@ -48,7 +48,7 @@ export interface ConvertTo {
 
 export interface SegmentMapping {
   _id?: string
-  submitter_submitter?: string
+  dataFlowFrom?: string
   data_type?: string
   equipmentType?: string
   segments?: string
@@ -69,6 +69,9 @@ export interface SegmentMapping {
   required_for_lims?: boolean
   notes?: string
   attachments?: any
+  dateOfEntry?: string
+  lastUpdated?: string
+  __v?: string
 }
 
 export interface UpdateItem {
