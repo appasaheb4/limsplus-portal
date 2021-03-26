@@ -6,9 +6,8 @@ import Contexts from "@lp/library/stores"
 import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
-import {Stores as LoginStores} from '@lp/features/login/stores';
-import {Stores as UserStores} from '@lp/features/users/stores';
-
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
 
 import Appointments from "./Appointments"
 import BarChart from "./BarChart"
@@ -20,22 +19,38 @@ import PieChart from "./PieChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
 import moment from "moment"
+import { useHistory } from "react-router-dom"
+
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
   const [changePassword, setChangePassword] = useState(false)
   const rootStore = React.useContext(Contexts.rootStore)
+  const [modalConfirm, setModalConfirm] = useState<any>()
+  const history = useHistory()
 
   useEffect(() => {
     const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
       moment(new Date()),
       "days"
     )
-    if (diffInDays <= 5 && UserStores.userStore.changePassword?.tempHide !== true) {
+    if (
+      diffInDays >= 0 &&
+      diffInDays <= 5 &&
+      UserStores.userStore.changePassword?.tempHide !== true
+    ) {
       UserStores.userStore.updateChangePassword({
         ...UserStores.userStore.changePassword,
         subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
       })
       setChangePassword(true)
+    }
+    if (diffInDays < 0) {
+      setModalConfirm({
+        type: "accountexpire",
+        show: true,
+        title: "Your account expire.Please contact to admin. ",
+      })
     }
     if (
       LoginStores.loginStore.login?.passChanged !== true &&
@@ -128,6 +143,32 @@ const Default = observer(() => {
           />
         )}
       </Container>
+      <LibraryComponents.Atoms.ModalConfirm
+        {...modalConfirm}
+        click={(type) => {
+          if (type === "accountexpire") {
+            LoginStore.loginStore.LoginService.accountStatusUpdate({
+              userId: LoginStore.loginStore.inputLogin?.userId,
+              status: "Disable",
+            }).then((res) => {
+              rootStore.setProcessLoading(false)
+              LibraryComponents.ToastsStore.error(
+                "Your account is disable. Please contact admin"
+              )
+              LoginStores.loginStore
+                .removeUser()
+                .then((res) => {
+                  if (res) {
+                    history.push("/")
+                  }
+                })
+                .catch(() => {
+                  alert("Please try again")
+                })
+            })
+          }
+        }}
+      />
     </>
   )
 })

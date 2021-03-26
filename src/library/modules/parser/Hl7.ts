@@ -7,7 +7,7 @@ export default class Hl7 {
   constructor(message, config) {
     const parse = new Parser()
     message = parse.parseString(message)
-    console.log({ message })
+    console.log({ paresmessage: message })
     this._message = message
     this._config = config
   }
@@ -25,9 +25,10 @@ export default class Hl7 {
    * @return {{}}
    */
   process() {
-    const obj = {}
+    const obj: any[] = []
+    //const map = new Map()
     for (const message of this._message) {
-      console.log({ message })
+      //console.log({ message })
       // ///console.log({ tmpObj })
       const values: any = []
       for (const value of this._config.mapping[message.fields.toLowerCase()]
@@ -40,22 +41,23 @@ export default class Hl7 {
               message.values[index1 - 1],
               value.field_no
             )
-            if (message.values[index1 - 1] !== "") {
+            // if (message.values[index1 - 1] !== "") {
+            //   values.push(object)
+            // } else {
+            if (value.mandatory) {
               values.push(object)
-            } else {
-              if (value.mandatory) {
-                values.push(object)
-              }
             }
+            // }
           }
         }
       }
       values.sort((a, b) => {
         return a.field_no - b.field_no
       })
-      console.log({ values })
-      obj[message.fields] = values
+      //console.log({ values })
+      obj.push([[message.fields], values])
     }
+    //console.log({ obj })
     return obj
   }
 

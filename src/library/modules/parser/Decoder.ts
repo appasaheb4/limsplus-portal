@@ -15,6 +15,8 @@ export default class Decoder {
    * @return {*}
    */
   decode() {
+    if (!this._message) return null
+    if (this._message.substr(0, 3) !== "MSH") return null
     return this._decoder.process()
   }
 
@@ -26,7 +28,6 @@ export default class Decoder {
    */
   _setDynamicDecoder() {
     const obj = new Hl7(this._message, this._config)
-    if (!obj) throw new Error(`Unknow format`)
     return obj
   }
 }
