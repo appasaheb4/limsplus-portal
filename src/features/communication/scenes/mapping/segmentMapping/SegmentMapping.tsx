@@ -610,7 +610,8 @@ const SegmentMapping = observer(() => {
           />
         </div>
       </div>
-      <FeatureComponents.Atoms.ModalImportFile
+      <LibraryComponents.Atoms.ModalImportFile
+        accept=".csv,.xlsx,.xls"
         {...modalImportFile}
         click={(file: any) => {
           setModalImportFile({ show: false })

@@ -8,23 +8,16 @@ import moment from "moment"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "./accordion.css"
-import { toJS } from "mobx"
 import { Stores } from "../stores"
 
 import * as Models from "../models"
-import * as Util from "../util"
 import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
 import * as Config from "@lp/config"
-
-import { TreeView, TreeItem } from "@material-ui/lab"
-
-//import  from "@material-ui/lab/TreeItem"
-
 import * as FeatureComponents from "../components"
-
 import { HostCommunicationFlows } from "../flows"
+import { toJS } from "mobx"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -33,6 +26,7 @@ const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalImportFile, setModalImportFile] = useState({})
   useEffect(() => {}, [Stores.segmentMappingStore.mapping])
 
   return (
@@ -363,6 +357,20 @@ const HostCommunication = observer(() => {
                                   ...Stores.communicationStore.hostCommuication,
                                   SourceRepositoryDataReceivefromInstrument,
                                 })
+                                if (
+                                  SourceRepositoryDataReceivefromInstrument ===
+                                  "Phiysical file Location"
+                                ) {
+                                  if (
+                                    !Stores.communicationStore.hostCommuication
+                                      ?.instrumentType
+                                  )
+                                    return alert("Please entery instrument type")
+                                  setModalImportFile({
+                                    show: true,
+                                    title: "Import file!",
+                                  })
+                                }
                               }}
                             >
                               <option selected>Select</option>
@@ -548,7 +556,9 @@ const HostCommunication = observer(() => {
                               {Stores.communicationStore.convertTo?.hl7 !==
                                 undefined && (
                                 <FeatureComponents.Organisms.HL7Table
-                                  data={Stores.communicationStore.convertTo.hl7}
+                                  data={toJS(
+                                    Stores.communicationStore.convertTo.hl7
+                                  )}
                                 />
                               )}
                             </div>
@@ -858,6 +868,28 @@ const HostCommunication = observer(() => {
           />
         </div>
       </Container>
+      <LibraryComponents.Atoms.ModalImportFile
+        accept=".csv,.xlsx,.xls,.txt,.hl7"
+        {...modalImportFile}
+        click={(file: any) => {
+          setModalImportFile({ show: false })
+          let reader = new FileReader()
+          reader.readAsText(file)
+          reader.onload = function () {
+            Stores.communicationStore.updateHostCommuication({
+              ...Stores.communicationStore.hostCommuication,
+              txtDataReceivefromInstrument: (reader.result as string) || "",
+            })
+          }
+          reader.onerror = function () {
+            //console.log(reader.error)
+            alert("Please select correct file.Message not reading correct")
+          }
+        }}
+        close={() => {
+          setModalImportFile({ show: false })
+        }}
+      />
     </>
   )
 })

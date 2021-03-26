@@ -1,5 +1,8 @@
 import * as Clients from "@lp/library/clients"
 
+import LoginService from "./login-services"
+export { LoginService }
+
 const RELATIVE_PATH = "/auth"
 
 export const onLogin = (user: any) =>

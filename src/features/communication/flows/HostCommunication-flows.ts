@@ -10,8 +10,7 @@ class HostCommunicationFlows {
     data?.forEach((item: Models.SegmentMapping) => {
       if (
         item.equipmentType === instrumentType &&
-        (item.dataFlowFrom === "Host &gt; LIS" ||
-          item.dataFlowFrom === "Host > LIS")
+        (item.dataFlowFrom === "Host &gt; LIS" || item.dataFlowFrom === "Host > LIS")
       ) {
         values.push({
           segments: item.segments,
@@ -56,9 +55,8 @@ class HostCommunicationFlows {
           const mapping = {
             mapping: tempData,
           }
-          const obj = decode(message, mapping)
-          const hl7 = Object.entries(obj)
-          console.log({ hl7 })
+          const hl7 = decode(message, mapping)
+          if (!hl7) return alert("Please enter correct message")
           Stores.communicationStore.updateConvertTo({
             ...Stores.communicationStore.convertTo,
             hl7,
