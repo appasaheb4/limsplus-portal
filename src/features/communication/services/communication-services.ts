@@ -81,6 +81,8 @@ class CommunicationService extends BaseService {
     })
   importSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ segments })
+
       this.client
         .post(`/communication/importSegmentMapping`, segments)
         .then((res) => {
@@ -120,7 +122,7 @@ class CommunicationService extends BaseService {
         .get(`/communication/listSegmentMapping`)
         .then((res) => {
           const data = res.data.data
-          
+
           const mapping: any[] = []
           const values: Models.MappingValues[] = []
           data.forEach((item: Models.SegmentMapping) => {
@@ -143,7 +145,7 @@ class CommunicationService extends BaseService {
           const group = values.reduce((r: any, a: any) => {
             r[a.segments] = [...(r[a.segments] || []), a]
             return r
-          }, {})  
+          }, {})
           //console.log({ group })
           const entries = Object.entries(group)
           entries.forEach((item: any) => {

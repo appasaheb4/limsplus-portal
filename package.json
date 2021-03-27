@@ -53,6 +53,7 @@
     "react-eva-icons": "^0.0.8",
     "react-excel-renderer": "^1.1.0",
     "react-feather": "^2.0.9",
+    "react-file-reader": "^1.1.4",
     "react-perfect-scrollbar": "^1.5.8",
     "react-redux": "7.2.2",
     "react-redux-toastr": "7.6.5",

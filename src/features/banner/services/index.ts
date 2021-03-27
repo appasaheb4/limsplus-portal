@@ -24,6 +24,7 @@ export const addBanner = (banner: any) =>
         headers: {
           Accept: "application/json",
           "Content-Type": "multipart/form-data",
+          'content-type': 'application/json; charset=utf-8'
         },
       })
       .then((res) => {
