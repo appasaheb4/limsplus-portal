@@ -7,8 +7,6 @@ import Decoder from "./Decoder"
  * @returns {*}
  */
 export function decode(message, config) {
-  console.log({ message })
-
   const decoder = new Decoder(message, config)
   return decoder.decode()
 }

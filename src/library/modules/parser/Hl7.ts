@@ -7,7 +7,6 @@ export default class Hl7 {
   constructor(message, config) {
     const parse = new Parser()
     message = parse.parseString(message)
-    console.log({ paresmessage: message })
     this._message = message
     this._config = config
   }
@@ -28,7 +27,7 @@ export default class Hl7 {
     const obj: any[] = []
     //const map = new Map()
     for (const message of this._message) {
-      //console.log({ message })
+      console.log({ message })
       // ///console.log({ tmpObj })
       const values: any = []
       for (const value of this._config.mapping[message.fields.toLowerCase()]

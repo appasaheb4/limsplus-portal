@@ -15,6 +15,7 @@ import * as Config from "@lp/config"
 import * as FeatureComponents from "../components"
 import { HostCommunicationFlows } from "../flows"
 import { toJS } from "mobx"
+import fs from "fs"
 
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
@@ -802,15 +803,17 @@ const HostCommunication = observer(() => {
         {...modalImportFile}
         click={(file: any) => {
           setModalImportFile({ show: false })
+
           let reader = new FileReader()
+          reader.onload = (e: any) => {
+            const file = e.target.result
+            const lines = file.split(/\r/)
+            console.log({ lines })
+            let message = lines.join("\n")
+            HostCommunicationFlows.newMessage(message)
+          }
+          reader.onerror = (e: any) => alert(e.target.error.name)
           reader.readAsText(file)
-          reader.onload = function () {
-            HostCommunicationFlows.newMessage(reader.result)
-          }
-          reader.onerror = function () {
-            //console.log(reader.error)
-            alert("Please select correct file.Message not reading correct")
-          }
         }}
         close={() => {
           setModalImportFile({ show: false })
