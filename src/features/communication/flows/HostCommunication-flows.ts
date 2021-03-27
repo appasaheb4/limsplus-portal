@@ -66,6 +66,18 @@ class HostCommunicationFlows {
         reject(error)
       }
     })
+
+  newMessage = (message?: any) => {
+    Stores.communicationStore.updateHostCommuication({
+      ...Stores.communicationStore.hostCommuication,
+      txtDataReceivefromInstrument: message,
+      convertTo: "",
+    })
+    Stores.communicationStore.updateConvertTo({
+      ...Stores.communicationStore.convertTo,
+      hl7: undefined,
+    })
+  }
 }
 
 export default new HostCommunicationFlows()

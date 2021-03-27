@@ -2,9 +2,6 @@
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import moment from "moment"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "./accordion.css"
@@ -19,9 +16,6 @@ import * as FeatureComponents from "../components"
 import { HostCommunicationFlows } from "../flows"
 import { toJS } from "mobx"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
-
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
@@ -35,6 +29,7 @@ const HostCommunication = observer(() => {
         <LibraryComponents.Header>
           <LibraryComponents.PageHeading title="Host Communication" />
         </LibraryComponents.Header>
+
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
             <LibraryComponents.Grid cols={3}>
@@ -345,6 +340,17 @@ const HostCommunication = observer(() => {
                           >
                             <select
                               name="defualtLab"
+                              disabled={
+                                Stores.segmentMappingStore.listSegmentMapping !=
+                                  undefined &&
+                                Stores.communicationStore.hostCommuication
+                                  ?.instrumentType !== undefined
+                                  ? Stores.segmentMappingStore.listSegmentMapping
+                                      ?.length > 0
+                                    ? false
+                                    : true
+                                  : true
+                              }
                               value={
                                 Stores.communicationStore.hostCommuication
                                   ?.SourceRepositoryDataReceivefromInstrument
@@ -361,6 +367,7 @@ const HostCommunication = observer(() => {
                                   SourceRepositoryDataReceivefromInstrument ===
                                   "Phiysical file Location"
                                 ) {
+                                  Stores.communicationStore.hostCommuication
                                   if (
                                     !Stores.communicationStore.hostCommuication
                                       ?.instrumentType
@@ -414,10 +421,13 @@ const HostCommunication = observer(() => {
                                     ?.txtDataReceivefromInstrument
                                 }
                                 onChange={(txtDataReceivefromInstrument) => {
-                                  Stores.communicationStore.updateHostCommuication({
-                                    ...Stores.communicationStore.hostCommuication,
-                                    txtDataReceivefromInstrument,
-                                  })
+                                  // Stores.communicationStore.updateHostCommuication({
+                                  //   ...Stores.communicationStore.hostCommuication,
+                                  //   txtDataReceivefromInstrument,
+                                  // })
+                                  HostCommunicationFlows.newMessage(
+                                    txtDataReceivefromInstrument
+                                  )
                                 }}
                               />
                             </div>
@@ -490,6 +500,7 @@ const HostCommunication = observer(() => {
                                 Stores.communicationStore.updateHostCommuication({
                                   ...Stores.communicationStore.hostCommuication,
                                   convertTo,
+                                  SourceRepositoryDataReceivefromInstrument: "",
                                 })
                                 await HostCommunicationFlows.convetTo(
                                   convertTo,
@@ -770,88 +781,6 @@ const HostCommunication = observer(() => {
             </LibraryComponents.List>
           </div>
           <br />
-          <div className="p-2 rounded-lg shadow-xl overflow-auto">
-            {/* <ToolkitProvider
-              keyField="id"
-              data={rootStore.departmentStore.listDepartment || []}
-              columns={[
-                {
-                  dataField: "lab",
-                  text: "Lab",
-                  sort: true,
-                },
-                {
-                  dataField: "code",
-                  text: "Code",
-                  sort: true,
-                },
-                {
-                  dataField: "name",
-                  text: "name",
-                },
-                {
-                  dataField: "opration",
-                  text: "Delete",
-                  editable: false,
-                  csvExport: false,
-                  formatter: (cellContent, row) => (
-                    <>
-                      <LibraryComponents.Buttons.Button
-                        size="small"
-                        type="outline"
-                        icon={LibraryComponents.Icons.Remove}
-                        onClick={() => {
-                          setDeleteItem({
-                            show: true,
-                            id: row._id,
-                            title: "Are you sure?",
-                            body: `Delete ${row.name} lab!`,
-                          })
-                        }}
-                      >
-                        Delete
-                      </LibraryComponents.Buttons.Button>
-                    </>
-                  ),
-                },
-              ]}
-              search
-              exportCSV={{
-                fileName: `department_${moment(new Date()).format(
-                  "YYYY-MM-DD HH:mm"
-                )}.csv`,
-                noAutoBOM: false,
-                blobType: "text/csv;charset=ansi",
-              }}
-            >
-              {(props) => (
-                <div>
-                  <SearchBar {...props.searchProps} />
-                  <ClearSearchButton
-                    className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.searchProps}
-                  />
-                  <ExportCSVButton
-                    className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                  <hr />
-                  <BootstrapTable
-                    {...props.baseProps}
-                    noDataIndication="Table is Empty"
-                    hover
-                    // cellEdit={cellEditFactory({
-                    //   mode: "dbclick",
-                    //   blurToSave: true,
-                    //   // afterSaveCell,
-                    // })}
-                  />
-                </div>
-              )}
-            </ToolkitProvider> */}
-          </div>
           <LibraryComponents.Modal.ModalConfirm
             {...deleteItem}
             click={() => {
@@ -876,10 +805,7 @@ const HostCommunication = observer(() => {
           let reader = new FileReader()
           reader.readAsText(file)
           reader.onload = function () {
-            Stores.communicationStore.updateHostCommuication({
-              ...Stores.communicationStore.hostCommuication,
-              txtDataReceivefromInstrument: (reader.result as string) || "",
-            })
+            HostCommunicationFlows.newMessage(reader.result)
           }
           reader.onerror = function () {
             //console.log(reader.error)

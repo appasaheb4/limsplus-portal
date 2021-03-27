@@ -56,10 +56,12 @@ const SegmentMapping = observer(() => {
       ]
       const headers: any = []
       let object = new Array()
-      let fileImaport: boolean = true
+      let fileImaport: boolean = false
       data.forEach((item: any, index: number) => {
         if (index === 0) {
           headers.push(item)
+          if (JSON.stringify(headers[0]) !== JSON.stringify(defaultHeader))
+            return alert("Please select correct file!")
         } else {
           if (JSON.stringify(headers[0]) === JSON.stringify(defaultHeader)) {
             object.push({
@@ -68,14 +70,38 @@ const SegmentMapping = observer(() => {
               data_type: item[2],
               segments: item[3],
               segment_usage: item[4],
-              field_no: item[5].toString(),
-              item_no: item[6].toString(),
+              field_no: parseFloat(item[5]).toFixed(2).toString(),
+              item_no: parseFloat(item[6]).toFixed(2).toString(),
               field_required: item[7] === "Yes" ? true : false,
-              element_name: item[8],
+              element_name:
+                item[8] !== undefined
+                  ? item[8]
+                      .toString()
+                      .replace(/&amp;/g, "&")
+                      .replace(/&gt;/g, ">")
+                      .replace(/&lt;/g, "<")
+                      .replace(/&quot;/g, '"')
+                      .replace(/â/g, "’")
+                      .replace(/â¦/g, "…")
+                      .toString()
+                  : undefined,
               transmitted_data:
-                item[9] !== undefined ? item[9].toString() : undefined,
+                item[9] !== undefined
+                  ? item[9]
+                      .toString()
+                      .replace(/&amp;/g, "&")
+                      .replace(/&gt;/g, ">")
+                      .replace(/&lt;/g, "<")
+                      .replace(/&quot;/g, '"')
+                      .replace(/â/g, "’")
+                      .replace(/â¦/g, "…")
+                      .toString()
+                  : undefined,
               field_array: item[10],
-              field_length: item[11],
+              field_length:
+                item[11] !== undefined
+                  ? parseFloat(item[11]).toFixed(2).toString()
+                  : undefined,
               field_type: item[12],
               repeat_delimiter: item[13] === "Yes" ? true : false,
               mandatory: item[14] === "Yes" ? true : false,
@@ -86,25 +112,13 @@ const SegmentMapping = observer(() => {
               notes: item[19],
               attachments: item[20],
             })
-          } else {
-            fileImaport = false
-            alert("Please select correct file!")
-            return
+            fileImaport = true
           }
         }
       })
       object = JSON.parse(JSON.stringify(object))
-      // object = object.map((item) => {
-      //   Object.keys(item).forEach((key) => {
-      //     if (item[key] === undefined) {
-      //       delete item[key]
-      //     }
-      //     console.log({ item })
+      console.log({ object })
 
-      //     return item
-      //   })
-      // })
-      //console.log({ object })
       let listSegmentMapping = toJS(Stores.segmentMappingStore.listSegmentMapping)
       listSegmentMapping?.forEach(function (v) {
         delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
@@ -116,10 +130,8 @@ const SegmentMapping = observer(() => {
             : ""
         return item
       })
-      //console.log({ listSegmentMapping })
-      //console.log({ object })
+      console.log({ object, listSegmentMapping })
       object = object.concat(listSegmentMapping)
-      //console.log({ object })
       const uniqueData = object.reduce((filtered, item) => {
         if (
           !filtered.some(
@@ -129,15 +141,7 @@ const SegmentMapping = observer(() => {
           filtered.push(item)
         return filtered
       }, [])
-
       console.log({ uniqueData })
-
-      let stringified = uniqueData.map((i) => JSON.stringify(i))
-      let unique = stringified
-        .filter((k, idx) => stringified.indexOf(k) === idx)
-        .map((j) => JSON.parse(j))
-      console.log({ unique })
-
       if (fileImaport) {
         rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
