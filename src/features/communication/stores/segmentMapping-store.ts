@@ -12,6 +12,8 @@ class SegmentMappingStore {
   @ignore @observable updateItem?: Models.UpdateItem
   @ignore @observable mapping?: Models.Mapping[] = []
 
+  
+
   @action fetchListSegmentMapping() {
     this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {
       //console.log({ listSegmentMapping })

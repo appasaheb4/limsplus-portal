@@ -106,7 +106,7 @@ class CommunicationService extends BaseService {
           console.log({ group, entries })
           const values: any = []
           for (const groupSegment of entries) {
-            let segmentList: any = groupSegment[1]
+            const segmentList: any = groupSegment[1]
             segmentList.sort((a, b) => {
               return a.field_no - b.field_no
             })
