@@ -95,4 +95,11 @@ export interface Mapping {
   }
 }
 
+export interface ConversationMapping {
+  _id?: string
+  hexadecimal?: string
+  binary?: string
+  ascii?: string
+}
+
 export * from "./constants"
