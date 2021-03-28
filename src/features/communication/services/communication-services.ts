@@ -97,7 +97,25 @@ class CommunicationService extends BaseService {
       this.client
         .get(`/communication/listSegmentMapping`)
         .then((res) => {
-          resolve(res.data.data)
+          const data = res.data.data
+          const group = data.reduce((r: any, a: any) => {
+            r[a.segments] = [...(r[a.segments] || []), a]
+            return r
+          }, {})
+          const entries = Object.entries(group)
+          console.log({ group, entries })
+          const values: any = []
+          for (const groupSegment of entries) {
+            let segmentList: any = groupSegment[1]
+            segmentList.sort((a, b) => {
+              return a.field_no - b.field_no
+            })
+            console.log({ groupSegment, segmentList })
+            segmentList.forEach((item) => {
+              values.push(item)
+            })
+          }
+          resolve(values)
         })
         .catch((error) => {
           reject({ error })
