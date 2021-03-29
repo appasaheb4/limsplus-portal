@@ -13,6 +13,7 @@ const { ExportCSVButton } = CSVExport
 import { Stores } from "../stores"
 import { toJS } from "mobx"
 const EncodeCharacter = observer(() => {
+  const [deleteItem, setDeleteItem] = useState<any>({})
   useEffect(() => {
     Stores.encodeCharacterStore.fetchEncodeCharacter()
   }, [])
@@ -357,31 +358,31 @@ const EncodeCharacter = observer(() => {
                   </>
                 ),
               },
-              // {
-              //   dataField: "operation",
-              //   text: "Delete",
-              //   editable: false,
-              //   csvExport: false,
-              //   formatter: (cellContent, row) => (
-              //     <>
-              //       <LibraryComponents.Buttons.Button
-              //         size="small"
-              //         type="outline"
-              //         icon={LibraryComponents.Icons.Remove}
-              //         onClick={() => {
-              //           // setDeleteItem({
-              //           //   show: true,
-              //           //   id: row._id,
-              //           //   title: "Are you sure?",
-              //           //   body: `Delete ${row.title} banner!`,
-              //           // })
-              //         }}
-              //       >
-              //         Delete
-              //       </LibraryComponents.Buttons.Button>
-              //     </>
-              //   ),
-              // },
+              {
+                dataField: "operation",
+                text: "Delete",
+                editable: false,
+                csvExport: false,
+                formatter: (cellContent, row) => (
+                  <>
+                    <LibraryComponents.Buttons.Button
+                      size="small"
+                      type="outline"
+                      icon={LibraryComponents.Icons.Remove}
+                      onClick={() => {
+                        setDeleteItem({
+                          show: true,
+                          id: row._id,
+                          title: "Are you sure?",
+                          body: `Delete interfaceType = ${row.interfaceType}!`,
+                        })
+                      }}
+                    >
+                      Delete
+                    </LibraryComponents.Buttons.Button>
+                  </>
+                ),
+              },
             ]}
             search
             exportCSV={{
@@ -421,6 +422,26 @@ const EncodeCharacter = observer(() => {
             )}
           </ToolkitProvider>
         </div>
+        <LibraryComponents.Modal.ModalConfirm
+          {...deleteItem}
+          click={() => {
+            //rootStore.setProcessLoading(true)
+            Stores.encodeCharacterStore.encodeCharacterService
+              .deleteEncodeCharcter(deleteItem.id)
+              .then((res: any) => {
+                console.log({ res })
+                // rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.ToastsStore.success(`Encode Character deleted.`)
+                  setDeleteItem({ show: false })
+                  Stores.encodeCharacterStore.fetchEncodeCharacter()
+                }
+              })
+          }}
+          close={() => {
+            setDeleteItem({ show: false })
+          }}
+        />
       </div>
     </>
   )

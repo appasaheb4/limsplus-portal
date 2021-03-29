@@ -206,6 +206,18 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
+
+  deleteEncodeCharcter = (id: string) =>
+    new Promise((resolve, reject) => {
+      this.client
+        .delete(`communication/deleteEncodeCharacter/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default CommunicationService
