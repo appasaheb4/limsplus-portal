@@ -2,14 +2,14 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import Contexts from "@lp/library/stores"
 import * as Services from "../services"
-import {Stores} from '../stores';
+import { Stores } from "../stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -97,106 +97,108 @@ const Banner = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-        <ToolkitProvider
-              keyField="id"
-              data={Stores.bannerStore.listBanner || []}
-              columns={[
-                {
-                  dataField: "title",
-                  text: "Title",
-                },
-                {
-                  dataField: "image",
-                  text: "Image",
-                  csvExport: false,
-                  formatter: (cell, row) => {
-                    return (
-                      <>
-                        <img
-                          src={row.image}
-                          style={{ width: 200, height: 150 }}
-                          alt="banner"
-                        />
-                      </>
-                    )
-                  },
-                },
-                {
-                  dataField: "operation",
-                  text: "Delete",
-                  editable: false,
-                  csvExport: false,
-                  formatter: (cellContent, row) => (
+          <ToolkitProvider
+            keyField="id"
+            data={Stores.bannerStore.listBanner || []}
+            columns={[
+              {
+                dataField: "title",
+                text: "Title",
+              },
+              {
+                dataField: "image",
+                text: "Image",
+                csvExport: false,
+                formatter: (cell, row) => {
+                  return (
                     <>
-                      <LibraryComponents.Buttons.Button
-                        size="small"
-                        type="outline"
-                        icon={LibraryComponents.Icons.Remove}
-                        onClick={() => {
-                          setDeleteItem({
-                            show: true,
-                            id: row._id,
-                            title: "Are you sure?",
-                            body: `Delete ${row.title} banner!`,
-                          })
-                        }}
-                      >
-                        Delete
-                      </LibraryComponents.Buttons.Button>
+                      <img
+                        src={row.image}
+                        style={{ width: 200, height: 150 }}
+                        alt="banner"
+                      />
                     </>
-                  ),
+                  )
                 },
-              ]}
-              search
-              exportCSV={{
-                fileName: `banner_${moment(new Date()).format(
-                  "YYYY-MM-DD HH:mm"
-                )}.csv`,
-                noAutoBOM: false,
-                blobType: "text/csv;charset=ansi",
-              }}
-            >
-              {(props) => (
-                <div>
-                  <SearchBar {...props.searchProps} />
-                  <ClearSearchButton
-                    className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.searchProps}
-                  />
-                  <ExportCSVButton
-                    className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                  <hr />
-                  <BootstrapTable
-                    {...props.baseProps}
-                    noDataIndication="Table is Empty"
-                    hover
-                    pagination={ paginationFactory() }
-                    // cellEdit={cellEditFactory({
-                    //   mode: "dbclick",
-                    //   blurToSave: true,
-                    //   // afterSaveCell,
-                    // })}
-                  />
-                </div>
-              )}
-            </ToolkitProvider>
+              },
+              {
+                dataField: "operation",
+                text: "Delete",
+                editable: false,
+                csvExport: false,
+                formatter: (cellContent, row) => (
+                  <>
+                    <LibraryComponents.Buttons.Button
+                      size="small"
+                      type="outline"
+                      icon={LibraryComponents.Icons.Remove}
+                      onClick={() => {
+                        setDeleteItem({
+                          show: true,
+                          id: row._id,
+                          title: "Are you sure?",
+                          body: `Delete ${row.title} banner!`,
+                        })
+                      }}
+                    >
+                      Delete
+                    </LibraryComponents.Buttons.Button>
+                  </>
+                ),
+              },
+            ]}
+            search
+            exportCSV={{
+              fileName: `banner_${moment(new Date()).format(
+                "YYYY-MM-DD HH:mm"
+              )}.csv`,
+              noAutoBOM: false,
+              blobType: "text/csv;charset=ansi",
+            }}
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  noDataIndication="Table is Empty"
+                  hover
+                  pagination={paginationFactory()}
+                  // cellEdit={cellEditFactory({
+                  //   mode: "dbclick",
+                  //   blurToSave: true,
+                  //   // afterSaveCell,
+                  // })}
+                />
+              </div>
+            )}
+          </ToolkitProvider>
         </div>
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
             rootStore.setProcessLoading(true)
-            Stores.bannerStore.BannerService.deleteBanner(deleteItem.id).then((res: any) => {
-              rootStore.setProcessLoading(false)
-              if (res.status === 200) {
-                LibraryComponents.ToastsStore.success(`Banner deleted.`)
-                setDeleteItem({ show: false })
-                Stores.bannerStore.fetchListBanner()
+            Stores.bannerStore.BannerService.deleteBanner(deleteItem.id).then(
+              (res: any) => {
+                rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.ToastsStore.success(`Banner deleted.`)
+                  setDeleteItem({ show: false })
+                  Stores.bannerStore.fetchListBanner()
+                }
               }
-            })
+            )
           }}
         />
       </div>

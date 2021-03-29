@@ -1,8 +1,8 @@
-import React from "react";
+import React from "react"
 
 interface PageHeadingProps {
-  title: string;
-  subTitle?: string;
+  title: string
+  subTitle?: string
 }
 
 const PageHeading: React.FunctionComponent<PageHeadingProps> = (props) => (
@@ -14,6 +14,6 @@ const PageHeading: React.FunctionComponent<PageHeadingProps> = (props) => (
       <p className="text-xs leading-4 text-gray-500 m-0">{props.subTitle}</p>
     )}
   </div>
-);
+)
 
-export default PageHeading;
+export default PageHeading

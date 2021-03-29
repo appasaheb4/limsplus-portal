@@ -102,4 +102,17 @@ export interface ConversationMapping {
   ascii?: string
 }
 
+export interface EncodeCharacter {
+  _id?: string
+  interfaceType?: string
+  instrumentType?: string
+  instrumentName?: string
+  communicationProtocol?: string
+  blockStart?: string
+  blockEnd?: string
+  filed?: string
+  value?: string
+  fileds?: { filed?: string | undefined; value?: string | undefined }[]
+}
+
 export * from "./constants"

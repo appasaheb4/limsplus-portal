@@ -45,11 +45,14 @@ const SegmentMapping = async(
   () =>
     import("@lp/features/communication/scenes/mapping/segmentMapping/SegmentMapping")
 )
-const ConversationMapping = async(
-  () =>
-    import(
-      "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
-    )
+// const ConversationMapping = async(
+//   () =>
+//     import(
+//       "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
+//     )
+// )
+const EncodeCharacter = async(
+  () => import("@lp/features/communication/scenes/EncodeCharacter")
 )
 
 // Routes
@@ -134,20 +137,25 @@ const communicationRoutes = {
   icon: LayoutIcon,
   children: [
     {
-      path: "/communication/mapping/segmentMapping",
-      name: "Segment Mapping",
-      component: SegmentMapping,
-    },
-    {
-      path:'/communication/mapping/conversationMapping',
-      name:'Conversation Mapping',
-      component: ConversationMapping
+      path: "/communication/encodeCharacter",
+      name: "Encode Character",
+      component: EncodeCharacter,
     },
     {
       path: "/communication/hostCommunication",
       name: "Host Communication",
       component: HostCommunication,
     },
+    {
+      path: "/communication/mapping/segmentMapping",
+      name: "Segment Mapping",
+      component: SegmentMapping,
+    },
+    // {
+    //   path:'/communication/mapping/conversationMapping',
+    //   name:'Conversation Mapping',
+    //   component: ConversationMapping
+    // },
   ],
 }
 
