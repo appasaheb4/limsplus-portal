@@ -15,15 +15,19 @@ import * as Config from "@lp/config"
 import * as FeatureComponents from "../components"
 import { HostCommunicationFlows } from "../flows"
 import { toJS } from "mobx"
-import fs from "fs"
-
+import socketIOClient from "socket.io-client"
+const SERVER = "http://localhost:8080"
+let socket
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   useEffect(() => {}, [Stores.segmentMappingStore.mapping])
-
+ // socket = socketIOClient("http://localhost:8080/")
+  useEffect(() => {
+    socket.emit("initial_data")
+  }, [])  
   return (
     <>
       <Container>

@@ -5,6 +5,7 @@
  * @author limsplus
  */
 //import * as Models from "../models"
+
 import BaseService from "@lp/library/modules/base-service"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
@@ -181,8 +182,53 @@ class CommunicationService extends BaseService {
 
   addEncodeCharacter = (encode: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ encode })
+      encode.blockStart =
+        encode.blockStart !== undefined
+          ? encode.blockStart
+              .replace("&", "&amp;")
+              .replace(">", "&gt;")
+              .replace("<", "&lt;")
+              .replace('"', "&quot;")
+              .replace("’", "â")
+              .replace("…", "â¦")
+          : undefined
 
+      encode.blockEnd =
+        encode.blockEnd !== undefined
+          ? encode.blockEnd
+              .replace("&", "&amp;")
+              .replace(">", "&gt;")
+              .replace("<", "&lt;")
+              .replace('"', "&quot;")
+              .replace("’", "â")
+              .replace("…", "â¦")
+          : undefined
+
+      encode.fileds = encode.fileds.map((item: any) => {
+        item.filed =
+          item.filed !== undefined
+            ? item.filed
+                .replace("&", "&amp;")
+                .replace(">", "&gt;")
+                .replace("<", "&lt;")
+                .replace('"', "&quot;")
+                .replace("’", "â")
+                .replace("…", "â¦")
+            : undefined
+
+        item.value =
+          item.value !== undefined
+            ? item.value
+                .replace("&", "&amp;")
+                .replace(">", "&gt;")
+                .replace("<", "&lt;")
+                .replace('"', "&quot;")
+                .replace("’", "â")
+                .replace("…", "â¦")
+            : undefined
+
+        return item
+      })
       this.client
         .post(`/communication/addEncodeCharacter`, encode)
         .then((res) => {

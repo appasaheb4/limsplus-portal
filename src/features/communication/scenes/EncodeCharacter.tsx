@@ -139,17 +139,25 @@ const EncodeCharacter = observer(() => {
                       type="solid"
                       onClick={() => {
                         const filed =
-                          Stores.encodeCharacterStore.encodeCharacter?.filed || ""
+                          Stores.encodeCharacterStore.encodeCharacter?.filed
                         const value =
-                          Stores.encodeCharacterStore.encodeCharacter?.value || ""
+                          Stores.encodeCharacterStore.encodeCharacter?.value
                         const fileds =
                           Stores.encodeCharacterStore.encodeCharacter?.fileds || []
-                        if (filed === undefined && value === undefined)
+                        if (filed === undefined)
                           return alert("Please enter filed and value.")
-                        if (filed !== undefined && value !== undefined) {
+                        if (filed !== undefined) {
                           fileds !== undefined
-                            ? fileds.push({ filed, value })
-                            : [{ filed, value }]
+                            ? fileds.push({
+                                filed,
+                                value,
+                              })
+                            : [
+                                {
+                                  filed,
+                                  value,
+                                },
+                              ]
                           Stores.encodeCharacterStore.updateEncodeCharacter({
                             ...Stores.encodeCharacterStore.encodeCharacter,
                             fileds,
@@ -306,7 +314,31 @@ const EncodeCharacter = observer(() => {
                               // })
                             }}
                           >
-                            {`Start:${row.blockStart} - End:${row.blockEnd}`}
+                            {`Start:${
+                              row.blockStart !== undefined
+                                ? row.blockStart
+                                    .toString()
+                                    .replace(/&amp;/g, "&")
+                                    .replace(/&gt;/g, ">")
+                                    .replace(/&lt;/g, "<")
+                                    .replace(/&quot;/g, '"')
+                                    .replace(/â/g, "’")
+                                    .replace(/â¦/g, "…")
+                                    .toString()
+                                : undefined
+                            } - End:${
+                              row.blockEnd !== undefined
+                                ? row.blockEnd
+                                    .toString()
+                                    .replace(/&amp;/g, "&")
+                                    .replace(/&gt;/g, ">")
+                                    .replace(/&lt;/g, "<")
+                                    .replace(/&quot;/g, '"')
+                                    .replace(/â/g, "’")
+                                    .replace(/â¦/g, "…")
+                                    .toString()
+                                : undefined
+                            }`}
                           </LibraryComponents.Buttons.Button>
                         </div>
                       </div>
@@ -349,7 +381,19 @@ const EncodeCharacter = observer(() => {
                                 // })
                               }}
                             >
-                              {`Filed:${item.filed} - Value:${item.value}`}
+                              {`Filed:${item.filed} - Value:${
+                                item.value !== undefined
+                                  ? item.value
+                                      .toString()
+                                      .replace(/&amp;/g, "&")
+                                      .replace(/&gt;/g, ">")
+                                      .replace(/&lt;/g, "<")
+                                      .replace(/&quot;/g, '"')
+                                      .replace(/â/g, "’")
+                                      .replace(/â¦/g, "…")
+                                      .toString()
+                                  : undefined
+                              }`}
                             </LibraryComponents.Buttons.Button>
                           </div>
                         ))}
