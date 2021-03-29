@@ -178,6 +178,34 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
+
+  addEncodeCharacter = (encode: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({ encode })
+
+      this.client
+        .post(`/communication/addEncodeCharacter`, encode)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  listEncodeCharacter = () =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .get(`/communication/listEncodeCharacter`)
+        .then((res) => {
+          console.log({ res })
+
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default CommunicationService

@@ -210,7 +210,7 @@ const SegmentMapping = observer(() => {
                 </span>
               )}
               <LibraryComponents.Form.InputWrapper
-                label="SUBMITTER SUBMITTER"
+                label="DATA FLOW FROM"
                 id="dataFlowFrom"
               >
                 <select
@@ -333,7 +333,7 @@ const SegmentMapping = observer(() => {
                 onChange={(field_no) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    field_no,
+                    field_no: parseFloat(field_no).toFixed(2).toString(),
                   })
                 }}
               />
@@ -346,7 +346,7 @@ const SegmentMapping = observer(() => {
                 onChange={(item_no) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    item_no,
+                    item_no: parseFloat(item_no).toFixed(2).toString(),
                   })
                 }}
               />
@@ -409,7 +409,7 @@ const SegmentMapping = observer(() => {
                 onChange={(field_length) => {
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
-                    field_length,
+                    field_length: parseFloat(field_length).toFixed(2).toString(),
                   })
                 }}
               />
