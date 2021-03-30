@@ -14,9 +14,7 @@ import { Stores } from "../stores"
 import { toJS } from "mobx"
 const EncodeCharacter = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
-  useEffect(() => {
-    Stores.encodeCharacterStore.fetchEncodeCharacter()
-  }, [])
+  
 
   return (
     <>

@@ -117,8 +117,7 @@ const SegmentMapping = observer(() => {
         }
       })
       object = JSON.parse(JSON.stringify(object))
-      console.log({ object })
-
+      //console.log({ object })
       let listSegmentMapping = toJS(Stores.segmentMappingStore.listSegmentMapping)
       listSegmentMapping?.forEach(function (v) {
         delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
@@ -197,11 +196,13 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {Models.options.equipmentType.map((item: any, index: number) => (
-                    <option key={item.title} value={item.title}>
-                      {item.title}
-                    </option>
-                  ))}
+                  {Stores.encodeCharacterStore.listEncodeCharacter?.map(
+                    (item: any) => (
+                      <option key={item.instrumentType} value={item.instrumentType}>
+                        {item.instrumentType}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Form.InputWrapper>
               {errors?.equipmentType && (
