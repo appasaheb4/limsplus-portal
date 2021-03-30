@@ -24,10 +24,11 @@ const HostCommunication = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   useEffect(() => {}, [Stores.segmentMappingStore.mapping])
- // socket = socketIOClient("http://localhost:8080/")
-  useEffect(() => {
-    socket.emit("initial_data")
-  }, [])  
+  // socket = socketIOClient("http://localhost:8080/")
+  // useEffect(() => {
+  //   socket.emit("initial_data")
+  // }, [])
+
   return (
     <>
       <Container>
@@ -80,18 +81,46 @@ const HostCommunication = observer(() => {
                     </label>
                   </div>
                 </LibraryComponents.Grid>
-                <LibraryComponents.Form.Input
+
+                <LibraryComponents.Form.InputWrapper
                   label="Instrument Type"
                   id="instrumentType"
-                  placeholder="Instrument Type"
-                  value={Stores.communicationStore.hostCommuication?.instrumentType}
-                  onChange={(instrumentType) => {
-                    Stores.communicationStore.updateHostCommuication({
-                      ...Stores.communicationStore.hostCommuication,
-                      instrumentType,
-                    })
-                  }}
-                />
+                >
+                  <select
+                    name="instrumentType"
+                    value={
+                      Stores.communicationStore.hostCommuication?.instrumentType
+                    }
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const instrumentType = e.target.value
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
+                        instrumentType,
+                      })
+                      const selectedEncode = Stores.encodeCharacterStore.listEncodeCharacter?.find(
+                        (item) => item.instrumentType === instrumentType
+                      )
+                      Stores.communicationStore.updateHostCommuication({
+                        ...Stores.communicationStore.hostCommuication,
+                        instrumentName: selectedEncode?.instrumentName,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {Stores.encodeCharacterStore.listEncodeCharacter?.map(
+                      (item: any) => (
+                        <option
+                          key={item.instrumentType}
+                          value={item.instrumentType}
+                        >
+                          {item.instrumentType}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Form.InputWrapper>
+
                 {/* {errors?.fullName && (
                   <span className="text-red-600 font-medium relative">
                     {errors.fullName}
