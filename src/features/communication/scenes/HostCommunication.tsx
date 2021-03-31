@@ -22,13 +22,10 @@ const HostCommunication = observer(() => {
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
-  useEffect(() => {}, [Stores.segmentMappingStore.mapping])
-  socket = io(
-    Config.Api.LIMSPLUS_API_HOST.replace(":8080", "").replace("/api", ":8080"),
-    {  
-      transports: ["websocket"],   
-    }
-  )
+
+  socket = io(Config.Api.LIMSPLUS_API_HOST.split("/api")[0], {
+    transports: ["websocket"],
+  })  
 
   useEffect(() => {
     socket.on("hostCommunicationSendDataToInstrument", (data) => {
