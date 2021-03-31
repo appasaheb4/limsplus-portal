@@ -15,8 +15,7 @@ import * as Config from "@lp/config"
 import * as FeatureComponents from "../components"
 import { HostCommunicationFlows } from "../flows"
 import { toJS } from "mobx"
-import socketIOClient from "socket.io-client"
-const SERVER = "http://localhost:8080"
+import { io } from "socket.io-client"
 let socket
 const HostCommunication = observer(() => {
   const rootStore = useContext(RootStoreContext.rootStore)
@@ -24,10 +23,28 @@ const HostCommunication = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   useEffect(() => {}, [Stores.segmentMappingStore.mapping])
-  // socket = socketIOClient("http://localhost:8080/")
-  // useEffect(() => {
-  //   socket.emit("initial_data")
-  // }, [])
+  socket = io(
+    Config.Api.LIMSPLUS_API_HOST.replace(":8080", "").replace("/api", ":8080"),
+    {  
+      transports: ["websocket"],   
+    }
+  )
+
+  useEffect(() => {
+    socket.on("hostCommunicationSendDataToInstrument", (data) => {
+      Stores.communicationStore.updateHostCommuication({
+        ...Stores.communicationStore.hostCommuication,
+        txtSendDatafromInstrument: data,
+      })
+    })
+
+    socket.on("hostCommunicationSourceFile", (data) => {
+      Stores.communicationStore.updateHostCommuication({
+        ...Stores.communicationStore.hostCommuication,
+        txtDataReceivefromInstrument: data,
+      })
+    })
+  }, [])
 
   return (
     <>
@@ -470,9 +487,15 @@ const HostCommunication = observer(() => {
                                 <LibraryComponents.Buttons.Button
                                   size="medium"
                                   type="solid"
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    socket.emit(
+                                      "hostCommunicationSourceFile",
+                                      Stores.communicationStore.hostCommuication
+                                        ?.txtDataReceivefromInstrument
+                                    )
+                                  }}
                                 >
-                                  Receive
+                                  Send
                                 </LibraryComponents.Buttons.Button>
                               </div>
                             </div>
@@ -507,7 +530,13 @@ const HostCommunication = observer(() => {
                               <LibraryComponents.Buttons.Button
                                 size="medium"
                                 type="solid"
-                                onClick={() => {}}
+                                onClick={() => {
+                                  socket.emit(
+                                    "hostCommunicationSendDataToInstrument",
+                                    Stores.communicationStore.hostCommuication
+                                      ?.txtSendDatafromInstrument
+                                  )
+                                }}
                               >
                                 Send
                               </LibraryComponents.Buttons.Button>
