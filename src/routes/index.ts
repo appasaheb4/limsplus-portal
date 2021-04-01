@@ -138,7 +138,7 @@ const communicationRoutes = {
   children: [
     {
       path: "/communication/encodeCharacter",
-      name: "Encode Character",
+      name: "Interface Manager",
       component: EncodeCharacter,
     },
     {
@@ -148,7 +148,7 @@ const communicationRoutes = {
     },
     {
       path: "/communication/mapping/segmentMapping",
-      name: "Segment Mapping",
+      name: "Data Segment Mapping",
       component: SegmentMapping,
     },
     // {

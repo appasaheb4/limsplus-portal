@@ -116,3 +116,10 @@ export interface EncodeCharacter {
 }
 
 export * from "./constants"
+
+
+
+
+// renames
+// encode character to interface manager
+// segment mapping to data segment mapping

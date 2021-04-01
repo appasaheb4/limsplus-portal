@@ -158,7 +158,7 @@ const SegmentMapping = observer(() => {
   return (
     <>
       <LibraryComponents.Header>
-        <LibraryComponents.PageHeading title="Segment Mapping" />
+        <LibraryComponents.PageHeading title="Data Segment Mapping" />
       </LibraryComponents.Header>
 
       <LibraryComponents.Buttons.ButtonCircleAddRemove
