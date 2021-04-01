@@ -14,12 +14,11 @@ import { Stores } from "../stores"
 import { toJS } from "mobx"
 const EncodeCharacter = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
-  
 
   return (
     <>
       <LibraryComponents.Header>
-        <LibraryComponents.PageHeading title="Encode Character" />
+        <LibraryComponents.PageHeading title="Interface Manager" />
       </LibraryComponents.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">

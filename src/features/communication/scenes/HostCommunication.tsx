@@ -25,7 +25,7 @@ const HostCommunication = observer(() => {
 
   socket = io(Config.Api.LIMSPLUS_API_HOST.split("/api")[0], {
     transports: ["websocket"],
-  })  
+  })
 
   useEffect(() => {
     socket.on("hostCommunicationSendDataToInstrument", (data) => {
@@ -61,8 +61,12 @@ const HostCommunication = observer(() => {
               >
                 <LibraryComponents.Grid cols={2}>
                   <LibraryComponents.Form.Toggle
-                    label="Manual Mode"
-                    id="manualAutomaticMode"
+                    label={
+                      Stores.communicationStore.hostCommuication?.manualAutomaticMode
+                        ? "Automatic"
+                        : "Manual"
+                    }  
+                    id="manualMode"
                     value={
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
                     }
