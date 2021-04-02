@@ -17,7 +17,7 @@ const { ExportCSVButton } = CSVExport
 const Banner = observer(() => {
   const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
-
+  
   return (
     <>
       <LibraryComponents.Header>

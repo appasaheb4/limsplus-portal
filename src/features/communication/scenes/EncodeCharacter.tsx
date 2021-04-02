@@ -315,24 +315,24 @@ const EncodeCharacter = observer(() => {
                               row.blockStart !== undefined
                                 ? row.blockStart
                                     .toString()
-                                    .replace(/&amp;/g, "&")
-                                    .replace(/&gt;/g, ">")
-                                    .replace(/&lt;/g, "<")
-                                    .replace(/&quot;/g, '"')
-                                    .replace(/â/g, "’")
-                                    .replace(/â¦/g, "…")
+                                    .replaceAll(/&amp;/g, "&")
+                                    .replaceAll(/&gt;/g, ">")
+                                    .replaceAll(/&lt;/g, "<")
+                                    .replaceAll(/&quot;/g, '"')
+                                    .replaceAll(/â/g, "’")
+                                    .replaceAll(/â¦/g, "…")
                                     .toString()
                                 : undefined
                             } - End:${
                               row.blockEnd !== undefined
                                 ? row.blockEnd
                                     .toString()
-                                    .replace(/&amp;/g, "&")
-                                    .replace(/&gt;/g, ">")
-                                    .replace(/&lt;/g, "<")
-                                    .replace(/&quot;/g, '"')
-                                    .replace(/â/g, "’")
-                                    .replace(/â¦/g, "…")
+                                    .replaceAll(/&amp;/g, "&")
+                                    .replaceAll(/&gt;/g, ">")
+                                    .replaceAll(/&lt;/g, "<")
+                                    .replaceAll(/&quot;/g, '"')
+                                    .replaceAll(/â/g, "’")
+                                    .replaceAll(/â¦/g, "…")
                                     .toString()
                                 : undefined
                             }`}
@@ -382,12 +382,12 @@ const EncodeCharacter = observer(() => {
                                 item.value !== undefined
                                   ? item.value
                                       .toString()
-                                      .replace(/&amp;/g, "&")
-                                      .replace(/&gt;/g, ">")
-                                      .replace(/&lt;/g, "<")
-                                      .replace(/&quot;/g, '"')
-                                      .replace(/â/g, "’")
-                                      .replace(/â¦/g, "…")
+                                      .replaceAll(/&amp;/g, "&")
+                                      .replaceAll(/&gt;/g, ">")
+                                      .replaceAll(/&lt;/g, "<")
+                                      .replaceAll(/&quot;/g, '"')
+                                      .replaceAll(/â/g, "’")
+                                      .replaceAll(/â¦/g, "…")
                                       .toString()
                                   : undefined
                               }`}
