@@ -83,7 +83,6 @@ class CommunicationService extends BaseService {
   importSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
       console.log({ segments })
-
       this.client
         .post(`/communication/importSegmentMapping`, segments)
         .then((res) => {
@@ -185,46 +184,46 @@ class CommunicationService extends BaseService {
       encode.blockStart =
         encode.blockStart !== undefined
           ? encode.blockStart
-              .replace("&", "&amp;")
-              .replace(">", "&gt;")
-              .replace("<", "&lt;")
-              .replace('"', "&quot;")
-              .replace("’", "â")
-              .replace("…", "â¦")
+              .replaceAll("&", "&amp;")
+              .replaceAll(">", "&gt;")
+              .replaceAll("<", "&lt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("’", "â")
+              .replaceAll("…", "â¦")
           : undefined
 
       encode.blockEnd =
         encode.blockEnd !== undefined
           ? encode.blockEnd
-              .replace("&", "&amp;")
-              .replace(">", "&gt;")
-              .replace("<", "&lt;")
-              .replace('"', "&quot;")
-              .replace("’", "â")
-              .replace("…", "â¦")
+              .replaceAll("&", "&amp;")
+              .replaceAll(">", "&gt;")
+              .replaceAll("<", "&lt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("’", "â")
+              .replaceAll("…", "â¦")
           : undefined
 
       encode.fileds = encode.fileds.map((item: any) => {
         item.filed =
           item.filed !== undefined
             ? item.filed
-                .replace("&", "&amp;")
-                .replace(">", "&gt;")
-                .replace("<", "&lt;")
-                .replace('"', "&quot;")
-                .replace("’", "â")
-                .replace("…", "â¦")
+                .replaceAll("&", "&amp;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("<", "&lt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("’", "â")
+                .replaceAll("…", "â¦")
             : undefined
 
         item.value =
           item.value !== undefined
             ? item.value
-                .replace("&", "&amp;")
-                .replace(">", "&gt;")
-                .replace("<", "&lt;")
-                .replace('"', "&quot;")
-                .replace("’", "â")
-                .replace("…", "â¦")
+                .replaceAll("&", "&amp;")
+                .replaceAll(">", "&gt;")
+                .replaceAll("<", "&lt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("’", "â")
+                .replaceAll("…", "â¦")
             : undefined
 
         return item

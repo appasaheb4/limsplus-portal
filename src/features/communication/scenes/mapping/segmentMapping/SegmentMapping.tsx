@@ -118,19 +118,19 @@ const SegmentMapping = observer(() => {
       })
       object = JSON.parse(JSON.stringify(object))
       //console.log({ object })
-      let listSegmentMapping = toJS(Stores.segmentMappingStore.listSegmentMapping)
-      listSegmentMapping?.forEach(function (v) {
-        delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
-      })
-      listSegmentMapping = listSegmentMapping?.map((item) => {
-        item.dataFlowFrom =
-          item.dataFlowFrom !== undefined
-            ? item.dataFlowFrom.split("&gt;").join(">")
-            : ""
-        return item
-      })
-      console.log({ object, listSegmentMapping })
-      object = object.concat(listSegmentMapping)
+      // let listSegmentMapping = toJS(Stores.segmentMappingStore.listSegmentMapping)
+      // listSegmentMapping?.forEach(function (v) {
+      //   delete v._id, delete v.dateOfEntry, delete v.lastUpdated, delete v.__v
+      // })
+      // listSegmentMapping = listSegmentMapping?.map((item) => {
+      //   item.dataFlowFrom =
+      //     item.dataFlowFrom !== undefined
+      //       ? item.dataFlowFrom.split("&gt;").join(">")
+      //       : ""
+      //   return item
+      // })
+      console.log({ object })
+      //object = object.concat(listSegmentMapping)
       const uniqueData = object.reduce((filtered, item) => {
         if (
           !filtered.some(
@@ -139,7 +139,7 @@ const SegmentMapping = observer(() => {
         )
           filtered.push(item)
         return filtered
-      }, [])
+      }, [])     
       console.log({ uniqueData })
       if (fileImaport) {
         rootStore.setProcessLoading(true)
