@@ -75,7 +75,7 @@ export interface SegmentMapping {
 }
 
 export interface UpdateItem {
-  value: string | boolean
+  value: string | boolean | undefined | any[]
   dataField: string
   id: string
 }
@@ -116,9 +116,6 @@ export interface EncodeCharacter {
 }
 
 export * from "./constants"
-
-
-
 
 // renames
 // encode character to interface manager

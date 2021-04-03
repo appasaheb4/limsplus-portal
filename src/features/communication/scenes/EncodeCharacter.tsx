@@ -298,14 +298,110 @@ const EncodeCharacter = observer(() => {
               {
                 dataField: "instrumentType",
                 text: "Instrument Type",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.Input
+                      name="instrumentType"
+                      placeholder="Instrument Type"
+                      onBlur={(instrumentType) => {
+                        if (
+                          row.instrumentType !== instrumentType &&
+                          instrumentType
+                        ) {
+                          Stores.encodeCharacterStore.changeUpdateItem({
+                            value: instrumentType,
+                            dataField: column.dataField,
+                            id: row._id,
+                          })
+                          setModalConfirm({
+                            type: "update",
+                            show: true,
+                            title: "Are you sure update recoard?",
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: "instrumentName",
                 text: "Instrument Name",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.Input
+                      name="instrumentType"
+                      placeholder="Instrument Type"
+                      onBlur={(instrumentType) => {
+                        if (
+                          row.instrumentType !== instrumentType &&
+                          instrumentType
+                        ) {
+                          Stores.encodeCharacterStore.changeUpdateItem({
+                            value: instrumentType,
+                            dataField: column.dataField,
+                            id: row._id,
+                          })
+                          setModalConfirm({
+                            type: "update",
+                            show: true,
+                            title: "Are you sure update recoard?",
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: "communicationProtocol",
                 text: "Communication Protocol",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.Input
+                      name="communicationProtocol"
+                      placeholder="Communication Protocol"
+                      onBlur={(communicationProtocol) => {
+                        if (
+                          row.communicationProtocol !== communicationProtocol &&
+                          communicationProtocol
+                        ) {
+                          Stores.encodeCharacterStore.changeUpdateItem({
+                            value: communicationProtocol,
+                            dataField: column.dataField,
+                            id: row._id,
+                          })
+                          setModalConfirm({
+                            type: "update",
+                            show: true,
+                            title: "Are you sure update recoard?",
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: "block",
@@ -322,26 +418,7 @@ const EncodeCharacter = observer(() => {
                           <LibraryComponents.Buttons.Button
                             size="medium"
                             type="solid"
-                            //icon={LibraryComponents.Icons.Remove}
-                            onClick={() => {
-                              // const firstArr =
-                              //   Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
-                              //     0,
-                              //     index
-                              //   ) || []
-                              // const secondArr =
-                              //   Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
-                              //     index + 1
-                              //   ) || []
-                              // const newArrSubCategory = [
-                              //   ...firstArr,
-                              //   ...secondArr,
-                              // ]
-                              // Stores.encodeCharacterStore.updateEncodeCharacter({
-                              //   ...Stores.encodeCharacterStore.encodeCharacter,
-                              //   fileds: newArrSubCategory,
-                              // })
-                            }}
+                            onClick={() => {}}
                           >
                             {`Start:${
                               row.blockStart !== undefined
@@ -374,6 +451,78 @@ const EncodeCharacter = observer(() => {
                     </LibraryComponents.List>
                   </>
                 ),
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Grid cols={2}>
+                      <LibraryComponents.Form.Input
+                        name="startBlock"
+                        placeholder="Start Block"
+                        onBlur={(blockStart: string | undefined) => {
+                          if (row.blockStart !== blockStart && blockStart) {
+                            console.log({ blockStart })
+                            blockStart =
+                              blockStart !== undefined
+                                ? blockStart
+                                    .replaceAll("&", "&amp;")
+                                    .replaceAll(">", "&gt;")
+                                    .replaceAll("<", "&lt;")
+                                    .replaceAll('"', "&quot;")
+                                    .replaceAll("’", "â")
+                                    .replaceAll("…", "â¦")
+                                    .toString()
+                                : undefined
+                            Stores.encodeCharacterStore.changeUpdateItem({
+                              value: blockStart,
+                              dataField: "blockStart",
+                              id: row._id,
+                            })
+                            setModalConfirm({
+                              type: "update",
+                              show: true,
+                              title: "Are you sure update recoard?",
+                            })
+                          }
+                        }}
+                      />
+                      <LibraryComponents.Form.Input
+                        name="endBlock"
+                        placeholder="End Block"
+                        onBlur={(blockEnd: string | undefined) => {
+                          if (row.blockEnd !== blockEnd && blockEnd) {
+                            blockEnd =
+                              blockEnd !== undefined
+                                ? blockEnd
+                                    .replaceAll("&", "&amp;")
+                                    .replaceAll(">", "&gt;")
+                                    .replaceAll("<", "&lt;")
+                                    .replaceAll('"', "&quot;")
+                                    .replaceAll("’", "â")
+                                    .replaceAll("…", "â¦")
+                                    .toString()
+                                : undefined
+                            Stores.encodeCharacterStore.changeUpdateItem({
+                              value: blockEnd,
+                              dataField: "blockEnd",
+                              id: row._id,
+                            })
+                            setModalConfirm({
+                              type: "update",
+                              show: true,
+                              title: "Are you sure update recoard?",
+                            })
+                          }
+                        }}
+                      />
+                    </LibraryComponents.Grid>
+                  </>
+                ),
               },
               {
                 dataField: "fileds",
@@ -392,23 +541,7 @@ const EncodeCharacter = observer(() => {
                               key={index}
                               size="medium"
                               type="solid"
-                              //icon={LibraryComponents.Icons.Remove}
-                              onClick={() => {
-                                // const firstArr =
-                                //   Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
-                                //     0,
-                                //     index
-                                //   ) || []
-                                // const secondArr =
-                                //   Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
-                                //     index + 1
-                                //   ) || []
-                                // const newArrSubCategory = [...firstArr, ...secondArr]
-                                // Stores.encodeCharacterStore.updateEncodeCharacter({
-                                //   ...Stores.encodeCharacterStore.encodeCharacter,
-                                //   fileds: newArrSubCategory,
-                                // })
-                              }}
+                              onClick={() => {}}
                             >
                               {`Filed:${item.filed} - Value:${
                                 item.value !== undefined
@@ -423,6 +556,149 @@ const EncodeCharacter = observer(() => {
                                       .toString()
                                   : undefined
                               }`}
+                            </LibraryComponents.Buttons.Button>
+                          </div>
+                        ))}
+                      </div>
+                    </LibraryComponents.List>
+                  </>
+                ),
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Grid cols={3}>
+                      <LibraryComponents.Form.Input
+                        name="filed"
+                        placeholder="Filed"
+                        value={Stores.encodeCharacterStore.encodeCharacter?.filed}
+                        onChange={(filed) => {
+                          Stores.encodeCharacterStore.updateEncodeCharacter({
+                            ...Stores.encodeCharacterStore.encodeCharacter,
+                            filed,
+                          })
+                        }}
+                      />
+                      <LibraryComponents.Form.Input
+                        name="value"
+                        placeholder="Value"
+                        value={Stores.encodeCharacterStore.encodeCharacter?.value}
+                        onChange={(value) => {
+                          Stores.encodeCharacterStore.updateEncodeCharacter({
+                            ...Stores.encodeCharacterStore.encodeCharacter,
+                            value,
+                          })
+                        }}
+                      />
+                      <div className="mt-2">
+                        <LibraryComponents.Buttons.Button
+                          size="medium"
+                          type="solid"
+                          onClick={() => {
+                            let filed =
+                              Stores.encodeCharacterStore.encodeCharacter?.filed
+                            let value =
+                              Stores.encodeCharacterStore.encodeCharacter?.value
+                            const fileds = row.fileds || []
+                            if (filed === undefined || value === undefined)
+                              return alert("Please enter filed and value.")
+                            if (filed !== undefined && value !== undefined) {
+                              filed = filed
+                                .replaceAll("&", "&amp;")
+                                .replaceAll(">", "&gt;")
+                                .replaceAll("<", "&lt;")
+                                .replaceAll('"', "&quot;")
+                                .replaceAll("’", "â")
+                                .replaceAll("…", "â¦")
+                              value = value
+                                .replaceAll("&", "&amp;")
+                                .replaceAll(">", "&gt;")
+                                .replaceAll("<", "&lt;")
+                                .replaceAll('"', "&quot;")
+                                .replaceAll("’", "â")
+                                .replaceAll("…", "â¦")
+                              fileds !== undefined
+                                ? fileds.push({
+                                    filed,
+                                    value,
+                                  })
+                                : [
+                                    {
+                                      filed,
+                                      value,
+                                    },
+                                  ]
+                              Stores.encodeCharacterStore.changeUpdateItem({
+                                value: fileds,
+                                dataField: "fileds",
+                                id: row._id,
+                              })
+                              setModalConfirm({
+                                type: "update",
+                                show: true,
+                                title: "Are you sure update recoard?",
+                              })
+                              Stores.encodeCharacterStore.updateEncodeCharacter({
+                                ...Stores.encodeCharacterStore.encodeCharacter,
+                                filed: "",
+                                value: "",
+                              })
+                            }
+                          }}
+                        >
+                          <LibraryComponents.Icons.EvaIcon icon="plus-circle-outline" />
+                          {`Add`}
+                        </LibraryComponents.Buttons.Button>
+                      </div>
+                      <div className="clearfix"></div>
+                    </LibraryComponents.Grid>
+                    <LibraryComponents.List
+                      space={2}
+                      direction="row"
+                      justify="center"
+                    >
+                      <div>
+                        {row.fileds?.map((item, index) => (
+                          <div className="mb-2">
+                            <LibraryComponents.Buttons.Button
+                              key={index}
+                              size="medium"
+                              type="solid"
+                              icon={LibraryComponents.Icons.Remove}
+                              onClick={() => {
+                                const firstArr = row.fileds?.slice(0, index) || []
+                                const secondArr = row.fileds?.slice(index + 1) || []
+                                const newArrSubCategory = [...firstArr, ...secondArr]
+                                Stores.encodeCharacterStore.changeUpdateItem({
+                                  value: newArrSubCategory,
+                                  dataField: "fileds",
+                                  id: row._id,
+                                })
+                                setModalConfirm({
+                                  type: "update",
+                                  show: true,
+                                  title: "Are you sure update recoard?",
+                                })
+                              }}
+                            >
+                              {`${item.filed
+                                .replaceAll(/&amp;/g, "&")
+                                .replaceAll(/&gt;/g, ">")
+                                .replaceAll(/&lt;/g, "<")
+                                .replaceAll(/&quot;/g, '"')
+                                .replaceAll(/â/g, "’")
+                                .replaceAll(/â¦/g, "…")} - ${item.value
+                                .replaceAll(/&amp;/g, "&")
+                                .replaceAll(/&gt;/g, ">")
+                                .replaceAll(/&lt;/g, "<")
+                                .replaceAll(/&quot;/g, '"')
+                                .replaceAll(/â/g, "’")
+                                .replaceAll(/â¦/g, "…")}`}
                             </LibraryComponents.Buttons.Button>
                           </div>
                         ))}

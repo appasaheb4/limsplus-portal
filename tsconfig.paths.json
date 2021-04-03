@@ -3,16 +3,10 @@
     "target": "es6",
     "baseUrl": ".",
     "paths": {
-      "@lp/*": [
-        "src/*"
-      ]
+      "@lp/*": ["src/*"]
     },
     "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -26,13 +20,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "noImplicitAny": false,
-    
+    "noImplicitAny": false
   },
-  "typeRoots": [
-    "node_modules/@types"
-  ],
-  "include": [
-    "src"
-  ]
+  "typeRoots": ["node_modules/@types"],
+  "include": ["src"]
 }
