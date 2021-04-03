@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
-import Contexts from "@lp/library/stores"
 import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 import Appointments from "./Appointments"
 import BarChart from "./BarChart"
@@ -25,7 +25,6 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
   const [changePassword, setChangePassword] = useState(false)
-  const rootStore = React.useContext(Contexts.rootStore)
   const [modalConfirm, setModalConfirm] = useState<any>()
   const history = useHistory()
 
@@ -151,7 +150,7 @@ const Default = observer(() => {
               userId: LoginStore.loginStore.inputLogin?.userId,
               status: "Disable",
             }).then((res) => {
-              rootStore.setProcessLoading(false)
+              RootStore.rootStore.setProcessLoading(false)
               LibraryComponents.ToastsStore.error(
                 "Your account is disable. Please contact admin"
               )

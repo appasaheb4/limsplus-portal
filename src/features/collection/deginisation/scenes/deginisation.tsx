@@ -1,23 +1,22 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
-import {Stores} from '../stores';
+import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const Deginisation = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IDeginisation>()
   const [deleteItem, setDeleteItem] = useState<any>({})
 
@@ -52,10 +51,12 @@ const Deginisation = observer(() => {
                   })
                 }}
                 onBlur={(code) => {
-                  Stores.deginisationStore.DeginisationService.checkExitsCode(code).then((res) => {
-                    console.log({res});
+                  Stores.deginisationStore.DeginisationService.checkExitsCode(
+                    code
+                  ).then((res) => {
+                    console.log({ res })
                     if (res)
-                      if (res.length > 0)  Stores.deginisationStore.setExitsCode(true)
+                      if (res.length > 0) Stores.deginisationStore.setExitsCode(true)
                       else Stores.deginisationStore.setExitsCode(false)
                   })
                 }}
@@ -65,11 +66,11 @@ const Deginisation = observer(() => {
                   {errors.code}
                 </span>
               )}
-               {Stores.deginisationStore.checkExitsCode && (
-                  <span className="text-red-600 font-medium relative">
-                    Code already exits. Please use other code.
-                  </span>
-                )}
+              {Stores.deginisationStore.checkExitsCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Description"
                 name="description"
@@ -108,13 +109,14 @@ const Deginisation = observer(() => {
                   Util.validate(
                     Stores.deginisationStore.deginisation,
                     Util.constraintsDeginisation
-                  ) === undefined && !Stores.deginisationStore.checkExitsCode
+                  ) === undefined &&
+                  !Stores.deginisationStore.checkExitsCode
                 ) {
-                  rootStore.setProcessLoading(true)
+                  RootStore.rootStore.setProcessLoading(true)
                   Services.addDeginisation(
                     Stores.deginisationStore.deginisation
                   ).then((res) => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       LibraryComponents.ToastsStore.success(`Deginisation created.`)
                       Stores.deginisationStore.fetchListDeginisation()
@@ -213,7 +215,7 @@ const Deginisation = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
-                  pagination={ paginationFactory() }
+                  pagination={paginationFactory()}
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -227,9 +229,9 @@ const Deginisation = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            rootStore.setProcessLoading(true)
+            RootStore.rootStore.setProcessLoading(true)
             Services.deleteDeginisation(deleteItem.id).then((res: any) => {
-              rootStore.setProcessLoading(false)
+              RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Deginisation deleted.`)
                 setDeleteItem({ show: false })

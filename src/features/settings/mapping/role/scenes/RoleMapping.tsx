@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import Contexts from "@lp/library/stores"
 import * as Services from "../services"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
@@ -13,18 +12,18 @@ import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolk
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import DropdownTreeSelect from "react-dropdown-tree-select"
 import "react-dropdown-tree-select/dist/styles.css"
-import "./style.css"
+import "./style.css"  
 import data from "./pages.json"
 
 import {Stores} from '../stores';
 import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const RoleMapping = observer(() => {
   const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
-  const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
   const roleList: any = RoleStore.roleStore.listRole || []
   const description = roleList[0].description

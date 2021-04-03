@@ -3,21 +3,20 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
-import {Stores} from '../stores';
+import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const Role = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IRole>()
   const [deleteItem, setDeleteItem] = useState<any>({})
 
@@ -50,9 +49,9 @@ const Role = observer(() => {
                 }}
                 onBlur={(code) => {
                   Stores.roleStore.RoleService.checkExitsCode(code).then((res) => {
-                    console.log({res});
+                    console.log({ res })
                     if (res)
-                      if (res.length > 0)  Stores.roleStore.setExitsCode(true)
+                      if (res.length > 0) Stores.roleStore.setExitsCode(true)
                       else Stores.roleStore.setExitsCode(false)
                   })
                 }}
@@ -62,11 +61,11 @@ const Role = observer(() => {
                   {errors.code}
                 </span>
               )}
-               {Stores.roleStore.checkExitsCode && (
-                  <span className="text-red-600 font-medium relative">
-                    Code already exits. Please use other code.
-                  </span>
-                )}
+              {Stores.roleStore.checkExitsCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Description"
                 name="description"
@@ -104,11 +103,12 @@ const Role = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
-                  undefined && !Stores.roleStore.checkExitsCode
-                ) {
-                  rootStore.setProcessLoading(true)
+                    undefined &&
+                  !Stores.roleStore.checkExitsCode
+                ) {  
+                  RootStore.rootStore.setProcessLoading(true)
                   Services.addrole(Stores.roleStore.role).then(() => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     LibraryComponents.ToastsStore.success(`Role created.`)
                     Stores.roleStore.fetchListRole()
                     Stores.roleStore.clear()
@@ -201,7 +201,7 @@ const Role = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
-                  pagination={ paginationFactory() }
+                  pagination={paginationFactory()}
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -215,9 +215,9 @@ const Role = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            rootStore.setProcessLoading(true)
+            RootStore.rootStore.setProcessLoading(true)
             Services.deleterole(deleteItem.id).then((res: any) => {
-              rootStore.setProcessLoading(false)
+              RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Role deleted.`)
                 setDeleteItem({ show: false })

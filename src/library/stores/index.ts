@@ -10,20 +10,10 @@ const trunk = new AsyncTrunk(RootStore, {
 
 trunk.init()
 
-const Contexts = {
-  rootStore: React.createContext(RootStore),
-  // loginStore: React.createContext(RootStore.loginStore),
-  // userStore: React.createContext(RootStore.userStore),
-  // labStore: React.createContext(RootStore.labStore),
-  // deginisationStore: React.createContext(RootStore.deginisationStore),
-  // departmentStore: React.createContext(RootStore.departmentStore),
-  // roleStore: React.createContext(RootStore.roleStore),
-  // bannerStore: React.createContext(RootStore.bannerStore),
-  // roleMappingStore: React.createContext(RootStore.roleMappingStore),
-  // labMappingStore: React.createContext(RootStore.labMappingStore),
-  // roleRightsMappingStore: React.createContext(RootStore.roleRightsMappingStore),
-  // loginActivityStore: React.createContext(RootStore.loginActivityStore),
-  // communicationStore: React.createContext(RootStore.communicationStore),
+export const Stores = {
+  rootStore: new RootStore(),
 }
 
-export default Contexts
+export const Contexts = {
+  rootStore: React.createContext(Stores.rootStore),
+}

@@ -8,7 +8,7 @@ class RoleMappingStore {
   @ignore @observable user?: Models.IRole
   @observable roleMappingList?: Models.IRole[] = []
   @observable rolePermission?: any
-
+   
   @action fetchRoleMappingList() {
     Services.roleMappingList().then((list) => {
       this.roleMappingList = list

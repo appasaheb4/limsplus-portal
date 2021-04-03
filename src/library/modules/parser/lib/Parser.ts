@@ -5,7 +5,7 @@ export default class Parser {
   FIELDREPEAT = "~"
   ESCAPE = "\\"
   SUBCOMPONENT = "&"
-
+      
   //Message[segment][field][repetition][component][sub-component]
   parseComponent = (data: any) => {
     let result: any = []

@@ -7,17 +7,17 @@ import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import Contexts from "@lp/library/stores"
 import * as Services from "../services"
+
 import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const Banner = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore)
   const [deleteItem, setDeleteItem] = useState<any>({})
-  
+
   return (
     <>
       <LibraryComponents.Header>
@@ -66,9 +66,9 @@ const Banner = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (Stores.bannerStore.banner !== undefined) {
-                  rootStore.setProcessLoading(true)
+                  RootStore.rootStore.setProcessLoading(true)
                   Services.addBanner(Stores.bannerStore.banner).then((res) => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.ToastsStore.success(`Banner created.`)
                       setTimeout(() => {
@@ -188,10 +188,10 @@ const Banner = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            rootStore.setProcessLoading(true)
+            RootStore.rootStore.setProcessLoading(true)
             Stores.bannerStore.BannerService.deleteBanner(deleteItem.id).then(
               (res: any) => {
-                rootStore.setProcessLoading(false)
+                RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Banner deleted.`)
                   setDeleteItem({ show: false })

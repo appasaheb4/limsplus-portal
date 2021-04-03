@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 import * as Models from "../../../models"
@@ -11,9 +12,11 @@ import * as Config from "@lp/config"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 import { toJS } from "mobx"
 const EncodeCharacter = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalConfirm, setModalConfirm] = useState<any>()
 
   return (
     <>
@@ -217,11 +220,11 @@ const EncodeCharacter = observer(() => {
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
                 if (Stores.encodeCharacterStore.encodeCharacter !== undefined) {
-                  //rootStore.setProcessLoading(true)
+                  RootStore.rootStore.setProcessLoading(true)
                   Stores.encodeCharacterStore.encodeCharacterService
-                    .addEncodeCharacter(Stores.encodeCharacterStore.encodeCharacter)
+                    .addInterfaceManager(Stores.encodeCharacterStore.encodeCharacter)
                     .then((res) => {
-                      //rootStore.setProcessLoading(false)
+                      RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.ToastsStore.success(
                           `Encode Character created.`
@@ -262,6 +265,35 @@ const EncodeCharacter = observer(() => {
               {
                 dataField: "interfaceType",
                 text: "Interface Type",
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.Input
+                      name="interfaceType"
+                      placeholder="Interface Type"
+                      onBlur={(interfaceType) => {
+                        if (row.interfaceType !== interfaceType && interfaceType) {
+                          Stores.encodeCharacterStore.changeUpdateItem({
+                            value: interfaceType,
+                            dataField: column.dataField,
+                            id: row._id,
+                          })
+                          setModalConfirm({
+                            type: "update",
+                            show: true,
+                            title: "Are you sure update recoard?",
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
               },
               {
                 dataField: "instrumentType",
@@ -411,7 +443,8 @@ const EncodeCharacter = observer(() => {
                       type="outline"
                       icon={LibraryComponents.Icons.Remove}
                       onClick={() => {
-                        setDeleteItem({
+                        setModalConfirm({
+                          type: "delete",
                           show: true,
                           id: row._id,
                           title: "Are you sure?",
@@ -427,7 +460,7 @@ const EncodeCharacter = observer(() => {
             ]}
             search
             exportCSV={{
-              fileName: `Encode Character_${moment(new Date()).format(
+              fileName: `Interface Manager${moment(new Date()).format(
                 "YYYY-MM-DD HH:mm"
               )}.csv`,
               noAutoBOM: false,
@@ -453,34 +486,50 @@ const EncodeCharacter = observer(() => {
                   noDataIndication="Table is Empty"
                   hover
                   pagination={paginationFactory()}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
+                  cellEdit={cellEditFactory({
+                    mode: "dbclick",
+                    blurToSave: true,
+                    // afterSaveCell,
+                  })}
                 />
               </div>
             )}
           </ToolkitProvider>
         </div>
         <LibraryComponents.Modal.ModalConfirm
-          {...deleteItem}
-          click={() => {
-            //rootStore.setProcessLoading(true)
-            Stores.encodeCharacterStore.encodeCharacterService
-              .deleteEncodeCharcter(deleteItem.id)
-              .then((res: any) => {
-                console.log({ res })
-                // rootStore.setProcessLoading(false)
-                if (res.status === 200) {
-                  LibraryComponents.ToastsStore.success(`Encode Character deleted.`)
-                  setDeleteItem({ show: false })
-                  Stores.encodeCharacterStore.fetchEncodeCharacter()
-                }
-              })
+          {...modalConfirm}
+          click={(type) => {
+            RootStore.rootStore.setProcessLoading(true)
+            if (type === "delete") {
+              Stores.encodeCharacterStore.encodeCharacterService
+                .deleteInterfaceManager(modalConfirm.id)
+                .then((res: any) => {
+                  console.log({ res })
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.ToastsStore.success(
+                      `Encode Character deleted.`
+                    )
+                    setModalConfirm({ show: false })
+                    Stores.encodeCharacterStore.fetchEncodeCharacter()
+                  }
+                })
+            } else {
+              Stores.encodeCharacterStore.encodeCharacterService
+                .interfaceManagerUpdateSingleFiled(
+                  toJS(Stores.encodeCharacterStore.updateItem)
+                )
+                .then((res) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    Stores.encodeCharacterStore.fetchEncodeCharacter()
+                    LibraryComponents.ToastsStore.success(`Updated.`)
+                  }
+                })
+            }
           }}
           close={() => {
-            setDeleteItem({ show: false })
+            setModalConfirm({ show: false })
           }}
         />
       </div>

@@ -5,7 +5,8 @@ import { Provider } from "react-redux"
 import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-import Contexts from "@lp/library/stores"
+
+import { Stores as RootStore } from "./library/stores"
 
 import * as Banner from "@lp/features/banner"
 import * as Deginisation from "@lp/features/collection/deginisation"
@@ -17,8 +18,6 @@ import * as RoleMappping from "@lp/features/settings/mapping/role"
 import * as Communication from "@lp/features/communication"
 
 const App = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore)
-
   const loader = async () => {
     await Banner.startup()
     await Deginisation.startup()
@@ -30,9 +29,13 @@ const App = observer(() => {
     await Communication.startup()
   }
 
-  React.useEffect(() => {  
+  React.useEffect(() => {
     loader()
   }, [])
+
+  React.useEffect(() => {
+    console.log({ loading: RootStore.rootStore.processLoading })
+  }, [])  
   return (
     <>
       <Provider store={store}>
@@ -52,7 +55,7 @@ const App = observer(() => {
         store={LibraryComponents.ToastsStore}
         className="h-20"
       />
-      {rootStore.processLoading && <LibraryComponents.Modal.Loader />}
+      {RootStore.rootStore.processLoading && <LibraryComponents.Modal.Loader />}
     </>
   )
 })

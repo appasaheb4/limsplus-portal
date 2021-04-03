@@ -9,16 +9,15 @@ import Content from "./components/Content"
 import Footer from "./components/Footer"
 import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
-import Contexts from "@lp/library/stores"
-import {Stores as LoginStores} from '@lp/features/login/stores';
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const Dashboard = observer(({ children }) => {
-  const rootStore = React.useContext(Contexts.rootStore)
   const history: any = useHistory()
 
   useEffect(() => {
     setTimeout(() => {
-      rootStore.isLogin().then((isLogin) => {
+      RootStore.rootStore.isLogin().then((isLogin) => {
         if (!isLogin) history.push("/")
       })
     }, 1000)
@@ -36,7 +35,7 @@ const Dashboard = observer(({ children }) => {
       </Wrapper>
       <Settings />
     </React.Fragment>
-  )
+  )  
 })
 
 export default Dashboard

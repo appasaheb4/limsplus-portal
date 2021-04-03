@@ -6,9 +6,9 @@ import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "./accordion.css"
 import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 import * as Models from "../models"
-import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
 import * as Config from "@lp/config"
@@ -18,7 +18,6 @@ import { toJS } from "mobx"
 import { io } from "socket.io-client"
 let socket
 const HostCommunication = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
@@ -65,7 +64,7 @@ const HostCommunication = observer(() => {
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
                         ? "Automatic"
                         : "Manual"
-                    }  
+                    }
                     id="manualMode"
                     value={
                       Stores.communicationStore.hostCommuication?.manualAutomaticMode
@@ -848,9 +847,9 @@ const HostCommunication = observer(() => {
           <LibraryComponents.Modal.ModalConfirm
             {...deleteItem}
             click={() => {
-              rootStore.setProcessLoading(true)
+              RootStore.rootStore.setProcessLoading(true)
               Services.deletedepartment(deleteItem.id).then((res: any) => {
-                rootStore.setProcessLoading(false)
+                RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })

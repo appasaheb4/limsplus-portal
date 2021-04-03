@@ -2,15 +2,13 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as Services from "@lp/features/users/services"
-import Contexts from "@lp/library/stores"
 import { useHistory } from "react-router-dom"
-
-import {Stores as LoginStores} from '@lp/features/login/stores';
-import {Stores as UserStores} from '@lp/features/users/stores';
-
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
+import { Stores as RootStore } from "@lp/library/stores"
+ 
 const ChangePassword = observer(() => {
   const history = useHistory()
-  const rootStore = React.useContext(Contexts.rootStore)
   const [changePassword, setChangePassword] = useState(true)
 
   return (
@@ -23,9 +21,9 @@ const ChangePassword = observer(() => {
                 LoginStores.loginStore.login,
                 UserStores.userStore.changePassword
               )
-              rootStore.setProcessLoading(true)
+              RootStore.rootStore.setProcessLoading(true)
               Services.changePassword(body).then((res) => {
-                rootStore.setProcessLoading(false)
+                RootStore.rootStore.setProcessLoading(false)
                 console.log({ res })
                 if (res.status === 200) {
                   LoginStores.loginStore.updateLogin({

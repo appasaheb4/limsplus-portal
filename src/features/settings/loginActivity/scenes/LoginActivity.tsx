@@ -2,19 +2,17 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import Contexts from "@lp/library/stores"
 import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
 const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+const { ExportCSVButton } = CSVExport  
 
 import {Stores} from '../stores';
 
 const LoginActivity = observer(() => {
-  const rootStore = React.useContext(Contexts.rootStore)
   useEffect(() => {
     Stores.loginActivityStore.fetchLoginActivity()
 

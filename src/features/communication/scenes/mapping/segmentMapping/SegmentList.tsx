@@ -9,7 +9,6 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
 import * as Models from "../../../models"
-import RootStoreContext from "@lp/library/stores"
 import * as Config from "@lp/config"
 import * as Assets from "@lp/features/assets"
 
@@ -17,13 +16,13 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../../../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 interface SegmentListProps {
   duplicate: (item: Models.SegmentMapping) => void
 }
 
 const SegmentList = observer((props: SegmentListProps) => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [modalConfirm, setModalConfirm] = useState<any>()
 
   useEffect(() => {
@@ -1252,7 +1251,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     )
                   )
                   .then((res) => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       Stores.segmentMappingStore.updateSelectedItem([])
@@ -1263,14 +1262,14 @@ const SegmentList = observer((props: SegmentListProps) => {
                 Stores.segmentMappingStore.segmentMappingService
                   .updateSingleFiled(Stores.segmentMappingStore.updateItem)
                   .then((res) => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       LibraryComponents.ToastsStore.success(`Updated.`)
                     }
                   })
               } else if (type == "duplicate") {
-                rootStore.setProcessLoading(false)
+                RootStore.rootStore.setProcessLoading(false)
                 props.duplicate(Stores.segmentMappingStore.selectedItems[0])
               }
             }
