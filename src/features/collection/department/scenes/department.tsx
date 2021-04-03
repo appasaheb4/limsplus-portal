@@ -1,25 +1,24 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 import { Container } from "reactstrap"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
 
-import {Stores} from '../stores';
-import {Stores as LabStore} from '@lp/features/collection/labs/stores';
+import { Stores } from "../stores"
+import { Stores as LabStore } from "@lp/features/collection/labs/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const Department = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.IDepartment>()
   const [deleteItem, setDeleteItem] = useState<any>({})
 
@@ -88,10 +87,12 @@ const Department = observer(() => {
                     })
                   }}
                   onBlur={(code) => {
-                    Stores.departmentStore.DepartmentService.checkExitsCode(code).then((res) => {
-                      console.log({res});
+                    Stores.departmentStore.DepartmentService.checkExitsCode(
+                      code
+                    ).then((res) => {
+                      console.log({ res })
                       if (res)
-                        if (res.length > 0)  Stores.departmentStore.setExitsCode(true)
+                        if (res.length > 0) Stores.departmentStore.setExitsCode(true)
                         else Stores.departmentStore.setExitsCode(false)
                     })
                   }}
@@ -101,7 +102,7 @@ const Department = observer(() => {
                     {errors.code}
                   </span>
                 )}
-                 {Stores.departmentStore.checkExitsCode && (
+                {Stores.departmentStore.checkExitsCode && (
                   <span className="text-red-600 font-medium relative">
                     Code already exits. Please use other code.
                   </span>
@@ -147,15 +148,15 @@ const Department = observer(() => {
                       Util.constraintsDepartment
                     ) === undefined
                   ) {
-                    rootStore.setProcessLoading(true)
-                    Services.adddepartment(
-                      Stores.departmentStore.department
-                    ).then(() => {
-                      rootStore.setProcessLoading(false)
-                      LibraryComponents.ToastsStore.success(`Department created.`)
-                      Stores.departmentStore.fetchListDepartment()
-                      Stores.departmentStore.clear()
-                    })
+                    RootStore.rootStore.setProcessLoading(true)
+                    Services.adddepartment(Stores.departmentStore.department).then(
+                      () => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.ToastsStore.success(`Department created.`)
+                        Stores.departmentStore.fetchListDepartment()
+                        Stores.departmentStore.clear()
+                      }
+                    )
                   } else {
                     LibraryComponents.ToastsStore.warning(
                       "Please enter all information!"
@@ -251,7 +252,7 @@ const Department = observer(() => {
                     {...props.baseProps}
                     noDataIndication="Table is Empty"
                     hover
-                    pagination={ paginationFactory() }
+                    pagination={paginationFactory()}
                     // cellEdit={cellEditFactory({
                     //   mode: "dbclick",
                     //   blurToSave: true,
@@ -265,16 +266,16 @@ const Department = observer(() => {
           <LibraryComponents.Modal.ModalConfirm
             {...deleteItem}
             click={() => {
-              rootStore.setProcessLoading(true)
+              RootStore.rootStore.setProcessLoading(true)
               Services.deletedepartment(deleteItem.id).then((res: any) => {
-                rootStore.setProcessLoading(false)
+                RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
                   LibraryComponents.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
                   Stores.departmentStore.fetchListDepartment()
-                }
+                }  
               })
-            }}
+            }}  
           />
         </div>
       </Container>

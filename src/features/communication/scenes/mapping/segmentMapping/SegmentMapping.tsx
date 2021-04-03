@@ -3,7 +3,6 @@ import React, { useState, useContext } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as Models from "../../../models"
-import RootStoreContext from "@lp/library/stores"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
 import * as FeatureComponents from "../../../components"
@@ -11,10 +10,10 @@ import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
 
 import { Stores } from "../../../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 import { toJS } from "mobx"
 
 const SegmentMapping = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddDiv, setHideAddDiv] = useState(true)
@@ -139,14 +138,14 @@ const SegmentMapping = observer(() => {
         )
           filtered.push(item)
         return filtered
-      }, [])     
+      }, [])
       console.log({ uniqueData })
       if (fileImaport) {
-        rootStore.setProcessLoading(true)
+        RootStore.rootStore.setProcessLoading(true)
         Stores.segmentMappingStore.segmentMappingService
           .importSegmentMapping(uniqueData)
           .then((res) => {
-            rootStore.setProcessLoading(false)
+            RootStore.rootStore.setProcessLoading(false)
             LibraryComponents.ToastsStore.success(`File import success.`)
             Stores.segmentMappingStore.fetchListSegmentMapping()
           })
@@ -542,11 +541,11 @@ const SegmentMapping = observer(() => {
                     Utils.constraintsSegmentMapping
                   ) === undefined
                 ) {
-                  rootStore.setProcessLoading(true)
+                  RootStore.rootStore.setProcessLoading(true)
                   Stores.segmentMappingStore.segmentMappingService
                     .addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
                     .then((res) => {
-                      rootStore.setProcessLoading(false)
+                      RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.ToastsStore.success(
                           `Segment Mapping created.`
@@ -556,7 +555,7 @@ const SegmentMapping = observer(() => {
                         }
                         Stores.segmentMappingStore.fetchListSegmentMapping()
                       }
-                    })
+                    }) 
                 } else {
                   LibraryComponents.ToastsStore.warning(
                     "Please enter all information!"
@@ -611,7 +610,7 @@ const SegmentMapping = observer(() => {
                     : "",
                 attachments: "",
               })
-            }}
+            }}  
           />
         </div>
       </div>

@@ -33,6 +33,7 @@ class UsersStore {
       role: [],
     }
   }
+
   @action loadUser() {
     Services.userList().then((user) => {
       //console.log({ user })

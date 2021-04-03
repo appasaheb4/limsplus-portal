@@ -1,22 +1,22 @@
-import React, { useState, useContext } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import RootStoreContext from "@lp/library/stores"
 import * as Services from "../services"
-import {Stores} from '../stores';
+
+import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const Lab = observer(() => {
-  const rootStore = useContext(RootStoreContext.rootStore)
   const [errors, setErrors] = useState<Models.Labs>()
   const [deleteItem, setDeleteItem] = useState<any>({})
 
@@ -49,9 +49,9 @@ const Lab = observer(() => {
                 }}
                 onBlur={(code) => {
                   Stores.labStore.LabService.checkExitsCode(code).then((res) => {
-                    console.log({res});
+                    console.log({ res })
                     if (res)
-                      if (res.length > 0)  Stores.labStore.setExitsCode(true)
+                      if (res.length > 0) Stores.labStore.setExitsCode(true)
                       else Stores.labStore.setExitsCode(false)
                   })
                 }}
@@ -61,11 +61,11 @@ const Lab = observer(() => {
                   {errors.code}
                 </span>
               )}
-               {Stores.labStore.checkExitsCode && (
-                  <span className="text-red-600 font-medium relative">
-                    Code already exits. Please use other code.
-                  </span>
-                )}
+              {Stores.labStore.checkExitsCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <LibraryComponents.Form.Input
                 label="Name"
                 name="name"
@@ -100,11 +100,12 @@ const Lab = observer(() => {
               onClick={() => {
                 if (
                   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                  undefined && !Stores.labStore.checkExitsCode
+                    undefined &&
+                  !Stores.labStore.checkExitsCode
                 ) {
-                  rootStore.setProcessLoading(true)
+                  RootStore.rootStore.setProcessLoading(true)
                   Services.addLab(Stores.labStore.labs).then(() => {
-                    rootStore.setProcessLoading(false)
+                    RootStore.rootStore.setProcessLoading(false)
                     LibraryComponents.ToastsStore.success(`Lab created.`)
                     Stores.labStore.fetchListLab()
                     Stores.labStore.clear()
@@ -197,7 +198,7 @@ const Lab = observer(() => {
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
-                  pagination={ paginationFactory() }
+                  pagination={paginationFactory()}
                   // cellEdit={cellEditFactory({
                   //   mode: "dbclick",
                   //   blurToSave: true,
@@ -211,9 +212,9 @@ const Lab = observer(() => {
         <LibraryComponents.Modal.ModalConfirm
           {...deleteItem}
           click={() => {
-            rootStore.setProcessLoading(true)
+            RootStore.rootStore.setProcessLoading(true)
             Services.deleteLab(deleteItem.id).then((res: any) => {
-              rootStore.setProcessLoading(false)
+              RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
                 LibraryComponents.ToastsStore.success(`Lab deleted.`)
                 setDeleteItem({ show: false })

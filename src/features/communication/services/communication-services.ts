@@ -179,7 +179,7 @@ class CommunicationService extends BaseService {
         })
     })
 
-  addEncodeCharacter = (encode: any) =>
+  addInterfaceManager = (encode: any) =>
     new Promise<any>((resolve, reject) => {
       encode.blockStart =
         encode.blockStart !== undefined
@@ -229,7 +229,7 @@ class CommunicationService extends BaseService {
         return item
       })
       this.client
-        .post(`/communication/addEncodeCharacter`, encode)
+        .post(`/communication/addInterfaceManager`, encode)
         .then((res) => {
           resolve(res)
         })
@@ -238,10 +238,10 @@ class CommunicationService extends BaseService {
         })
     })
 
-  listEncodeCharacter = () =>
+  listInterfaceManager = () =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .get(`/communication/listEncodeCharacter`)
+        .get(`/communication/listInterfaceManager`)
         .then((res) => {
           console.log({ res })
 
@@ -252,10 +252,24 @@ class CommunicationService extends BaseService {
         })
     })
 
-  deleteEncodeCharcter = (id: string) =>
+  deleteInterfaceManager = (id: string) =>
     new Promise((resolve, reject) => {
       this.client
-        .delete(`communication/deleteEncodeCharacter/${id}`)
+        .delete(`communication/deleteInterfaceManager/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  interfaceManagerUpdateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({ newValue })
+
+      this.client
+        .post(`/communication/interfaceManager/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

@@ -1,43 +1,41 @@
-import { version, ignore } from "mobx-sync";
-import { action, observable,computed } from "mobx";
-import * as Models from "../models";
-import * as Services from "../services";
-import {Stores} from '@lp/features/login/stores';
+import { version, ignore } from "mobx-sync"
+import { action, observable, computed } from "mobx"
+import * as Models from "../models"
+import * as Services from "../services"
+import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class RoleStore {
-  @observable listRole: Models.IRole[] = [];
-  @ignore @observable role?: Models.IRole;
-  @ignore @observable checkExitsCode?: boolean = false;
-
+  @observable listRole: Models.IRole[] = []
+  @ignore @observable role?: Models.IRole
+  @ignore @observable checkExitsCode?: boolean = false
 
   private init() {
     return {
       code: "",
       name: "",
-    };
+    }
   }
   @computed get RoleService() {
-    return new Services.RoleService(Stores.loginStore.login?.token as string);
+    return new Services.RoleService(Stores.loginStore.login?.token as string)
   }
   fetchListRole() {
     Services.listRole().then((res) => {
-     // console.log({ role: res });
-      this.listRole = res;
-    });
+      // console.log({ role: res });
+      this.listRole = res
+    })
   }
   @action setExitsCode(status: boolean) {
     this.checkExitsCode = status
   }
 
-
   @action updateRole = (role: Models.IRole) => {
-    this.role = role;
-  };
+    this.role = role
+  }
 
   @action clear() {
-    this.role = this.init();
+    this.role = this.init()
   }
 }
 
-export default RoleStore;
+export default RoleStore

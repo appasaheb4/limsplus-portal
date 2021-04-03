@@ -5,21 +5,21 @@ import * as LibraryComponents from "@lp/library/components"
 import { Col, Container, Row } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
-import Contexts from "@lp/library/stores"
 import * as Utils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Features from "@lp/features"
 import { useHistory } from "react-router-dom"
 import { ModalNoticeBoard } from "../components"
 import * as Services from "../services"
-import {Stores} from '@lp/features/login/stores';
-import {Stores as BannerStores} from '@lp/features/banner/stores';
-import {Stores as LabStore} from '@lp/features/collection/labs/stores';
-import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
+
+import { Stores } from "@lp/features/login/stores"
+import { Stores as BannerStores } from "@lp/features/banner/stores"
+import { Stores as LabStore } from "@lp/features/collection/labs/stores"
+import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const Login = observer(() => {
   const history = useHistory()
-  const rootStore = React.useContext(Contexts.rootStore)
   const [errors, setErrors] = useState<Models.ILogin>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -28,7 +28,7 @@ const Login = observer(() => {
     setWidth(window.innerWidth)
   }
   useEffect(() => {
-    rootStore.isLogin().then((isLogin) => {
+    RootStore.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         history.push("/dashboard/default")
       } else {
@@ -202,24 +202,23 @@ const Login = observer(() => {
                   type="solid"
                   icon={LibraryComponents.Icons.Check}
                   onClick={async () => {
-                    const loginFailedCount =
-                    Stores.loginStore.loginFailedCount || 0
+                    const loginFailedCount = Stores.loginStore.loginFailedCount || 0
                     if (
                       Utils.validate(
                         Stores.loginStore.inputLogin,
                         Utils.constraintsLogin
                       ) === undefined
                     ) {
-                      rootStore.setProcessLoading(true)
+                      RootStore.rootStore.setProcessLoading(true)
                       if (loginFailedCount > 4) {
                         Services.accountStatusUpdate({
                           userId: Stores.loginStore.inputLogin?.userId,
                           status: "Disable",
                         }).then((res) => {
-                          rootStore.setProcessLoading(false)
+                          RootStore.rootStore.setProcessLoading(false)
                           LibraryComponents.ToastsStore.error(
                             "Your account is disable. Please contact admin"
-                          )   
+                          )
                           Stores.loginStore.updateLoginFailedCount(0)
                         })
                       } else {
@@ -231,7 +230,7 @@ const Login = observer(() => {
                         })
                           .then((res) => {
                             console.log({ res })
-                            rootStore.setProcessLoading(false)
+                            RootStore.rootStore.setProcessLoading(false)
                             if (res.status === 200) {
                               Stores.loginStore.updateLoginFailedCount(0)
                               if (res.data.data.noticeBoard !== undefined) {
