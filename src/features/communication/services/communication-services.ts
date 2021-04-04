@@ -110,7 +110,6 @@ class CommunicationService extends BaseService {
             segmentList.sort((a, b) => {
               return a.field_no - b.field_no
             })
-            console.log({ groupSegment, segmentList })
             segmentList.forEach((item) => {
               values.push(item)
             })

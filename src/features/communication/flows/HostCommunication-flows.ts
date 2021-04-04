@@ -7,10 +7,20 @@ class HostCommunicationFlows {
     const data = Stores.segmentMappingStore.listSegmentMapping
     const mapping: any[] = []
     const values: Models.MappingValues[] = []
+    const dataFlowFrom =
+      interfaceManager.dataFlowFrom !== undefined
+        ? interfaceManager.dataFlowFrom
+            .replaceAll(/&amp;/g, "&")
+            .replaceAll(/&gt;/g, ">")
+            .replaceAll(/&lt;/g, "<")
+            .replaceAll(/&quot;/g, '"')
+            .replaceAll(/â/g, "’")
+            .replaceAll(/â¦/g, "…")
+        : undefined
     data?.forEach((item: Models.SegmentMapping) => {
       if (
         item.equipmentType === interfaceManager.instrumentType &&
-        (item.dataFlowFrom === "Host &gt; LIS" || item.dataFlowFrom === "Host > LIS")
+        item.dataFlowFrom === dataFlowFrom
       ) {
         values.push({
           segments: item.segments,
@@ -35,7 +45,7 @@ class HostCommunicationFlows {
         [item[0].toLowerCase() || ""]: { values: item[1] },
       })
     })
-    // console.log(mapping)
+    //console.log(mapping)
     return mapping
   }
 
@@ -44,6 +54,8 @@ class HostCommunicationFlows {
       try {
         //console.log({ type, instrumentType, message })
         const mappingList = await this.mapping(interfaceManager)
+        console.log({ mappingList })
+   
         // decode
         if (type === "HL7") {
           const tempData = {}

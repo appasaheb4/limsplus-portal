@@ -8,8 +8,10 @@ interface Fildes {
 }
 
 export default class Parser {
-  _block: any
+  _blockStart: any
+  _blockEnd: any
   _fileds: Fildes
+  _instrumentType: string = ""
 
   // SEGMENT = "\n"
   // FIELD = "|"
@@ -19,9 +21,27 @@ export default class Parser {
   // SUBCOMPONENT = "&"
 
   constructor(interfaceManager) {
-    console.log({ interfaceManager })
-
-    this._block = interfaceManager
+    this._blockStart =
+      interfaceManager.blockStart !== undefined
+        ? interfaceManager.blockStart
+            .replaceAll(/&amp;/g, "&")
+            .replaceAll(/&gt;/g, ">")
+            .replaceAll(/&lt;/g, "<")
+            .replaceAll(/&quot;/g, '"')
+            .replaceAll(/â/g, "’")
+            .replaceAll(/â¦/g, "…")
+            .toString()
+        : undefined
+    this._blockEnd = interfaceManager.blockEnd
+      ? interfaceManager.blockEnd
+          .replaceAll(/&amp;/g, "&")
+          .replaceAll(/&gt;/g, ">")
+          .replaceAll(/&lt;/g, "<")
+          .replaceAll(/&quot;/g, '"')
+          .replaceAll(/â/g, "’")
+          .replaceAll(/â¦/g, "…")
+          .toString()
+      : undefined
     // array to object
     const object = {}
     interfaceManager.fileds.map(
@@ -35,9 +55,8 @@ export default class Parser {
           .replaceAll(/â¦/g, "…")
           .toString())
     )
-    console.log({ object })
-
     this._fileds = object as Fildes
+    this._instrumentType = interfaceManager.instrumentType
   }
 
   // parseComponent = (data: any) => {
@@ -92,14 +111,24 @@ export default class Parser {
   }
 
   parse = (data: any) => {
-    if (data.substr(0, 3) !== "MSH") {
-      return null
+    if (this._instrumentType === "ERP") {
+      if (data.substr(0, 3) !== "MSH") return null
+    } else if (this._instrumentType === "URESED") {
+      console.log({ start: data.substr(0, 4), ss: this._blockStart })
+      console.log({ end: data.substr(data.length - 12), ss: this._blockEnd })
+      if (data.substr(0, 4) !== this._blockStart) return null
+      if (data.substr(data.length - 12) !== this._blockEnd) return null
+      data = data.slice(4, -12)
     }
+
     const result: any = []
+    // const NEW_LINE =
+    //   this._instrumentType === "ERP"
+    //     ? new RegExp(this._fileds.NEW_LINE)
+    //     : this._fileds.NEW_LINE
+    // console.log({ NEW_LINE })
     const NEW_LINE = new RegExp(this._fileds.NEW_LINE)
-    console.log({ NEW_LINE })
-    console.log({ va: "\n" })
-    console.log({ va: "\\n" })
+    //console.log({ NEW_LINE })
     const segments = data.split(NEW_LINE)
     for (let i = 0; i < segments.length; i++) {
       if (segments[i] === "") {
@@ -109,6 +138,7 @@ export default class Parser {
       const seg = this.parseSegment(segmentItem)
       result.push(seg)
     }
+    console.log({ result })
     return result
   }
 
