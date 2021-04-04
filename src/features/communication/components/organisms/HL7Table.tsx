@@ -14,21 +14,29 @@ const HL7Table = (props: HL7TableProps) => {
   return (
     <>
       <div className="mb-2">
-        <LibraryComponents.List space={2} direction="row" justify="center">
-          {props.data.map((item: any, index: number) => (
-            <LibraryComponents.Buttons.Button
-              key={index}
-              size="medium"
-              type="solid"
-              onClick={() => {
-                setSelectSegment(item[1])
-                setField(item[0])
-              }}
-              style={{ margin: 4 }}
-            >
-              {item[0]}
-            </LibraryComponents.Buttons.Button>
-          ))}
+        <LibraryComponents.List space={2} direction="row" justify="center" fill>
+          <div>
+            {props.data.map((item: any, index: number) => (
+              <div
+                className="mb-2"
+                style={{ display: "inline-block", marginLeft: 2, marginBottom: 2 }}
+                key={index}
+              >
+                <LibraryComponents.Buttons.Button
+                  size="medium"
+                  key={index}
+                  type="solid"
+                  onClick={() => {
+                    setSelectSegment(item[1])
+                    setField(item[0])
+                  }}
+                  style={{ margin: 4 }}
+                >
+                  {item[0]}
+                </LibraryComponents.Buttons.Button>
+              </div>
+            ))}
+          </div>
         </LibraryComponents.List>
       </div>
       <div className="rounded-lg overflow-auto">
