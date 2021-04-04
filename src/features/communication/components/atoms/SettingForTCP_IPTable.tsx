@@ -23,14 +23,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="hostIpAddress"
                 placeholder="Host Ip Address"
                 value={
-                  Stores.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.hostIpAddress
                 }
                 onChange={(hostIpAddress) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.tcpipCommunication,
                       hostIpAddress,
                     },
@@ -48,14 +48,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="portNumber"
                 placeholder="Port Number"
                 value={
-                  Stores.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.portNumber
                 }
                 onChange={(portNumber) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.tcpipCommunication,
                       portNumber,
                     },
@@ -72,14 +72,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="timeout"
                 placeholder="Timeout"
                 value={
-                  Stores.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.timeout
                 }
                 onChange={(timeout) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.tcpipCommunication,
                       timeout,
                     },
@@ -96,14 +96,14 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
                 id="responseTime"
                 placeholder="Response Time"
                 value={
-                  Stores.communicationStore.hostCommuication?.tcpipCommunication
+                  Stores.hostCommunicationStore.hostCommuication?.tcpipCommunication
                     ?.responseTime
                 }
                 onChange={(responseTime) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     tcpipCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.tcpipCommunication,
                       responseTime,
                     },

@@ -3,13 +3,13 @@ import * as Models from "../models"
 import { decode } from "@lp/library/modules/parser"
 
 class HostCommunicationFlows {
-  mapping = async (instrumentType: string) => {
+  mapping = async (interfaceManager: Models.EncodeCharacter) => {
     const data = Stores.segmentMappingStore.listSegmentMapping
     const mapping: any[] = []
     const values: Models.MappingValues[] = []
     data?.forEach((item: Models.SegmentMapping) => {
       if (
-        item.equipmentType === instrumentType &&
+        item.equipmentType === interfaceManager.instrumentType &&
         (item.dataFlowFrom === "Host &gt; LIS" || item.dataFlowFrom === "Host > LIS")
       ) {
         values.push({
@@ -39,11 +39,11 @@ class HostCommunicationFlows {
     return mapping
   }
 
-  convetTo = (type: string, instrumentType: string, message: string) =>
+  convetTo = (type: string, interfaceManager, message: string) =>
     new Promise(async (resolve, reject) => {
       try {
         //console.log({ type, instrumentType, message })
-        const mappingList = await this.mapping(instrumentType)
+        const mappingList = await this.mapping(interfaceManager)
         // decode
         if (type === "HL7") {
           const tempData = {}
@@ -55,10 +55,14 @@ class HostCommunicationFlows {
           const mapping = {
             mapping: tempData,
           }
-          const hl7 = decode(message, mapping)
+          const hl7 = decode(
+            message,
+            Stores.hostCommunicationStore.selectedInterfaceManager,
+            mapping
+          )
           if (!hl7) return alert("Please enter correct message")
-          Stores.communicationStore.updateConvertTo({
-            ...Stores.communicationStore.convertTo,
+          Stores.hostCommunicationStore.updateConvertTo({
+            ...Stores.hostCommunicationStore.convertTo,
             hl7,
           })
         }
@@ -68,13 +72,13 @@ class HostCommunicationFlows {
     })
 
   newMessage = (message?: any) => {
-    Stores.communicationStore.updateHostCommuication({
-      ...Stores.communicationStore.hostCommuication,
+    Stores.hostCommunicationStore.updateHostCommuication({
+      ...Stores.hostCommunicationStore.hostCommuication,
       txtDataReceivefromInstrument: message,
       convertTo: "",
     })
-    Stores.communicationStore.updateConvertTo({
-      ...Stores.communicationStore.convertTo,
+    Stores.hostCommunicationStore.updateConvertTo({
+      ...Stores.hostCommunicationStore.convertTo,
       hl7: undefined,
     })
   }
