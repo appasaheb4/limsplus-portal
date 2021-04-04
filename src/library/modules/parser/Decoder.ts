@@ -16,9 +16,9 @@ export default class Decoder {
    * @description Call process method from dynamic class
    * @return {*}
    */
+
   decode() {
     if (!this._message) return null
-    if (this._message.substr(0, 3) !== "MSH") return null
     return this._decoder.process()
   }
 
@@ -28,6 +28,7 @@ export default class Decoder {
    * @return {*}
    * @private
    */
+  
   _setDynamicDecoder() {
     const obj = new Hl7(this._message, this._interfaceManager, this._config)
     return obj
