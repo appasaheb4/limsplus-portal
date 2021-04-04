@@ -55,7 +55,7 @@ class HostCommunicationFlows {
         //console.log({ type, instrumentType, message })
         const mappingList = await this.mapping(interfaceManager)
         console.log({ mappingList })
-   
+
         // decode
         if (type === "HL7") {
           const tempData = {}
@@ -77,6 +77,10 @@ class HostCommunicationFlows {
             ...Stores.hostCommunicationStore.convertTo,
             hl7,
           })
+          Stores.hostCommunicationStore.updateHostCommuication({
+            ...Stores.hostCommunicationStore.hostCommuication,
+            txtDataReceivefromInstrument: "",
+          })  
         }
       } catch (error) {
         reject(error)
