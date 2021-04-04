@@ -5,9 +5,10 @@ import * as Models from "../models"
 //import * as Services from "../services"
 
 @version(0.1)
-class CommunicationStore {
+class HostCommunicationStore {
   @observable hostCommuication?: Models.IHostCommunication
   @ignore @observable convertTo?: Models.ConvertTo
+  @ignore @observable selectedInterfaceManager?: Models.EncodeCharacter
 
   @action updateHostCommuication = (
     hostCommunication: Models.IHostCommunication
@@ -17,6 +18,10 @@ class CommunicationStore {
   @action updateConvertTo(convertTo: Models.ConvertTo) {
     this.convertTo = convertTo
   }
+  @action updateSelectedInterfaceManager(interfaceManager: Models.EncodeCharacter) {
+    console.log({ interfaceManager })
+    this.selectedInterfaceManager = interfaceManager
+  }
 }
 
-export default CommunicationStore
+export default HostCommunicationStore

@@ -107,6 +107,7 @@ export interface EncodeCharacter {
   interfaceType?: string
   instrumentType?: string
   instrumentName?: string
+  dataFlowFrom?: string
   communicationProtocol?: string
   blockStart?: string
   blockEnd?: string

@@ -67,16 +67,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.comPort
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const comPort = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       comPort,
                     },
@@ -100,16 +100,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.baudRate
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const baudRate = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       baudRate,
                     },
@@ -131,16 +131,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.dataBits
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const dataBits = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       dataBits,
                     },
@@ -162,16 +162,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.stopBits
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const stopBits = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       stopBits,
                     },
@@ -194,16 +194,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.parity
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const parity = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       parity,
                     },
@@ -226,16 +226,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.flowControl
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const flowControl = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       flowControl,
                     },
@@ -258,16 +258,16 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
               <select
                 name="defualtLab"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.serialPortCommunication?.protocol
                 }
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const protocol = e.target.value
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     serialPortCommunication: {
-                      ...Stores.communicationStore.hostCommuication
+                      ...Stores.hostCommunicationStore.hostCommuication
                         ?.serialPortCommunication,
                       protocol,
                     },

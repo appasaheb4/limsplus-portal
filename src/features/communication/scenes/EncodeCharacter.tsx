@@ -65,7 +65,22 @@ const EncodeCharacter = observer(() => {
                   })
                 }}
               />
+              <LibraryComponents.Form.Input
+                label="Data Flow From"
+                name="dataFlowFrom"
+                placeholder="Data Flow From"
+                value={Stores.encodeCharacterStore.encodeCharacter?.dataFlowFrom}
+                onChange={(dataFlowFrom) => {
+                  Stores.encodeCharacterStore.updateEncodeCharacter({
+                    ...Stores.encodeCharacterStore.encodeCharacter,
+                    dataFlowFrom,
+                  })
+                }}
+              />
 
+              <div className="clearfix" />
+            </LibraryComponents.List>
+            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
                 label="Communication Protocol"
                 name="communicationProtocal"
@@ -80,9 +95,6 @@ const EncodeCharacter = observer(() => {
                   })
                 }}
               />
-              <div className="clearfix" />
-            </LibraryComponents.List>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.InputWrapper label="Block" id="block">
                 <LibraryComponents.Grid cols={2}>
                   <LibraryComponents.Form.Input
@@ -353,6 +365,66 @@ const EncodeCharacter = observer(() => {
                         ) {
                           Stores.encodeCharacterStore.changeUpdateItem({
                             value: instrumentType,
+                            dataField: column.dataField,
+                            id: row._id,
+                          })
+                          setModalConfirm({
+                            type: "update",
+                            show: true,
+                            title: "Are you sure update recoard?",
+                          })
+                        }
+                      }}
+                    />
+                  </>
+                ),
+              },
+              {
+                dataField: "dataFlowFrom",
+                text: "Data Flow From",
+                headerStyle: { minWidth: "200px" },
+                formatter: (cellContent, row) => (
+                  <>
+                    {row.dataFlowFrom !== undefined
+                      ? row.dataFlowFrom
+                          .toString()
+                          .replaceAll(/&amp;/g, "&")
+                          .replaceAll(/&gt;/g, ">")
+                          .replaceAll(/&lt;/g, "<")
+                          .replaceAll(/&quot;/g, '"')
+                          .replaceAll(/â/g, "’")
+                          .replaceAll(/â¦/g, "…")
+                          .toString()
+                      : undefined}
+                  </>
+                ),
+                editorRenderer: (
+                  editorProps,
+                  value,
+                  row,
+                  column,
+                  rowIndex,
+                  columnIndex
+                ) => (
+                  <>
+                    <LibraryComponents.Form.Input
+                      name="dataFlowFrom"
+                      placeholder="Data Flow From"
+                      onBlur={(dataFlowFrom) => {
+                        if (row.dataFlowFrom !== dataFlowFrom && dataFlowFrom) {
+                          dataFlowFrom =
+                            dataFlowFrom !== undefined
+                              ? dataFlowFrom
+                                  .replaceAll("&", "&amp;")
+                                  .replaceAll(">", "&gt;")
+                                  .replaceAll("<", "&lt;")
+                                  .replaceAll('"', "&quot;")
+                                  .replaceAll("’", "â")
+                                  .replaceAll("…", "â¦")
+                                  .toString()
+                              : undefined
+                          Stores.encodeCharacterStore.changeUpdateItem({
+                            value: dataFlowFrom,
                             dataField: column.dataField,
                             id: row._id,
                           })

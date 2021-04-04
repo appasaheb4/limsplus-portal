@@ -4,8 +4,8 @@ import { Parser } from "./lib"
 export default class Hl7 {
   _message: any
   _config: any
-  constructor(message, config) {
-    const parse = new Parser()
+  constructor(message, interfaceManager, config) {
+    const parse = new Parser(interfaceManager)
     message = parse.parseString(message)
     this._message = message
     this._config = config

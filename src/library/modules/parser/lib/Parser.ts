@@ -1,92 +1,88 @@
+interface Fildes {
+  COMPONENT_DELIMITER: string
+  ESCAPE_DELIMITER: string
+  FIELD_DELIMITER: string
+  NEW_LINE: string
+  REPEAT_DELIMITER: string
+  SUB_COMPONENT_DELIMITER: string
+}
+
 export default class Parser {
-  SEGMENT = "\n"
-  FIELD = "|"
-  COMPONENT = "^"
-  FIELDREPEAT = "~"
-  ESCAPE = "\\"
-  SUBCOMPONENT = "&"
-      
-  //Message[segment][field][repetition][component][sub-component]
-  parseComponent = (data: any) => {
-    let result: any = []
-    const subcomponents = data.split(this.SUBCOMPONENT)
+  _block: any
+  _fileds: Fildes
 
-    let s: any
-    if (subcomponents.length === 1) {
-      s = subcomponents[0]
-      result = s
-    } else {
-      for (var i = 0; i < subcomponents.length; i++) {
-        s = subcomponents[i]
-        result.push(s)
-      }
-    }
+  // SEGMENT = "\n"
+  // FIELD = "|"
+  // COMPONENT = "^"
+  // FIELDREPEAT = "~"
+  // ESCAPE = "\\"
+  // SUBCOMPONENT = "&"
 
-    return result
+  constructor(interfaceManager) {
+    console.log({ interfaceManager })
+
+    this._block = interfaceManager
+    // array to object
+    const object = {}
+    interfaceManager.fileds.map(
+      (item) =>
+        (object[item.filed] = item.value
+          .replaceAll(/&amp;/g, "&")
+          .replaceAll(/&gt;/g, ">")
+          .replaceAll(/&lt;/g, "<")
+          .replaceAll(/&quot;/g, '"')
+          .replaceAll(/â/g, "’")
+          .replaceAll(/â¦/g, "…")
+          .toString())
+    )
+    console.log({ object })
+
+    this._fileds = object as Fildes
   }
 
-  parseRepeat = (data: any) => {
-    const result: any = []
-    const components = data.split(this.COMPONENT)
-    let c: any
+  // parseComponent = (data: any) => {
+  //   let result: any = []
+  //   const subcomponents = data.split(this.SUBCOMPONENT)
+  //   let s: any
+  //   if (subcomponents.length === 1) {
+  //     s = subcomponents[0]
+  //     result = s
+  //   } else {
+  //     for (var i = 0; i < subcomponents.length; i++) {
+  //       s = subcomponents[i]
+  //       result.push(s)
+  //     }
+  //   }
+  //   return result
+  // }
 
-    for (var i = 0; i < components.length; i++) {
-      c = this.parseComponent(components[i])
-      result.push(c)
-    }
+  // parseRepeat = (data: any) => {
+  //   const result: any = []
+  //   const components = data.split(this.COMPONENT)
+  //   let c: any
+  //   for (var i = 0; i < components.length; i++) {
+  //     c = this.parseComponent(components[i])
+  //     result.push(c)
+  //   }
+  //   return result
+  // }
 
-    return result
-  }
-
-  parseField = (data) => {
-    const result: any = []
-    const repeats = data.split(this.FIELDREPEAT)
-
-    for (let i = 0; i < repeats.length; i++) {
-      const r = this.parseRepeat(repeats[i])
-      result.push(r)
-    }
-
-    return result
-  }
+  // parseField = (data) => {
+  //   const result: any = []
+  //   const repeats = data.split(this.FIELDREPEAT)
+  //   for (let i = 0; i < repeats.length; i++) {
+  //     const r = this.parseRepeat(repeats[i])
+  //     result.push(r)
+  //   }
+  //   return result
+  // }
 
   parseSegment = (data) => {
-    let fields = data.split(this.FIELD)
-    //console.log({ fields })
-    //var seg_name = fields[0];
-    // result = []
-    // let start = 0
-
-    //adjusting header segment, inserting | as first field
+    let fields = data.split(this._fileds.FIELD_DELIMITER)
     if (fields[0] === "MSH") {
-      fields[0] = this.FIELD
+      fields[0] = this._fileds.FIELD_DELIMITER
       fields = ["MSH"].concat(fields)
     }
-    //   console.log({ concat: fields })
-
-    //   //ignore MSH1 and MSH2
-    //   start = 3
-
-    //   result.push("MSH") //segment name
-    //   result.push(this.FIELD) //pipe
-    //   result.push(fields[2]) //separators
-    // }
-
-    // console.log({ result })
-
-    //else {
-    //   result.push(fields[0]) //segment name
-
-    //   start = 1
-    // }
-
-    // for (var i = start; i < fields.length; i++) {
-    //   //skip empty fields
-    //   //if (fields[i] === "") continue;
-
-    //   var f = this.parseField(fields[i])
-    //   result.push(f)
-    // }
     const firstElement = fields.shift()
     const item = {
       fields: firstElement,
@@ -96,28 +92,15 @@ export default class Parser {
   }
 
   parse = (data: any) => {
-    //MSH check
-    //console.log({ data })
-
     if (data.substr(0, 3) !== "MSH") {
-      //TODO: throw a proper error here
       return null
     }
-
-    //define field separator from MSH header
-    // this.FIELD = data[3]
-    // //define all other separators from MSH header
-    // this.COMPONENT = data[4]
-    // this.FIELDREPEAT = data[5]
-    // this.ESCAPE = data[6]
-    // this.SUBCOMPONENT = data[7]
-
-    //parse into result object
     const result: any = []
-
-    const segments = data.split(this.SEGMENT)
-    //console.log({ segments })
-
+    const NEW_LINE = new RegExp(this._fileds.NEW_LINE)
+    console.log({ NEW_LINE })
+    console.log({ va: "\n" })
+    console.log({ va: "\\n" })
+    const segments = data.split(NEW_LINE)
     for (let i = 0; i < segments.length; i++) {
       if (segments[i] === "") {
         continue
@@ -133,9 +116,6 @@ export default class Parser {
     if (!data || typeof data !== "string") {
       return null
     }
-    // if (arguments.length === 1) {
-    //     options = {};
-    // }
     data = this.parse(data)
     return data
   }

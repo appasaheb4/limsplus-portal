@@ -6,7 +6,7 @@ import Decoder from "./Decoder"
  * @param config
  * @returns {*}
  */
-export function decode(message, config) {
-  const decoder = new Decoder(message, config)
+export function decode(message, interfaceManager, config) {
+  const decoder = new Decoder(message, interfaceManager, config)
   return decoder.decode()
 }

@@ -28,15 +28,15 @@ const HostCommunication = observer(() => {
 
   useEffect(() => {
     socket.on("hostCommunicationSendDataToInstrument", (data) => {
-      Stores.communicationStore.updateHostCommuication({
-        ...Stores.communicationStore.hostCommuication,
+      Stores.hostCommunicationStore.updateHostCommuication({
+        ...Stores.hostCommunicationStore.hostCommuication,
         txtSendDatafromInstrument: data,
       })
     })
 
     socket.on("hostCommunicationSourceFile", (data) => {
-      Stores.communicationStore.updateHostCommuication({
-        ...Stores.communicationStore.hostCommuication,
+      Stores.hostCommunicationStore.updateHostCommuication({
+        ...Stores.hostCommunicationStore.hostCommuication,
         txtDataReceivefromInstrument: data,
       })
     })
@@ -61,17 +61,19 @@ const HostCommunication = observer(() => {
                 <LibraryComponents.Grid cols={2}>
                   <LibraryComponents.Form.Toggle
                     label={
-                      Stores.communicationStore.hostCommuication?.manualAutomaticMode
+                      Stores.hostCommunicationStore.hostCommuication
+                        ?.manualAutomaticMode
                         ? "Automatic"
                         : "Manual"
                     }
                     id="manualMode"
                     value={
-                      Stores.communicationStore.hostCommuication?.manualAutomaticMode
+                      Stores.hostCommunicationStore.hostCommuication
+                        ?.manualAutomaticMode
                     }
                     onChange={(manualAutomaticMode) => {
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
                         manualAutomaticMode,
                       })
                     }}
@@ -80,7 +82,7 @@ const HostCommunication = observer(() => {
                     <label>
                       Connection Estabilished :{" "}
                       {`${
-                        Stores.communicationStore.hostCommuication
+                        Stores.hostCommunicationStore.hostCommuication
                           ?.manualAutomaticMode
                           ? `On`
                           : `Off`
@@ -88,7 +90,7 @@ const HostCommunication = observer(() => {
                     </label>
                     <label
                       style={{
-                        color: Stores.communicationStore.hostCommuication
+                        color: Stores.hostCommunicationStore.hostCommuication
                           ?.manualAutomaticMode
                           ? "green"
                           : "red",
@@ -106,21 +108,24 @@ const HostCommunication = observer(() => {
                   <select
                     name="instrumentType"
                     value={
-                      Stores.communicationStore.hostCommuication?.instrumentType
+                      Stores.hostCommunicationStore.hostCommuication?.instrumentType
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const instrumentType = e.target.value
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
                         instrumentType,
                       })
-                      const selectedEncode = Stores.encodeCharacterStore.listEncodeCharacter?.find(
+                      const selectedInterfaceManager = Stores.encodeCharacterStore.listEncodeCharacter?.find(
                         (item) => item.instrumentType === instrumentType
                       )
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
-                        instrumentName: selectedEncode?.instrumentName,
+                      Stores.hostCommunicationStore.updateSelectedInterfaceManager(
+                        selectedInterfaceManager as Models.EncodeCharacter
+                      )
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
+                        instrumentName: selectedInterfaceManager?.instrumentName,
                       })
                     }}
                   >
@@ -147,10 +152,12 @@ const HostCommunication = observer(() => {
                   label="Instrument Name"
                   id="instrumentName"
                   placeholder="Instrument Name"
-                  value={Stores.communicationStore.hostCommuication?.instrumentName}
+                  value={
+                    Stores.hostCommunicationStore.hostCommuication?.instrumentName
+                  }
                   onChange={(instrumentName) => {
-                    Stores.communicationStore.updateHostCommuication({
-                      ...Stores.communicationStore.hostCommuication,
+                    Stores.hostCommunicationStore.updateHostCommuication({
+                      ...Stores.hostCommunicationStore.hostCommuication,
                       instrumentName,
                     })
                   }}
@@ -167,13 +174,14 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      Stores.communicationStore.hostCommuication?.modeOfCommunication
+                      Stores.hostCommunicationStore.hostCommuication
+                        ?.modeOfCommunication
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfCommunication = e.target.value
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
                         modeOfCommunication,
                       })
                     }}
@@ -196,12 +204,14 @@ const HostCommunication = observer(() => {
                 >
                   <select
                     name="defualtLab"
-                    value={Stores.communicationStore.hostCommuication?.typeOfQuery}
+                    value={
+                      Stores.hostCommunicationStore.hostCommuication?.typeOfQuery
+                    }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const typeOfQuery = e.target.value
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
                         typeOfQuery,
                       })
                     }}
@@ -233,13 +243,14 @@ const HostCommunication = observer(() => {
                   <select
                     name="defualtLab"
                     value={
-                      Stores.communicationStore.hostCommuication?.modeOfConnection
+                      Stores.hostCommunicationStore.hostCommuication
+                        ?.modeOfConnection
                     }
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfConnection = e.target.value
-                      Stores.communicationStore.updateHostCommuication({
-                        ...Stores.communicationStore.hostCommuication,
+                      Stores.hostCommunicationStore.updateHostCommuication({
+                        ...Stores.hostCommunicationStore.hostCommuication,
                         modeOfConnection,
                       })
                     }}
@@ -255,11 +266,11 @@ const HostCommunication = observer(() => {
                     ))}
                   </select>
                 </LibraryComponents.Form.InputWrapper>
-                {Stores.communicationStore.hostCommuication?.modeOfConnection ===
+                {Stores.hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   "Serial Port Communication" && (
                   <FeatureComponents.Atoms.SettingForRS232Table />
                 )}
-                {Stores.communicationStore.hostCommuication?.modeOfConnection ===
+                {Stores.hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   "TCP/IP Communication" && (
                   <FeatureComponents.Atoms.SettingForTCP_IPTable />
                 )}
@@ -303,12 +314,14 @@ const HostCommunication = observer(() => {
               >
                 <select
                   name="defualtLab"
-                  value={Stores.communicationStore.hostCommuication?.applyFiltrOn}
+                  value={
+                    Stores.hostCommunicationStore.hostCommuication?.applyFiltrOn
+                  }
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const applyFiltrOn = e.target.value
-                    Stores.communicationStore.updateHostCommuication({
-                      ...Stores.communicationStore.hostCommuication,
+                    Stores.hostCommunicationStore.updateHostCommuication({
+                      ...Stores.hostCommunicationStore.hostCommuication,
                       applyFiltrOn,
                     })
                   }}
@@ -331,8 +344,8 @@ const HostCommunication = observer(() => {
                 placeholder="Log File"
                 //value={rootStore.userStore.user.fullName}
                 onChange={(logFileDataReceivefromInstrument) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     logFileDataReceivefromInstrument,
                   })
                 }}
@@ -359,17 +372,20 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.sourceFileDataReceivefromInstrument
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const sourceFileDataReceivefromInstrument =
                                   e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  sourceFileDataReceivefromInstrument,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    sourceFileDataReceivefromInstrument,
+                                  }
+                                )
                               }}
                             >
                               <option selected>Select</option>
@@ -394,7 +410,7 @@ const HostCommunication = observer(() => {
                               disabled={
                                 Stores.segmentMappingStore.listSegmentMapping !=
                                   undefined &&
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.instrumentType !== undefined
                                   ? Stores.segmentMappingStore.listSegmentMapping
                                       ?.length > 0
@@ -403,24 +419,27 @@ const HostCommunication = observer(() => {
                                   : true
                               }
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.SourceRepositoryDataReceivefromInstrument
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const SourceRepositoryDataReceivefromInstrument =
                                   e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  SourceRepositoryDataReceivefromInstrument,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    SourceRepositoryDataReceivefromInstrument,
+                                  }
+                                )
                                 if (
                                   SourceRepositoryDataReceivefromInstrument ===
                                   "Phiysical file Location"
                                 ) {
-                                  Stores.communicationStore.hostCommuication
+                                  Stores.hostCommunicationStore.hostCommuication
                                   if (
-                                    !Stores.communicationStore.hostCommuication
+                                    !Stores.hostCommunicationStore.hostCommuication
                                       ?.instrumentType
                                   )
                                     return alert("Please entery instrument type")
@@ -459,7 +478,7 @@ const HostCommunication = observer(() => {
                                 disabled={
                                   Stores.segmentMappingStore.listSegmentMapping !=
                                     undefined &&
-                                  Stores.communicationStore.hostCommuication
+                                  Stores.hostCommunicationStore.hostCommuication
                                     ?.instrumentType !== undefined
                                     ? Stores.segmentMappingStore.listSegmentMapping
                                         ?.length > 0
@@ -468,12 +487,12 @@ const HostCommunication = observer(() => {
                                     : true
                                 }
                                 value={
-                                  Stores.communicationStore.hostCommuication
+                                  Stores.hostCommunicationStore.hostCommuication
                                     ?.txtDataReceivefromInstrument
                                 }
                                 onChange={(txtDataReceivefromInstrument) => {
-                                  // Stores.communicationStore.updateHostCommuication({
-                                  //   ...Stores.communicationStore.hostCommuication,
+                                  // Stores.hostCommunicationStore.updateHostCommuication({
+                                  //   ...Stores.hostCommunicationStore.hostCommuication,
                                   //   txtDataReceivefromInstrument,
                                   // })
                                   HostCommunicationFlows.newMessage(
@@ -490,7 +509,7 @@ const HostCommunication = observer(() => {
                                   onClick={() => {
                                     socket.emit(
                                       "hostCommunicationSourceFile",
-                                      Stores.communicationStore.hostCommuication
+                                      Stores.hostCommunicationStore.hostCommuication
                                         ?.txtDataReceivefromInstrument
                                     )
                                   }}
@@ -514,14 +533,17 @@ const HostCommunication = observer(() => {
                               id="txtSendDatafromInstrument"
                               placeholder="Send data to Instrument"
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.txtSendDatafromInstrument
                               }
                               onChange={(txtSendDatafromInstrument) => {
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  txtSendDatafromInstrument,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    txtSendDatafromInstrument,
+                                  }
+                                )
                               }}
                             />
                           </div>
@@ -533,7 +555,7 @@ const HostCommunication = observer(() => {
                                 onClick={() => {
                                   socket.emit(
                                     "hostCommunicationSendDataToInstrument",
-                                    Stores.communicationStore.hostCommuication
+                                    Stores.hostCommunicationStore.hostCommuication
                                       ?.txtSendDatafromInstrument
                                   )
                                 }}
@@ -555,21 +577,25 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication?.convertTo
+                                Stores.hostCommunicationStore.hostCommuication
+                                  ?.convertTo
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={async (e) => {
                                 const convertTo = e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  convertTo,
-                                  SourceRepositoryDataReceivefromInstrument: "",
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    convertTo,
+                                    SourceRepositoryDataReceivefromInstrument: "",
+                                  }
+                                )
                                 await HostCommunicationFlows.convetTo(
                                   convertTo,
-                                  Stores.communicationStore.hostCommuication
-                                    ?.instrumentType || "",
-                                  Stores.communicationStore.hostCommuication
+                                  Stores.hostCommunicationStore
+                                    .selectedInterfaceManager,
+                                  Stores.hostCommunicationStore.hostCommuication
                                     ?.txtDataReceivefromInstrument || ""
                                 )
                               }}
@@ -594,16 +620,19 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.outputRepository
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outputRepository = e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  outputRepository,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    outputRepository,
+                                  }
+                                )
                               }}
                             >
                               <option selected>Select</option>
@@ -627,11 +656,11 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              {Stores.communicationStore.convertTo?.hl7 !==
+                              {Stores.hostCommunicationStore.convertTo?.hl7 !==
                                 undefined && (
                                 <FeatureComponents.Organisms.HL7Table
                                   data={toJS(
-                                    Stores.communicationStore.convertTo.hl7
+                                    Stores.hostCommunicationStore.convertTo.hl7
                                   )}
                                 />
                               )}
@@ -667,15 +696,19 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication?.outPutIn
+                                Stores.hostCommunicationStore.hostCommuication
+                                  ?.outPutIn
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outPutIn = e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  outPutIn,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    outPutIn,
+                                  }
+                                )
                               }}
                             >
                               <option selected>Select</option>
@@ -707,14 +740,17 @@ const HostCommunication = observer(() => {
                                 id="txtOutputin"
                                 placeholder="Output in"
                                 value={
-                                  Stores.communicationStore.hostCommuication
+                                  Stores.hostCommunicationStore.hostCommuication
                                     ?.txtOutputin
                                 }
                                 onChange={(txtOutputin) => {
-                                  Stores.communicationStore.updateHostCommuication({
-                                    ...Stores.communicationStore.hostCommuication,
-                                    txtOutputin,
-                                  })
+                                  Stores.hostCommunicationStore.updateHostCommuication(
+                                    {
+                                      ...Stores.hostCommunicationStore
+                                        .hostCommuication,
+                                      txtOutputin,
+                                    }
+                                  )
                                 }}
                               />
                             </div>
@@ -741,16 +777,19 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.outputforThirdpartySoftware
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outputforThirdpartySoftware = e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  outputforThirdpartySoftware,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    outputforThirdpartySoftware,
+                                  }
+                                )
                               }}
                             >
                               <option selected>Select</option>
@@ -770,12 +809,12 @@ const HostCommunication = observer(() => {
                 id="logFileThiredPartySoftare"
                 placeholder="Log File"
                 value={
-                  Stores.communicationStore.hostCommuication
+                  Stores.hostCommunicationStore.hostCommuication
                     ?.logFileThiredPartySoftare
                 }
                 onChange={(logFileThiredPartySoftare) => {
-                  Stores.communicationStore.updateHostCommuication({
-                    ...Stores.communicationStore.hostCommuication,
+                  Stores.hostCommunicationStore.updateHostCommuication({
+                    ...Stores.hostCommunicationStore.hostCommuication,
                     logFileThiredPartySoftare,
                   })
                 }}
@@ -787,17 +826,20 @@ const HostCommunication = observer(() => {
                             <select
                               name="defualtLab"
                               value={
-                                Stores.communicationStore.hostCommuication
+                                Stores.hostCommunicationStore.hostCommuication
                                   ?.SourceRepositoryThiredPartySoftare
                               }
                               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const SourceRepositoryThiredPartySoftare =
                                   e.target.value
-                                Stores.communicationStore.updateHostCommuication({
-                                  ...Stores.communicationStore.hostCommuication,
-                                  SourceRepositoryThiredPartySoftare,
-                                })
+                                Stores.hostCommunicationStore.updateHostCommuication(
+                                  {
+                                    ...Stores.hostCommunicationStore
+                                      .hostCommuication,
+                                    SourceRepositoryThiredPartySoftare,
+                                  }
+                                )
                               }}
                             >
                               <option selected>Select</option>
