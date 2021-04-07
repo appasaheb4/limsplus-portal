@@ -13,26 +13,17 @@ import * as Config from "@lp/config"
 import * as FeatureComponents from "../../../components"
 
 const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport  
+const { ExportCSVButton } = CSVExport
+
 import { Stores } from "../../../stores"
+import { Stores as RootStore } from "@lp/library/stores"
+
 const ConversationMapping = () => {
-  console.log({ Stores })
-
-  const columns = [
-    {
-      dataField: "hexadecimal",
-      text: "HEXADECIMAL",
-    },
-    {
-      dataField: "binary",
-      text: "BINARY",
-    },
-    {
-      dataField: "ascii",
-      text: "ASCII",
-    },
-  ]
-
+  const [modalConfirm, setModalConfirm] = useState<any>()
+  useEffect(() => {
+    Stores.conversationMappingStore.fetchConversationMapping()
+  }, [])   
+  
   return (
     <>
       <LibraryComponents.Header>
@@ -44,9 +35,10 @@ const ConversationMapping = () => {
             <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
               <LibraryComponents.Form.Input
                 type="text"
-                label="HEXADECIMAL"
+                label="Hexa Decimal"
                 id="hexadecimal"
                 name="hexadecimal"
+                placeholder="Hexa Decimal"
                 value={
                   Stores.conversationMappingStore.conversationMapping?.hexadecimal
                 }
@@ -60,9 +52,10 @@ const ConversationMapping = () => {
 
               <LibraryComponents.Form.Input
                 type="text"
-                label="BINARY"
+                label="Binary"
                 id="binary"
                 name="binary"
+                placeholder="Binary"
                 value={Stores.conversationMappingStore.conversationMapping?.binary}
                 onChange={(binary) => {
                   Stores.conversationMappingStore.updateConversationMapping({
@@ -77,6 +70,7 @@ const ConversationMapping = () => {
                 label="ASCII"
                 id="ascii"
                 name="ascii"
+                placeholder="ASCII"
                 value={Stores.conversationMappingStore.conversationMapping?.ascii}
                 onChange={(ascii) => {
                   Stores.conversationMappingStore.updateConversationMapping({
@@ -94,17 +88,28 @@ const ConversationMapping = () => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                console.log({
-                  value: Stores.conversationMappingStore.conversationMapping,
-                })
                 if (
                   Stores.conversationMappingStore.conversationMapping !== undefined
                 ) {
-                  Stores.conversationMappingStore.pushListArray(
-                    Stores.conversationMappingStore.conversationMapping
-                  )
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.conversationMappingStore.conversationMappingService
+                    .addConversationMapping(
+                      Stores.conversationMappingStore.conversationMapping
+                    )
+                    .then((res) => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      if (res.status === 200) {
+                        LibraryComponents.ToastsStore.success(
+                          `Conversation Mapping created.`
+                        )
+                        window.location.reload()
+                        //Stores.conversationMappingStore.()
+                      }
+                    })
                 } else {
-                  alert("Please enter all data.")
+                  LibraryComponents.ToastsStore.warning(
+                    "Please enter all information!"
+                  )
                 }
               }}
             >
@@ -125,11 +130,86 @@ const ConversationMapping = () => {
           </LibraryComponents.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <BootstrapTable
-            keyField="id"
-            columns={columns}
+          <ToolkitProvider
+            keyField="conversationMapping"
             data={Stores.conversationMappingStore.listConversationMapping || []}
-          />
+            columns={[
+              {
+                dataField: "hexadecimal",
+                text: "Hexa Decimal",
+              },
+              {
+                dataField: "binary",
+                text: "Binary",
+              },
+              {
+                dataField: "ascii",
+                text: "ASCII",
+              },
+              {
+                dataField: "operation",
+                text: "Delete",
+                editable: false,
+                csvExport: false,
+                formatter: (cellContent, row) => (
+                  <>
+                    <LibraryComponents.Buttons.Button
+                      size="small"
+                      type="outline"
+                      icon={LibraryComponents.Icons.Remove}
+                      onClick={() => {
+                        setModalConfirm({
+                          type: "delete",
+                          show: true,
+                          id: row._id,
+                          title: "Are you sure?",
+                          body: `Delete ${row.hexadecimal} hexadecimal!`,
+                        })
+                      }}
+                    >
+                      Delete
+                    </LibraryComponents.Buttons.Button>
+                  </>
+                ),
+              },
+            ]}
+            search
+            exportCSV={{
+              fileName: `ConversationMapping_${moment(new Date()).format(
+                "YYYY-MM-DD HH:mm"
+              )}.csv`,
+              noAutoBOM: false,
+              blobType: "text/csv;charset=ansi",
+            }}
+          >
+            {(props) => (
+              <div>
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
+                <hr />
+                <BootstrapTable
+                  {...props.baseProps}
+                  noDataIndication="Table is Empty"
+                  hover
+                  pagination={paginationFactory()}
+                  // cellEdit={cellEditFactory({
+                  //   mode: "dbclick",
+                  //   blurToSave: true,
+                  //   // afterSaveCell,
+                  // })}
+                />
+              </div>
+            )}
+          </ToolkitProvider>
         </div>
       </div>
     </>

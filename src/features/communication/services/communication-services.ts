@@ -276,6 +276,34 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
+
+  // Conversation Mapping
+  addConversationMapping = (conversation: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(
+          `/communication/conversationMapping/addConversationMapping`,
+          conversation
+        )
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  listConversationMapping = () =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .get(`/communication/conversationMapping/listConversationMapping`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default CommunicationService
