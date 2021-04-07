@@ -22,6 +22,7 @@ export interface IHostCommunication {
     timeout?: string
     responseTime?: string
   }
+  hex?: string
   sourceFileDataReceivefromInstrument?: string
   logFileDataReceivefromInstrument?: string
   SourceRepositoryDataReceivefromInstrument?: string
