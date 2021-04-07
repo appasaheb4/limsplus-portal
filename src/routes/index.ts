@@ -45,12 +45,12 @@ const SegmentMapping = async(
   () =>
     import("@lp/features/communication/scenes/mapping/segmentMapping/SegmentMapping")
 )
-// const ConversationMapping = async(
-//   () =>
-//     import(
-//       "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
-//     )
-// )
+const ConversationMapping = async(
+  () =>
+    import(
+      "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
+    )
+)
 const EncodeCharacter = async(
   () => import("@lp/features/communication/scenes/EncodeCharacter")
 )
@@ -142,6 +142,11 @@ const communicationRoutes = {
       component: EncodeCharacter,
     },
     {
+      path: "/communication/mapping/conversationMapping",
+      name: "Conversation Mapping",
+      component: ConversationMapping,
+    },
+    {  
       path: "/communication/hostCommunication",
       name: "Host Communication",
       component: HostCommunication,
@@ -151,11 +156,6 @@ const communicationRoutes = {
       name: "Data Segment Mapping",
       component: SegmentMapping,
     },
-    // {
-    //   path:'/communication/mapping/conversationMapping',
-    //   name:'Conversation Mapping',
-    //   component: ConversationMapping
-    // },
   ],
 }
 
