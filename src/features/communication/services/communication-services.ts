@@ -304,6 +304,30 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
+
+  deleteConversationMapping = (id: string[]) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .delete(`/communication/conversationMapping/deleteConversationMapping/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  updateConversationMappingUpdateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/communication/conversationMapping/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })   
 }
 
 export default CommunicationService

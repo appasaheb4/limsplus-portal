@@ -9,11 +9,13 @@ import * as Services from "../services"
 class ConversationMappingStore {
   @ignore @observable conversationMapping?: Models.ConversationMapping
   @observable listConversationMapping?: Models.ConversationMapping[] = []
+  @ignore @observable updateItem?: Models.UpdateItem
 
   @action fetchConversationMapping() {
     this.conversationMappingService
       .listConversationMapping()
       .then((conversation) => {
+        console.log({ conversation })
         this.listConversationMapping = conversation
       })
   }
@@ -26,6 +28,9 @@ class ConversationMappingStore {
     conversationMapping: Models.ConversationMapping
   ) => {
     this.conversationMapping = conversationMapping
+  }
+  @action changeUpdateItem = (item: Models.UpdateItem) => {
+    this.updateItem = item
   }
 }
 
