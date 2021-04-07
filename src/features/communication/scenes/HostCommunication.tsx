@@ -362,6 +362,7 @@ const HostCommunication = observer(() => {
 
             <Accordion allowMultiple>
               {[
+                { title: "Hex to ASCII" },
                 { title: "Source File" },
                 { title: "Send data to Intrument" },
                 { title: "Convert to" },
@@ -369,6 +370,39 @@ const HostCommunication = observer(() => {
               ].map((item) => {
                 return (
                   <AccordionItem title={`${item.title}`}>
+                    {item.title === "Hex to ASCII" && (
+                      <>
+                        <LibraryComponents.List
+                          direction="col"
+                          space={4}
+                          justify="stretch"
+                          fill
+                        >
+                          <div className={`grid grid-cols-3 gap-4`}>
+                            <div className="col-span-2">
+                              <LibraryComponents.Form.MultilineInput
+                                label=""
+                                id="txtDataReceivefromInstrument"
+                                placeholder="Hex"
+                                value={
+                                  Stores.hostCommunicationStore.hostCommuication?.hex
+                                }
+                                onChange={(hex) => {
+                                  Stores.hostCommunicationStore.updateHostCommuication(
+                                    {
+                                      ...Stores.hostCommunicationStore
+                                        .hostCommuication,
+                                      hex,
+                                    }
+                                  )
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div className="clearfix" />
+                        </LibraryComponents.List>
+                      </>
+                    )}
                     {item.title === "Source File" && (
                       <>
                         <LibraryComponents.Grid cols={2}>
