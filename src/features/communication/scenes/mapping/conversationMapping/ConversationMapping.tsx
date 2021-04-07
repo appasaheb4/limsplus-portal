@@ -3,14 +3,10 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import BootstrapTable from "react-bootstrap-table-next"
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
-import * as Models from "../../../models"
-import * as Services from "../../../services"
-import * as XLSX from "xlsx"
-import * as Config from "@lp/config"
-import * as FeatureComponents from "../../../components"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -18,12 +14,12 @@ const { ExportCSVButton } = CSVExport
 import { Stores } from "../../../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const ConversationMapping = () => {
+const ConversationMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   useEffect(() => {
     Stores.conversationMappingStore.fetchConversationMapping()
-  }, [])   
-  
+  }, [])
+
   return (
     <>
       <LibraryComponents.Header>
@@ -201,19 +197,75 @@ const ConversationMapping = () => {
                   noDataIndication="Table is Empty"
                   hover
                   pagination={paginationFactory()}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
+                  cellEdit={cellEditFactory({
+                    mode: "dbclick",
+                    blurToSave: true,
+                    afterSaveCell: (oldValue, newValue, row, column) => {
+                      if (oldValue !== newValue) {
+                        Stores.conversationMappingStore.changeUpdateItem({
+                          value: newValue,
+                          dataField: column.dataField,
+                          id: row._id,
+                        })
+                        setModalConfirm({
+                          type: "update",
+                          show: true,
+                          title: "Are you sure update recoard?",
+                        })
+                        // RootStore.rootStore.setProcessLoading(true)
+                        // Services.updateUserSingleFiled({
+                        //   newValue,
+                        //   dataField: column.dataField,
+                        //   id: row._id,
+                        // }).then((res) => {
+                        //   RootStore.rootStore.setProcessLoading(false)
+                        //   if (res.data) {
+                        //     Stores.userStore.loadUser()
+                        //     LibraryComponents.ToastsStore.success(`User update.`)
+                        //   }
+                        // })
+                      }
+                    },
+                  })}
                 />
               </div>
             )}
           </ToolkitProvider>
         </div>
+        <LibraryComponents.Modal.ModalConfirm
+          {...modalConfirm}
+          click={(type) => {
+            setModalConfirm({ show: false })
+            if (type === "delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.conversationMappingStore.conversationMappingService
+                .deleteConversationMapping(modalConfirm.id)
+                .then((res) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    Stores.conversationMappingStore.fetchConversationMapping()
+                    LibraryComponents.ToastsStore.success(`Items deleted.`)
+                  }
+                })
+            } else if (type == "update") {
+              Stores.conversationMappingStore.conversationMappingService
+                .updateConversationMappingUpdateSingleFiled(
+                  Stores.conversationMappingStore.updateItem
+                )  
+                .then((res) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    Stores.conversationMappingStore.fetchConversationMapping()
+                    LibraryComponents.ToastsStore.success(`Updated.`)
+                  }  
+                })
+            }
+          }}
+          close={() => setModalConfirm({ show: false })}
+        />
       </div>
     </>
   )
-}
+})
 
 export default ConversationMapping
