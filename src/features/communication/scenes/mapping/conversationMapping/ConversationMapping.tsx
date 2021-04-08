@@ -133,14 +133,59 @@ const ConversationMapping = observer(() => {
               {
                 dataField: "hexadecimal",
                 text: "Hexa Decimal",
+                formatter: (cellContent, row) => (
+                  <>
+                    {row.hexadecimal !== undefined
+                      ? row.hexadecimal
+                          .toString()
+                          .replaceAll(/&amp;/g, "&")
+                          .replaceAll(/&gt;/g, ">")
+                          .replaceAll(/&lt;/g, "<")
+                          .replaceAll(/&quot;/g, '"')
+                          .replaceAll(/â/g, "’")
+                          .replaceAll(/â¦/g, "…")
+                          .toString()
+                      : undefined}
+                  </>
+                ),
               },
               {
                 dataField: "binary",
                 text: "Binary",
+                formatter: (cellContent, row) => (
+                  <>
+                    {row.binary !== undefined
+                      ? row.binary
+                          .toString()
+                          .replaceAll(/&amp;/g, "&")
+                          .replaceAll(/&gt;/g, ">")
+                          .replaceAll(/&lt;/g, "<")
+                          .replaceAll(/&quot;/g, '"')
+                          .replaceAll(/â/g, "’")
+                          .replaceAll(/â¦/g, "…")
+                          .toString()
+                      : undefined}
+                  </>
+                ),
               },
               {
                 dataField: "ascii",
                 text: "ASCII",
+                formatter: (cellContent, row) => (
+                  <>
+                    {row.ascii !== undefined
+                      ? row.ascii
+                          .toString()
+                          .replaceAll(/&amp;/g, "&")
+                          .replaceAll(/&gt;/g, ">")
+                          .replaceAll(/&lt;/g, "<")
+                          .replaceAll(/&quot;/g, '"')
+                          .replaceAll(/â/g, "’")
+                          .replaceAll(/â¦/g, "…")
+                          .toString()
+                      : undefined}
+                  </>
+                ),
               },
               {
                 dataField: "operation",
@@ -251,13 +296,13 @@ const ConversationMapping = observer(() => {
               Stores.conversationMappingStore.conversationMappingService
                 .updateConversationMappingUpdateSingleFiled(
                   Stores.conversationMappingStore.updateItem
-                )  
+                )
                 .then((res) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
                     LibraryComponents.ToastsStore.success(`Updated.`)
-                  }  
+                  }
                 })
             }
           }}
