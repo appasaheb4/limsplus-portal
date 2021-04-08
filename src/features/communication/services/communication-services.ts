@@ -280,6 +280,36 @@ class CommunicationService extends BaseService {
   // Conversation Mapping
   addConversationMapping = (conversation: any) =>
     new Promise<any>((resolve, reject) => {
+      conversation.hexadecimal =
+        conversation.hexadecimal !== undefined
+          ? conversation.hexadecimal
+              .replaceAll("&", "&amp;")
+              .replaceAll(">", "&gt;")
+              .replaceAll("<", "&lt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("’", "â")
+              .replaceAll("…", "â¦")
+          : undefined
+      conversation.binary =
+        conversation.binary !== undefined
+          ? conversation.binary
+              .replaceAll("&", "&amp;")
+              .replaceAll(">", "&gt;")
+              .replaceAll("<", "&lt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("’", "â")
+              .replaceAll("…", "â¦")
+          : undefined
+      conversation.ascii =
+        conversation.ascii !== undefined
+          ? conversation.ascii
+              .replaceAll("&", "&amp;")
+              .replaceAll(">", "&gt;")
+              .replaceAll("<", "&lt;")
+              .replaceAll('"', "&quot;")
+              .replaceAll("’", "â")
+              .replaceAll("…", "â¦")
+          : undefined
       this.client
         .post(
           `/communication/conversationMapping/addConversationMapping`,
@@ -327,7 +357,7 @@ class CommunicationService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })   
+    })
 }
 
 export default CommunicationService
