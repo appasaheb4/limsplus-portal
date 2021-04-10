@@ -46,7 +46,7 @@ const SegmentList = observer((props: SegmentListProps) => {
     onSizePerPageChange,
   }) => (
     <div className="btn-group items-center" role="group">
-      <LibraryComponents.Buttons.Button
+      <LibraryComponents.Atoms.Buttons.Button
         style={{ height: 10, width: 200 }}
         size="small"
         type="solid"
@@ -66,13 +66,13 @@ const SegmentList = observer((props: SegmentListProps) => {
           }
         }}
       >
-        <LibraryComponents.Icons.EvaIcon
+        <LibraryComponents.Atoms.Icons.EvaIcon
           icon="trash-outline"
           size="large"
           color={Config.Styles.COLORS.BLACK}
         />
         Remove Selected
-      </LibraryComponents.Buttons.Button>
+      </LibraryComponents.Atoms.Buttons.Button>
       <input
         type="number"
         min="0"
@@ -473,7 +473,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="number"
                     name="field_no"
                     placeholder="Field No"
@@ -511,7 +511,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="number"
                     name="item_no"
                     placeholder="Item No"
@@ -548,7 +548,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Form.Toggle
+                  <LibraryComponents.Atoms.Form.Toggle
                     id="field_required"
                     value={row.field_required}
                     onChange={(field_required) => {
@@ -589,7 +589,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="element_name"
                     placeholder="Element name"
                     onBlur={(element_name) => {
@@ -628,7 +628,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="transmitted_data"
                     placeholder="Transmitted data"
                     onBlur={(transmitted_data) => {
@@ -668,7 +668,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="field_array"
                     placeholder="Field array"
                     onBlur={(field_array) => {
@@ -707,7 +707,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="number"
                     name="field_length"
                     placeholder="Field length"
@@ -747,7 +747,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="field_type"
                     placeholder="Field type"
                     onBlur={(field_type) => {
@@ -783,7 +783,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Form.Toggle
+                  <LibraryComponents.Atoms.Form.Toggle
                     id="field_required"
                     value={row.repeat_delimiter}
                     onChange={(repeat_delimiter) => {
@@ -817,7 +817,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Form.Toggle
+                  <LibraryComponents.Atoms.Form.Toggle
                     id="mandatory"
                     value={row.mandatory}
                     onChange={(mandatory) => {
@@ -858,7 +858,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="lims_descriptions"
                     placeholder="Lims descriptions"
                     onBlur={(lims_descriptions) => {
@@ -897,7 +897,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="lims_tables"
                     placeholder="Lims tables"
                     onBlur={(lims_tables) => {
@@ -937,7 +937,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="lims_fields"
                     placeholder="Lims fields"
                     onBlur={(lims_fields) => {
@@ -974,7 +974,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 }`,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Form.Toggle
+                  <LibraryComponents.Atoms.Form.Toggle
                     id="required_for_lims"
                     value={row.required_for_lims}
                     onChange={(required_for_lims) => {
@@ -1026,7 +1026,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     name="notes"
                     placeholder="Notes"
                     onBlur={(notes) => {
@@ -1082,7 +1082,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Form.InputFile
+                  <LibraryComponents.Atoms.Form.InputFile
                     multiple={true}
                     name="attachments"
                     placeholder="ATTACHMENTS"
@@ -1125,7 +1125,7 @@ const SegmentList = observer((props: SegmentListProps) => {
               csvExport: false,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="outline"
                     onClick={() => {
@@ -1144,13 +1144,13 @@ const SegmentList = observer((props: SegmentListProps) => {
                       }
                     }}
                   >
-                    <LibraryComponents.Icons.EvaIcon
+                    <LibraryComponents.Atoms.Icons.EvaIcon
                       icon="copy-outline"
                       size="medium"
                       color={Config.Styles.COLORS.BLACK}
                     />
                     Duplicate
-                  </LibraryComponents.Buttons.Button>
+                  </LibraryComponents.Atoms.Buttons.Button>
                 </>
               ),
             },
@@ -1161,10 +1161,10 @@ const SegmentList = observer((props: SegmentListProps) => {
               csvExport: false,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="outline"
-                    icon={LibraryComponents.Icons.Remove}
+                    icon={LibraryComponents.Atoms.Icons.Remove}
                     onClick={() => {
                       Stores.segmentMappingStore.updateSelectedItem([])
                       Stores.segmentMappingStore.updateSelectedItem([row])
@@ -1182,7 +1182,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     }}
                   >
                     Delete
-                  </LibraryComponents.Buttons.Button>
+                  </LibraryComponents.Atoms.Buttons.Button>
                 </>
               ),
             },
@@ -1232,7 +1232,7 @@ const SegmentList = observer((props: SegmentListProps) => {
           )}
         </ToolkitProvider>
 
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type) => {
             setModalConfirm({ show: false })
@@ -1255,7 +1255,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       Stores.segmentMappingStore.updateSelectedItem([])
-                      LibraryComponents.ToastsStore.success(`Items deleted.`)
+                      LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
                     }
                   })
               } else if (type == "update") {
@@ -1265,7 +1265,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
-                      LibraryComponents.ToastsStore.success(`Updated.`)
+                      LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
                     }
                   })
               } else if (type == "duplicate") {

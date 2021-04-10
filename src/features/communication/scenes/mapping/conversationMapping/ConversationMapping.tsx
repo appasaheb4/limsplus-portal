@@ -19,14 +19,14 @@ const ConversationMapping = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading title="Conversation Mapping" />
-      </LibraryComponents.Header>
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading title="Conversation Mapping" />
+      </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
+          <LibraryComponents.Atoms.Grid cols={2}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="Hexa Decimal"
                 id="hexadecimal"
@@ -43,7 +43,7 @@ const ConversationMapping = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="Binary"
                 id="binary"
@@ -58,7 +58,7 @@ const ConversationMapping = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="ASCII"
                 id="ascii"
@@ -73,13 +73,13 @@ const ConversationMapping = observer(() => {
                 }}
               />
               <div className="clearfix" />
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (
                   Stores.conversationMappingStore.conversationMapping !== undefined
@@ -92,7 +92,7 @@ const ConversationMapping = observer(() => {
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
-                        LibraryComponents.ToastsStore.success(
+                        LibraryComponents.Atoms.ToastsStore.success(
                           `Conversation Mapping created.`
                         )
                         window.location.reload()
@@ -100,27 +100,27 @@ const ConversationMapping = observer(() => {
                       }
                     })
                 } else {
-                  LibraryComponents.ToastsStore.warning(
+                  LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
                   )
                 }
               }}
             >
               Save
-            </LibraryComponents.Buttons.Button>
+            </LibraryComponents.Atoms.Buttons.Button>
 
-            <LibraryComponents.Buttons.Button
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
+            </LibraryComponents.Atoms.Buttons.Button>
             <div className="clearfix" />
-          </LibraryComponents.List>
+          </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <ToolkitProvider
@@ -191,10 +191,10 @@ const ConversationMapping = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Buttons.Button
+                    <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Icons.Remove}
+                      icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setModalConfirm({
                           type: "delete",
@@ -206,7 +206,7 @@ const ConversationMapping = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Buttons.Button>
+                    </LibraryComponents.Atoms.Buttons.Button>
                   </>
                 ),
               },
@@ -263,7 +263,7 @@ const ConversationMapping = observer(() => {
                         //   RootStore.rootStore.setProcessLoading(false)
                         //   if (res.data) {
                         //     Stores.userStore.loadUser()
-                        //     LibraryComponents.ToastsStore.success(`User update.`)
+                        //     LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                         //   }
                         // })
                       }
@@ -274,7 +274,7 @@ const ConversationMapping = observer(() => {
             )}
           </ToolkitProvider>
         </div>
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type) => {
             setModalConfirm({ show: false })
@@ -286,7 +286,7 @@ const ConversationMapping = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.ToastsStore.success(`Items deleted.`)
+                    LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
                   }
                 })
             } else if (type == "update") {
@@ -298,7 +298,7 @@ const ConversationMapping = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.ToastsStore.success(`Updated.`)
+                    LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
                   }
                 })
             }

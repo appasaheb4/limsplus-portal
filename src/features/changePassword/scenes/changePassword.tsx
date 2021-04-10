@@ -12,10 +12,10 @@ const ChangePassword = observer(() => {
   const [changePassword, setChangePassword] = useState(true)
 
   return (
-    <>
+    <>   
       <div className="max-w-xl mx-auto  py-20  flex-wrap p-4  bg-gray-100 ">
         {changePassword && (
-          <LibraryComponents.Modal.ModalChangePassword
+          <LibraryComponents.Molecules.ModalChangePassword
             click={() => {
               const body = Object.assign(
                 LoginStores.loginStore.login,
@@ -30,13 +30,13 @@ const ChangePassword = observer(() => {
                     ...LoginStores.loginStore.login,
                     passChanged: true,
                   })
-                  LibraryComponents.ToastsStore.success(`Password changed!`)
+                  LibraryComponents.Atoms.ToastsStore.success(`Password changed!`)
                   setChangePassword(false)
                   history.push("/dashboard/default")
                 } else if (res.status === 203) {
-                  LibraryComponents.ToastsStore.error(res.data.data.message)
+                  LibraryComponents.Atoms.ToastsStore.error(res.data.data.message)
                 } else {
-                  LibraryComponents.ToastsStore.error(
+                  LibraryComponents.Atoms.ToastsStore.error(
                     `Please enter correct old password`
                   )
                 }

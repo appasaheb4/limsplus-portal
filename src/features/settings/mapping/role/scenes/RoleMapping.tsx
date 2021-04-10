@@ -43,16 +43,16 @@ const RoleMapping = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading
           title="Role Mapping"
           subTitle="Add, Edit & Delete User Roles"
         />
-      </LibraryComponents.Header>
+      </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+          <LibraryComponents.Atoms.Grid cols={2}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
               <Autocomplete
                 value={value}
                 onChange={(event: any, newValue: string | null) => {
@@ -71,8 +71,8 @@ const RoleMapping = observer(() => {
                   <TextField {...params} label="Role" variant="outlined" />
                 )}
               />
-            </LibraryComponents.List>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
               <DropdownTreeSelect
                 data={data}
                 className="mdl-demo leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -156,15 +156,15 @@ const RoleMapping = observer(() => {
                   />
                 )}
               /> */}
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
           <br />
 
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (
                   selectedRole !== undefined &&
@@ -175,7 +175,7 @@ const RoleMapping = observer(() => {
                     rolePermission: Stores.roleMappingStore.rolePermission,
                   }).then((res) => {
                     if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.ToastsStore.success(`Created.`)
+                      LibraryComponents.Atoms.ToastsStore.success(`Created.`)
                       setTimeout(() => {
                         window.location.reload()
                       }, 2000)
@@ -187,19 +187,19 @@ const RoleMapping = observer(() => {
               }}
             >
               Save
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 //rootStore.userStore.clear()
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
-          </LibraryComponents.List>
+            </LibraryComponents.Atoms.Buttons.Button>
+          </LibraryComponents.Atoms.List>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
@@ -241,10 +241,10 @@ const RoleMapping = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Buttons.Button
+                    <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Icons.Remove}
+                      icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setDeleteItem({
                           show: true,
@@ -255,7 +255,7 @@ const RoleMapping = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Buttons.Button>
+                    </LibraryComponents.Atoms.Buttons.Button>
                   </>
                 ),
               },
@@ -293,12 +293,12 @@ const RoleMapping = observer(() => {
             )}
           </ToolkitProvider>
         </div>
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
           click={() => {
             Services.deleteRoleMapping(deleteItem.id).then((res: any) => {
               if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                LibraryComponents.ToastsStore.success(`Deleted.`)
+                LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
                 Stores.roleMappingStore.fetchRoleMappingList()
               }

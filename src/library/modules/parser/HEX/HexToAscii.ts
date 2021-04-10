@@ -13,8 +13,6 @@ export default class HexToAscii {
       const conversationMapping = this._config.filter(
         (item) => item.hexadecimal === field
       )
-      console.log({ conversationMapping })
-
       values =
         Array.isArray(conversationMapping) && conversationMapping.length > 0
           ? values + conversationMapping[0].ascii

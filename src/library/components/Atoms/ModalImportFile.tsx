@@ -42,7 +42,7 @@ export default function ModalImportFile(props: ModalProps) {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
-                  <LibraryComponents.Form.InputFile
+                  <LibraryComponents.Atoms.Form.InputFile
                     label="Import"
                     id="file"
                     accept={props.accept}

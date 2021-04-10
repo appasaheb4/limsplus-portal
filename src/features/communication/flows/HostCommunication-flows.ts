@@ -79,7 +79,7 @@ class HostCommunicationFlows {
           })
           Stores.hostCommunicationStore.updateHostCommuication({
             ...Stores.hostCommunicationStore.hostCommuication,
-            txtDataReceivefromInstrument: "",
+           // txtDataReceivefromInstrument: "",
           })  
         }
       } catch (error) {

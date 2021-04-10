@@ -78,13 +78,13 @@ const Login = observer(() => {
           </Col>
           <Col md="5">
             <div className="bg-white p-6 flex flex-col rounded-md">
-              <LibraryComponents.List
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="User Id"
                   id="userId"
                   placeholder="User Id"
@@ -108,7 +108,7 @@ const Login = observer(() => {
                     {errors.userId}
                   </span>
                 )}
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   type="password"
                   label="Password"
                   id="password"
@@ -133,7 +133,7 @@ const Login = observer(() => {
                     {errors.password}
                   </span>
                 )}
-                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
                   <select
                     name="lab"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -156,13 +156,13 @@ const Login = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.lab && (
                   <span className="text-red-600 font-medium relative">
                     {errors.lab}
                   </span>
                 )}
-                <LibraryComponents.Form.InputWrapper label="Role" id="role">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
                   <select
                     name="role"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -188,19 +188,19 @@ const Login = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.lab && (
                   <span className="text-red-600 font-medium relative">
                     {errors.lab}
                   </span>
                 )}
-              </LibraryComponents.List>
+              </LibraryComponents.Atoms.List>
               <br />
-              <LibraryComponents.List direction="row" space={3} align="center">
-                <LibraryComponents.Buttons.Button
+              <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+                <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   type="solid"
-                  icon={LibraryComponents.Icons.Check}
+                  icon={LibraryComponents.Atoms.Icons.Check}
                   onClick={async () => {
                     const loginFailedCount = Stores.loginStore.loginFailedCount || 0
                     if (
@@ -216,7 +216,7 @@ const Login = observer(() => {
                           status: "Disable",
                         }).then((res) => {
                           RootStore.rootStore.setProcessLoading(false)
-                          LibraryComponents.ToastsStore.error(
+                          LibraryComponents.Atoms.ToastsStore.error(
                             "Your account is disable. Please contact admin"
                           )
                           Stores.loginStore.updateLoginFailedCount(0)
@@ -240,7 +240,7 @@ const Login = observer(() => {
                                   data: res.data.data.noticeBoard,
                                 })
                               } else {
-                                LibraryComponents.ToastsStore.success(
+                                LibraryComponents.Atoms.ToastsStore.success(
                                   `Welcome ${res.data.data.fullName}`
                                 )
                                 Stores.loginStore.saveLogin(res.data.data)
@@ -251,7 +251,7 @@ const Login = observer(() => {
                               Stores.loginStore.updateLoginFailedCount(
                                 loginFailedCount + 1
                               )
-                              LibraryComponents.ToastsStore.error(
+                              LibraryComponents.Atoms.ToastsStore.error(
                                 res.data.data.message
                               )
                             }
@@ -261,31 +261,31 @@ const Login = observer(() => {
                             Stores.loginStore.updateLoginFailedCount(
                               loginFailedCount + 1
                             )
-                            LibraryComponents.ToastsStore.error(
+                            LibraryComponents.Atoms.ToastsStore.error(
                               "User not found. Please enter correct information!"
                             )
                           })
                       }
                     } else {
-                      LibraryComponents.ToastsStore.warning(
+                      LibraryComponents.Atoms.ToastsStore.warning(
                         "Please enter all information!"
                       )
                     }
                   }}
                 >
                   Login
-                </LibraryComponents.Buttons.Button>
-                <LibraryComponents.Buttons.Button
+                </LibraryComponents.Atoms.Buttons.Button>
+                <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   type="outline"
-                  icon={LibraryComponents.Icons.Remove}
+                  icon={LibraryComponents.Atoms.Icons.Remove}
                   onClick={() => {
                     window.location.reload()
                   }}
                 >
                   Clear
-                </LibraryComponents.Buttons.Button>
-              </LibraryComponents.List>
+                </LibraryComponents.Atoms.Buttons.Button>
+              </LibraryComponents.Atoms.List>
             </div>
           </Col>
         </Row>
@@ -297,12 +297,12 @@ const Login = observer(() => {
               show: false,
             })
             if (action !== "login") {
-              LibraryComponents.ToastsStore.warning(`Please use diff lab`)
+              LibraryComponents.Atoms.ToastsStore.warning(`Please use diff lab`)
               setTimeout(() => {
                 window.location.reload()
               }, 3000)
             } else {
-              LibraryComponents.ToastsStore.success(
+              LibraryComponents.Atoms.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
               )
               Stores.loginStore.saveLogin(noticeBoard.userInfo)

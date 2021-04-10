@@ -45,13 +45,13 @@ export default function ModalChangePassword(props: ModalProps) {
 
               {/*body*/}
               <div className="relative p-6 flex-auto">
-                <LibraryComponents.List
+                <LibraryComponents.Atoms.List
                   direction="col"
                   space={4}
                   justify="stretch"
                   fill
                 >
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="password"
                     label="Old Password"
                     name="oldPassword"
@@ -76,7 +76,7 @@ export default function ModalChangePassword(props: ModalProps) {
                       {errors.oldPassword}
                     </span>
                   )}
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="password"
                     label="New Password"
                     name="newPassword"
@@ -105,7 +105,7 @@ export default function ModalChangePassword(props: ModalProps) {
                       {errors.newPassword}
                     </span>
                   )}
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="password"
                     label="Confirm Password"
                     name="confirmPassword"
@@ -134,7 +134,7 @@ export default function ModalChangePassword(props: ModalProps) {
                       {errors.confirmPassword}
                     </span>
                   )}
-                </LibraryComponents.List>
+                </LibraryComponents.Atoms.List>
               </div>
               {/*footer*/}
               <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
@@ -160,7 +160,7 @@ export default function ModalChangePassword(props: ModalProps) {
                     ) {
                       props.click()
                     } else {
-                      LibraryComponents.ToastsStore.warning(
+                      LibraryComponents.Atoms.ToastsStore.warning(
                         "Please enter all information!"
                       )
                     }

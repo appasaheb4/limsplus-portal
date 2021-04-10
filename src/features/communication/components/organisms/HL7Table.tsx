@@ -14,7 +14,7 @@ const HL7Table = (props: HL7TableProps) => {
   return (
     <>
       <div className="mb-2">
-        <LibraryComponents.List space={2} direction="row" justify="center" fill>
+        <LibraryComponents.Atoms.List space={2} direction="row" justify="center" fill>
           <div>
             {props.data.map((item: any, index: number) => (
               <div
@@ -22,7 +22,7 @@ const HL7Table = (props: HL7TableProps) => {
                 style={{ display: "inline-block", marginLeft: 2, marginBottom: 2 }}
                 key={index}
               >
-                <LibraryComponents.Buttons.Button
+                <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   key={index}
                   type="solid"
@@ -33,11 +33,11 @@ const HL7Table = (props: HL7TableProps) => {
                   style={{ margin: 4 }}
                 >
                   {item[0]}
-                </LibraryComponents.Buttons.Button>
+                </LibraryComponents.Atoms.Buttons.Button>
               </div>
             ))}
           </div>
-        </LibraryComponents.List>
+        </LibraryComponents.Atoms.List>
       </div>
       <div className="rounded-lg overflow-auto">
         <Table bordered>

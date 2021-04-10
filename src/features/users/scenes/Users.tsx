@@ -46,7 +46,7 @@ const Users = observer(() => {
         RootStore.rootStore.setProcessLoading(false)
         if (res.data) {
           Stores.userStore.loadUser()
-          LibraryComponents.ToastsStore.success(`User update.`)
+          LibraryComponents.Atoms.ToastsStore.success(`User update.`)
         }
       })
     }
@@ -55,22 +55,22 @@ const Users = observer(() => {
   return (
     <>
       <Container fluid>
-        <LibraryComponents.Header>
-          <LibraryComponents.PageHeading
+        <LibraryComponents.Atoms.Header>
+          <LibraryComponents.Atoms.PageHeading
             title="User"
             subTitle="Add, Edit & Delete User"
           />
-        </LibraryComponents.Header>
+        </LibraryComponents.Atoms.Header>
         <div className=" mx-auto  flex-wrap">
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Grid cols={2}>
-              <LibraryComponents.List
+            <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="User Id"
                   id="userId"
                   placeholder="User Id"
@@ -106,7 +106,7 @@ const Users = observer(() => {
                     UserId already exits. Please use other userid.
                   </span>
                 )}
-                <LibraryComponents.Form.InputWrapper
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Default Lab"
                   id="defaultLab"
                 >
@@ -135,7 +135,7 @@ const Users = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.defaultLab && (
                   <span className="text-red-600 font-medium relative">
                     {errors.defaultLab}
@@ -173,7 +173,7 @@ const Users = observer(() => {
                     {errors.lab}
                   </span>
                 )}
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Password"
                   name="password"
                   type="password"
@@ -198,7 +198,7 @@ const Users = observer(() => {
                     {errors.password}
                   </span>
                 )}
-                <LibraryComponents.Form.InputWrapper
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Deginisation"
                   id="deginisation"
                 >
@@ -232,13 +232,13 @@ const Users = observer(() => {
                       )
                     )}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.deginisation && (
                   <span className="text-red-600 font-medium relative">
                     {errors.deginisation}
                   </span>
                 )}
-                <LibraryComponents.Form.InputRadio
+                <LibraryComponents.Atoms.Form.InputRadio
                   label="Status"
                   name="status"
                   values={["Active", "Retired", "Disable"]}
@@ -260,14 +260,14 @@ const Users = observer(() => {
                     })
                   }}
                 />
-              </LibraryComponents.List>
-              <LibraryComponents.List
+              </LibraryComponents.Atoms.List>
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Full Name"
                   id="fullName"
                   placeholder="Full Name"
@@ -295,7 +295,7 @@ const Users = observer(() => {
                   </span>
                 )}
 
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Mobile No"
                   id="mobileNo"
                   placeholder="Mobile No"
@@ -307,7 +307,7 @@ const Users = observer(() => {
                     })
                   }}
                 />
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   type="mail"
                   label="Email"
                   id="email"
@@ -371,8 +371,8 @@ const Users = observer(() => {
                   </span>
                 )}
 
-                <LibraryComponents.List space={3} direction="row">
-                  <LibraryComponents.Form.InputDate
+                <LibraryComponents.Atoms.List space={3} direction="row">
+                  <LibraryComponents.Atoms.Form.InputDate
                     label="Exipre Date"
                     id="exipreData"
                     value={moment(Stores.userStore.user.exipreDate).format(
@@ -405,7 +405,7 @@ const Users = observer(() => {
                     </span>
                   )}
 
-                  <LibraryComponents.Form.Input
+                  <LibraryComponents.Atoms.Form.Input
                     type="number"
                     label="Exipre Days"
                     id="exipreDays"
@@ -429,7 +429,7 @@ const Users = observer(() => {
                     }}
                   />
 
-                  <LibraryComponents.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="solid"
                     onClick={() => {
@@ -448,13 +448,13 @@ const Users = observer(() => {
                     }}
                   >
                     Apply Days
-                  </LibraryComponents.Buttons.Button>
+                  </LibraryComponents.Atoms.Buttons.Button>
                   {errors?.exipreDays && (
                     <span className="text-red-600 font-medium relative">
                       {errors.exipreDays}
                     </span>
                   )}
-                </LibraryComponents.List>
+                </LibraryComponents.Atoms.List>
                 <Autocomplete
                   multiple
                   id="role"
@@ -499,15 +499,15 @@ const Users = observer(() => {
                     {errors.role}
                   </span>
                 )}
-              </LibraryComponents.List>
-            </LibraryComponents.Grid>
+              </LibraryComponents.Atoms.List>
+            </LibraryComponents.Atoms.Grid>
             <br />
 
-            <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Buttons.Button
+            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Icons.Save}
+                icon={LibraryComponents.Atoms.Icons.Save}
                 onClick={() => {
                   if (
                     Utils.validate(Stores.userStore.user, Utils.constraintsLogin) ===
@@ -517,31 +517,31 @@ const Users = observer(() => {
                     RootStore.rootStore.setProcessLoading(true)
                     // Features.Users.Pipes.addUser(Stores.userStore).then(() => {
                     //   rootStore.setProcessLoading(false)
-                    //   LibraryComponents.ToastsStore.success(`User created.`)
+                    //   LibraryComponents.Atoms.ToastsStore.success(`User created.`)
                     //   Stores.userStore.clear()
                     //   Stores.userStore.loadUser()
                     // })
                   } else {
-                    LibraryComponents.ToastsStore.warning(
+                    LibraryComponents.Atoms.ToastsStore.warning(
                       "Please enter all information!"
                     )
                   }
                 }}
               >
                 Save
-              </LibraryComponents.Buttons.Button>
-              <LibraryComponents.Buttons.Button
+              </LibraryComponents.Atoms.Buttons.Button>
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icons.Remove}
                 onClick={() => {
                   //rootStore.userStore.clear()
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Buttons.Button>
-            </LibraryComponents.List>
+              </LibraryComponents.Atoms.Buttons.Button>
+            </LibraryComponents.Atoms.List>
           </div>
           <br />
           <div
@@ -593,7 +593,7 @@ const Users = observer(() => {
                   //         }).then((res) => {
                   //           if (res.data) {
                   //             rootStore.userStore.loadUser()
-                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //             LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                   //           }
                   //         })
                   //       }}
@@ -660,7 +660,7 @@ const Users = observer(() => {
                   //         }).then((res) => {
                   //           if (res.data) {
                   //             rootStore.userStore.loadUser()
-                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //             LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                   //           }
                   //         })
                   //       }}
@@ -702,7 +702,7 @@ const Users = observer(() => {
                           }).then((res) => {
                             if (res.data) {
                               Stores.userStore.loadUser()
-                              LibraryComponents.ToastsStore.success(`User update.`)
+                              LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                             }
                           })
                         }}
@@ -754,7 +754,7 @@ const Users = observer(() => {
                   //         }).then((res) => {
                   //           if (res.data) {
                   //             rootStore.userStore.loadUser()
-                  //             LibraryComponents.ToastsStore.success(`User update.`)
+                  //             LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                   //           }
                   //         })
                   //       }}
@@ -787,7 +787,7 @@ const Users = observer(() => {
                     columnIndex
                   ) => (
                     <>
-                      <LibraryComponents.Form.InputDate
+                      <LibraryComponents.Atoms.Form.InputDate
                         label="Exipre Date"
                         id="exipreData"
                         value={moment(row.exipreDate).format("YYYY-MM-DD")}
@@ -803,7 +803,7 @@ const Users = observer(() => {
                           }).then((res) => {
                             if (res.data) {
                               Stores.userStore.loadUser()
-                              LibraryComponents.ToastsStore.success(`User update.`)
+                              LibraryComponents.Atoms.ToastsStore.success(`User update.`)
                             }
                           })
                         }}
@@ -843,10 +843,10 @@ const Users = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Buttons.Button
+                      <LibraryComponents.Atoms.Buttons.Button
                         size="small"
                         type="outline"
-                        icon={LibraryComponents.Icons.ReSendPassword}
+                        icon={LibraryComponents.Atoms.Icons.ReSendPassword}
                         onClick={async () => {
                           Services.reSendPassword({
                             userId: row.userId,
@@ -856,11 +856,11 @@ const Users = observer(() => {
                           }).then((res) => {
                             console.log({ res })
                             if (res.status === 200) {
-                              LibraryComponents.ToastsStore.success(
+                              LibraryComponents.Atoms.ToastsStore.success(
                                 `Password re-send successfully.`
                               )
                             } else {
-                              LibraryComponents.ToastsStore.error(
+                              LibraryComponents.Atoms.ToastsStore.error(
                                 `Password re-send not successfully please try again.`
                               )
                             }
@@ -868,7 +868,7 @@ const Users = observer(() => {
                         }}
                       >
                         Send
-                      </LibraryComponents.Buttons.Button>
+                      </LibraryComponents.Atoms.Buttons.Button>
                     </>
                   ),
                 },
@@ -879,10 +879,10 @@ const Users = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Buttons.Button
+                      <LibraryComponents.Atoms.Buttons.Button
                         size="small"
                         type="outline"
-                        icon={LibraryComponents.Icons.Remove}
+                        icon={LibraryComponents.Atoms.Icons.Remove}
                         onClick={() => {
                           setDeleteUser({
                             show: true,
@@ -893,7 +893,7 @@ const Users = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Buttons.Button>
+                      </LibraryComponents.Atoms.Buttons.Button>
                     </>
                   ),
                 },
@@ -936,14 +936,14 @@ const Users = observer(() => {
               )}
             </ToolkitProvider>
           </div>
-          <LibraryComponents.Modal.ModalConfirm
+          <LibraryComponents.Molecules.ModalConfirm
             {...deleteUser}
             click={() => {
               RootStore.rootStore.setProcessLoading(true)
               Services.deleteUser(deleteUser.id).then((res: any) => {
                 if (res.status === 200) {
                   RootStore.rootStore.setProcessLoading(false)
-                  LibraryComponents.ToastsStore.success(`User deleted.`)
+                  LibraryComponents.Atoms.ToastsStore.success(`User deleted.`)
                   setDeleteUser({ show: false })
                   Stores.userStore.loadUser()
                 }

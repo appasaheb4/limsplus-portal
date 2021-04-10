@@ -19,7 +19,7 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
           <tr>
             <td>Host IP address</td>
             <td>
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 id="hostIpAddress"
                 placeholder="Host Ip Address"
                 value={
@@ -44,7 +44,7 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Port number</td>
             <td>
               {" "}
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 id="portNumber"
                 placeholder="Port Number"
                 value={
@@ -68,7 +68,7 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Timeout</td>
             <td>
               {" "}
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 id="timeout"
                 placeholder="Timeout"
                 value={
@@ -92,7 +92,7 @@ const SettingForTCP_IPTable: React.FunctionComponent = observer(() => {
             <td>Response Time</td>
             <td>
               {" "}
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 id="responseTime"
                 placeholder="Response Time"
                 value={

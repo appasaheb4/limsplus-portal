@@ -67,7 +67,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
   return (
     <>
       {props.add && (
-        <LibraryComponents.CircleButton
+        <LibraryComponents.Atoms.CircleButton
           style={{
             backgroundColor: Config.Styles.COLORS.PRIMARY,
             alignItems: "center",
@@ -80,16 +80,16 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(true)}
         >
-          <LibraryComponents.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icons.EvaIcon
             icon="plus-outline"
             size="large"
             color={Config.Styles.COLORS.WHITE}
           />
-        </LibraryComponents.CircleButton>
+        </LibraryComponents.Atoms.CircleButton>
       )}
 
       {!props.add && (
-        <LibraryComponents.CircleButton
+        <LibraryComponents.Atoms.CircleButton
           style={{
             backgroundColor: Config.Styles.COLORS.PRIMARY,
             alignItems: "center",
@@ -102,12 +102,12 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(false)}
         >
-          <LibraryComponents.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icons.EvaIcon
             icon="minus-outline"
             size="large"
             color={Config.Styles.COLORS.WHITE}
           />
-        </LibraryComponents.CircleButton>
+        </LibraryComponents.Atoms.CircleButton>
       )}
     </>
   )

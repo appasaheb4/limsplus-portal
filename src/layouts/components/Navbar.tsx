@@ -169,20 +169,20 @@ const NavbarComponent = ({ dispatch }) => {
           aria-label="Search"
           className="form-control-no-border mr-sm-2"
         />
-        <LibraryComponents.Buttons.Button
+        <LibraryComponents.Atoms.Buttons.Button
           size="medium"
           type="outline"
           onClick={() => {
             window.location.href = "/dashboard/default"
           }}
         >
-          <LibraryComponents.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icons.EvaIcon
             icon="home-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
           
-        </LibraryComponents.Buttons.Button>
+        </LibraryComponents.Atoms.Buttons.Button>
       </Form>
 
       <Collapse navbar>

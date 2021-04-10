@@ -45,21 +45,21 @@ const HostCommunication = observer(() => {
   return (
     <>
       <Container>
-        <LibraryComponents.Header>
-          <LibraryComponents.PageHeading title="Host Communication" />
-        </LibraryComponents.Header>
+        <LibraryComponents.Atoms.Header>
+          <LibraryComponents.Atoms.PageHeading title="Host Communication" />
+        </LibraryComponents.Atoms.Header>
 
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Grid cols={3}>
-              <LibraryComponents.List
+            <LibraryComponents.Atoms.Grid cols={3}>
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Grid cols={2}>
-                  <LibraryComponents.Form.Toggle
+                <LibraryComponents.Atoms.Grid cols={2}>
+                  <LibraryComponents.Atoms.Form.Toggle
                     label={
                       Stores.hostCommunicationStore.hostCommuication
                         ?.manualAutomaticMode
@@ -99,9 +99,9 @@ const HostCommunication = observer(() => {
                       Connection estabilished success.
                     </label>
                   </div>
-                </LibraryComponents.Grid>
+                </LibraryComponents.Atoms.Grid>
 
-                <LibraryComponents.Form.InputWrapper
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Instrument Type"
                   id="instrumentType"
                 >
@@ -148,14 +148,14 @@ const HostCommunication = observer(() => {
                       )
                     )}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
 
                 {/* {errors?.fullName && (
                   <span className="text-red-600 font-medium relative">
                     {errors.fullName}
                   </span>
                 )} */}
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Instrument Name"
                   id="instrumentName"
                   placeholder="Instrument Name"
@@ -174,7 +174,7 @@ const HostCommunication = observer(() => {
                     {errors.fullName}
                   </span>
                 )} */}
-                <LibraryComponents.Form.InputWrapper
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Mode of Communication"
                   id="modeOfCommunication"
                 >
@@ -204,8 +204,8 @@ const HostCommunication = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
-                <LibraryComponents.Form.InputWrapper
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Type of Query"
                   id="typeOfQuery"
                 >
@@ -234,16 +234,16 @@ const HostCommunication = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
-              </LibraryComponents.List>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </LibraryComponents.Atoms.List>
 
-              <LibraryComponents.List
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.InputWrapper
+                <LibraryComponents.Atoms.Form.InputWrapper
                   label="Mode of Connection "
                   id="modeOfConnection"
                 >
@@ -272,7 +272,7 @@ const HostCommunication = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {Stores.hostCommunicationStore.hostCommuication?.modeOfConnection ===
                   "Serial Port Communication" && (
                   <FeatureComponents.Atoms.SettingForRS232Table />
@@ -281,9 +281,9 @@ const HostCommunication = observer(() => {
                   "TCP/IP Communication" && (
                   <FeatureComponents.Atoms.SettingForTCP_IPTable />
                 )}
-              </LibraryComponents.List>
+              </LibraryComponents.Atoms.List>
 
-              <LibraryComponents.List
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={10}
                 align="between"
@@ -291,31 +291,31 @@ const HostCommunication = observer(() => {
               >
                 <label>Status : Pending</label>
                 <div className="flex">
-                  <LibraryComponents.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="medium"
                     type="solid"
                     onClick={() => {}}
                   >
                     Save Setting
-                  </LibraryComponents.Buttons.Button>
+                  </LibraryComponents.Atoms.Buttons.Button>
                 </div>
 
                 <div className="flex mb-2">
-                  <LibraryComponents.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="medium"
                     type="solid"
                     onClick={() => {}}
                   >
                     Generate Driver
-                  </LibraryComponents.Buttons.Button>
+                  </LibraryComponents.Atoms.Buttons.Button>
                 </div>
-              </LibraryComponents.List>
+              </LibraryComponents.Atoms.List>
 
               <div className="clearfix"></div>
-            </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.Grid>
 
-            <LibraryComponents.Grid cols={2}>
-              <LibraryComponents.Form.InputWrapper
+            <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.Form.InputWrapper
                 label="Apply Filtr on"
                 id="applyFiltrOn"
               >
@@ -344,8 +344,8 @@ const HostCommunication = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
-              <LibraryComponents.Form.Input
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
                 label="Log File"
                 id="logFileDataReceivefromInstrument"
                 placeholder="Log File"
@@ -358,7 +358,7 @@ const HostCommunication = observer(() => {
                 }}
               />
               <div className="clerfix" />
-            </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.Grid>
 
             <Accordion allowMultiple>
               {[
@@ -372,7 +372,7 @@ const HostCommunication = observer(() => {
                   <AccordionItem title={`${item.title}`}>
                     {item.title === "Hex to ASCII" && (
                       <>
-                        <LibraryComponents.List
+                        <LibraryComponents.Atoms.List
                           direction="col"
                           space={4}
                           justify="stretch"
@@ -380,12 +380,14 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              <LibraryComponents.Form.MultilineInput
+                              <LibraryComponents.Atoms.Form.MultilineInput
                                 label=""
                                 id="txtHexToAscii"
                                 disabled={
                                   Stores.conversationMappingStore
-                                    .listConversationMapping != undefined
+                                    .listConversationMapping != undefined &&
+                                  Stores.hostCommunicationStore.hostCommuication
+                                    ?.instrumentType !== undefined
                                     ? Stores.conversationMappingStore
                                         .listConversationMapping?.length > 0
                                       ? false
@@ -410,13 +412,13 @@ const HostCommunication = observer(() => {
                             </div>
                           </div>
                           <div className="clearfix" />
-                        </LibraryComponents.List>
+                        </LibraryComponents.Atoms.List>
                       </>
                     )}
                     {item.title === "Source File" && (
                       <>
-                        <LibraryComponents.Grid cols={2}>
-                          <LibraryComponents.Form.InputWrapper
+                        <LibraryComponents.Atoms.Grid cols={2}>
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Source File"
                             id="sourceFileDataReceivefromInstrument"
                           >
@@ -450,9 +452,9 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
 
-                          <LibraryComponents.Form.InputWrapper
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Source Repository"
                             id="SourceRepositoryDataReceivefromInstrument"
                           >
@@ -511,10 +513,10 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
                           <div className="clearfix"></div>
-                        </LibraryComponents.Grid>
-                        <LibraryComponents.List
+                        </LibraryComponents.Atoms.Grid>
+                        <LibraryComponents.Atoms.List
                           direction="col"
                           space={4}
                           justify="stretch"
@@ -522,7 +524,7 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              <LibraryComponents.Form.MultilineInput
+                              <LibraryComponents.Atoms.Form.MultilineInput
                                 label=""
                                 id="txtDataReceivefromInstrument"
                                 placeholder="Source file (Data Received Data from Instrument)"
@@ -554,7 +556,7 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Buttons.Button
+                                <LibraryComponents.Atoms.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {
@@ -566,20 +568,20 @@ const HostCommunication = observer(() => {
                                   }}
                                 >
                                   Send
-                                </LibraryComponents.Buttons.Button>
+                                </LibraryComponents.Atoms.Buttons.Button>
                               </div>
                             </div>
                           </div>
 
                           <div className="clearfix" />
-                        </LibraryComponents.List>
+                        </LibraryComponents.Atoms.List>
                       </>
                     )}
                     {item.title === "Send data to Intrument" && (
                       <>
                         <div className={`grid grid-cols-3 gap-4`}>
                           <div className="col-span-2">
-                            <LibraryComponents.Form.MultilineInput
+                            <LibraryComponents.Atoms.Form.MultilineInput
                               label=""
                               id="txtSendDatafromInstrument"
                               placeholder="Send data to Instrument"
@@ -600,7 +602,7 @@ const HostCommunication = observer(() => {
                           </div>
                           <div className="flex flex-col items-center justify-center">
                             <div>
-                              <LibraryComponents.Buttons.Button
+                              <LibraryComponents.Atoms.Buttons.Button
                                 size="medium"
                                 type="solid"
                                 onClick={() => {
@@ -612,7 +614,7 @@ const HostCommunication = observer(() => {
                                 }}
                               >
                                 Send
-                              </LibraryComponents.Buttons.Button>
+                              </LibraryComponents.Atoms.Buttons.Button>
                             </div>
                           </div>
                         </div>
@@ -620,8 +622,8 @@ const HostCommunication = observer(() => {
                     )}
                     {item.title === "Convert to" && (
                       <>
-                        <LibraryComponents.Grid cols={2}>
-                          <LibraryComponents.Form.InputWrapper
+                        <LibraryComponents.Atoms.Grid cols={2}>
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Convert to"
                             id="convertTo"
                           >
@@ -662,9 +664,9 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
 
-                          <LibraryComponents.Form.InputWrapper
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Output Repository"
                             id="outputRepository"
                           >
@@ -696,10 +698,10 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
                           <div className="clearfix"></div>
-                        </LibraryComponents.Grid>
-                        <LibraryComponents.List
+                        </LibraryComponents.Atoms.Grid>
+                        <LibraryComponents.Atoms.List
                           direction="col"
                           space={4}
                           justify="stretch"
@@ -718,29 +720,29 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Buttons.Button
+                                <LibraryComponents.Atoms.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {}}
                                 >
                                   Convert
-                                </LibraryComponents.Buttons.Button>
+                                </LibraryComponents.Atoms.Buttons.Button>
                               </div>
                             </div>
                           </div>
 
                           <div className="clearfix" />
-                        </LibraryComponents.List>
+                        </LibraryComponents.Atoms.List>
                       </>
                     )}
                     {item.title === "Output in" && (
                       <>
-                        <LibraryComponents.List
+                        <LibraryComponents.Atoms.List
                           direction="col"
                           space={4}
                           justify="start"
                         >
-                          <LibraryComponents.Form.InputWrapper
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Output in"
                             id="outPutIn"
                           >
@@ -776,10 +778,10 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
                           <div className="clearfix"></div>
-                        </LibraryComponents.List>
-                        <LibraryComponents.List
+                        </LibraryComponents.Atoms.List>
+                        <LibraryComponents.Atoms.List
                           direction="col"
                           space={4}
                           justify="stretch"
@@ -787,7 +789,7 @@ const HostCommunication = observer(() => {
                         >
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
-                              <LibraryComponents.Form.MultilineInput
+                              <LibraryComponents.Atoms.Form.MultilineInput
                                 id="txtOutputin"
                                 placeholder="Output in"
                                 value={
@@ -807,21 +809,21 @@ const HostCommunication = observer(() => {
                             </div>
                             <div className="flex flex-col items-center justify-center">
                               <div>
-                                <LibraryComponents.Buttons.Button
+                                <LibraryComponents.Atoms.Buttons.Button
                                   size="medium"
                                   type="solid"
                                   onClick={() => {}}
                                 >
                                   Output
-                                </LibraryComponents.Buttons.Button>
+                                </LibraryComponents.Atoms.Buttons.Button>
                               </div>
                             </div>
                           </div>
                           <div className="clearfix" />
-                        </LibraryComponents.List>
+                        </LibraryComponents.Atoms.List>
 
-                        <LibraryComponents.Grid cols={2}>
-                          <LibraryComponents.Form.InputWrapper
+                        <LibraryComponents.Atoms.Grid cols={2}>
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Output for Third party Software"
                             id="outputforThirdpartySoftware"
                           >
@@ -854,8 +856,8 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
-                          {/* <LibraryComponents.Form.Input
+                          </LibraryComponents.Atoms.Form.InputWrapper>
+                          {/* <LibraryComponents.Atoms.Form.Input
                 label="Log File"
                 id="logFileThiredPartySoftare"
                 placeholder="Log File"
@@ -870,7 +872,7 @@ const HostCommunication = observer(() => {
                   })
                 }}
               /> */}
-                          <LibraryComponents.Form.InputWrapper
+                          <LibraryComponents.Atoms.Form.InputWrapper
                             label="Output Repository"
                             id="SourceRepositoryThiredPartySoftare"
                           >
@@ -903,9 +905,9 @@ const HostCommunication = observer(() => {
                                 </option>
                               ))}
                             </select>
-                          </LibraryComponents.Form.InputWrapper>
+                          </LibraryComponents.Atoms.Form.InputWrapper>
                           <div className="clearfix"></div>
-                        </LibraryComponents.Grid>
+                        </LibraryComponents.Atoms.Grid>
                       </>
                     )}
                   </AccordionItem>
@@ -914,37 +916,37 @@ const HostCommunication = observer(() => {
             </Accordion>
 
             <br />
-            <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Buttons.Button
+            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Icons.Save}
+                icon={LibraryComponents.Atoms.Icons.Save}
                 onClick={() => {}}
               >
                 Save
-              </LibraryComponents.Buttons.Button>
-              <LibraryComponents.Buttons.Button
+              </LibraryComponents.Atoms.Buttons.Button>
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icons.Remove}
                 onClick={() => {
                   //rootStore.departmentStore.clear();
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Buttons.Button>
-            </LibraryComponents.List>
+              </LibraryComponents.Atoms.Buttons.Button>
+            </LibraryComponents.Atoms.List>
           </div>
           <br />
-          <LibraryComponents.Modal.ModalConfirm
+          <LibraryComponents.Molecules.ModalConfirm
             {...deleteItem}
             click={() => {
               RootStore.rootStore.setProcessLoading(true)
               Services.deletedepartment(deleteItem.id).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.ToastsStore.success(`Department deleted.`)
+                  LibraryComponents.Atoms.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
                   // rootStore.departmentStore.fetchListDepartment()
                 }
