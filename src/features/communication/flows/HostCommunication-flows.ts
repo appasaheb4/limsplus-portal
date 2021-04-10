@@ -1,6 +1,6 @@
 import { Stores } from "../stores"
 import * as Models from "../models"
-import { decode } from "@lp/library/modules/parser"
+import { decode } from "@lp/library/modules/parser/HL7"
 
 class HostCommunicationFlows {
   mapping = async (interfaceManager: Models.EncodeCharacter) => {

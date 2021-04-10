@@ -1,4 +1,4 @@
-import { Parser } from "./lib"
+import { Parser } from "../lib"
 //var parser = require("./lib/index")
 
 export default class Hl7 {
@@ -32,7 +32,7 @@ export default class Hl7 {
       const values: any = []
       if (this._config.mapping[message.fields.toLowerCase()]) {
         for (const value of this._config.mapping[message.fields.toLowerCase()]
-          .values) {
+          .values) {  
           if (value !== undefined) {
             if (value.field && message instanceof Object) {
               const index1 = value.component[0]

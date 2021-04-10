@@ -10,3 +10,4 @@ export function decode(message, interfaceManager, config) {
   const decoder = new Decoder(message, interfaceManager, config)
   return decoder.decode()
 }
+  

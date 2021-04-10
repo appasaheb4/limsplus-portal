@@ -13,7 +13,7 @@ import * as Services from "../services"
 
 import * as Config from "@lp/config"
 import * as FeatureComponents from "../components"
-import { HostCommunicationFlows } from "../flows"
+import { HostCommunicationFlows, HexToAsciiFlow } from "../flows"
 import { toJS } from "mobx"
 import { io } from "socket.io-client"
 let socket
@@ -117,7 +117,7 @@ const HostCommunication = observer(() => {
                         ...Stores.hostCommunicationStore.hostCommuication,
                         instrumentType,
                       })
-                      const selectedInterfaceManager = Stores.encodeCharacterStore.listEncodeCharacter?.find(
+                      const selectedInterfaceManager = Stores.interfaceManagerStore.listEncodeCharacter?.find(
                         (item) => item.instrumentType === instrumentType
                       )
                       Stores.hostCommunicationStore.updateSelectedInterfaceManager(
@@ -130,7 +130,7 @@ const HostCommunication = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {Stores.encodeCharacterStore.listEncodeCharacter?.map(
+                    {Stores.interfaceManagerStore.listEncodeCharacter?.map(
                       (item: any) => (
                         <option
                           key={item.instrumentType}
@@ -382,12 +382,22 @@ const HostCommunication = observer(() => {
                             <div className="col-span-2">
                               <LibraryComponents.Form.MultilineInput
                                 label=""
-                                id="txtDataReceivefromInstrument"
+                                id="txtHexToAscii"
+                                disabled={
+                                  Stores.conversationMappingStore
+                                    .listConversationMapping != undefined
+                                    ? Stores.conversationMappingStore
+                                        .listConversationMapping?.length > 0
+                                      ? false
+                                      : true
+                                    : true
+                                }
                                 placeholder="Hex"
                                 value={
                                   Stores.hostCommunicationStore.hostCommuication?.hex
                                 }
                                 onChange={(hex) => {
+                                  HexToAsciiFlow.hextoascii(hex)
                                   Stores.hostCommunicationStore.updateHostCommuication(
                                     {
                                       ...Stores.hostCommunicationStore

@@ -195,7 +195,7 @@ const SegmentMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {Stores.encodeCharacterStore.listEncodeCharacter?.map(
+                  {Stores.interfaceManagerStore.listEncodeCharacter?.map(
                     (item: any) => (
                       <option key={item.instrumentType} value={item.instrumentType}>
                         {item.instrumentType}

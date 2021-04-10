@@ -14,7 +14,7 @@ const { ExportCSVButton } = CSVExport
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { toJS } from "mobx"
-const EncodeCharacter = observer(() => {
+const InterfaceManager = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalConfirm, setModalConfirm] = useState<any>()
 
@@ -31,10 +31,10 @@ const EncodeCharacter = observer(() => {
                 label="Interface Type"
                 name="interfaceType"
                 placeholder="Interface Type"
-                value={Stores.encodeCharacterStore.encodeCharacter?.interfaceType}
+                value={Stores.interfaceManagerStore.encodeCharacter?.interfaceType}
                 onChange={(interfaceType) => {
-                  Stores.encodeCharacterStore.updateEncodeCharacter({
-                    ...Stores.encodeCharacterStore.encodeCharacter,
+                  Stores.interfaceManagerStore.updateEncodeCharacter({
+                    ...Stores.interfaceManagerStore.encodeCharacter,
                     interfaceType,
                   })
                 }}
@@ -44,10 +44,10 @@ const EncodeCharacter = observer(() => {
                 label="Instrument Type"
                 name="instrumentType"
                 placeholder="Instrument Type"
-                value={Stores.encodeCharacterStore.encodeCharacter?.instrumentType}
+                value={Stores.interfaceManagerStore.encodeCharacter?.instrumentType}
                 onChange={(instrumentType) => {
-                  Stores.encodeCharacterStore.updateEncodeCharacter({
-                    ...Stores.encodeCharacterStore.encodeCharacter,
+                  Stores.interfaceManagerStore.updateEncodeCharacter({
+                    ...Stores.interfaceManagerStore.encodeCharacter,
                     instrumentType,
                   })
                 }}
@@ -57,10 +57,10 @@ const EncodeCharacter = observer(() => {
                 label="Instrument Name"
                 name="instrumentName"
                 placeholder="Instrument Name"
-                value={Stores.encodeCharacterStore.encodeCharacter?.instrumentName}
+                value={Stores.interfaceManagerStore.encodeCharacter?.instrumentName}
                 onChange={(instrumentName) => {
-                  Stores.encodeCharacterStore.updateEncodeCharacter({
-                    ...Stores.encodeCharacterStore.encodeCharacter,
+                  Stores.interfaceManagerStore.updateEncodeCharacter({
+                    ...Stores.interfaceManagerStore.encodeCharacter,
                     instrumentName,
                   })
                 }}
@@ -69,10 +69,10 @@ const EncodeCharacter = observer(() => {
                 label="Data Flow From"
                 name="dataFlowFrom"
                 placeholder="Data Flow From"
-                value={Stores.encodeCharacterStore.encodeCharacter?.dataFlowFrom}
+                value={Stores.interfaceManagerStore.encodeCharacter?.dataFlowFrom}
                 onChange={(dataFlowFrom) => {
-                  Stores.encodeCharacterStore.updateEncodeCharacter({
-                    ...Stores.encodeCharacterStore.encodeCharacter,
+                  Stores.interfaceManagerStore.updateEncodeCharacter({
+                    ...Stores.interfaceManagerStore.encodeCharacter,
                     dataFlowFrom,
                   })
                 }}
@@ -86,11 +86,11 @@ const EncodeCharacter = observer(() => {
                 name="communicationProtocal"
                 placeholder="Communication Protocal"
                 value={
-                  Stores.encodeCharacterStore.encodeCharacter?.communicationProtocol
+                  Stores.interfaceManagerStore.encodeCharacter?.communicationProtocol
                 }
                 onChange={(communicationProtocol) => {
-                  Stores.encodeCharacterStore.updateEncodeCharacter({
-                    ...Stores.encodeCharacterStore.encodeCharacter,
+                  Stores.interfaceManagerStore.updateEncodeCharacter({
+                    ...Stores.interfaceManagerStore.encodeCharacter,
                     communicationProtocol,
                   })
                 }}
@@ -100,10 +100,10 @@ const EncodeCharacter = observer(() => {
                   <LibraryComponents.Form.Input
                     name="startBlock"
                     placeholder="Start Block"
-                    value={Stores.encodeCharacterStore.encodeCharacter?.blockStart}
+                    value={Stores.interfaceManagerStore.encodeCharacter?.blockStart}
                     onChange={(blockStart) => {
-                      Stores.encodeCharacterStore.updateEncodeCharacter({
-                        ...Stores.encodeCharacterStore.encodeCharacter,
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
                         blockStart,
                       })
                     }}
@@ -111,10 +111,10 @@ const EncodeCharacter = observer(() => {
                   <LibraryComponents.Form.Input
                     name="endBlock"
                     placeholder="End Block"
-                    value={Stores.encodeCharacterStore.encodeCharacter?.blockEnd}
+                    value={Stores.interfaceManagerStore.encodeCharacter?.blockEnd}
                     onChange={(blockEnd) => {
-                      Stores.encodeCharacterStore.updateEncodeCharacter({
-                        ...Stores.encodeCharacterStore.encodeCharacter,
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
                         blockEnd,
                       })
                     }}
@@ -126,10 +126,10 @@ const EncodeCharacter = observer(() => {
                   <LibraryComponents.Form.Input
                     name="filed"
                     placeholder="Filed"
-                    value={Stores.encodeCharacterStore.encodeCharacter?.filed}
+                    value={Stores.interfaceManagerStore.encodeCharacter?.filed}
                     onChange={(filed) => {
-                      Stores.encodeCharacterStore.updateEncodeCharacter({
-                        ...Stores.encodeCharacterStore.encodeCharacter,
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
                         filed,
                       })
                     }}
@@ -137,10 +137,10 @@ const EncodeCharacter = observer(() => {
                   <LibraryComponents.Form.Input
                     name="value"
                     placeholder="Value"
-                    value={Stores.encodeCharacterStore.encodeCharacter?.value}
+                    value={Stores.interfaceManagerStore.encodeCharacter?.value}
                     onChange={(value) => {
-                      Stores.encodeCharacterStore.updateEncodeCharacter({
-                        ...Stores.encodeCharacterStore.encodeCharacter,
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
                         value,
                       })
                     }}
@@ -151,11 +151,11 @@ const EncodeCharacter = observer(() => {
                       type="solid"
                       onClick={() => {
                         const filed =
-                          Stores.encodeCharacterStore.encodeCharacter?.filed
+                          Stores.interfaceManagerStore.encodeCharacter?.filed
                         const value =
-                          Stores.encodeCharacterStore.encodeCharacter?.value
+                          Stores.interfaceManagerStore.encodeCharacter?.value
                         const fileds =
-                          Stores.encodeCharacterStore.encodeCharacter?.fileds || []
+                          Stores.interfaceManagerStore.encodeCharacter?.fileds || []
                         if (filed === undefined)
                           return alert("Please enter filed and value.")
                         if (filed !== undefined) {
@@ -170,12 +170,12 @@ const EncodeCharacter = observer(() => {
                                   value,
                                 },
                               ]
-                          Stores.encodeCharacterStore.updateEncodeCharacter({
-                            ...Stores.encodeCharacterStore.encodeCharacter,
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
                             fileds,
                           })
-                          Stores.encodeCharacterStore.updateEncodeCharacter({
-                            ...Stores.encodeCharacterStore.encodeCharacter,
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
                             filed: "",
                             value: "",
                           })
@@ -190,7 +190,7 @@ const EncodeCharacter = observer(() => {
                 </LibraryComponents.Grid>
                 <LibraryComponents.List space={2} direction="row" justify="center">
                   <div>
-                    {Stores.encodeCharacterStore.encodeCharacter?.fileds?.map(
+                    {Stores.interfaceManagerStore.encodeCharacter?.fileds?.map(
                       (item, index) => (
                         <div className="mb-2">
                           <LibraryComponents.Buttons.Button
@@ -200,17 +200,17 @@ const EncodeCharacter = observer(() => {
                             icon={LibraryComponents.Icons.Remove}
                             onClick={() => {
                               const firstArr =
-                                Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
+                                Stores.interfaceManagerStore.encodeCharacter?.fileds?.slice(
                                   0,
                                   index
                                 ) || []
                               const secondArr =
-                                Stores.encodeCharacterStore.encodeCharacter?.fileds?.slice(
+                                Stores.interfaceManagerStore.encodeCharacter?.fileds?.slice(
                                   index + 1
                                 ) || []
                               const newArrSubCategory = [...firstArr, ...secondArr]
-                              Stores.encodeCharacterStore.updateEncodeCharacter({
-                                ...Stores.encodeCharacterStore.encodeCharacter,
+                              Stores.interfaceManagerStore.updateEncodeCharacter({
+                                ...Stores.interfaceManagerStore.encodeCharacter,
                                 fileds: newArrSubCategory,
                               })
                             }}
@@ -231,10 +231,10 @@ const EncodeCharacter = observer(() => {
               type="solid"
               icon={LibraryComponents.Icons.Save}
               onClick={() => {
-                if (Stores.encodeCharacterStore.encodeCharacter !== undefined) {
+                if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.encodeCharacterStore.encodeCharacterService
-                    .addInterfaceManager(Stores.encodeCharacterStore.encodeCharacter)
+                  Stores.interfaceManagerStore.encodeCharacterService
+                    .addInterfaceManager(Stores.interfaceManagerStore.encodeCharacter)
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
@@ -272,7 +272,7 @@ const EncodeCharacter = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <ToolkitProvider
             keyField="id"
-            data={Stores.encodeCharacterStore.listEncodeCharacter || []}
+            data={Stores.interfaceManagerStore.listEncodeCharacter || []}
             columns={[
               {
                 dataField: "interfaceType",
@@ -291,7 +291,7 @@ const EncodeCharacter = observer(() => {
                       placeholder="Interface Type"
                       onBlur={(interfaceType) => {
                         if (row.interfaceType !== interfaceType && interfaceType) {
-                          Stores.encodeCharacterStore.changeUpdateItem({
+                          Stores.interfaceManagerStore.changeUpdateItem({
                             value: interfaceType,
                             dataField: column.dataField,
                             id: row._id,
@@ -327,7 +327,7 @@ const EncodeCharacter = observer(() => {
                           row.instrumentType !== instrumentType &&
                           instrumentType
                         ) {
-                          Stores.encodeCharacterStore.changeUpdateItem({
+                          Stores.interfaceManagerStore.changeUpdateItem({
                             value: instrumentType,
                             dataField: column.dataField,
                             id: row._id,
@@ -363,7 +363,7 @@ const EncodeCharacter = observer(() => {
                           row.instrumentType !== instrumentType &&
                           instrumentType
                         ) {
-                          Stores.encodeCharacterStore.changeUpdateItem({
+                          Stores.interfaceManagerStore.changeUpdateItem({
                             value: instrumentType,
                             dataField: column.dataField,
                             id: row._id,
@@ -423,7 +423,7 @@ const EncodeCharacter = observer(() => {
                                   .replaceAll("…", "â¦")
                                   .toString()
                               : undefined
-                          Stores.encodeCharacterStore.changeUpdateItem({
+                          Stores.interfaceManagerStore.changeUpdateItem({
                             value: dataFlowFrom,
                             dataField: column.dataField,
                             id: row._id,
@@ -459,7 +459,7 @@ const EncodeCharacter = observer(() => {
                           row.communicationProtocol !== communicationProtocol &&
                           communicationProtocol
                         ) {
-                          Stores.encodeCharacterStore.changeUpdateItem({
+                          Stores.interfaceManagerStore.changeUpdateItem({
                             value: communicationProtocol,
                             dataField: column.dataField,
                             id: row._id,
@@ -550,7 +550,7 @@ const EncodeCharacter = observer(() => {
                                     .replaceAll("…", "â¦")
                                     .toString()
                                 : undefined
-                            Stores.encodeCharacterStore.changeUpdateItem({
+                            Stores.interfaceManagerStore.changeUpdateItem({
                               value: blockStart,
                               dataField: "blockStart",
                               id: row._id,
@@ -579,7 +579,7 @@ const EncodeCharacter = observer(() => {
                                     .replaceAll("…", "â¦")
                                     .toString()
                                 : undefined
-                            Stores.encodeCharacterStore.changeUpdateItem({
+                            Stores.interfaceManagerStore.changeUpdateItem({
                               value: blockEnd,
                               dataField: "blockEnd",
                               id: row._id,
@@ -648,10 +648,10 @@ const EncodeCharacter = observer(() => {
                       <LibraryComponents.Form.Input
                         name="filed"
                         placeholder="Filed"
-                        value={Stores.encodeCharacterStore.encodeCharacter?.filed}
+                        value={Stores.interfaceManagerStore.encodeCharacter?.filed}
                         onChange={(filed) => {
-                          Stores.encodeCharacterStore.updateEncodeCharacter({
-                            ...Stores.encodeCharacterStore.encodeCharacter,
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
                             filed,
                           })
                         }}
@@ -659,10 +659,10 @@ const EncodeCharacter = observer(() => {
                       <LibraryComponents.Form.Input
                         name="value"
                         placeholder="Value"
-                        value={Stores.encodeCharacterStore.encodeCharacter?.value}
+                        value={Stores.interfaceManagerStore.encodeCharacter?.value}
                         onChange={(value) => {
-                          Stores.encodeCharacterStore.updateEncodeCharacter({
-                            ...Stores.encodeCharacterStore.encodeCharacter,
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
                             value,
                           })
                         }}
@@ -673,9 +673,9 @@ const EncodeCharacter = observer(() => {
                           type="solid"
                           onClick={() => {
                             let filed =
-                              Stores.encodeCharacterStore.encodeCharacter?.filed
+                              Stores.interfaceManagerStore.encodeCharacter?.filed
                             let value =
-                              Stores.encodeCharacterStore.encodeCharacter?.value
+                              Stores.interfaceManagerStore.encodeCharacter?.value
                             const fileds = row.fileds || []
                             if (filed === undefined || value === undefined)
                               return alert("Please enter filed and value.")
@@ -705,7 +705,7 @@ const EncodeCharacter = observer(() => {
                                       value,
                                     },
                                   ]
-                              Stores.encodeCharacterStore.changeUpdateItem({
+                              Stores.interfaceManagerStore.changeUpdateItem({
                                 value: fileds,
                                 dataField: "fileds",
                                 id: row._id,
@@ -715,8 +715,8 @@ const EncodeCharacter = observer(() => {
                                 show: true,
                                 title: "Are you sure update recoard?",
                               })
-                              Stores.encodeCharacterStore.updateEncodeCharacter({
-                                ...Stores.encodeCharacterStore.encodeCharacter,
+                              Stores.interfaceManagerStore.updateEncodeCharacter({
+                                ...Stores.interfaceManagerStore.encodeCharacter,
                                 filed: "",
                                 value: "",
                               })
@@ -746,7 +746,7 @@ const EncodeCharacter = observer(() => {
                                 const firstArr = row.fileds?.slice(0, index) || []
                                 const secondArr = row.fileds?.slice(index + 1) || []
                                 const newArrSubCategory = [...firstArr, ...secondArr]
-                                Stores.encodeCharacterStore.changeUpdateItem({
+                                Stores.interfaceManagerStore.changeUpdateItem({
                                   value: newArrSubCategory,
                                   dataField: "fileds",
                                   id: row._id,
@@ -849,7 +849,7 @@ const EncodeCharacter = observer(() => {
           click={(type) => {
             RootStore.rootStore.setProcessLoading(true)
             if (type === "delete") {
-              Stores.encodeCharacterStore.encodeCharacterService
+              Stores.interfaceManagerStore.encodeCharacterService
                 .deleteInterfaceManager(modalConfirm.id)
                 .then((res: any) => {
                   console.log({ res })
@@ -859,18 +859,18 @@ const EncodeCharacter = observer(() => {
                       `Encode Character deleted.`
                     )
                     setModalConfirm({ show: false })
-                    Stores.encodeCharacterStore.fetchEncodeCharacter()
+                    Stores.interfaceManagerStore.fetchEncodeCharacter()
                   }
                 })
             } else {
-              Stores.encodeCharacterStore.encodeCharacterService
+              Stores.interfaceManagerStore.encodeCharacterService
                 .interfaceManagerUpdateSingleFiled(
-                  toJS(Stores.encodeCharacterStore.updateItem)
+                  toJS(Stores.interfaceManagerStore.updateItem)
                 )
                 .then((res) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    Stores.encodeCharacterStore.fetchEncodeCharacter()
+                    Stores.interfaceManagerStore.fetchEncodeCharacter()
                     LibraryComponents.ToastsStore.success(`Updated.`)
                   }
                 })
@@ -885,4 +885,4 @@ const EncodeCharacter = observer(() => {
   )
 })
 
-export default EncodeCharacter
+export default InterfaceManager
