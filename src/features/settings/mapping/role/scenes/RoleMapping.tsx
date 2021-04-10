@@ -17,7 +17,7 @@ import data from "./pages.json"
 
 import {Stores} from '../stores';
 import {Stores as RoleStore} from '@lp/features/collection/roles/stores';
-import { Stores as RootStore } from "@lp/library/stores"
+
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -26,7 +26,7 @@ const RoleMapping = observer(() => {
   const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const [deleteItem, setDeleteItem] = useState<any>({})
   const roleList: any = RoleStore.roleStore.listRole || []
-  const description = roleList[0].description
+  const description = roleList.length >0 ? roleList[0].description : undefined
   const [value, setValue] = React.useState<string | null>(description)
   const [inputValue, setInputValue] = React.useState("")
   const [selectedRole, setSelectedUserRole] = useState<any>()

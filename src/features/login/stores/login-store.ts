@@ -35,6 +35,7 @@ class LoginStore {
   @action saveLogin = (session) => {
     SessionStore.saveSession(session)
     runInAction("Save user", () => {
+      console.log({ session })
       this.login = session
     })
   }

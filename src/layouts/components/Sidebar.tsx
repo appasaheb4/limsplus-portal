@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
-import {Stores as LoginStores} from '@lp/features/login/stores';
+import { Stores as LoginStores } from "@lp/features/login/stores"
 
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
@@ -12,6 +12,8 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
 import routes from "../../routes/index"
+
+// import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
@@ -134,26 +136,28 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                     <li className="sidebar-header">{category.header}</li>
                   ) : null} */}
 
-                  {category.children ? (
-                    <SidebarCategory
-                      name={category.name}
-                      badgeColor={category.badgeColor}
-                      badgeText={category.badgeText}
-                      icon={category.icon}
-                      to={category.path}
-                      isOpen={openRoutes[index]}
-                      onClick={() => toggle(index)}
-                    >
-                      {category.children.map((route, index) => (
-                        <SidebarItem
-                          key={index}
-                          name={route.name}
-                          to={route.path}
-                          badgeColor={route.badgeColor}
-                          badgeText={route.badgeText}
-                        />
-                      ))}
-                    </SidebarCategory>
+                  {category.children ? (  
+                    category.name !== "Dashboard1" && (
+                      <SidebarCategory
+                        name={category.name}
+                        badgeColor={category.badgeColor}
+                        badgeText={category.badgeText}
+                        icon={category.icon}
+                        to={category.path}
+                        isOpen={openRoutes[index]}
+                        onClick={() => toggle(index)}
+                      >
+                        {category.children.map((route, index) => (
+                          <SidebarItem
+                            key={index}
+                            name={route.name}
+                            to={route.path}
+                            badgeColor={route.badgeColor}
+                            badgeText={route.badgeText}
+                          />
+                        ))}
+                      </SidebarCategory>
+                    )
                   ) : (
                     <SidebarItem
                       name={category.name}
