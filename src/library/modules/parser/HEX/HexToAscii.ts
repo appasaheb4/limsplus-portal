@@ -11,7 +11,7 @@ export default class HexToAscii {
     const fields = this._message.split(/[\n, ]+/)
     for (const field of fields) {
       const conversationMapping = this._config.filter(
-        (item) => item.hexadecimal == field
+        (item) => item.hexadecimal === field
       )
       console.log({ conversationMapping })
 
