@@ -16,9 +16,6 @@ import { Stores as RootStore } from "@lp/library/stores"
 
 const ConversationMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
-  useEffect(() => {
-    Stores.conversationMappingStore.fetchConversationMapping()
-  }, [])
 
   return (
     <>

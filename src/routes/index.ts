@@ -51,8 +51,8 @@ const ConversationMapping = async(
       "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
     )
 )
-const EncodeCharacter = async(
-  () => import("@lp/features/communication/scenes/EncodeCharacter")
+const InterfaceManager = async(
+  () => import("@lp/features/communication/scenes/InterfaceManager")
 )
 
 // Routes
@@ -137,9 +137,9 @@ const communicationRoutes = {
   icon: LayoutIcon,
   children: [
     {
-      path: "/communication/encodeCharacter",
+      path: "/communication/interfaceManager",
       name: "Interface Manager",
-      component: EncodeCharacter,
+      component: InterfaceManager,
     },
     {
       path: "/communication/mapping/conversationMapping",

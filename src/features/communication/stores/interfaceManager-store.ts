@@ -6,7 +6,7 @@ import * as Services from "../services"
 
 
 @version(0.1)
-class EncodeCharacterStore {
+class InterfaceManagerStore {
   @ignore @observable encodeCharacter?: Models.EncodeCharacter
   @observable listEncodeCharacter?: Models.EncodeCharacter[] = []
   @ignore @observable updateItem?: Models.UpdateItem
@@ -29,4 +29,4 @@ class EncodeCharacterStore {
   }
 }
 
-export default EncodeCharacterStore
+export default InterfaceManagerStore
