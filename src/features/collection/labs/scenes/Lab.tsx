@@ -22,17 +22,17 @@ const Lab = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading
           title="Lab"
           subTitle="Add, Edit & Delete Lab"
         />
-      </LibraryComponents.Header>
+      </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
+          <LibraryComponents.Atoms.Grid cols={2}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
                 placeholder="Code"
@@ -66,7 +66,7 @@ const Lab = observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Name"
                 name="name"
                 placeholder="Name"
@@ -88,15 +88,15 @@ const Lab = observer(() => {
                   {errors.name}
                 </span>
               )}
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
           <br />
 
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (
                   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
@@ -106,31 +106,31 @@ const Lab = observer(() => {
                   RootStore.rootStore.setProcessLoading(true)
                   Services.addLab(Stores.labStore.labs).then(() => {
                     RootStore.rootStore.setProcessLoading(false)
-                    LibraryComponents.ToastsStore.success(`Lab created.`)
+                    LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
                     Stores.labStore.fetchListLab()
                     Stores.labStore.clear()
                   })
                 } else {
-                  LibraryComponents.ToastsStore.warning(
+                  LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
                   )
                 }
               }}
             >
               Save
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
-          </LibraryComponents.List>
+            </LibraryComponents.Atoms.Buttons.Button>
+          </LibraryComponents.Atoms.List>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
@@ -154,10 +154,10 @@ const Lab = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Buttons.Button
+                    <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Icons.Remove}
+                      icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setDeleteItem({
                           show: true,
@@ -168,7 +168,7 @@ const Lab = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Buttons.Button>
+                    </LibraryComponents.Atoms.Buttons.Button>
                   </>
                 ),
               },
@@ -209,14 +209,14 @@ const Lab = observer(() => {
             )}
           </ToolkitProvider>
         </div>
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
           click={() => {
             RootStore.rootStore.setProcessLoading(true)
             Services.deleteLab(deleteItem.id).then((res: any) => {
               RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
-                LibraryComponents.ToastsStore.success(`Lab deleted.`)
+                LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
                 setDeleteItem({ show: false })
                 Stores.labStore.fetchListLab()
               }

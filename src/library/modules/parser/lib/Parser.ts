@@ -111,18 +111,21 @@ export default class Parser {
   }
 
   parse = (data: any) => {
-    if (this._instrumentType === "ERP") {
+    if (this._instrumentType === "ERP" || this._instrumentType === "ERP_REG") {
       if (data.substr(0, 3) !== "MSH") return null
-    } else if (this._instrumentType === "URISED") {  
-      console.log({ start: data.substr(0, 4), ss: this._blockStart })
-      console.log({ end: data.substr(data.length - 12), ss: this._blockEnd })
+    } else if (this._instrumentType === "URISED") {
       if (data.substr(0, 4) !== this._blockStart) return null
       if (data.substr(data.length - 12) !== this._blockEnd) return null
       data = data.slice(4, -12)
-    }
-
+    }else if(this._instrumentType === "HORIBA_H550"){
+      console.log({ start: data.substr(0, 5), ss: this._blockStart })
+      console.log({ end: data.substr(data.length - 9), ss: this._blockEnd }) 
+      if (data.substr(0, 5) !== this._blockStart) return null
+      if (data.substr(data.length - 9) !== this._blockEnd) return null
+      data = data.slice(5, -9)   
+    }        
+  
     console.log({ data })
-
     const result: any = []
     // const NEW_LINE =
     //   this._instrumentType === "ERP"

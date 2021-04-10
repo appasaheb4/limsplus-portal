@@ -20,9 +20,9 @@ const LoginActivity = observer(() => {
   }, [])
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading title="Login Activity" />
-      </LibraryComponents.Header>
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading title="Login Activity" />
+      </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <ToolkitProvider

@@ -22,17 +22,17 @@ const Deginisation = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading
           title="Deginisation"
           subTitle="Add, Edit & Delete Deginisation"
         />
-      </LibraryComponents.Header>
+      </LibraryComponents.Atoms.Header>
       <div className=" mx-auto flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
+          <LibraryComponents.Atoms.Grid cols={2}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
                 placeholder="Code"
@@ -71,7 +71,7 @@ const Deginisation = observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Description"
                 name="description"
                 placeholder="description"
@@ -95,15 +95,15 @@ const Deginisation = observer(() => {
                   {errors.description}
                 </span>
               )}
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
           <br />
 
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (
                   Util.validate(
@@ -118,34 +118,34 @@ const Deginisation = observer(() => {
                   ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
-                      LibraryComponents.ToastsStore.success(`Deginisation created.`)
+                      LibraryComponents.Atoms.ToastsStore.success(`Deginisation created.`)
                       Stores.deginisationStore.fetchListDeginisation()
                       Stores.deginisationStore.clear()
                     } else {
-                      LibraryComponents.ToastsStore.error("Please try again")
+                      LibraryComponents.Atoms.ToastsStore.error("Please try again")
                     }
                   })
                 } else {
-                  LibraryComponents.ToastsStore.warning(
+                  LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
                   )
                 }
               }}
             >
               Save
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 //rootStore.deginisationStore.clear();
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
-          </LibraryComponents.List>
+            </LibraryComponents.Atoms.Buttons.Button>
+          </LibraryComponents.Atoms.List>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
@@ -169,10 +169,10 @@ const Deginisation = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Buttons.Button
+                    <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Icons.Remove}
+                      icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setDeleteItem({
                           show: true,
@@ -183,7 +183,7 @@ const Deginisation = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Buttons.Button>
+                    </LibraryComponents.Atoms.Buttons.Button>
                   </>
                 ),
               },
@@ -226,14 +226,14 @@ const Deginisation = observer(() => {
             )}
           </ToolkitProvider>
         </div>
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
           click={() => {
             RootStore.rootStore.setProcessLoading(true)
             Services.deleteDeginisation(deleteItem.id).then((res: any) => {
               RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
-                LibraryComponents.ToastsStore.success(`Deginisation deleted.`)
+                LibraryComponents.Atoms.ToastsStore.success(`Deginisation deleted.`)
                 setDeleteItem({ show: false })
                 Stores.deginisationStore.fetchListDeginisation()
               }

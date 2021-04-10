@@ -34,16 +34,16 @@ const RoleRightsMapping = observer(() => {
   return (
     <></>
     // <>
-    //   <LibraryComponents.Header>
-    //     <LibraryComponents.PageHeading
+    //   <LibraryComponents.Atoms.Header>
+    //     <LibraryComponents.Atoms.PageHeading
     //       title="Role Rights Mapping"
     //       subTitle="Add, Edit & Delete"
     //     />
-    //   </LibraryComponents.Header>
+    //   </LibraryComponents.Atoms.Header>
     //   <div className=" mx-auto  p-4  flex-wrap">
     //     <div className="m-1 p-2 rounded-lg shadow-xl">
-    //       <LibraryComponents.Grid cols={2}>
-    //         <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+    //       <LibraryComponents.Atoms.Grid cols={2}>
+    //         <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
     //           <Autocomplete
     //             value={value}
     //             onChange={(event: any, newValue: string | null) => {
@@ -61,22 +61,22 @@ const RoleRightsMapping = observer(() => {
     //               <TextField {...params} label="Full Name" variant="outlined" />
     //             )}
     //           />
-    //           <LibraryComponents.Form.Input
+    //           <LibraryComponents.Atoms.Form.Input
     //             label="User Id"
     //             id="userId"
     //             placeholder="User Id"
     //             disabled={true}
     //             value={selectedUserInfo?.userId}
     //           />
-    //           <LibraryComponents.Form.Input
+    //           <LibraryComponents.Atoms.Form.Input
     //             label="Role"
     //             id="role"
     //             placeholder="Role"
     //             disabled={true}
     //             value={selectedUserInfo?.role}
     //           />
-    //         </LibraryComponents.List>
-    //         <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
+    //         </LibraryComponents.Atoms.List>
+    //         <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
     //           <Autocomplete
     //             multiple
     //             id="rols"
@@ -101,14 +101,14 @@ const RoleRightsMapping = observer(() => {
     //               />
     //             )}
     //           />
-    //         </LibraryComponents.List>
-    //       </LibraryComponents.Grid>
+    //         </LibraryComponents.Atoms.List>
+    //       </LibraryComponents.Atoms.Grid>
     //       <br />
-    //       <LibraryComponents.List direction="row" space={3} align="center">
-    //         <LibraryComponents.Buttons.Button
+    //       <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+    //         <LibraryComponents.Atoms.Buttons.Button
     //           size="medium"
     //           type="solid"
-    //           icon={LibraryComponents.Icons.Save}
+    //           icon={LibraryComponents.Atoms.Icons.Save}
     //           onClick={() => {
     //             if (
     //               selectedUserInfo !== undefined &&
@@ -119,7 +119,7 @@ const RoleRightsMapping = observer(() => {
     //                 roles: rootStore.roleRightsMappingStore.arrSelectedRole,
     //               }).then((res) => {
     //                 if (res.status === LibraryModels.StatusCode.CREATED) {
-    //                   LibraryComponents.ToastsStore.success(`Created.`)
+    //                   LibraryComponents.Atoms.ToastsStore.success(`Created.`)
     //                   setTimeout(() => {
     //                     window.location.reload()
     //                   }, 2000)
@@ -131,18 +131,18 @@ const RoleRightsMapping = observer(() => {
     //           }}
     //         >
     //           Save
-    //         </LibraryComponents.Buttons.Button>
-    //         <LibraryComponents.Buttons.Button
+    //         </LibraryComponents.Atoms.Buttons.Button>
+    //         <LibraryComponents.Atoms.Buttons.Button
     //           size="medium"
     //           type="outline"
-    //           icon={LibraryComponents.Icons.Remove}
+    //           icon={LibraryComponents.Atoms.Icons.Remove}
     //           onClick={() => {
     //             window.location.reload()
     //           }}
     //         >
     //           Clear
-    //         </LibraryComponents.Buttons.Button>
-    //       </LibraryComponents.List>
+    //         </LibraryComponents.Atoms.Buttons.Button>
+    //       </LibraryComponents.Atoms.List>
     //     </div>
     //     <br />
     //     <div className="m-1 p-2 rounded-lg shadow-xl">
@@ -213,10 +213,10 @@ const RoleRightsMapping = observer(() => {
     //             csvExport: false,
     //             formatter: (cellContent, row) => (
     //               <>
-    //                 <LibraryComponents.Buttons.Button
+    //                 <LibraryComponents.Atoms.Buttons.Button
     //                   size="small"
     //                   type="outline"
-    //                   icon={LibraryComponents.Icons.Remove}
+    //                   icon={LibraryComponents.Atoms.Icons.Remove}
     //                   onClick={() => {
     //                     setDeleteItem({
     //                       show: true,
@@ -227,7 +227,7 @@ const RoleRightsMapping = observer(() => {
     //                   }}
     //                 >
     //                   Delete
-    //                 </LibraryComponents.Buttons.Button>
+    //                 </LibraryComponents.Atoms.Buttons.Button>
     //               </>
     //             ),
     //           },
@@ -264,12 +264,12 @@ const RoleRightsMapping = observer(() => {
     //         )}
     //       </ToolkitProvider>
     //     </div>
-    //     <LibraryComponents.Modal.ModalConfirm
+    //     <LibraryComponents.Molecules.ModalConfirm
     //       {...deleteItem}
     //       click={() => {
     //         Services.deleteRoleMapping(deleteItem.id).then((res: any) => {
     //           if (res.status === LibraryModels.StatusCode.SUCCESS) {
-    //             LibraryComponents.ToastsStore.success(`Deleted.`)
+    //             LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
     //             setDeleteItem({ show: false })
     //             rootStore.roleRightsMappingStore.fetchRoleMappingList()
     //           }

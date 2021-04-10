@@ -146,7 +146,7 @@ const SegmentMapping = observer(() => {
           .importSegmentMapping(uniqueData)
           .then((res) => {
             RootStore.rootStore.setProcessLoading(false)
-            LibraryComponents.ToastsStore.success(`File import success.`)
+            LibraryComponents.Atoms.ToastsStore.success(`File import success.`)
             Stores.segmentMappingStore.fetchListSegmentMapping()
           })
       }
@@ -156,11 +156,11 @@ const SegmentMapping = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading title="Data Segment Mapping" />
-      </LibraryComponents.Header>
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading title="Data Segment Mapping" />
+      </LibraryComponents.Atoms.Header>
 
-      <LibraryComponents.Buttons.ButtonCircleAddRemove
+      <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
         add={hideAddDiv}
         onClick={(status) => setHideAddDiv(!hideAddDiv)}
       />
@@ -169,9 +169,9 @@ const SegmentMapping = observer(() => {
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddDiv ? "hidden" : "shown")}
         >
-          <LibraryComponents.Grid cols={3}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.InputWrapper
+          <LibraryComponents.Atoms.Grid cols={3}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.InputWrapper
                 label="EQUIPMENT TYPE"
                 id="equipment_type"
               >
@@ -203,13 +203,13 @@ const SegmentMapping = observer(() => {
                     )
                   )}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               {errors?.equipmentType && (
                 <span className="text-red-600 font-medium relative">
                   {errors.equipmentType}
                 </span>
               )}
-              <LibraryComponents.Form.InputWrapper
+              <LibraryComponents.Atoms.Form.InputWrapper
                 label="DATA FLOW FROM"
                 id="dataFlowFrom"
               >
@@ -239,13 +239,13 @@ const SegmentMapping = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               {errors?.dataFlowFrom && (
                 <span className="text-red-600 font-medium relative">
                   {errors.dataFlowFrom}
                 </span>
               )}
-              <LibraryComponents.Form.InputWrapper label="DATA TYPE" id="data_type">
+              <LibraryComponents.Atoms.Form.InputWrapper label="DATA TYPE" id="data_type">
                 <select
                   name="data_type"
                   value={Stores.segmentMappingStore.segmentMapping?.data_type}
@@ -272,13 +272,13 @@ const SegmentMapping = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               {errors?.data_type && (
                 <span className="text-red-600 font-medium relative">
                   {errors.data_type}
                 </span>
               )}
-              <LibraryComponents.Form.InputWrapper label="SEGMENTS" id="segments">
+              <LibraryComponents.Atoms.Form.InputWrapper label="SEGMENTS" id="segments">
                 <select
                   name="segments"
                   value={Stores.segmentMappingStore.segmentMapping?.segments}
@@ -298,9 +298,9 @@ const SegmentMapping = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Form.InputWrapper
+              <LibraryComponents.Atoms.Form.InputWrapper
                 label="SEGMENT USAGE"
                 id="segment_usage"
               >
@@ -323,8 +323,8 @@ const SegmentMapping = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Form.InputWrapper>
-              <LibraryComponents.Form.Input
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Field No"
                 name="field_no"
@@ -337,7 +337,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Item No"
                 name="item_no"
@@ -350,10 +350,10 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.List>
+            </LibraryComponents.Atoms.List>
 
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Toggle
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Toggle
                 label="FIELD REQUIRED"
                 id="field_required"
                 value={Stores.segmentMappingStore.segmentMapping?.field_required}
@@ -364,7 +364,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Element Name"
                 name="element_name"
                 placeholder="Element Name"
@@ -376,7 +376,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="TRANSMITTED DATA"
                 name="transmitted_data"
                 placeholder="TRANSMITTED DATA"
@@ -388,7 +388,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="FIELD ARRAY"
                 name="field_array"
                 placeholder="FIELD ARRAY"
@@ -400,7 +400,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="FIELD LENGTH"
                 name="field_length"
@@ -414,7 +414,7 @@ const SegmentMapping = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="FIELD TYPE"
                 name="field_type"
                 placeholder="FIELD TYPE"
@@ -426,7 +426,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Toggle
+              <LibraryComponents.Atoms.Form.Toggle
                 label="REPEAT DELIMITER"
                 id="repeat_delimiter"
                 value={Stores.segmentMappingStore.segmentMapping?.repeat_delimiter}
@@ -437,10 +437,10 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.List>
+            </LibraryComponents.Atoms.List>
 
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Toggle
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Toggle
                 label="MANDATORY"
                 id="mandatory"
                 value={Stores.segmentMappingStore.segmentMapping?.mandatory}
@@ -451,7 +451,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="LIMS DESCRIPTIONS"
                 id="lims_descriptions"
                 placeholder="LIMS DESCRIPTIONS"
@@ -463,7 +463,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="LIMS TABLES"
                 name="lims_tables"
                 placeholder="Lims Tables"
@@ -475,7 +475,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="LIMS FIELDS"
                 name="lims_fields"
                 placeholder="LIMS FIELDS"
@@ -488,7 +488,7 @@ const SegmentMapping = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Form.Toggle
+              <LibraryComponents.Atoms.Form.Toggle
                 label="REQUIRED FOR LIMS"
                 id="required_for_lims"
                 value={Stores.segmentMappingStore.segmentMapping?.required_for_lims}
@@ -500,7 +500,7 @@ const SegmentMapping = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="NOTES"
                 name="notes"
                 placeholder="NOTES"
@@ -512,7 +512,7 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.InputFile
+              <LibraryComponents.Atoms.Form.InputFile
                 label="ATTACHMENTS"
                 name="attachments"
                 placeholder="ATTACHMENTS"
@@ -526,14 +526,14 @@ const SegmentMapping = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
           <br />
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (
                   Utils.validate(
@@ -547,7 +547,7 @@ const SegmentMapping = observer(() => {
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
-                        LibraryComponents.ToastsStore.success(
+                        LibraryComponents.Atoms.ToastsStore.success(
                           `Segment Mapping created.`
                         )
                         if (saveTitle === "Save") {
@@ -557,15 +557,15 @@ const SegmentMapping = observer(() => {
                       }
                     }) 
                 } else {
-                  LibraryComponents.ToastsStore.warning(
+                  LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
                   )
                 }
               }}
             >
               {saveTitle}
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
               onClick={() => {
@@ -575,24 +575,24 @@ const SegmentMapping = observer(() => {
                 })
               }}
             >
-              <LibraryComponents.Icons.EvaIcon
+              <LibraryComponents.Atoms.Icons.EvaIcon
                 icon="arrowhead-down-outline"
                 size="medium"
                 color={Config.Styles.COLORS.BLACK}
               />
               Import
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
-          </LibraryComponents.List>
+            </LibraryComponents.Atoms.Buttons.Button>
+          </LibraryComponents.Atoms.List>
         </div>
       </div>
 

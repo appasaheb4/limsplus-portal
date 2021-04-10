@@ -25,22 +25,22 @@ const Department = observer(() => {
   return (
     <>
       <Container>
-        <LibraryComponents.Header>
-          <LibraryComponents.PageHeading
+        <LibraryComponents.Atoms.Header>
+          <LibraryComponents.Atoms.PageHeading
             title="Department"
             subTitle="Add, Edit & Delete Lab"
           />
-        </LibraryComponents.Header>
+        </LibraryComponents.Atoms.Header>
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">
-            <LibraryComponents.Grid cols={2}>
-              <LibraryComponents.List
+            <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Form.InputWrapper label="Lab" id="lab">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
                   <select
                     name="lab"
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -66,9 +66,9 @@ const Department = observer(() => {
                       </option>
                     ))}
                   </select>
-                </LibraryComponents.Form.InputWrapper>
+                </LibraryComponents.Atoms.Form.InputWrapper>
 
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Code"
                   id="code"
                   placeholder="Code"
@@ -107,7 +107,7 @@ const Department = observer(() => {
                     Code already exits. Please use other code.
                   </span>
                 )}
-                <LibraryComponents.Form.Input
+                <LibraryComponents.Atoms.Form.Input
                   label="Name"
                   name="name"
                   placeholder="Name"
@@ -132,15 +132,15 @@ const Department = observer(() => {
                     {errors.name}
                   </span>
                 )}
-              </LibraryComponents.List>
-            </LibraryComponents.Grid>
+              </LibraryComponents.Atoms.List>
+            </LibraryComponents.Atoms.Grid>
             <br />
 
-            <LibraryComponents.List direction="row" space={3} align="center">
-              <LibraryComponents.Buttons.Button
+            <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Icons.Save}
+                icon={LibraryComponents.Atoms.Icons.Save}
                 onClick={() => {
                   if (
                     Util.validate(
@@ -152,32 +152,32 @@ const Department = observer(() => {
                     Services.adddepartment(Stores.departmentStore.department).then(
                       () => {
                         RootStore.rootStore.setProcessLoading(false)
-                        LibraryComponents.ToastsStore.success(`Department created.`)
+                        LibraryComponents.Atoms.ToastsStore.success(`Department created.`)
                         Stores.departmentStore.fetchListDepartment()
                         Stores.departmentStore.clear()
                       }
                     )
                   } else {
-                    LibraryComponents.ToastsStore.warning(
+                    LibraryComponents.Atoms.ToastsStore.warning(
                       "Please enter all information!"
                     )
                   }
                 }}
               >
                 Save
-              </LibraryComponents.Buttons.Button>
-              <LibraryComponents.Buttons.Button
+              </LibraryComponents.Atoms.Buttons.Button>
+              <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icons.Remove}
                 onClick={() => {
                   //rootStore.departmentStore.clear();
                   window.location.reload()
                 }}
               >
                 Clear
-              </LibraryComponents.Buttons.Button>
-            </LibraryComponents.List>
+              </LibraryComponents.Atoms.Buttons.Button>
+            </LibraryComponents.Atoms.List>
           </div>
           <br />
           <div className="p-2 rounded-lg shadow-xl">
@@ -206,10 +206,10 @@ const Department = observer(() => {
                   csvExport: false,
                   formatter: (cellContent, row) => (
                     <>
-                      <LibraryComponents.Buttons.Button
+                      <LibraryComponents.Atoms.Buttons.Button
                         size="small"
                         type="outline"
-                        icon={LibraryComponents.Icons.Remove}
+                        icon={LibraryComponents.Atoms.Icons.Remove}
                         onClick={() => {
                           setDeleteItem({
                             show: true,
@@ -220,7 +220,7 @@ const Department = observer(() => {
                         }}
                       >
                         Delete
-                      </LibraryComponents.Buttons.Button>
+                      </LibraryComponents.Atoms.Buttons.Button>
                     </>
                   ),
                 },
@@ -263,14 +263,14 @@ const Department = observer(() => {
               )}
             </ToolkitProvider>
           </div>
-          <LibraryComponents.Modal.ModalConfirm
+          <LibraryComponents.Molecules.ModalConfirm
             {...deleteItem}
             click={() => {
               RootStore.rootStore.setProcessLoading(true)
               Services.deletedepartment(deleteItem.id).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.ToastsStore.success(`Department deleted.`)
+                  LibraryComponents.Atoms.ToastsStore.success(`Department deleted.`)
                   setDeleteItem({ show: false })
                   Stores.departmentStore.fetchListDepartment()
                 }  

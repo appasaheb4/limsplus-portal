@@ -35,7 +35,7 @@ const App = observer(() => {
 
   React.useEffect(() => {
     console.log({ loading: RootStore.rootStore.processLoading })
-  }, [])  
+  }, [])
   return (
     <>
       <Provider store={store}>
@@ -50,14 +50,14 @@ const App = observer(() => {
           closeOnToastrClick
         />
       </Provider>
-      <LibraryComponents.ToastsContainer
-        position={LibraryComponents.ToastsContainerPosition.BOTTOM_RIGHT}
-        store={LibraryComponents.ToastsStore}
+      <LibraryComponents.Atoms.ToastsContainer
+        position={LibraryComponents.Atoms.ToastsContainerPosition.BOTTOM_RIGHT}
+        store={LibraryComponents.Atoms.ToastsStore}
         className="h-20"
       />
-      {RootStore.rootStore.processLoading && <LibraryComponents.Modal.Loader />}
+      {RootStore.rootStore.processLoading && <LibraryComponents.Atoms.ModelLoader />}
     </>
   )
 })
-
+  
 export default App

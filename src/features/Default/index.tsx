@@ -8,7 +8,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as RootStore } from "@lp/library/stores"
-
+   
 import Appointments from "./Appointments"
 import BarChart from "./BarChart"
 import Calendar from "./Calendar"
@@ -91,7 +91,7 @@ const Default = observer(() => {
           </Col>
         </Row>
         {changePassword && (
-          <LibraryComponents.Modal.ModalChangePassword
+          <LibraryComponents.Molecules.ModalChangePassword
             click={() => {
               const exipreDate = new Date(
                 moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
@@ -116,12 +116,12 @@ const Default = observer(() => {
                     ...UserStores.userStore.changePassword,
                     tempHide: true,
                   })
-                  LibraryComponents.ToastsStore.success(`Password changed!`)
+                  LibraryComponents.Atoms.ToastsStore.success(`Password changed!`)
                   setChangePassword(false)
                 } else if (res.status === 203) {
-                  LibraryComponents.ToastsStore.error(res.data.data.message)
+                  LibraryComponents.Atoms.ToastsStore.error(res.data.data.message)
                 } else {
-                  LibraryComponents.ToastsStore.error(
+                  LibraryComponents.Atoms.ToastsStore.error(
                     `Please enter correct old password`
                   )
                 }
@@ -151,7 +151,7 @@ const Default = observer(() => {
               status: "Disable",
             }).then((res) => {
               RootStore.rootStore.setProcessLoading(false)
-              LibraryComponents.ToastsStore.error(
+              LibraryComponents.Atoms.ToastsStore.error(
                 "Your account is disable. Please contact admin"
               )
               LoginStores.loginStore

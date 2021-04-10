@@ -20,17 +20,17 @@ const Banner = observer(() => {
 
   return (
     <>
-      <LibraryComponents.Header>
-        <LibraryComponents.PageHeading
+      <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading
           title="Banner"
           subTitle="Add, Edit & Delete Banner"
         />
-      </LibraryComponents.Header>
+      </LibraryComponents.Atoms.Header>
       <div className="mx-auto flex-wrap">
         <div className="p-2 rounded-lg shadow-xl">
-          <LibraryComponents.Grid cols={2}>
-            <LibraryComponents.List direction="col" space={4} justify="stretch" fill>
-              <LibraryComponents.Form.Input
+          <LibraryComponents.Atoms.Grid cols={2}>
+            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+              <LibraryComponents.Atoms.Form.Input
                 label="Title"
                 id="title"
                 placeholder="Title"
@@ -42,7 +42,7 @@ const Banner = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Form.InputFile
+              <LibraryComponents.Atoms.Form.InputFile
                 label="File"
                 id="file"
                 placeholder="File"
@@ -55,22 +55,22 @@ const Banner = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.List>
-          </LibraryComponents.Grid>
+            </LibraryComponents.Atoms.List>
+          </LibraryComponents.Atoms.Grid>
           <br />
 
-          <LibraryComponents.List direction="row" space={3} align="center">
-            <LibraryComponents.Buttons.Button
+          <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Icons.Save}
+              icon={LibraryComponents.Atoms.Icons.Save}
               onClick={() => {
                 if (Stores.bannerStore.banner !== undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Services.addBanner(Stores.bannerStore.banner).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.ToastsStore.success(`Banner created.`)
+                      LibraryComponents.Atoms.ToastsStore.success(`Banner created.`)
                       setTimeout(() => {
                         window.location.reload()
                       }, 2000)
@@ -82,18 +82,18 @@ const Banner = observer(() => {
               }}
             >
               Save
-            </LibraryComponents.Buttons.Button>
-            <LibraryComponents.Buttons.Button
+            </LibraryComponents.Atoms.Buttons.Button>
+            <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icons.Remove}
               onClick={() => {
                 window.location.reload()
               }}
             >
               Clear
-            </LibraryComponents.Buttons.Button>
-          </LibraryComponents.List>
+            </LibraryComponents.Atoms.Buttons.Button>
+          </LibraryComponents.Atoms.List>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
@@ -128,10 +128,10 @@ const Banner = observer(() => {
                 csvExport: false,
                 formatter: (cellContent, row) => (
                   <>
-                    <LibraryComponents.Buttons.Button
+                    <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Icons.Remove}
+                      icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setDeleteItem({
                           show: true,
@@ -142,7 +142,7 @@ const Banner = observer(() => {
                       }}
                     >
                       Delete
-                    </LibraryComponents.Buttons.Button>
+                    </LibraryComponents.Atoms.Buttons.Button>
                   </>
                 ),
               },
@@ -185,7 +185,7 @@ const Banner = observer(() => {
             )}
           </ToolkitProvider>
         </div>
-        <LibraryComponents.Modal.ModalConfirm
+        <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
           click={() => {
             RootStore.rootStore.setProcessLoading(true)
@@ -193,7 +193,7 @@ const Banner = observer(() => {
               (res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.ToastsStore.success(`Banner deleted.`)
+                  LibraryComponents.Atoms.ToastsStore.success(`Banner deleted.`)
                   setDeleteItem({ show: false })
                   Stores.bannerStore.fetchListBanner()
                 }

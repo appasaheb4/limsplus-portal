@@ -5,7 +5,7 @@ interface ModalProps {
   show: boolean;
 }
 
-const SlideIn: React.FunctionComponent<any> = (props) => (
+const ModalSlideIn: React.FunctionComponent<any> = (props) => (
   <div
     className={`fixed inset-0 overflow-hidden z-50 ${
       !props.show && "pointer-events-none"
@@ -79,5 +79,5 @@ const SlideIn: React.FunctionComponent<any> = (props) => (
 );
 
 export default {
-  SlideIn,
+  ModalSlideIn,
 };

@@ -3,7 +3,7 @@ import * as LibraryComponents from "@lp/library/components"
 import "./css/toggle.css"
 import classNames from "classnames"
 
-interface LabelProps {
+interface LabelProps {  
   htmlFor: string
 }
 
@@ -74,7 +74,7 @@ export const InputRadio = (props: InputRadioProps) => (
   <InputWrapper label={props.label} id={props.id}>
     {props.values?.map((item, key) => (
       <div className="ml-4" key={key}>
-        <LibraryComponents.List space={3} direction="row">
+        <LibraryComponents.Atoms.List space={3} direction="row">
           <input
             key={key}
             type="radio"
@@ -86,7 +86,7 @@ export const InputRadio = (props: InputRadioProps) => (
             className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
           />
           <Label htmlFor={props.id || ""}>{item}</Label>
-        </LibraryComponents.List>
+        </LibraryComponents.Atoms.List>
       </div>
     ))}
   </InputWrapper>
