@@ -39,6 +39,10 @@ const RoleMapping = observer(() => {
       checked: false,
     },
     {
+      title: "View",
+      checked: false,
+    },
+    {
       title: "Edit/Modify",
       checked: false,
     },
