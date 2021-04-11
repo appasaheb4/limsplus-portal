@@ -15,3 +15,10 @@ export function setItem(key: string, value: any): Promise<boolean> {
     resolve(true)
   })
 }
+
+export function removeItem(key: string): Promise<boolean> {
+  return new Promise<boolean>(async (resolve) => {
+    await window.localStorage.removeItem(key)
+    resolve(true)
+  })
+}

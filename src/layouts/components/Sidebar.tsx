@@ -14,6 +14,7 @@ import * as Assets from "@lp/library/assets"
 import routes from "../../routes/index"
 
 // import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
@@ -110,91 +111,91 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
   }
 
   return (
-    <nav
-      className={
-        "sidebar" +
-        (!sidebar.isOpen ? " toggled" : "") +
-        (sidebar.isSticky ? " sidebar-sticky" : "")
-      }
-    >
-      <div className="sidebar-content">
-        <PerfectScrollbar>
-          <a className="sidebar-brand" href="/">
-            <img
-              src={Assets.appIcon}
-              alt="appIcon"
-              style={{ width: 40, height: 40 }}
-            />
-            <span className="align-middle">Lims Plus</span>
-          </a>
-
-          <ul className="sidebar-nav">
-            {routes.map((category: any, index) => {
-              return (
-                <React.Fragment key={index}>
-                  {/* {category.header ? (
-                    <li className="sidebar-header">{category.header}</li>
-                  ) : null} */}
-
-                  {category.children ? (  
-                    category.name !== "Dashboard1" && (
-                      <SidebarCategory
-                        name={category.name}
-                        badgeColor={category.badgeColor}
-                        badgeText={category.badgeText}
-                        icon={category.icon}
-                        to={category.path}
-                        isOpen={openRoutes[index]}
-                        onClick={() => toggle(index)}
-                      >
-                        {category.children.map((route, index) => (
-                          <SidebarItem
-                            key={index}
-                            name={route.name}
-                            to={route.path}
-                            badgeColor={route.badgeColor}
-                            badgeText={route.badgeText}
-                          />
-                        ))}
-                      </SidebarCategory>
-                    )
-                  ) : (
-                    <SidebarItem
-                      name={category.name}
-                      to={category.path}
-                      icon={category.icon}
-                      badgeColor={category.badgeColor}
-                      badgeText={category.badgeText}
-                    />
-                  )}
-                </React.Fragment>
-              )
-            })}
-          </ul>
-
-          {!layout.isBoxed && !sidebar.isSticky ? (
-            <div className="sidebar-bottom d-none d-lg-block">
-              <div className="media">
-                {/* <img
+    <>
+      <nav
+        className={
+          "sidebar" +
+          (!sidebar.isOpen ? " toggled" : "") +
+          (sidebar.isSticky ? " sidebar-sticky" : "")
+        }
+      >
+        <div className="sidebar-content">
+          <PerfectScrollbar>
+            <a className="sidebar-brand" href="/">
+              <img
+                src={Assets.appIcon}
+                alt="appIcon"
+                style={{ width: 40, height: 40 }}
+              />
+              <span className="align-middle">Lims Plus</span>
+            </a>
+            {RootStore.routerStore.userRouter && (
+              <ul className="sidebar-nav">
+                {RootStore.routerStore.userRouter.map((category: any, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      {category.children ? (
+                        category.name !== "Dashboard1" && (
+                          <SidebarCategory
+                            name={category.name}
+                            badgeColor={category.badgeColor}
+                            badgeText={category.badgeText}
+                            icon={category.icon}
+                            to={category.path}
+                            isOpen={openRoutes[index]}
+                            onClick={() => toggle(index)}
+                          >
+                            {category.children.map((route, index) => (
+                              <SidebarItem
+                                key={index}
+                                name={route.name}
+                                to={route.path}
+                                badgeColor={route.badgeColor}
+                                badgeText={route.badgeText}
+                              />
+                            ))}
+                          </SidebarCategory>
+                        )
+                      ) : (
+                        <SidebarItem
+                          name={category.name}
+                          to={category.path}
+                          icon={category.icon}
+                          badgeColor={category.badgeColor}
+                          badgeText={category.badgeText}
+                        />
+                      )}
+                    </React.Fragment>
+                  )
+                })}
+              </ul>
+            )}
+            {!layout.isBoxed && !sidebar.isSticky ? (
+              <div className="sidebar-bottom d-none d-lg-block">
+                <div className="media">
+                  {/* <img
                   className="rounded-circle mr-3"
                   src={avatar}
                   alt="Chris Wood"
                   width="40"
                   height="40"
                 /> */}
-                <div className="media-body">
-                  <h5 className="mb-1">{LoginStores.loginStore.login?.fullName}</h5>
-                  <div>
-                    <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
-                    Online
+                  <div className="media-body">
+                    <h5 className="mb-1">
+                      {LoginStores.loginStore.login?.fullName}
+                    </h5>
+                    <div>
+                      <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}
+                      Online
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : null}
-        </PerfectScrollbar>
-      </div>
-    </nav>
+            ) : null}
+          </PerfectScrollbar>
+        </div>
+      </nav>
+    </>
   )
 })
 
