@@ -129,9 +129,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
               />
               <span className="align-middle">Lims Plus</span>
             </a>
-            {RootStore.routerStore.userRouter && (
+            {routes && (
               <ul className="sidebar-nav">
-                {RootStore.routerStore.userRouter.map((category: any, index) => {
+                {routes.map((category: any, index) => {
                   return (
                     <React.Fragment key={index}>
                       {category.children ? (
