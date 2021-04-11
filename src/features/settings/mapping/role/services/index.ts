@@ -19,11 +19,13 @@ export const roleMappingList = () =>
       })
   })
 
-export const addRoleMapping = (userMapping: any) =>
+export const addRoleMapping = (roleMapping: any) =>
   new Promise<any>((resolve, reject) => {
+    console.log({roleMapping});
+    
     const client = Clients.createLimsPlusClient()
     client
-      .post(`${RELATIVE_PATH}/addRoleMapping`, userMapping)
+      .post(`${RELATIVE_PATH}/addRoleMapping`, roleMapping)
       .then((res) => {
         resolve(res)
       })

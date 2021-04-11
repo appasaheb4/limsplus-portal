@@ -17,6 +17,8 @@ import * as User from "@lp/features/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
 import * as Communication from "@lp/features/communication"
 
+import hydrateStore from "@lp/library/modules/startup"
+
 const App = observer(() => {
   const loader = async () => {
     await Banner.startup()
@@ -25,8 +27,9 @@ const App = observer(() => {
     await Role.startup()
     await Department.startup()
     await User.startup()
-    await RoleMappping.startup()
+    await RoleMappping.startup()  
     await Communication.startup()
+    await hydrateStore("routerStore", RootStore.routerStore)
   }
 
   React.useEffect(() => {
