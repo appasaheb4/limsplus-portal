@@ -1,5 +1,5 @@
 import React from "react"
-import Icon  from "react-eva-icons"
+import Icon from "react-eva-icons"
 
 export interface IconProps {
   type?: "solid" | "inverse"
@@ -27,16 +27,16 @@ const getIconClass = (props: IconProps) => {
 
 export const EvaIcon: React.FunctionComponent<IconProps> = (props: IconProps) => {
   return (
-    <Icon 
-    name={props.icon}
-    size={props.size}     // small, medium, large, xlarge
-    animation={{
-      type: "pulse",  // zoom, pulse, shake, flip
-      hover: true,
-      infinite: false 
-    }}
-    fill={props.color}
-  />
+    <Icon
+      name={props.icon}
+      size={props.size} // small, medium, large, xlarge
+      animation={{
+        type: "pulse", // zoom, pulse, shake, flip
+        hover: true,
+        infinite: false,
+      }}
+      fill={props.color}
+    />
   )
 }
 
