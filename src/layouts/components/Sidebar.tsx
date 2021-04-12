@@ -14,7 +14,7 @@ import * as Assets from "@lp/library/assets"
 import routes from "../../routes/index"
 
 // import { Stores as LoginStore } from "@lp/features/login/stores"
-//import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
@@ -129,9 +129,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
               />
               <span className="align-middle">Lims Plus</span>
             </a>
-            {routes && (
+            {RootStore.routerStore.userRouter && (
               <ul className="sidebar-nav">
-                {routes.map((category: any, index) => {
+                {RootStore.routerStore.userRouter.map((category: any, index) => {
                   return (
                     <React.Fragment key={index}>
                       {category.children ? (

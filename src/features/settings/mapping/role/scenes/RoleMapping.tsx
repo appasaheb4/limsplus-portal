@@ -12,14 +12,14 @@ import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolk
 import paginationFactory from "react-bootstrap-table2-paginator"
 import DropdownTreeSelect from "react-dropdown-tree-select"
 import "react-dropdown-tree-select/dist/styles.css"
-import "./style.css"
-import data from "./pages.json"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
 
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-import { Stores as RouterStore } from "@lp/library/stores"
+
+import { Stores as RootStore } from "@lp/library/stores"
+
 import { toJS } from "mobx"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -60,7 +60,7 @@ const RoleMapping = observer(() => {
       return item
     })
     if (routers) {
-      RouterStore.routerStore.updateRouter(routers)
+      RootStore.routerStore.updateRouter(routers)
     }
   }, [])
 
@@ -93,9 +93,9 @@ const RoleMapping = observer(() => {
             )}
           />
           <div className="mt-4">
-            {RouterStore.routerStore.router && (
+            {RootStore.routerStore.router && (
               <ul className="nav nav-stacked" id="accordion1">
-                {RouterStore.routerStore.router.map((item, index) => (
+                {RootStore.routerStore.router.map((item, index) => (
                   <li className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md">
                     <a
                       data-toggle="collapse"
@@ -123,7 +123,7 @@ const RoleMapping = observer(() => {
                                       className="m-2"
                                       onChange={async () => {
                                         const routers = toJS(
-                                          RouterStore.routerStore.router
+                                          RootStore.routerStore.router
                                         )
                                         const modifyPermission =
                                           item.children[indexChildren].permission[
@@ -137,7 +137,7 @@ const RoleMapping = observer(() => {
                                         ].permission[indexPermission] = toJS(
                                           modifyPermission
                                         )
-                                        RouterStore.routerStore.updateRouter(routers)
+                                        RootStore.routerStore.updateRouter(routers)
                                       }}
                                     />
                                     {permission.title}
@@ -167,10 +167,10 @@ const RoleMapping = observer(() => {
               onClick={() => {
                 if (
                   selectedRole !== undefined &&
-                  RouterStore.routerStore.router !== undefined
+                  RootStore.routerStore.router !== undefined
                 ) {
                   let router: any[] = []
-                  RouterStore.routerStore.router.filter((item) => {
+                  RootStore.routerStore.router.filter((item) => {
                     return item.children.filter((childern, indexChildern) => {
                       childern.permission.filter((permission, indexPermission) => {
                         if (permission.checked) {
@@ -182,13 +182,25 @@ const RoleMapping = observer(() => {
                             router = router.filter(function (obj) {
                               return obj.name !== item.name
                             })
+                            let children = isRouter.children.concat([
+                              toJS(item.children[indexChildern]),
+                            ])
+                            children = children.reduce((filtered, item) => {
+                              if (
+                                !filtered.some(
+                                  (filteredItem) =>
+                                    JSON.stringify(filteredItem) ==
+                                    JSON.stringify(item)
+                                )
+                              )
+                                filtered.push(item)
+                              return filtered
+                            }, [])
                             router.push({
                               path: item.path,
                               name: item.name,
                               icon: item.icon,
-                              children: isRouter.children.concat([
-                                toJS(item.children[indexChildern]),
-                              ]),
+                              children,
                             })
                           } else {
                             router.push({
@@ -201,7 +213,8 @@ const RoleMapping = observer(() => {
                         }
                       })
                     })
-                  })
+                  })  
+                  //console.log({ router })
                   Services.addRoleMapping({
                     role: selectedRole,
                     router: JSON.stringify(router),

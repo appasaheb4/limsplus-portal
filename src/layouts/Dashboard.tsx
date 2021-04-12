@@ -21,13 +21,13 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
-    console.log({ router })
+    //console.log({ router })
     if (router) {
       router = JSON.parse(router.roleMapping.router[0])
       await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
-    }
-  }
+    }    
+  }  
 
   useEffect(() => {
     router()
@@ -40,7 +40,7 @@ const Dashboard = observer(({ children }) => {
       })
     }, 1000)
   }, [LoginStores.loginStore.login])
-
+ 
   return (
     <React.Fragment>
       <Wrapper>

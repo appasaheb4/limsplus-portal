@@ -181,7 +181,7 @@ const settingsRoutes = {
     },
   ],
 }
-
+  
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,

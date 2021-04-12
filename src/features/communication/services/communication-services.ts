@@ -103,7 +103,7 @@ class CommunicationService extends BaseService {
             return r
           }, {})
           const entries = Object.entries(group)
-          console.log({ group, entries })
+          //console.log({ group, entries })
           const values: any = []
           for (const groupSegment of entries) {
             const segmentList: any = groupSegment[1]
@@ -170,7 +170,6 @@ class CommunicationService extends BaseService {
               [item[0].toLowerCase() || ""]: { values: item[1] },
             })
           })
-          console.log(mapping)
           resolve(mapping)
         })
         .catch((error) => {
@@ -242,8 +241,6 @@ class CommunicationService extends BaseService {
       this.client
         .get(`/communication/listInterfaceManager`)
         .then((res) => {
-          console.log({ res })
-
           resolve(res.data.data)
         })
         .catch((error) => {
