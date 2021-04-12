@@ -23,9 +23,11 @@ const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
 
   const router = async () => {
+    console.log({routerold:RootStore.routerStore.userRouter});
     let router: any = toJS(LoginStore.loginStore.login)
-    //console.log({ router })
+    console.log({ router })
     if (router) {
+      console.log({ router })
       router = JSON.parse(router.roleMapping.router[0])
       await hydrateStore("loginStore", LoginStore.loginStore)  
       await hydrateStore("routerStore", RootStore.routerStore)

@@ -60,7 +60,11 @@ const RoleMapping = observer(() => {
 
   useEffect(() => {
     const routers: any = router.filter((item: any) => {
+      item.toggle = false
+      item.title = item.name
       item = item.children.filter((childernItem) => {
+        childernItem.title = childernItem.name
+        childernItem.toggle = false
         childernItem.permission = permission
         return childernItem
       })
@@ -104,14 +108,35 @@ const RoleMapping = observer(() => {
               <ul className="nav nav-stacked" id="accordion1">
                 {RootStore.routerStore.router.map((item, index) => (
                   <li className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md">
-                    <a
-                      data-toggle="collapse"
-                      data-parent="#accordion1"
-                      //href={`#${item.name}`}
-                      className="font-bold"
-                    >
-                      {item.name}
-                    </a>
+                    {item.toggle ? (
+                      <input
+                        type="text"
+                        className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                        value={item.title}
+                        onChange={(e) => {
+                          const title = e.target.value
+                          const routers = toJS(RootStore.routerStore.router)
+                          routers[index].title = title
+                          RootStore.routerStore.updateRouter(routers)
+                        }}
+                        onBlur={() => {
+                          const routers = toJS(RootStore.routerStore.router)
+                          routers[index].toggle = false
+                          RootStore.routerStore.updateRouter(routers)
+                        }}
+                      />
+                    ) : (
+                      <p
+                        className="font-bold"
+                        onDoubleClick={() => {
+                          const routers = toJS(RootStore.routerStore.router)
+                          routers[index].toggle = true
+                          RootStore.routerStore.updateRouter(routers)
+                        }}
+                      >
+                        {item.title}
+                      </p>
+                    )}
                     {item.children ? (
                       <ul
                         className="flex flex-row ml-1 text-white " //collapse
@@ -119,7 +144,42 @@ const RoleMapping = observer(() => {
                       >
                         {item.children.map((children, indexChildren) => (
                           <li className="bg-blue-600 ml-4 p-2 rounded-md">
-                            {children.name}
+                            {children.toggle ? (
+                              <input
+                                type="text"
+                                className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                value={children.title}
+                                onChange={(e) => {
+                                  const title = e.target.value
+                                  const routers = toJS(RootStore.routerStore.router)
+                                  routers[index].children[
+                                    indexChildren
+                                  ].title = title
+                                  RootStore.routerStore.updateRouter(routers)
+                                }}
+                                onBlur={() => {
+                                  const routers = toJS(RootStore.routerStore.router)
+                                  routers[index].children[
+                                    indexChildren
+                                  ].toggle = false
+                                  RootStore.routerStore.updateRouter(routers)
+                                }}
+                              />
+                            ) : (
+                              <p
+                                className="font-bold"
+                                onDoubleClick={() => {
+                                  const routers = toJS(RootStore.routerStore.router)
+                                  routers[index].children[
+                                    indexChildren
+                                  ].toggle = true
+                                  RootStore.routerStore.updateRouter(routers)
+                                }}
+                              >
+                                {children.title}
+                              </p>
+                            )}
+
                             <ul className="ml-2">
                               {children.permission.map(
                                 (permission, indexPermission) => (
@@ -165,7 +225,7 @@ const RoleMapping = observer(() => {
                         ))}
                       </ul>
                     ) : (
-                      <li>{item.name}</li>
+                      <li>{item.title}</li>
                     )}
                   </li>
                 ))}
@@ -216,6 +276,8 @@ const RoleMapping = observer(() => {
                               path: item.path,
                               name: item.name,
                               icon: item.icon,
+                              title: item.title,
+                              toggle: item.toggle,
                               children,
                             })
                           } else {
@@ -223,6 +285,8 @@ const RoleMapping = observer(() => {
                               path: item.path,
                               name: item.name,
                               icon: item.icon,
+                              title: item.title,
+                              toggle: item.toggle,
                               children: [toJS(item.children[indexChildern])],
                             })
                           }
@@ -313,7 +377,7 @@ const RoleMapping = observer(() => {
                               //href={`#${item.name}`}
                               className="font-bold"
                             >
-                              {item.name}
+                              {item.title}
                             </a>
                             {item.children ? (
                               <ul
@@ -322,7 +386,7 @@ const RoleMapping = observer(() => {
                               >
                                 {item.children.map((children, indexChildren) => (
                                   <li className="bg-blue-600 ml-4 p-2 rounded-md">
-                                    {children.name}
+                                    {children.title}
                                     <ul className="ml-2">
                                       {children.permission.map(
                                         (permission, indexPermission) => (
@@ -341,7 +405,7 @@ const RoleMapping = observer(() => {
                                 ))}
                               </ul>
                             ) : (
-                              <li>{item.name}</li>
+                              <li>{item.title}</li>
                             )}
                           </li>
                         ))}
@@ -365,29 +429,31 @@ const RoleMapping = observer(() => {
                         setValue(row.role.description)
                         setSelectedUserRole(row.role.description)
                         setInputValue(row.role.description)
-                        const router = JSON.parse(row.router)
-                        // 1. create a map
-                        const map = new Map()
-                        // 2. concat array
-                        const arr3 = [...RootStore.routerStore.router, ...router]
-                        // 3. for ... of, iterator array
-                        for (const obj of arr3) {
-                          if (!map.has(obj.name)) {
-                            // add
-                            map.set(obj.name, obj)
-                          } else {
-                            // update
-                            map.set(obj.name, {
-                              ...map.get(obj.name),
-                              ...obj,
-                            })
-                          }
-                        }
-                        // 4. get new merged unqiue array
-                        const arr4 = [...map.values()]
-                        const result = JSON.stringify(arr4, null, 4)
+                        const router = toJS(RootStore.routerStore.router)
+                        const roleRouter = JSON.parse(row.router)
+                        roleRouter.filter((item, index) => {
+                          router.filter((routerItem, indexRouter) => {
+                            if (routerItem.name === item.name) {
+                              routerItem.children.filter(
+                                (childrenItem, indexChildren) => {
+                                  const itemChildren = item.children
+                                  for (const children of itemChildren) {
+                                    if (childrenItem.name == children.name) {
+                                      router[indexRouter].children[
+                                        indexChildren
+                                      ] = children  
+                                      router[indexRouter].title = item.title
+                                      //console.log({ children, indexChildren })
+                                    }
+                                  }
+                                }
+                              )
+                            }
+                          })
+                        })
+                        console.log({ router })
                         setIsModify({ status: true, id: row._id })
-                        RootStore.routerStore.updateRouter(JSON.parse(result))
+                        RootStore.routerStore.updateRouter(router)
                       }}
                     >
                       <LibraryComponents.Atoms.Icons.EvaIcon
