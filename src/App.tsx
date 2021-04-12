@@ -7,6 +7,7 @@ import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 
 import { Stores as RootStore } from "./library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import * as Banner from "@lp/features/banner"
 import * as Deginisation from "@lp/features/collection/deginisation"
@@ -29,7 +30,9 @@ const App = observer(() => {
     await User.startup()
     await RoleMappping.startup()  
     await Communication.startup()
+    await hydrateStore("loginStore", LoginStore.loginStore) 
     await hydrateStore("routerStore", RootStore.routerStore)
+
   }
 
   React.useEffect(() => {

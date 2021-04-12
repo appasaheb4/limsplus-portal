@@ -135,27 +135,25 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                   return (
                     <React.Fragment key={index}>
                       {category.children ? (
-                        category.name !== "Dashboard1" && (
-                          <SidebarCategory
-                            name={category.name}
-                            badgeColor={category.badgeColor}
-                            badgeText={category.badgeText}
-                            icon={category.icon}
-                            to={category.path}
-                            isOpen={openRoutes[index]}
-                            onClick={() => toggle(index)}
-                          >
-                            {category.children.map((route, index) => (
-                              <SidebarItem
-                                key={index}
-                                name={route.name}
-                                to={route.path}
-                                badgeColor={route.badgeColor}
-                                badgeText={route.badgeText}
-                              />
-                            ))}
-                          </SidebarCategory>
-                        )
+                        <SidebarCategory
+                          name={category.title}
+                          badgeColor={category.badgeColor}
+                          badgeText={category.badgeText}
+                          icon={category.icon}
+                          to={category.path}
+                          isOpen={openRoutes[index]}
+                          onClick={() => toggle(index)}
+                        >
+                          {category.children.map((route, index) => (
+                            <SidebarItem
+                              key={index}
+                              name={route.title}
+                              to={route.path}
+                              badgeColor={route.badgeColor}
+                              badgeText={route.badgeText}
+                            />
+                          ))}
+                        </SidebarCategory>
                       ) : (
                         <SidebarItem
                           name={category.name}
