@@ -1,10 +1,10 @@
 import { action, observable } from "mobx"
-import { version } from "mobx-sync"
+import { ignore, version } from "mobx-sync"
 
 @version(1.0)
 class RouterStore {
   @observable userRouter?: any
-  @observable router?: any
+  @ignore @observable router?: any
   
   @action updateUserRouter(router) {
     this.userRouter = router

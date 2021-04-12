@@ -35,10 +35,6 @@ const App = observer(() => {
   React.useEffect(() => {
     loader()
   }, [])
-
-  React.useEffect(() => {
-    console.log({ loading: RootStore.rootStore.processLoading })
-  }, [])
   return (
     <>
       <Provider store={store}>

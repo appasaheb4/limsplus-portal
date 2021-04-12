@@ -15,7 +15,6 @@ class ConversationMappingStore {
     this.conversationMappingService
       .listConversationMapping()
       .then((conversation) => {
-        console.log({ conversation })
         this.listConversationMapping = conversation
       })
   }
