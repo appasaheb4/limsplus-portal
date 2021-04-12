@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import { unionBy } from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
@@ -25,13 +26,18 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const RoleMapping = observer(() => {
-  const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]
   const [deleteItem, setDeleteItem] = useState<any>({})
-  const roleList: any = RoleStore.roleStore.listRole || []
+  let roleList: any = RoleStore.roleStore.listRole || []
+  for (const router of Stores.roleMappingStore.roleMappingList || []) {
+    roleList = roleList.filter((item) => {
+      return item.code !== router.role.code
+    })
+  }
   const description = roleList.length > 0 ? roleList[0].description : undefined
   const [value, setValue] = React.useState<string | null>(description)
   const [inputValue, setInputValue] = React.useState("")
   const [selectedRole, setSelectedUserRole] = useState<any>()
+  const [isModify, setIsModify] = useState<any>({ status: false })
 
   const permission = [
     {
@@ -51,6 +57,7 @@ const RoleMapping = observer(() => {
       checked: false,
     },
   ]
+
   useEffect(() => {
     const routers: any = router.filter((item: any) => {
       item = item.children.filter((childernItem) => {
@@ -80,9 +87,9 @@ const RoleMapping = observer(() => {
               setSelectedUserRole(newValue)
               setValue(newValue)
             }}
+            disabled={isModify.status ? true : false}
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
-              console.log({ newInputValue })
               setInputValue(newInputValue)
             }}
             id="role"
@@ -132,6 +139,15 @@ const RoleMapping = observer(() => {
                                         modifyPermission.checked = modifyPermission.checked
                                           ? false
                                           : true
+                                        if (
+                                          modifyPermission.title === "Edit/Modify" ||
+                                          modifyPermission.title === "Delete"
+                                        ) {
+                                          routers[index].children[
+                                            indexChildren
+                                          ].permission[1].checked = true
+                                          console.log("check")
+                                        }
                                         routers[index].children[
                                           indexChildren
                                         ].permission[indexPermission] = toJS(
@@ -213,21 +229,40 @@ const RoleMapping = observer(() => {
                         }
                       })
                     })
-                  })  
-                  //console.log({ router })
-                  Services.addRoleMapping({
-                    role: selectedRole,
-                    router: JSON.stringify(router),
-                  }).then((res) => {
-                    if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.Atoms.ToastsStore.success(`Created.`)
-                      setTimeout(() => {
-                        window.location.reload()
-                      }, 2000)
-                    } else {
-                      alert("Not added data.")
-                    }
                   })
+                  //console.log({ router })
+                  isModify.status
+                    ? Stores.roleMappingStore.roleMappingService
+                        .updateRoleMapping({
+                          id: isModify.id,
+                          role: selectedRole,
+                          router: JSON.stringify(router),
+                        })
+                        .then((res) => {
+                          if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                            LibraryComponents.Atoms.ToastsStore.success(
+                              `Role mapping updated.`
+                            )
+                            setTimeout(() => {
+                              window.location.reload()
+                            }, 2000)
+                          } else {
+                            alert("Data not update.Please try again")
+                          }
+                        })
+                    : Services.addRoleMapping({
+                        role: selectedRole,
+                        router: JSON.stringify(router),
+                      }).then((res) => {
+                        if (res.status === LibraryModels.StatusCode.CREATED) {
+                          LibraryComponents.Atoms.ToastsStore.success(`Created.`)
+                          setTimeout(() => {
+                            window.location.reload()
+                          }, 2000)
+                        } else {
+                          alert("Not added data.")
+                        }
+                      })
                 } else {
                   LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
@@ -235,7 +270,7 @@ const RoleMapping = observer(() => {
                 }
               }}
             >
-              Save
+              {isModify.status ? "Update" : "Save"}
             </LibraryComponents.Atoms.Buttons.Button>
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
@@ -325,7 +360,49 @@ const RoleMapping = observer(() => {
                     <LibraryComponents.Atoms.Buttons.Button
                       size="small"
                       type="outline"
-                      icon={LibraryComponents.Atoms.Icons.Remove}
+                      //icon={LibraryComponents.Atoms.Icons.Remove}
+                      onClick={() => {
+                        setValue(row.role.description)
+                        setSelectedUserRole(row.role.description)
+                        setInputValue(row.role.description)
+                        const router = JSON.parse(row.router)
+                        // 1. create a map
+                        const map = new Map()
+                        // 2. concat array
+                        const arr3 = [...RootStore.routerStore.router, ...router]
+                        // 3. for ... of, iterator array
+                        for (const obj of arr3) {
+                          if (!map.has(obj.name)) {
+                            // add
+                            map.set(obj.name, obj)
+                          } else {
+                            // update
+                            map.set(obj.name, {
+                              ...map.get(obj.name),
+                              ...obj,
+                            })
+                          }
+                        }
+                        // 4. get new merged unqiue array
+                        const arr4 = [...map.values()]
+                        const result = JSON.stringify(arr4, null, 4)
+                        setIsModify({ status: true, id: row._id })
+                        RootStore.routerStore.updateRouter(JSON.parse(result))
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Icons.EvaIcon
+                        icon="edit-outline"
+                        size="medium"
+                        color="#000"
+                      />
+                      Edit/Modify
+                    </LibraryComponents.Atoms.Buttons.Button>
+                    <br />
+                    <br />
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="small"
+                      type="outline"
+                      //icon={LibraryComponents.Atoms.Icons.Remove}
                       onClick={() => {
                         setDeleteItem({
                           show: true,
@@ -335,6 +412,11 @@ const RoleMapping = observer(() => {
                         })
                       }}
                     >
+                      <LibraryComponents.Atoms.Icons.EvaIcon
+                        icon="trash-2-outline"
+                        size="medium"
+                        color="#000"
+                      />
                       Delete
                     </LibraryComponents.Atoms.Buttons.Button>
                   </>
@@ -383,6 +465,11 @@ const RoleMapping = observer(() => {
                 setDeleteItem({ show: false })
                 Stores.roleMappingStore.fetchRoleMappingList()
               }
+            })
+          }}
+          close={() => {
+            setDeleteItem({
+              show: false,
             })
           }}
         />

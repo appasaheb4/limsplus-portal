@@ -8,9 +8,23 @@
 import BaseService from "@lp/library/modules/base-service"
 
 class RoleMappingService extends BaseService {
-    deleteRoleMapping = (id: string) =>
+  deleteRoleMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client.delete(`mapping/deleteRoleMapping/${id}`)
+      this.client
+        .delete(`mapping/deleteRoleMapping/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  updateRoleMapping = (roleMapping: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({ roleMapping })
+      this.client
+        .post(`/mapping/updateRoleMapping`, roleMapping)
         .then((res) => {
           resolve(res)
         })

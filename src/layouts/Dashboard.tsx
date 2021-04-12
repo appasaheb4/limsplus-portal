@@ -13,8 +13,11 @@ import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import hydrateStore from "@lp/library/modules/startup"
+
+
 import { toJS } from "mobx"
+
+import hydrateStore from "@lp/library/modules/startup"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -24,6 +27,7 @@ const Dashboard = observer(({ children }) => {
     //console.log({ router })
     if (router) {
       router = JSON.parse(router.roleMapping.router[0])
+      await hydrateStore("loginStore", LoginStore.loginStore)  
       await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
     }    
