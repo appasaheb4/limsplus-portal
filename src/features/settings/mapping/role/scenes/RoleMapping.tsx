@@ -11,7 +11,8 @@ import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
-import DropdownTreeSelect from "react-dropdown-tree-select"
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+
 import "react-dropdown-tree-select/dist/styles.css"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
@@ -75,6 +76,10 @@ const RoleMapping = observer(() => {
     }
   }, [])
 
+  const handleOnDragEnd = async (result) => {
+    console.log({ result })
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -105,7 +110,7 @@ const RoleMapping = observer(() => {
           />
           <div className="mt-4">
             {RootStore.routerStore.router && (
-              <ul className="nav nav-stacked" id="accordion1">
+              <ul className="nav nav-stacked characters" id="accordion1">
                 {RootStore.routerStore.router.map((item, index) => (
                   <li className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md">
                     {item.toggle ? (
@@ -138,92 +143,129 @@ const RoleMapping = observer(() => {
                       </p>
                     )}
                     {item.children ? (
-                      <ul
-                        className="flex flex-row ml-1 text-white " //collapse
-                        id={item.name}
-                      >
-                        {item.children.map((children, indexChildren) => (
-                          <li className="bg-blue-600 ml-4 p-2 rounded-md">
-                            {children.toggle ? (
-                              <input
-                                type="text"
-                                className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
-                                value={children.title}
-                                onChange={(e) => {
-                                  const title = e.target.value
-                                  const routers = toJS(RootStore.routerStore.router)
-                                  routers[index].children[
-                                    indexChildren
-                                  ].title = title
-                                  RootStore.routerStore.updateRouter(routers)
-                                }}
-                                onBlur={() => {
-                                  const routers = toJS(RootStore.routerStore.router)
-                                  routers[index].children[
-                                    indexChildren
-                                  ].toggle = false
-                                  RootStore.routerStore.updateRouter(routers)
-                                }}
-                              />
-                            ) : (
-                              <p
-                                className="font-bold"
-                                onDoubleClick={() => {
-                                  const routers = toJS(RootStore.routerStore.router)
-                                  routers[index].children[
-                                    indexChildren
-                                  ].toggle = true
-                                  RootStore.routerStore.updateRouter(routers)
-                                }}
-                              >
-                                {children.title}
-                              </p>
-                            )}
+                      <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="characters">
+                          {(provided) => (
+                            <ul
+                              className="flex flex-row ml-1 text-white characters"
+                              id={item.name}
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                            >
+                              {item.children.map((children, indexChildren) => (
+                                <Draggable
+                                  key={children.name}
+                                  draggableId={children.name}
+                                  index={indexChildren}
+                                >
+                                  {(provided) => (
+                                    <li
+                                      className="bg-blue-600 ml-4 p-2 rounded-md"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
+                                    >
+                                      {children.toggle ? (
+                                        <input
+                                          type="text"
+                                          className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                          value={children.title}
+                                          onChange={(e) => {
+                                            const title = e.target.value
+                                            const routers = toJS(
+                                              RootStore.routerStore.router
+                                            )
+                                            routers[index].children[
+                                              indexChildren
+                                            ].title = title
+                                            RootStore.routerStore.updateRouter(
+                                              routers
+                                            )
+                                          }}
+                                          onBlur={() => {
+                                            const routers = toJS(
+                                              RootStore.routerStore.router
+                                            )
+                                            routers[index].children[
+                                              indexChildren
+                                            ].toggle = false
+                                            RootStore.routerStore.updateRouter(
+                                              routers
+                                            )
+                                          }}
+                                        />
+                                      ) : (
+                                        <p
+                                          className="font-bold"
+                                          onDoubleClick={() => {
+                                            const routers = toJS(
+                                              RootStore.routerStore.router
+                                            )
+                                            routers[index].children[
+                                              indexChildren
+                                            ].toggle = true
+                                            RootStore.routerStore.updateRouter(
+                                              routers
+                                            )
+                                          }}
+                                        >
+                                          {children.title}
+                                        </p>
+                                      )}
 
-                            <ul className="ml-2">
-                              {children.permission.map(
-                                (permission, indexPermission) => (
-                                  <li>
-                                    <input
-                                      type="checkbox"
-                                      checked={permission.checked}
-                                      className="m-2"
-                                      onChange={async () => {
-                                        const routers = toJS(
-                                          RootStore.routerStore.router
-                                        )
-                                        const modifyPermission =
-                                          item.children[indexChildren].permission[
-                                            indexPermission
-                                          ]
-                                        modifyPermission.checked = modifyPermission.checked
-                                          ? false
-                                          : true
-                                        if (
-                                          modifyPermission.title === "Edit/Modify" ||
-                                          modifyPermission.title === "Delete"
-                                        ) {
-                                          routers[index].children[
-                                            indexChildren
-                                          ].permission[1].checked = true
-                                          console.log("check")
-                                        }
-                                        routers[index].children[
-                                          indexChildren
-                                        ].permission[indexPermission] = toJS(
-                                          modifyPermission
-                                        )
-                                        RootStore.routerStore.updateRouter(routers)
-                                      }}
-                                    />
-                                    {permission.title}
-                                  </li>
-                                )
-                              )}
+                                      <ul className="ml-2">
+                                        {children.permission.map(
+                                          (permission, indexPermission) => (
+                                            <li>
+                                              <input
+                                                type="checkbox"
+                                                checked={permission.checked}
+                                                className="m-2"
+                                                onChange={async () => {
+                                                  const routers = toJS(
+                                                    RootStore.routerStore.router
+                                                  )
+                                                  const modifyPermission =
+                                                    item.children[indexChildren]
+                                                      .permission[indexPermission]
+                                                  modifyPermission.checked = modifyPermission.checked
+                                                    ? false
+                                                    : true
+                                                  if (
+                                                    modifyPermission.title ===
+                                                      "Edit/Modify" ||
+                                                    modifyPermission.title ===
+                                                      "Delete"
+                                                  ) {
+                                                    routers[index].children[
+                                                      indexChildren
+                                                    ].permission[1].checked = true
+                                                    console.log("check")
+                                                  }
+                                                  routers[index].children[
+                                                    indexChildren
+                                                  ].permission[
+                                                    indexPermission
+                                                  ] = toJS(modifyPermission)
+                                                  RootStore.routerStore.updateRouter(
+                                                    routers
+                                                  )
+                                                }}
+                                              />
+                                              {permission.title}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </li>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
                             </ul>
-                          </li>
-                        ))}
-                      </ul>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
                     ) : (
                       <li>{item.title}</li>
                     )}
@@ -441,7 +483,7 @@ const RoleMapping = observer(() => {
                                     if (childrenItem.name == children.name) {
                                       router[indexRouter].children[
                                         indexChildren
-                                      ] = children  
+                                      ] = children
                                       router[indexRouter].title = item.title
                                       //console.log({ children, indexChildren })
                                     }

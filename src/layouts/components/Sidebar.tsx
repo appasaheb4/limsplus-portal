@@ -36,14 +36,23 @@ const initOpenRoutes = (location) => {
 }
 
 const SidebarCategory = withRouter(
-  ({ name, badgeColor, badgeText, isOpen, children, onClick, location, to }) => {
+  ({
+    name,
+    title,
+    badgeColor,
+    badgeText,
+    isOpen,
+    children,
+    onClick,
+    location,
+    to,
+  }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname.indexOf(path) !== -1 ||
         (location.pathname === "/" && path === "/dashboard")
         ? "active"
         : ""
     }
-
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
         <span
@@ -52,7 +61,7 @@ const SidebarCategory = withRouter(
           onClick={onClick}
           aria-expanded={isOpen ? "true" : "false"}
         >
-          <span className="align-middle">{name}</span>
+          <span className="align-middle">{title}</span>
           {badgeColor && badgeText ? (
             <Badge color={badgeColor} size={18} className="sidebar-badge">
               {badgeText}
@@ -70,16 +79,15 @@ const SidebarCategory = withRouter(
 )
 
 const SidebarItem = withRouter(
-  ({ name, badgeColor, badgeText, icon: Icon, location, to }) => {
+  ({ name, title, badgeColor, badgeText, icon: Icon, location, to }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname === path ? "active" : ""
     }
-
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
         <NavLink to={to} className="sidebar-link" activeClassName="active">
           {Icon ? <Icon size={18} className="align-middle mr-3" /> : null}
-          {name}
+          {title}
           {badgeColor && badgeText ? (
             <Badge color={badgeColor} size={18} className="sidebar-badge">
               {badgeText}
@@ -93,9 +101,7 @@ const SidebarItem = withRouter(
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
-
   const toggle = (index) => {
-    // Collapse all elements
     Object.keys(openRoutes).forEach(
       (item) =>
         openRoutes[index] ||
@@ -103,7 +109,6 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           Object.assign({}, openRoutes, { [item]: false })
         )
     )
-
     // Toggle selected element
     setOpenRoutes((openRoutes) =>
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
@@ -136,7 +141,8 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                     <React.Fragment key={index}>
                       {category.children ? (
                         <SidebarCategory
-                          name={category.title}
+                          name={category.name}
+                          title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           icon={category.icon}
@@ -147,7 +153,8 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           {category.children.map((route, index) => (
                             <SidebarItem
                               key={index}
-                              name={route.title}
+                              name={route.name}
+                              title={route.title}
                               to={route.path}
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
@@ -157,6 +164,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                       ) : (
                         <SidebarItem
                           name={category.name}
+                          title={category.title}
                           to={category.path}
                           icon={category.icon}
                           badgeColor={category.badgeColor}
@@ -196,9 +204,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
     </>
   )
 })
-
+  
 export default withRouter(
-  connect((store) => ({
+  connect((store: any) => ({
     sidebar: store.sidebar,
     layout: store.layout,
   }))(Sidebar)

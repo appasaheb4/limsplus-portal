@@ -6,6 +6,6 @@ const Wrapper = ({ layout, children }) => (
   </div>
 );
 
-export default connect((store) => ({
+export default connect((store: any) => ({
   layout: store.layout,
 }))(Wrapper);
