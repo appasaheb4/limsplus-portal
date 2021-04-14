@@ -123,7 +123,7 @@ class Settings extends React.Component<Props, State> {
   }
 }
 
-export default connect((store) => ({
+export default connect((store: any) => ({
   layout: store.layout,
   sidebar: store.sidebar,
 }))(Settings)

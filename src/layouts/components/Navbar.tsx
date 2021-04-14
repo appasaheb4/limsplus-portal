@@ -294,6 +294,6 @@ const NavbarComponent = ({ dispatch }) => {
   )
 }
 
-export default connect((store) => ({
+export default connect((store: any) => ({
   app: store.app,
 }))(NavbarComponent)
