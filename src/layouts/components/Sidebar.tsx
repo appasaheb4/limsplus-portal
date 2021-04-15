@@ -36,17 +36,7 @@ const initOpenRoutes = (location) => {
 }
 
 const SidebarCategory = withRouter(
-  ({
-    name,
-    title,
-    badgeColor,
-    badgeText,
-    isOpen,
-    children,
-    onClick,
-    location,
-    to,
-  }) => {
+  ({ title, badgeColor, badgeText, isOpen, children, onClick, location, to }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname.indexOf(path) !== -1 ||
         (location.pathname === "/" && path === "/dashboard")
@@ -79,7 +69,7 @@ const SidebarCategory = withRouter(
 )
 
 const SidebarItem = withRouter(
-  ({ name, title, badgeColor, badgeText, icon: Icon, location, to }) => {
+  ({  title, badgeColor, badgeText, icon: Icon, location, to }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname === path ? "active" : ""
     }
@@ -137,7 +127,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
             {RootStore.routerStore.userRouter && (
               <ul className="sidebar-nav">
                 {RootStore.routerStore.userRouter.map((category: any, index) => {
-                  return (
+                  return (  
                     <React.Fragment key={index}>
                       {category.children ? (
                         <SidebarCategory
@@ -204,7 +194,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
     </>
   )
 })
-  
+
 export default withRouter(
   connect((store: any) => ({
     sidebar: store.sidebar,

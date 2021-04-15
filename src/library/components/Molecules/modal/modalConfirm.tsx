@@ -7,10 +7,10 @@ interface ModalProps {
   type?: string
   body?: string
   click: (type?: string) => void
-  close: () => void
+  onClose: () => void
 }
 
-export default function ModalConfirm(props: ModalProps) {
+const ModalConfirm = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -23,7 +23,7 @@ export default function ModalConfirm(props: ModalProps) {
           <div
             className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
             onClick={() => {
-              props.close()
+              props.onClose()
               setShowModal(false)
             }}
           >
@@ -36,7 +36,7 @@ export default function ModalConfirm(props: ModalProps) {
                   <button
                     className="p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => {
-                      props.close()
+                      props.onClose()
                       setShowModal(false)
                     }}
                   >
@@ -63,7 +63,7 @@ export default function ModalConfirm(props: ModalProps) {
                     type="button"
                     style={{ transition: "all .15s ease" }}
                     onClick={() => {
-                      props.close()
+                      props.onClose()
                       setShowModal(false)
                     }}
                   >
@@ -90,3 +90,4 @@ export default function ModalConfirm(props: ModalProps) {
     </Container>
   )
 }
+export default ModalConfirm

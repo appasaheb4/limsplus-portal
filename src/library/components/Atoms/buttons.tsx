@@ -51,7 +51,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props) => {
 }
 
 interface ButtonCircleAddRemoveProps {
-  add?: boolean
+  show?: boolean
   type?: "solid" | "outline"
   onClick: (status: boolean) => void
   style?: CSSProperties
@@ -66,7 +66,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
 ) => {
   return (
     <>
-      {props.add && (
+      {props.show && (
         <LibraryComponents.Atoms.CircleButton
           style={{
             backgroundColor: Config.Styles.COLORS.PRIMARY,
@@ -88,7 +88,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
         </LibraryComponents.Atoms.CircleButton>
       )}
 
-      {!props.add && (
+      {!props.show && (
         <LibraryComponents.Atoms.CircleButton
           style={{
             backgroundColor: Config.Styles.COLORS.PRIMARY,

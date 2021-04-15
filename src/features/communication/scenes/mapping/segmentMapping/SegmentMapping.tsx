@@ -161,7 +161,7 @@ const SegmentMapping = observer(() => {
       </LibraryComponents.Atoms.Header>
 
       <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
-        add={hideAddDiv}
+        show={hideAddDiv}
         onClick={(status) => setHideAddDiv(!hideAddDiv)}
       />
 
