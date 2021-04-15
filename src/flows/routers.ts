@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const getPermission = (store, category, subCategory) => {
   if (store) {
     let permssion: any
