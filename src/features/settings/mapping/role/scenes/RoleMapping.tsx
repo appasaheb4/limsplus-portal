@@ -30,6 +30,8 @@ const RoleMapping = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   let roleList: any = RoleStore.roleStore.listRole || []
   for (const router of Stores.roleMappingStore.roleMappingList || []) {
+    console.log({ router })
+
     roleList = roleList.filter((item) => {
       return item.code !== router.role.code
     })
@@ -485,8 +487,7 @@ const RoleMapping = observer(() => {
                                         indexChildren
                                       ] = children
                                       router[indexRouter].title = item.title
-                                      //console.log({ children, indexChildren })
-                                    }
+                                    }  
                                   }
                                 }
                               )
@@ -572,9 +573,9 @@ const RoleMapping = observer(() => {
                 LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
                 Stores.roleMappingStore.fetchRoleMappingList()
-              }
+              }  
             })
-          }}
+          }}  
           close={() => {
             setDeleteItem({
               show: false,
