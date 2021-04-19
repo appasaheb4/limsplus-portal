@@ -16,6 +16,9 @@ import routes from "../../routes/index"
 // import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
+import { RouterFlow } from "@lp/flows"
+import { toJS } from "mobx"
+
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
   const pathName = location.pathname
@@ -69,12 +72,22 @@ const SidebarCategory = withRouter(
 )
 
 const SidebarItem = withRouter(
-  ({  title, badgeColor, badgeText, icon: Icon, location, to }) => {
+  ({ name, category, title, badgeColor, badgeText, icon: Icon, location, to }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname === path ? "active" : ""
     }
     return (
-      <li className={"sidebar-item " + getSidebarItemClass(to)}>
+      <li
+        className={"sidebar-item " + getSidebarItemClass(to)}
+        onClick={async () => {
+          const permission = await RouterFlow.getPermission(
+            RootStore.routerStore.userRouter,
+            category,
+            name
+          )
+          RootStore.routerStore.updateUserPermission(toJS(permission))
+        }}
+      >
         <NavLink to={to} className="sidebar-link" activeClassName="active">
           {Icon ? <Icon size={18} className="align-middle mr-3" /> : null}
           {title}
@@ -127,7 +140,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
             {RootStore.routerStore.userRouter && (
               <ul className="sidebar-nav">
                 {RootStore.routerStore.userRouter.map((category: any, index) => {
-                  return (  
+                  return (
                     <React.Fragment key={index}>
                       {category.children ? (
                         <SidebarCategory
@@ -143,6 +156,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           {category.children.map((route, index) => (
                             <SidebarItem
                               key={index}
+                              category={category.name}
                               name={route.name}
                               title={route.title}
                               to={route.path}

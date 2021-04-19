@@ -22,27 +22,17 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
+
 
 const Users = observer(() => {
   const [errors, setErrors] = useState<Models.Users>()
   const [deleteUser, setDeleteUser] = useState<any>({})
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
-  const permssion = async () => {
-    const permission = await RouterFlow.getPermission(
-      RootStore.routerStore.userRouter,
-      "User",
-      "User"
-    )
-    RootStore.routerStore.updateUserPermission(toJS(permission))
-  }
+
 
   useEffect(() => {
-    permssion()
-  }, [RootStore.routerStore.userRouter])
-
-  useEffect(() => {
+    console.log({userPermission: RootStore.routerStore.userPermission});
     Stores.userStore.loadUser()
   }, [Stores.userStore])
 
@@ -556,7 +546,7 @@ const Users = observer(() => {
               isDelete={RouterFlow.checkPermission(
                 RootStore.routerStore.userPermission,
                 "Delete"
-              )}  
+              )}
               isEditModify={RouterFlow.checkPermission(
                 RootStore.routerStore.userPermission,
                 "Edit/Modify"
