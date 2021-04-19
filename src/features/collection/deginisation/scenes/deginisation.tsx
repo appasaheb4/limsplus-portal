@@ -1,11 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
-
+import * as FeatureComponents from "../components"
+  
 import * as Models from "../models"
 import * as Util from "../util"
 import * as Services from "../services"
@@ -13,12 +10,25 @@ import * as Services from "../services"
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+import { RouterFlow } from "@lp/flows"
 
 const Deginisation = observer(() => {
   const [errors, setErrors] = useState<Models.IDeginisation>()
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
+
+  const permssion = async () => {
+    const permission = await RouterFlow.getPermission(
+      RootStore.routerStore.userRouter,
+      "Collection",
+      "Deginisation"
+    )
+    RootStore.routerStore.updateUserPermission(permission)
+  }
+   
+  useEffect(() => {
+    permssion()
+  }, [RootStore.routerStore.userRouter, []])
 
   return (
     <>
@@ -28,10 +38,25 @@ const Deginisation = observer(() => {
           subTitle="Add, Edit & Delete Deginisation"
         />
       </LibraryComponents.Atoms.Header>
+      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddDeginisation}
+          onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
+        />
+      )}
       <div className=" mx-auto flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl">
+        <div
+          className={
+            "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "hidden" : "shown")
+          }
+        >
           <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
@@ -118,7 +143,9 @@ const Deginisation = observer(() => {
                   ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
-                      LibraryComponents.Atoms.ToastsStore.success(`Deginisation created.`)
+                      LibraryComponents.Atoms.ToastsStore.success(
+                        `Deginisation created.`
+                      )
                       Stores.deginisationStore.fetchListDeginisation()
                       Stores.deginisationStore.clear()
                     } else {
@@ -149,82 +176,17 @@ const Deginisation = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
-          <ToolkitProvider
-            keyField="id"
-            data={Stores.deginisationStore.listDeginisation || []}
-            columns={[
-              {
-                dataField: "code",
-                text: "Code",
-                sort: true,
-              },
-              {
-                dataField: "description",
-                text: "Description",
-              },
-              {
-                dataField: "opration",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setDeleteItem({
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete ${row.description} deginisation!`,
-                        })
-                      }}
-                    >
-                      Delete
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `deginisation_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory()}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
-                />
-              </div>
+          <FeatureComponents.Molecules.DeginisationList
+            isDelete={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Delete"
             )}
-          </ToolkitProvider>
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setDeleteItem(selectedItem)}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}

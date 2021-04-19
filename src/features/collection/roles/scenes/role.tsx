@@ -1,10 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
+import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Util from "../util"
@@ -13,12 +10,25 @@ import * as Services from "../services"
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+import { RouterFlow } from "@lp/flows"
 
 const Role = observer(() => {
   const [errors, setErrors] = useState<Models.IRole>()
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [hideAddRole, setHideAddRole] = useState<boolean>(true)
+
+  const permssion = async () => {
+    const permission = await RouterFlow.getPermission(
+      RootStore.routerStore.userRouter,
+      "Collection",
+      "Role"
+    )
+    RootStore.routerStore.updateUserPermission(permission)
+  }
+
+  useEffect(() => {
+    permssion()
+  }, [RootStore.routerStore.userRouter, []])
 
   return (
     <>
@@ -28,10 +38,26 @@ const Role = observer(() => {
           subTitle="Add, Edit & Delete Lab"
         />
       </LibraryComponents.Atoms.Header>
+      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddRole}
+          onClick={() => setHideAddRole(!hideAddRole)}
+        />
+      )}
       <div className=" mx-auto  flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl overflow-auto">
+        <div  
+          className={  
+            "p-2 rounded-lg shadow-xl overflow-auto " +
+            (hideAddRole ? "hidden" : "shown")
+          }
+        >   
           <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
@@ -105,7 +131,7 @@ const Role = observer(() => {
                   Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
                     undefined &&
                   !Stores.roleStore.checkExitsCode
-                ) {  
+                ) {
                   RootStore.rootStore.setProcessLoading(true)
                   Services.addrole(Stores.roleStore.role).then(() => {
                     RootStore.rootStore.setProcessLoading(false)
@@ -137,80 +163,17 @@ const Role = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
-          <ToolkitProvider
-            keyField="id"
-            data={Stores.roleStore.listRole || []}
-            columns={[
-              {
-                dataField: "code",
-                text: "Code",
-                sort: true,
-              },
-              {
-                dataField: "description",
-                text: "Description",
-              },
-              {
-                dataField: "opration",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setDeleteItem({
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete ${row.description} lab!`,
-                        })
-                      }}
-                    >
-                      Delete
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `roles_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory()}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
-                />
-              </div>
+          <FeatureComponents.Molecules.RoleList
+            isDelete={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Delete"
             )}
-          </ToolkitProvider>
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setDeleteItem(selectedItem)}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
@@ -225,6 +188,7 @@ const Role = observer(() => {
               }
             })
           }}
+          onClose={() => setDeleteItem({ show: false })}
         />
       </div>
     </>
