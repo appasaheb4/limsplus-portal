@@ -18,7 +18,6 @@ class LoginStore {
   @observable loginFailedCount?: number
 
   constructor() {
-    //makeAutoObservable(this)
     SessionStore.initialize({ name: "limsplus" })
     extendObservable(this, {
       login: null,

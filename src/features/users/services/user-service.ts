@@ -8,7 +8,7 @@
 import BaseService from "@lp/library/modules/base-service"
 
 class UserService extends BaseService {
-  checkExitsUserId = (userId: string) => {
+  checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
         .post(`auth/checkExitsUserId`, { userId })
@@ -19,7 +19,6 @@ class UserService extends BaseService {
           reject({ error })
         })
     })
-  }
 }
 
 export default UserService
