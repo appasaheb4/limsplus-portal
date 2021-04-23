@@ -18,7 +18,7 @@ interface DepartmentListProps {
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
-}  
+}
 
 const DepartmentList = observer((props: DepartmentListProps) => {
   return (
@@ -45,6 +45,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           text: "Delete",
           editable: false,
           csvExport: false,
+          hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.Buttons.Button
@@ -69,7 +70,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
       ]}
       search
       exportCSV={{
-        fileName: `department_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
+        fileName: `Department_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
         noAutoBOM: false,
         blobType: "text/csv;charset=ansi",
       }}
@@ -103,5 +104,5 @@ const DepartmentList = observer((props: DepartmentListProps) => {
       )}
     </ToolkitProvider>
   )
-})   
+})
 export default DepartmentList

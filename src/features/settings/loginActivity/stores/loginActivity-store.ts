@@ -1,11 +1,14 @@
 import { version } from "mobx-sync"
-import { action, observable } from "mobx"
+import { makeAutoObservable, action, observable } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
 class LoginActivityStore {
   @observable listLoginActivity?: Models.ILoginActivity[] = []
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action fetchLoginActivity() {
     Services.listLoginActivity().then((list) => {

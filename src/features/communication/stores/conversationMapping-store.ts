@@ -1,5 +1,5 @@
 import { ignore, version } from "mobx-sync"
-import { action, observable, computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 
 import * as Services from "../services"
@@ -10,6 +10,10 @@ class ConversationMappingStore {
   @ignore @observable conversationMapping?: Models.ConversationMapping
   @observable listConversationMapping?: Models.ConversationMapping[] = []
   @ignore @observable updateItem?: Models.UpdateItem
+
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action fetchConversationMapping() {
     this.conversationMappingService

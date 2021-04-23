@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable } from "mobx"
+import { makeAutoObservable, action, observable } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
@@ -8,10 +8,13 @@ class LabMappingStore {
   @ignore @observable lab?: Models.ILabMapping
   @observable labMappingList?: Models.ILabMapping[] = []
   @observable arrSelectedLabs?: any[] = []
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action fetchLabMappingList() {
     Services.labMappingList().then((list) => {
-     // console.log({ rolMapping: list })
+      // console.log({ rolMapping: list })
       this.labMappingList = list
     })
   }

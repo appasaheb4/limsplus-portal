@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -16,19 +16,6 @@ const Role = observer(() => {
   const [errors, setErrors] = useState<Models.IRole>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
-
-  const permssion = async () => {
-    const permission = await RouterFlow.getPermission(
-      RootStore.routerStore.userRouter,
-      "Collection",
-      "Role"
-    )
-    RootStore.routerStore.updateUserPermission(permission)
-  }
-
-  useEffect(() => {
-    permssion()
-  }, [RootStore.routerStore.userRouter, []])
 
   return (
     <>

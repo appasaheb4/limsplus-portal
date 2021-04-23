@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
@@ -8,6 +8,9 @@ import { Stores } from "@lp/features/login/stores"
 class BannerStore {
   @ignore @observable banner?: Models.IBanner
   @observable listBanner: Models.IBanner[] = []
+  constructor() {
+    makeAutoObservable(this)
+  }
   @action fetchListBanner() {
     Services.listBanner().then((banner) => {
       //console.log({ banner });
