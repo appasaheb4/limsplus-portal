@@ -7,6 +7,6 @@ export interface ILogin {
   passChanged?: boolean
   loginActivityId?: string
   exipreDate?: Date
-  token?: string;  
-  roleMapping?: any;
+  token?: string
+  roleMapping?: any
 }

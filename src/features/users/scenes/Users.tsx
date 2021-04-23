@@ -29,8 +29,6 @@ const Users = observer(() => {
   const [deleteUser, setDeleteUser] = useState<any>({})
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
- 
-
   return (
     <>
       <Container fluid>
@@ -81,11 +79,13 @@ const Users = observer(() => {
                     })
                   }}
                   onBlur={(userId) => {
-                    Services.checkExitsUserId(userId).then((res) => {
-                      if (res)
-                        if (res.length > 0) Stores.userStore.setExitsUserId(true)
-                        else Stores.userStore.setExitsUserId(false)
-                    })
+                    Stores.userStore.UsersService.checkExitsUserId(userId).then(
+                      (res) => {
+                        if (res)
+                          if (res.length > 0) Stores.userStore.setExitsUserId(true)
+                          else Stores.userStore.setExitsUserId(false)
+                      }
+                    )
                   }}
                 />
                 {errors?.userId && (
@@ -544,7 +544,7 @@ const Users = observer(() => {
               isDelete={RouterFlow.checkPermission(
                 toJS(RootStore.routerStore.userPermission),
                 "Delete"
-              )}  
+              )}
               isEditModify={RouterFlow.checkPermission(
                 toJS(RootStore.routerStore.userPermission),
                 "Edit/Modify"

@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable,action, observable } from "mobx"
+import { makeAutoObservable, action, observable,computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
@@ -35,9 +35,12 @@ class UsersStore {
     }
   }
 
+  @computed get UsersService() {
+    return new Services.UserService()
+  }
+
   @action loadUser() {
     Services.userList().then((user) => {
-      //console.log({ user })
       this.userList = user
     })
   }

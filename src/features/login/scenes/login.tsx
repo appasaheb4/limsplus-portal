@@ -14,15 +14,15 @@ import * as Services from "../services"
 
 import { Stores } from "@lp/features/login/stores"
 import { Stores as BannerStores } from "@lp/features/banner/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as UserStore } from "@lp/features/users/stores"
 
 const Login = observer(() => {
   const history = useHistory()
   const [errors, setErrors] = useState<Models.ILogin>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
+  const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] })
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth)
@@ -41,11 +41,7 @@ const Login = observer(() => {
     }
   }, [Stores.loginStore.login])
 
-  const json = (url) => {
-    return fetch(url).then((res) => res.json())
-  }
-
-  return (  
+  return (
     <>
       <Container fluid className="bg-gray-600">
         <Row className="h-screen items-center">
@@ -94,6 +90,22 @@ const Login = observer(() => {
                       userId,
                     })
                   }}
+                  onBlur={(userId) => {
+                    RootStore.rootStore.setProcessLoading(true)
+                    UserStore.userStore.UsersService.checkExitsUserId(userId).then(
+                      (res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.length > 0) {
+                          res = res[0]
+                          setlabRoleList({ labList: res.lab, roleList: res.role })
+                        } else {
+                          LibraryComponents.Atoms.ToastsStore.error(
+                            "User not found!"
+                          )
+                        }
+                      }
+                    )
+                  }}
                 />
                 {errors?.userId && (
                   <span className="text-red-600 font-medium relative">
@@ -125,6 +137,7 @@ const Login = observer(() => {
                     {errors.password}
                   </span>
                 )}
+
                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
                   <select
                     name="lab"
@@ -142,7 +155,7 @@ const Login = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStore.labStore.listLabs.map((item: any) => (
+                    {labRoleList.labList.map((item: any) => (
                       <option key={item.code} value={item.code}>
                         {item.name}
                       </option>
@@ -174,7 +187,7 @@ const Login = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {RoleStore.roleStore.listRole.map((item: any) => (
+                    {labRoleList.roleList.map((item: any) => (
                       <option key={item.code} value={item.code}>
                         {item.description}
                       </option>
