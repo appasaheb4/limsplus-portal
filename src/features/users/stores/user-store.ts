@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable } from "mobx"
+import { makeAutoObservable,action, observable } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
@@ -13,6 +13,7 @@ class UsersStore {
 
   constructor() {
     this.user = this.initUser()
+    makeAutoObservable(this)
   }
 
   private initUser() {

@@ -7,15 +7,20 @@ import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
+import * as LibraryComponents from "@lp/library/components"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
 import routes from "../../routes/index"
 
+import * as localStorage from "@lp/library/clients/storage-client"
+
 // import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
+import hydrateStore from "@lp/library/modules/startup"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -39,7 +44,17 @@ const initOpenRoutes = (location) => {
 }
 
 const SidebarCategory = withRouter(
-  ({ title, badgeColor, badgeText, isOpen, children, onClick, location, to }) => {
+  ({
+    title,
+    badgeColor,
+    badgeText,
+    isOpen,
+    children,
+    onClick,
+    icon,
+    location,
+    to,
+  }) => {
     const getSidebarItemClass = (path) => {
       return location.pathname.indexOf(path) !== -1 ||
         (location.pathname === "/" && path === "/dashboard")
@@ -54,6 +69,9 @@ const SidebarCategory = withRouter(
           onClick={onClick}
           aria-expanded={isOpen ? "true" : "false"}
         >
+          {icon !== undefined ? (
+            <LibraryComponents.Atoms.Icons.EvaIcon size="medium" icon={icon} />
+          ) : null}
           <span className="align-middle">{title}</span>
           {badgeColor && badgeText ? (
             <Badge color={badgeColor} size={18} className="sidebar-badge">
@@ -71,36 +89,43 @@ const SidebarCategory = withRouter(
   }
 )
 
-const SidebarItem = withRouter(
-  ({ name, category, title, badgeColor, badgeText, icon: Icon, location, to }) => {
-    const getSidebarItemClass = (path) => {
-      return location.pathname === path ? "active" : ""
-    }
-    return (
-      <li
-        className={"sidebar-item " + getSidebarItemClass(to)}
-        onClick={async () => {
-          const permission = await RouterFlow.getPermission(
-            RootStore.routerStore.userRouter,
-            category,
-            name
-          )
-          RootStore.routerStore.updateUserPermission(toJS(permission))
-        }}
-      >
-        <NavLink to={to} className="sidebar-link" activeClassName="active">
-          {Icon ? <Icon size={18} className="align-middle mr-3" /> : null}
-          {title}
-          {badgeColor && badgeText ? (
-            <Badge color={badgeColor} size={18} className="sidebar-badge">
-              {badgeText}
-            </Badge>
-          ) : null}
-        </NavLink>
-      </li>
-    )
+interface SidebarItemProps {
+  name: string
+  category: string
+  title: string
+  badgeColor: string
+  badgeText: string
+  icon: any
+  location: any
+  to: string
+  onChangeItem: (category: string, item: string) => void
+}
+
+const SidebarItem = withRouter((props: SidebarItemProps) => {
+  const getSidebarItemClass = (path) => {
+    return props.location.pathname === path ? "active" : ""
   }
-)
+  return (
+    <li
+      className={"sidebar-item " + getSidebarItemClass(props.to)}
+      onClick={() => {
+        props.onChangeItem && props.onChangeItem(props.category, props.name)
+      }}
+    >
+      <NavLink to={props.to} className="sidebar-link" activeClassName="active">
+        {props.icon ? (
+          <LibraryComponents.Atoms.Icons.EvaIcon size="medium" icon={props.icon} />
+        ) : null}
+        {props.title}
+        {props.badgeColor && props.badgeText ? (
+          <Badge color={props.badgeColor} size={18} className="sidebar-badge">
+            {props.badgeText}
+          </Badge>
+        ) : null}
+      </NavLink>
+    </li>
+  )
+})
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
@@ -129,13 +154,13 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
       >
         <div className="sidebar-content">
           <PerfectScrollbar>
-            <a className="sidebar-brand" href="/">
+            <a className="flex sidebar-brand items-center" href="/">
               <img
                 src={Assets.appIcon}
                 alt="appIcon"
                 style={{ width: 40, height: 40 }}
               />
-              <span className="align-middle">Lims Plus</span>
+              <span className="align-middle ml-2">{`Lims Plus`}</span>
             </a>
             {RootStore.routerStore.userRouter && (
               <ul className="sidebar-nav">
@@ -148,7 +173,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
-                          icon={category.icon}
+                          icon="home"
                           to={category.path}
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
@@ -162,6 +187,33 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               to={route.path}
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
+                              icon="home"
+                              onChangeItem={async (category, item) => {
+                                RootStore.routerStore.updateSelectedCategory({
+                                  ...RootStore.routerStore.selectedUserCategory,
+                                  category,
+                                  item,
+                                })
+                                await localStorage.setItem(
+                                  `__persist_mobx_stores_routerStore_SelectedCategory__`,
+                                  {
+                                    category,
+                                    item,
+                                  }
+                                )
+                                const permission = RouterFlow.getPermission(
+                                  toJS(RootStore.routerStore.userRouter),
+                                  category,
+                                  item
+                                )
+                                RootStore.routerStore.updateUserPermission(
+                                  permission
+                                )
+                                await hydrateStore(
+                                  "routerStore",
+                                  RootStore.routerStore
+                                )
+                              }}
                             />
                           ))}
                         </SidebarCategory>
@@ -173,6 +225,27 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           icon={category.icon}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
+                          onChangeItem={async (category, item) => {
+                            RootStore.routerStore.updateSelectedCategory({
+                              ...RootStore.routerStore.selectedUserCategory,
+                              category,
+                              item,
+                            })
+                            await localStorage.setItem(
+                              `__persist_mobx_stores_routerStore_SelectedCategory__`,
+                              {
+                                category,
+                                item,
+                              }
+                            )
+                            const permission = await RouterFlow.getPermission(
+                              toJS(RootStore.routerStore.userRouter),
+                              category,
+                              item
+                            )
+                            RootStore.routerStore.updateUserPermission(permission)
+                            await hydrateStore("routerStore", RootStore.routerStore)
+                          }}
                         />
                       )}
                     </React.Fragment>

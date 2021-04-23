@@ -6,6 +6,8 @@ import { Stores as LoginStores } from "@lp/features/login/stores"
 import * as LibraryComponents from "@lp/library/components"
 import * as Config from "@lp/config"
 
+import * as localStorage from "@lp/library/clients/storage-client"
+
 import {
   Row,
   Col,
@@ -181,7 +183,6 @@ const NavbarComponent = ({ dispatch }) => {
             size="large"
             color={Config.Styles.COLORS.BLACK}
           />
-          
         </LibraryComponents.Atoms.Buttons.Button>
       </Form>
 
@@ -274,8 +275,17 @@ const NavbarComponent = ({ dispatch }) => {
                 onClick={() => {
                   LoginStores.loginStore
                     .removeUser()
-                    .then((res) => {
+                    .then(async (res) => {
                       if (res) {
+                        await localStorage.removeItem(
+                          `__persist_mobx_stores_loginStore__`
+                        )
+                        await localStorage.removeItem(
+                          `__persist_mobx_stores_routerStore__`
+                        )
+                        await localStorage.removeItem(
+                          `__persist_mobx_stores_routerStore_SelectedCategory__`
+                        )
                         history.push("/")
                       }
                     })

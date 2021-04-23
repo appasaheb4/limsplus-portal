@@ -11,23 +11,12 @@ import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
+import { toJS } from "mobx"
 
 const Lab = observer(() => {
   const [errors, setErrors] = useState<Models.Labs>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
-  // const permssion = async () => {
-  //   const permission = await RouterFlow.getPermission(
-  //     RootStore.routerStore.userRouter,
-  //     "Collection",
-  //     "Lab"
-  //   )
-  //   RootStore.routerStore.updateUserPermission(permission)
-  // }
-  // useEffect(() => {
-  //   permssion()
-  // }, [RootStore.routerStore.userRouter, []])
 
   return (
     <>
@@ -37,7 +26,10 @@ const Lab = observer(() => {
           subTitle="Add, Edit & Delete Lab"
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(
+        toJS(RootStore.routerStore.userPermission),
+        "Add"
+      ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -157,11 +149,11 @@ const Lab = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.LabList
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              toJS(RootStore.routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => {

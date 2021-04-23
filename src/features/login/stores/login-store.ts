@@ -1,5 +1,11 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, extendObservable, runInAction, computed } from "mobx"
+import {
+  action,
+  observable,
+  extendObservable,
+  runInAction,
+  computed,
+} from "mobx"
 import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -12,6 +18,7 @@ class LoginStore {
   @observable loginFailedCount?: number
 
   constructor() {
+    //makeAutoObservable(this)
     SessionStore.initialize({ name: "limsplus" })
     extendObservable(this, {
       login: null,
@@ -21,9 +28,8 @@ class LoginStore {
         return this.login !== null && SessionStore.hasSession
       },
     })
-    runInAction("Load user", async () => {
+    runInAction(async () => {
       this.login = await SessionStore.getSession()
-      //console.log({ login: this.login })
     })
   }
 
@@ -34,7 +40,7 @@ class LoginStore {
   // session
   @action saveLogin = (session) => {
     SessionStore.saveSession(session)
-    runInAction("Save user", () => {
+    runInAction(() => {
       console.log({ session })
       this.login = session
     })
@@ -46,7 +52,7 @@ class LoginStore {
         Services.logout(this.login?.loginActivityId || "").then((res) => {
           if (res.status === 200) {
             SessionStore.deleteSession()
-            runInAction("Logout user", () => {
+            runInAction(() => {
               this.login = undefined
             })
             resolve(true)

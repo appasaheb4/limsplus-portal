@@ -46,7 +46,7 @@ const LabList = observer((props: LabListProps) => {
             text: "Delete",
             editable: false,
             csvExport: false,
-            hidden: props.isDelete,
+            hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.Buttons.Button

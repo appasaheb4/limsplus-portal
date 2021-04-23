@@ -22,19 +22,14 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
-
+import { toJS } from "mobx"
 
 const Users = observer(() => {
   const [errors, setErrors] = useState<Models.Users>()
   const [deleteUser, setDeleteUser] = useState<any>({})
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
-
-
-  useEffect(() => {
-    console.log({userPermission: RootStore.routerStore.userPermission});
-    Stores.userStore.loadUser()
-  }, [Stores.userStore])
+ 
 
   return (
     <>
@@ -45,7 +40,10 @@ const Users = observer(() => {
             subTitle="Add, Edit & Delete User"
           />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(
+          toJS(RootStore.routerStore.userPermission),
+          "Add"
+        ) && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddUser}
             onClick={(status) => setAddUser(!hideAddUser)}
@@ -544,11 +542,11 @@ const Users = observer(() => {
           >
             <FeatureComponents.Molecules.UserList
               isDelete={RouterFlow.checkPermission(
-                RootStore.routerStore.userPermission,
+                toJS(RootStore.routerStore.userPermission),
                 "Delete"
-              )}
+              )}  
               isEditModify={RouterFlow.checkPermission(
-                RootStore.routerStore.userPermission,
+                toJS(RootStore.routerStore.userPermission),
                 "Edit/Modify"
               )}
               onDelete={(selectedUser) => setDeleteUser(selectedUser)}

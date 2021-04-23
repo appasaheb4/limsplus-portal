@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -18,20 +18,7 @@ const Department = observer(() => {
   const [errors, setErrors] = useState<Models.IDepartment>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
-
-  const permssion = async () => {
-    const permission = await RouterFlow.getPermission(
-      RootStore.routerStore.userRouter,
-      "Collection",
-      "Department"
-    )
-    RootStore.routerStore.updateUserPermission(permission)
-  }
-
-  useEffect(() => {  
-    permssion()
-  }, [RootStore.routerStore.userRouter, []])
-  return (
+  return (  
     <>
       <Container>
         <LibraryComponents.Atoms.Header>

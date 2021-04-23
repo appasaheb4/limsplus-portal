@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable } from "mobx"
+import { makeAutoObservable,action, observable } from "mobx"
 import * as Models from "../models"
 
 //import * as Services from "../services"
@@ -9,6 +9,9 @@ class HostCommunicationStore {
   @observable hostCommuication?: Models.IHostCommunication
   @ignore @observable convertTo?: Models.ConvertTo
   @ignore @observable selectedInterfaceManager?: Models.EncodeCharacter
+  constructor() {
+    makeAutoObservable(this)
+}
 
   @action updateHostCommuication = (
     hostCommunication: Models.IHostCommunication

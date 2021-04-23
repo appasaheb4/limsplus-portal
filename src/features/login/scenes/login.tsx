@@ -45,15 +45,7 @@ const Login = observer(() => {
     return fetch(url).then((res) => res.json())
   }
 
-  let apiKey = "1ba55b890d19cd2e01784dfb6fb89e0901802fcdf243cc1b5b386d80"
-  json(`https://api.ipdata.co?api-key=${apiKey}`).then((data) => {
-    console.log(data.ip)
-    console.log(data.city)
-    console.log(data.country_code)
-    // so many more properties
-  })
-
-  return (
+  return (  
     <>
       <Container fluid className="bg-gray-600">
         <Row className="h-screen items-center">

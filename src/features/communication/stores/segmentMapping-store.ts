@@ -1,5 +1,5 @@
 import { ignore, version } from "mobx-sync"
-import { action, observable, computed } from "mobx"
+import { makeAutoObservable,action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 //import { Stores } from "@lp/features/login/stores"
@@ -11,6 +11,9 @@ class SegmentMappingStore {
   @ignore @observable selectedItems?: Models.SegmentMapping[] = []
   @ignore @observable updateItem?: Models.UpdateItem
   @ignore @observable mapping?: Models.Mapping[] = []
+  constructor() {
+    makeAutoObservable(this)
+}
 
   @action fetchListSegmentMapping() {
     this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {

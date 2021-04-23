@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
@@ -9,6 +9,10 @@ class DeginisationStore {
   @observable listDeginisation: Models.IDeginisation[] = []
   @ignore @observable deginisation?: Models.IDeginisation
   @ignore @observable checkExitsCode?: boolean = false
+
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   private init() {
     return {

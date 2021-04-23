@@ -14,29 +14,46 @@ import { Stores as RootStore } from "@lp/library/stores"
 
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
-
 import { toJS } from "mobx"
 
 import hydrateStore from "@lp/library/modules/startup"
+import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
 
   const router = async () => {
-    console.log({routerold:RootStore.routerStore.userRouter});
+    console.log({ routerold: RootStore.routerStore.userRouter })
     let router: any = toJS(LoginStore.loginStore.login)
-    console.log({ router })
     if (router) {
-      console.log({ router })
       router = JSON.parse(router.roleMapping.router[0])
-      await hydrateStore("loginStore", LoginStore.loginStore)  
+      await hydrateStore("loginStore", LoginStore.loginStore)
       await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
-    }    
-  }  
+    }
+  }
+  const permission = async () => {
+    let selectedCategory: any = await localStorage.getItem(
+      `__persist_mobx_stores_routerStore_SelectedCategory__`
+    )
+    selectedCategory = JSON.parse(selectedCategory)
+    if (selectedCategory !== null) {
+      const permission = await RouterFlow.getPermission(
+        toJS(RootStore.routerStore.userRouter),
+        selectedCategory.category,
+        selectedCategory.item
+      )
+      RootStore.routerStore.updateUserPermission(permission)
+    } else {
+      history.push("/dashboard/default")
+    }
+  }
 
   useEffect(() => {
     router()
+    setTimeout(() => {
+      permission()
+    }, 1000)
   }, [])
 
   useEffect(() => {
@@ -46,7 +63,7 @@ const Dashboard = observer(({ children }) => {
       })
     }, 1000)
   }, [LoginStores.loginStore.login])
- 
+
   return (
     <React.Fragment>
       <Wrapper>

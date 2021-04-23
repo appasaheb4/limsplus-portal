@@ -45,7 +45,7 @@ const RoleList = observer((props: RoleListProps) => {
           text: "Delete",
           editable: false,
           csvExport: false,
-          hidden: props.isDelete,
+          hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.Buttons.Button

@@ -6,9 +6,11 @@ import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 
+import { configure } from "mobx"
+
 import { Stores as RootStore } from "./library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-   
+
 import * as Banner from "@lp/features/banner"
 import * as Deginisation from "@lp/features/collection/deginisation"
 import * as Lab from "@lp/features/collection/labs"
@@ -20,6 +22,10 @@ import * as Communication from "@lp/features/communication"
 
 import hydrateStore from "@lp/library/modules/startup"
 
+configure({
+  useProxies: "never",
+})
+
 const App = observer(() => {
   const loader = async () => {
     await Banner.startup()
@@ -28,11 +34,10 @@ const App = observer(() => {
     await Role.startup()
     await Department.startup()
     await User.startup()
-    await RoleMappping.startup()  
+    await RoleMappping.startup()
     await Communication.startup()
-    await hydrateStore("loginStore", LoginStore.loginStore) 
+    await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
-
   }
 
   React.useEffect(() => {
@@ -61,5 +66,5 @@ const App = observer(() => {
     </>
   )
 })
-  
+
 export default App

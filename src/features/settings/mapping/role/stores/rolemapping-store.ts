@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { action, observable, computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
@@ -8,6 +8,9 @@ class RoleMappingStore {
   @ignore @observable user?: Models.IRole
   @observable roleMappingList?: Models.IRole[] = []
   @observable rolePermission?: any
+  constructor() {
+    makeAutoObservable(this)
+  }
 
   @action fetchRoleMappingList() {
     Services.roleMappingList().then((list) => {
