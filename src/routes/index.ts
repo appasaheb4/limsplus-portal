@@ -1,7 +1,5 @@
 import async from "../layouts/components/Async"
 
-import { Layout as LayoutIcon, Sliders as SlidersIcon } from "react-feather"
-
 // Landing
 import login from "@lp/features/login/scenes/login"
 
@@ -59,6 +57,7 @@ const InterfaceManager = async(
 const loginRoutes = {
   path: "/",
   name: "Login",
+  icon: "log-in-outline",
   component: login,
   children: null,
 }
@@ -67,11 +66,12 @@ const dashboardRoutes = {
   path: "/dashboard",
   name: "Dashboard",
   header: "Dashboard",
-  icon: SlidersIcon,
+  icon: "home",
   children: [
     {
       path: "/dashboard/default",
       name: "Default",
+      icon: "list",
       component: DefaultDashboard,
     },
   ],
@@ -80,11 +80,12 @@ const dashboardRoutes = {
 const bannerRoutes = {
   path: "/banner",
   name: "Banner",
-  icon: LayoutIcon,
+  icon: "image-outline",
   children: [
     {
       path: "/banner/banner",
       name: "Banner",
+      icon: "list",
       component: Banner,
     },
   ],
@@ -93,26 +94,31 @@ const bannerRoutes = {
 const collectionRoutes = {
   path: "/collection",
   name: "Collection",
-  icon: LayoutIcon,
+  icon: "keypad-outline",
+  badgeColor:"#ffffff",
   children: [
     {
       path: "/collection/lab",
       name: "Lab",
+      icon: "list",
       component: CollectionLab,
     },
     {
       path: "/collection/deginisation",
       name: "Deginisation",
+      icon: "list",
       component: CollectionDeginisation,
     },
     {
       path: "/collection/department",
       name: "Department",
+      icon: "list",
       component: CollectionDepartment,
     },
     {
       path: "/collection/role",
       name: "Role",
+      icon: "list",
       component: CollectionRole,
     },
   ],
@@ -121,11 +127,12 @@ const collectionRoutes = {
 const userRoutes = {
   path: "/user",
   name: "User",
-  icon: LayoutIcon,
+  icon: "person-outline",
   children: [
     {
       path: "/user/user",
       name: "User",
+      icon: "list",
       component: User,
     },
   ],
@@ -134,26 +141,30 @@ const userRoutes = {
 const communicationRoutes = {
   path: "/communication",
   name: "Communication",
-  icon: LayoutIcon,
+  icon: "flip-outline",
   children: [
     {
       path: "/communication/interfaceManager",
       name: "Interface Manager",
+      icon: "list",
       component: InterfaceManager,
     },
     {
       path: "/communication/mapping/conversationMapping",
       name: "Conversation Mapping",
+      icon: "list",
       component: ConversationMapping,
     },
-    {  
+    {
       path: "/communication/hostCommunication",
       name: "Host Communication",
+      icon: "list",
       component: HostCommunication,
     },
     {
       path: "/communication/mapping/segmentMapping",
       name: "Data Segment Mapping",
+      icon: "list",
       component: SegmentMapping,
     },
   ],
@@ -162,21 +173,24 @@ const communicationRoutes = {
 const settingsRoutes = {
   path: "/settings",
   name: "Settings",
-  icon: LayoutIcon,
+  icon: "settings-2-outline",
   children: [
     {
       path: "/settings/loginActivity",
       name: "Login Activity",
+      icon: "list",
       component: LoginActivity,
     },
     {
       path: "/settings/mapping/roleMapping",
       name: "Role Mapping",
+      icon: "list",
       component: RoleMapping,
     },
     {
       path: "/settings/changePassword",
       name: "Change Password",
+      icon: "list",
       component: ChangePassword,
     },
   ],

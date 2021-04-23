@@ -30,11 +30,11 @@ const RoleMapping = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
   let roleList: any = RoleStore.roleStore.listRole || []
   for (const router of Stores.roleMappingStore.roleMappingList || []) {
-    console.log({ router })
-
-    roleList = roleList.filter((item) => {
-      return item.code !== router.role.code
-    })
+    if (router) {
+      roleList = roleList.filter((item) => {
+        return item.code !== router.role.code
+      })
+    }
   }
   const description = roleList.length > 0 ? roleList[0].description : undefined
   const [value, setValue] = React.useState<string | null>(description)
@@ -69,6 +69,7 @@ const RoleMapping = observer(() => {
         childernItem.title = childernItem.name
         childernItem.toggle = false
         childernItem.permission = permission
+        childernItem.icon = childernItem.icon
         return childernItem
       })
       return item
@@ -338,7 +339,6 @@ const RoleMapping = observer(() => {
                       })
                     })
                   })
-                  //console.log({ router })
                   isModify.status
                     ? Stores.roleMappingStore.roleMappingService
                         .updateRoleMapping({
@@ -487,7 +487,7 @@ const RoleMapping = observer(() => {
                                         indexChildren
                                       ] = children
                                       router[indexRouter].title = item.title
-                                    }  
+                                    }
                                   }
                                 }
                               )
@@ -573,10 +573,10 @@ const RoleMapping = observer(() => {
                 LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
                 setDeleteItem({ show: false })
                 Stores.roleMappingStore.fetchRoleMappingList()
-              }  
+              }
             })
-          }}  
-          close={() => {
+          }}
+          onClose={() => {
             setDeleteItem({
               show: false,
             })
