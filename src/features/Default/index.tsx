@@ -8,7 +8,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as RootStore } from "@lp/library/stores"
-   
+
 import Appointments from "./Appointments"
 import BarChart from "./BarChart"
 import Calendar from "./Calendar"
@@ -29,34 +29,37 @@ const Default = observer(() => {
   const history = useHistory()
 
   useEffect(() => {
-    const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
-      moment(new Date()),
-      "days"
-    )
-    if (
-      diffInDays >= 0 &&
-      diffInDays <= 5 &&
-      UserStores.userStore.changePassword?.tempHide !== true
-    ) {
-      UserStores.userStore.updateChangePassword({
-        ...UserStores.userStore.changePassword,
-        subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
-      })
-      setChangePassword(true)
+    if (LoginStores.loginStore.login) {
+      console.log({ loginD: LoginStores.loginStore.login })
+      const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
+        moment(new Date()),
+        "days"
+      )
+      if (
+        diffInDays >= 0 &&
+        diffInDays <= 5 &&
+        UserStores.userStore.changePassword?.tempHide !== true
+      ) {
+        UserStores.userStore.updateChangePassword({
+          ...UserStores.userStore.changePassword,
+          subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
+        })
+        setChangePassword(true)
+      }
+      if (diffInDays < 0) {
+        setModalConfirm({
+          type: "accountexpire",
+          show: true,
+          title: "Your account expire.Please contact to admin. ",
+        })
+      }
+      if (
+        LoginStores.loginStore.login?.passChanged !== true &&
+        UserStores.userStore.changePassword?.tempHide !== false
+      )
+        setChangePassword(true)
     }
-    if (diffInDays < 0) {
-      setModalConfirm({
-        type: "accountexpire",
-        show: true,
-        title: "Your account expire.Please contact to admin. ",
-      })
-    }
-    if (
-      LoginStores.loginStore.login?.passChanged !== true &&
-      UserStores.userStore.changePassword?.tempHide !== false
-    )
-      setChangePassword(true)
-  }, [LoginStores.loginStore.login])
+  }, [LoginStores.loginStore])
 
   return (
     <>

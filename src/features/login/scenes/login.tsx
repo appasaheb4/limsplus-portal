@@ -17,6 +17,8 @@ import { Stores as BannerStores } from "@lp/features/banner/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 
+import hydrateStore from "@lp/library/modules/startup"
+
 const Login = observer(() => {
   const history = useHistory()
   const [errors, setErrors] = useState<Models.ILogin>()
@@ -296,7 +298,7 @@ const Login = observer(() => {
         </Row>
         <ModalNoticeBoard
           {...noticeBoard}
-          click={(action) => {
+          click={async (action) => {
             setNoticeBoard({
               ...noticeBoard,
               show: false,
@@ -309,8 +311,9 @@ const Login = observer(() => {
             } else {
               LibraryComponents.Atoms.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
-              )
+              )    
               Stores.loginStore.saveLogin(noticeBoard.userInfo)
+              //await hydrateStore("loginStore", Stores.loginStore)
               history.push("/dashboard/default")
             }
           }}
