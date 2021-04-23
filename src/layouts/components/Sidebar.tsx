@@ -1,3 +1,4 @@
+// eslint-disable-line react-hooks/exhaustive-deps
 import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
@@ -138,9 +139,11 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
+
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
   }, [RootStore.routerStore.userRouter])
+
   const toggle = (index) => {
     Object.keys(openRoutes).forEach(
       (item) =>
