@@ -26,6 +26,6 @@ export const checkPermission = (permission: any[], title: string) => {
     const isItem = item.title === title
     return isItem
   })
-  console.log({ isItem })
+  //console.log({ isItem })
   return isItem.length > 0 ? isItem[0].checked : false
 }

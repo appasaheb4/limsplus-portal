@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
@@ -13,8 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
-import routes from "../../routes/index"
-
 import * as localStorage from "@lp/library/clients/storage-client"
 
 // import { Stores as LoginStore } from "@lp/features/login/stores"
@@ -27,19 +25,18 @@ import { toJS } from "mobx"
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
   const pathName = location.pathname
-
   let _routes = {}
-
-  routes.forEach((route: any, index) => {
-    const isActive = pathName.indexOf(route.path) === 0
-    const isOpen = route.open
-    const isHome = route.containsHome && pathName === "/" ? true : false
-
-    _routes = Object.assign({}, _routes, {
-      [index]: isActive || isOpen || isHome,
+  if (RootStore.routerStore.userRouter)
+    RootStore.routerStore.userRouter.forEach((route: any, index) => {
+      const isActive = pathName.indexOf(route.path) === 0
+      const isOpen = route.open
+      const isHome = route.containsHome && pathName === "/" ? true : false
+  
+      _routes = Object.assign({}, _routes, {
+        [index]: isActive || isOpen || isHome,
+      })
+      
     })
-  })
-
   return _routes
 }
 
@@ -65,12 +62,18 @@ const SidebarCategory = withRouter(
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
         <span
           data-toggle="collapse"
-          className={"sidebar-link " + (!isOpen ? "collapsed" : "")}
+          className={
+            "flex items-center sidebar-link " + (!isOpen ? "collapsed" : "")
+          }
           onClick={onClick}
           aria-expanded={isOpen ? "true" : "false"}
         >
           {icon !== undefined ? (
-            <LibraryComponents.Atoms.Icons.EvaIcon size="medium" icon={icon} />
+            <LibraryComponents.Atoms.Icons.EvaIcon
+              size="medium"
+              icon={icon || "list"}
+              color="#ffffff"
+            />
           ) : null}
           <span className="align-middle">{title}</span>
           {badgeColor && badgeText ? (
@@ -113,10 +116,16 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       }}
     >
       <NavLink to={props.to} className="sidebar-link" activeClassName="active">
-        {props.icon ? (
-          <LibraryComponents.Atoms.Icons.EvaIcon size="medium" icon={props.icon} />
-        ) : null}
-        {props.title}
+        <span className="flex items-center">
+          {props.icon ? (
+            <LibraryComponents.Atoms.Icons.EvaIcon
+              size="medium"
+              icon={props.icon || "list"}
+              color="#ffffff"
+            />
+          ) : null}
+          {props.title}
+        </span>
         {props.badgeColor && props.badgeText ? (
           <Badge color={props.badgeColor} size={18} className="sidebar-badge">
             {props.badgeText}
@@ -129,6 +138,9 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
+  useEffect(() => {
+    setOpenRoutes(initOpenRoutes(location))
+  }, [RootStore.routerStore.userRouter])
   const toggle = (index) => {
     Object.keys(openRoutes).forEach(
       (item) =>
@@ -173,7 +185,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
-                          icon="home"
+                          icon={category.icon}
                           to={category.path}
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
@@ -187,7 +199,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               to={route.path}
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
-                              icon="home"
+                              icon={route.icon}
                               onChangeItem={async (category, item) => {
                                 RootStore.routerStore.updateSelectedCategory({
                                   ...RootStore.routerStore.selectedUserCategory,
@@ -256,13 +268,13 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
             {!layout.isBoxed && !sidebar.isSticky ? (
               <div className="sidebar-bottom d-none d-lg-block">
                 <div className="media">
-                  {/* <img
-                  className="rounded-circle mr-3"
-                  src={avatar}
-                  alt="Chris Wood"
-                  width="40"
-                  height="40"
-                /> */}
+                  <img
+                    className="rounded-circle mr-3"
+                    src="https://sdk.bitmoji.com/render/panel/e2bf4bbb-7b41-4138-ac9b-db17e6512022-AWVtX3FR0FfbGPb2vgeTVs0KNs5wkA-v1.png?transparent=1&amp;palette=1"
+                    alt={LoginStores.loginStore.login?.fullName}
+                    width="40"
+                    height="40"
+                  />
                   <div className="media-body">
                     <h5 className="mb-1">
                       {LoginStores.loginStore.login?.fullName}

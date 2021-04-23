@@ -23,7 +23,6 @@ const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
 
   const router = async () => {
-    console.log({ routerold: RootStore.routerStore.userRouter })
     let router: any = toJS(LoginStore.loginStore.login)
     if (router) {
       router = JSON.parse(router.roleMapping.router[0])
@@ -46,7 +45,7 @@ const Dashboard = observer(({ children }) => {
       RootStore.routerStore.updateUserPermission(permission)
     } else {
       history.push("/dashboard/default")
-    }
+    }  
   }
 
   useEffect(() => {
