@@ -21,13 +21,13 @@ import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
-
+  
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
     if (router) {
       router = JSON.parse(router.roleMapping.router[0])
-      await hydrateStore("loginStore", LoginStore.loginStore)
-      await hydrateStore("routerStore", RootStore.routerStore)
+      //await hydrateStore("loginStore", LoginStore.loginStore)
+      //await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
     }
   }

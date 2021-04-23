@@ -1,8 +1,8 @@
 import { version, ignore } from "mobx-sync"
 import {
+  makeAutoObservable,
   action,
   observable,
-  extendObservable,
   runInAction,
   computed,
 } from "mobx"
@@ -19,14 +19,15 @@ class LoginStore {
 
   constructor() {
     SessionStore.initialize({ name: "limsplus" })
-    extendObservable(this, {
-      login: null,
-      loginError: false,
-      logoutError: false,
-      get loggedIn() {
-        return this.login !== null && SessionStore.hasSession
-      },
-    })
+    // extendObservable(this, {
+    //   login: null,
+    //   loginError: false,
+    //   logoutError: false,
+    //   get loggedIn() {
+    //     return this.login !== null && SessionStore.hasSession
+    //   },
+    // })
+    makeAutoObservable(this)
     runInAction(async () => {
       this.login = await SessionStore.getSession()
     })
@@ -39,10 +40,7 @@ class LoginStore {
   // session
   @action saveLogin = (session) => {
     SessionStore.saveSession(session)
-    runInAction(() => {
-      console.log({ session })
-      this.login = session
-    })
+    this.login = session
   }
 
   @action removeUser = (): Promise<boolean> => {
