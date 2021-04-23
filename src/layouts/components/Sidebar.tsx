@@ -1,4 +1,4 @@
-// eslint-disable-line react-hooks/exhaustive-deps
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
