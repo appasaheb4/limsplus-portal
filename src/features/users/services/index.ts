@@ -7,19 +7,6 @@ export{UserService}
 const RELATIVE_PATH = "/auth"
 
 
-export const addUser = (user: Models.Users) =>
-  new Promise<Models.Users>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient()
-    client
-      .post(`${RELATIVE_PATH}/addUser`, user)
-      .then((res) => {
-        resolve(res.data.data as Models.Users)
-      })
-      .catch((error) => {
-        reject({ error })
-      })
-  })
-
 export const userList = () =>
   new Promise<Models.Users[]>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()
@@ -59,18 +46,6 @@ export const changePassword = (body: any) =>
       })
   })
 
-export const checkExitsUserId = (userId: string) =>
-  new Promise<any>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient()
-    client
-      .post(`${RELATIVE_PATH}/checkExitsUserId`, { userId })
-      .then((res) => {
-        resolve(res.data.data)
-      })
-      .catch((error) => {
-        reject({ error })
-      })
-  })
 
 export const updateUserSingleFiled = (userInfo: any) =>
   new Promise<any>((resolve, reject) => {

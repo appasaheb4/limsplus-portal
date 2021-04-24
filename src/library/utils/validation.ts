@@ -14,38 +14,6 @@ validate.extend(validate.validators.datetime, {
   },
 })
 
-export const constraintsLogin = {
-  lab: {
-    presence: true,
-    length: {
-      minimum: 2,
-      message: "Lab must be least 2 characters ",
-    },
-  },
-  role: {
-    presence: true,
-    length: {
-      minimum: 2,
-      message: "Role must be least 2 characters ",
-    },
-  },
-  userId: {
-    presence: true,
-    length: {
-      minimum: 4,
-      message: "UserId must be least 4 characters",
-    },
-  },
-  password: {
-    presence: true,
-    format: {
-      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
-      message:
-        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
-    },
-  },
-}
-
 export const constraintsChangePassword = {
   oldPassword: {
     presence: true,
@@ -70,56 +38,5 @@ export const constraintsChangePassword = {
       message:
         "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
     },
-  },
-}
-
-export const constraintsUser = {
-  defaultLab: {
-    presence: true,
-    length: {
-      minimum: 2,
-      message: "Lab must be least 2 characters ",
-    },
-  },
-  userId: {
-    presence: true,
-    length: {
-      minimum: 6,
-      message: "UserId must be least 6 characters",
-    },
-  },
-  password: {
-    presence: true,
-    format: {
-      pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
-      message:
-        "Password should be included Lower case, Upper case, Numbers, special, 6 to 20 characters",
-    },
-  },
-  deginisation: {
-    presence: true,
-  },
-  fullName: {
-    presence: true,
-  },
-  department: {
-    presence: true,
-  },
-  exipreDate: {
-    presence: true,
-    datetime: {
-      dateOnly: false,
-      earliest: moment.utc().subtract(1, "days"),
-      message: "^You need to be at least 1 month earliest",
-    },
-  },
-  exipreDays: {
-    presence: true,
-  },
-  role: {
-    presence: true,
-  },
-  status: {
-    presence: true,
   },
 }

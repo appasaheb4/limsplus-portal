@@ -2,9 +2,10 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
 import * as Models from "../models"
-import * as Utils from "@lp/library/utils"
+import * as Utils from "../utils"
 import moment from "moment"
 
 import TextField from "@material-ui/core/TextField"
@@ -501,18 +502,35 @@ const Users = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Atoms.Icons.Save}
                 onClick={() => {
+                  console.log({ user: Stores.userStore.user })
+                  console.log({
+                    status: Utils.validate(
+                      Stores.userStore.user,
+                      Utils.constraintsUser
+                    ),
+                  })
+
                   if (
-                    Utils.validate(Stores.userStore.user, Utils.constraintsLogin) ===
+                    Utils.validate(Stores.userStore.user, Utils.constraintsUser) ===
                       undefined &&
                     !Stores.userStore.checkExitsUserId
                   ) {
                     RootStore.rootStore.setProcessLoading(true)
-                    // Features.Users.Pipes.addUser(Stores.userStore).then(() => {
-                    //   rootStore.setProcessLoading(false)
-                    //   LibraryComponents.Atoms.ToastsStore.success(`User created.`)
-                    //   Stores.userStore.clear()
-                    //   Stores.userStore.loadUser()
-                    // })
+                    Stores.userStore.UsersService.addUser(
+                      Stores.userStore.user
+                    ).then((res: any) => {
+                      console.log({ res })
+                      RootStore.rootStore.setProcessLoading(false)
+                      if (res.status === LibraryModels.StatusCode.CREATED) {
+                        LibraryComponents.Atoms.ToastsStore.success(`User created.`)
+                        Stores.userStore.clear()
+                        Stores.userStore.loadUser()
+                      } else {
+                        LibraryComponents.Atoms.ToastsStore.warning(
+                          "User not created.Please try again."
+                        )
+                      }
+                    })
                   } else {
                     LibraryComponents.Atoms.ToastsStore.warning(
                       "Please enter all information!"
@@ -527,7 +545,6 @@ const Users = observer(() => {
                 type="outline"
                 icon={LibraryComponents.Atoms.Icons.Remove}
                 onClick={() => {
-                  //rootStore.userStore.clear()
                   window.location.reload()
                 }}
               >
