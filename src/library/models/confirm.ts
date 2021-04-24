@@ -1,6 +1,6 @@
 export interface Confirm {
   show?: boolean
-  id?: string
+  id?: string | string[]
   title?: string
   body?: string
 }

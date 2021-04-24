@@ -1,22 +1,19 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import * as FeatureComponents from "../components"
 import * as Services from "../services"
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+import { RouterFlow } from "@lp/flows"
 
 const Banner = observer(() => {
   const [deleteItem, setDeleteItem] = useState<any>({})
+  const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
   return (
     <>
@@ -26,10 +23,25 @@ const Banner = observer(() => {
           subTitle="Add, Edit & Delete Banner"
         />
       </LibraryComponents.Atoms.Header>
+      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddBanner}
+          onClick={() => setHideAddBanner(!hideAddBanner)}
+        />
+      )}
       <div className="mx-auto flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl">
+        <div
+          className={
+            "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
+          }
+        >
           <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 label="Title"
                 id="title"
@@ -97,93 +109,20 @@ const Banner = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <ToolkitProvider
-            keyField="id"
-            data={Stores.bannerStore.listBanner || []}
-            columns={[
-              {
-                dataField: "title",
-                text: "Title",
-              },
-              {
-                dataField: "image",
-                text: "Image",
-                csvExport: false,
-                formatter: (cell, row) => {
-                  return (
-                    <>
-                      <img
-                        src={row.image}
-                        style={{ width: 200, height: 150 }}
-                        alt="banner"
-                      />
-                    </>
-                  )
-                },
-              },
-              {
-                dataField: "operation",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setDeleteItem({
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete ${row.title} banner!`,
-                        })
-                      }}
-                    >
-                      Delete
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `banner_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory()}
-                  // cellEdit={cellEditFactory({
-                  //   mode: "dbclick",
-                  //   blurToSave: true,
-                  //   // afterSaveCell,
-                  // })}
-                />
-              </div>
+          <FeatureComponents.Molecules.BannerList
+            isDelete={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Delete"
             )}
-          </ToolkitProvider>
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setDeleteItem(selectedItem)}
+            onSelectedRow={(rows) => {
+              console.log({ rows })
+            }}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...deleteItem}
@@ -200,6 +139,7 @@ const Banner = observer(() => {
               }
             )
           }}
+          onClose={() => setDeleteItem({ show: false })}
         />
       </div>
     </>

@@ -1,11 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import {
-  makeAutoObservable,
-  action,
-  observable,
-  runInAction,
-  computed,
-} from "mobx"
+import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
 import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -61,6 +55,10 @@ class LoginStore {
 
   @action updateInputUser(user: Models.ILogin) {
     this.inputLogin = user
+  }
+
+  @action clearInputUser() {
+    this.inputLogin = undefined
   }
 
   @action updateLogin(login: Models.ILogin) {

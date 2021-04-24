@@ -99,6 +99,12 @@ const Login = observer(() => {
                         RootStore.rootStore.setProcessLoading(false)
                         if (res.length > 0) {
                           res = res[0]
+                          Stores.loginStore.updateInputUser({
+                            ...Stores.loginStore.inputLogin,
+                            lab: res.defaultLab,
+                            role: res.role.length == 1 ? res.role[0].code : ""
+                          })
+
                           setlabRoleList({ labList: res.lab, roleList: res.role })
                         } else {
                           LibraryComponents.Atoms.ToastsStore.error(
@@ -143,6 +149,7 @@ const Login = observer(() => {
                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
                   <select
                     name="lab"
+                    value={Stores.loginStore.inputLogin?.lab}
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const lab = e.target.value
@@ -172,6 +179,7 @@ const Login = observer(() => {
                 <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
                   <select
                     name="role"
+                    value={Stores.loginStore.inputLogin?.role}
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const role = e.target.value
@@ -236,7 +244,6 @@ const Login = observer(() => {
                           },
                         })
                           .then((res) => {
-                            console.log({ res })
                             RootStore.rootStore.setProcessLoading(false)
                             if (res.status === 200) {
                               Stores.loginStore.updateLoginFailedCount(0)
@@ -251,6 +258,7 @@ const Login = observer(() => {
                                   `Welcome ${res.data.data.fullName}`
                                 )
                                 Stores.loginStore.saveLogin(res.data.data)
+                                Stores.loginStore.clearInputUser();
                                 history.push("/dashboard/default")
                               }
                             } else if (res.status === 203) {
@@ -311,9 +319,9 @@ const Login = observer(() => {
             } else {
               LibraryComponents.Atoms.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
-              )    
+              )
               Stores.loginStore.saveLogin(noticeBoard.userInfo)
-              //await hydrateStore("loginStore", Stores.loginStore)
+              Stores.loginStore.clearInputUser();
               history.push("/dashboard/default")
             }
           }}

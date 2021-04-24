@@ -32,11 +32,10 @@ const initOpenRoutes = (location) => {
       const isActive = pathName.indexOf(route.path) === 0
       const isOpen = route.open
       const isHome = route.containsHome && pathName === "/" ? true : false
-  
+
       _routes = Object.assign({}, _routes, {
         [index]: isActive || isOpen || isHome,
       })
-      
     })
   return _routes
 }
@@ -221,6 +220,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                                   category,
                                   item
                                 )
+                               // console.log(permission)
                                 RootStore.routerStore.updateUserPermission(
                                   permission
                                 )
