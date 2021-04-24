@@ -42,6 +42,8 @@ const Dashboard = observer(({ children }) => {
         selectedCategory.category,
         selectedCategory.item
       )
+      //console.log({permission});
+      
       RootStore.routerStore.updateUserPermission(permission)
     } else {
       history.push("/dashboard/default")

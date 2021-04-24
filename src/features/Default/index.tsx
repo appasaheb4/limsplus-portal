@@ -30,7 +30,6 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (LoginStores.loginStore.login) {
-      console.log({ loginD: LoginStores.loginStore.login })
       const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
         moment(new Date()),
         "days"

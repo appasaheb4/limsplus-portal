@@ -1,3 +1,4 @@
 import * as Atoms from "./Atoms"
 import * as Molecules from "./Molecules"
-export { Atoms, Molecules }
+import * as Organisms from "./Organisms"
+export { Atoms, Molecules, Organisms }
