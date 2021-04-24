@@ -6,7 +6,7 @@ import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 
-import { configure } from "mobx"
+// import { configure } from "mobx"
 
 import { Stores as RootStore } from "./library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
@@ -22,9 +22,9 @@ import * as Communication from "@lp/features/communication"
 
 import hydrateStore from "@lp/library/modules/startup"
 
-configure({
-  useProxies: "never",
-})
+// configure({
+//   useProxies: "never",
+// })
 
 const App = observer(() => {
   const loader = async () => {
