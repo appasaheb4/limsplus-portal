@@ -19,6 +19,28 @@ class DepartmentService extends BaseService {
           reject({ error })
         })
     })
+  deletedepartment = (id: string) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .delete(`department/deleteDepartment/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/department/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default DepartmentService

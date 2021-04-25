@@ -16,15 +16,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Department = observer(() => {
   const [errors, setErrors] = useState<Models.IDepartment>()
-  const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
-  return (  
+  return (
     <>
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title="Department"
-            subTitle="Add, Edit & Delete Lab"
+            title={RootStore.routerStore.selectedComponents?.title || ""}
+            subTitle="Add, Edit & Delete"
           />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
@@ -190,6 +190,7 @@ const Department = observer(() => {
           <br />
           <div className="p-2 rounded-lg shadow-xl">
             <FeatureComponents.Molecules.DepartmentList
+              data={Stores.departmentStore.listDepartment || []}
               isDelete={RouterFlow.checkPermission(
                 RootStore.routerStore.userPermission,
                 "Delete"
@@ -198,23 +199,61 @@ const Department = observer(() => {
                 RootStore.routerStore.userPermission,
                 "Edit/Modify"
               )}
-              onDelete={(selectedItem) => setDeleteItem(selectedItem)}
+              onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+              onSelectedRow={(rows) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Delete",
+                  id: rows,
+                  title: "Are you sure?",
+                  body: `Delete selected items!`,
+                })
+              }}
+              onUpdateItem={(value: any, dataField: string, id: string) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Update",
+                  data: { value, dataField, id },
+                  title: "Are you sure?",
+                  body: `Update department!`,
+                })
+              }}
             />
           </div>
           <LibraryComponents.Molecules.ModalConfirm
-            {...deleteItem}
-            click={() => {
-              RootStore.rootStore.setProcessLoading(true)
-              Services.deletedepartment(deleteItem.id).then((res: any) => {
-                RootStore.rootStore.setProcessLoading(false)
-                if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Department deleted.`)
-                  setDeleteItem({ show: false })
-                  Stores.departmentStore.fetchListDepartment()
-                }
-              })
+            {...modalConfirm}
+            click={(type?: string) => {
+              if (type === "Delete") {
+                RootStore.rootStore.setProcessLoading(true)
+                Stores.departmentStore.DepartmentService.deletedepartment(
+                  modalConfirm.id
+                ).then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.ToastsStore.success(
+                      `Department deleted.`
+                    )
+                    setModalConfirm({ show: false })
+                    Stores.departmentStore.fetchListDepartment()
+                  }
+                })
+              } else if (type === "Update") {
+                RootStore.rootStore.setProcessLoading(true)
+                Stores.departmentStore.DepartmentService.updateSingleFiled(
+                  modalConfirm.data
+                ).then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.ToastsStore.success(
+                      `Department updated.`
+                    )
+                    setModalConfirm({ show: false })
+                    Stores.departmentStore.fetchListDepartment()
+                  }
+                })
+              }
             }}
-            onClose={() => setDeleteItem({ show: false })}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </Container>

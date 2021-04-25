@@ -14,15 +14,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Deginisation = observer(() => {
   const [errors, setErrors] = useState<Models.IDeginisation>()
-  const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
 
   return (
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title="Deginisation"
-          subTitle="Add, Edit & Delete Deginisation"
+          title={RootStore.routerStore.selectedComponents?.title || ""}
+          subTitle="Add, Edit & Delete"
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
@@ -164,6 +164,7 @@ const Deginisation = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.DeginisationList
+            data={Stores.deginisationStore.listDeginisation || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
               "Delete"
@@ -172,23 +173,61 @@ const Deginisation = observer(() => {
               RootStore.routerStore.userPermission,
               "Edit/Modify"
             )}
-            onDelete={(selectedItem) => setDeleteItem(selectedItem)}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update deginisation!`,
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
-          {...deleteItem}
-          click={() => {
-            RootStore.rootStore.setProcessLoading(true)
-            Services.deleteDeginisation(deleteItem.id).then((res: any) => {
-              RootStore.rootStore.setProcessLoading(false)
-              if (res.status === 200) {
-                LibraryComponents.Atoms.ToastsStore.success(`Deginisation deleted.`)
-                setDeleteItem({ show: false })
-                Stores.deginisationStore.fetchListDeginisation()
-              }
-            })
+          {...modalConfirm}
+          click={(type?: string) => {
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.deginisationStore.DeginisationService.deleteDeginisation(
+                modalConfirm.id
+              ).then((res: any) => {
+                RootStore.rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.Atoms.ToastsStore.success(
+                    `Deginisation deleted.`
+                  )
+                  setModalConfirm({ show: false })
+                  Stores.deginisationStore.fetchListDeginisation()
+                }
+              })
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.deginisationStore.DeginisationService.updateSingleFiled(
+                modalConfirm.data
+              ).then((res: any) => {
+                RootStore.rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.Atoms.ToastsStore.success(
+                    `Deginisation updated.`
+                  )
+                  setModalConfirm({ show: false })
+                  Stores.deginisationStore.fetchListDeginisation()
+                }
+              })
+            }
           }}
-          onClose={() => setDeleteItem({ show: false })}
+          onClose={() => setModalConfirm({ show: false })}
         />
       </div>
     </>

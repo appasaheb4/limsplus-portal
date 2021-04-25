@@ -19,6 +19,28 @@ class LabService extends BaseService {
           reject({ error })
         })
     })
+  deleteLab = (id: string) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .delete(`lab/deleteLab/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/lab/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })  
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default LabService

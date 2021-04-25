@@ -11,7 +11,7 @@ class BannerService extends BaseService {
   deleteBanner = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`banner/deleteBanner/${id}`)
+        .delete(`/banner/deleteBanner/${id}`)
         .then((res) => {
           resolve(res)
         })

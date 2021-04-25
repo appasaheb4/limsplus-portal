@@ -31,15 +31,3 @@ export const adddepartment = (department?: Models.IDepartment) =>
       });
   });
 
-export const deletedepartment = (id: string) =>
-  new Promise<any>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient();
-    client
-      .delete(`${RELATIVE_PATH}/deleteDepartment/${id}`)
-      .then((res) => {
-        resolve(res);
-      })
-      .catch((error) => {
-        reject({ error });
-      });
-  });

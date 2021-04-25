@@ -11,7 +11,7 @@ class UserService extends BaseService {
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`auth/checkExitsUserId`, { userId })
+        .post(`/auth/checkExitsUserId`, { userId })
         .then((res) => {
           resolve(res.data.data)
         })
@@ -22,7 +22,30 @@ class UserService extends BaseService {
   addUser = (user: Models.Users) =>
     new Promise((resolve, reject) => {
       this.client
-        .post(`auth/addUser`, user)
+        .post(`/auth/addUser`, user)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  deleteUser = (id: string) =>
+    new Promise<Models.Users[]>((resolve, reject) => {
+      this.client
+        .delete(`/auth/deleteUser/${id}`)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

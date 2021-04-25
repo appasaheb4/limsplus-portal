@@ -32,15 +32,4 @@ export const addLab = (lab?: Models.Labs) =>
       });
   });
 
-export const deleteLab = (id: string) =>
-  new Promise<any>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient();
-    client
-      .delete(`${RELATIVE_PATH}/deleteLab/${id}`)
-      .then((res) => {
-        resolve(res);
-      })
-      .catch((error) => {
-        reject({ error });
-      });
-  });
+
