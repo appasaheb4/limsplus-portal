@@ -126,11 +126,10 @@ const Banner = observer(() => {
                 type: "Delete",
                 id: rows,
                 title: "Are you sure?",
-                body: `Delete selected banners!`,
+                body: `Delete selected items!`,
               })
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
-              console.log(value, dataField, id)
               setModalConfirm({
                 show: true,
                 type: "Update",

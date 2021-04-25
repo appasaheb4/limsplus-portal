@@ -27,7 +27,7 @@ import { toJS } from "mobx"
 
 const Users = observer(() => {
   const [errors, setErrors] = useState<Models.Users>()
-  const [deleteUser, setDeleteUser] = useState<any>({})
+  const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
   return (
@@ -558,6 +558,7 @@ const Users = observer(() => {
             style={{ overflowX: "scroll" }}
           >
             <FeatureComponents.Molecules.UserList
+              data={Stores.userStore.userList || []}
               isDelete={RouterFlow.checkPermission(
                 toJS(RootStore.routerStore.userPermission),
                 "Delete"
@@ -566,23 +567,57 @@ const Users = observer(() => {
                 toJS(RootStore.routerStore.userPermission),
                 "Edit/Modify"
               )}
-              onDelete={(selectedUser) => setDeleteUser(selectedUser)}
+              onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+              onSelectedRow={(rows) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Delete",
+                  id: rows,
+                  title: "Are you sure?",
+                  body: `Delete selected items!`,
+                })  
+              }}
+              onUpdateItem={(value: any, dataField: string, id: string) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Update",
+                  data: { value, dataField, id },
+                  title: "Are you sure?",
+                  body: `Update user!`,
+                })
+              }}
             />
           </div>
           <LibraryComponents.Molecules.ModalConfirm
-            {...deleteUser}
-            click={() => {
-              RootStore.rootStore.setProcessLoading(true)
-              Services.deleteUser(deleteUser.id).then((res: any) => {
-                if (res.status === 200) {
+            {...modalConfirm}
+            click={(type?: string) => {
+              if (type === "Delete") {
+                RootStore.rootStore.setProcessLoading(true)
+                Stores.userStore.UsersService.deleteUser(modalConfirm.id).then(
+                  (res: any) => {
+                    if (res.status === 200) {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.ToastsStore.success(`User deleted.`)
+                      setModalConfirm({ show: false })
+                      Stores.userStore.loadUser()
+                    }
+                  }
+                )
+              } else if (type === "Update") {
+                RootStore.rootStore.setProcessLoading(true)
+                Stores.userStore.UsersService.updateSingleFiled(
+                  modalConfirm.data
+                ).then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
-                  LibraryComponents.Atoms.ToastsStore.success(`User deleted.`)
-                  setDeleteUser({ show: false })
-                  Stores.userStore.loadUser()
-                }
-              })
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
+                    setModalConfirm({ show: false })
+                    Stores.userStore.loadUser()
+                  }
+                })
+              }
             }}
-            onClose={() => setDeleteUser({ show: false })}
+            onClose={() => setModalConfirm({ show: false })}
           />
         </div>
       </Container>

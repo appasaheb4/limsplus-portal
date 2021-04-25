@@ -8,32 +8,44 @@ import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-   
+
 import { Stores } from "../../stores"
-    
+
 const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport  
+const { ExportCSVButton } = CSVExport
 
 interface DeginisationListProps {
+  data: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onSelectedRow?: (selectedItem: any) => void
+  onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
 const DeginisationList = observer((props: DeginisationListProps) => {
   return (
-    <ToolkitProvider
-      keyField="id"
-      data={Stores.deginisationStore.listDeginisation || []}
+    <LibraryComponents.Organisms.TableBootstrap
+      id="_id"
+      data={props.data}
       columns={[
+        {
+          dataField: "_id",
+          text: "Id",
+          hidden: true,
+          csvExport: false,
+        },
         {
           dataField: "code",
           text: "Code",
           sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "description",
           text: "Description",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "opration",
@@ -50,8 +62,9 @@ const DeginisationList = observer((props: DeginisationListProps) => {
                 onClick={() => {
                   props.onDelete &&
                     props.onDelete({
+                      type: "Delete",
                       show: true,
-                      id: row._id,
+                      id: [row._id],
                       title: "Are you sure?",
                       body: `Delete ${row.description} deginisation!`,
                     })
@@ -63,43 +76,15 @@ const DeginisationList = observer((props: DeginisationListProps) => {
           ),
         },
       ]}
-      search
-      exportCSV={{
-        fileName: `Deginisation_${moment(new Date()).format(
-          "YYYY-MM-DD HH:mm"
-        )}.csv`,
-        noAutoBOM: false,
-        blobType: "text/csv;charset=ansi",
+      isEditModify={props.isEditModify}
+      fileName="Deginisation"
+      onSelectedRow={(rows) => {
+        props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
       }}
-    >
-      {(props) => (
-        <div>
-          <SearchBar {...props.searchProps} />
-          <ClearSearchButton
-            className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-            {...props.searchProps}
-          />
-          <ExportCSVButton
-            className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-            {...props.csvProps}
-          >
-            Export CSV!!
-          </ExportCSVButton>
-          <hr />
-          <BootstrapTable
-            {...props.baseProps}
-            noDataIndication="Table is Empty"
-            hover
-            pagination={paginationFactory()}
-            // cellEdit={cellEditFactory({
-            //   mode: "dbclick",
-            //   blurToSave: true,
-            //   // afterSaveCell,
-            // })}
-          />
-        </div>
-      )}
-    </ToolkitProvider>
+      onUpdateItem={(value: any, dataField: string, id: string) => {
+        props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+    />
   )
 })
 export default DeginisationList

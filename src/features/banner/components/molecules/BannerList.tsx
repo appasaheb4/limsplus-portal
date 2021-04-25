@@ -12,7 +12,7 @@ interface BannerListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
-   
+
 const BannerList = (props: BannerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap

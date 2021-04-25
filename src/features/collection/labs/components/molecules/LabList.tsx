@@ -16,32 +16,41 @@ import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
-
 interface LabListProps {
+  data: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onSelectedRow?: (selectedItem: any) => void
+  onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
 const LabList = observer((props: LabListProps) => {
   return (
     <>
-      <ToolkitProvider
-        keyField="id"
-        data={Stores.labStore.listLabs || []}
+      <LibraryComponents.Organisms.TableBootstrap
+        id="_id"
+        data={props.data}
         columns={[
+          {
+            dataField: "_id",
+            text: "Id",
+            hidden: true,
+            csvExport: false,
+          },
           {
             dataField: "code",
             text: "Code",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "name",
             text: "Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
-          {  
+          {
             dataField: "opration",
             text: "Delete",
             editable: false,
@@ -56,8 +65,9 @@ const LabList = observer((props: LabListProps) => {
                   onClick={() => {
                     props.onDelete &&
                       props.onDelete({
+                        type: "Delete",
                         show: true,
-                        id: row._id,
+                        id: [row._id],
                         title: "Are you sure?",
                         body: `Delete ${row.name} lab!`,
                       })
@@ -69,37 +79,17 @@ const LabList = observer((props: LabListProps) => {
             ),
           },
         ]}
-        search
-        exportCSV={{
-          fileName: `Labs_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
-          noAutoBOM: false,
-          blobType: "text/csv;charset=ansi",
+        isEditModify={props.isEditModify}
+        fileName="Lab"
+        onSelectedRow={(rows) => {
+          props.onSelectedRow &&
+            props.onSelectedRow(rows.map((item: any) => item._id))
         }}
-      >
-        {(props) => (
-          <div>
-            <SearchBar {...props.searchProps} />
-            <ClearSearchButton
-              className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-              {...props.searchProps}
-            />
-            <ExportCSVButton
-              className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-              {...props.csvProps}
-            >
-              Export CSV!!
-            </ExportCSVButton>
-            <br />
-            <BootstrapTable
-              {...props.baseProps}
-              noDataIndication="Table is Empty"
-              hover
-              pagination={paginationFactory()}
-            />
-          </div>
-        )}
-      </ToolkitProvider>
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+      />
     </>
   )
-})  
+})
 export default LabList

@@ -1,10 +1,6 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
@@ -16,48 +12,43 @@ import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
-
 interface UserListProps {
+  data: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
+  onSelectedRow?: (selectedItem: any) => void
+  onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
 const UserList = observer((props: UserListProps) => {
-  const [deleteUser, setDeleteUser] = useState<any>({})
-  const afterSaveCell = (oldValue, newValue, row, column) => {
-    if (oldValue !== newValue) {
-      RootStore.rootStore.setProcessLoading(true)
-      Services.updateUserSingleFiled({
-        newValue,
-        dataField: column.dataField,
-        id: row._id,
-      }).then((res) => {
-        RootStore.rootStore.setProcessLoading(false)
-        if (res.data) {
-          Stores.userStore.loadUser()
-          LibraryComponents.Atoms.ToastsStore.success(`User update.`)
-        }
-      })
-    }
-  }
+  console.log({ props })
+
   return (
     <>
-      <ToolkitProvider
-        keyField="id"
-        data={Stores.userStore.userList || []}
+      <LibraryComponents.Organisms.TableBootstrap
+        id="_id"
+        data={props.data}
         columns={[
+          {
+            dataField: "_id",
+            text: "Id",
+            hidden: true,
+            csvExport: false,
+          },
           {
             dataField: "userId",
             text: "UserId",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "200px" },
             editable: false,
           },
           {
             dataField: "lab",
             text: "Lab",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             formatter: (cellContent, row) => (
               <>
@@ -110,21 +101,29 @@ const UserList = observer((props: UserListProps) => {
           {
             dataField: "fullName",
             text: "Full Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
           },
           {
             dataField: "mobileNo",
             text: "Mobile No",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
           },
           {
             dataField: "email",
             text: "Email",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
           },
           {
             dataField: "department",
             text: "Department",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             formatter: (cellContent, row) => (
               <>
@@ -177,6 +176,8 @@ const UserList = observer((props: UserListProps) => {
           {
             dataField: "deginisation",
             text: "Deginisation",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             editorRenderer: (
               editorProps,
@@ -192,16 +193,9 @@ const UserList = observer((props: UserListProps) => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deginisation = e.target.value
-                    Services.updateUserSingleFiled({
-                      newValue: deginisation,
-                      dataField: column.dataField,
-                      id: row._id,
-                    }).then((res) => {
-                      if (res.data) {
-                        Stores.userStore.loadUser()
-                        LibraryComponents.Atoms.ToastsStore.success(`User update.`)
-                      }
-                    })
+
+                    props.onUpdateItem &&
+                      props.onUpdateItem(deginisation, column.dataField, row._id)
                   }}
                 >
                   <option selected>{row.deginisation}</option>
@@ -219,6 +213,8 @@ const UserList = observer((props: UserListProps) => {
           {
             dataField: "role",
             text: "Role",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             formatter: (cellContent, row) => (
               <>
@@ -271,6 +267,8 @@ const UserList = observer((props: UserListProps) => {
           {
             text: "Exipre Date",
             dataField: "exipreDate",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             formatter: (cell, row) => {
               return moment(row.exipreDate).format("YYYY-MM-DD")
@@ -292,17 +290,12 @@ const UserList = observer((props: UserListProps) => {
                     let date = new Date(e.target.value)
                     date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
                     const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
-
-                    Services.updateUserSingleFiled({
-                      newValue: new Date(formatDate),
-                      dataField: column.dataField,
-                      id: row._id,
-                    }).then((res) => {
-                      if (res.data) {
-                        Stores.userStore.loadUser()
-                        LibraryComponents.Atoms.ToastsStore.success(`User update.`)
-                      }
-                    })
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        new Date(formatDate),
+                        column.dataField,
+                        row._id
+                      )
                   }}
                 />
               </>
@@ -311,9 +304,11 @@ const UserList = observer((props: UserListProps) => {
           {
             text: "Status",
             dataField: "status",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "200px" },
             editor: {
-              type: Type.SELECT,
+              type: LibraryComponents.Organisms.Utils.Type.SELECT,
               getOptions: () => {
                 return [
                   {
@@ -397,45 +392,16 @@ const UserList = observer((props: UserListProps) => {
             ),
           },
         ]}
-        search
-        exportCSV={{
-          fileName: `users_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
-          noAutoBOM: false,
-          blobType: "text/csv;charset=ansi",
+        isEditModify={props.isEditModify}
+        fileName="User"
+        onSelectedRow={(rows) => {
+          props.onSelectedRow &&
+            props.onSelectedRow(rows.map((item: any) => item._id))
         }}
-      >
-        {(tblprops) => (
-          <div>
-            <SearchBar {...tblprops.searchProps} />
-            <ClearSearchButton
-              className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-              {...tblprops.searchProps}
-            />
-            <ExportCSVButton
-              className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-              {...tblprops.csvProps}
-            >
-              Export CSV!!
-            </ExportCSVButton>
-            <hr />
-            <BootstrapTable
-              {...tblprops.baseProps}
-              noDataIndication="Table is Empty"
-              hover
-              pagination={paginationFactory()}
-              cellEdit={
-                props.isEditModify
-                  ? cellEditFactory({
-                      mode: "dbclick",
-                      blurToSave: true,
-                      afterSaveCell,
-                    })
-                  : undefined
-              }
-            />
-          </div>
-        )}
-      </ToolkitProvider>
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+      />
     </>
   )
 })

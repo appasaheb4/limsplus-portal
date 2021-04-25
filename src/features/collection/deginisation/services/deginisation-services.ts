@@ -30,6 +30,18 @@ class DeginisationService extends BaseService {
           reject({ error })
         })
     })
+
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/deginisation/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default DeginisationService
