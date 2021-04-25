@@ -35,8 +35,8 @@ const Users = observer(() => {
       <Container fluid>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title="User"
-            subTitle="Add, Edit & Delete User"
+            title={RootStore.routerStore.selectedComponents?.title || ""}
+            subTitle="Add, Edit & Delete"
           />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
@@ -554,7 +554,7 @@ const Users = observer(() => {
           </div>
           <br />
           <div
-            className="p-2 rounded-lg shadow-xl overflow-auto"
+            className="p-2 rounded-lg shadow-xl overflow-scroll"
             style={{ overflowX: "scroll" }}
           >
             <FeatureComponents.Molecules.UserList

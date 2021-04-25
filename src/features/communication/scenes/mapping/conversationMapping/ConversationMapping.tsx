@@ -2,6 +2,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as FeatureComponents from "../../../components"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
@@ -14,18 +15,48 @@ const { ExportCSVButton } = CSVExport
 import { Stores } from "../../../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
+import { RouterFlow } from "@lp/flows"
+import { toJS } from "mobx"
+
 const ConversationMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
+  const [
+    hideAddConversationMapping,
+    setHideAddConversationMapping,
+  ] = useState<boolean>(true)
 
   return (
     <>
       <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading title="Conversation Mapping" />
+        <LibraryComponents.Atoms.PageHeading
+          title={RootStore.routerStore.selectedComponents?.title || ""}
+        />
       </LibraryComponents.Atoms.Header>
+      {RouterFlow.checkPermission(
+        toJS(RootStore.routerStore.userPermission),
+        "Add"
+      ) && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddConversationMapping}
+          onClick={(status) =>
+            setHideAddConversationMapping(!hideAddConversationMapping)
+          }
+        />
+      )}
       <div className=" mx-auto  flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl">
+        <div
+          className={
+            "p-2 rounded-lg shadow-xl " +
+            (hideAddConversationMapping ? "hidden" : "shown")
+          }
+        >
           <LibraryComponents.Atoms.Grid cols={2}>
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="Hexa Decimal"
@@ -123,179 +154,58 @@ const ConversationMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <ToolkitProvider
-            keyField="conversationMapping"
+          <FeatureComponents.Molecules.ConversationMappingList
             data={Stores.conversationMappingStore.listConversationMapping || []}
-            columns={[
-              {
-                dataField: "hexadecimal",
-                text: "Hexa Decimal",
-                formatter: (cellContent, row) => (
-                  <>
-                    {row.hexadecimal !== undefined
-                      ? row.hexadecimal
-                          .toString()
-                          .replaceAll(/&amp;/g, "&")
-                          .replaceAll(/&gt;/g, ">")
-                          .replaceAll(/&lt;/g, "<")
-                          .replaceAll(/&quot;/g, '"')
-                          .replaceAll(/â/g, "’")
-                          .replaceAll(/â¦/g, "…")
-                          .toString()
-                      : undefined}
-                  </>
-                ),
-              },
-              {
-                dataField: "binary",
-                text: "Binary",
-                formatter: (cellContent, row) => (
-                  <>
-                    {row.binary !== undefined
-                      ? row.binary
-                          .toString()
-                          .replaceAll(/&amp;/g, "&")
-                          .replaceAll(/&gt;/g, ">")
-                          .replaceAll(/&lt;/g, "<")
-                          .replaceAll(/&quot;/g, '"')
-                          .replaceAll(/â/g, "’")
-                          .replaceAll(/â¦/g, "…")
-                          .toString()
-                      : undefined}
-                  </>
-                ),
-              },
-              {
-                dataField: "ascii",
-                text: "ASCII",
-                formatter: (cellContent, row) => (
-                  <>
-                    {row.ascii !== undefined
-                      ? row.ascii
-                          .toString()
-                          .replaceAll(/&amp;/g, "&")
-                          .replaceAll(/&gt;/g, ">")
-                          .replaceAll(/&lt;/g, "<")
-                          .replaceAll(/&quot;/g, '"')
-                          .replaceAll(/â/g, "’")
-                          .replaceAll(/â¦/g, "…")
-                          .toString()
-                      : undefined}
-                  </>
-                ),
-              },
-              {
-                dataField: "operation",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setModalConfirm({
-                          type: "delete",
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete ${row.hexadecimal} hexadecimal!`,
-                        })
-                      }}
-                    >
-                      Delete
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `ConversationMapping_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory()}
-                  cellEdit={cellEditFactory({
-                    mode: "dbclick",
-                    blurToSave: true,
-                    afterSaveCell: (oldValue, newValue, row, column) => {
-                      if (oldValue !== newValue) {
-                        Stores.conversationMappingStore.changeUpdateItem({
-                          value: newValue,
-                          dataField: column.dataField,
-                          id: row._id,
-                        })
-                        setModalConfirm({
-                          type: "update",
-                          show: true,
-                          title: "Are you sure update recoard?",
-                        })
-                        // RootStore.rootStore.setProcessLoading(true)
-                        // Services.updateUserSingleFiled({
-                        //   newValue,
-                        //   dataField: column.dataField,
-                        //   id: row._id,
-                        // }).then((res) => {
-                        //   RootStore.rootStore.setProcessLoading(false)
-                        //   if (res.data) {
-                        //     Stores.userStore.loadUser()
-                        //     LibraryComponents.Atoms.ToastsStore.success(`User update.`)
-                        //   }
-                        // })
-                      }
-                    },
-                  })}
-                />
-              </div>
+            isDelete={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Delete"
             )}
-          </ToolkitProvider>
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update conversation mapping!`,
+              })
+            }}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
-          click={(type) => {
-            setModalConfirm({ show: false })
-            if (type === "delete") {
-              RootStore.rootStore.setProcessLoading(true)
+          click={(type?: string) => {
+            RootStore.rootStore.setProcessLoading(true)
+            if (type === "Delete") {
               Stores.conversationMappingStore.conversationMappingService
                 .deleteConversationMapping(modalConfirm.id)
                 .then((res) => {
                   RootStore.rootStore.setProcessLoading(false)
+                  setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
                     LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
                   }
                 })
-            } else if (type == "update") {
+            } else if (type == "Update") {
               Stores.conversationMappingStore.conversationMappingService
-                .updateConversationMappingUpdateSingleFiled(
-                  Stores.conversationMappingStore.updateItem
-                )
+                .updateConversationMappingUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
                   RootStore.rootStore.setProcessLoading(false)
+                  setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
                     LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
@@ -303,7 +213,7 @@ const ConversationMapping = observer(() => {
                 })
             }
           }}
-          close={() => setModalConfirm({ show: false })}
+          onClose={() => setModalConfirm({ show: false })}
         />
       </div>
     </>

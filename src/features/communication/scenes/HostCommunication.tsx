@@ -14,6 +14,8 @@ import * as Services from "../services"
 import * as Config from "@lp/config"
 import * as FeatureComponents from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../flows"
+
+import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 import { io } from "socket.io-client"
 let socket
@@ -21,6 +23,9 @@ const HostCommunication = observer(() => {
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
+  const [hideAddHostCommunication, setHideAddHostCommunication] = useState<boolean>(
+    true
+  )
 
   socket = io(Config.Api.LIMSPLUS_API_HOST.split("/api")[0], {
     transports: ["websocket"],
@@ -46,8 +51,21 @@ const HostCommunication = observer(() => {
     <>
       <Container>
         <LibraryComponents.Atoms.Header>
-          <LibraryComponents.Atoms.PageHeading title="Host Communication" />
+          <LibraryComponents.Atoms.PageHeading
+            title={RootStore.routerStore.selectedComponents?.title || ""}
+          />
         </LibraryComponents.Atoms.Header>
+        {RouterFlow.checkPermission(
+          toJS(RootStore.routerStore.userPermission),
+          "Add"
+        ) && (
+          <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+            show={hideAddHostCommunication}
+            onClick={(status) =>
+              setHideAddHostCommunication(!hideAddHostCommunication)
+            }
+          />
+        )}
 
         <div className="mx-auto">
           <div className="p-2 rounded-lg shadow-xl">

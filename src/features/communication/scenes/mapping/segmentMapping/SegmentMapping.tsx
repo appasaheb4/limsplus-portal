@@ -11,13 +11,16 @@ import * as Utils from "../../../util"
 
 import { Stores } from "../../../stores"
 import { Stores as RootStore } from "@lp/library/stores"
+
+import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const SegmentMapping = observer(() => {
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [modalImportFile, setModalImportFile] = useState({})
-  const [hideAddDiv, setHideAddDiv] = useState(true)
+  const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)
   const [saveTitle, setSaveTitle] = useState("Save")
+  const [modalConfirm, setModalConfirm] = useState<any>()
 
   const handleFileUpload = (file: any) => {
     const reader = new FileReader()
@@ -157,20 +160,34 @@ const SegmentMapping = observer(() => {
   return (
     <>
       <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading title="Data Segment Mapping" />
+        <LibraryComponents.Atoms.PageHeading
+          title={RootStore.routerStore.selectedComponents?.title || ""}
+        />
       </LibraryComponents.Atoms.Header>
-
-      <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
-        show={hideAddDiv}
-        onClick={(status) => setHideAddDiv(!hideAddDiv)}
-      />
+      {RouterFlow.checkPermission(
+        toJS(RootStore.routerStore.userPermission),
+        "Add"
+      ) && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddSegmentMapping}
+          onClick={(status) => setHideAddSegmentMapping(!hideAddSegmentMapping)}
+        />
+      )}
 
       <div className=" mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddDiv ? "hidden" : "shown")}
+          className={
+            "p-2 rounded-lg shadow-xl " +
+            (hideAddSegmentMapping ? "hidden" : "shown")
+          }
         >
           <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="EQUIPMENT TYPE"
                 id="equipment_type"
@@ -245,7 +262,10 @@ const SegmentMapping = observer(() => {
                   {errors.dataFlowFrom}
                 </span>
               )}
-              <LibraryComponents.Atoms.Form.InputWrapper label="DATA TYPE" id="data_type">
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="DATA TYPE"
+                id="data_type"
+              >
                 <select
                   name="data_type"
                   value={Stores.segmentMappingStore.segmentMapping?.data_type}
@@ -278,7 +298,10 @@ const SegmentMapping = observer(() => {
                   {errors.data_type}
                 </span>
               )}
-              <LibraryComponents.Atoms.Form.InputWrapper label="SEGMENTS" id="segments">
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="SEGMENTS"
+                id="segments"
+              >
                 <select
                   name="segments"
                   value={Stores.segmentMappingStore.segmentMapping?.segments}
@@ -352,7 +375,12 @@ const SegmentMapping = observer(() => {
               />
             </LibraryComponents.Atoms.List>
 
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Toggle
                 label="FIELD REQUIRED"
                 id="field_required"
@@ -439,7 +467,12 @@ const SegmentMapping = observer(() => {
               />
             </LibraryComponents.Atoms.List>
 
-            <LibraryComponents.Atoms.List direction="col" space={4} justify="stretch" fill>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Toggle
                 label="MANDATORY"
                 id="mandatory"
@@ -555,7 +588,7 @@ const SegmentMapping = observer(() => {
                         }
                         Stores.segmentMappingStore.fetchListSegmentMapping()
                       }
-                    }) 
+                    })
                 } else {
                   LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
@@ -597,11 +630,41 @@ const SegmentMapping = observer(() => {
       </div>
 
       <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+        {/* <FeatureComponents.Molecules.SegmentMappingList
+          data={Stores.segmentMappingStore.listSegmentMapping || []}
+          isDelete={RouterFlow.checkPermission(
+            toJS(RootStore.routerStore.userPermission),
+            "Delete"
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(RootStore.routerStore.userPermission),
+            "Edit/Modify"
+          )}
+          onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+          onSelectedRow={(rows) => {
+            setModalConfirm({
+              show: true,
+              type: "Delete",
+              id: rows,
+              title: "Are you sure?",
+              body: `Delete selected items!`,
+            })
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: "Update",
+              data: { value, dataField, id },
+              title: "Are you sure?",
+              body: `Update user!`,
+            })
+          }}
+        /> */}
         <div>
           <SegmentList
             duplicate={(item: Models.SegmentMapping) => {
               setSaveTitle("Duplicate")
-              setHideAddDiv(false)
+              setHideAddSegmentMapping(false)
               Stores.segmentMappingStore.updateSegmentMapping({
                 ...item,
                 dataFlowFrom:
@@ -610,7 +673,7 @@ const SegmentMapping = observer(() => {
                     : "",
                 attachments: "",
               })
-            }}  
+            }}
           />
         </div>
       </div>
