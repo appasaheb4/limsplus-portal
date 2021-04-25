@@ -21,7 +21,7 @@ import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
-  
+
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
     if (router) {
@@ -42,12 +42,18 @@ const Dashboard = observer(({ children }) => {
         selectedCategory.category,
         selectedCategory.item
       )
-      //console.log({permission});
-      
+      const selectedComp = await RouterFlow.selectedComponents(
+        toJS(RootStore.routerStore.userRouter),
+        selectedCategory.category,
+        selectedCategory.item
+      )  
+      console.log({ selectedComp })
+
+      RootStore.routerStore.updateSelectedComponents(selectedComp)
       RootStore.routerStore.updateUserPermission(permission)
     } else {
       history.push("/dashboard/default")
-    }  
+    }
   }
 
   useEffect(() => {

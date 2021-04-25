@@ -220,7 +220,14 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                                   category,
                                   item
                                 )
-                               // console.log(permission)
+                                const selectedComp = await RouterFlow.selectedComponents(
+                                  toJS(RootStore.routerStore.userRouter),
+                                  category,
+                                  item
+                                )
+                                RootStore.routerStore.updateSelectedComponents(
+                                  selectedComp
+                                )
                                 RootStore.routerStore.updateUserPermission(
                                   permission
                                 )
@@ -252,11 +259,19 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                                 category,
                                 item,
                               }
-                            )
+                            )  
                             const permission = await RouterFlow.getPermission(
                               toJS(RootStore.routerStore.userRouter),
                               category,
                               item
+                            )
+                            const selectedComp = await RouterFlow.selectedComponents(
+                              toJS(RootStore.routerStore.userRouter),
+                              category,
+                              item
+                            )
+                            RootStore.routerStore.updateSelectedComponents(
+                              selectedComp
                             )
                             RootStore.routerStore.updateUserPermission(permission)
                             await hydrateStore("routerStore", RootStore.routerStore)

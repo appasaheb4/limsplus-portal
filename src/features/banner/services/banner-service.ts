@@ -19,6 +19,18 @@ class BannerService extends BaseService {
           reject({ error })
         })
     })
+
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/banner/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default BannerService

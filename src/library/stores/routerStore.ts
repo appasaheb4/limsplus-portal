@@ -9,7 +9,8 @@ class RouterStore {
   @ignore @observable userPermission: any[] = []
   @ignore @observable selectedCategory?: LibraryModels.SelectedCategory
   @ignore @observable router?: any
-  
+  @ignore @observable selectedComponents?: LibraryModels.SelectedComponent
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -29,6 +30,9 @@ class RouterStore {
   @action updateSelectedCategory(category?: LibraryModels.SelectedCategory) {
     this.selectedUserCategory = category
     this.selectedCategory = category
+  }
+  @action updateSelectedComponents(comp?: LibraryModels.SelectedComponent) {
+    this.selectedComponents = comp
   }
 }
 export default RouterStore

@@ -1,6 +1,24 @@
 import { toJS } from "mobx"
 
 /* eslint-disable */
+export const selectedComponents = (store, category, subCategory) => {
+  if (store) {
+    let compInfo: any
+    store?.filter((router) => {
+      const isCategory = router.name === category
+      if (isCategory) {
+        router.children.filter((children: any) => {
+          const isSubCategory = children.name === subCategory
+          if (isSubCategory) {
+            compInfo = children
+          }
+        })
+      }
+    })
+    return compInfo
+  }  
+}
+
 export const getPermission = (store, category, subCategory) => {
   if (store) {
     let permssion: any
