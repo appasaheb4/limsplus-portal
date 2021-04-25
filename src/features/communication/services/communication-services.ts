@@ -258,12 +258,10 @@ class CommunicationService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })
+    })  
 
   interfaceManagerUpdateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ newValue })
-
       this.client
         .post(`/communication/interfaceManager/updateSingleFiled`, newValue)
         .then((res) => {

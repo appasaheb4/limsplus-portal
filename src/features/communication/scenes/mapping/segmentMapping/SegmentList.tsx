@@ -243,7 +243,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${equipmentType}`,
@@ -303,7 +303,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${dataFlowFrom}`,
@@ -352,7 +352,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${data_type}`,
@@ -398,7 +398,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${segments}`,
@@ -440,7 +440,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${segment_usage}`,
@@ -485,7 +485,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${field_no}`,
@@ -523,7 +523,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${item_no}`,
@@ -559,7 +559,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${
@@ -600,7 +600,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${element_name}`,
@@ -639,7 +639,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${transmitted_data}`,
@@ -679,7 +679,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${field_array}`,
@@ -719,7 +719,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${field_length}`,
@@ -758,7 +758,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${field_type}`,
@@ -794,7 +794,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${
@@ -828,7 +828,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${mandatory === true ? "Yes" : "No"}`,
@@ -869,7 +869,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${lims_descriptions}`,
@@ -908,7 +908,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${lims_tables}`,
@@ -948,7 +948,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${lims_fields}`,
@@ -985,7 +985,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${
@@ -1037,7 +1037,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                           body: `New value = ${notes}`,
@@ -1108,7 +1108,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                           id: row._id,
                         })
                         setModalConfirm({
-                          type: "update",
+                          type: "Update",
                           show: true,
                           title: "Are you sure update recoard?",
                         })
@@ -1134,7 +1134,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                       if (Stores.segmentMappingStore.selectedItems) {
                         if (Stores.segmentMappingStore.selectedItems.length > 0) {
                           setModalConfirm({
-                            type: "duplicate",
+                            type: "Duplicate",
                             show: true,
                             title: "Are you sure duplicate recoard? ",
                           })
@@ -1171,7 +1171,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                       if (Stores.segmentMappingStore.selectedItems) {
                         if (Stores.segmentMappingStore.selectedItems.length > 0) {
                           setModalConfirm({
-                            type: "delete",
+                            type: "Delete",
                             show: true,
                             title: "Are you sure delete recoard? ",
                           })
@@ -1243,7 +1243,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 ),
               })
               //rootStore.setProcessLoading(true)
-              if (type === "delete") {
+              if (type === "Delete") {
                 Stores.segmentMappingStore.segmentMappingService
                   .deleteSegmentMapping(
                     Stores.segmentMappingStore.selectedItems.map(
@@ -1258,7 +1258,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                       LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
                     }
                   })
-              } else if (type == "update") {
+              } else if (type == "Update") {
                 Stores.segmentMappingStore.segmentMappingService
                   .updateSingleFiled(Stores.segmentMappingStore.updateItem)
                   .then((res) => {
@@ -1268,7 +1268,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                       LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
                     }
                   })
-              } else if (type == "duplicate") {
+              } else if (type == "Duplicate") {
                 RootStore.rootStore.setProcessLoading(false)
                 props.duplicate(Stores.segmentMappingStore.selectedItems[0])
               }
