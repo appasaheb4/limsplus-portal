@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import { observer } from "mobx-react"
+import React, { useEffect, useState } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
-
+  
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -24,10 +24,21 @@ interface TableBootstrapProps {
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
+  onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
 const TableBootstrap = (props: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
+  const [isEditModify, setIsEditModify] = useState<boolean>(
+    props.isEditModify || false
+  )
+
+  useEffect(() => {
+    if (props.isEditModify) {
+      setIsEditModify(props.isEditModify)
+    }
+  }, [props])
+
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -51,8 +62,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
         type="solid"
         onClick={() => {
           if (selectedRow) {
-            props.onSelectedRow &&
-              props.onSelectedRow(selectedRow)
+            props.onSelectedRow && props.onSelectedRow(selectedRow)
           } else {
             alert("Please select any item.")
           }
@@ -158,6 +168,12 @@ const TableBootstrap = (props: TableBootstrapProps) => {
     }
   }
 
+  const afterSaveCell = (oldValue, newValue, row, column) => {
+    if (oldValue !== newValue) {
+      props.onUpdateItem && props.onUpdateItem(newValue, column.dataField, row._id)
+    }
+  }
+
   return (
     <ToolkitProvider
       keyField={props.id}
@@ -198,11 +214,15 @@ const TableBootstrap = (props: TableBootstrapProps) => {
               onSelect: handleOnSelect,
               onSelectAll: handleOnSelectAll,
             }}
-            // cellEdit={cellEditFactory({
-            //   mode: "dbclick",
-            //   blurToSave: true,
-            //   // afterSaveCell,
-            // })}
+            cellEdit={
+              isEditModify
+                ? cellEditFactory({
+                    mode: "dbclick",
+                    blurToSave: true,
+                    afterSaveCell,
+                  })
+                : undefined
+            }
           />
         </div>
       )}
