@@ -448,7 +448,7 @@ const RoleMapping = observer(() => {
             setModalConfirm({
               show: false,
             })
-          }}
+          }}  
         />
       </div>
     </>
