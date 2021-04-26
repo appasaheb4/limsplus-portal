@@ -23,7 +23,7 @@ class RoleMappingService extends BaseService {
   updateRoleMapping = (roleMapping: any) =>
     new Promise<any>((resolve, reject) => {
       console.log({ roleMapping })
-      this.client
+      this.client  
         .post(`/mapping/updateRoleMapping`, roleMapping)
         .then((res) => {
           resolve(res)

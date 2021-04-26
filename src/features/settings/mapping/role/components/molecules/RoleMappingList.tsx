@@ -170,7 +170,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                           icon="trash-2-outline"
                           size="medium"
                           color="#000"
-                        />
+                        />  
                         Delete
                       </LibraryComponents.Atoms.Buttons.Button>
                     </>

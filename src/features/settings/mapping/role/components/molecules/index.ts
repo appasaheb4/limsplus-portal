@@ -1,1 +1,1 @@
-export {default as RoleMappingList} from './RoleMappingList';
+export {default as RoleMappingList} from './RoleMappingList';  

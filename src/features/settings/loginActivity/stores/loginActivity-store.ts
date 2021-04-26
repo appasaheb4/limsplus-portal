@@ -16,5 +16,5 @@ class LoginActivityStore {
       this.listLoginActivity = list
     })
   }
-}
+}  
 export default LoginActivityStore
