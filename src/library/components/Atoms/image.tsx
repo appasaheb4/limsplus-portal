@@ -32,7 +32,7 @@ const Image = (props: ImageProps) => {
         position: "relative",
         left: "10%",
       }}
-      alt="image"
+      alt="limsplus"
       onClick={() => props.onClick && props.onClick()}
     />
   )
