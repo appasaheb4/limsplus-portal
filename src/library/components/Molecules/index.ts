@@ -1,3 +1,5 @@
 import ModalChangePassword from "./modal/modalChangePassword"
 import ModalConfirm from "./modal/modalConfirm"
-export { ModalChangePassword, ModalConfirm }
+import ModalFileUpload from "./modal/ModalFileUpload"
+import * as Modals from "./Modals"
+export { ModalChangePassword, ModalConfirm, ModalFileUpload, Modals }

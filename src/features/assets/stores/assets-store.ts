@@ -7,7 +7,7 @@ class AssetsStore {
   constructor() {
     makeAutoObservable(this)
   }
-  @computed get assetsService() {
+  @computed get AssetsService() {
     return new Services.AssetsService()
   }
 }

@@ -3,6 +3,7 @@ import List from "./list"
 import * as Form from "./form"
 import * as Buttons from "./buttons"
 import * as Icons from "./icon"
+import Image from './image';
 import Grid from "./grid"
 import { ToastsContainer, ToastsContainerPosition, ToastsStore } from "react-toasts"
 import ModelLoader from "./modal/modalLoader"
@@ -17,6 +18,7 @@ export {
   Buttons,
   Icons,
   Grid,
+  Image,
   ToastsContainer,
   ToastsContainerPosition,
   ToastsStore,

@@ -15,9 +15,9 @@ class LoginStore {
   constructor() {
     SessionStore.initialize({ name: "limsplus" })
     makeAutoObservable(this)
-    runInAction(async () => {
-      this.login = await SessionStore.getSession()
-    })
+    // runInAction(async () => {
+    //   this.login = await SessionStore.getSession()
+    // })
   }
 
   @computed get LoginService() {

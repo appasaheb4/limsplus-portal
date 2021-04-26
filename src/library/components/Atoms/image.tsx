@@ -1,9 +1,11 @@
-import React from "react";
+import React from "react"
 
 interface ImageProps {
-  source: string;
-  fit: "cover" | "contain" | "auto";
-  position:
+  source: string
+  height?: number
+  widht?: number
+  fit?: "cover" | "contain" | "auto"
+  position?:
     | "bottom"
     | "center"
     | "left"
@@ -12,28 +14,28 @@ interface ImageProps {
     | "right"
     | "right-bottom"
     | "right-top"
-    | "top";
-  background?: "fill" | "plain";
+    | "top"
+  background?: "fill" | "plain"
   className?: string
+  onClick?: () => void
 }
 
 const Image = (props: ImageProps) => {
-  const backgroundColorClass =
-    props.background === "fill" ? "bg-gray-200" : "bg-transparent";
-  const backgroundPositionClass = `bg-${props.position}`;
-  const backgroundSizeClass =
-    props.fit === "cover"
-      ? "bg-cover"
-      : props.fit === "contain"
-      ? "bg-contain"
-      : "";
-
   return (
-    <div
-      style={{ backgroundImage: `url(${props.source})` }}
-      className={`${props.className} bg-no-repeat ${backgroundSizeClass} ${backgroundColorClass} ${backgroundPositionClass}`}
-    ></div>
-  );
-};
+    <img
+      className="m-4 content-center"
+      src={props.source}
+      style={{
+        width: props.widht,
+        height: props.height,
+        display: "block",
+        position: "relative",
+        left: "10%",
+      }}
+      alt="image"
+      onClick={() => props.onClick && props.onClick()}
+    />
+  )
+}
 
-export default Image;
+export default Image
