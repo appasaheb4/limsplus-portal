@@ -259,7 +259,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                                 category,
                                 item,
                               }
-                            )  
+                            )
                             const permission = await RouterFlow.getPermission(
                               toJS(RootStore.routerStore.userRouter),
                               category,
@@ -288,7 +288,10 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 <div className="media">
                   <img
                     className="rounded-circle mr-3"
-                    src="https://sdk.bitmoji.com/render/panel/e2bf4bbb-7b41-4138-ac9b-db17e6512022-AWVtX3FR0FfbGPb2vgeTVs0KNs5wkA-v1.png?transparent=1&amp;palette=1"
+                    src={
+                      LoginStores.loginStore.login?.image ||
+                      "https://sdk.bitmoji.com/render/panel/e2bf4bbb-7b41-4138-ac9b-db17e6512022-AWVtX3FR0FfbGPb2vgeTVs0KNs5wkA-v1.png?transparent=1&amp;palette=1"
+                    }
                     alt={LoginStores.loginStore.login?.fullName}
                     width="40"
                     height="40"

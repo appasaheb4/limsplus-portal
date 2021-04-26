@@ -1,4 +1,5 @@
 export interface ILogin {
+  _id?: string
   lab?: string
   role?: string
   userId?: string
@@ -9,6 +10,7 @@ export interface ILogin {
   exipreDate?: Date
   token?: string
   roleMapping?: any
+  image?: string
 }
 
 export interface ForgotPassword {

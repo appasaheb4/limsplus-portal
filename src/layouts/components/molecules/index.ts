@@ -1,0 +1,1 @@
+export {default as ModalAccount} from './ModalAccount';

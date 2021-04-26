@@ -1092,7 +1092,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                         const path: string[] = []
                         if (files) {
                           for (let i = 0; i < files.length; i++) {
-                            await Assets.Stores.Stores.assetsStore.assetsService.uploadFile(
+                            await Assets.Stores.Stores.assetsStore.AssetsService.uploadFile(
                               files[i],
                               "communication",
                               files[i].name
