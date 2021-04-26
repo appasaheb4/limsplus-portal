@@ -19,6 +19,17 @@ class LoginService extends BaseService {
           reject({ error })
         })
     })
-}
+  forgotPassword = (userInfo: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`auth/forgotPassword`, userInfo)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+}  
 
 export default LoginService

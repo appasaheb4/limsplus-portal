@@ -10,3 +10,9 @@ export interface ILogin {
   token?: string
   roleMapping?: any
 }
+
+export interface ForgotPassword {
+  userId?: string
+  email?: string
+  mobileNo?: string
+}

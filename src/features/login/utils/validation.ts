@@ -32,3 +32,24 @@ export const constraintsLogin = {
     },
   },
 }
+
+export const constraintsForgotPassword = {
+  userId: {
+    presence: true,
+    length: {
+      minimum: 6,
+      message: "UserId must be least 6 characters",
+    },
+  },
+  email: {
+    email: true,
+  },  
+  mobileNo: {
+    length: {maximum: 10},
+    format: {
+      pattern: "[0-9]+",
+      flags: "i",
+      message: "Can only contain 0-9",
+    },
+  },
+}
