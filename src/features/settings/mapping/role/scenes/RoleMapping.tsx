@@ -369,7 +369,7 @@ const RoleMapping = observer(() => {
                             )
                             setTimeout(() => {
                               window.location.reload()
-                            }, 2000)
+                            }, 2000)  
                           } else {
                             alert("Data not update.Please try again")
                           }

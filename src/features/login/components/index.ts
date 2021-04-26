@@ -1,1 +1,2 @@
-export { default as ModalNoticeBoard } from "./modalNoticeboard"
+import * as Molecules from "./molecules"
+export { Molecules }   

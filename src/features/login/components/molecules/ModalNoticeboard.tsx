@@ -3,7 +3,7 @@ import { Container } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import { Frown as Sad } from "react-feather"
 import * as Config from "@lp/config"
-
+  
 interface ModalProps {
   show?: boolean
   data?: any
@@ -11,7 +11,7 @@ interface ModalProps {
   onClose: () => void
 }
 
-export default function ModalNoticeBoard(props: ModalProps) {
+const ModalNoticeBoard = (props: ModalProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -94,3 +94,4 @@ export default function ModalNoticeBoard(props: ModalProps) {
     </Container>
   )
 }
+export default ModalNoticeBoard

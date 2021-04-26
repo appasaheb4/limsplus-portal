@@ -10,17 +10,10 @@ class LoginStore {
   @ignore @observable inputLogin?: Models.ILogin
   @observable login?: Models.ILogin
   @observable loginFailedCount?: number
+  @ignore @observable forgotPassword?: Models.ForgotPassword
 
   constructor() {
     SessionStore.initialize({ name: "limsplus" })
-    // extendObservable(this, {
-    //   login: null,
-    //   loginError: false,
-    //   logoutError: false,
-    //   get loggedIn() {
-    //     return this.login !== null && SessionStore.hasSession
-    //   },
-    // })
     makeAutoObservable(this)
     runInAction(async () => {
       this.login = await SessionStore.getSession()
@@ -67,6 +60,9 @@ class LoginStore {
 
   @action updateLoginFailedCount(val: number) {
     this.loginFailedCount = val
+  }
+  @action updateForgotPassword(details?: Models.ForgotPassword | undefined) {
+    this.forgotPassword = details
   }
 }
 
