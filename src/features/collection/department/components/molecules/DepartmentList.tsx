@@ -74,6 +74,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
         },
       ]}
       isEditModify={props.isEditModify}
+      isSelectRow={true}
       fileName="Department"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))

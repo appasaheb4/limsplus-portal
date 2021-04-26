@@ -825,6 +825,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
         },
       ]}
       isEditModify={props.isEditModify}
+      isSelectRow={true}
       fileName="Segment Mapping"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))

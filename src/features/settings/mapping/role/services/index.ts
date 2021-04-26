@@ -36,8 +36,6 @@ export const addRoleMapping = (roleMapping: any) =>
 
 export const deleteRoleMapping = (id: string) =>
   new Promise<any>((resolve, reject) => {
-    console.log({ id })
-
     const client = Clients.createLimsPlusClient()
     client
       .delete(`${RELATIVE_PATH}/deleteRoleMapping/${id}`)

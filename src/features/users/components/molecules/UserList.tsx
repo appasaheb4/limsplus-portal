@@ -392,6 +392,7 @@ const UserList = observer((props: UserListProps) => {
             },
           ]}
           isEditModify={props.isEditModify}
+          isSelectRow={true}
           fileName="User"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&

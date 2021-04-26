@@ -117,6 +117,7 @@ const ConversationMappingList = (props: ConversationMappingListProps) => {
         },
       ]}
       isEditModify={props.isEditModify}
+      isSelectRow={true}
       fileName="Conversation Mapping"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))

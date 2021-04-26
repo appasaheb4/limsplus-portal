@@ -78,6 +78,7 @@ const BannerList = (props: BannerListProps) => {
         },
       ]}
       isEditModify={props.isEditModify}
+      isSelectRow={true}
       fileName="Banner"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
