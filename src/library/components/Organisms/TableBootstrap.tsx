@@ -6,7 +6,7 @@ import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
-  
+
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -22,6 +22,7 @@ interface TableBootstrapProps {
   fileName: string
   isDelete?: boolean
   isEditModify?: boolean
+  isSelectRow?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
@@ -32,10 +33,13 @@ const TableBootstrap = (props: TableBootstrapProps) => {
   const [isEditModify, setIsEditModify] = useState<boolean>(
     props.isEditModify || false
   )
+  const [isSelectRow, setIsSelectRow] = useState<boolean>(props.isSelectRow || false)
 
   useEffect(() => {
     if (props.isEditModify) {
       setIsEditModify(props.isEditModify)
+    } else if (props.isSelectRow) {
+      setIsSelectRow(props.isSelectRow)
     }
   }, [props])
 
@@ -56,25 +60,27 @@ const TableBootstrap = (props: TableBootstrapProps) => {
     onSizePerPageChange,
   }) => (
     <div className="btn-group items-center" role="group">
-      <LibraryComponents.Atoms.Buttons.Button
-        style={{ height: 10, width: 200 }}
-        size="small"
-        type="solid"
-        onClick={() => {
-          if (selectedRow) {
-            props.onSelectedRow && props.onSelectedRow(selectedRow)
-          } else {
-            alert("Please select any item.")
-          }
-        }}
-      >
-        <LibraryComponents.Atoms.Icons.EvaIcon
-          icon="trash-outline"
-          size="large"
-          color={Config.Styles.COLORS.BLACK}
-        />
-        Remove Selected
-      </LibraryComponents.Atoms.Buttons.Button>
+      {isSelectRow && (
+        <LibraryComponents.Atoms.Buttons.Button
+          style={{ height: 10, width: 200 }}
+          size="small"
+          type="solid"
+          onClick={() => {
+            if (selectedRow) {
+              props.onSelectedRow && props.onSelectedRow(selectedRow)
+            } else {
+              alert("Please select any item.")
+            }
+          }}
+        >
+          <LibraryComponents.Atoms.Icons.EvaIcon
+            icon="trash-outline"
+            size="large"
+            color={Config.Styles.COLORS.BLACK}
+          />
+          Remove Selected
+        </LibraryComponents.Atoms.Buttons.Button>
+      )}
       <input
         type="number"
         min="0"
@@ -209,11 +215,15 @@ const TableBootstrap = (props: TableBootstrapProps) => {
             hover
             pagination={paginationFactory(options)}
             filter={filterFactory()}
-            selectRow={{
-              mode: "checkbox",
-              onSelect: handleOnSelect,
-              onSelectAll: handleOnSelectAll,
-            }}
+            selectRow={
+              isSelectRow
+                ? {
+                    mode: "checkbox",
+                    onSelect: handleOnSelect,
+                    onSelectAll: handleOnSelectAll,
+                  }
+                : undefined
+            }
             cellEdit={
               isEditModify
                 ? cellEditFactory({

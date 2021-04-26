@@ -5,30 +5,37 @@ import * as LibraryComponents from "@lp/library/components"
 import moment from "moment"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from 'react-bootstrap-table2-paginator';
+import paginationFactory from "react-bootstrap-table2-paginator"
 
 const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport  
+const { ExportCSVButton } = CSVExport
 
-import {Stores} from '../stores';
+import { Stores } from "../stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 const LoginActivity = observer(() => {
   useEffect(() => {
     Stores.loginActivityStore.fetchLoginActivity()
-
-    console.log({ rooStore: Stores.loginActivityStore.listLoginActivity })
   }, [])
   return (
     <>
       <LibraryComponents.Atoms.Header>
-        <LibraryComponents.Atoms.PageHeading title="Login Activity" />
+        <LibraryComponents.Atoms.PageHeading
+          title={RootStore.routerStore.selectedComponents?.title || ""}
+        />
       </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <ToolkitProvider
-            keyField="id"
+          <LibraryComponents.Organisms.TableBootstrap
+            id="_id"
             data={Stores.loginActivityStore.listLoginActivity || []}
             columns={[
+              {
+                dataField: "_id",
+                text: "Id",
+                hidden: true,
+                csvExport: false,
+              },
               {
                 dataField: "user.fullName",
                 text: "User name",
@@ -93,38 +100,17 @@ const LoginActivity = observer(() => {
                 },
               },
             ]}
-            search
-            exportCSV={{
-              fileName: `LoginActivity_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={ paginationFactory() }
-                />
-              </div>
-            )}
-          </ToolkitProvider>
+            isEditModify={false}
+            isSelectRow={false}
+            fileName="Login Activity"
+            // onSelectedRow={(rows) => {
+            //   props.onSelectedRow &&
+            //     props.onSelectedRow(rows.map((item: any) => item._id))
+            // }}
+            // onUpdateItem={(value: any, dataField: string, id: string) => {
+            //   props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+            // }}
+          />
         </div>
       </div>
     </>

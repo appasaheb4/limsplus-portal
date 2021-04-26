@@ -80,6 +80,7 @@ const LabList = observer((props: LabListProps) => {
           },
         ]}
         isEditModify={props.isEditModify}
+        isSelectRow={true}
         fileName="Lab"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&

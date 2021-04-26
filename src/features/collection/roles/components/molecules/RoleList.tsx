@@ -82,6 +82,7 @@ const RoleList = observer((props: RoleListProps) => {
         },
       ]}  
       isEditModify={props.isEditModify}
+      isSelectRow={true}
       fileName="Role"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))

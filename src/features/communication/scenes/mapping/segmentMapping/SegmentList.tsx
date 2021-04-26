@@ -1274,7 +1274,7 @@ const SegmentList = observer((props: SegmentListProps) => {
               }
             }
           }}
-          close={() => setModalConfirm({ show: false })}
+          onClose={() => setModalConfirm({ show: false })}
         />
       </div>
     </>

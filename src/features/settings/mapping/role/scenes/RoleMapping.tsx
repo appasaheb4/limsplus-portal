@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import { unionBy } from "lodash"
 import * as LibraryComponents from "@lp/library/components"
+import * as FeatureComponents from "../components"
 import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
 import TextField from "@material-ui/core/TextField"
@@ -22,12 +23,13 @@ import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 
 import { Stores as RootStore } from "@lp/library/stores"
 
+import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 const RoleMapping = observer(() => {
-  const [deleteItem, setDeleteItem] = useState<any>({})
+  const [modalConfirm, setModalConfirm] = useState<any>()
   let roleList: any = RoleStore.roleStore.listRole || []
   for (const router of Stores.roleMappingStore.roleMappingList || []) {
     if (router) {
@@ -41,6 +43,7 @@ const RoleMapping = observer(() => {
   const [inputValue, setInputValue] = React.useState("")
   const [selectedRole, setSelectedUserRole] = useState<any>()
   const [isModify, setIsModify] = useState<any>({ status: false })
+  const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true)
 
   const permission = [
     {
@@ -87,12 +90,25 @@ const RoleMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title="Role Mapping"
-          subTitle="Add, Edit & Delete User Roles"
+          title={RootStore.routerStore.selectedComponents?.title || ""}
+          subTitle="Add, Edit & Delete"
         />
       </LibraryComponents.Atoms.Header>
+      {RouterFlow.checkPermission(
+        toJS(RootStore.routerStore.userPermission),
+        "Add"
+      ) && (
+        <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
+          show={hideAddRoleMapping}
+          onClick={(status) => setHideAddRoleMapping(!hideAddRoleMapping)}
+        />
+      )}
       <div className=" mx-auto  flex-wrap">
-        <div className="p-2 rounded-lg shadow-xl">
+        <div
+          className={
+            "p-2 rounded-lg shadow-xl " + (hideAddRoleMapping ? "hidden" : "shown")
+          }
+        >
           <Autocomplete
             value={value}
             onChange={(event: any, newValue: string | null) => {
@@ -395,189 +411,41 @@ const RoleMapping = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <ToolkitProvider
-            keyField="id"
+          <FeatureComponents.Molecules.RoleMappingList
             data={Stores.roleMappingStore.roleMappingList || []}
-            columns={[
-              {
-                dataField: "role.description",
-                text: "Role",
-                sort: true,
-                editable: false,
-              },
-              {
-                dataField: "router",
-                text: "Role Permission",
-                // style: { width: 200 },
-                formatter: (cellContent, row) => (
-                  <>
-                    {row.router && (
-                      <ul className="nav nav-stacked" id="accordion1">
-                        {JSON.parse(row.router).map((item, index) => (
-                          <li className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md">
-                            <a
-                              data-toggle="collapse"
-                              data-parent="#accordion1"
-                              //href={`#${item.name}`}
-                              className="font-bold"
-                            >
-                              {item.title}
-                            </a>
-                            {item.children ? (
-                              <ul
-                                className="flex flex-row ml-1 text-white " //collapse
-                                id={item.name}
-                              >
-                                {item.children.map((children, indexChildren) => (
-                                  <li className="bg-blue-600 ml-4 p-2 rounded-md">
-                                    {children.title}
-                                    <ul className="ml-2">
-                                      {children.permission.map(
-                                        (permission, indexPermission) => (
-                                          <li>
-                                            <input
-                                              type="checkbox"
-                                              checked={permission.checked}
-                                              className="m-2"
-                                            />
-                                            {permission.title}
-                                          </li>
-                                        )
-                                      )}
-                                    </ul>
-                                  </li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <li>{item.title}</li>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </>
-                ),
-              },
-              {
-                dataField: "opration",
-                text: "Delete",
-                editable: false,
-                csvExport: false,
-                formatter: (cellContent, row) => (
-                  <>
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      //icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setValue(row.role.description)
-                        setSelectedUserRole(row.role.description)
-                        setInputValue(row.role.description)
-                        const router = toJS(RootStore.routerStore.router)
-                        const roleRouter = JSON.parse(row.router)
-                        roleRouter.filter((item, index) => {
-                          router.filter((routerItem, indexRouter) => {
-                            if (routerItem.name === item.name) {
-                              routerItem.children.filter(
-                                (childrenItem, indexChildren) => {
-                                  const itemChildren = item.children
-                                  for (const children of itemChildren) {
-                                    if (childrenItem.name == children.name) {
-                                      router[indexRouter].children[
-                                        indexChildren
-                                      ] = children
-                                      router[indexRouter].title = item.title
-                                    }
-                                  }
-                                }
-                              )
-                            }
-                          })
-                        })
-                        console.log({ router })
-                        setIsModify({ status: true, id: row._id })
-                        RootStore.routerStore.updateRouter(router)
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Icons.EvaIcon
-                        icon="edit-outline"
-                        size="medium"
-                        color="#000"
-                      />
-                      Edit/Modify
-                    </LibraryComponents.Atoms.Buttons.Button>
-                    <br />
-                    <br />
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      //icon={LibraryComponents.Atoms.Icons.Remove}
-                      onClick={() => {
-                        setDeleteItem({
-                          show: true,
-                          id: row._id,
-                          title: "Are you sure?",
-                          body: `Delete this role mapping!`,
-                        })
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Icons.EvaIcon
-                        icon="trash-2-outline"
-                        size="medium"
-                        color="#000"
-                      />
-                      Delete
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </>
-                ),
-              },
-            ]}
-            search
-            exportCSV={{
-              fileName: `Role Mapping_${moment(new Date()).format(
-                "YYYY-MM-DD HH:mm"
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: "text/csv;charset=ansi",
-            }}
-          >
-            {(props) => (
-              <div>
-                <SearchBar {...props.searchProps} />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.searchProps}
-                />
-                <ExportCSVButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                <hr />
-                <BootstrapTable
-                  {...props.baseProps}
-                  noDataIndication="Table is Empty"
-                  hover
-                  pagination={paginationFactory()}
-                />
-              </div>
+            isDelete={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Delete"
             )}
-          </ToolkitProvider>
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+            onDuplicate={(selectedItem: any) => {
+              setHideAddRoleMapping(!hideAddRoleMapping)
+              setValue(selectedItem.description)
+              setSelectedUserRole(selectedItem.description)
+              setInputValue(selectedItem.description)
+              setIsModify({ status: true, id: selectedItem.id })
+            }}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
-          {...deleteItem}
-          click={() => {
-            Services.deleteRoleMapping(deleteItem.id).then((res: any) => {
-              if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
-                setDeleteItem({ show: false })
-                Stores.roleMappingStore.fetchRoleMappingList()
-              }
-            })
+          {...modalConfirm}
+          click={(type?: string) => {
+            if (type === "Delete") {
+              Services.deleteRoleMapping(modalConfirm.id).then((res: any) => {
+                if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                  LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
+                  setModalConfirm({ show: false })
+                  Stores.roleMappingStore.fetchRoleMappingList()
+                }
+              })
+            }
           }}
           onClose={() => {
-            setDeleteItem({
+            setModalConfirm({
               show: false,
             })
           }}
