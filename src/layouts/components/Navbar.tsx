@@ -1,9 +1,13 @@
 import React, { useState } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
+import moment from "moment"
+
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
+
 import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
@@ -154,6 +158,7 @@ import {
 const NavbarComponent = observer(({ dispatch }) => {
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
+  const [modalChangePassword, setModalChangePassword] = useState<any>()
   return (
     <>
       <Navbar color="white" light expand>
@@ -273,6 +278,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <DropdownItem onClick={() => setModalAccount({ show: true })}>
                   Account
                 </DropdownItem>
+                <DropdownItem onClick={() => setModalChangePassword({ show: true })}>
+                  Change Password
+                </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Settings & Privacy</DropdownItem>
                 <DropdownItem>Help</DropdownItem>
@@ -309,6 +317,55 @@ const NavbarComponent = observer(({ dispatch }) => {
       <FeatureComponents.Molecules.ModalAccount
         {...modalAccount}
         onClose={() => setModalAccount({ show: false })}
+      />
+      <LibraryComponents.Molecules.ModalChangePassword
+        {...modalChangePassword}
+        onClick={() => {
+          const exipreDate = new Date(
+            moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+          )
+          let body = Object.assign(
+            LoginStores.loginStore.login,
+            UserStores.userStore.changePassword
+          )
+          body = {
+            ...body,
+            exipreDate,
+          }
+          UserStores.userStore.UsersService.changePassword(body).then((res) => {
+            console.log({ res })
+            if (res.status === 200) {
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
+                exipreDate,
+                passChanged: true,
+              })
+              UserStores.userStore.updateChangePassword({
+                ...UserStores.userStore.changePassword,
+                tempHide: true,
+              })
+              LibraryComponents.Atoms.ToastsStore.success(`Password changed!`)
+              setModalChangePassword({ show: false })
+            } else if (res.status === 203) {
+              LibraryComponents.Atoms.ToastsStore.error(res.data.data.message)
+            } else {
+              LibraryComponents.Atoms.ToastsStore.error(
+                `Please enter correct old password`
+              )
+            }
+          })
+        }}
+        onClose={() => {
+          LoginStores.loginStore.updateLogin({
+            ...LoginStores.loginStore.login,
+            passChanged: true,
+          })
+          UserStores.userStore.updateChangePassword({
+            ...UserStores.userStore.changePassword,
+            tempHide: true,
+          })
+          setModalChangePassword({ show: false })
+        }}
       />
     </>
   )
