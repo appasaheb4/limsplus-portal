@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
+import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
@@ -26,7 +27,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
           height={200}
           source={
             LoginStores.loginStore.login?.image ||
-            "https://sdk.bitmoji.com/render/panel/e2bf4bbb-7b41-4138-ac9b-db17e6512022-AWVtX3FR0FfbGPb2vgeTVs0KNs5wkA-v1.png?transparent=1&amp;palette=1"
+            Assets.defaultAvatar
           }
           onClick={() =>
             setModalFileUpload({ show: true, title: "Profile image select" })

@@ -290,7 +290,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                     className="rounded-circle mr-3"
                     src={
                       LoginStores.loginStore.login?.image ||
-                      "https://sdk.bitmoji.com/render/panel/e2bf4bbb-7b41-4138-ac9b-db17e6512022-AWVtX3FR0FfbGPb2vgeTVs0KNs5wkA-v1.png?transparent=1&amp;palette=1"
+                      Assets.defaultAvatar
                     }
                     alt={LoginStores.loginStore.login?.fullName}
                     width="40"
