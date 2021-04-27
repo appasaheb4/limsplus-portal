@@ -66,16 +66,18 @@ const RoleMapping = observer(() => {
 
   useEffect(() => {
     const routers: any = router.filter((item: any) => {
-      item.toggle = false
-      item.title = item.name
-      item = item.children.filter((childernItem) => {
-        childernItem.title = childernItem.name
-        childernItem.toggle = false
-        childernItem.permission = permission
-        childernItem.icon = childernItem.icon
-        return childernItem
-      })
-      return item
+      if (item.name !== "Dashboard") {
+        item.toggle = false
+        item.title = item.name
+        item = item.children.filter((childernItem) => {
+          childernItem.title = childernItem.name
+          childernItem.toggle = false
+          childernItem.permission = permission
+          childernItem.icon = childernItem.icon
+          return childernItem
+        })
+        return item
+      }
     })
     if (routers) {
       RootStore.routerStore.updateRouter(routers)
@@ -369,7 +371,7 @@ const RoleMapping = observer(() => {
                             )
                             setTimeout(() => {
                               window.location.reload()
-                            }, 2000)  
+                            }, 2000)
                           } else {
                             alert("Data not update.Please try again")
                           }
@@ -448,7 +450,7 @@ const RoleMapping = observer(() => {
             setModalConfirm({
               show: false,
             })
-          }}  
+          }}
         />
       </div>
     </>

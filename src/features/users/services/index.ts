@@ -21,19 +21,6 @@ export const userList = () =>
   })
 
 
-export const changePassword = (body: any) =>
-  new Promise<any>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient()
-    client
-      .post(`${RELATIVE_PATH}/changePassword`, body)
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((error) => {
-        reject({ error })
-      })
-  })
-
 export const reSendPassword = (userInfo: any) =>
   new Promise<any>((resolve, reject) => {
     const client = Clients.createLimsPlusClient()

@@ -25,9 +25,6 @@ const CollectionRole = async(
 const User = async(() => import("@lp/features/users/scenes/Users"))
 
 // Settings
-const ChangePassword = async(
-  () => import("@lp/features/changePassword/scenes/changePassword")
-)
 const RoleMapping = async(
   () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
 )
@@ -77,26 +74,18 @@ const dashboardRoutes = {
   ],
 }
 
-const bannerRoutes = {
-  path: "/banner",
-  name: "Banner",
-  icon: "image-outline",
-  children: [
-    {
-      path: "/banner/banner",
-      name: "Banner",
-      icon: "list",
-      component: Banner,
-    },
-  ],
-}
-
 const collectionRoutes = {
   path: "/collection",
   name: "Collection",
   icon: "keypad-outline",
-  badgeColor:"#ffffff",
+  badgeColor: "#ffffff",
   children: [
+    {
+      path: "/collection/banner",
+      name: "Banner",
+      icon: "list",
+      component: Banner,
+    },
     {
       path: "/collection/lab",
       name: "Lab",
@@ -120,20 +109,6 @@ const collectionRoutes = {
       name: "Role",
       icon: "list",
       component: CollectionRole,
-    },
-  ],
-}
-
-const userRoutes = {
-  path: "/user",
-  name: "User",
-  icon: "person-outline",
-  children: [
-    {
-      path: "/user/user",
-      name: "User",
-      icon: "list",
-      component: User,
     },
   ],
 }
@@ -176,6 +151,12 @@ const settingsRoutes = {
   icon: "settings-2-outline",
   children: [
     {
+      path: "/settings/users",
+      name: "User",
+      icon: "list",
+      component: User,
+    },
+    {
       path: "/settings/loginActivity",
       name: "Login Activity",
       icon: "list",
@@ -187,21 +168,13 @@ const settingsRoutes = {
       icon: "list",
       component: RoleMapping,
     },
-    {
-      path: "/settings/changePassword",
-      name: "Change Password",
-      icon: "list",
-      component: ChangePassword,
-    },
   ],
 }
-  
+
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
-  bannerRoutes,
   collectionRoutes,
-  userRoutes,
   communicationRoutes,
   settingsRoutes,
 ]
@@ -212,9 +185,7 @@ export const loginRouter = [loginRoutes]
 // All routes
 export default [
   dashboardRoutes,
-  bannerRoutes,
   collectionRoutes,
-  userRoutes,
   communicationRoutes,
   settingsRoutes,
 ]

@@ -53,6 +53,17 @@ class UserService extends BaseService {
           reject({ error })
         })
     })
+  changePassword = (body: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/changePassword`, body)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default UserService
