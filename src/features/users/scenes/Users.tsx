@@ -36,7 +36,6 @@ const Users = observer(() => {
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={RootStore.routerStore.selectedComponents?.title || ""}
-            subTitle="Add, Edit & Delete"
           />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
@@ -575,7 +574,7 @@ const Users = observer(() => {
                   id: rows,
                   title: "Are you sure?",
                   body: `Delete selected items!`,
-                })  
+                })
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
                 setModalConfirm({

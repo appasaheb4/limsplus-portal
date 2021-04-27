@@ -64,6 +64,17 @@ class UserService extends BaseService {
           reject({ error })
         })
     })
+  switchAccess = (accessInfo: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/switchAccess`, accessInfo)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default UserService
