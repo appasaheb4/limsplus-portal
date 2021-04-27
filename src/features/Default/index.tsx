@@ -52,11 +52,11 @@ const Default = observer(() => {
           title: "Your account expire.Please contact to admin. ",
         })
       }
-      if (
-        LoginStores.loginStore.login?.passChanged !== true &&
-        UserStores.userStore.changePassword?.tempHide !== false
-      )
-        setModalChangePassword({ show: true })
+      // if (
+      //   LoginStores.loginStore.login?.passChanged !== true &&
+      //   UserStores.userStore.changePassword?.tempHide !== false
+      // )
+      //   setModalChangePassword({ show: true })
     }
   }, [LoginStores.loginStore])
 
