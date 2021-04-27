@@ -4,6 +4,8 @@ import { observer } from "mobx-react"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
 import { Stores as LoginStores } from "@lp/features/login/stores"
+
+import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as Config from "@lp/config"
@@ -251,9 +253,20 @@ const NavbarComponent = observer(({ dispatch }) => {
             <UncontrolledDropdown nav inNavbar>
               <span className="d-none d-sm-inline-block">
                 <DropdownToggle nav>
-                  <span className="text-dark">
-                    {LoginStores.loginStore.login?.fullName}
-                  </span>
+                  <div className="flex items-center">
+                    <img
+                      className="rounded-circle mr-3"
+                      src={
+                        LoginStores.loginStore.login?.image || Assets.defaultAvatar
+                      }
+                      alt={LoginStores.loginStore.login?.fullName}
+                      width="40"
+                      height="40"
+                    />
+                    <span className="text-dark">
+                      {LoginStores.loginStore.login?.fullName}
+                    </span>
+                  </div>
                 </DropdownToggle>
               </span>
               <DropdownMenu right>
