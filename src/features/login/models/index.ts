@@ -1,7 +1,9 @@
 export interface ILogin {
   _id?: string
   lab?: string
+  labList?: any[]
   role?: string
+  roleList?: any[]
   userId?: string
   fullName?: string
   password?: string

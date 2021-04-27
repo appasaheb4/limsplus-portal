@@ -93,7 +93,6 @@ const RoleMapping = observer(() => {
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
           title={RootStore.routerStore.selectedComponents?.title || ""}
-          subTitle="Add, Edit & Delete"
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(

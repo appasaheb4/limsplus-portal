@@ -23,7 +23,7 @@ interface ImageProps {
 const Image = (props: ImageProps) => {
   return (
     <img
-      className="m-4 content-center"
+      className="m-4 rounded-md content-center"
       src={props.source}
       style={{
         width: props.widht,
