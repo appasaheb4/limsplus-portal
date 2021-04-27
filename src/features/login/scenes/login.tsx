@@ -6,6 +6,8 @@ import * as FeatureComponents from "../components"
 import { Col, Container, Row } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
+import moment from "moment"
+
 import * as Utils from "../utils"
 import * as Models from "../models"
 import { useHistory } from "react-router-dom"
@@ -15,6 +17,7 @@ import { Stores } from "@lp/features/login/stores"
 import { Stores as BannerStores } from "@lp/features/banner/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
 
 const Login = observer(() => {
   const history = useHistory()
@@ -23,6 +26,7 @@ const Login = observer(() => {
   const [width, setWidth] = useState<number>(window.innerWidth)
   const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] })
   const [modalForgotPassword, setModalForgotPassword] = useState<any>()
+  const [modalChangePassword, setModalChangePassword] = useState<any>()
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth)
@@ -258,22 +262,25 @@ const Login = observer(() => {
                               RootStore.rootStore.setProcessLoading(false)
                               if (res.status === 200) {
                                 Stores.loginStore.updateLoginFailedCount(0)
-                                if (res.data.data.noticeBoard !== undefined) {
-                                  setNoticeBoard({
-                                    show: true,
-                                    userInfo: res.data.data,
-                                    data: res.data.data.noticeBoard,
-                                  })
+                                if (res.data.data.passChanged !== true) {
+                                  setModalChangePassword({ show: true })
                                 } else {
-                                  LibraryComponents.Atoms.ToastsStore.success(
-                                    `Welcome ${res.data.data.fullName}`
-                                  )
-                                  Stores.loginStore.saveLogin(res.data.data)
-                                  Stores.loginStore.clearInputUser()
-                                  history.push("/dashboard/default")
+                                  if (res.data.data.noticeBoard !== undefined) {
+                                    setNoticeBoard({
+                                      show: true,
+                                      userInfo: res.data.data,
+                                      data: res.data.data.noticeBoard,
+                                    })
+                                  } else {
+                                    LibraryComponents.Atoms.ToastsStore.success(
+                                      `Welcome ${res.data.data.fullName}`
+                                    )
+                                    Stores.loginStore.saveLogin(res.data.data)
+                                    Stores.loginStore.clearInputUser()
+                                    history.push("/dashboard/default")
+                                  }
                                 }
                               } else if (res.status === 203) {
-                                console.log({ failed: loginFailedCount })
                                 Stores.loginStore.updateLoginFailedCount(
                                   loginFailedCount + 1
                                 )
@@ -369,6 +376,56 @@ const Login = observer(() => {
           }}
           onClose={() => {
             setModalForgotPassword({ show: false })
+          }}
+        />
+        <LibraryComponents.Molecules.ModalChangePassword
+          {...modalChangePassword}
+          onClick={() => {
+            const exipreDate = new Date(
+              moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+            )
+            let body = Object.assign(
+              Stores.loginStore.inputLogin,
+              UserStores.userStore.changePassword
+            )
+            body = {
+              ...body,
+              exipreDate,
+            }
+            UserStores.userStore.UsersService.changePassword(body).then((res) => {
+              console.log({ res })
+              if (res.status === 200) {
+                Stores.loginStore.updateLogin({
+                  ...Stores.loginStore.login,
+                  exipreDate,
+                  passChanged: true,
+                })
+                UserStores.userStore.updateChangePassword({
+                  ...UserStores.userStore.changePassword,
+                  tempHide: true,
+                })
+                LibraryComponents.Atoms.ToastsStore.success(`Password changed!`)
+                setModalChangePassword({ show: false })
+                window.location.reload()
+              } else if (res.status === 203) {
+                LibraryComponents.Atoms.ToastsStore.error(res.data.data.message)
+              } else {
+                LibraryComponents.Atoms.ToastsStore.error(
+                  `Please enter correct old password`
+                )
+              }
+            })
+          }}
+          onClose={() => {
+            Stores.loginStore.updateLogin({
+              ...Stores.loginStore.login,
+              passChanged: true,
+            })
+            UserStores.userStore.updateChangePassword({
+              ...UserStores.userStore.changePassword,
+              tempHide: true,
+            })
+            setModalChangePassword({ show: false })
           }}
         />
       </Container>
