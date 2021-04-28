@@ -47,8 +47,6 @@ const Dashboard = observer(({ children }) => {
         selectedCategory.category,
         selectedCategory.item
       )  
-      console.log({ selectedComp })
-
       RootStore.routerStore.updateSelectedComponents(selectedComp)
       RootStore.routerStore.updateUserPermission(permission)
     } else {
