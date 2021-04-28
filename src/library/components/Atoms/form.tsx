@@ -3,7 +3,7 @@ import * as LibraryComponents from "@lp/library/components"
 import "./css/toggle.css"
 import classNames from "classnames"
 
-interface LabelProps {  
+interface LabelProps {
   htmlFor: string
 }
 
@@ -41,6 +41,7 @@ interface InputProps extends InputWrapperProps {
   className?: string
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
+  onKeyDown?: (e: any) => void
 }
 
 export const Input = (props: InputProps) => (
@@ -57,6 +58,7 @@ export const Input = (props: InputProps) => (
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
+      onKeyDown={props.onKeyDown}
     />
   </InputWrapper>
 )

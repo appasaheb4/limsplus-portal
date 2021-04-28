@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
+
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
 import { Badge, Collapse } from "reactstrap"
@@ -139,6 +140,8 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
 
+  console.log({ router: RootStore.routerStore.userRouter })
+
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
   }, [RootStore.routerStore.userRouter])
@@ -176,6 +179,11 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
               />
               <span className="align-middle ml-2">{`Lims Plus`}</span>
             </a>
+            <div>
+              <LibraryComponents.Molecules.AutocompleteGroupBy
+                data={RootStore.routerStore.userRouter}
+              />
+            </div>
             {RootStore.routerStore.userRouter && (
               <ul className="sidebar-nav">
                 {RootStore.routerStore.userRouter.map((category: any, index) => {
@@ -288,10 +296,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 <div className="media">
                   <img
                     className="rounded-circle mr-3"
-                    src={
-                      LoginStores.loginStore.login?.image ||
-                      Assets.defaultAvatar
-                    }
+                    src={LoginStores.loginStore.login?.image || Assets.defaultAvatar}
                     alt={LoginStores.loginStore.login?.fullName}
                     width="40"
                     height="40"

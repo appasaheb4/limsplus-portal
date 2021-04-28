@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import Checkbox from "@material-ui/core/Checkbox"
 
-import * as Services from "../services"
 import { Container } from "reactstrap"
 
 import { Stores } from "../stores"
