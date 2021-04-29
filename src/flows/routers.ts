@@ -1,5 +1,7 @@
 import { toJS } from "mobx"
 
+import * as localStorage from "@lp/library/clients/storage-client"
+import hydrateStore from "@lp/library/modules/startup"
 /* eslint-disable */
 export const selectedComponents = (store, category, subCategory) => {
   if (store) {
@@ -16,7 +18,7 @@ export const selectedComponents = (store, category, subCategory) => {
       }
     })
     return compInfo
-  }  
+  }
 }
 
 export const getPermission = (store, category, subCategory) => {
@@ -44,6 +46,35 @@ export const checkPermission = (permission: any[], title: string) => {
     const isItem = item.title === title
     return isItem
   })
-  console.log({ isItem })
+  //console.log({ isItem })
   return isItem.length > 0 ? isItem[0].checked : false
+}
+
+export const updateSelectedCategory = async (
+  RootStore: any,
+  category: string,
+  item: string
+) => {
+  RootStore.routerStore.updateSelectedCategory({
+    ...RootStore.routerStore.selectedUserCategory,
+    category,
+    item,
+  })
+  await localStorage.setItem(
+    `__persist_mobx_stores_routerStore_SelectedCategory__`,
+    { category, item }
+  )
+  const permission = getPermission(
+    toJS(RootStore.routerStore.userRouter),
+    category,
+    item
+  )
+  const selectedComp = selectedComponents(
+    toJS(RootStore.routerStore.userRouter),
+    category,
+    item
+  )
+  RootStore.routerStore.updateSelectedComponents(selectedComp)
+  RootStore.routerStore.updateUserPermission(permission)
+  await hydrateStore("routerStore", RootStore.routerStore)
 }

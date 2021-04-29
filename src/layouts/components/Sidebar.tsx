@@ -15,14 +15,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
-import * as localStorage from "@lp/library/clients/storage-client"
-
 // import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-import hydrateStore from "@lp/library/modules/startup"
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
@@ -211,37 +207,10 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               badgeText={route.badgeText}
                               icon={route.icon}
                               onChangeItem={async (category, item) => {
-                                RootStore.routerStore.updateSelectedCategory({
-                                  ...RootStore.routerStore.selectedUserCategory,
-                                  category,
-                                  item,
-                                })
-                                await localStorage.setItem(
-                                  `__persist_mobx_stores_routerStore_SelectedCategory__`,
-                                  {
-                                    category,
-                                    item,
-                                  }
-                                )
-                                const permission = RouterFlow.getPermission(
-                                  toJS(RootStore.routerStore.userRouter),
+                                await RouterFlow.updateSelectedCategory(
+                                  RootStore,
                                   category,
                                   item
-                                )
-                                const selectedComp = await RouterFlow.selectedComponents(
-                                  toJS(RootStore.routerStore.userRouter),
-                                  category,
-                                  item
-                                )
-                                RootStore.routerStore.updateSelectedComponents(
-                                  selectedComp
-                                )
-                                RootStore.routerStore.updateUserPermission(
-                                  permission
-                                )
-                                await hydrateStore(
-                                  "routerStore",
-                                  RootStore.routerStore
                                 )
                               }}
                             />
@@ -256,33 +225,11 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {
-                            RootStore.routerStore.updateSelectedCategory({
-                              ...RootStore.routerStore.selectedUserCategory,
-                              category,
-                              item,
-                            })
-                            await localStorage.setItem(
-                              `__persist_mobx_stores_routerStore_SelectedCategory__`,
-                              {
-                                category,
-                                item,
-                              }
-                            )
-                            const permission = await RouterFlow.getPermission(
-                              toJS(RootStore.routerStore.userRouter),
+                            await RouterFlow.updateSelectedCategory(
+                              RootStore,
                               category,
                               item
                             )
-                            const selectedComp = await RouterFlow.selectedComponents(
-                              toJS(RootStore.routerStore.userRouter),
-                              category,
-                              item
-                            )
-                            RootStore.routerStore.updateSelectedComponents(
-                              selectedComp
-                            )
-                            RootStore.routerStore.updateUserPermission(permission)
-                            await hydrateStore("routerStore", RootStore.routerStore)
                           }}
                         />
                       )}

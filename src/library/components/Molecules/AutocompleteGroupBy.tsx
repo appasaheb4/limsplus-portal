@@ -1,80 +1,77 @@
+/* eslint-disable  */
 import React, { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
+import { observer } from "mobx-react"
 
+import { Stores as RootStore } from "@lp/library/stores"
+
+import { RouterFlow } from "@lp/flows"
 interface AutocompleteGroupByProps {
   data?: any[]
   onChange?: () => void
   onClose?: () => void
 }
 
-const AutocompleteGroupBy = (props: AutocompleteGroupByProps) => {
+const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
+  const history = useHistory()
   const [data, setData] = useState<any[]>()
   const [options, setOptions] = useState<any[]>()
   useEffect(() => {
     setData(props.data)
-    setOptions(props.data)
+    //setOptions(props.data)
   }, [props])
+
+  const uniqByKeepFirst = (a, key) => {
+    const seen = new Set()
+    return a.filter((item) => {
+      const k = key(item)
+      return seen.has(k) ? false : seen.add(k)
+    })
+  }
+
+  const filter = (search, data) => {
+    if (search) {
+      // const filteredOptions = options?.filter(
+      //   (option) => option.title.toLowerCase().indexOf(search.toLowerCase()) > -1
+      // )
+      let filterArray: any[] = []
+      data.filter((item) => {
+        item.children.filter((children) => {
+          const childrenItem =
+            children.title.toLowerCase().indexOf(search.toLowerCase()) > -1
+          if (childrenItem) {
+            const isSameArray = filterArray.filter((filterItem, index) => {
+              if (filterItem.name === item.name) {
+                const newChildren = filterArray[index].children.concat(children)
+                filterArray[index] = { ...filterArray[index], children: newChildren }
+              }
+            })
+            if (isSameArray.length < 1) {
+              filterArray.push({ ...item, children: [children] })
+            }
+            const uniqueChars = uniqByKeepFirst(filterArray, (it) => it.name)
+            filterArray = uniqueChars
+          }
+        })
+      })
+      setOptions(filterArray)
+    } else {
+      setOptions([])
+    }
+  }
 
   const onChange = (e) => {
     const search = e.target.value
-    if (search) {
-      const filteredOptions = options?.filter(
-        (option) => option.title.toLowerCase().indexOf(search.toLowerCase()) > -1
-      )
-      //   const filterArray: any[] = []
-      //   const filteredOptions = options?.filter((item) => {
-      //     item.children.filter((children) => {
-      //       const childrenItem =
-      //         children.title.toLowerCase().indexOf(search.toLowerCase()) > -1
-      //       if (childrenItem) {
-      //         const isSameArray = filterArray.filter((filterItem, index) => {
-      //           if (filterItem.name === item.name) {
-      //             const newChildren = filterArray[index].children.concat(children)
-      //             filterArray[index] = { ...filterArray[index], children: newChildren }
-      //             // return filterArray
-      //           }
-      //         })
-      //         if (isSameArray && isSameArray.length > 1) {
-      //           console.log("same")
-      //         } else {
-      //           console.log({ isSameArray })
-      //           filterArray.push({ ...item, children: [children] })
-      //         }
-      //       }
-      //     })
-      //   })
-      //   console.log({ filterArray })
-      setOptions(filteredOptions)
-    } else {
-      setOptions(data)
-    }
-
-    // this.setState({
-    //   activeOption: 0,
-    //   filteredOptions,
-    //   showOptions: true,
-    //   userInput,
-    // })
+    filter(search, data)
   }
 
-  //   const onKeyDown = (e) => {
-  //       if (e.keyCode === 13) {
-  //         this.setState({
-  //           activeOption: 0,
-  //           showSuggestions: false,
-  //           userInput: filteredOptions[activeOption],
-  //         })
-  //       } else if (e.keyCode === 38) {
-  //         if (activeOption === 0) {
-  //           return
-  //         }
-  //         this.setState({ activeOption: activeOption - 1 })
-  //       } else if (e.keyCode === 40) {
-  //         if (activeOption - 1 === filteredOptions.length) {
-  //           return
-  //         }
-  //         this.setState({ activeOption: activeOption + 1 })
-  //       }
-  //   }
+  const onKeyUp = (e) => {
+    const charCode = e.which ? e.which : e.keyCode
+    if (charCode === 8) {
+      const search = e.target.value
+      filter(search, data)
+    }
+  }
 
   return (
     <>
@@ -83,27 +80,45 @@ const AutocompleteGroupBy = (props: AutocompleteGroupByProps) => {
           placeholder="Search Menu Item"
           //   value={props.value}
           className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-          //   onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
           onChange={onChange}
         />
-        <div className="mt-1">
-          <ul className="bg-white p-2 rounded-sm">
-            {options?.map((item, index) => (
-              <>
-                <li key={index} className="text-gray-400">
-                  {item.title}
-                </li>
-                <ul className="ml-4">
-                  {item.children.map((children, childrenIndex) => (
-                    <li key={childrenIndex}>{children.title}</li>
+        {options
+          ? options?.length > 0 && (
+              <div className="mt-1">
+                <ul className="bg-white p-2 rounded-sm">
+                  {options?.map((item, index) => (
+                    <>
+                      <li key={index} className="text-gray-400">
+                        {item.title}
+                      </li>
+                      <ul className="ml-4">
+                        {item.children.map((children, childrenIndex) => (
+                          <li
+                            key={childrenIndex}
+                            className="hover:bg-gray-200 focus:outline-none cursor-pointer"
+                            onClick={async () => {
+                              await RouterFlow.updateSelectedCategory(
+                                RootStore,
+                                item.name,
+                                children.name
+                              )
+                              history.push(children.path)
+                              setOptions([])
+                            }}
+                          >
+                            {children.title}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
                   ))}
                 </ul>
-              </>
-            ))}
-          </ul>
-        </div>
+              </div>
+            )
+          : null}
       </div>
     </>
   )
-}
+})
 export default AutocompleteGroupBy
