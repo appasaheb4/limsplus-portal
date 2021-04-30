@@ -190,7 +190,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           icon={
-                            LibraryComponents.Atoms.Icons.getIcons(category.icon) ||
+                            //LibraryComponents.Atoms.Icons.getIcons(category.icon) ||
                             LibraryComponents.Atoms.Icons.IconBs.BsList
                           }
                           to={category.path}
