@@ -498,7 +498,7 @@ const Users = observer(() => {
               <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="solid"
-                icon={LibraryComponents.Atoms.Icons.Save}
+                icon={LibraryComponents.Atoms.Icon.Save}
                 onClick={() => {
                   console.log({ user: Stores.userStore.user })
                   console.log({
@@ -541,7 +541,7 @@ const Users = observer(() => {
               <LibraryComponents.Atoms.Buttons.Button
                 size="medium"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icon.Remove}
                 onClick={() => {
                   window.location.reload()
                 }}

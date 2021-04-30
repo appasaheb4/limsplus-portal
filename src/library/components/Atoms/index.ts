@@ -2,8 +2,9 @@ import Loader from "./loader"
 import List from "./list"
 import * as Form from "./form"
 import * as Buttons from "./buttons"
-import * as Icons from "./icon"
-import Image from './image';
+import * as Icon from "./icon"
+import * as Icons from "./icons"
+import Image from "./image"
 import Grid from "./grid"
 import { ToastsContainer, ToastsContainerPosition, ToastsStore } from "react-toasts"
 import ModelLoader from "./modal/modalLoader"
@@ -26,6 +27,7 @@ export {
   Header,
   PageHeading,
   CircleButton,
+  Icon,
 }
 export { default as ModalImportFile } from "./ModalImportFile"
 export { default as ModalConfirm } from "./ModalConfirm"

@@ -14,12 +14,17 @@ interface AutocompleteGroupByProps {
 
 const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   const history = useHistory()
+  //const [userRouter, setUserRouter] = useState<any>()
   const [data, setData] = useState<any[]>()
   const [options, setOptions] = useState<any[]>()
   useEffect(() => {
     setData(props.data)
     //setOptions(props.data)
   }, [props])
+
+  // useEffect(() => {
+  //   setUserRouter(RootStore.routerStore.userRouter)
+  // }, [])
 
   const uniqByKeepFirst = (a, key) => {
     const seen = new Set()
@@ -55,8 +60,10 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
         })
       })
       setOptions(filterArray)
+      //RootStore.routerStore.updateUserRouter(filterArray)
     } else {
       setOptions([])
+      //RootStore.routerStore.updateUserRouter(userRouter)
     }
   }
 
@@ -104,6 +111,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
                                 children.name
                               )
                               history.push(children.path)
+                              //RootStore.routerStore.updateUserRouter(userRouter)
                               setOptions([])
                             }}
                           >

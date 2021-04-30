@@ -779,7 +779,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                   }
                 }}
               >
-                <LibraryComponents.Atoms.Icons.EvaIcon
+                <LibraryComponents.Atoms.Icon.EvaIcon
                   icon="copy-outline"
                   size="medium"
                   color={Config.Styles.COLORS.BLACK}
@@ -800,7 +800,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               <LibraryComponents.Atoms.Buttons.Button
                 size="small"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icon.Remove}
                 onClick={() => {
                   Stores.segmentMappingStore.updateSelectedItem([])
                   Stores.segmentMappingStore.updateSelectedItem([row])

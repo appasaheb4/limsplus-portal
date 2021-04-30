@@ -1,6 +1,5 @@
 import React from "react"
 import Icon from "react-eva-icons"
-
 export interface IconProps {
   type?: "solid" | "inverse"
   size?: "small" | "medium" | "large"
@@ -8,21 +7,6 @@ export interface IconProps {
   small?: boolean
   icon?: string
   color?: string
-}
-
-const getIconClass = (props: IconProps) => {
-  const iconSizeClass =
-    props.size === "small"
-      ? `h-3 w-3`
-      : props.size === "large"
-      ? `h-6 h-6`
-      : "h-5 w-5"
-
-  const iconColorClass = props.type === "solid" ? "text-gray-600" : "text-white"
-
-  return `${
-    props.buttonOffset && "-ml-1 -mt-1 mr-2"
-  } ${iconSizeClass} ${iconColorClass}`
 }
 
 export const EvaIcon: React.FunctionComponent<IconProps> = (props: IconProps) => {
@@ -40,6 +24,20 @@ export const EvaIcon: React.FunctionComponent<IconProps> = (props: IconProps) =>
   )
 }
 
+const getIconClass = (props: IconProps) => {
+  const iconSizeClass =
+    props.size === "small"
+      ? `h-3 w-3`
+      : props.size === "large"
+      ? `h-6 h-6`
+      : "h-5 w-5"
+
+  const iconColorClass = props.type === "solid" ? "text-gray-600" : "text-white"
+
+  return `${
+    props.buttonOffset && "-ml-1 -mt-1 mr-2"
+  } ${iconSizeClass} ${iconColorClass}`
+}
 export const Save: React.FunctionComponent<IconProps> = (props: IconProps) => {
   return (
     <svg

@@ -337,7 +337,7 @@ const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="outline"
-                    icon={LibraryComponents.Atoms.Icons.ReSendPassword}
+                    icon={LibraryComponents.Atoms.Icon.ReSendPassword}
                     onClick={async () => {
                       Services.reSendPassword({
                         userId: row.userId,
@@ -374,7 +374,7 @@ const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="outline"
-                    icon={LibraryComponents.Atoms.Icons.Remove}
+                    icon={LibraryComponents.Atoms.Icon.Remove}
                     onClick={() => {
                       props.onDelete &&
                         props.onDelete({

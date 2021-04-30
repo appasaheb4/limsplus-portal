@@ -98,7 +98,7 @@ const ConversationMappingList = (props: ConversationMappingListProps) => {
               <LibraryComponents.Atoms.Buttons.Button
                 size="small"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icon.Remove}
                 onClick={() => {
                   props.onDelete &&
                     props.onDelete({

@@ -566,7 +566,7 @@ const SegmentMapping = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icons.Save}
+              icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (
                   Utils.validate(
@@ -608,7 +608,7 @@ const SegmentMapping = observer(() => {
                 })
               }}
             >
-              <LibraryComponents.Atoms.Icons.EvaIcon
+              <LibraryComponents.Atoms.Icon.EvaIcon
                 icon="arrowhead-down-outline"
                 size="medium"
                 color={Config.Styles.COLORS.BLACK}
@@ -618,7 +618,7 @@ const SegmentMapping = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
                 window.location.reload()
               }}

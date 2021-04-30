@@ -205,7 +205,7 @@ const InterfaceManager = observer(() => {
                         }
                       }}
                     >
-                      <LibraryComponents.Atoms.Icons.EvaIcon icon="plus-circle-outline" />
+                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
@@ -224,7 +224,7 @@ const InterfaceManager = observer(() => {
                             key={index}
                             size="medium"
                             type="solid"
-                            icon={LibraryComponents.Atoms.Icons.Remove}
+                            icon={LibraryComponents.Atoms.Icon.Remove}
                             onClick={() => {
                               const firstArr =
                                 Stores.interfaceManagerStore.encodeCharacter?.fileds?.slice(
@@ -256,7 +256,7 @@ const InterfaceManager = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icons.Save}
+              icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
                   RootStore.rootStore.setProcessLoading(true)
@@ -288,7 +288,7 @@ const InterfaceManager = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
                 window.location.reload()
               }}

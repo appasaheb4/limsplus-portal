@@ -73,7 +73,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
             }
           }}
         >
-          <LibraryComponents.Atoms.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icon.EvaIcon
             icon="trash-outline"
             size="large"
             color={Config.Styles.COLORS.BLACK}

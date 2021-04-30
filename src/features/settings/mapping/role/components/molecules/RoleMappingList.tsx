@@ -140,7 +140,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                         })
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.EvaIcon
+                    <LibraryComponents.Atoms.Icon.EvaIcon
                       icon="edit-outline"
                       size="medium"
                       color="#000"
@@ -154,7 +154,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                       <LibraryComponents.Atoms.Buttons.Button
                         size="small"
                         type="outline"
-                        //icon={LibraryComponents.Atoms.Icons.Remove}
+                        //icon={LibraryComponents.Atoms.Icon.Remove}
                         onClick={() => {
                           props.onDelete &&
                             props.onDelete({
@@ -166,7 +166,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                             })
                         }}
                       >
-                        <LibraryComponents.Atoms.Icons.EvaIcon
+                        <LibraryComponents.Atoms.Icon.EvaIcon
                           icon="trash-2-outline"
                           size="medium"
                           color="#000"
