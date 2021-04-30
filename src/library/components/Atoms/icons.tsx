@@ -26,12 +26,12 @@ export const IconContext: React.FunctionComponent = (props) => {
   )
 }
 
-export { IconRi, IconIm, IconFa, IconFc, IconGi, IconCg, IconGr, IconBs,IconFi }
+export { IconRi, IconIm, IconFa, IconFc, IconGi, IconCg, IconGr, IconBs, IconFi }
 
-export const getIcons = (icon: string) => {
+export const getIcons = (icon: string): any => {
   // dashboard
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill")
-  return LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
+    return LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill")
     return LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill
   // collection
@@ -61,10 +61,12 @@ export const getIcons = (icon: string) => {
   //settings
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill")
     return LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill
-    if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog")
+  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog")
     return LibraryComponents.Atoms.Icons.IconFa.FaUsersCog
-    if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiActivity")
+  if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiActivity")
     return LibraryComponents.Atoms.Icons.IconFi.FiActivity
-    if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill")
+  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill")
     return LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill
+
+  return LibraryComponents.Atoms.Icons.IconBs.BsList
 }
