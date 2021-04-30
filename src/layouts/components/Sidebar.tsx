@@ -207,7 +207,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
                               icon={
-                                LibraryComponents.Atoms.Icons.getIcons(route.icon) ||
+                                //LibraryComponents.Atoms.Icons.getIcons(route.icon) ||
                                 LibraryComponents.Atoms.Icons.IconBs.BsList
                               }
                               onChangeItem={async (category, item) => {
