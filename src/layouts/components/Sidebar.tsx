@@ -57,7 +57,7 @@ const SidebarCategory = withRouter(
         ? "active"
         : ""
     }
-    const Icon = icon;
+    const Icon = icon
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
         <span
@@ -69,7 +69,7 @@ const SidebarCategory = withRouter(
           aria-expanded={isOpen ? "true" : "false"}
         >
           {icon !== undefined ? (
-              <LibraryComponents.Atoms.Icons.IconContext>
+            <LibraryComponents.Atoms.Icons.IconContext>
               <Icon />
             </LibraryComponents.Atoms.Icons.IconContext>
           ) : null}
@@ -189,7 +189,10 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
-                          icon={LibraryComponents.Atoms.Icons.getIcons(category.icon)}
+                          icon={
+                            LibraryComponents.Atoms.Icons.getIcons(category.icon) ||
+                            LibraryComponents.Atoms.Icons.IconBs.BsList
+                          }
                           to={category.path}
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
@@ -203,9 +206,10 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               to={route.path}
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
-                              icon={LibraryComponents.Atoms.Icons.getIcons(
-                                route.icon
-                              )}
+                              icon={
+                                LibraryComponents.Atoms.Icons.getIcons(route.icon) ||
+                                LibraryComponents.Atoms.Icons.IconBs.BsList
+                              }
                               onChangeItem={async (category, item) => {
                                 await RouterFlow.updateSelectedCategory(
                                   RootStore,
@@ -221,7 +225,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           name={category.name}
                           title={category.title}
                           to={category.path}
-                          icon={LibraryComponents.Atoms.Icons.getIcons(category.icon)}
+                          icon={LibraryComponents.Atoms.Icons.getIcons(
+                            category.icon
+                          )}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {

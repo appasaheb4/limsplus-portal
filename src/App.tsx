@@ -5,7 +5,7 @@ import { Provider } from "react-redux"
 import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-
+   
 // import { configure } from "mobx"
 
 import { Stores as RootStore } from "./library/stores"
