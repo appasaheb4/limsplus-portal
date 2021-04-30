@@ -11,6 +11,8 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 
 import * as LibraryComponents from "@lp/library/components"
 
+//import * as LibraryComponentsNew from "react-autocomplet-groupby"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
@@ -55,6 +57,7 @@ const SidebarCategory = withRouter(
         ? "active"
         : ""
     }
+    const Icon = icon;
     return (
       <li className={"sidebar-item " + getSidebarItemClass(to)}>
         <span
@@ -66,11 +69,9 @@ const SidebarCategory = withRouter(
           aria-expanded={isOpen ? "true" : "false"}
         >
           {icon !== undefined ? (
-            <LibraryComponents.Atoms.Icons.EvaIcon
-              size="medium"
-              icon={icon || "list"}
-              color="#ffffff"
-            />
+              <LibraryComponents.Atoms.Icons.IconContext>
+              <Icon />
+            </LibraryComponents.Atoms.Icons.IconContext>
           ) : null}
           <span className="align-middle">{title}</span>
           {badgeColor && badgeText ? (
@@ -105,6 +106,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
   const getSidebarItemClass = (path) => {
     return props.location.pathname === path ? "active" : ""
   }
+
   return (
     <li
       className={"sidebar-item " + getSidebarItemClass(props.to)}
@@ -115,11 +117,9 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
       <NavLink to={props.to} className="sidebar-link" activeClassName="active">
         <span className="flex items-center">
           {props.icon ? (
-            <LibraryComponents.Atoms.Icons.EvaIcon
-              size="medium"
-              icon={props.icon || "list"}
-              color="#ffffff"
-            />
+            <LibraryComponents.Atoms.Icons.IconContext>
+              <props.icon />
+            </LibraryComponents.Atoms.Icons.IconContext>
           ) : null}
           {props.title}
         </span>
@@ -135,8 +135,6 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
-
-  console.log({ router: RootStore.routerStore.userRouter })
 
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
@@ -191,7 +189,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           title={category.title}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
-                          icon={category.icon}
+                          icon={LibraryComponents.Atoms.Icons.getIcons(category.icon)}
                           to={category.path}
                           isOpen={openRoutes[index]}
                           onClick={() => toggle(index)}
@@ -205,7 +203,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               to={route.path}
                               badgeColor={route.badgeColor}
                               badgeText={route.badgeText}
-                              icon={route.icon}
+                              icon={LibraryComponents.Atoms.Icons.getIcons(
+                                route.icon
+                              )}
                               onChangeItem={async (category, item) => {
                                 await RouterFlow.updateSelectedCategory(
                                   RootStore,
@@ -221,7 +221,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           name={category.name}
                           title={category.title}
                           to={category.path}
-                          icon={category.icon}
+                          icon={LibraryComponents.Atoms.Icons.getIcons(category.icon)}
                           badgeColor={category.badgeColor}
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {

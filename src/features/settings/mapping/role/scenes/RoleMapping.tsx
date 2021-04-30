@@ -301,7 +301,7 @@ const RoleMapping = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icons.Save}
+              icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (
                   selectedRole !== undefined &&
@@ -400,7 +400,7 @@ const RoleMapping = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
                 //rootStore.userStore.clear()
                 window.location.reload()

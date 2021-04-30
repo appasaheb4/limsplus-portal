@@ -80,7 +80,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(true)}
         >
-          <LibraryComponents.Atoms.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icon.EvaIcon
             icon="plus-outline"
             size="large"
             color={Config.Styles.COLORS.WHITE}
@@ -102,7 +102,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<ButtonCircleAddRemov
           }}
           onClick={() => props.onClick(false)}
         >
-          <LibraryComponents.Atoms.Icons.EvaIcon
+          <LibraryComponents.Atoms.Icon.EvaIcon
             icon="minus-outline"
             size="large"
             color={Config.Styles.COLORS.WHITE}

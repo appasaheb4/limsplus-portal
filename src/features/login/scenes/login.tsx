@@ -229,7 +229,7 @@ const Login = observer(() => {
                   <LibraryComponents.Atoms.Buttons.Button
                     size="medium"
                     type="solid"
-                    icon={LibraryComponents.Atoms.Icons.Check}
+                    icon={LibraryComponents.Atoms.Icon.Check}
                     onClick={async () => {
                       const loginFailedCount =
                         Stores.loginStore.loginFailedCount || 0
@@ -311,7 +311,7 @@ const Login = observer(() => {
                   <LibraryComponents.Atoms.Buttons.Button
                     size="medium"
                     type="solid"
-                    icon={LibraryComponents.Atoms.Icons.Remove}
+                    icon={LibraryComponents.Atoms.Icon.Remove}
                     onClick={() => {
                       window.location.reload()
                     }}

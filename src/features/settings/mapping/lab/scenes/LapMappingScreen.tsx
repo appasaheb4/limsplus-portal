@@ -110,7 +110,7 @@ const LabMapping = observer(() => {
     //         <LibraryComponents.Atoms.Buttons.Button
     //           size="medium"
     //           type="solid"
-    //           icon={LibraryComponents.Atoms.Icons.Save}
+    //           icon={LibraryComponents.Atoms.Icon.Save}
     //           onClick={() => {
     //             if (
     //               selectedUserInfo !== undefined &&
@@ -139,7 +139,7 @@ const LabMapping = observer(() => {
     //         <LibraryComponents.Atoms.Buttons.Button
     //           size="medium"
     //           type="outline"
-    //           icon={LibraryComponents.Atoms.Icons.Remove}
+    //           icon={LibraryComponents.Atoms.Icon.Remove}
     //           onClick={() => {
     //             //  rootStore.userStore.clear()
     //             window.location.reload()
@@ -221,7 +221,7 @@ const LabMapping = observer(() => {
     //                 <LibraryComponents.Atoms.Buttons.Button
     //                   size="small"
     //                   type="outline"
-    //                   icon={LibraryComponents.Atoms.Icons.Remove}
+    //                   icon={LibraryComponents.Atoms.Icon.Remove}
     //                   onClick={() => {
     //                     setDeleteItem({
     //                       show: true,

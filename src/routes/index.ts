@@ -63,12 +63,12 @@ const dashboardRoutes = {
   path: "/dashboard",
   name: "Dashboard",
   header: "Dashboard",
-  icon: "home",
+  icon: "LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill",
   children: [
     {
       path: "/dashboard/default",
       name: "Default",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill",
       component: DefaultDashboard,
     },
   ],
@@ -77,37 +77,37 @@ const dashboardRoutes = {
 const collectionRoutes = {
   path: "/collection",
   name: "Collection",
-  icon: "keypad-outline",
+  icon: "LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill",
   badgeColor: "#ffffff",
   children: [
     {
       path: "/collection/banner",
       name: "Banner",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconIm.ImImages",
       component: Banner,
     },
     {
       path: "/collection/lab",
       name: "Lab",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconIm.ImLab",
       component: CollectionLab,
     },
     {
       path: "/collection/deginisation",
       name: "Deginisation",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaUserMd",
       component: CollectionDeginisation,
     },
     {
       path: "/collection/department",
       name: "Department",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconFc.FcDepartment",
       component: CollectionDepartment,
     },
     {
       path: "/collection/role",
       name: "Role",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiKeyring",
       component: CollectionRole,
     },
   ],
@@ -116,30 +116,30 @@ const collectionRoutes = {
 const communicationRoutes = {
   path: "/communication",
   name: "Communication",
-  icon: "flip-outline",
+  icon: "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots",
   children: [
     {
       path: "/communication/interfaceManager",
       name: "Interface Manager",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconCg.CgCommunity",
       component: InterfaceManager,
     },
     {
       path: "/communication/mapping/conversationMapping",
       name: "Conversation Mapping",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiConversation",
       component: ConversationMapping,
     },
     {
       path: "/communication/hostCommunication",
       name: "Host Communication",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconRi.RiGhostSmileLine",
       component: HostCommunication,
     },
     {
       path: "/communication/mapping/segmentMapping",
       name: "Data Segment Mapping",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiDatabase",
       component: SegmentMapping,
     },
   ],
@@ -148,24 +148,24 @@ const communicationRoutes = {
 const settingsRoutes = {
   path: "/settings",
   name: "Settings",
-  icon: "settings-2-outline",
+  icon: "LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill",
   children: [
     {
       path: "/settings/users",
       name: "User",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog",
       component: User,
     },
     {
       path: "/settings/loginActivity",
       name: "Login Activity",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconFi.FiActivity",
       component: LoginActivity,
     },
     {
       path: "/settings/mapping/roleMapping",
       name: "Role Mapping",
-      icon: "list",
+      icon: "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill",
       component: RoleMapping,
     },
   ],

@@ -25,7 +25,6 @@ import {
   DropdownMenu,
   DropdownItem,
   Form,
-  Input,
 } from "reactstrap"
 
 // import {
@@ -172,12 +171,6 @@ const NavbarComponent = observer(({ dispatch }) => {
         </span>
 
         <Form inline>
-          <Input
-            type="text"
-            placeholder="Search menu..."
-            aria-label="Search"
-            className="form-control-no-border mr-sm-2"
-          />
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
@@ -185,7 +178,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               window.location.href = "/dashboard/default"
             }}
           >
-            <LibraryComponents.Atoms.Icons.EvaIcon
+            <LibraryComponents.Atoms.Icon.EvaIcon
               icon="home-outline"
               size="large"
               color={Config.Styles.COLORS.BLACK}

@@ -111,7 +111,7 @@ const Role = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="solid"
-              icon={LibraryComponents.Atoms.Icons.Save}
+              icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (
                   Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
@@ -137,7 +137,7 @@ const Role = observer(() => {
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
               type="outline"
-              icon={LibraryComponents.Atoms.Icons.Remove}
+              icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
                 //rootStore.roleStore.clear();
                 window.location.reload()

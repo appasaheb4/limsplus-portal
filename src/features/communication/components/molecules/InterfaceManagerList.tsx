@@ -424,7 +424,7 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                       }
                     }}
                   >
-                    <LibraryComponents.Atoms.Icons.EvaIcon icon="plus-circle-outline" />
+                    <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
                     {`Add`}
                   </LibraryComponents.Atoms.Buttons.Button>
                 </div>
@@ -442,7 +442,7 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                         key={index}
                         size="medium"
                         type="solid"
-                        icon={LibraryComponents.Atoms.Icons.Remove}
+                        icon={LibraryComponents.Atoms.Icon.Remove}
                         onClick={() => {
                           const firstArr = row.fileds?.slice(0, index) || []
                           const secondArr = row.fileds?.slice(index + 1) || []
@@ -484,7 +484,7 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
               <LibraryComponents.Atoms.Buttons.Button
                 size="small"
                 type="outline"
-                icon={LibraryComponents.Atoms.Icons.Remove}
+                icon={LibraryComponents.Atoms.Icon.Remove}
                 onClick={() => {
                   props.onDelete &&
                     props.onDelete({
