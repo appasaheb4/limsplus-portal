@@ -3,14 +3,21 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import moment from "moment"
 
+import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
+import Checkbox from "@material-ui/core/Checkbox"
+
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from '@lp/library/utils'
 import * as LibraryModels from "@lp/library/models"
 
 import * as Services from "../../services"
 
 import { Stores } from "../../stores"
+import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { toJS } from "mobx"
 
 interface UserListProps {
   data: any
@@ -22,6 +29,30 @@ interface UserListProps {
 }
 
 const UserList = observer((props: UserListProps) => {
+  const [labs, setLabs] = useState<any>()
+  let count = 0
+  const getSelectedItem = (key: string, rows: any, list: any[], findKey: string) => {
+    if (count === 0) {
+      const finalList = list.filter((item, index) => {
+        rows.find((rItem, index) => {
+          if (rItem.code === item.code) {
+            item.selected = true
+            return item
+          } else {
+            return item
+          }
+        })
+        console.log({ item })
+        count++
+        return item
+      })
+      list = finalList
+    }
+    if (key === "lab") {
+      setLabs(list)
+    }
+    return list
+  }
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -44,10 +75,17 @@ const UserList = observer((props: UserListProps) => {
               editable: false,
             },
             {
+              dataField: "defaultLab",
+              text: "Default Lab",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              editable: false,
+            },
+            {
               dataField: "lab",
               text: "Lab",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
@@ -58,44 +96,56 @@ const UserList = observer((props: UserListProps) => {
                   </ul>
                 </>
               ),
-              editable: false,
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex
-              // ) => (
-              //   <>
-              //     <select
-              //       name="lab"
-              //       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-              //       onChange={(e) => {
-              //         const lab = e.target.value
-              //         Services.updateUserSingleFiled({
-              //           newValue: lab,
-              //           dataField: column.dataField,
-              //           id: row._id,
-              //         }).then((res) => {
-              //           if (res.data) {
-              //             rootStore.userStore.loadUser()
-              //             LibraryComponents.Atoms.ToastsStore.success(`User update.`)
-              //           }
-              //         })
-              //       }}
-              //     >
-              //       <option selected>{row.lab}</option>
-              //       {rootStore.labStore.listLabs.map(
-              //         (item: any, index: number) => (
-              //           <option key={item.name} value={item.code}>
-              //             {item.name}
-              //           </option>
-              //         )
-              //       )}
-              //     </select>
-              //   </>
-              // ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <Autocomplete
+                    multiple
+                    id="labs"
+                    //value={labs || row.lab}
+                    options={
+                      // getSelectedItem(
+                      //   "lab",
+                      //   toJS(row.lab),
+                      //   LabStore.labStore.listLabs,
+                      //   "code"
+                      // )
+                      LabStore.labStore.listLabs
+                    }
+                    disableCloseOnSelect
+                    onChange={(event, newValue) => {
+                      newValue = LibraryUtils.uniqArrayByKeepFirst(newValue, (it) => it.code)
+                      setLabs(newValue)
+                      console.log({ newValue })
+                      // Stores.userStore.updateUser({
+                      //   ...Stores.userStore.user,
+                      //   lab: newValue,
+                      // })
+                    }}
+                    getOptionLabel={(option) => option.name || ""}
+                    renderOption={(option, { selected }) => (
+                      <React.Fragment>
+                        <Checkbox style={{ marginRight: 8 }} checked={selected} />
+                        {option.name}
+                      </React.Fragment>
+                    )}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Labs"
+                        placeholder="Labs"
+                      />
+                    )}
+                  />
+                </>
+              ),
             },
             {
               dataField: "fullName",
@@ -122,7 +172,6 @@ const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
@@ -213,7 +262,6 @@ const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
