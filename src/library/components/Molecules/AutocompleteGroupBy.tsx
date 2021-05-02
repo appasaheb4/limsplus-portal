@@ -18,8 +18,6 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   const [data, setData] = useState<any[]>()
   const [options, setOptions] = useState<any[]>()
   useEffect(() => {
-    console.log({data: JSON.stringify(props.data)});
-    
     setData(props.data)
     //setOptions(props.data)
   }, [props])

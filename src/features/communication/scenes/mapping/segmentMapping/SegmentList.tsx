@@ -76,13 +76,13 @@ const SegmentList = observer((props: SegmentListProps) => {
       <input
         type="number"
         min="0"
-        placeholder="Number"
+        placeholder="No"
         onChange={(e) => {
           if (e.target.value) {
             onSizePerPageChange(e.target.value)
           }
         }}
-        className="mr-2 ml-2 leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+        className="mr-2 ml-2 leading-4 p-2 w-14 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
       />
       {options.map((option) => (
         <button

@@ -610,7 +610,9 @@ const Users = observer(() => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
                     setModalConfirm({ show: false })
-                    Stores.userStore.loadUser()
+                   setTimeout(() => {
+                     window.location.reload()
+                   }, 1000);
                   }
                 })
               }

@@ -37,7 +37,6 @@
     "postcss": "^7.0.35",
     "public-ip": "^4.0.3",
     "react": "^16.13.1",
-    "react-autocomplet-groupby": "^0.1.4",
     "react-autocomplete": "^1.8.1",
     "react-beautiful-dnd": "^13.1.0",
     "react-bootstrap": "^1.4.0",
