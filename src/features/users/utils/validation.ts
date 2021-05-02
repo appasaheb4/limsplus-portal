@@ -56,6 +56,9 @@ export const constraintsUser = {
     exipreDays: {
       presence: true,
     },
+    lab: {
+      presence: true,
+    },
     role: {
       presence: true,
     },

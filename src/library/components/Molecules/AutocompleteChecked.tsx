@@ -1,7 +1,8 @@
 /* eslint-disable  */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
 import lodash from "lodash"
+import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 interface AutocompleteCheckedProps {
@@ -11,11 +12,43 @@ interface AutocompleteCheckedProps {
 }
 
 const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
-  const [data, setData] = useState<any[]>()
+  const [value, setValue] = useState<string>('')
   const [options, setOptions] = useState<any[]>()
   const [originalOptions, setOriginalOptions] = useState<any[]>()
-  const [isChangesItem, setIsChangesItem] = useState<boolean>(false)
-  const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
+  const [isListOpen, setIsListOpen] = useState<boolean>(false)
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        console.log({ isListOpen })
+
+        if (ref.current && !ref.current.contains(event.target) && isListOpen) {
+          console.log("soe")
+          if (originalOptions && options) {
+            if (isListOpen) {
+              props.onUpdate &&
+                props.onUpdate(options.filter((item) => item.selected === true))
+            }
+          }
+          setIsListOpen(false)
+          setValue('')
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside)
+      }
+    }, [ref, isListOpen])
+  }
+
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef)
+
   let count = 0
   const getSelectedItem = (defulatValues: any, list: any[], findKey: string) => {
     if (count === 0) {
@@ -28,7 +61,7 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
         count++
         return item
       })
-      console.log({ finalList })
+      // console.log({ finalList })
       list = finalList
     }
     return list
@@ -47,7 +80,7 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
     if (options) {
       options[index].selected = item.selected ? false : true
     }
-    setIsChangesItem(!isChangesItem)
+    setIsListOpen(true)
     setOptions(options)
   }
 
@@ -64,8 +97,8 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
   }
 
   const onChange = (e) => {
-    setIsShowDropDown(true)
     const search = e.target.value
+    setValue(search)
     filter(search, options)
   }
 
@@ -79,29 +112,31 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
 
   return (
     <>
-      <div
-        className="p-2"
-        onMouseLeave={() => {
-          if (originalOptions && options) {
-            if (isChangesItem) {
-              props.onUpdate &&
-                props.onUpdate(options.filter((item) => item.selected === true))
+      <div ref={wrapperRef}>
+        <div className="flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+          <input
+            placeholder="Search ..."
+            value={
+              !isListOpen
+                ? `${options?.filter((item) => item.selected === true).length ||0} Items`
+                : value
             }
-          }
-        }}
-      >
-        <input
-          placeholder="Search ..."
-          //   value={props.value}
-          className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-          onKeyUp={onKeyUp}
-          onChange={onChange}
-          onClick={() => setIsShowDropDown(true)}
-        />
-        {options && isShowDropDown
+            className="w-full focus:outline-none bg-none"
+            onKeyUp={onKeyUp}
+            onChange={onChange}
+            onClick={() => setIsListOpen(true)}
+          />
+          {isListOpen ? (
+            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+          ) : (
+            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+          )}
+        </div>
+
+        {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1">
-                <ul className="bg-white p-2 rounded-sm">
+              <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm">
+                <ul>
                   {options?.map((item, index) => (
                     <>
                       <li key={index} className="text-gray-400 flex items-center">
