@@ -132,33 +132,25 @@ const Users = observer(() => {
                     {errors.defaultLab}
                   </span>
                 )}
-                <Autocomplete
-                  multiple
-                  id="labs"
-                  options={LabStore.labStore.listLabs}
-                  disableCloseOnSelect
-                  onChange={(event, newValue) => {
-                    Stores.userStore.updateUser({
-                      ...Stores.userStore.user,
-                      lab: newValue,
-                    })
-                  }}
-                  getOptionLabel={(option) => option.name || ""}
-                  renderOption={(option, { selected }) => (
-                    <React.Fragment>
-                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                      {option.name}
-                    </React.Fragment>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Labs"
-                      placeholder="Labs"
-                    />
-                  )}
-                />
+                <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: [{ code: Stores.userStore.user.defaultLab }],
+                      list: LabStore.labStore.listLabs,
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {  
+                      setErrors({
+                        ...errors,
+                        lab: Utils.validate.single(items, Utils.constraintsUser.lab),
+                      })
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
+                        lab: items,
+                      })
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.lab && (
                   <span className="text-red-600 font-medium relative">
                     {errors.lab}
@@ -610,9 +602,9 @@ const Users = observer(() => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
                     setModalConfirm({ show: false })
-                   setTimeout(() => {
-                     window.location.reload()
-                   }, 1000);
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 1000)
                   }
                 })
               }

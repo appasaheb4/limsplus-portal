@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as RootStore } from "@lp/library/stores"
 
@@ -15,11 +16,13 @@ interface AutocompleteGroupByProps {
 const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   const history = useHistory()
   //const [userRouter, setUserRouter] = useState<any>()
+  const [value, setValue] = useState<string>("")
   const [data, setData] = useState<any[]>()
   const [options, setOptions] = useState<any[]>()
+  const [isListOpen, setIsListOpen] = useState<boolean>(false)
   useEffect(() => {
     setData(props.data)
-    //setOptions(props.data)
+    setOptions(props.data)
   }, [props])
 
   // useEffect(() => {
@@ -69,6 +72,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
 
   const onChange = (e) => {
     const search = e.target.value
+    setValue(search)
     filter(search, data)
   }
 
@@ -83,16 +87,24 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   return (
     <>
       <div className="p-2">
-        <input
-          placeholder="Search Menu Item"
-          //   value={props.value}
-          className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-          onKeyUp={onKeyUp}
-          onChange={onChange}
-        />
-        {options
+        <div className="flex items-center leading-4 p-2 bg-white focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+          <input
+            placeholder="Search..."
+            value={value}
+            className="w-full focus:outline-none"
+            onKeyUp={onKeyUp}
+            onChange={onChange}
+            onClick={() => setIsListOpen(true)}
+          />
+          {isListOpen ? (
+            <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+          ) : (
+            <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+          )}
+        </div>
+        {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1">
+              <div className="mt-1 absolute z-50 w-full">
                 <ul className="bg-white p-2 rounded-sm">
                   {options?.map((item, index) => (
                     <>
@@ -112,6 +124,8 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
                               )
                               history.push(children.path)
                               //RootStore.routerStore.updateUserRouter(userRouter)
+                              setIsListOpen(false)
+                              setValue("")
                               setOptions([])
                             }}
                           >
