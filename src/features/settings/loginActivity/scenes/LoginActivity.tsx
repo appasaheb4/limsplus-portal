@@ -22,7 +22,7 @@ const LoginActivity = observer(() => {
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
           title={RootStore.routerStore.selectedComponents?.title || ""}
-        />   
+        />
       </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
@@ -40,27 +40,42 @@ const LoginActivity = observer(() => {
                 dataField: "user.fullName",
                 text: "User name",
                 sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
                 editable: false,
               },
               {
                 dataField: "user.userId",
                 text: "User Id",
+                sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
               },
               {
                 dataField: "user.lab",
                 text: "Lab",
+                sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
               },
               {
                 dataField: "user.role",
                 text: "Role",
+                sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
               },
               {
                 dataField: "systemInfo.device",
                 text: "Device",
+                sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
               },
               {
                 dataField: "systemInfo.v4",
                 text: "Ip Information",
+
                 csvFormatter: (cell, row, rowIndex) =>
                   `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
                 formatter: (cell, row) => {
@@ -86,6 +101,9 @@ const LoginActivity = observer(() => {
               {
                 dataField: "dateOfEntry",
                 text: "In",
+                sort: true,
+                filter: LibraryComponents.Organisms.Utils.textFilter(),
+                headerStyle: { minWidth: "200px" },
                 formatter: (cell, row) => {
                   return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                 },
@@ -93,6 +111,7 @@ const LoginActivity = observer(() => {
               {
                 dataField: "lastUpdated",
                 text: "Out",
+                sort: true,
                 formatter: (cell, row) => {
                   return row.lastUpdated !== undefined
                     ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
