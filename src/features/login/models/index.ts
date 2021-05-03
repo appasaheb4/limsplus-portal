@@ -13,6 +13,7 @@ export interface ILogin {
   token?: string
   roleMapping?: any
   image?: string
+  shortcutMenu?: any[]
 }
 
 export interface ForgotPassword {

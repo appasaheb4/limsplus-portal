@@ -26,110 +26,122 @@ const LoginActivity = observer(() => {
       </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <LibraryComponents.Organisms.TableBootstrap
-            id="_id"
-            data={Stores.loginActivityStore.listLoginActivity || []}
-            columns={[
-              {
-                dataField: "_id",
-                text: "Id",
-                hidden: true,
-                csvExport: false,
-              },
-              {
-                dataField: "user.fullName",
-                text: "User name",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-                editable: false,
-              },
-              {
-                dataField: "user.userId",
-                text: "User Id",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-              },
-              {
-                dataField: "user.lab",
-                text: "Lab",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-              },
-              {
-                dataField: "user.role",
-                text: "Role",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-              },
-              {
-                dataField: "systemInfo.device",
-                text: "Device",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-              },
-              {
-                dataField: "systemInfo.v4",
-                text: "Ip Information",
+          <div style={{ position: "relative" }}>
+            <LibraryComponents.Organisms.TableBootstrap
+              id="_id"
+              data={Stores.loginActivityStore.listLoginActivity || []}
+              columns={[
+                {
+                  dataField: "_id",
+                  text: "Id",
+                  hidden: true,
+                  csvExport: false,
+                },
+                {
+                  dataField: "user.fullName",
+                  text: "User name",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                  editable: false,
+                },
+                {
+                  dataField: "user.userId",
+                  text: "User Id",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                },
+                {
+                  dataField: "user.lab",
+                  text: "Lab",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                },
+                {
+                  dataField: "user.role",
+                  text: "Role",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                },
+                {
+                  dataField: "systemInfo.device",
+                  text: "Device",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                },
+                {
+                  dataField: "systemInfo.v4",
+                  text: "Ip Information",
+                  filter: LibraryComponents.Organisms.Utils.textFilter({
+                    getFilter: (filter) => {
+                      // qualityFilter was assigned once the component has been mounted.
+                      //qualityFilter = filter;
+                    },
+                    onFilter: (filterValue) => {
+                      if (filterValue) {
+                      }
+                    },
+                  }),
+                  headerStyle: { minWidth: "200px" },
+                  csvFormatter: (cell, row, rowIndex) =>
+                    `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
+                  formatter: (cell, row) => {
+                    return (
+                      <>
+                        <div>
+                          <h6>Ip: {row.systemInfo.ipInfo.ip}</h6>
+                          {row.systemInfo.ipInfo.city && (
+                            <>
+                              <h6>
+                                Address:{" "}
+                                {`${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}`}
+                              </h6>
+                              <h6>Location: {`${row.systemInfo.ipInfo.ll}`}</h6>
+                            </>
+                          )}
+                        </div>
+                      </>
+                    )
+                  },
+                },
 
-                csvFormatter: (cell, row, rowIndex) =>
-                  `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
-                formatter: (cell, row) => {
-                  return (
-                    <>
-                      <div>
-                        <h6>Ip: {row.systemInfo.ipInfo.ip}</h6>
-                        {row.systemInfo.ipInfo.city && (
-                          <>
-                            <h6>
-                              Address:{" "}
-                              {`${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}`}
-                            </h6>
-                            <h6>Location: {`${row.systemInfo.ipInfo.ll}`}</h6>
-                          </>
-                        )}
-                      </div>
-                    </>
-                  )
+                {
+                  dataField: "dateOfEntry",
+                  text: "In",
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerStyle: { minWidth: "200px" },
+                  formatter: (cell, row) => {
+                    return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
+                  },
                 },
-              },
-
-              {
-                dataField: "dateOfEntry",
-                text: "In",
-                sort: true,
-                filter: LibraryComponents.Organisms.Utils.textFilter(),
-                headerStyle: { minWidth: "200px" },
-                formatter: (cell, row) => {
-                  return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
+                {
+                  dataField: "lastUpdated",
+                  text: "Out",
+                  sort: true,
+                  formatter: (cell, row) => {
+                    return row.lastUpdated !== undefined
+                      ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
+                      : "Active User"
+                  },
                 },
-              },
-              {
-                dataField: "lastUpdated",
-                text: "Out",
-                sort: true,
-                formatter: (cell, row) => {
-                  return row.lastUpdated !== undefined
-                    ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
-                    : "Active User"
-                },
-              },
-            ]}
-            isEditModify={false}
-            isSelectRow={false}
-            fileName="Login Activity"
-            // onSelectedRow={(rows) => {
-            //   props.onSelectedRow &&
-            //     props.onSelectedRow(rows.map((item: any) => item._id))
-            // }}
-            // onUpdateItem={(value: any, dataField: string, id: string) => {
-            //   props.onUpdateItem && props.onUpdateItem(value, dataField, id)
-            // }}
-          />
+              ]}
+              isEditModify={false}
+              isSelectRow={false}
+              fileName="Login Activity"
+              // onSelectedRow={(rows) => {
+              //   props.onSelectedRow &&
+              //     props.onSelectedRow(rows.map((item: any) => item._id))
+              // }}
+              // onUpdateItem={(value: any, dataField: string, id: string) => {
+              //   props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+              // }}
+            />
+          </div>
         </div>
       </div>
     </>

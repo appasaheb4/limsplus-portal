@@ -18,9 +18,11 @@ export interface IconsProps {
   color?: string
 }
 
-export const IconContext: React.FunctionComponent = (props) => {
+export const IconContext: React.FunctionComponent<IconsProps> = (props) => {
   return (
-    <Context.Provider value={{ color: "#fff", size: "20" }}>
+    <Context.Provider
+      value={{ color: props.color || "#fff", size: props.size || "20" }}
+    >
       <div>{props.children}</div>
     </Context.Provider>
   )
@@ -67,6 +69,11 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconFi.FiActivity
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill")
     return LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill
-
+  if (icon === "LibraryComponents.Atoms.Icons.IconCg.CgShortcut")
+    return LibraryComponents.Atoms.Icons.IconCg.CgShortcut
   return LibraryComponents.Atoms.Icons.IconBs.BsList
+}
+
+export const getIconTag = (Icon: any) => {
+  return <Icon />
 }

@@ -12,7 +12,7 @@ interface AutocompleteCheckedProps {
 }
 
 const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
-  const [value, setValue] = useState<string>('')
+  const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
   const [originalOptions, setOriginalOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -23,18 +23,15 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
        * Alert if clicked on outside of element
        */
       function handleClickOutside(event) {
-        console.log({ isListOpen })
-
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-          console.log("soe")
           if (originalOptions && options) {
-            if (isListOpen) {
+            if (isListOpen) {  
               props.onUpdate &&
                 props.onUpdate(options.filter((item) => item.selected === true))
             }
           }
           setIsListOpen(false)
-          setValue('')
+          setValue("")
         }
       }
       // Bind the event listener
@@ -118,7 +115,9 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
             placeholder="Search ..."
             value={
               !isListOpen
-                ? `${options?.filter((item) => item.selected === true).length ||0} Items`
+                ? `${
+                    options?.filter((item) => item.selected === true).length || 0
+                  } Items`
                 : value
             }
             className="w-full focus:outline-none bg-none"
