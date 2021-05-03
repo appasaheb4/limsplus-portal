@@ -75,5 +75,5 @@ export const getIcons = (icon: string): any => {
 }
 
 export const getIconTag = (Icon: any) => {
-  return <Icon />
+  return Icon ? <Icon /> : <LibraryComponents.Atoms.Icons.IconBs.BsList />
 }
