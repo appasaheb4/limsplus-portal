@@ -12,10 +12,6 @@ import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolk
 import paginationFactory from "react-bootstrap-table2-paginator"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
-import "react-dropdown-tree-select/dist/styles.css"
-import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-const router = dashboardRoutes
-
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
@@ -29,20 +25,18 @@ const { ExportCSVButton } = CSVExport
 const ShortcutMenu = observer(() => {
   useEffect(() => {
     const list: any[] = []
-    router.filter((item) => {
-      if (item.name !== "Dashboard") {
-        item.children.filter((children: any) => {
-          const userShortcutMenu = LoginStore.loginStore.login?.shortcutMenu?.filter(
-            (userItem) =>
-              userItem.category === item.name && userItem.name === children.name
-          )
-          if (userShortcutMenu && userShortcutMenu?.length > 0) {
-            children.selected = true
-          }
-          children.category = item.name
-          list.push(children)
-        })
-      }
+    RootStore.routerStore.userRouter?.filter((item) => {
+      item.children.filter((children: any) => {
+        const userShortcutMenu = LoginStore.loginStore.login?.shortcutMenu?.filter(
+          (userItem) =>
+            userItem.category === item.name && userItem.name === children.name
+        )
+        if (userShortcutMenu && userShortcutMenu?.length > 0) {
+          children.selected = true
+        }
+        children.category = item.name
+        list.push(children)
+      })
     })
     Stores.shortcutMenuStore.updateShortcutMenu(list)
   }, [])
@@ -65,7 +59,7 @@ const ShortcutMenu = observer(() => {
         LoginStore.loginStore.login?.shortcutMenu?.length > 0 && (
           <div>
             <label className="mt-2">Active:</label>
-            <ul className="grid grid-cols-8">
+            <ul className="grid grid-cols-6 p-2">
               {LoginStore.loginStore.login?.shortcutMenu?.map((item, index) => (
                 <>
                   <div className="flex items-center bg-blue-500  p-2 m-2 rounded-md">
@@ -78,7 +72,7 @@ const ShortcutMenu = observer(() => {
                           LibraryComponents.Atoms.Icons.IconBs.BsList
                       )}
                     </LibraryComponents.Atoms.Icons.IconContext>
-                    <li className="m-2 text-white">{item.name}</li>
+                    <li className="m-2 text-white">{item.title}</li>
                   </div>
                 </>
               ))}
@@ -89,7 +83,7 @@ const ShortcutMenu = observer(() => {
       <hr />
       <div className="flex-wrap">
         <label className="mt-2">List:</label>
-        <ul className="grid grid-cols-8">
+        <ul className="grid grid-cols-6 p-2">
           {Stores.shortcutMenuStore.shortcutMenuList &&
             Stores.shortcutMenuStore.shortcutMenuList?.map((item, index) => (
               <>
@@ -109,7 +103,7 @@ const ShortcutMenu = observer(() => {
                         LibraryComponents.Atoms.Icons.IconBs.BsList
                     )}
                   </LibraryComponents.Atoms.Icons.IconContext>
-                  <li className="m-2 text-white">{item.name}</li>
+                  <li className="m-2 text-white">{item.title}</li>
                 </div>
               </>
             ))}
