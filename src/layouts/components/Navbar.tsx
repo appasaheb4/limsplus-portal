@@ -168,7 +168,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           onClick={() => {
             dispatch(toggleSidebar())
           }}
-        >
+        >  
           <i className="hamburger align-self-center" />
         </span>
 
