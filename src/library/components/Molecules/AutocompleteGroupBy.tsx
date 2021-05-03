@@ -1,5 +1,5 @@
 /* eslint-disable  */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useHistory } from "react-router-dom"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -20,6 +20,30 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   const [data, setData] = useState<any[]>()
   const [options, setOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
+
+  const useOutsideAlerter = (ref) => {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target) && isListOpen) {
+          setIsListOpen(false)
+          setValue("")
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener("mousedown", handleClickOutside)
+      }
+    }, [ref, isListOpen])
+  }
+
+  const wrapperRef = useRef(null)
+  useOutsideAlerter(wrapperRef)
+
   useEffect(() => {
     setData(props.data)
     setOptions(props.data)
@@ -86,7 +110,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
 
   return (
     <>
-      <div className="p-2">
+      <div className="p-2" ref={wrapperRef}>
         <div className="flex items-center leading-4 p-2 bg-white focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
           <input
             placeholder="Search..."

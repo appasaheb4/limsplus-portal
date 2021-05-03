@@ -8,13 +8,15 @@ import { useHistory } from "react-router-dom"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-import * as Config from "@lp/config"
+
 
 import * as localStorage from "@lp/library/clients/storage-client"
+import { RouterFlow } from "@lp/flows"
 
 import {
   Collapse,
@@ -178,12 +180,38 @@ const NavbarComponent = observer(({ dispatch }) => {
               window.location.href = "/dashboard/default"
             }}
           >
-            <LibraryComponents.Atoms.Icon.EvaIcon
-              icon="home-outline"
-              size="large"
-              color={Config.Styles.COLORS.BLACK}
-            />
+            <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+              {LibraryComponents.Atoms.Icons.getIconTag(
+                LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
+              )}
+            </LibraryComponents.Atoms.Icons.IconContext>
           </LibraryComponents.Atoms.Buttons.Button>
+
+          {LoginStores.loginStore.login?.shortcutMenu?.map((item) => (
+            <>
+              <div className="ml-2">
+                <LibraryComponents.Atoms.Buttons.Button
+                  size="medium"
+                  type="outline"
+                  onClick={async() => {
+                    await RouterFlow.updateSelectedCategory(
+                      RootStore,
+                      item.category,
+                      item.name
+                    )  
+                    history.push(item.path)
+                  }}
+                >
+                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
+                        LibraryComponents.Atoms.Icons.IconBs.BsList
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Buttons.Button>
+              </div>
+            </>
+          ))}
         </Form>
 
         <Collapse navbar>

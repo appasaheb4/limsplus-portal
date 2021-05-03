@@ -31,6 +31,9 @@ const RoleMapping = async(
 const LoginActivity = async(
   () => import("@lp/features/settings/loginActivity/scenes/LoginActivity")
 )
+const ShortcutMenu = async(
+  () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
+)
 
 // Communication
 const HostCommunication = async(
@@ -167,6 +170,12 @@ const settingsRoutes = {
       name: "Role Mapping",
       icon: "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill",
       component: RoleMapping,
+    },
+    {   
+      path: "/settings/shortcutMenu",
+      name: "Shortcut Menu",
+      icon: "LibraryComponents.Atoms.Icons.IconCg.CgShortcut",
+      component: ShortcutMenu,
     },
   ],
 }
