@@ -14,7 +14,6 @@ import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-
 import * as localStorage from "@lp/library/clients/storage-client"
 import { RouterFlow } from "@lp/flows"
 
@@ -168,7 +167,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           onClick={() => {
             dispatch(toggleSidebar())
           }}
-        >  
+        >
           <i className="hamburger align-self-center" />
         </span>
 
@@ -180,11 +179,13 @@ const NavbarComponent = observer(({ dispatch }) => {
               window.location.href = "/dashboard/default"
             }}
           >
-            <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-              {LibraryComponents.Atoms.Icons.getIconTag(
-                LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
-              )}
-            </LibraryComponents.Atoms.Icons.IconContext>
+            <LibraryComponents.Atoms.Tooltip tooltipText="Dashboard">
+              <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+                {LibraryComponents.Atoms.Icons.getIconTag(
+                  LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
+                )}
+              </LibraryComponents.Atoms.Icons.IconContext>
+            </LibraryComponents.Atoms.Tooltip>
           </LibraryComponents.Atoms.Buttons.Button>
 
           {LoginStores.loginStore.login?.shortcutMenu?.map((item) => (
@@ -193,21 +194,26 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   type="outline"
-                  onClick={async() => {
+                  onClick={async () => {
                     await RouterFlow.updateSelectedCategory(
                       RootStore,
                       item.category,
                       item.name
-                    )  
+                    )
                     history.push(item.path)
                   }}
                 >
-                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                        LibraryComponents.Atoms.Icons.IconBs.BsList
-                    )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
+                  <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#000"
+                      size="22"
+                    >
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
+                          LibraryComponents.Atoms.Icons.IconBs.BsList
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
+                  </LibraryComponents.Atoms.Tooltip>
                 </LibraryComponents.Atoms.Buttons.Button>
               </div>
             </>
