@@ -1,4 +1,4 @@
-import {Stores} from './stores';
+//import {Stores} from './stores';
 const startup = async () => {
    // Stores.roleMappingStore.fetchRoleMappingList();
 }   
