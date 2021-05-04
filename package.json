@@ -77,8 +77,9 @@
   "scripts": {
     "start": "craco start",
     "dev": "craco start",
-    "build": "craco build && node --max_old_space_size=8192",
-    "build-prod": "craco build && rimraf build/static/**/*.map && node --max_old_space_size=8192",
+    "dev:build": "craco build",
+    "build": "serve -s build",
+    "build-prod": "craco build && rimraf build/static/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext ts,tsx",
