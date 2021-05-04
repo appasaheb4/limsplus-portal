@@ -78,7 +78,7 @@
     "start": "craco start",
     "dev": "craco start",
     "dev:build": "craco build",
-    "build": "serve -s build",
+    "build": "npx serve -s build",
     "build-prod": "craco build && rimraf build/static/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject",
