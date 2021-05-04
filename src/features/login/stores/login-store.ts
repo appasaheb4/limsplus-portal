@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 //import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
