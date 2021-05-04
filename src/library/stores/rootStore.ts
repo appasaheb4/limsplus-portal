@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { makeAutoObservable, action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import SessionStore from "mobx-session"
