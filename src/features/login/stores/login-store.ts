@@ -1,6 +1,6 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
-import SessionStore from "mobx-session"
+//import SessionStore from "mobx-session"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
@@ -13,7 +13,7 @@ class LoginStore {
   @ignore @observable forgotPassword?: Models.ForgotPassword
 
   constructor() {
-    SessionStore.initialize({ name: "limsplus" })
+    // SessionStore.initialize({ name: "limsplus" })
     makeAutoObservable(this)
     // runInAction(async () => {
     //   this.login = await SessionStore.getSession()
@@ -26,23 +26,23 @@ class LoginStore {
 
   // session
   @action saveLogin = (session) => {
-    SessionStore.saveSession(session)
+    // SessionStore.saveSession(session)
     this.login = session
   }
 
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
-      if (SessionStore.hasSession) {
-        Services.logout(this.login?.loginActivityId || "").then((res) => {
-          if (res.status === 200) {
-            SessionStore.deleteSession()
-            runInAction(() => {
-              this.login = undefined
-            })
-            resolve(true)
-          }
-        })
-      }
+      // if (SessionStore.hasSession) {
+      //   Services.logout(this.login?.loginActivityId || "").then((res) => {
+      //     if (res.status === 200) {
+      //       SessionStore.deleteSession()
+      //       runInAction(() => {
+      //         this.login = undefined
+      //       })
+      resolve(true)
+      //     }
+      //   })
+      // }
     })
   }
 
