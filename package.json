@@ -74,11 +74,10 @@
     "xlsx": "^0.16.9",
     "yarn": "^1.22.10"
   },
-  "scripts": {
+  "scripts": {  
     "start": "craco start",
     "dev": "craco start",
-    "dev:build": "craco build",
-    "build": "npx serve -s build",
+    "build": "craco build",
     "build-prod": "craco build && rimraf build/static/**/*.map",
     "test": "craco test",
     "eject": "react-scripts eject",
