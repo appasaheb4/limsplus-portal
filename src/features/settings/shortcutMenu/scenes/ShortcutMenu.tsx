@@ -2,25 +2,13 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-import * as Services from "../services"
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import moment from "moment"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
+
 
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { Stores as RootStore } from "@lp/library/stores"
 
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 const ShortcutMenu = observer(() => {
   useEffect(() => {

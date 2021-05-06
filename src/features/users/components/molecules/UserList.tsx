@@ -3,12 +3,9 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import moment from "moment"
 
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import Checkbox from "@material-ui/core/Checkbox"
 
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryUtils from "@lp/library/utils"
+
 import * as LibraryModels from "@lp/library/models"
 
 import * as Services from "../../services"

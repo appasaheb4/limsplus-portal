@@ -1,21 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
-import * as Services from "../services"
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import Checkbox from "@material-ui/core/Checkbox"
-import * as Router from "@lp/routes"
-import moment from "moment"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-
-import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 const RoleRightsMapping = observer(() => {
   // const option = [{ title: "Add" }, { title: "Delete" }, { title: "Edit/Update" }]

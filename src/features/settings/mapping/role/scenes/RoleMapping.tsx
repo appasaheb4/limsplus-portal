@@ -6,12 +6,10 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import moment from "moment"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
+
+// import TextField from "@material-ui/core/TextField"
+// import Autocomplete from "@material-ui/lab/Autocomplete" 
+
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import "react-dropdown-tree-select/dist/styles.css"
@@ -25,8 +23,7 @@ import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+
 
 const RoleMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -110,7 +107,7 @@ const RoleMapping = observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddRoleMapping ? "hidden" : "shown")
           }
         >
-          <Autocomplete
+          {/* <Autocomplete
             value={value}
             onChange={(event: any, newValue: string | null) => {
               setSelectedUserRole(newValue)
@@ -127,7 +124,7 @@ const RoleMapping = observer(() => {
             renderInput={(params) => (
               <TextField {...params} label="Role" variant="outlined" />
             )}
-          />
+          /> */}
           <div className="mt-4">
             {RootStore.routerStore.router && (
               <ul className="nav nav-stacked characters" id="accordion1">
