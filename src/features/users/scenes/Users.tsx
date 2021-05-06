@@ -8,9 +8,9 @@ import * as Models from "../models"
 import * as Utils from "../utils"
 import moment from "moment"
 
-import TextField from "@material-ui/core/TextField"
-import Autocomplete from "@material-ui/lab/Autocomplete"
-import Checkbox from "@material-ui/core/Checkbox"
+// import TextField from "@material-ui/core/TextField"
+// import Autocomplete from "@material-ui/lab/Autocomplete"
+// import Checkbox from "@material-ui/core/Checkbox"
 
 import { Container } from "reactstrap"
 
@@ -304,7 +304,7 @@ const Users = observer(() => {
                   }}
                 />
 
-                <Autocomplete
+                {/* <Autocomplete
                   multiple
                   id="department"
                   options={DepartmentStore.departmentStore.listDepartment}
@@ -346,7 +346,7 @@ const Users = observer(() => {
                       placeholder="Department"
                     />
                   )}
-                />
+                /> */}
 
                 {errors?.department && (
                   <span className="text-red-600 font-medium relative">
@@ -438,7 +438,7 @@ const Users = observer(() => {
                     </span>
                   )}
                 </LibraryComponents.Atoms.List>
-                <Autocomplete
+                {/* <Autocomplete
                   multiple
                   id="role"
                   options={RoleStore.roleStore.listRole}
@@ -476,7 +476,7 @@ const Users = observer(() => {
                       placeholder="Role"
                     />
                   )}
-                />
+                /> */}
                 {errors?.role && (
                   <span className="text-red-600 font-medium relative">
                     {errors.role}
