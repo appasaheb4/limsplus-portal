@@ -2,13 +2,12 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { Stores as RootStore } from "@lp/library/stores"
-
 
 const ShortcutMenu = observer(() => {
   useEffect(() => {
@@ -36,6 +35,17 @@ const ShortcutMenu = observer(() => {
     }
     Stores.shortcutMenuStore.updateShortcutMenu(list)
   }
+
+  const handleOnDragEnd = (result: any) => {
+    const items = Array.from(LoginStore.loginStore.login?.shortcutMenu || [])
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    items.splice(result.destination.index, 0, reorderedItem)
+    LoginStore.loginStore.updateLogin({
+      ...LoginStore.loginStore.login,
+      shortcutMenu: items,
+    })
+    Stores.shortcutMenuStore.updateDragDrop(true)
+  }
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -47,24 +57,79 @@ const ShortcutMenu = observer(() => {
         LoginStore.loginStore.login?.shortcutMenu?.length > 0 && (
           <div>
             <label className="mt-2">Active:</label>
-            <ul className="grid grid-cols-6 p-2">
-              {LoginStore.loginStore.login?.shortcutMenu?.map((item, index) => (
-                <>
-                  <div className="flex items-center bg-blue-500  p-2 m-2 rounded-md">
-                    <LibraryComponents.Atoms.Icons.IconContext
-                      color="#fff"
-                      size="22"
-                    >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                          LibraryComponents.Atoms.Icons.IconBs.BsList
-                      )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                    <li className="m-2 text-white">{item.title}</li>
-                  </div>
-                </>
-              ))}
-            </ul>
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="characters">
+                {(provided) => (
+                  <ul
+                    className="grid grid-cols-6 p-2"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    {LoginStore.loginStore.login?.shortcutMenu?.map(
+                      (item, index) => (
+                        <>
+                          <Draggable
+                            key={index}
+                            draggableId={item.title}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                <LibraryComponents.Atoms.Icons.IconContext
+                                  color="#fff"
+                                  size="22"
+                                >
+                                  {LibraryComponents.Atoms.Icons.getIconTag(
+                                    LibraryComponents.Atoms.Icons.getIcons(
+                                      item.icon
+                                    ) || LibraryComponents.Atoms.Icons.IconBs.BsList
+                                  )}
+                                </LibraryComponents.Atoms.Icons.IconContext>
+                                <li className="m-2 text-white">{item.title}</li>
+                              </div>
+                            )}
+                          </Draggable>
+                        </>
+                      )
+                    )}
+                  </ul>
+                )}
+              </Droppable>
+            </DragDropContext>
+            {Stores.shortcutMenuStore.isDragDropList && (
+              <div className="flex items-center justify-center">
+                <LibraryComponents.Atoms.Buttons.Button
+                  size="medium"
+                  type="solid"
+                  icon={LibraryComponents.Atoms.Icon.Save}
+                  onClick={() => {
+                    Stores.shortcutMenuStore.ShortcutMenuService.updateShortcutMenu({
+                      selectedList: LoginStore.loginStore.login?.shortcutMenu,
+                      id: LoginStore.loginStore.login?._id,
+                    }).then((res) => {
+                      if (res.status === 200) {
+                        LibraryComponents.Atoms.ToastsStore.success(
+                          `Shortcut Menu updated.`
+                        )
+                        Stores.shortcutMenuStore.updateDragDrop(false)
+                      } else {
+                        LibraryComponents.Atoms.ToastsStore.error(
+                          `Please try agian.`
+                        )
+                      }
+                    })
+                  }}
+                >
+                  Update
+                </LibraryComponents.Atoms.Buttons.Button>
+                <br /> <br />
+              </div>
+            )}
           </div>
         )}
 
