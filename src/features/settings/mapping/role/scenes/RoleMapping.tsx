@@ -7,8 +7,6 @@ import * as FeatureComponents from "../components"
 import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
 
-// import TextField from "@material-ui/core/TextField"
-// import Autocomplete from "@material-ui/lab/Autocomplete"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
@@ -110,6 +108,7 @@ const RoleMapping = observer(() => {
             <select
               name="defualtLab"
               disabled={hideRole}
+              value={Stores.roleMappingStore.selectedRole as any}
               className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
                 const role = roleList[e.target.value]
