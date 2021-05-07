@@ -8,7 +8,7 @@ import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
 
 // import TextField from "@material-ui/core/TextField"
-// import Autocomplete from "@material-ui/lab/Autocomplete" 
+// import Autocomplete from "@material-ui/lab/Autocomplete"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
@@ -24,8 +24,8 @@ import { Stores as RootStore } from "@lp/library/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-
 const RoleMapping = observer(() => {
+  const [hideRole, setHideRole] = useState<boolean>(false)
   const [modalConfirm, setModalConfirm] = useState<any>()
   let roleList: any = RoleStore.roleStore.listRole || []
   for (const router of Stores.roleMappingStore.roleMappingList || []) {
@@ -35,10 +35,9 @@ const RoleMapping = observer(() => {
       })
     }
   }
+  console.log({ roleList })
+
   const description = roleList.length > 0 ? roleList[0].description : undefined
-  const [value, setValue] = React.useState<string | null>(description)
-  const [inputValue, setInputValue] = React.useState("")
-  const [selectedRole, setSelectedUserRole] = useState<any>()
   const [isModify, setIsModify] = useState<any>({ status: false })
   const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true)
 
@@ -107,24 +106,29 @@ const RoleMapping = observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddRoleMapping ? "hidden" : "shown")
           }
         >
-          {/* <Autocomplete
-            value={value}
-            onChange={(event: any, newValue: string | null) => {
-              setSelectedUserRole(newValue)
-              setValue(newValue)
-            }}
-            disabled={isModify.status ? true : false}
-            inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue)
-            }}
-            id="role"
-            options={roleList}
-            getOptionLabel={(option: any) => option.description}
-            renderInput={(params) => (
-              <TextField {...params} label="Role" variant="outlined" />
-            )}
-          /> */}
+          <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
+            <select
+              name="defualtLab"
+              disabled={hideRole}
+              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              onChange={(e) => {
+                const role = roleList[e.target.value]
+                Stores.roleMappingStore.updateSelectedRole(toJS(role))
+              }}
+            >
+              <option selected>
+                {Stores.roleMappingStore.selectedRole
+                  ? Stores.roleMappingStore.selectedRole.description
+                  : `Select`}
+              </option>
+              {roleList.map((item: any, index: number) => (
+                <option key={index} value={index}>
+                  {item.description}
+                </option>
+              ))}
+            </select>
+          </LibraryComponents.Atoms.Form.InputWrapper>
+
           <div className="mt-4">
             {RootStore.routerStore.router && (
               <ul className="nav nav-stacked characters" id="accordion1">
@@ -301,7 +305,7 @@ const RoleMapping = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (
-                  selectedRole !== undefined &&
+                  Stores.roleMappingStore.selectedRole?.description !== undefined &&
                   RootStore.routerStore.router !== undefined
                 ) {
                   let router: any[] = []
@@ -357,7 +361,7 @@ const RoleMapping = observer(() => {
                     ? Stores.roleMappingStore.roleMappingService
                         .updateRoleMapping({
                           id: isModify.id,
-                          role: selectedRole,
+                          role: Stores.roleMappingStore.selectedRole,
                           router: JSON.stringify(router),
                         })
                         .then((res) => {
@@ -373,7 +377,7 @@ const RoleMapping = observer(() => {
                           }
                         })
                     : Services.addRoleMapping({
-                        role: selectedRole,
+                        role: Stores.roleMappingStore.selectedRole,
                         router: JSON.stringify(router),
                       }).then((res) => {
                         if (res.status === LibraryModels.StatusCode.CREATED) {
@@ -422,9 +426,8 @@ const RoleMapping = observer(() => {
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
             onDuplicate={(selectedItem: any) => {
               setHideAddRoleMapping(!hideAddRoleMapping)
-              setValue(selectedItem.description)
-              setSelectedUserRole(selectedItem.description)
-              setInputValue(selectedItem.description)
+              setHideRole(true)
+              Stores.roleMappingStore.updateSelectedRole(toJS(selectedItem))
               setIsModify({ status: true, id: selectedItem.id })
             }}
           />

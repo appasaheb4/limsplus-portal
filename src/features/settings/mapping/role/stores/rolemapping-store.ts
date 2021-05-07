@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class RoleMappingStore {
   @ignore @observable user?: Models.IRole
+  @ignore @observable selectedRole?: Models.RoleMapping 
   @observable roleMappingList?: Models.IRole[] = []
   @observable rolePermission?: any
   constructor() {
@@ -28,6 +29,9 @@ class RoleMappingStore {
 
   @action updateRolePermission(permission: any) {
     this.rolePermission = permission
+  }
+  @action updateSelectedRole(role: Models.RoleMapping) {
+    this.selectedRole = role
   }
 }
 export default RoleMappingStore

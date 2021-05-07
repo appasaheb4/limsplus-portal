@@ -1,8 +1,8 @@
 import * as Clients from "@lp/library/clients"
 import * as Models from "../models"
 
-import RoleMappingService from './rolemapping-services';
-export {RoleMappingService}
+import RoleMappingService from "./rolemapping-services"
+export { RoleMappingService }
 
 const RELATIVE_PATH = "/mapping"
 
@@ -21,8 +21,7 @@ export const roleMappingList = () =>
 
 export const addRoleMapping = (roleMapping: any) =>
   new Promise<any>((resolve, reject) => {
-    console.log({roleMapping});
-    
+    console.log({ roleMapping })
     const client = Clients.createLimsPlusClient()
     client
       .post(`${RELATIVE_PATH}/addRoleMapping`, roleMapping)
