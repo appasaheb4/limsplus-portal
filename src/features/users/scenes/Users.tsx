@@ -8,10 +8,6 @@ import * as Models from "../models"
 import * as Utils from "../utils"
 import moment from "moment"
 
-// import TextField from "@material-ui/core/TextField"
-// import Autocomplete from "@material-ui/lab/Autocomplete"
-// import Checkbox from "@material-ui/core/Checkbox"
-
 import { Container } from "reactstrap"
 
 import { Stores } from "../stores"
@@ -22,7 +18,7 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
+import { toJS } from "mobx"  
 
 const Users = observer(() => {
   const [errors, setErrors] = useState<Models.Users>()
@@ -139,7 +135,7 @@ const Users = observer(() => {
                       list: LabStore.labStore.listLabs,
                       findKey: "code",
                     }}
-                    onUpdate={(items) => {  
+                    onUpdate={(items) => {
                       setErrors({
                         ...errors,
                         lab: Utils.validate.single(items, Utils.constraintsUser.lab),
@@ -303,50 +299,33 @@ const Users = observer(() => {
                     })
                   }}
                 />
-
-                {/* <Autocomplete
-                  multiple
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Department"
                   id="department"
-                  options={DepartmentStore.departmentStore.listDepartment}
-                  disableCloseOnSelect
-                  value={Stores.userStore.user.department}
-                  onChange={(event, newValue) => {
-                    setErrors({
-                      ...errors,
-                      department: Utils.validate.single(
-                        newValue,
-                        Utils.constraintsUser.department
-                      ),
-                    })
-                    if (newValue.length > 2) {
-                      alert("Please select max 2 department")
-                    } else {
+                >
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: [],
+                      list: DepartmentStore.departmentStore.listDepartment,
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {
+                      setErrors({
+                        ...errors,
+                        department: Utils.validate.single(
+                          items,
+                          Utils.constraintsUser.department
+                        ),
+                      })
+                      console.log({ items })
+
                       Stores.userStore.updateUser({
                         ...Stores.userStore.user,
-                        department: newValue,
+                        department: items,
                       })
-                    }
-                  }}
-                  getOptionLabel={(option) => option.name || ""}
-                  renderOption={(option, { selected }) => (
-                    <React.Fragment>
-                      <Checkbox
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                        disabled={true}
-                      />
-                      {option.name}
-                    </React.Fragment>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Department"
-                      placeholder="Department"
-                    />
-                  )}
-                /> */}
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
 
                 {errors?.department && (
                   <span className="text-red-600 font-medium relative">
@@ -438,45 +417,29 @@ const Users = observer(() => {
                     </span>
                   )}
                 </LibraryComponents.Atoms.List>
-                {/* <Autocomplete
-                  multiple
-                  id="role"
-                  options={RoleStore.roleStore.listRole}
-                  disableCloseOnSelect
-                  value={Stores.userStore.user.role}
-                  onChange={(event, newValue) => {
-                    setErrors({
-                      ...errors,
-                      role: Utils.validate.single(
-                        newValue,
-                        Utils.constraintsUser.role
-                      ),
-                    })
-                    if (newValue.length > 2) {
-                      alert("Please select max 2 labs")
-                    } else {
+
+                <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: [],
+                      list: RoleStore.roleStore.listRole,
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {
+                      setErrors({
+                        ...errors,
+                        role: Utils.validate.single(
+                          items,
+                          Utils.constraintsUser.role
+                        ),
+                      })
                       Stores.userStore.updateUser({
                         ...Stores.userStore.user,
-                        role: newValue,
+                        role: items,
                       })
-                    }
-                  }}
-                  getOptionLabel={(option) => option.description || ""}
-                  renderOption={(option, { selected }) => (
-                    <React.Fragment>
-                      <Checkbox style={{ marginRight: 8 }} checked={selected} />
-                      {option.description}
-                    </React.Fragment>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Role"
-                      placeholder="Role"
-                    />
-                  )}
-                /> */}
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 {errors?.role && (
                   <span className="text-red-600 font-medium relative">
                     {errors.role}

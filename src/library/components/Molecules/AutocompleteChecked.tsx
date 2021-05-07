@@ -19,13 +19,10 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
 
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
-      /**
-       * Alert if clicked on outside of element
-       */
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
           if (originalOptions && options) {
-            if (isListOpen) {  
+            if (isListOpen) {
               props.onUpdate &&
                 props.onUpdate(options.filter((item) => item.selected === true))
             }
@@ -34,10 +31,8 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
           setValue("")
         }
       }
-      // Bind the event listener
       document.addEventListener("mousedown", handleClickOutside)
       return () => {
-        // Unbind the event listener on clean up
         document.removeEventListener("mousedown", handleClickOutside)
       }
     }, [ref, isListOpen])
@@ -45,7 +40,6 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
 
   const wrapperRef = useRef(null)
   useOutsideAlerter(wrapperRef)
-
   let count = 0
   const getSelectedItem = (defulatValues: any, list: any[], findKey: string) => {
     if (count === 0) {
