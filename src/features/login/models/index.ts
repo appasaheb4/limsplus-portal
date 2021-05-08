@@ -12,8 +12,8 @@ export interface ILogin {
   exipreDate?: Date
   token?: string
   roleMapping?: any
-  image?: string
-  shortcutMenu?: any[]
+  image?: string   
+  shortcutMenu?: any
 }
 
 export interface ForgotPassword {

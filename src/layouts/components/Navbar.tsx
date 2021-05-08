@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+/* eslint-disable */
+import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import moment from "moment"
@@ -186,38 +187,43 @@ const NavbarComponent = observer(({ dispatch }) => {
                 )}
               </LibraryComponents.Atoms.Icons.IconContext>
             </LibraryComponents.Atoms.Tooltip>
-          </LibraryComponents.Atoms.Buttons.Button>
-
-          {LoginStores.loginStore.login?.shortcutMenu?.map((item) => (
-            <>
-              <div className="ml-2">
-                <LibraryComponents.Atoms.Buttons.Button
-                  size="medium"
-                  type="outline"
-                  onClick={async () => {
-                    await RouterFlow.updateSelectedCategory(
-                      RootStore,
-                      item.category,
-                      item.name
-                    )
-                    history.push(item.path)
-                  }}
-                >
-                  <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
-                    <LibraryComponents.Atoms.Icons.IconContext
-                      color="#000"
-                      size="22"
-                    >
-                      {LibraryComponents.Atoms.Icons.getIconTag(
-                        LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                          LibraryComponents.Atoms.Icons.IconBs.BsList
-                      )}
-                    </LibraryComponents.Atoms.Icons.IconContext>
-                  </LibraryComponents.Atoms.Tooltip>
-                </LibraryComponents.Atoms.Buttons.Button>
-              </div>
-            </>
-          ))}
+          </LibraryComponents.Atoms.Buttons.Button>  
+          {LoginStores.loginStore.login?.shortcutMenu[0] &&
+            LoginStores.loginStore.login?.shortcutMenu[0][
+              LoginStores.loginStore.login.role || ""
+            ] &&
+            LoginStores.loginStore.login?.shortcutMenu[0][
+              LoginStores.loginStore.login.role || ""
+            ].map((item) => (
+              <>
+                <div className="ml-1">
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="outline"
+                    onClick={async () => {
+                      await RouterFlow.updateSelectedCategory(
+                        RootStore,
+                        item.category,
+                        item.name
+                      )
+                      history.push(item.path)
+                    }}
+                  >
+                    <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="22"
+                      >
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
+                            LibraryComponents.Atoms.Icons.IconBs.BsList
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                  </LibraryComponents.Atoms.Buttons.Button>
+                </div>
+              </>
+            ))}
         </Form>
 
         <Collapse navbar>

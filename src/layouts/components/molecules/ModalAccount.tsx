@@ -126,12 +126,12 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                             ...LoginStores.loginStore.login,
                             role,
                           })
-                          history.push("/dashboard/default")
                           const router = JSON.parse(res.data.data.router[0])
                           RootStore.routerStore.updateUserRouter(router)
                           LibraryComponents.Atoms.ToastsStore.success(
                             `Your role change successfully`
                           )
+                          history.push("/dashboard/default")
                           props.onClose && props.onClose()
                         } else {
                           LibraryComponents.Atoms.ToastsStore.error(
