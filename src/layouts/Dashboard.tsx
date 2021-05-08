@@ -24,8 +24,10 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
-    if (router) {
+    if (router && !RootStore.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
+      console.log({ loginRouter: router })
+
       //await hydrateStore("loginStore", LoginStore.loginStore)
       //await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
@@ -46,7 +48,7 @@ const Dashboard = observer(({ children }) => {
         toJS(RootStore.routerStore.userRouter),
         selectedCategory.category,
         selectedCategory.item
-      )  
+      )
       RootStore.routerStore.updateSelectedComponents(selectedComp)
       RootStore.routerStore.updateUserPermission(permission)
     } else {
