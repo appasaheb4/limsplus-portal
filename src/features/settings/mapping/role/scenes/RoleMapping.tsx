@@ -7,7 +7,6 @@ import * as FeatureComponents from "../components"
 import * as LibraryModels from "@lp/library/models"
 import * as Services from "../services"
 
-
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import "react-dropdown-tree-select/dist/styles.css"
@@ -21,6 +20,14 @@ import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  padding: grid,
+  overflow: "auto",
+})
 
 const RoleMapping = observer(() => {
   const [hideRole, setHideRole] = useState<boolean>(false)
@@ -130,168 +137,245 @@ const RoleMapping = observer(() => {
 
           <div className="mt-4">
             {RootStore.routerStore.router && (
-              <ul className="nav nav-stacked characters" id="accordion1">
-                {RootStore.routerStore.router.map((item, index) => (
-                  <li className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md">
-                    {item.toggle ? (
-                      <input
-                        type="text"
-                        className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-sm"
-                        value={item.title}
-                        onChange={(e) => {
-                          const title = e.target.value
-                          const routers = toJS(RootStore.routerStore.router)
-                          routers[index].title = title
-                          RootStore.routerStore.updateRouter(routers)
-                        }}
-                        onBlur={() => {
-                          const routers = toJS(RootStore.routerStore.router)
-                          routers[index].toggle = false
-                          RootStore.routerStore.updateRouter(routers)
-                        }}
-                      />
-                    ) : (
-                      <p
-                        className="font-bold"
-                        onDoubleClick={() => {
-                          const routers = toJS(RootStore.routerStore.router)
-                          routers[index].toggle = true
-                          RootStore.routerStore.updateRouter(routers)
-                        }}
-                      >
-                        {item.title}
-                      </p>
-                    )}
-                    {item.children ? (
-                      <DragDropContext onDragEnd={handleOnDragEnd}>
-                        <Droppable droppableId="characters">
-                          {(provided) => (
-                            <ul
-                              className="flex flex-row ml-1 text-white characters"
-                              id={item.name}
-                              {...provided.droppableProps}
+              <DragDropContext
+                onDragEnd={(result: any) => {
+                  console.log({ result })
+                  const items = Array.from(RootStore.routerStore.router || [])
+                  const [reorderedItem] = items.splice(result.source.index, 1)
+                  items.splice(result.destination.index, 0, reorderedItem)
+                  RootStore.routerStore.updateRouter(items)
+                }}
+              >
+                <Droppable droppableId="parent" direction="vertical">
+                  {(provided, snapshot) => (
+                    <ul
+                      className="nav nav-stacked characters"
+                      id="accordion1"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {RootStore.routerStore.router.map((item, index) => (
+                        <Draggable
+                          key={item.name}
+                          draggableId={item.name}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <li
+                              className="flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md"
                               ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
                             >
-                              {item.children.map((children, indexChildren) => (
-                                <Draggable
-                                  key={children.name}
-                                  draggableId={children.name}
-                                  index={indexChildren}
+                              {item.toggle ? (
+                                <input
+                                  type="text"
+                                  className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                  value={item.title}
+                                  onChange={(e) => {
+                                    const title = e.target.value
+                                    const routers = toJS(
+                                      RootStore.routerStore.router
+                                    )
+                                    routers[index].title = title
+                                    RootStore.routerStore.updateRouter(routers)
+                                  }}
+                                  onBlur={() => {
+                                    const routers = toJS(
+                                      RootStore.routerStore.router
+                                    )
+                                    routers[index].toggle = false
+                                    RootStore.routerStore.updateRouter(routers)
+                                  }}
+                                />
+                              ) : (
+                                <p
+                                  className="font-bold"
+                                  onDoubleClick={() => {
+                                    const routers = toJS(
+                                      RootStore.routerStore.router
+                                    )
+                                    routers[index].toggle = true
+                                    RootStore.routerStore.updateRouter(routers)
+                                  }}
                                 >
-                                  {(provided) => (
-                                    <li
-                                      className="bg-blue-600 ml-4 p-2 rounded-md"
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                    >
-                                      {children.toggle ? (
-                                        <input
-                                          type="text"
-                                          className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
-                                          value={children.title}
-                                          onChange={(e) => {
-                                            const title = e.target.value
-                                            const routers = toJS(
-                                              RootStore.routerStore.router
-                                            )
-                                            routers[index].children[
-                                              indexChildren
-                                            ].title = title
-                                            RootStore.routerStore.updateRouter(
-                                              routers
-                                            )
-                                          }}
-                                          onBlur={() => {
-                                            const routers = toJS(
-                                              RootStore.routerStore.router
-                                            )
-                                            routers[index].children[
-                                              indexChildren
-                                            ].toggle = false
-                                            RootStore.routerStore.updateRouter(
-                                              routers
-                                            )
-                                          }}
-                                        />
-                                      ) : (
-                                        <p
-                                          className="font-bold"
-                                          onDoubleClick={() => {
-                                            const routers = toJS(
-                                              RootStore.routerStore.router
-                                            )
-                                            routers[index].children[
-                                              indexChildren
-                                            ].toggle = true
-                                            RootStore.routerStore.updateRouter(
-                                              routers
-                                            )
-                                          }}
-                                        >
-                                          {children.title}
-                                        </p>
-                                      )}
+                                  {item.title}
+                                </p>
+                              )}
+                              {item.children ? (
+                                <DragDropContext
+                                  onDragEnd={(result: any) => {
+                                    const items = Array.from(item.children || [])
+                                    const [reorderedItem] = items.splice(
+                                      result.source.index,
+                                      1
+                                    )
+                                    items.splice(
+                                      result.destination.index,
+                                      0,
+                                      reorderedItem
+                                    )
+                                    const router = [...RootStore.routerStore.router]
+                                    router[index].children = items
+                                    RootStore.routerStore.updateRouter(router)
+                                  }}
+                                >
+                                  <Droppable
+                                    droppableId="characters"
+                                    direction="horizontal"
+                                  >
+                                    {(provided, snapshot) => (
+                                      <ul
+                                        className="flex flex-row ml-1 text-white characters"
+                                        id={item.name}
+                                        style={getListStyle(snapshot.isDraggingOver)}
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                      >
+                                        {item.children.map(
+                                          (children, indexChildren) => (
+                                            <Draggable
+                                              key={children.name}
+                                              draggableId={children.name}
+                                              index={indexChildren}
+                                            >
+                                              {(provided, snapshot) => (
+                                                <li
+                                                  className="bg-blue-600 ml-4 p-2 rounded-md"
+                                                  ref={provided.innerRef}
+                                                  {...provided.draggableProps}
+                                                  {...provided.dragHandleProps}
+                                                >
+                                                  {children.toggle ? (
+                                                    <input
+                                                      type="text"
+                                                      className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                                      value={children.title}
+                                                      onChange={(e) => {
+                                                        const title = e.target.value
+                                                        const routers = toJS(
+                                                          RootStore.routerStore
+                                                            .router
+                                                        )
+                                                        routers[index].children[
+                                                          indexChildren
+                                                        ].title = title
+                                                        RootStore.routerStore.updateRouter(
+                                                          routers
+                                                        )
+                                                      }}
+                                                      onBlur={() => {
+                                                        const routers = toJS(
+                                                          RootStore.routerStore
+                                                            .router
+                                                        )
+                                                        routers[index].children[
+                                                          indexChildren
+                                                        ].toggle = false
+                                                        RootStore.routerStore.updateRouter(
+                                                          routers
+                                                        )
+                                                      }}
+                                                    />
+                                                  ) : (
+                                                    <p
+                                                      className="font-bold"
+                                                      onDoubleClick={() => {
+                                                        const routers = toJS(
+                                                          RootStore.routerStore
+                                                            .router
+                                                        )
+                                                        routers[index].children[
+                                                          indexChildren
+                                                        ].toggle = true
+                                                        RootStore.routerStore.updateRouter(
+                                                          routers
+                                                        )
+                                                      }}
+                                                    >
+                                                      {children.title}
+                                                    </p>
+                                                  )}
 
-                                      <ul className="ml-2">
-                                        {children.permission.map(
-                                          (permission, indexPermission) => (
-                                            <li>
-                                              <input
-                                                type="checkbox"
-                                                checked={permission.checked}
-                                                className="m-2"
-                                                onChange={async () => {
-                                                  const routers = toJS(
-                                                    RootStore.routerStore.router
-                                                  )
-                                                  const modifyPermission =
-                                                    item.children[indexChildren]
-                                                      .permission[indexPermission]
-                                                  modifyPermission.checked = modifyPermission.checked
-                                                    ? false
-                                                    : true
-                                                  if (
-                                                    modifyPermission.title ===
-                                                      "Edit/Modify" ||
-                                                    modifyPermission.title ===
-                                                      "Delete"
-                                                  ) {
-                                                    routers[index].children[
-                                                      indexChildren
-                                                    ].permission[1].checked = true
-                                                    console.log("check")
-                                                  }
-                                                  routers[index].children[
-                                                    indexChildren
-                                                  ].permission[
-                                                    indexPermission
-                                                  ] = toJS(modifyPermission)
-                                                  RootStore.routerStore.updateRouter(
-                                                    routers
-                                                  )
-                                                }}
-                                              />
-                                              {permission.title}
-                                            </li>
+                                                  <ul className="ml-2">
+                                                    {children.permission.map(
+                                                      (
+                                                        permission,
+                                                        indexPermission
+                                                      ) => (
+                                                        <li
+                                                          onClick={async () => {
+                                                            const routers = toJS(
+                                                              RootStore.routerStore
+                                                                .router
+                                                            )
+                                                            const modifyPermission =
+                                                              item.children[
+                                                                indexChildren
+                                                              ].permission[
+                                                                indexPermission
+                                                              ]
+                                                            modifyPermission.checked = modifyPermission.checked
+                                                              ? false
+                                                              : true
+                                                            if (
+                                                              modifyPermission.title ===
+                                                                "Edit/Modify" ||
+                                                              modifyPermission.title ===
+                                                                "Delete"
+                                                            ) {
+                                                              routers[
+                                                                index
+                                                              ].children[
+                                                                indexChildren
+                                                              ].permission[1].checked = true
+                                                              console.log("check")
+                                                            }
+                                                            routers[index].children[
+                                                              indexChildren
+                                                            ].permission[
+                                                              indexPermission
+                                                            ] = toJS(
+                                                              modifyPermission
+                                                            )
+                                                            RootStore.routerStore.updateRouter(
+                                                              routers
+                                                            )
+                                                          }}
+                                                        >
+                                                          <input
+                                                            type="checkbox"
+                                                            checked={
+                                                              permission.checked
+                                                            }
+                                                            className="m-2 w-4 h-4"
+                                                          />
+                                                          {permission.title}
+                                                        </li>
+                                                      )
+                                                    )}
+                                                  </ul>
+                                                </li>
+                                              )}
+                                            </Draggable>
                                           )
                                         )}
+                                        {provided.placeholder}
                                       </ul>
-                                    </li>
-                                  )}
-                                </Draggable>
-                              ))}
-                              {provided.placeholder}
-                            </ul>
+                                    )}
+                                  </Droppable>
+                                </DragDropContext>
+                              ) : (
+                                <li>{item.title}</li>
+                              )}
+                            </li>
                           )}
-                        </Droppable>
-                      </DragDropContext>
-                    ) : (
-                      <li>{item.title}</li>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                        </Draggable>
+                      ))}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
             )}
           </div>
 
