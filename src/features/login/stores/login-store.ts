@@ -55,6 +55,8 @@ class LoginStore {
   }
 
   @action updateLogin(login: Models.ILogin) {
+    console.log({login});
+    
     this.login = login
   }
 

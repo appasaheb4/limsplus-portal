@@ -23,12 +23,23 @@ const ShortcutMenu = observer(() => {
     const list: any[] = []
     RootStore.routerStore.userRouter?.filter((item) => {
       item.children.filter((children: any) => {
-        const userShortcutMenu = LoginStore.loginStore.login?.shortcutMenu?.filter(
-          (userItem) =>
-            userItem.category === item.name && userItem.name === children.name
-        )
+        const userShortcutMenu =
+          LoginStore.loginStore.login?.shortcutMenu[0] &&
+          LoginStore.loginStore.login?.shortcutMenu[0][
+            LoginStore.loginStore.login.role || ""
+          ] &&
+          LoginStore.loginStore.login?.shortcutMenu[0][
+            LoginStore.loginStore.login.role || ""
+          ].filter(
+            (userItem) =>
+              userItem.category === item.name && userItem.name === children.name
+          )
+        //console.log({ userShortcutMenu })
+
         if (userShortcutMenu && userShortcutMenu?.length > 0) {
           children.selected = true
+        } else {
+          children.selected = false
         }
         children.category = item.name
         list.push(children)
@@ -46,12 +57,18 @@ const ShortcutMenu = observer(() => {
   }
 
   const handleOnDragEnd = (result: any) => {
-    const items = Array.from(LoginStore.loginStore.login?.shortcutMenu || [])
+    const items = Array.from(
+      (LoginStore.loginStore.login?.shortcutMenu[0] &&
+        LoginStore.loginStore.login?.shortcutMenu[0][
+          LoginStore.loginStore.login.role || ""
+        ]) ||
+        []
+    )
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
     LoginStore.loginStore.updateLogin({
       ...LoginStore.loginStore.login,
-      shortcutMenu: items,
+      shortcutMenu: [{ [LoginStore.loginStore.login?.role || ""]: items }],
     })
     Stores.shortcutMenuStore.updateDragDrop(true)
   }
@@ -62,8 +79,13 @@ const ShortcutMenu = observer(() => {
           title={RootStore.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {LoginStore.loginStore.login?.shortcutMenu &&
-        LoginStore.loginStore.login?.shortcutMenu?.length > 0 && (
+      {LoginStore.loginStore.login?.shortcutMenu[0] &&
+        LoginStore.loginStore.login?.shortcutMenu[0][
+          LoginStore.loginStore.login.role || ""
+        ] &&
+        LoginStore.loginStore.login?.shortcutMenu[0][
+          LoginStore.loginStore.login.role || ""
+        ].length > 0 && (
           <div>
             <label className="mt-2">Active:</label>
             <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -75,8 +97,10 @@ const ShortcutMenu = observer(() => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    {LoginStore.loginStore.login?.shortcutMenu?.map(
-                      (item, index) => (
+                    {LoginStore.loginStore.login?.shortcutMenu[0] &&
+                      LoginStore.loginStore.login?.shortcutMenu[0][
+                        LoginStore.loginStore.login.role || ""
+                      ].map((item, index) => (
                         <>
                           <Draggable
                             key={item.title}
@@ -105,8 +129,7 @@ const ShortcutMenu = observer(() => {
                             )}
                           </Draggable>
                         </>
-                      )
-                    )}
+                      ))}
                   </ul>
                 )}
               </Droppable>
@@ -119,7 +142,11 @@ const ShortcutMenu = observer(() => {
                   icon={LibraryComponents.Atoms.Icon.Save}
                   onClick={() => {
                     Stores.shortcutMenuStore.ShortcutMenuService.updateShortcutMenu({
-                      selectedList: LoginStore.loginStore.login?.shortcutMenu,
+                      userRole: LoginStore.loginStore.login?.role,
+                      selectedList:
+                        LoginStore.loginStore.login?.shortcutMenu[0][
+                          LoginStore.loginStore.login.role || ""
+                        ],
                       id: LoginStore.loginStore.login?._id,
                     }).then((res) => {
                       if (res.status === 200) {
@@ -181,18 +208,22 @@ const ShortcutMenu = observer(() => {
               const selectedList = Stores.shortcutMenuStore.shortcutMenuList?.filter(
                 (item) => item.selected === true
               )
+              const userRole = LoginStore.loginStore.login?.role
               if (selectedList && selectedList?.length > 0) {
                 Stores.shortcutMenuStore.ShortcutMenuService.updateShortcutMenu({
-                  selectedList,
+                  userRole,
+                  selectedList: selectedList,
                   id: LoginStore.loginStore.login?._id,
                 }).then((res) => {
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
+                    LibraryComponents.Atoms.ToastsStore.success(  
                       `Shortcut Menu updated.`
-                    )
+                    )  
                     LoginStore.loginStore.updateLogin({
                       ...LoginStore.loginStore.login,
-                      shortcutMenu: selectedList,
+                      shortcutMenu: [
+                        { [LoginStore.loginStore.login?.role || ""]: selectedList },
+                      ],
                     })
                   } else {
                     LibraryComponents.Atoms.ToastsStore.error(`Please try agian.`)
