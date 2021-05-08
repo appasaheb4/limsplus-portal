@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
-  
+
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
 import * as LibraryComponents from "@lp/library/components"
-
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
@@ -137,6 +136,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
 
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
+    console.log({ navRouter: RootStore.routerStore.userRouter })
   }, [RootStore.routerStore.userRouter])
 
   const toggle = (index) => {

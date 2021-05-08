@@ -323,6 +323,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                       .removeUser()
                       .then(async (res) => {
                         if (res) {
+                          RootStore.routerStore.updateUserRouter(undefined)
                           await localStorage.removeItem(
                             `__persist_mobx_stores_loginStore__`
                           )

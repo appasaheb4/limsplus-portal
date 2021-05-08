@@ -127,6 +127,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                             role,
                           })
                           const router = JSON.parse(res.data.data.router[0])
+                          console.log({ router })
                           RootStore.routerStore.updateUserRouter(router)
                           LibraryComponents.Atoms.ToastsStore.success(
                             `Your role change successfully`
