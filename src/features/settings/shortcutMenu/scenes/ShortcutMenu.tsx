@@ -9,6 +9,15 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { Stores as RootStore } from "@lp/library/stores"
 
+const grid = 8
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? "lightblue" : "none",
+  display: "flex",
+  //flexWrap:'none',
+  padding: grid,
+  overflow: "auto",
+})
+
 const ShortcutMenu = observer(() => {
   useEffect(() => {
     const list: any[] = []
@@ -58,10 +67,11 @@ const ShortcutMenu = observer(() => {
           <div>
             <label className="mt-2">Active:</label>
             <DragDropContext onDragEnd={handleOnDragEnd}>
-              <Droppable droppableId="characters">
-                {(provided) => (
+              <Droppable droppableId="characters" direction="horizontal">
+                {(provided, snapshot) => (
                   <ul
-                    className="grid grid-cols-6 p-2"
+                    style={getListStyle(snapshot.isDraggingOver)}
+                    // className="grid grid-cols-1 p-2"
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
@@ -69,11 +79,11 @@ const ShortcutMenu = observer(() => {
                       (item, index) => (
                         <>
                           <Draggable
-                            key={index}
+                            key={item.title}
                             draggableId={item.title}
                             index={index}
                           >
-                            {(provided) => (
+                            {(provided, snapshot) => (
                               <div
                                 className="flex items-center bg-blue-500  p-2 m-2 rounded-md"
                                 ref={provided.innerRef}
