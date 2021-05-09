@@ -187,7 +187,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                 )}
               </LibraryComponents.Atoms.Icons.IconContext>
             </LibraryComponents.Atoms.Tooltip>
-          </LibraryComponents.Atoms.Buttons.Button>  
+          </LibraryComponents.Atoms.Buttons.Button>
           {LoginStores.loginStore.login?.shortcutMenu[0] &&
             LoginStores.loginStore.login?.shortcutMenu[0][
               LoginStores.loginStore.login.role || ""
@@ -324,15 +324,6 @@ const NavbarComponent = observer(({ dispatch }) => {
                       .then(async (res) => {
                         if (res) {
                           RootStore.routerStore.updateUserRouter(undefined)
-                          await localStorage.removeItem(
-                            `__persist_mobx_stores_loginStore__`
-                          )
-                          await localStorage.removeItem(
-                            `__persist_mobx_stores_routerStore__`
-                          )
-                          await localStorage.removeItem(
-                            `__persist_mobx_stores_routerStore_SelectedCategory__`
-                          )
                           history.push("/")
                         }
                       })

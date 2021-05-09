@@ -57,7 +57,6 @@ const App = observer(() => {
           closeOnToastrClick
         />
       </Provider>
-      <label>test</label>
       <LibraryComponents.Atoms.ToastsContainer
         position={LibraryComponents.Atoms.ToastsContainerPosition.BOTTOM_RIGHT}
         store={LibraryComponents.Atoms.ToastsStore}

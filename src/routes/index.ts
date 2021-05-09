@@ -1,7 +1,7 @@
 import async from "../layouts/components/Async"
 
 // Landing
-import login from "@lp/features/login/scenes/login"
+import login from "@lp/features/login/scenes/Login"
 
 // Dashboards
 const DefaultDashboard = async(() => import("@lp/features/Default"))
@@ -180,6 +180,9 @@ const settingsRoutes = {
   ],
 }
 
+// Login specific routes
+export const loginRouter = [loginRoutes]
+
 // Dashboard specific routes
 export const dashboardRouter = [
   dashboardRoutes,
@@ -188,13 +191,12 @@ export const dashboardRouter = [
   settingsRoutes,
 ]
 
-// Landing specific routes
-export const loginRouter = [loginRoutes]
 
-// All routes
-export default [
-  dashboardRoutes,
-  collectionRoutes,
-  communicationRoutes,
-  settingsRoutes,
-]
+
+// // All routes
+// export default [
+//   dashboardRoutes,
+//   collectionRoutes,
+//   communicationRoutes,
+//   settingsRoutes,
+// ]

@@ -12,8 +12,6 @@ import Page404 from "@lp/features/login/scenes/Page404"
 
 import ScrollToTop from "@lp/layouts/components/ScrollToTop"
 
-
-
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
     children ? (
@@ -44,14 +42,13 @@ const childRoutes = (Layout, routes) =>
       />
     )
   )
-
+  
 const Routes = () => (
   <Router>
     <ScrollToTop>
       <Switch>
         {childRoutes(LandingLayout, loginRouters)}
         {childRoutes(DashboardLayout, dashboardRoutes)}
-
         <Route
           render={() => (
             <AuthLayout>
@@ -62,6 +59,6 @@ const Routes = () => (
       </Switch>
     </ScrollToTop>
   </Router>
-)
+)   
 
 export default Routes
