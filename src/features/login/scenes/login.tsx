@@ -31,6 +31,7 @@ const Login = observer(() => {
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth)
   }
+
   useEffect(() => {
     RootStore.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
@@ -275,7 +276,8 @@ const Login = observer(() => {
                                     LibraryComponents.Atoms.ToastsStore.success(
                                       `Welcome ${res.data.data.fullName}`
                                     )
-                                    Stores.loginStore.saveLogin(res.data.data)
+                                    Stores.loginStore.updateLogin(res.data.data);
+                                    // Stores.loginStore.saveLogin(res.data.data)
                                     Stores.loginStore.clearInputUser()
                                     history.push("/dashboard/default")
                                   }
@@ -347,7 +349,8 @@ const Login = observer(() => {
               LibraryComponents.Atoms.ToastsStore.success(
                 `Welcome ${noticeBoard.userInfo.fullName}`
               )
-              Stores.loginStore.saveLogin(noticeBoard.userInfo)
+              Stores.loginStore.updateLogin(noticeBoard.userInfo)
+              //Stores.loginStore.saveLogin(noticeBoard.userInfo)
               Stores.loginStore.clearInputUser()
               history.push("/dashboard/default")
             }

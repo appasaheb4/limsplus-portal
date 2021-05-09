@@ -26,8 +26,6 @@ const Dashboard = observer(({ children }) => {
     let router: any = toJS(LoginStore.loginStore.login)
     if (router && !RootStore.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
-      console.log({ loginRouter: router })
-
       //await hydrateStore("loginStore", LoginStore.loginStore)
       //await hydrateStore("routerStore", RootStore.routerStore)
       RootStore.routerStore.updateUserRouter(router)
@@ -36,7 +34,7 @@ const Dashboard = observer(({ children }) => {
   const permission = async () => {
     let selectedCategory: any = await localStorage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`
-    )
+    )  
     selectedCategory = JSON.parse(selectedCategory)
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(

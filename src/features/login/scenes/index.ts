@@ -1,3 +1,4 @@
-import Login from "./login";
+import Login from "./Login"
+import Page404 from "./Page404"
 
-export { Login };
+export { Login, Page404 }

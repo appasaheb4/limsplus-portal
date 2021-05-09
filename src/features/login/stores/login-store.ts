@@ -1,6 +1,7 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
-import SessionStore from "mobx-session"
+import Session from "@lp/library/modules/session"
+import Storage from "@lp/library/modules/storage"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
@@ -13,29 +14,34 @@ class LoginStore {
   @ignore @observable forgotPassword?: Models.ForgotPassword
 
   constructor() {
-    SessionStore.initialize({ name: "limsplus" })
     makeAutoObservable(this)
-    // runInAction(async () => {
-    //   this.login = await SessionStore.getSession()
-    // })
+    Session.initialize("limsplus")
+    Storage.getItem("__persist_mobx_stores_loginStore__").then((login: any) => {
+      login = JSON.parse(login)
+      console.log({ login })
+      if (login.login) {
+        runInAction(async () => {
+          await Session.getSession(login.login.userId)
+        })
+      }
+    })
   }
 
   @computed get LoginService() {
     return new Services.LoginService(Stores.loginStore.login?.token as string)
   }
 
-  // session
-  @action saveLogin = (session) => {
-    SessionStore.saveSession(session)
-    this.login = session
-  }
-
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
-      if (SessionStore.hasSession) {
-        Services.logout(this.login?.loginActivityId || "").then((res) => {
+      if (Session.hasSession) {
+        Services.logout(this.login?.loginActivityId || "").then(async (res) => {
           if (res.status === 200) {
-            SessionStore.deleteSession()
+            await localStorage.removeItem(`__persist_mobx_stores_loginStore__`)
+            await localStorage.removeItem(`__persist_mobx_stores_routerStore__`)
+            await localStorage.removeItem(
+              `__persist_mobx_stores_routerStore_SelectedCategory__`
+            )  
+            Session.deleteSession(this.login?.userId)
             runInAction(() => {
               this.login = undefined
             })
@@ -54,9 +60,8 @@ class LoginStore {
     this.inputLogin = undefined
   }
 
-  @action updateLogin(login: Models.ILogin) {
-    console.log({login});
-    
+  @action updateLogin = (login: any) => {
+    Session.saveSession(login.userId, login)
     this.login = login
   }
 
