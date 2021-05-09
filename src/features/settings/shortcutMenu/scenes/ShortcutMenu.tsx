@@ -35,7 +35,6 @@ const ShortcutMenu = observer(() => {
               userItem.category === item.name && userItem.name === children.name
           )
         //console.log({ userShortcutMenu })
-
         if (userShortcutMenu && userShortcutMenu?.length > 0) {
           children.selected = true
         } else {
@@ -215,15 +214,15 @@ const ShortcutMenu = observer(() => {
                   selectedList: selectedList,
                   id: LoginStore.loginStore.login?._id,
                 }).then((res) => {
+                  console.log({ res })
+
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(  
+                    LibraryComponents.Atoms.ToastsStore.success(
                       `Shortcut Menu updated.`
                     )  
                     LoginStore.loginStore.updateLogin({
                       ...LoginStore.loginStore.login,
-                      shortcutMenu: [
-                        { [LoginStore.loginStore.login?.role || ""]: selectedList },
-                      ],
+                      shortcutMenu: res.data.data.user.shortcutMenu,
                     })
                   } else {
                     LibraryComponents.Atoms.ToastsStore.error(`Please try agian.`)

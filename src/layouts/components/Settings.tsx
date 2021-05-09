@@ -18,7 +18,7 @@ type State = { isOpen: boolean }
 class Settings extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-
+  
     this.state = {
       isOpen: false,
     }
@@ -31,17 +31,17 @@ class Settings extends React.Component<Props, State> {
     this.setState({ isOpen: !this.state.isOpen })
   }
 
-  componentDidMount() {
-    document.addEventListener("mousedown", this.handleClickOutside)
-  }
+  // componentDidMount() {
+  //   document.addEventListener("mousedown", this.handleClickOutside)
+  // }
 
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClickOutside)
-  }
+  // componentWillUnmount() {
+  //   document.removeEventListener("mousedown", this.handleClickOutside)
+  // }
 
-  setWrapperRef(node) {
+  setWrapperRef() {
     //  this.wrapperRef = node;
-    console.log({ node })
+    //console.log({ node })
   }
 
   handleClickOutside(event) {

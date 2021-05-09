@@ -17,8 +17,7 @@ interface ModalAccountProps {
 const ModalAccount = observer((props: ModalAccountProps) => {
   const history: any = useHistory()
   const [modalFileUpload, setModalFileUpload] = useState<any>()
-  console.log({ login: LoginStores.loginStore.login })
-
+  
   return (
     <>
       <LibraryComponents.Molecules.Modals.SlideIn
