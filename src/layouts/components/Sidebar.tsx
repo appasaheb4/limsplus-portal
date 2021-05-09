@@ -136,7 +136,6 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
 
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
-    console.log({ navRouter: RootStore.routerStore.userRouter })
   }, [RootStore.routerStore.userRouter])
 
   const toggle = (index) => {
