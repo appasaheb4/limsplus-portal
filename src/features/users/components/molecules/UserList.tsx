@@ -85,6 +85,7 @@ const UserList = observer((props: UserListProps) => {
                     data={{
                       defulatValues: toJS(row.lab),
                       list: LabStore.labStore.listLabs,
+                      displayKey: "name",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {
@@ -143,6 +144,7 @@ const UserList = observer((props: UserListProps) => {
                     data={{
                       defulatValues: toJS(row.department),
                       list: DepartmentStore.departmentStore.listDepartment,
+                      displayKey: "name",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {
@@ -217,6 +219,7 @@ const UserList = observer((props: UserListProps) => {
                     data={{
                       defulatValues: toJS(row.role),
                       list: RoleStore.roleStore.listRole,
+                      displayKey: "description",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {

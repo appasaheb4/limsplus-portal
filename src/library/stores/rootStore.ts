@@ -1,4 +1,4 @@
-import { makeAutoObservable, action, observable, toJS } from "mobx"
+import { makeAutoObservable, action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import Session from "@lp/library/modules/session"
 
@@ -16,7 +16,6 @@ class RootStore {
   @action isLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
-        console.log({Session});
         if (Session.initialized) {
           if (Session.hasSession) {
             resolve(true)

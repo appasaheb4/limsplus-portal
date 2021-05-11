@@ -18,7 +18,6 @@ class LoginStore {
     Session.initialize("limsplus")
     Storage.getItem("__persist_mobx_stores_loginStore__").then((login: any) => {
       login = JSON.parse(login)
-      console.log({ login })
       if (login.login) {
         runInAction(async () => {
           await Session.getSession(login.login.userId)
@@ -30,6 +29,11 @@ class LoginStore {
   @computed get LoginService() {
     return new Services.LoginService(Stores.loginStore.login?.token as string)
   }
+   
+  @action saveLogin = (session) => {
+    Session.saveSession(session.userId, session)
+    this.login = session
+  }
 
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
@@ -40,7 +44,7 @@ class LoginStore {
             await localStorage.removeItem(`__persist_mobx_stores_routerStore__`)
             await localStorage.removeItem(
               `__persist_mobx_stores_routerStore_SelectedCategory__`
-            )  
+            )
             Session.deleteSession(this.login?.userId)
             runInAction(() => {
               this.login = undefined
@@ -61,7 +65,6 @@ class LoginStore {
   }
 
   @action updateLogin = (login: any) => {
-    Session.saveSession(login.userId, login)
     this.login = login
   }
 

@@ -34,6 +34,10 @@ const LoginActivity = async(
 const ShortcutMenu = async(
   () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
 )
+const EnvironmentSettings = async(
+  () =>
+    import("@lp/features/settings/environmentSettings/scenes/EnvironmentSettings")
+)
 
 // Communication
 const HostCommunication = async(
@@ -171,11 +175,17 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill",
       component: RoleMapping,
     },
-    {   
+    {
       path: "/settings/shortcutMenu",
       name: "Shortcut Menu",
       icon: "LibraryComponents.Atoms.Icons.IconCg.CgShortcut",
       component: ShortcutMenu,
+    },
+    {
+      path: "/settings/environmentSettings",
+      name: "Environment Settings",  
+      icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",
+      component: EnvironmentSettings,
     },
   ],
 }
@@ -190,8 +200,6 @@ export const dashboardRouter = [
   communicationRoutes,
   settingsRoutes,
 ]
-
-
 
 // // All routes
 // export default [

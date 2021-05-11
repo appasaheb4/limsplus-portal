@@ -11,6 +11,7 @@ import * as IconCg from "react-icons/cg"
 import * as IconGr from "react-icons/gr"
 import * as IconBs from "react-icons/bs"
 import * as IconFi from "react-icons/fi"
+import * as Iconmd from "react-icons/md"
 
 export interface IconsProps {
   size?: string
@@ -28,7 +29,18 @@ export const IconContext: React.FunctionComponent<IconsProps> = (props) => {
   )
 }
 
-export { IconRi, IconIm, IconFa, IconFc, IconGi, IconCg, IconGr, IconBs, IconFi }
+export {
+  IconRi,
+  IconIm,
+  IconFa,
+  IconFc,
+  IconGi,
+  IconCg,
+  IconGr,
+  IconBs,
+  IconFi,
+  Iconmd,
+}
 
 export const getIcons = (icon: string): any => {
   // dashboard
@@ -71,6 +83,8 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconRi.RiShieldKeyholeFill
   if (icon === "LibraryComponents.Atoms.Icons.IconCg.CgShortcut")
     return LibraryComponents.Atoms.Icons.IconCg.CgShortcut
+  if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent")
+    return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
   return LibraryComponents.Atoms.Icons.IconBs.BsList
 }
 
