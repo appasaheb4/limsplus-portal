@@ -133,6 +133,7 @@ const Users = observer(() => {
                     data={{
                       defulatValues: [{ code: Stores.userStore.user.defaultLab }],
                       list: LabStore.labStore.listLabs,
+                      displayKey: "name",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {
@@ -307,6 +308,7 @@ const Users = observer(() => {
                     data={{
                       defulatValues: [],
                       list: DepartmentStore.departmentStore.listDepartment,
+                      displayKey: "name",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {
@@ -423,6 +425,7 @@ const Users = observer(() => {
                     data={{
                       defulatValues: [],
                       list: RoleStore.roleStore.listRole,
+                      displayKey: "description",
                       findKey: "code",
                     }}
                     onUpdate={(items) => {

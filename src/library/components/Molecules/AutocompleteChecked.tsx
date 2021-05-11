@@ -44,11 +44,12 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
   const getSelectedItem = (defulatValues: any, list: any[], findKey: string) => {
     if (count === 0) {
       const finalList = list.filter((item, index) => {
-        defulatValues.find((rItem, index) => {
-          if (rItem[findKey] === item[findKey]) {
-            item.selected = true
-          }
-        })
+        defulatValues.lenght > 0 &&
+          defulatValues.find((rItem, index) => {
+            if (rItem[findKey] === item[findKey]) {
+              item.selected = true
+            }
+          })
         count++
         return item
       })
@@ -142,7 +143,7 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
                         />{" "}
                         <label className="ml-2 mt-1 text-black">
                           {" "}
-                          {item.name || item.description}
+                          {item[props.data.displayKey]}
                         </label>
                       </li>
                     </>

@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
-import "./accordion.css"
+import "@lp/library/assets/css/accordion.css"
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
