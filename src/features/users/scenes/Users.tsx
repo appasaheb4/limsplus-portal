@@ -458,14 +458,6 @@ const Users = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Atoms.Icon.Save}
                 onClick={() => {
-                  console.log({ user: Stores.userStore.user })
-                  console.log({
-                    status: Utils.validate(
-                      Stores.userStore.user,
-                      Utils.constraintsUser
-                    ),
-                  })
-
                   if (
                     Utils.validate(Stores.userStore.user, Utils.constraintsUser) ===
                       undefined &&

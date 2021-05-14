@@ -39,6 +39,7 @@ interface InputProps extends InputWrapperProps {
   required?: boolean
   disabled?: boolean
   className?: string
+  rows?: number
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
@@ -59,6 +60,21 @@ export const Input = (props: InputProps) => (
       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
       onKeyDown={props.onKeyDown}
+    />
+  </InputWrapper>
+)
+
+export const MultilineInput = (props: InputProps) => (
+  <InputWrapper label={props.label} id={props.id} className={props.className}>
+    <textarea
+      id={props.id}
+      autoComplete="given-name"
+      value={props.value}
+      disabled={props.disabled}
+      rows={props.rows}
+      placeholder={props.placeholder}
+      onChange={(e) => props.onChange && props.onChange(e.target.value)}
+      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
 )
@@ -182,61 +198,6 @@ export const InputFile = (props: InputFileProps) => (
     />
   </InputWrapper>
 )
-
-export const MultilineInput = (props: InputProps) => (
-  <InputWrapper label={props.label} id={props.id} className={props.className}>
-    <textarea
-      id={props.id}
-      autoComplete="given-name"
-      value={props.value}
-      disabled={props.disabled}
-      rows={5}
-      placeholder={props.placeholder}
-      onChange={(e) => props.onChange && props.onChange(e.target.value)}
-      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-    />
-  </InputWrapper>
-)
-
-interface ToggleProps extends InputWrapperProps {
-  value?: boolean
-  name?: string
-  disabled?: boolean
-  onChange?: (e: boolean) => void
-}
-
-// const useStyles = makeStyles({
-//   switchBase: {
-//     color: "red",
-//     "&$checked": {
-//       color: "green",
-//     },
-//     "&$checked + $track": {
-//       backgroundColor: "#006400",
-//     },
-//   },
-//   checked: {},
-//   track: {},
-// })
-
-// export const Toggle = (props: ToggleProps) => {
-//   const classes = useStyles();
-//   return(
-//     <InputWrapper label={props.label} id={props.id}>
-//       <Switch
-//         checked={props.value}
-//         classes={{
-//           switchBase: classes.switchBase,
-//           track: classes.track,
-//           checked: classes.checked
-//         }}
-//         onChange={(e) => props.onChange && props.onChange(e.target.checked)}
-//         name={props.name}
-//         inputProps={{ "aria-label": "secondary checkbox" }}
-//       />
-//     </InputWrapper>
-//   )
-// }
 
 interface ToggleProps extends InputWrapperProps {
   disabled?: boolean
