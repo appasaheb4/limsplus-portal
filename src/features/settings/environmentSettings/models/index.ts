@@ -1,10 +1,11 @@
 import * as Models from "@lp/features/users/models"
-export interface EnvironmentSettings {
+export interface SessionManagement {
   _id?: string
-  lab?: string
-  user?: Models.Users
-  department?: string
-  variable?: "SESSION_TIMEOUT" | "SESSION_ALLOWED"
+  lab?: any[]
+  user?: Models.Users[]
+  department?: any[]
+  variable?: "SESSION_TIMEOUT" | "SESSION_ALLOWED" | string
   value?: string
   descriptions?: string
-}   
+  documentType?: string
+}

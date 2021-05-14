@@ -1,11 +1,13 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
+import * as Models from "../models"
 
 @version(0.1)
 class EnvironmentSettingsStore {
-  @ignore @observable shortcutMenuList?: any[] = []
-  @ignore @observable isDragDropList: boolean = false
+  @ignore @observable sessionManagement?: Models.SessionManagement
+  @observable sessionManagementList?: Models.SessionManagement[] = []
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -14,11 +16,16 @@ class EnvironmentSettingsStore {
     return new Services.EnvironmentSettingsService()
   }
 
-  @action updateShortcutMenu = (shortcut: any) => {
-    this.shortcutMenuList = shortcut
+  @action fetchSessionManagementList() {
+    this.EnvironmentSettingsService.sessionManagementList().then((sessions) => {
+      console.log({sessions});
+      
+      this.sessionManagementList = sessions
+    })
   }
-  @action updateDragDrop(status: boolean) {
-    this.isDragDropList = status
+
+  @action updateSessionManagement(session: Models.SessionManagement) {
+    this.sessionManagement = session
   }
 }
 export default EnvironmentSettingsStore

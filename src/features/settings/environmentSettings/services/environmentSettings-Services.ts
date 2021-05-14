@@ -4,21 +4,45 @@
  * @package Feed Service
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class EnvironmentSettingsService extends BaseService {
-  updateShortcutMenu = (shortcutMenu: any) =>
-    new Promise<any>((resolve, reject) => {
+  sessionManagementList = () =>
+    new Promise<Models.SessionManagement[]>((resolve, reject) => {
       this.client
-        .post(`/auth/updateShortcutMenu`, shortcutMenu)
+        .get(`/settings/environmentSettings/listSessionManagement`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  addSessionManagement = (session: Models.SessionManagement) =>
+    new Promise<any>((resolve, reject) => {
+      session.documentType = "session"
+      this.client
+        .post(`/settings/environmentSettings/addSessionManagement`, session)
         .then((res) => {
           resolve(res)
         })
         .catch((error) => {
           reject({ error })
         })
-    })  
+    })
+
+  deleteEnvironmentSettings = (id: string) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .delete(`/settings/environmentSettings/deleteEnvironmentSettings/${id}`)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default EnvironmentSettingsService
