@@ -24,21 +24,6 @@ const CollectionRole = async(
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
 
-// Settings
-const RoleMapping = async(
-  () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
-)
-const LoginActivity = async(
-  () => import("@lp/features/settings/loginActivity/scenes/LoginActivity")
-)
-const ShortcutMenu = async(
-  () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
-)
-const EnvironmentSettings = async(
-  () =>
-    import("@lp/features/settings/environmentSettings/scenes/EnvironmentSettings")
-)
-
 // Communication
 const HostCommunication = async(
   () => import("@lp/features/communication/scenes/HostCommunication")
@@ -55,6 +40,24 @@ const ConversationMapping = async(
 )
 const InterfaceManager = async(
   () => import("@lp/features/communication/scenes/InterfaceManager")
+)
+
+// Settings
+const RoleMapping = async(
+  () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
+)
+const LoginActivity = async(
+  () => import("@lp/features/settings/loginActivity/scenes/LoginActivity")
+)
+const ShortcutMenu = async(
+  () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
+)
+const EnvironmentSettings = async(
+  () =>
+    import("@lp/features/settings/environmentSettings/scenes/EnvironmentSettings")
+)
+const NoticeBoards = async(
+  ()=> import('@lp/features/settings/noticeBoard/scenes/NoticeBoard')
 )
 
 // Routes
@@ -187,6 +190,14 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",
       component: EnvironmentSettings,
     },
+    {
+      path: "/settings/noticeBoards",
+      name: "Notice Boards",  
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList",
+      component: NoticeBoards,
+    },
+
+    
   ],
 }
 
