@@ -85,6 +85,10 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconCg.CgShortcut
   if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent")
     return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
+    if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
+    return LibraryComponents.Atoms.Icons.IconFa.FaClipboardList
+
+    
   return LibraryComponents.Atoms.Icons.IconBs.BsList
 }
 

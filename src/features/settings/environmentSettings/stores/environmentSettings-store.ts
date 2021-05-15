@@ -8,6 +8,8 @@ class EnvironmentSettingsStore {
   @ignore @observable sessionManagement?: Models.SessionManagement
   @observable sessionManagementList?: Models.SessionManagement[] = []
 
+  
+
   constructor() {
     makeAutoObservable(this)
   }
