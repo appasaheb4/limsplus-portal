@@ -66,19 +66,19 @@ const EnvironmentSettings = observer(() => {
               }
             })
           } else if (type === "Update") {
-            // RootStore.rootStore.setProcessLoading(true)
-            // Stores.userStore.UsersService.updateSingleFiled(modalConfirm.data).then(
-            //   (res: any) => {
-            //     RootStore.rootStore.setProcessLoading(false)
-            //     if (res.status === 200) {
-            //       LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
-            //       setModalConfirm({ show: false })
-            //       setTimeout(() => {
-            //         window.location.reload()
-            //       }, 1000)
-            //     }
-            //   }
-            // )
+            RootStore.rootStore.setProcessLoading(true)
+            Stores.enviromentSettingsStore.EnvironmentSettingsService.updateSingleFiled(
+              modalConfirm.data
+            ).then((res: any) => {
+              RootStore.rootStore.setProcessLoading(false)
+              if (res.status === 200) {
+                LibraryComponents.Atoms.ToastsStore.success(`Item updated.`)
+                setModalConfirm({ show: false })
+                setTimeout(() => {
+                  window.location.reload()
+                }, 1000)  
+              }
+            })
           }
         }}
         onClose={() => setModalConfirm({ show: false })}

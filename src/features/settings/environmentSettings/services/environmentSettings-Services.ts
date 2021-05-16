@@ -43,6 +43,19 @@ class EnvironmentSettingsService extends BaseService {
           reject({ error })
         })
     })
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({newValue});
+      
+      this.client
+        .post(`/settings/environmentSettings/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default EnvironmentSettingsService

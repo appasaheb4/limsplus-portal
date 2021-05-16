@@ -42,6 +42,17 @@ class NoticeBoardService extends BaseService {
           reject({ error })
         })
     })
-}   
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/settings/noticeBoards/updateSingleFiled`, newValue)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+}
 
 export default NoticeBoardService

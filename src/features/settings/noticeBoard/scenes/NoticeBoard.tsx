@@ -200,11 +200,10 @@ const NoticeBoard = observer(() => {
             toJS(RootStore.routerStore.userPermission),
             "Delete"
           )}
-          // isEditModify={RouterFlow.checkPermission(
-          //   toJS(RootStore.routerStore.userPermission),
-          //   "Edit/Modify"
-          // )}
-          isEditModify={false}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(RootStore.routerStore.userPermission),
+            "Edit/Modify"
+          )}
           onDelete={(selectedUser) => setModalConfirm(selectedUser)}
           onSelectedRow={(rows) => {
             setModalConfirm({
@@ -247,19 +246,19 @@ const NoticeBoard = observer(() => {
               }
             })
           } else if (type === "Update") {
-            // RootStore.rootStore.setProcessLoading(true)
-            // Stores.userStore.UsersService.updateSingleFiled(modalConfirm.data).then(
-            //   (res: any) => {
-            //     RootStore.rootStore.setProcessLoading(false)
-            //     if (res.status === 200) {
-            //       LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
-            //       setModalConfirm({ show: false })
-            //       setTimeout(() => {
-            //         window.location.reload()
-            //       }, 1000)
-            //     }
-            //   }
-            // )
+            RootStore.rootStore.setProcessLoading(true)
+            Stores.noticeBoardStore.NoticeBoardService.updateSingleFiled(
+              modalConfirm.data  
+            ).then((res: any) => {
+              RootStore.rootStore.setProcessLoading(false)
+              if (res.status === 200) {
+                LibraryComponents.Atoms.ToastsStore.success(`Item updated.`)
+                setModalConfirm({ show: false })
+                setTimeout(() => {
+                  window.location.reload()
+                }, 1000)
+              }
+            })
           }
         }}
         onClose={() => setModalConfirm({ show: false })}

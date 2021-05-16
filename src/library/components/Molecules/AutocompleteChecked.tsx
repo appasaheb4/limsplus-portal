@@ -43,12 +43,13 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
   let count = 0
   const getSelectedItem = (defulatValues: any, list: any[], findKey: string) => {
     if (count === 0) {
+      console.log({ defulatValues, list })
       const finalList = list.filter((item, index) => {
-        defulatValues.lenght > 0 &&
+        defulatValues.length > 0 &&
           defulatValues.find((rItem, index) => {
             if (rItem[findKey] === item[findKey]) {
               item.selected = true
-            }
+            }    
           })
         count++
         return item

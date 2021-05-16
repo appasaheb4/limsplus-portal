@@ -23,10 +23,6 @@ interface SessionManagementProps {
 
 const SessionManagement = observer((props: SessionManagementProps) => {
   const [errors, setErrors] = useState<Models.SessionManagement>()
-
-  useEffect(() => {
-    Stores.enviromentSettingsStore.fetchSessionManagementList()
-  }, [])
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -244,18 +240,17 @@ const SessionManagement = observer((props: SessionManagementProps) => {
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
-      >
+      >   
         <FeatureComponents.Molecules.SessionManagementList
           data={Stores.enviromentSettingsStore.sessionManagementList}
           isDelete={RouterFlow.checkPermission(
             toJS(RootStore.routerStore.userPermission),
             "Delete"
           )}
-          // isEditModify={RouterFlow.checkPermission(
-          //   toJS(RootStore.routerStore.userPermission),
-          //   "Edit/Modify"
-          // )}
-          isEditModify={false}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(RootStore.routerStore.userPermission),
+            "Edit/Modify"
+          )}
           onDelete={(selectedUser) =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }

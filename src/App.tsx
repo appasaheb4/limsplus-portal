@@ -5,7 +5,10 @@ import { Provider } from "react-redux"
 import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-   
+
+// toast
+import "react-toastify/dist/ReactToastify.css"
+
 // import { configure } from "mobx"
 
 import { Stores as RootStore } from "./library/stores"
@@ -19,6 +22,7 @@ import * as Department from "@lp/features/collection/department"
 import * as User from "@lp/features/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
 import * as Communication from "@lp/features/communication"
+import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
 
 import hydrateStore from "@lp/library/modules/startup"
 
@@ -36,6 +40,7 @@ const App = observer(() => {
     await User.startup()
     await RoleMappping.startup()
     await Communication.startup()
+    await EnvironmentSettings.startup()
     await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
   }
@@ -61,7 +66,8 @@ const App = observer(() => {
         position={LibraryComponents.Atoms.ToastsContainerPosition.BOTTOM_RIGHT}
         store={LibraryComponents.Atoms.ToastsStore}
         className="h-20"
-      />
+      />  
+      <LibraryComponents.Atoms.ToastContainer />
       {RootStore.rootStore.processLoading && <LibraryComponents.Atoms.ModelLoader />}
     </>
   )

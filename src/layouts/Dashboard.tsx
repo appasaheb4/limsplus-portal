@@ -24,6 +24,7 @@ import { RouterFlow } from "@lp/flows"
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [modalIdleTime, setModalIdleTime] = useState<any>()
+  const [isLogined, setIsLogined] = useState<boolean>(false)
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
@@ -39,6 +40,8 @@ const Dashboard = observer(({ children }) => {
       `__persist_mobx_stores_routerStore_SelectedCategory__`
     )
     selectedCategory = JSON.parse(selectedCategory)
+    console.log({selectedCategory});
+    
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(
         toJS(RootStore.routerStore.userRouter),
@@ -58,35 +61,41 @@ const Dashboard = observer(({ children }) => {
   }
 
   useEffect(() => {
-    RootStore.rootStore.isLogin().then((isLogin) => {
-      if (isLogin) {
-        router()
-        setTimeout(() => {
-          permission()
-        }, 1000)
-      }
-    })
+    // RootStore.rootStore.isLogin().then((isLogin) => {
+    //   if (isLogin) {
+    //     router()
+    //     setTimeout(() => {
+    //       permission()
+    //     }, 1000)
+    //   }
+    // })
+    router()
+    setTimeout(() => {
+      permission()
+    }, 1000)
   }, [])
+
+  // issue come realod then going default dashboard page so added dependancy
+  useEffect(() => {
+    setTimeout(() => {
+      RootStore.rootStore.isLogin().then((isLogin) => {
+        if (!isLogin && !isLogined) history.push("/")
+      })
+    }, 1000)
+  }, [LoginStores.loginStore.login])
 
   // useEffect(() => {
-  //   setTimeout(() => {
-  //     RootStore.rootStore.isLogin().then((isLogin) => {
-  //       if (!isLogin) history.push("/")
-  //     })
-  //   }, 1000)
-  // }, [LoginStores.loginStore.login])
-
-  useEffect(() => {
-    RootStore.rootStore.isLogin().then((isLogin) => {
-      if (!isLogin) history.push("/")
-    })
-  }, [])
+  //   RootStore.rootStore.isLogin().then((isLogin) => {
+  //     if (!isLogin) history.push("/")
+  //   })
+  // }, [])
 
   // idel time
   const handleOnIdle = (event) => {
     // console.log("user is idle", event)
-     console.log("last active", getLastActiveTime())
-     RootStore.rootStore.setProcessLoading(true)
+    console.log("last active", getLastActiveTime())
+    RootStore.rootStore.setProcessLoading(true)
+    setIsLogined(true)
     LoginStores.loginStore
       .removeUser()
       .then(async (res) => {
@@ -102,7 +111,7 @@ const Dashboard = observer(({ children }) => {
       .catch(() => {
         alert("Your session not timeout. Please try agian.")
       })
-  }
+  }  
 
   // const handleOnActive = (event) => {
   //   console.log("user is active", event)
@@ -112,10 +121,10 @@ const Dashboard = observer(({ children }) => {
   // const handleOnAction = (event) => {
   //   console.log("user did something", event)
   // }
-   
+
   const { getLastActiveTime } = useIdleTimer({
     timeout: 1000 * 60 * (LoginStore.loginStore.login?.sessionTimeoutCount || 10),
-    onIdle: handleOnIdle,    
+    onIdle: handleOnIdle,
     // onActive: handleOnActive,
     // onAction: handleOnAction,
     debounce: 500,

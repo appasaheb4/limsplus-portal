@@ -273,20 +273,39 @@ const Login = observer(() => {
                                       data: res.data.data.noticeBoard,
                                     })
                                   } else {
-                                    LibraryComponents.Atoms.ToastsStore.success(
-                                      `Welcome ${res.data.data.fullName}`
+                                    LibraryComponents.Atoms.ToastsStore.success(``)
+                                    LibraryComponents.Atoms.toast.success(
+                                      `😊 Welcome ${res.data.data.fullName}`,
+                                      {
+                                        position: "bottom-right",
+                                        autoClose: 10000,
+                                        hideProgressBar: false,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                      }
                                     )
                                     Stores.loginStore.saveLogin(res.data.data)
                                     Stores.loginStore.clearInputUser()
                                     history.push("/dashboard/default")
                                   }
-                                }  
+                                }
                               } else if (res.status === 203) {
                                 Stores.loginStore.updateLoginFailedCount(
                                   loginFailedCount + 1
                                 )
-                                LibraryComponents.Atoms.ToastsStore.error(
-                                  res.data.data.message
+                                LibraryComponents.Atoms.toast.error(
+                                  `😔 ${res.data.data.message}`,
+                                  {  
+                                    position: "bottom-right",
+                                    autoClose: 10000,
+                                    hideProgressBar: false,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                  }
                                 )
                               }
                             })
@@ -295,14 +314,32 @@ const Login = observer(() => {
                               Stores.loginStore.updateLoginFailedCount(
                                 loginFailedCount + 1
                               )
-                              LibraryComponents.Atoms.ToastsStore.error(
-                                "User not found. Please enter correct information!"
+                              LibraryComponents.Atoms.toast.error(
+                                `😔 User not found. Please enter correct information!`,
+                                {
+                                  position: "bottom-right",
+                                  autoClose: 10000,
+                                  hideProgressBar: false,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                }
                               )
                             })
                         }
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.warning(
-                          "Please enter all information!"
+                        LibraryComponents.Atoms.toast.warning(
+                          `😔 Please enter all information!`,
+                          {
+                            position: "bottom-right",
+                            autoClose: 10000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                          }
                         )
                       }
                     }}
@@ -340,13 +377,30 @@ const Login = observer(() => {
               show: false,
             })
             if (action !== "login") {
-              LibraryComponents.Atoms.ToastsStore.warning(`Please use diff lab`)
+              LibraryComponents.Atoms.toast.warning(`😔 Please use diff lab`, {
+                position: "bottom-right",
+                autoClose: 10000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              })
               setTimeout(() => {
                 window.location.reload()
               }, 3000)
             } else {
-              LibraryComponents.Atoms.ToastsStore.success(
-                `Welcome ${noticeBoard.userInfo.fullName}`
+              LibraryComponents.Atoms.toast.success(
+                `😊 Welcome ${noticeBoard.userInfo.fullName}`,
+                {
+                  position: "bottom-right",
+                  autoClose: 10000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                }
               )
               Stores.loginStore.saveLogin(noticeBoard.userInfo)
               Stores.loginStore.clearInputUser()
