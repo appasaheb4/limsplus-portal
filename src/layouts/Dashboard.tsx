@@ -114,7 +114,7 @@ const Dashboard = observer(({ children }) => {
   // }
    
   const { getLastActiveTime } = useIdleTimer({
-    timeout: 1000 * 60 * (LoginStore.loginStore.login?.sessionTimeoutCount || 2),
+    timeout: 1000 * 60 * (LoginStore.loginStore.login?.sessionTimeoutCount || 10),
     onIdle: handleOnIdle,    
     // onActive: handleOnActive,
     // onAction: handleOnAction,
