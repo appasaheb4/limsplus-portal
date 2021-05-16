@@ -1,6 +1,7 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import * as LibraryComponents from "@lp/library/components"
 import Wrapper from "./components/Wrapper"
 import Sidebar from "./components/Sidebar"
 import Main from "./components/Main"
@@ -9,9 +10,10 @@ import Content from "./components/Content"
 import Footer from "./components/Footer"
 import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
+import { useIdleTimer } from "react-idle-timer"
+
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
-
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { toJS } from "mobx"
@@ -21,6 +23,7 @@ import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
+  const [modalIdleTime, setModalIdleTime] = useState<any>()
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
@@ -34,7 +37,7 @@ const Dashboard = observer(({ children }) => {
   const permission = async () => {
     let selectedCategory: any = await localStorage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`
-    )  
+    )
     selectedCategory = JSON.parse(selectedCategory)
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(
@@ -55,19 +58,68 @@ const Dashboard = observer(({ children }) => {
   }
 
   useEffect(() => {
-    router()
-    setTimeout(() => {
-      permission()
-    }, 1000)
+    RootStore.rootStore.isLogin().then((isLogin) => {
+      if (isLogin) {
+        router()
+        setTimeout(() => {
+          permission()
+        }, 1000)
+      }
+    })
   }, [])
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     RootStore.rootStore.isLogin().then((isLogin) => {
+  //       if (!isLogin) history.push("/")
+  //     })
+  //   }, 1000)
+  // }, [LoginStores.loginStore.login])
+
   useEffect(() => {
-    setTimeout(() => {
-      RootStore.rootStore.isLogin().then((isLogin) => {
-        if (!isLogin) history.push("/")
+    RootStore.rootStore.isLogin().then((isLogin) => {
+      if (!isLogin) history.push("/")
+    })
+  }, [])
+
+  // idel time
+  const handleOnIdle = (event) => {
+    // console.log("user is idle", event)
+     console.log("last active", getLastActiveTime())
+     RootStore.rootStore.setProcessLoading(true)
+    LoginStores.loginStore
+      .removeUser()
+      .then(async (res) => {
+        RootStore.rootStore.setProcessLoading(false)
+        if (res) {
+          setModalIdleTime({
+            show: true,
+            title: "Your Session timeout!",
+            subTitle: "Please login again.",
+          })
+        }
       })
-    }, 1000)
-  }, [LoginStores.loginStore.login])
+      .catch(() => {
+        alert("Your session not timeout. Please try agian.")
+      })
+  }
+
+  // const handleOnActive = (event) => {
+  //   console.log("user is active", event)
+  //   console.log("time remaining", getRemainingTime())
+  // }
+
+  // const handleOnAction = (event) => {
+  //   console.log("user did something", event)
+  // }
+   
+  const { getLastActiveTime } = useIdleTimer({
+    timeout: 1000 * 60 * (LoginStore.loginStore.login?.sessionTimeoutCount || 2),
+    onIdle: handleOnIdle,    
+    // onActive: handleOnActive,
+    // onAction: handleOnAction,
+    debounce: 500,
+  })
 
   return (
     <React.Fragment>
@@ -80,6 +132,12 @@ const Dashboard = observer(({ children }) => {
         </Main>
       </Wrapper>
       <Settings />
+      <LibraryComponents.Molecules.ModalIdleTimeout
+        {...modalIdleTime}
+        onClick={() => {
+          history.push("/")
+        }}
+      />
     </React.Fragment>
   )
 })

@@ -319,11 +319,12 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <DropdownItem>Help</DropdownItem>
                 <DropdownItem
                   onClick={() => {
+                    RootStore.rootStore.setProcessLoading(true)
                     LoginStores.loginStore
                       .removeUser()
                       .then(async (res) => {
+                        RootStore.rootStore.setProcessLoading(false)
                         if (res) {
-                          RootStore.routerStore.updateUserRouter(undefined)
                           history.push("/")
                         }
                       })

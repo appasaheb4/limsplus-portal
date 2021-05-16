@@ -20,18 +20,7 @@ export const onLogin = (user: any) =>
       })
   })
 
-export const logout = (id: string) =>
-  new Promise<any>((resolve, reject) => {
-    const client = Clients.createLimsPlusClient()
-    client
-      .post(`${RELATIVE_PATH}/logout`, { id })
-      .then((res) => {
-        resolve(res)
-      })
-      .catch((error) => {
-        reject({ error })
-      })
-  })
+
 
 export const accountStatusUpdate = (statusInfo: any) =>
   new Promise<any>((resolve, reject) => {
