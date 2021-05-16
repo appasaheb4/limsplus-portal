@@ -43,6 +43,33 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Labs",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="variable"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const lab = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(lab, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "header",
@@ -56,12 +83,61 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={5}
+                    name="message"
+                    placeholder="Message"
+                    onBlur={(message) => {
+                      if (row.message !== message && message) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(message, column.dataField, row._id)
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "action",
               text: "Action",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="action"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const action = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(action, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["login", "logout"].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>   
+                    ))}   
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "opration",

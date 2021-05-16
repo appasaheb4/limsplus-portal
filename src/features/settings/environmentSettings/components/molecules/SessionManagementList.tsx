@@ -10,6 +10,7 @@ import * as LibraryModels from "@lp/library/models"
 import * as Services from "../../services"
 
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
+import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
@@ -53,6 +54,29 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                   </ul>
                 </>
               ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: toJS(row.lab || []),
+                      list: LabStore.labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "user",
@@ -67,6 +91,29 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                       <li key={index}>{item.fullName}</li>
                     ))}
                   </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: toJS(row.user || []),
+                      list: UserStore.userStore.userList,
+                      displayKey: "fullName",
+                      findKey: "_id",
+                    }}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -84,6 +131,29 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                   </ul>
                 </>
               ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutocompleteChecked
+                    data={{
+                      defulatValues: toJS(row.department || []),
+                      list: DepartmentStore.departmentStore.listDepartment,
+                      displayKey: "name",
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "variable",
@@ -91,6 +161,35 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="variable"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const variable = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(variable, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "value",
@@ -105,6 +204,28 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={5}
+                    name="description"
+                    placeholder="Description"  
+                    onBlur={(description) => {
+                      if (row.description !== description && description) {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(description, column.dataField, row._id)
+                      }
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "opration",
@@ -123,7 +244,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                         props.onDelete({
                           type: "Delete",
                           show: true,
-                          id: [row._id],  
+                          id: [row._id],
                           title: "Are you sure?",
                         })
                     }}
