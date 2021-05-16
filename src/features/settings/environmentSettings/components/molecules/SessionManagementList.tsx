@@ -140,13 +140,14 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
                     data={{
                       defulatValues: toJS(row.department || []),
                       list: DepartmentStore.departmentStore.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
+                    titleKey={{ key1: "code", key2: "name" }}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(items, column.dataField, row._id)

@@ -6,4 +6,5 @@ export { ModalChangePassword, ModalConfirm, ModalFileUpload, Modals }
 export {default as ModalIdleTimeout} from './modal/modalIdleTimeout'
 
 export {default as AutocompleteGroupBy} from './AutocompleteGroupBy';
-export {default as AutocompleteChecked} from './AutocompleteChecked';
+export {default as AutocompleteChecked} from './AutocompleteChecked';   
+export {default as AutoCompleteCheckedByTitleKey} from './AutoCompleteCheckedByTitleKey'

@@ -8,10 +8,11 @@ import * as LibraryUtils from "@lp/library/utils"
 interface AutocompleteCheckedProps {
   data?: any
   defaultData?: any[]
+  titleKey?: any
   onUpdate?: (item: any) => void
 }
 
-const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
+const AutoCompleteCheckedByTitleKey = observer((props: AutocompleteCheckedProps) => {
   const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
   const [originalOptions, setOriginalOptions] = useState<any[]>()
@@ -129,7 +130,7 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
         </div>
 
         {options && isListOpen
-          ? options?.length > 0 && (  
+          ? options?.length > 0 && (
               <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
                 <ul>
                   {options?.map((item, index) => (
@@ -144,7 +145,9 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
                         />{" "}
                         <label className="ml-2 mt-1 text-black">
                           {" "}
-                          {item[props.data.displayKey]}
+                          {`${item[props.titleKey.key1]} (${
+                            item[props.titleKey.key2]
+                          }) `}
                         </label>
                       </li>
                     </>
@@ -157,4 +160,4 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
     </>
   )
 })
-export default AutocompleteChecked
+export default AutoCompleteCheckedByTitleKey
