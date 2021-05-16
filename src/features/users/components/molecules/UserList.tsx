@@ -3,7 +3,6 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import moment from "moment"
 
-
 import * as LibraryComponents from "@lp/library/components"
 
 import * as LibraryModels from "@lp/library/models"
@@ -140,13 +139,14 @@ const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
                     data={{
                       defulatValues: toJS(row.department),
                       list: DepartmentStore.departmentStore.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
+                    titleKey={{ key1: "code", key2: "name" }}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(items, column.dataField, row._id)

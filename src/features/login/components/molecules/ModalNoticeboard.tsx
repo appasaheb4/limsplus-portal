@@ -3,7 +3,7 @@ import { Container } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import { Frown as Sad } from "react-feather"
 import * as Config from "@lp/config"
-  
+
 interface ModalProps {
   show?: boolean
   data?: any
@@ -66,7 +66,11 @@ const ModalNoticeBoard = (props: ModalProps) => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-gray-600 text-lg leading-relaxed">
-                    {`${props.data.message}`}
+                    {
+                      <div
+                        dangerouslySetInnerHTML={{ __html: props.data.message }}
+                      />
+                    }
                   </p>
                 </div>
                 {/*footer*/}

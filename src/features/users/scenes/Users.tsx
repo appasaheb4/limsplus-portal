@@ -18,7 +18,7 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"  
+import { toJS } from "mobx"
 
 const Users = observer(() => {
   const [errors, setErrors] = useState<Models.Users>()
@@ -304,13 +304,14 @@ const Users = observer(() => {
                   label="Department"
                   id="department"
                 >
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
                     data={{
                       defulatValues: [],
                       list: DepartmentStore.departmentStore.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
+                    titleKey={{ key1: "code", key2: "name" }}
                     onUpdate={(items) => {
                       setErrors({
                         ...errors,
