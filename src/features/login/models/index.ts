@@ -14,6 +14,8 @@ export interface ILogin {
   roleMapping?: any
   image?: string   
   shortcutMenu?: any
+  sessionTimeoutCount?: number
+  sessionAllowed?: string
 }
 
 export interface ForgotPassword {

@@ -4,7 +4,9 @@ import Session from "@lp/library/modules/session"
 import Storage from "@lp/library/modules/storage"
 import * as Models from "../models"
 import * as Services from "../services"
+
 import { Stores } from "@lp/features/login/stores"
+import { Stores as RootStore } from "@lp/library/stores"
 
 @version(0.1)
 class LoginStore {
@@ -29,7 +31,7 @@ class LoginStore {
   @computed get LoginService() {
     return new Services.LoginService(Stores.loginStore.login?.token as string)
   }
-   
+
   @action saveLogin = (session) => {
     Session.saveSession(session.userId, session)
     this.login = session
@@ -38,7 +40,10 @@ class LoginStore {
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
       if (Session.hasSession) {
-        Services.logout(this.login?.loginActivityId || "").then(async (res) => {
+        this.LoginService.logout({
+          id: this.login?.loginActivityId,
+          userId: this.login?._id,
+        }).then(async (res) => {
           if (res.status === 200) {
             await localStorage.removeItem(`__persist_mobx_stores_loginStore__`)
             await localStorage.removeItem(`__persist_mobx_stores_routerStore__`)
@@ -46,6 +51,7 @@ class LoginStore {
               `__persist_mobx_stores_routerStore_SelectedCategory__`
             )
             Session.deleteSession(this.login?.userId)
+            RootStore.routerStore.updateUserRouter(undefined)
             runInAction(() => {
               this.login = undefined
             })
