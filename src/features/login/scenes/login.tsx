@@ -274,18 +274,9 @@ const Login = observer(() => {
                                     })
                                   } else {
                                     LibraryComponents.Atoms.ToastsStore.success(``)
-                                    LibraryComponents.Atoms.toast.success(
-                                      `😊 Welcome ${res.data.data.fullName}`,
-                                      {
-                                        position: "bottom-right",
-                                        autoClose: 10000,
-                                        hideProgressBar: false,
-                                        closeOnClick: true,
-                                        pauseOnHover: true,
-                                        draggable: true,
-                                        progress: undefined,
-                                      }
-                                    )
+                                    LibraryComponents.Atoms.Toast.success({
+                                      message: `😊 Welcome ${res.data.data.fullName}`,
+                                    })
                                     Stores.loginStore.saveLogin(res.data.data)
                                     Stores.loginStore.clearInputUser()
                                     history.push("/dashboard/default")
@@ -295,18 +286,9 @@ const Login = observer(() => {
                                 Stores.loginStore.updateLoginFailedCount(
                                   loginFailedCount + 1
                                 )
-                                LibraryComponents.Atoms.toast.error(
-                                  `😔 ${res.data.data.message}`,
-                                  {  
-                                    position: "bottom-right",
-                                    autoClose: 10000,
-                                    hideProgressBar: false,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
-                                  }
-                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.data.data.message}`,
+                                })
                               }
                             })
                             .catch(() => {
@@ -314,33 +296,15 @@ const Login = observer(() => {
                               Stores.loginStore.updateLoginFailedCount(
                                 loginFailedCount + 1
                               )
-                              LibraryComponents.Atoms.toast.error(
-                                `😔 User not found. Please enter correct information!`,
-                                {
-                                  position: "bottom-right",
-                                  autoClose: 10000,
-                                  hideProgressBar: false,
-                                  closeOnClick: true,
-                                  pauseOnHover: true,
-                                  draggable: true,
-                                  progress: undefined,
-                                }
-                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 User not found. Please enter correct information!`,
+                              })
                             })
                         }
                       } else {
-                        LibraryComponents.Atoms.toast.warning(
-                          `😔 Please enter all information!`,
-                          {
-                            position: "bottom-right",
-                            autoClose: 10000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                          }
-                        )
+                        LibraryComponents.Atoms.Toast.warning({
+                          message: `😔 Please enter all information!`,
+                        })
                       }
                     }}
                   >
@@ -377,31 +341,16 @@ const Login = observer(() => {
               show: false,
             })
             if (action !== "login") {
-              LibraryComponents.Atoms.toast.warning(`😔 Please use diff lab`, {
-                position: "bottom-right",
-                autoClose: 10000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
+              LibraryComponents.Atoms.Toast.warning({
+                message: `😔 Please use diff lab`,
               })
               setTimeout(() => {
                 window.location.reload()
               }, 3000)
             } else {
-              LibraryComponents.Atoms.toast.success(
-                `😊 Welcome ${noticeBoard.userInfo.fullName}`,
-                {
-                  position: "bottom-right",
-                  autoClose: 10000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                }
-              )
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Welcome ${noticeBoard.userInfo.fullName}`,
+              })
               Stores.loginStore.saveLogin(noticeBoard.userInfo)
               Stores.loginStore.clearInputUser()
               history.push("/dashboard/default")

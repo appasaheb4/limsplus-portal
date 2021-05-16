@@ -7,7 +7,8 @@ import * as Icons from "./icons"
 import Image from "./image"
 import Grid from "./grid"
 import { ToastsContainer, ToastsContainerPosition, ToastsStore } from "react-toasts"
-import { ToastContainer, toast } from 'react-toastify';  
+import { ToastContainer } from "react-toastify"
+import Toast from "@lp/library/modules/toast"
 import ModelLoader from "./modal/modalLoader"
 import Header from "./header"
 import PageHeading from "./page-heading"
@@ -26,7 +27,7 @@ export {
   ToastsContainerPosition,
   ToastsStore,
   ToastContainer,
-  toast,
+  Toast,
   ModelLoader,
   Header,
   PageHeading,
