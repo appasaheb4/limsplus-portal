@@ -41,7 +41,7 @@ const App = observer(() => {
     await RoleMappping.startup()
     await Communication.startup()
     await EnvironmentSettings.startup()
-    await hydrateStore("loginStore", LoginStore.loginStore)
+    //await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
   }
 

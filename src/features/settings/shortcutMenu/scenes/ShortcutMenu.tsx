@@ -52,6 +52,8 @@ const ShortcutMenu = observer(() => {
     if (list) {
       list[index].selected = !list[index].selected
     }
+    console.log({ list })
+  
     Stores.shortcutMenuStore.updateShortcutMenu(list)
   }
 
@@ -207,6 +209,8 @@ const ShortcutMenu = observer(() => {
               const selectedList = Stores.shortcutMenuStore.shortcutMenuList?.filter(
                 (item) => item.selected === true
               )
+              console.log({selectedList});
+              
               const userRole = LoginStore.loginStore.login?.role
               if (selectedList && selectedList?.length > 0) {
                 Stores.shortcutMenuStore.ShortcutMenuService.updateShortcutMenu({
@@ -219,7 +223,7 @@ const ShortcutMenu = observer(() => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.ToastsStore.success(
                       `Shortcut Menu updated.`
-                    )  
+                    )
                     LoginStore.loginStore.updateLogin({
                       ...LoginStore.loginStore.login,
                       shortcutMenu: res.data.data.user.shortcutMenu,
