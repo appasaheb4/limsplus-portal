@@ -111,7 +111,7 @@ const Dashboard = observer(({ children }) => {
       .catch(() => {
         alert("Your session not timeout. Please try agian.")
       })
-  }  
+  }    
 
   // const handleOnActive = (event) => {
   //   console.log("user is active", event)
