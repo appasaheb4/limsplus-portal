@@ -19,7 +19,9 @@ class LoginStore {
     makeAutoObservable(this)
     Session.initialize("limsplus")
     Storage.getItem("__persist_mobx_stores_loginStore__").then((login: any) => {
-      login = JSON.parse(login)
+      console.log({ login })
+      login = JSON.parse(login || undefined)
+      console.log({ login })
       if (login.login) {
         runInAction(async () => {
           await Session.getSession(login.login.userId)
@@ -45,7 +47,7 @@ class LoginStore {
           userId: this.login?._id,
         }).then(async (res) => {
           if (res.status === 200) {
-            await localStorage.removeItem(`__persist_mobx_stores_loginStore__`)
+            await sessionStorage.removeItem(`__persist_mobx_stores_loginStore__`)
             await localStorage.removeItem(`__persist_mobx_stores_routerStore__`)
             await localStorage.removeItem(
               `__persist_mobx_stores_routerStore_SelectedCategory__`

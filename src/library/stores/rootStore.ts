@@ -15,6 +15,8 @@ class RootStore {
   }
   @action isLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
+      console.log({Session});
+      
       try {
         if (Session.initialized) {
           if (Session.hasSession) {
