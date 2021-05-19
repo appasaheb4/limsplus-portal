@@ -17,7 +17,7 @@ class LoginStore {
 
   constructor() {
     makeAutoObservable(this)
-    Session.initialize("limsplus")
+    Session.initialize({name:"limsplus"})
     runInAction(async () => {
       const session = await Session.getSession()
       RootStore.rootStore.updateSesssion(session)
