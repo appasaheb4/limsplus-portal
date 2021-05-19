@@ -15,7 +15,6 @@ import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-import * as localStorage from "@lp/library/clients/storage-client"
 import { RouterFlow } from "@lp/flows"
 
 import {

@@ -1,4 +1,5 @@
 import * as localStorage from "@lp/library/clients/storage-client"
+//import * as sessionStorage from "@lp/library/clients/session-client"
 class Storage {
   setItem = async (key, value) => {
     await localStorage.setItem(key, value)

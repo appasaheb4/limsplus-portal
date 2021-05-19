@@ -41,13 +41,14 @@ const App = observer(() => {
     await RoleMappping.startup()
     await Communication.startup()
     await EnvironmentSettings.startup()
-    //await hydrateStore("loginStore", LoginStore.loginStore)
+    await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
   }
 
   React.useEffect(() => {
     loader()
   }, [])
+
   return (
     <>
       <Provider store={store}>
@@ -66,7 +67,7 @@ const App = observer(() => {
         position={LibraryComponents.Atoms.ToastsContainerPosition.BOTTOM_RIGHT}
         store={LibraryComponents.Atoms.ToastsStore}
         className="h-20"
-      />  
+      />
       <LibraryComponents.Atoms.ToastContainer />
       {RootStore.rootStore.processLoading && <LibraryComponents.Atoms.ModelLoader />}
     </>
