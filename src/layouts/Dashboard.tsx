@@ -81,12 +81,10 @@ const Dashboard = observer(({ children }) => {
   useEffect(() => {
     setTimeout(() => {
       RootStore.rootStore.isLogin().then((isLogin) => {
-        console.log({isLogin});
-        
         if (!isLogin && !isLogined) history.push("/")
       })
     }, 1000)
-  }, [])
+  }, [LoginStores.loginStore.login])
 
   // useEffect(() => {
   //   RootStore.rootStore.isLogin().then((isLogin) => {
