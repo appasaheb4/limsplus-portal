@@ -1,6 +1,5 @@
 import { toJS } from "mobx"
-
-import * as localStorage from "@lp/library/clients/storage-client"
+import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
 /* eslint-disable */
 export const selectedComponents = (store, category, subCategory) => {
@@ -60,10 +59,10 @@ export const updateSelectedCategory = async (
     category,
     item,
   })
-  await localStorage.setItem(
-    `__persist_mobx_stores_routerStore_SelectedCategory__`,
-    { category, item }
-  )
+  await Storage.setItem(`__persist_mobx_stores_routerStore_SelectedCategory__`, {
+    category,
+    item,
+  })
   const permission = getPermission(
     toJS(RootStore.routerStore.userRouter),
     category,

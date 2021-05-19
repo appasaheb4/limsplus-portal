@@ -18,7 +18,9 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { toJS } from "mobx"
 
-import hydrateStore from "@lp/library/modules/startup"
+import Storage from "@lp/library/modules/storage"
+
+
 import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
@@ -36,12 +38,12 @@ const Dashboard = observer(({ children }) => {
     }
   }
   const permission = async () => {
-    let selectedCategory: any = await localStorage.getItem(
+    let selectedCategory: any = await Storage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`
     )
     selectedCategory = JSON.parse(selectedCategory)
-    console.log({selectedCategory});
-    
+    console.log({ selectedCategory })
+
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(
         toJS(RootStore.routerStore.userRouter),
@@ -79,10 +81,12 @@ const Dashboard = observer(({ children }) => {
   useEffect(() => {
     setTimeout(() => {
       RootStore.rootStore.isLogin().then((isLogin) => {
+        console.log({isLogin});
+        
         if (!isLogin && !isLogined) history.push("/")
       })
     }, 1000)
-  }, [LoginStores.loginStore.login])
+  }, [])
 
   // useEffect(() => {
   //   RootStore.rootStore.isLogin().then((isLogin) => {
@@ -111,7 +115,7 @@ const Dashboard = observer(({ children }) => {
       .catch(() => {
         alert("Your session not timeout. Please try agian.")
       })
-  }    
+  }
 
   // const handleOnActive = (event) => {
   //   console.log("user is active", event)
