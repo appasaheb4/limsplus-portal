@@ -42,13 +42,13 @@ class LoginStore {
         }).then(async (res) => {
           if (res.status === 200) {
             await Storage.removeItem(
-              `__persist_mobx_stores_loginStore_${RootStore.rootStore.session.lastUpdated}_`
+              `__persist_mobx_stores_loginStore__`
             )
             await Storage.removeItem(
-              `__persist_mobx_stores_routerStore_${RootStore.rootStore.session.lastUpdated}_`
+              `__persist_mobx_stores_routerStore__`
             )
             await Storage.removeItem(
-              `__persist_mobx_stores_routerStore_SelectedCategory_${RootStore.rootStore.session.lastUpdated}_`
+              `__persist_mobx_stores_routerStore_SelectedCategory__`
             )
             Session.deleteSession()
             RootStore.routerStore.updateUserRouter(undefined)

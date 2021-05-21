@@ -113,6 +113,13 @@ const Users = observer(() => {
                         ...Stores.userStore.user,
                         defaultLab,
                       })
+                      const lab:any = LabStore.labStore.listLabs.find(
+                        (item) => item.code == defaultLab
+                      )
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
+                        lab,
+                      })
                     }}
                   >
                     <option selected>Select</option>
