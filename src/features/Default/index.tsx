@@ -2,20 +2,16 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
-import * as Services from "@lp/features/users/services"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-import Appointments from "./Appointments"
 import BarChart from "./BarChart"
-import Calendar from "./Calendar"
 import Feed from "./Feed"
 import Header from "./Header"
 import LineChart from "./LineChart"
-import PieChart from "./PieChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
 import moment from "moment"
@@ -52,11 +48,6 @@ const Default = observer(() => {
           title: "Your account expire.Please contact to admin. ",
         })
       }
-      // if (
-      //   LoginStores.loginStore.login?.passChanged !== true &&
-      //   UserStores.userStore.changePassword?.tempHide !== false
-      // )
-      //   setModalChangePassword({ show: true })
     }
   }, [LoginStores.loginStore])
 
@@ -73,17 +64,7 @@ const Default = observer(() => {
             <Feed />
           </Col>
         </Row>
-        <Row>
-          <Col lg="6" xl="4" className="d-flex">
-            <Calendar />
-          </Col>
-          <Col lg="6" xl="4" className="d-flex">
-            <PieChart />
-          </Col>
-          <Col lg="6" xl="4" className="d-flex">
-            <Appointments />
-          </Col>
-        </Row>
+
         <Row>
           <Col lg="6" xl="8" className="d-flex">
             <Projects />
