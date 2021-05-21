@@ -31,11 +31,11 @@ class UserService extends BaseService {
         })
     })
   deleteUser = (id: string) =>
-    new Promise<Models.Users[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       this.client
         .delete(`/auth/deleteUser/${id}`)
         .then((res) => {
-          resolve(res.data)
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })

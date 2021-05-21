@@ -113,7 +113,7 @@ const Users = observer(() => {
                         ...Stores.userStore.user,
                         defaultLab,
                       })
-                      const lab:any = LabStore.labStore.listLabs.find(
+                      const lab: any = LabStore.labStore.listLabs.find(
                         (item) => item.code == defaultLab
                       )
                       Stores.userStore.updateUser({
@@ -557,7 +557,7 @@ const Users = observer(() => {
                       setModalConfirm({ show: false })
                       Stores.userStore.loadUser()
                     }
-                  }
+                  }  
                 )
               } else if (type === "Update") {
                 RootStore.rootStore.setProcessLoading(true)

@@ -20,7 +20,6 @@ import { toJS } from "mobx"
 
 import Storage from "@lp/library/modules/storage"
 
-
 import { RouterFlow } from "@lp/flows"
 
 const Dashboard = observer(({ children }) => {
@@ -30,6 +29,8 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
+    console.log({ router })
+
     if (router && !RootStore.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
       //await hydrateStore("loginStore", LoginStore.loginStore)
@@ -38,12 +39,11 @@ const Dashboard = observer(({ children }) => {
     }
   }
   const permission = async () => {
+    console.log("permssion")
+
     let selectedCategory: any = await Storage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`
     )
-    selectedCategory = JSON.parse(selectedCategory)
-    console.log({ selectedCategory })
-
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(
         toJS(RootStore.routerStore.userRouter),
@@ -55,6 +55,8 @@ const Dashboard = observer(({ children }) => {
         selectedCategory.category,
         selectedCategory.item
       )
+      console.log({ permission })
+
       RootStore.routerStore.updateSelectedComponents(selectedComp)
       RootStore.routerStore.updateUserPermission(permission)
     } else {
@@ -63,18 +65,15 @@ const Dashboard = observer(({ children }) => {
   }
 
   useEffect(() => {
-    // RootStore.rootStore.isLogin().then((isLogin) => {
-    //   if (isLogin) {
-    //     router()
-    //     setTimeout(() => {
-    //       permission()
-    //     }, 1000)
-    //   }
-    // })
-    router()
-    setTimeout(() => {
-      permission()
-    }, 1000)
+    // buz reload page after not showing delete and update so added settimout
+    RootStore.rootStore.isLogin().then((isLogin) => {
+      if (isLogin) {
+        router()
+        setTimeout(() => {
+          permission()
+        }, 1000)
+      }
+    })
   }, [])
 
   // issue come realod then going default dashboard page so added dependancy
@@ -85,12 +84,6 @@ const Dashboard = observer(({ children }) => {
       })
     }, 1000)
   }, [LoginStores.loginStore.login])
-
-  // useEffect(() => {
-  //   RootStore.rootStore.isLogin().then((isLogin) => {
-  //     if (!isLogin) history.push("/")
-  //   })
-  // }, [])
 
   // idel time
   const handleOnIdle = (event) => {

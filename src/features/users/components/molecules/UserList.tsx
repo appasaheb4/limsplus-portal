@@ -345,6 +345,7 @@ const UserList = observer((props: UserListProps) => {
                     onClick={() => {
                       props.onDelete &&
                         props.onDelete({
+                          type: "Delete",
                           show: true,
                           id: [row._id],
                           title: "Are you sure?",

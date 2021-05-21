@@ -44,7 +44,7 @@ const AutoCompleteCheckedByTitleKey = observer((props: AutocompleteCheckedProps)
   let count = 0
   const getSelectedItem = (defulatValues: any, list: any[], findKey: string) => {
     if (count === 0) {
-      console.log({ defulatValues, list })
+      //console.log({ defulatValues, list })
       const finalList = list.filter((item, index) => {
         defulatValues.length > 0 &&
           defulatValues.find((rItem, index) => {
