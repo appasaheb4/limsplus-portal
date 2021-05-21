@@ -16,10 +16,7 @@ class RootStore {
   }
   @action isLogin(): Promise<boolean> {
     return new Promise<boolean>(async (resolve, reject) => {
-      console.log({Session});
-      console.log({login:LoginStore.loginStore.login});
-        await Session.getSession();
-      
+      await Session.getSession()
       try {
         if (Session.initialized) {
           if (Session.hasSession && LoginStore.loginStore.login) {

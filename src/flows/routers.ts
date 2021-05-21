@@ -59,6 +59,8 @@ export const updateSelectedCategory = async (
     category,
     item,
   })
+  console.log({ category, item })
+
   await Storage.setItem(`__persist_mobx_stores_routerStore_SelectedCategory__`, {
     category,
     item,
