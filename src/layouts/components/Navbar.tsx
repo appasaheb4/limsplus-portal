@@ -100,8 +100,8 @@ const NavbarComponent = observer(({ dispatch }) => {
             ))}
         </Form>
 
-        <Collapse navbar inline>
-          <Nav className="ml-auto" navbar>
+        <Collapse navbar>   
+          <Nav className="ml-auto items-center" navbar>
             <Button color="primary" className="shadow-sm h-10">
               <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
             </Button>

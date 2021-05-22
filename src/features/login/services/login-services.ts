@@ -42,6 +42,18 @@ class LoginService extends BaseService {
           reject({ error })
         })
     })
+
+  sessionAllowedLogout = (details: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/sessionAllowedLogout`, details)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
 }
 
 export default LoginService

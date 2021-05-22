@@ -48,6 +48,9 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill")
     return LibraryComponents.Atoms.Icons.IconRi.RiDashboard3Fill
+  // login
+  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiComputerFill")
+    return LibraryComponents.Atoms.Icons.IconRi.RiComputerFill
   // collection
   if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill")
     return LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill
@@ -85,10 +88,9 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconCg.CgShortcut
   if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent")
     return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
-    if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
+  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
     return LibraryComponents.Atoms.Icons.IconFa.FaClipboardList
 
-    
   return LibraryComponents.Atoms.Icons.IconBs.BsList
 }
 

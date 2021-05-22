@@ -11,16 +11,12 @@ export const onLogin = (user: any) =>
     client
       .post(`${RELATIVE_PATH}/login`, user)
       .then((res) => {
-        console.log({ res })
-
         resolve(res)
       })
       .catch((error) => {
         reject({ error })
       })
   })
-
-
 
 export const accountStatusUpdate = (statusInfo: any) =>
   new Promise<any>((resolve, reject) => {

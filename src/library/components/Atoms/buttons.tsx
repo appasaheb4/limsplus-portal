@@ -11,9 +11,10 @@ interface ButtonProps {
   icon?: React.FunctionComponent<IconProps>
   pill?: boolean
   disabled?: string
+  children?: React.ReactNode
 }
 
-export const Button: React.FunctionComponent<ButtonProps> = (props) => {
+export const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps): JSX.Element => {
   const buttonSizeClass =
     props.size === "small"
       ? `px-2 py-1 text-xs`
