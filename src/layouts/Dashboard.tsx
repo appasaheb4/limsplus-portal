@@ -39,8 +39,6 @@ const Dashboard = observer(({ children }) => {
     }
   }
   const permission = async () => {
-    console.log("permssion")
-
     let selectedCategory: any = await Storage.getItem(
       `__persist_mobx_stores_routerStore_SelectedCategory__`
     )

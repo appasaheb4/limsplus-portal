@@ -77,7 +77,7 @@ const Users = observer(() => {
                     Stores.userStore.UsersService.checkExitsUserId(userId).then(
                       (res) => {
                         if (res)
-                          if (res.length > 0) Stores.userStore.setExitsUserId(true)
+                          if (res) Stores.userStore.setExitsUserId(true)
                           else Stores.userStore.setExitsUserId(false)
                       }
                     )
