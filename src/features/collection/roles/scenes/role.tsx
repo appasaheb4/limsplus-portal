@@ -5,7 +5,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import * as Services from "../services"
+
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
@@ -106,7 +106,7 @@ const Role = observer(() => {
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
-
+   
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
@@ -119,12 +119,14 @@ const Role = observer(() => {
                   !Stores.roleStore.checkExitsCode
                 ) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Services.addrole(Stores.roleStore.role).then(() => {
-                    RootStore.rootStore.setProcessLoading(false)
-                    LibraryComponents.Atoms.ToastsStore.success(`Role created.`)
-                    Stores.roleStore.fetchListRole()
-                    Stores.roleStore.clear()
-                  })
+                  Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(
+                    () => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.ToastsStore.success(`Role created.`)
+                      Stores.roleStore.fetchListRole()
+                      Stores.roleStore.clear()
+                    }
+                  )
                 } else {
                   LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"

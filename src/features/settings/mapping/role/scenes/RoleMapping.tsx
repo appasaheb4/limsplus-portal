@@ -459,19 +459,21 @@ const RoleMapping = observer(() => {
                             alert("Data not update.Please try again")
                           }
                         })
-                    : Services.addRoleMapping({
-                        role: Stores.roleMappingStore.selectedRole,
-                        router: JSON.stringify(router),
-                      }).then((res) => {
-                        if (res.status === LibraryModels.StatusCode.CREATED) {
-                          LibraryComponents.Atoms.ToastsStore.success(`Created.`)
-                          setTimeout(() => {
-                            window.location.reload()
-                          }, 2000)
-                        } else {
-                          alert("Not added data.")
-                        }
-                      })
+                    : Stores.roleMappingStore.roleMappingService
+                        .addRoleMapping({
+                          role: Stores.roleMappingStore.selectedRole,
+                          router: JSON.stringify(router),
+                        })
+                        .then((res) => {
+                          if (res.status === LibraryModels.StatusCode.CREATED) {
+                            LibraryComponents.Atoms.ToastsStore.success(`Created.`)
+                            setTimeout(() => {
+                              window.location.reload()
+                            }, 2000)
+                          } else {
+                            alert("Not added data.")
+                          }
+                        })
                 } else {
                   LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"
@@ -519,13 +521,15 @@ const RoleMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Services.deleteRoleMapping(modalConfirm.id).then((res: any) => {
-                if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
-                  setModalConfirm({ show: false })
-                  Stores.roleMappingStore.fetchRoleMappingList()
-                }
-              })
+              Stores.roleMappingStore.roleMappingService
+                .deleteRoleMapping(modalConfirm.id)
+                .then((res: any) => {
+                  if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                    LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
+                    setModalConfirm({ show: false })
+                    Stores.roleMappingStore.fetchRoleMappingList()
+                  }
+                })
             }
           }}
           onClose={() => {

@@ -1,10 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
-import * as Services from "../services"
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
@@ -14,6 +13,10 @@ import { RouterFlow } from "@lp/flows"
 const Banner = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+
+  useEffect(() => {
+    Stores.bannerStore.fetchListBanner()
+  }, [])
 
   return (
     <>
@@ -78,7 +81,9 @@ const Banner = observer(() => {
               onClick={() => {
                 if (Stores.bannerStore.banner !== undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Services.addBanner(Stores.bannerStore.banner).then((res) => {
+                  Stores.bannerStore.BannerService.addBanner(
+                    Stores.bannerStore.banner
+                  ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
                       LibraryComponents.Atoms.ToastsStore.success(`Banner created.`)

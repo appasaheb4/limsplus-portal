@@ -2,7 +2,7 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
 import * as Models from "../models"
-
+import { Stores as LoginStores } from "@lp/features/login/stores"
 @version(0.1)
 class NoticeBoardStore {
   @ignore @observable noticeBoard?: Models.NoticeBoard
@@ -13,7 +13,9 @@ class NoticeBoardStore {
   }
 
   @computed get NoticeBoardService() {
-    return new Services.NoticeBoardService()
+    return new Services.NoticeBoardService(
+      LoginStores.loginStore.login?.accessToken as string
+    )
   }
 
   @action fetchNoticeBoards() {

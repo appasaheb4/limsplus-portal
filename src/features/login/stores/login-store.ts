@@ -17,7 +17,7 @@ class LoginStore {
 
   constructor() {
     makeAutoObservable(this)
-    Session.initialize({name:"limsplus"})
+    Session.initialize({ name: "limsplus" })
     runInAction(async () => {
       const session = await Session.getSession()
       RootStore.rootStore.updateSesssion(session)
@@ -25,7 +25,7 @@ class LoginStore {
   }
 
   @computed get LoginService() {
-    return new Services.LoginService(Stores.loginStore.login?.token as string)
+    return new Services.LoginService(Stores.loginStore.login?.accessToken as string)
   }
 
   @action saveLogin = async (session) => {
@@ -39,14 +39,11 @@ class LoginStore {
         this.LoginService.logout({
           id: this.login?.loginActivityId,
           userId: this.login?._id,
+          accessToken: this.login?.accessToken
         }).then(async (res) => {
           if (res.status === 200) {
-            await Storage.removeItem(
-              `__persist_mobx_stores_loginStore__`
-            )
-            await Storage.removeItem(
-              `__persist_mobx_stores_routerStore__`
-            )
+            await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
+            await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
             await Storage.removeItem(
               `__persist_mobx_stores_routerStore_SelectedCategory__`
             )
@@ -59,6 +56,22 @@ class LoginStore {
           }
         })
       }
+    })
+  }
+
+  @action removeLocalSession = (): Promise<boolean> => {
+    return new Promise<boolean>(async(resolve) => {
+      await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
+      await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
+      await Storage.removeItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      Session.deleteSession()
+      RootStore.routerStore.updateUserRouter(undefined)
+      runInAction(() => {
+        this.login = undefined
+      })
+      resolve(true)
     })
   }
 

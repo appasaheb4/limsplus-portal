@@ -21,10 +21,10 @@ class RoleStore {
     }
   }
   @computed get RoleService() {
-    return new Services.RoleService(Stores.loginStore.login?.token as string)
+    return new Services.RoleService(Stores.loginStore.login?.accessToken as string)
   }
   fetchListRole() {
-    Services.listRole().then((res) => {
+    this.RoleService.listRole().then((res) => {
       // console.log({ role: res });
       this.listRole = res
     })

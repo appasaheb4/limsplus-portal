@@ -18,6 +18,8 @@ import { Stores as BannerStores } from "@lp/features/banner/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
 
 const Login = observer(() => {
   const history = useHistory()
@@ -112,12 +114,13 @@ const Login = observer(() => {
                               lab: res.defaultLab,
                               role: res.role.length == 1 ? res.role[0].code : "",
                             })
-
+                            LabStores.labStore.fetchListLab()
+                            RoleStores.roleStore.fetchListRole()
                             setlabRoleList({ labList: res.lab, roleList: res.role })
                           } else {
-                            LibraryComponents.Atoms.ToastsStore.error(
-                              "User not found!"
-                            )
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 User not found!`,
+                            })
                           }
                         }
                       )
@@ -242,78 +245,78 @@ const Login = observer(() => {
                         ) === undefined
                       ) {
                         RootStore.rootStore.setProcessLoading(true)
-                        // if (loginFailedCount > 4) {
-                        //   Services.accountStatusUpdate({
-                        //     userId: Stores.loginStore.inputLogin?.userId,
-                        //     status: "Disable",
-                        //   }).then((res) => {
-                        //     RootStore.rootStore.setProcessLoading(false)
-                        //     LibraryComponents.Atoms.ToastsStore.error(
-                        //       "Your account is disable. Please contact admin"
-                        //     )
-                        //     Stores.loginStore.updateLoginFailedCount(0)
-                        //   })
-                        // } else {
-                        Services.onLogin({
-                          login: Stores.loginStore.inputLogin,
-                          loginActivity: {
-                            device: width <= 768 ? "Mobile" : "Desktop",
-                          },
-                        })
-                          .then((res) => {
-                            console.log({ res })
+                        if (loginFailedCount > 4) {
+                          Stores.loginStore.LoginService.accountStatusUpdate({
+                            userId: Stores.loginStore.inputLogin?.userId,
+                            status: "Disable",
+                          }).then((res) => {
                             RootStore.rootStore.setProcessLoading(false)
-                            if (res.status === 200) {
-                              Stores.loginStore.updateLoginFailedCount(0)
-                              if (res.data.data.passChanged !== true) {
-                                setModalChangePassword({ show: true })
-                              } else {
-                                if (res.data.data.noticeBoard !== undefined) {
-                                  setNoticeBoard({
-                                    show: true,
-                                    userInfo: res.data.data,
-                                    data: res.data.data.noticeBoard,
-                                  })
+                            LibraryComponents.Atoms.ToastsStore.error(
+                              "Your account is disable. Please contact admin"
+                            )
+                            Stores.loginStore.updateLoginFailedCount(0)
+                          })
+                        } else {
+                          Stores.loginStore.LoginService.onLogin({
+                            login: Stores.loginStore.inputLogin,
+                            loginActivity: {
+                              device: width <= 768 ? "Mobile" : "Desktop",
+                            },
+                          })   
+                            .then((res) => {
+                              console.log({ res })
+                              RootStore.rootStore.setProcessLoading(false)
+                              if (res.status === 200) {
+                                Stores.loginStore.updateLoginFailedCount(0)
+                                if (res.data.data.passChanged !== true) {
+                                  setModalChangePassword({ show: true })
                                 } else {
-                                  LibraryComponents.Atoms.ToastsStore.success(``)
-                                  LibraryComponents.Atoms.Toast.success({
-                                    message: `😊 Welcome ${res.data.data.fullName}`,
+                                  if (res.data.data.noticeBoard !== undefined) {
+                                    setNoticeBoard({
+                                      show: true,
+                                      userInfo: res.data.data,
+                                      data: res.data.data.noticeBoard,
+                                    })
+                                  } else {
+                                    LibraryComponents.Atoms.ToastsStore.success(``)
+                                    LibraryComponents.Atoms.Toast.success({
+                                      message: `😊 Welcome ${res.data.data.fullName}`,
+                                    })
+                                    Stores.loginStore.saveLogin(res.data.data)
+                                    Stores.loginStore.clearInputUser()
+                                    history.push("/dashboard/default")
+                                  }
+                                }
+                              } else if (res.status === 203) {
+                                Stores.loginStore.updateLoginFailedCount(
+                                  loginFailedCount + 1
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.data.data.message}`,
+                                })
+                                if (
+                                  res.data.data.message ===
+                                    "Your session allowed all used.Please logout other session" &&
+                                  res.data.data.loginActivityActiveUserByUserId
+                                ) {
+                                  setModalSessionAllowed({
+                                    show: true,
+                                    data:
+                                      res.data.data.loginActivityActiveUserByUserId,
                                   })
-                                  Stores.loginStore.saveLogin(res.data.data)
-                                  Stores.loginStore.clearInputUser()
-                                  history.push("/dashboard/default")
                                 }
                               }
-                            } else if (res.status === 203) {
+                            })
+                            .catch(() => {
+                              console.log({ failed: loginFailedCount })
                               Stores.loginStore.updateLoginFailedCount(
                                 loginFailedCount + 1
                               )
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.data.data.message}`,
+                                message: `😔 User not found. Please enter correct information!`,
                               })
-                              if (
-                                res.data.data.message ===
-                                  "Your session allowed all used.Please logout other session" &&
-                                res.data.data.loginActivityActiveUserByUserId
-                              ) {
-                                setModalSessionAllowed({
-                                  show: true,
-                                  data:
-                                    res.data.data.loginActivityActiveUserByUserId,
-                                })
-                              }
-                            }
-                          })
-                          .catch(() => {
-                            console.log({ failed: loginFailedCount })
-                            Stores.loginStore.updateLoginFailedCount(
-                              loginFailedCount + 1
-                            )
-                            LibraryComponents.Atoms.Toast.error({
-                              message: `😔 User not found. Please enter correct information!`,
                             })
-                          })
-                        // }
+                        }
                       } else {
                         LibraryComponents.Atoms.Toast.warning({
                           message: `😔 Please enter all information!`,
@@ -451,6 +454,7 @@ const Login = observer(() => {
             Stores.loginStore.LoginService.sessionAllowedLogout({
               id: item._id,
               userId: Stores.loginStore.inputLogin?.userId,
+              accessToken: item.user.accessToken,
             }).then(async (res) => {
               const firstArr = data.slice(0, index) || []
               const secondArr = data.slice(index + 1) || []

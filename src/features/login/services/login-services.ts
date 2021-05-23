@@ -8,6 +8,17 @@
 import BaseService from "@lp/library/modules/base-service"
 
 class LoginService extends BaseService {
+  onLogin = (user: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/login`, user)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   accountStatusUpdate = (statusInfo: any) =>
     new Promise<any>((resolve, reject) => {
       this.client

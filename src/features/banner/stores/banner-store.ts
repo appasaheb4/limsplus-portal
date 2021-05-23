@@ -11,15 +11,16 @@ class BannerStore {
   constructor() {
     makeAutoObservable(this)
   }
-  @action fetchListBanner() {
-    Services.listBanner().then((banner) => {
-      //console.log({ banner });
-      this.listBanner = banner
-    })
-  }
 
   @computed get BannerService() {
-    return new Services.BannerService(Stores.loginStore.login?.token as string)
+    return new Services.BannerService(Stores.loginStore.login?.accessToken as string)
+  }  
+
+  @action fetchListBanner() {
+    this.BannerService.listBanner().then((banner) => {
+      console.log({ banner })
+      this.listBanner = banner
+    })
   }
   @action updateBanner = (banner: Models.IBanner) => {
     this.banner = banner

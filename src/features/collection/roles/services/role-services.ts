@@ -4,10 +4,33 @@
  * @package Feed Service
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class RoleService extends BaseService {
+  listRole = () =>
+    new Promise<Models.IRole[]>((resolve, reject) => {
+      this.client
+        .get(`/role/listRole`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  addrole = (lab?: Models.IRole) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/role/addRole`, lab)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
       this.client

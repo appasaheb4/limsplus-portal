@@ -8,6 +8,28 @@ import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class UserService extends BaseService {
+  userList = () =>
+    new Promise<Models.Users[]>((resolve, reject) => {
+      this.client
+        .get(`/auth/listUser`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  reSendPassword = (userInfo: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/auth/reSendPassword`, userInfo)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
       this.client

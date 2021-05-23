@@ -8,7 +8,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import * as Services from "../../services"
-
+import { Stores } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
@@ -306,7 +306,7 @@ const UserList = observer((props: UserListProps) => {
                     type="outline"
                     icon={LibraryComponents.Atoms.Icon.ReSendPassword}
                     onClick={async () => {
-                      Services.reSendPassword({
+                      Stores.userStore.UsersService.reSendPassword({
                         userId: row.userId,
                         lab: row.lab[0].code,
                         role: row.role[0].code,

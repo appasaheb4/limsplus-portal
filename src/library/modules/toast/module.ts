@@ -23,7 +23,7 @@ class Toast {
     })
   }
   warning = async (details: any) => {
-    toast.error(details.message, {
+    toast.warning(details.message, {
       position: "bottom-right",
       autoClose: details.timer || 10000,
       hideProgressBar: false,

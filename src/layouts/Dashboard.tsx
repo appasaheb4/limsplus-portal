@@ -22,15 +22,39 @@ import Storage from "@lp/library/modules/storage"
 
 import { RouterFlow } from "@lp/flows"
 
+import * as Banner from "@lp/features/banner"
+import * as Deginisation from "@lp/features/collection/deginisation"
+import * as Lab from "@lp/features/collection/labs"
+import * as Role from "@lp/features/collection/roles"
+import * as Department from "@lp/features/collection/department"
+import * as User from "@lp/features/users"
+import * as RoleMappping from "@lp/features/settings/mapping/role"
+import * as Communication from "@lp/features/communication"
+import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
+
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
-  const [modalIdleTime, setModalIdleTime] = useState<any>()
   const [isLogined, setIsLogined] = useState<boolean>(false)
+  const [modalIdleTime, setModalIdleTime] = useState<any>()
+
+  const loadApi = async () => {
+    const currentLocation = window.location
+    let pathname: any = currentLocation.pathname
+    //console.log({ pathname })
+    if (pathname === "/collection/banner") await Banner.startup()
+    if (pathname === "/settings/environmentSettings")
+      await EnvironmentSettings.startup()
+    if (pathname === "/collection/deginisation") await Deginisation.startup()
+    if (pathname === "/collection/lab") await Lab.startup()
+    if (pathname === "/collection/role") await Role.startup()
+    if (pathname === "/collection/department") await Department.startup()
+    if (pathname === "/settings/users") await User.startup()
+    if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
+    if (pathname === "/communication/interfaceManager") await Communication.startup()
+  }
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
-    console.log({ router })
-
     if (router && !RootStore.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
       //await hydrateStore("loginStore", LoginStore.loginStore)
@@ -53,8 +77,6 @@ const Dashboard = observer(({ children }) => {
         selectedCategory.category,
         selectedCategory.item
       )
-      console.log({ permission })
-
       RootStore.routerStore.updateSelectedComponents(selectedComp)
       RootStore.routerStore.updateUserPermission(permission)
     } else {
@@ -66,6 +88,7 @@ const Dashboard = observer(({ children }) => {
     // buz reload page after not showing delete and update so added settimout
     RootStore.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
+        loadApi()
         router()
         setTimeout(() => {
           permission()
@@ -140,6 +163,14 @@ const Dashboard = observer(({ children }) => {
           history.push("/")
         }}
       />
+      {/* <LibraryComponents.Molecules.ModalTokenExpire
+        {...RootStore.rootStore.modalTokenExpire}
+        onClick={() => {
+          LoginStore.loginStore.removeLocalSession().then(() => {
+            history.push("/")
+          })
+        }}
+      /> */}
     </React.Fragment>
   )
 })

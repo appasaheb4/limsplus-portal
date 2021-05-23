@@ -22,18 +22,20 @@ class DepartmentStore {
     }
   }
 
-  fetchListDepartment() {
-    Services.listDepartment().then((res) => {
-      //console.log({ department: res });
-      this.listDepartment = res
-    })
-  }
-
   @action setExitsCode(status: boolean) {
     this.checkExitsCode = status
   }
   @computed get DepartmentService() {
-    return new Services.DepartmentService(Stores.loginStore.login?.token as string)
+    return new Services.DepartmentService(
+      Stores.loginStore.login?.accessToken as string
+    )
+  }
+
+  fetchListDepartment() {
+    this.DepartmentService.listDepartment().then((res) => {
+      //console.log({ department: res });
+      this.listDepartment = res
+    })
   }
 
   @action updateDepartment = (department: Models.IDepartment) => {
