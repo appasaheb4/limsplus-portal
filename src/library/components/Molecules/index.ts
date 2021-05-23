@@ -2,7 +2,7 @@ import * as Modals from "./Modals"
 export { default as ModalConfirm } from "./modal/ModalConfirm"
 export { default as ModalFileUpload } from "./modal/ModalFileUpload"
 export { default as ModalChangePassword } from "./modal/ModalChangePassword"
-export { default as ModalIdleTimeout } from "./modal/ModalIdleTimeout"
+export { default as ModalIdleTimeout } from "./modal/ModalIdleTimeout1"
 export { default as ModalSessionAllowed } from "./modal/ModalSessionAllowed"
 export { default as ModalTokenExpire} from './modal/ModalTokenExpire'
 
