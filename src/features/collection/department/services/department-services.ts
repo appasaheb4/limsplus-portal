@@ -4,14 +4,36 @@
  * @package Feed Service
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class DepartmentService extends BaseService {
+  listDepartment = () =>
+    new Promise<Models.IDepartment[]>((resolve, reject) => {
+      this.client
+        .get(`/department/listDepartment`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  adddepartment = (department?: Models.IDepartment) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/department/addDepartment`, department)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`department/checkExitsCode`, { code })
+        .post(`/department/checkExitsCode`, { code })
         .then((res) => {
           resolve(res.data.data)
         })
@@ -22,7 +44,7 @@ class DepartmentService extends BaseService {
   deletedepartment = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`department/deleteDepartment/${id}`)
+        .delete(`/department/deleteDepartment/${id}`)
         .then((res) => {
           resolve(res)
         })

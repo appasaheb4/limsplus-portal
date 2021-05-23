@@ -3,7 +3,7 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 
 import * as Services from "../services"
-//import { Stores } from "@lp/features/login/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
 
 @version(0.1)
 class ConversationMappingStore {
@@ -15,16 +15,16 @@ class ConversationMappingStore {
     makeAutoObservable(this)
   }
 
+  @computed get conversationMappingService() {
+    return new Services.CommunicationService(LoginStores.loginStore.login?.accessToken as string)
+  }
+
   @action fetchConversationMapping() {
     this.conversationMappingService
       .listConversationMapping()
       .then((conversation) => {
         this.listConversationMapping = conversation
       })
-  }
-
-  @computed get conversationMappingService() {
-    return new Services.CommunicationService()
   }
 
   @action updateConversationMapping = (

@@ -10,9 +10,10 @@ export interface ILogin {
   passChanged?: boolean
   loginActivityId?: string
   exipreDate?: Date
-  token?: string
+  accessToken?: string
+  refreshToken?: string
   roleMapping?: any
-  image?: string   
+  image?: string
   shortcutMenu?: any
   sessionTimeoutCount?: number
   sessionAllowed?: string

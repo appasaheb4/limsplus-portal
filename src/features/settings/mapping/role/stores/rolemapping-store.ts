@@ -2,25 +2,28 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
+import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class RoleMappingStore {
   @ignore @observable user?: Models.IRole
-  @ignore @observable selectedRole?: Models.RoleMapping 
+  @ignore @observable selectedRole?: Models.RoleMapping
   @observable roleMappingList?: Models.IRole[] = []
   @observable rolePermission?: any
   constructor() {
     makeAutoObservable(this)
   }
 
-  @action fetchRoleMappingList() {
-    Services.roleMappingList().then((list) => {
-      this.roleMappingList = list
-    })
+  @computed get roleMappingService() {
+    return new Services.RoleMappingService(
+      Stores.loginStore.login?.accessToken as string
+    )
   }
 
-  @computed get roleMappingService() {
-    return new Services.RoleMappingService()
+  @action fetchRoleMappingList() {
+    this.roleMappingService.roleMappingList().then((list) => {
+      this.roleMappingList = list
+    })
   }
 
   @action updateUser = (user: Models.IRole) => {

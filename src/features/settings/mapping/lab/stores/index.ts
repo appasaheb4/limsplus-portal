@@ -1,7 +1,8 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
+import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class LabMappingStore {
@@ -12,8 +13,14 @@ class LabMappingStore {
     makeAutoObservable(this)
   }
 
+  @computed get LabMappingService() {
+    return new Services.LabMappingService(
+      Stores.loginStore.login?.accessToken as string
+    )
+  }
+
   @action fetchLabMappingList() {
-    Services.labMappingList().then((list) => {
+    this.LabMappingService.labMappingList().then((list) => {
       // console.log({ rolMapping: list })
       this.labMappingList = list
     })

@@ -961,14 +961,18 @@ const HostCommunication = observer(() => {
             {...deleteItem}
             click={() => {
               RootStore.rootStore.setProcessLoading(true)
-              Services.deletedepartment(deleteItem.id).then((res: any) => {
-                RootStore.rootStore.setProcessLoading(false)
-                if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Department deleted.`)
-                  setDeleteItem({ show: false })
-                  // rootStore.departmentStore.fetchListDepartment()
-                }
-              })
+              Stores.conversationMappingStore.conversationMappingService
+                .deletedepartment(deleteItem.id)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.ToastsStore.success(
+                      `Department deleted.`
+                    )
+                    setDeleteItem({ show: false })
+                    // rootStore.departmentStore.fetchListDepartment()
+                  }
+                })
             }}
           />
         </div>

@@ -14,15 +14,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { Stores as RootStore } from "./library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
-import * as Banner from "@lp/features/banner"
-import * as Deginisation from "@lp/features/collection/deginisation"
-import * as Lab from "@lp/features/collection/labs"
-import * as Role from "@lp/features/collection/roles"
-import * as Department from "@lp/features/collection/department"
-import * as User from "@lp/features/users"
-import * as RoleMappping from "@lp/features/settings/mapping/role"
-import * as Communication from "@lp/features/communication"
-import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
+
 
 import hydrateStore from "@lp/library/modules/startup"
 
@@ -32,15 +24,6 @@ import hydrateStore from "@lp/library/modules/startup"
 
 const App = observer(() => {
   const loader = async () => {
-    await Banner.startup()
-    await Deginisation.startup()
-    await Lab.startup()
-    await Role.startup()
-    await Department.startup()
-    await User.startup()
-    await RoleMappping.startup()
-    await Communication.startup()
-    await EnvironmentSettings.startup()
     await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
   }

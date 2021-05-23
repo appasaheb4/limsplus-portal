@@ -8,7 +8,7 @@ class LabStore {
   @observable listLabs: Models.Labs[] = []
   @ignore @observable labs?: Models.Labs
   @ignore @observable checkExitsCode?: boolean = false
-  
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -20,14 +20,15 @@ class LabStore {
     }
   }
 
+  @computed get LabService() {
+    return new Services.LabService(Stores.loginStore.login?.accessToken as string)
+  }
+
   fetchListLab() {
-    Services.listLabs().then((res) => {
-     // console.log({ lab: res })
+    this.LabService.listLabs().then((res) => {
+      // console.log({ lab: res })
       this.listLabs = res
     })
-  }
-  @computed get LabService() {
-    return new Services.LabService(Stores.loginStore.login?.token as string)
   }
 
   @action setExitsCode(status: boolean) {

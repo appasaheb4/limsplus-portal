@@ -5,7 +5,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import * as Services from "../services"
+
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
@@ -124,7 +124,7 @@ const Deginisation = observer(() => {
                   !Stores.deginisationStore.checkExitsCode
                 ) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Services.addDeginisation(
+                  Stores.deginisationStore.DeginisationService.addDeginisation(
                     Stores.deginisationStore.deginisation
                   ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)

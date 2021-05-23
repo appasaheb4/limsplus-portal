@@ -4,13 +4,44 @@
  * @package Feed Service
  * @author limsplus
  */
-//import * as Models from "../models"
-
 import BaseService from "@lp/library/modules/base-service"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
 
 class CommunicationService extends BaseService {
+  adddepartment = (department?: Models.IHostCommunication) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/communication/addDepartment`, department)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  listDepartment = () =>
+    new Promise<Models.IHostCommunication[]>((resolve, reject) => {
+      this.client
+        .get(`/communication/listDepartment`)
+        .then((res) => {
+          resolve(res.data.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  deletedepartment = (id: string) =>
+    new Promise<Models.IHostCommunication[]>((resolve, reject) => {
+      this.client
+        .delete(`/communication/deleteDepartment/${id}`)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   deleteSegmentMapping = (id: string[]) =>
     new Promise<any>((resolve, reject) => {
       this.client
@@ -258,7 +289,7 @@ class CommunicationService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })  
+    })
 
   interfaceManagerUpdateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {

@@ -14,8 +14,6 @@ interface BannerListProps {
 }
 
 const BannerList = (props: BannerListProps) => {
-  console.log({props});
-  
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"

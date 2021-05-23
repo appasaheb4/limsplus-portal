@@ -21,8 +21,14 @@ class DeginisationStore {
     }
   }
 
+  @computed get DeginisationService() {
+    return new Services.DeginisationService(
+      Stores.loginStore.login?.accessToken as string
+    )
+  }
+
   fetchListDeginisation() {
-    Services.listDeginisation().then((res) => {
+   this.DeginisationService.listDeginisation().then((res) => {
       // console.log({ deginisation: res });
       this.listDeginisation = res
     })
@@ -30,9 +36,6 @@ class DeginisationStore {
 
   @action setExitsCode(status: boolean) {
     this.checkExitsCode = status
-  }
-  @computed get DeginisationService() {
-    return new Services.DeginisationService(Stores.loginStore.login?.token as string)
   }
 
   @action updateDescription = (deginisation: Models.IDeginisation) => {

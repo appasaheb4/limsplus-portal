@@ -1,8 +1,9 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable,computed } from "mobx"
+import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
+import { Stores as LoginStores } from "@lp/features/login/stores"
 
 @version(0.1)
 class UsersStore {
@@ -36,11 +37,13 @@ class UsersStore {
   }
 
   @computed get UsersService() {
-    return new Services.UserService()
+    return new Services.UserService(
+      LoginStores.loginStore.login?.accessToken as string
+    )
   }
 
   @action loadUser() {
-    Services.userList().then((user) => {
+    this.UsersService.userList().then((user) => {
       this.userList = user
     })
   }

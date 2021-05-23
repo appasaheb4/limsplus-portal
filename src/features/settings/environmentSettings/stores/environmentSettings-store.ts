@@ -3,15 +3,19 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
 import * as Models from "../models"
 
+import { Stores } from "@lp/features/login/stores"
+
 @version(0.1)
 class EnvironmentSettingsStore {
   @ignore @observable sessionManagement?: Models.SessionManagement
   @observable sessionManagementList?: Models.SessionManagement[] = []
   constructor() {
-    makeAutoObservable(this)   
+    makeAutoObservable(this)
   }
   @computed get EnvironmentSettingsService() {
-    return new Services.EnvironmentSettingsService()
+    return new Services.EnvironmentSettingsService(
+      Stores.loginStore.login?.accessToken as string
+    )
   }
   @action fetchSessionManagementList() {
     this.EnvironmentSettingsService.sessionManagementList().then((sessions) => {

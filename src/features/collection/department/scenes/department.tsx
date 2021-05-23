@@ -6,7 +6,7 @@ import { Container } from "reactstrap"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import * as Services from "../services"
+
 
 import { Stores } from "../stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
@@ -154,16 +154,16 @@ const Department = observer(() => {
                     ) === undefined
                   ) {
                     RootStore.rootStore.setProcessLoading(true)
-                    Services.adddepartment(Stores.departmentStore.department).then(
-                      () => {
-                        RootStore.rootStore.setProcessLoading(false)
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Department created.`
-                        )
-                        Stores.departmentStore.fetchListDepartment()
-                        Stores.departmentStore.clear()
-                      }
-                    )
+                    Stores.departmentStore.DepartmentService.adddepartment(
+                      Stores.departmentStore.department
+                    ).then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.ToastsStore.success(
+                        `Department created.`
+                      )
+                      Stores.departmentStore.fetchListDepartment()
+                      Stores.departmentStore.clear()
+                    })
                   } else {
                     LibraryComponents.Atoms.ToastsStore.warning(
                       "Please enter all information!"

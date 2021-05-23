@@ -5,7 +5,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Util from "../util"
-import * as Services from "../services"
+
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
@@ -116,12 +116,14 @@ const Lab = observer(() => {
                   !Stores.labStore.checkExitsCode
                 ) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Services.addLab(Stores.labStore.labs).then(() => {
-                    RootStore.rootStore.setProcessLoading(false)
-                    LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                    Stores.labStore.fetchListLab()
-                    Stores.labStore.clear()
-                  })
+                  Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
+                    () => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
+                      Stores.labStore.fetchListLab()
+                      Stores.labStore.clear()
+                    }
+                  )
                 } else {
                   LibraryComponents.Atoms.ToastsStore.warning(
                     "Please enter all information!"

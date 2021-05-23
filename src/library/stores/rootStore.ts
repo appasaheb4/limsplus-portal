@@ -7,6 +7,9 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 class RootStore {
   @ignore @observable processLoading: boolean = false
   @ignore @observable session?: any
+
+  //modals
+  @ignore @observable modalTokenExpire?: any;
   constructor() {
     makeAutoObservable(this)
   }
@@ -31,6 +34,11 @@ class RootStore {
   }
   @action updateSesssion(value: any) {
     this.session = value
+  }
+
+  // modals actions
+  @action updateModalTokenExpire(details: any) {
+    this.modalTokenExpire = details
   }
 }
 export default RootStore

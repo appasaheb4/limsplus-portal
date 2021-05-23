@@ -4,8 +4,8 @@ import * as ModelsRole from "../../collection/roles/models"
 
 export interface Users {
   _id?: string
-  userId?: string
-  defaultLab?: string
+  userId?: string   
+  defaultLab?: string  
   lab?: ModelsLab.Labs[]
   password?: string
   passChanged?: boolean
