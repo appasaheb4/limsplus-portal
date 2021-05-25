@@ -2,6 +2,7 @@ import React from "react"
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import {
   loginRouter as loginRouters,
+  privacyPolicyRoute as privacyPolicyRoutes,
   dashboardRouter as dashboardRoutes,
 } from "./index"
 
@@ -48,6 +49,7 @@ const Routes = () => (
     <ScrollToTop>
       <Switch>
         {childRoutes(LandingLayout, loginRouters)}
+        {childRoutes(LandingLayout, privacyPolicyRoutes)}
         {childRoutes(DashboardLayout, dashboardRoutes)}
         <Route
           render={() => (

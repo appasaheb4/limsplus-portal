@@ -51,6 +51,8 @@ export const getIcons = (icon: string): any => {
   // login
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiComputerFill")
     return LibraryComponents.Atoms.Icons.IconRi.RiComputerFill
+  if (icon === "LibraryComponents.Atoms.Icons.IconGr.GrTooltip")
+    return LibraryComponents.Atoms.Icons.IconGr.GrTooltip
   // collection
   if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill")
     return LibraryComponents.Atoms.Icons.IconBs.BsFillCollectionFill

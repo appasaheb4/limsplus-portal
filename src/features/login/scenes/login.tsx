@@ -37,6 +37,7 @@ const Login = observer(() => {
   }
 
   useEffect(() => {
+    BannerStores.bannerStore.fetchListBanner()
     RootStore.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         history.push("/dashboard/default")
@@ -78,7 +79,7 @@ const Login = observer(() => {
               <label className="font-bold text-3xl text-white">Login</label>
             </div>
             <div className="bg-white  flex flex-col rounded-md">
-              <div className="p-5">
+              <div className="p-3">
                 <LibraryComponents.Atoms.List
                   direction="col"
                   space={4}
@@ -262,7 +263,7 @@ const Login = observer(() => {
                             loginActivity: {
                               device: width <= 768 ? "Mobile" : "Desktop",
                             },
-                          })   
+                          })
                             .then((res) => {
                               console.log({ res })
                               RootStore.rootStore.setProcessLoading(false)
@@ -337,13 +338,48 @@ const Login = observer(() => {
                     Clear
                   </LibraryComponents.Atoms.Buttons.Button>
                 </LibraryComponents.Atoms.List>
+              </div>
+              <div className="flex p-4 flex-row items-center justify-around">
                 <div className="flex mt-2 justify-center items-center">
-                  <LibraryComponents.Atoms.Buttons.Button
-                    type="outline"
+                  <a
+                    href="#"
                     onClick={() => setModalForgotPassword({ show: true })}
+                    className="text-blue-700 mr-2"
                   >
-                    Forgot Password
-                  </LibraryComponents.Atoms.Buttons.Button>
+                    {`Forgot Password`}
+                  </a>
+                  <a
+                    onClick={() =>
+                      LibraryComponents.Atoms.Toast.warning({
+                        message: `
+                        PASSWORD REQUIREMENTS: \n
+                  Minimum 4 Total Characters
+                  Maximum 8 Total Characters
+                  Minimum 1 Special Character
+                  Minimum 1 Number
+                  Minimum 1 Upper case Character
+                  Minimum 1 Lower case Character
+                  Cannot user previous 4 password
+                  Cannot use same password before specify number of days \n
+                  `,
+                        timer: 50000,
+                      })
+                    }
+                  >
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#000"
+                      size="22"
+                    >
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.IconGr.GrTooltip
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
+                  </a>
+                </div>
+                <div>
+                  <a href="privacy-policy" className="text-blue-700">
+                    Privacy and Policy
+                  </a>
                 </div>
               </div>
             </div>
