@@ -2,6 +2,7 @@ import async from "../layouts/components/Async"
 
 // Landing
 import login from "@lp/features/login/scenes/login"
+import PrivacyPolicy from "@lp/features/privacyPolicy/scences/PrivacyPolicy"
 
 // Dashboards
 const DefaultDashboard = async(() => import("@lp/features/Default"))
@@ -57,7 +58,7 @@ const EnvironmentSettings = async(
     import("@lp/features/settings/environmentSettings/scenes/EnvironmentSettings")
 )
 const NoticeBoards = async(
-  ()=> import('@lp/features/settings/noticeBoard/scenes/NoticeBoard')
+  () => import("@lp/features/settings/noticeBoard/scenes/NoticeBoard")
 )
 
 // Routes
@@ -66,6 +67,13 @@ const loginRoutes = {
   name: "Login",
   icon: "log-in-outline",
   component: login,
+  children: null,
+}
+
+const privacyPolicyRoutes = {
+  path: "/privacy-policy",
+  name: "Privacy Policy",
+  component: PrivacyPolicy,
   children: null,
 }
 
@@ -186,23 +194,22 @@ const settingsRoutes = {
     },
     {
       path: "/settings/environmentSettings",
-      name: "Environment Settings",  
+      name: "Environment Settings",
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",
       component: EnvironmentSettings,
     },
     {
       path: "/settings/noticeBoards",
-      name: "Notice Boards",  
+      name: "Notice Boards",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList",
       component: NoticeBoards,
     },
-
-    
   ],
 }
 
 // Login specific routes
 export const loginRouter = [loginRoutes]
+export const privacyPolicyRoute = [privacyPolicyRoutes]
 
 // Dashboard specific routes
 export const dashboardRouter = [

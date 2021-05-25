@@ -1,5 +1,5 @@
-import React from "react";
-import { Container, Row, Col } from "reactstrap";
+import React from "react"
+import { Container, Row, Col } from "reactstrap"
 
 const Footer = () => (
   <footer className="footer">
@@ -8,28 +8,20 @@ const Footer = () => (
         <Col xs="6" className="text-left">
           <ul className="list-inline">
             <li className="list-inline-item">
-              <span className="text-muted">Support</span>
-            </li>
-            <li className="list-inline-item">
-              <span className="text-muted">Help Center</span>
-            </li>
-            <li className="list-inline-item">
-              <span className="text-muted">Privacy</span>
-            </li>
-            <li className="list-inline-item">
-              <span className="text-muted">Terms of Service</span>
+              <span className="text-muted">
+                Powered by LimsPlus Solutions Private Limited.
+              </span>
             </li>
           </ul>
         </Col>
         <Col xs="6" className="text-right">
           <p className="mb-0">
-            &copy; {new Date().getFullYear()} -{" "}
-            <span className="text-muted">Lims Plus</span>
+            <span className="text-muted">Copyright &copy; {new Date().getFullYear()} -{" "} LimsPlus, All rights reserved.</span>
           </p>
         </Col>
       </Row>
     </Container>
   </footer>
-);
+)
 
-export default Footer;
+export default Footer
