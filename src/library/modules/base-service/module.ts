@@ -28,7 +28,7 @@ function createMemeToonsClient(client: keyof typeof apiHost, token?: string) {
       headers: {
         "x-limsplus-key": token,
       },
-      timeout: 1000 * 5,
+      timeout: 1000 * 10,  
     })
   }
   return instance
@@ -82,7 +82,7 @@ class BaseService {
           //console.log("auth", err.response)
         } else {
           LibraryComponents.Atoms.Toast.warning({
-            message: `😔 Please try agian.Api calling timeout`,
+            message: `😔 Please try agian. Api calling timeout`,
           })
           // setTimeout(() => {
           //   window.location.reload()
