@@ -37,10 +37,10 @@ const Dashboard = observer(({ children }) => {
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
 
-  const loadApi = async () => {
+  const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
-    let pathname: any = currentLocation.pathname
-    //console.log({ pathname })
+    pathname = pathname || currentLocation.pathname
+    console.log({ pathname })
     if (pathname === "/collection/banner") await Banner.startup()
     if (pathname === "/settings/environmentSettings")
       await EnvironmentSettings.startup()
@@ -50,7 +50,12 @@ const Dashboard = observer(({ children }) => {
     if (pathname === "/collection/department") await Department.startup()
     if (pathname === "/settings/users") await User.startup()
     if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
-    if (pathname === "/communication/interfaceManager") await Communication.startup()
+    if (
+      pathname === "/communication/interfaceManager" ||
+      pathname === "/communication/mapping/conversationMapping" ||
+      pathname === "/communication/mapping/segmentMapping"
+    )
+      await Communication.startup()
   }
 
   const router = async () => {
@@ -89,6 +94,10 @@ const Dashboard = observer(({ children }) => {
     RootStore.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         loadApi()
+        history.listen((location, action) => {
+          let pathname = location.pathname
+          loadApi(pathname)
+        })
         router()
         setTimeout(() => {
           permission()

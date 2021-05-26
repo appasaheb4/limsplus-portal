@@ -4,6 +4,6 @@ const startup = async () => {
   Stores.segmentMappingStore.fetchmappingList()
   Stores.interfaceManagerStore.fetchEncodeCharacter()
   Stores.conversationMappingStore.fetchConversationMapping()
-}
+}  
 
 export default startup

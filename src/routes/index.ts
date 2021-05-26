@@ -5,7 +5,7 @@ import login from "@lp/features/login/scenes/login"
 import PrivacyPolicy from "@lp/features/privacyPolicy/scences/PrivacyPolicy"
 
 // Dashboards
-const DefaultDashboard = async(() => import("@lp/features/Default"))
+const DefaultDashboard = async(() => import("@lp/features/defaultDashboard"))
 
 // Banner
 const Banner = async(() => import("@lp/features/banner/scenes/banner"))

@@ -3,6 +3,8 @@ import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
 /* eslint-disable */
 export const selectedComponents = (store, category, subCategory) => {
+  console.log({category,subCategory});
+  
   if (store) {
     let compInfo: any
     store?.filter((router) => {
@@ -59,7 +61,7 @@ export const updateSelectedCategory = async (
     category,
     item,
   })
-  console.log({ category, item })
+  //console.log({ category, item })
 
   await Storage.setItem(`__persist_mobx_stores_routerStore_SelectedCategory__`, {
     category,
@@ -74,7 +76,7 @@ export const updateSelectedCategory = async (
     toJS(RootStore.routerStore.userRouter),
     category,
     item
-  )
+  )   
   RootStore.routerStore.updateSelectedComponents(selectedComp)
   RootStore.routerStore.updateUserPermission(permission)
   await hydrateStore("routerStore", RootStore.routerStore)

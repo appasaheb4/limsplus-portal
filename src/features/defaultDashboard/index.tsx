@@ -17,6 +17,8 @@ import Statistics from "./Statistics"
 import moment from "moment"
 import { useHistory } from "react-router-dom"
 
+// registration
+
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
