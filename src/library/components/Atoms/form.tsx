@@ -40,6 +40,7 @@ interface InputProps extends InputWrapperProps {
   disabled?: boolean
   className?: string
   rows?: number
+  style?: any;
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
@@ -51,6 +52,7 @@ export const Input = (props: InputProps) => (
       type={props.type || "text"}
       id={props.id}
       name={props.name}
+      style={props.style}
       placeholder={props.placeholder}
       required={props.required || false}
       disabled={props.disabled || false}
