@@ -9,7 +9,7 @@ import BaseService from "@lp/library/modules/base-service"
 
 class PatientRegistrationService extends BaseService {
   sessionManagementList = () =>
-    new Promise<Models.SessionManagement[]>((resolve, reject) => {
+    new Promise<any[]>((resolve, reject) => {
       this.client
         .get(`/settings/environmentSettings/listSessionManagement`)
         .then((res) => {
@@ -19,7 +19,7 @@ class PatientRegistrationService extends BaseService {
           reject({ error })
         })
     })
-  addSessionManagement = (session: Models.SessionManagement) =>
+  addSessionManagement = (session: any) =>
     new Promise<any>((resolve, reject) => {
       session.documentType = "session"
       this.client

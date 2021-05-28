@@ -14,35 +14,23 @@ validate.extend(validate.validators.datetime, {
   },
 })
 
-export const constraintsSessionManagement = {
-  lab: {
-    type: "array",
-  },
-  user: {
-    type: "array",
-  },
-  department: {
-    type: "array",
-  },
-  variable:{
+export const patientManager = {
+  internalPid:{
     presence: true,
   },
-  value:{
-    presence: true,
-  }
-}
-
-export const constraintsNoticeBoard = {
-  lab: {
+  mobileNo:{
     presence: true,
   },
-  header: {
-    presence: true,
+  title:{
+    presence:true
   },
-  message: {
-    presence: true,
+  firstName:{
+    presence:true
   },
-  action:{
-    presence: true,
+  middleName:{
+    presence:true
+  },
+  lastName:{
+    presence:true
   }
 }

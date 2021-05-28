@@ -12,7 +12,7 @@ class PatientRegistrationStore {
   constructor() {
     makeAutoObservable(this)
   }
-  @computed get EnvironmentSettingsService() {
+  @computed get PatientRegistartionService() {
     return new Services.PatientRegistrationService(
       Stores.loginStore.login?.accessToken as string
     )
