@@ -1,13 +1,13 @@
 /**
- * @fileoverview Use this file invoke Memetoons API
- * implementation related to Memetoons standards
+ * @fileoverview Use this file invoke LimsPlus API
+ * implementation related to LimsPlus standards
  * @package Feed Service
  * @author limsplus
  */
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
-class EnvironmentSettingsService extends BaseService {
+class PatientRegistrationService extends BaseService {
   sessionManagementList = () =>
     new Promise<Models.SessionManagement[]>((resolve, reject) => {
       this.client
@@ -58,4 +58,4 @@ class EnvironmentSettingsService extends BaseService {
     })
 }
 
-export default EnvironmentSettingsService
+export default PatientRegistrationService

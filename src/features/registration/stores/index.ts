@@ -1,11 +1,11 @@
 import React from "react"
 
-import EnvironmentSettingsStore from "./environmentSettings-store"
+import PatientRegistrationStore from "./patientRegistration-store"
 
 export const Stores = {
-  enviromentSettingsStore: new EnvironmentSettingsStore(),
+  patientRegistationStore: new PatientRegistrationStore(),
 }
    
 export const Contexts = {
-  enviromentSettingsContext: React.createContext(Stores.enviromentSettingsStore),
+  patientRegistrationContext: React.createContext(Stores.patientRegistationStore),
 }

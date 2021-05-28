@@ -61,6 +61,11 @@ const NoticeBoards = async(
   () => import("@lp/features/settings/noticeBoard/scenes/NoticeBoard")
 )
 
+// Registration
+const PatientRegistation = async(
+  ()=> import ('@lp/features/registration/scenes/PatientRegistration/PatientRegistration')
+)
+
 // Routes
 const loginRoutes = {
   path: "/",
@@ -206,6 +211,20 @@ const settingsRoutes = {
     },
   ],
 }
+        
+const registrationRoutes = {
+  path: "/registration",
+  name: "Registration",
+  icon: "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine",
+  children: [        
+    {   
+      path: "/registration/patient",
+      name: "Patient Registration",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
+      component: PatientRegistation,
+    },
+  ]
+}
 
 // Login specific routes
 export const loginRouter = [loginRoutes]
@@ -217,6 +236,7 @@ export const dashboardRouter = [
   collectionRoutes,
   communicationRoutes,
   settingsRoutes,
+  registrationRoutes
 ]
 
 // // All routes

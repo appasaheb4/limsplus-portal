@@ -40,7 +40,7 @@ const Dashboard = observer(({ children }) => {
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    console.log({ pathname })
+   // console.log({ pathname })
     if (pathname === "/collection/banner") await Banner.startup()
     if (pathname === "/settings/environmentSettings")
       await EnvironmentSettings.startup()
