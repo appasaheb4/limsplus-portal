@@ -1,10 +1,9 @@
 import { toJS } from "mobx"
 import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
-/* eslint-disable */
+/* eslint-disable */   
 export const selectedComponents = (store, category, subCategory) => {
-  console.log({category,subCategory});
-  
+  //console.log({category,subCategory});
   if (store) {
     let compInfo: any
     store?.filter((router) => {

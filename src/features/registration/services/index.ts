@@ -1,2 +1,2 @@
-import EnvironmentSettingsService from "./environmentSettings-Services"
-export { EnvironmentSettingsService }
+import PatientRegistrationService from "./patientRegistration-Services"
+export { PatientRegistrationService }

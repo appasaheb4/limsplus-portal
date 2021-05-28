@@ -1,6 +1,6 @@
 /**
  * @fileoverview Use this file to wrap library using custom
- * implementation related to Memetoons standards
+ * implementation related to LimsPlus standards
  * @package BaseService Module
  * @author limsplus
  */
@@ -16,7 +16,7 @@ const apiHost = {
   node: Config.Api.LIMSPLUS_API_HOST,
 }
 
-function createMemeToonsClient(client: keyof typeof apiHost, token?: string) {
+function createLimsPlusClient(client: keyof typeof apiHost, token?: string) {
   let instance: AxiosInstance
   if (!token)
     instance = Axios.create({
@@ -39,7 +39,7 @@ class BaseService {
   constructor(token?: string) {
     //console.log({ token })
     //   super()
-    this.client = createMemeToonsClient("node", token)
+    this.client = createLimsPlusClient("node", token)
     this.client.interceptors.request.use((request) => {
       // console.log(
       //   `${request.method?.toUpperCase()} ${request.baseURL}/${request.url}`

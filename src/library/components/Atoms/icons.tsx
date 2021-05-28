@@ -92,6 +92,11 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
     return LibraryComponents.Atoms.Icons.IconFa.FaClipboardList
+  // registration  
+  if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine")
+    return LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine
+  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard")
+    return LibraryComponents.Atoms.Icons.IconFa.FaAddressCard
 
   return LibraryComponents.Atoms.Icons.IconBs.BsList
 }
