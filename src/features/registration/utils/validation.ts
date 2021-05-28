@@ -32,5 +32,26 @@ export const patientManager = {
   },
   lastName:{
     presence:true
+  },
+  sex:{
+    presence:true
+  },
+  address:{
+    presence:true
+  },
+  city:{
+    presence:true
+  },
+  state:{
+    presence:true
+  },
+  country:{
+    presence:true
+  },
+  postcode:{
+    presence:true
+  },
+  email:{
+    presence:true
   }
 }

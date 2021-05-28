@@ -161,7 +161,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                   lastName: Utils.validate.single(
                     lastName,
                     Utils.patientManager.lastName
-                  ),  
+                  ),
                 })
                 Stores.patientRegistationStore.updatePatientManager({
                   ...Stores.patientRegistationStore.patientManger,
@@ -181,26 +181,202 @@ const PatientManager = observer((props: PatientManagerProps) => {
             justify="stretch"
             fill
           >
-            <LibraryComponents.Atoms.Form.Input
-              label="Value"
-              name="lblValue"
-              placeholder="Value"
-              type="number"
-              //value={Stores.userStore.user.password}
-              onChange={(value) => {
-                // setErrors({
-                //   ...errors,
-                //   value: Utils.validate.single(
-                //     value,
-                //     Utils.constraintsSessionManagement.value
-                //   ),
-                // })
-                // Stores.enviromentSettingsStore.updateSessionManagement({
-                //   ...Stores.enviromentSettingsStore.sessionManagement,
-                //   value,
-                // })
+            <LibraryComponents.Atoms.Form.InputWrapper label="Sex" id="optionSex">
+              <select
+                name="optionSex"
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const sex = e.target.value as string
+                  setErrors({
+                    ...errors,
+                    sex: Utils.validate.single(sex, Utils.patientManager.sex),
+                  })
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    sex,
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {["Male", "Female", "Other"].map((item: any, index: number) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </LibraryComponents.Atoms.Form.InputWrapper>
+            {errors?.sex && (
+              <span className="text-red-600 font-medium relative">{errors.sex}</span>
+            )}
+            <LibraryComponents.Atoms.Form.MultilineInput
+              rows={4}
+              label="Address"
+              name="txtAddress"
+              placeholder="Address"
+              value={Stores.patientRegistationStore.patientManger?.address}
+              onChange={(address) => {
+                setErrors({
+                  ...errors,
+                  address: Utils.validate.single(
+                    address,
+                    Utils.patientManager.address
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  address,
+                })
               }}
             />
+            {errors?.address && (
+              <span className="text-red-600 font-medium relative">
+                {errors.address}
+              </span>
+            )}
+            <div className="mt-2" />
+            <LibraryComponents.Atoms.Form.Input
+              label="City"
+              name="txtCity"
+              placeholder="City"
+              value={Stores.patientRegistationStore.patientManger?.city}
+              onChange={(city) => {
+                setErrors({
+                  ...errors,
+                  city: Utils.validate.single(city, Utils.patientManager.city),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  city,
+                })
+              }}
+            />
+            {errors?.middleName && (
+              <span className="text-red-600 font-medium relative">
+                {errors.middleName}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="State"
+              name="txtState"
+              placeholder="State"
+              value={Stores.patientRegistationStore.patientManger?.state}
+              onChange={(state) => {
+                setErrors({
+                  ...errors,
+                  state: Utils.validate.single(state, Utils.patientManager.state),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  state,
+                })
+              }}
+            />
+            {errors?.state && (
+              <span className="text-red-600 font-medium relative">
+                {errors.state}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Country"
+              name="txtCountry"
+              placeholder="Country"
+              value={Stores.patientRegistationStore.patientManger?.country}
+              onChange={(country) => {
+                setErrors({
+                  ...errors,
+                  country: Utils.validate.single(
+                    country,
+                    Utils.patientManager.country
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  country,
+                })
+              }}
+            />
+            {errors?.country && (
+              <span className="text-red-600 font-medium relative">
+                {errors.country}
+              </span>
+            )}
+          </LibraryComponents.Atoms.List>
+          <LibraryComponents.Atoms.List
+            direction="col"
+            space={4}
+            justify="stretch"
+            fill
+          >
+            <LibraryComponents.Atoms.Form.Input
+              label="Postcode"
+              name="txtPostcode"
+              placeholder="Postcode"
+              value={Stores.patientRegistationStore.patientManger?.postcode}
+              onChange={(postcode) => {
+                setErrors({
+                  ...errors,
+                  postcode: Utils.validate.single(
+                    postcode,
+                    Utils.patientManager.postcode
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  postcode,
+                })
+              }}
+            />
+            {errors?.postcode && (
+              <span className="text-red-600 font-medium relative">
+                {errors.postcode}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Email"
+              name="txtEmail"
+              placeholder="Email"
+              type="mail"
+              value={Stores.patientRegistationStore.patientManger?.email}
+              onChange={(email) => {
+                setErrors({
+                  ...errors,
+                  email: Utils.validate.single(email, Utils.patientManager.email),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  email,
+                })
+              }}
+            />
+            {errors?.postcode && (
+              <span className="text-red-600 font-medium relative">
+                {errors.postcode}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Permanent"
+                id="modePermanent"
+                value={Stores.patientRegistationStore.patientManger?.permanent}
+                onChange={(permanent) => {
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    permanent,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Vip"
+                id="modeVip"
+                value={Stores.patientRegistationStore.patientManger?.vip}
+                onChange={(vip) => {
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    vip,
+                  })
+                }}
+              />
+            </LibraryComponents.Atoms.Grid>
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
