@@ -4,7 +4,7 @@
  * @package Feed Service
  * @author limsplus
  */
-import * as Models from "../models"
+//import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class PatientRegistrationService extends BaseService {
