@@ -21,7 +21,7 @@ interface PatientManagerProps {
 }
 
 const PatientManager = observer((props: PatientManagerProps) => {
-  const [errors, setErrors] = useState<Models.SessionManagement>()
+  const [errors, setErrors] = useState<Models.PaientManger>()
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -32,108 +32,148 @@ const PatientManager = observer((props: PatientManagerProps) => {
             justify="stretch"
             fill
           >
-              <LibraryComponents.Atoms.Form.Input
-              label="INTERNAL PID"
+            <LibraryComponents.Atoms.Form.Input
+              label="Internal Pid"
               name="txtInternalPid"
-              placeholder="INTERNAL PID"
-              //value={Stores.userStore.user.password}
-              onChange={(value) => {
+              placeholder="Internal Pid"
+              value={Stores.patientRegistationStore.patientManger?.internalPid}
+              onChange={(internalPid) => {
                 setErrors({
                   ...errors,
-                  value: Utils.validate.single(
-                    value,
-                    Utils.constraintsSessionManagement.value
+                  internalPid: Utils.validate.single(
+                    internalPid,
+                    Utils.patientManager.internalPid
                   ),
                 })
-                // Stores.enviromentSettingsStore.updateSessionManagement({
-                //   ...Stores.enviromentSettingsStore.sessionManagement,
-                //   value,
-                // })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  internalPid,
+                })
               }}
             />
-            <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
-              <LibraryComponents.Molecules.AutocompleteChecked
-                data={{
-                  defulatValues: [],
-                  list: LabStore.labStore.listLabs,
-                  displayKey: "name",
-                  findKey: "code",
-                }}
-                onUpdate={(items) => {
-                  setErrors({
-                    ...errors,
-                    lab: Utils.validate.single(
-                      items,
-                      Utils.constraintsSessionManagement.lab
-                    ),
-                  })
-                  // Stores.enviromentSettingsStore.updateSessionManagement({
-                  //   ...Stores.enviromentSettingsStore.sessionManagement,
-                  //   lab: items,
-                  // })
-                }}
-              />
-            </LibraryComponents.Atoms.Form.InputWrapper>
-
-            
-            <LibraryComponents.Atoms.Form.InputWrapper
-              label="Department"
-              id="department"
-            >
-              <LibraryComponents.Molecules.AutocompleteChecked
-                data={{
-                  defulatValues: [],
-                  list: DepartmentStore.departmentStore.listDepartment,
-                  displayKey: "name",
-                  findKey: "code",
-                }}
-                onUpdate={(items) => {
-                  setErrors({
-                    ...errors,
-                    department: Utils.validate.single(
-                      items,
-                      Utils.constraintsSessionManagement.department
-                    ),
-                  })
-                  // Stores.enviromentSettingsStore.updateSessionManagement({
-                  //   ...Stores.enviromentSettingsStore.sessionManagement,
-                  //   department: items,
-                  // })
-                }}
-              />
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            <LibraryComponents.Atoms.Form.InputWrapper
-              label="Variable"
-              id="lblVariable"
-            >
-              <select
-                name="variable"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                onChange={(e) => {
-                  const variable = e.target.value as string
-                  setErrors({
-                    ...errors,
-                    variable: Utils.validate.single(
-                      variable,
-                      Utils.constraintsSessionManagement.variable
-                    ),
-                  })
-                  // Stores.enviromentSettingsStore.updateSessionManagement({
-                  //   ...Stores.enviromentSettingsStore.sessionManagement,
-                  //   variable,
-                  // })
-                }}
-              >
-                <option selected>Select</option>
-                {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                )}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
+            {errors?.internalPid && (
+              <span className="text-red-600 font-medium relative">
+                {errors.internalPid}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Mobile No"
+              name="txtMobileNo"
+              placeholder="Mobile No"
+              type="number"
+              value={Stores.patientRegistationStore.patientManger?.mobileNo}
+              onChange={(mobileNo) => {
+                setErrors({
+                  ...errors,
+                  mobileNo: Utils.validate.single(
+                    mobileNo,
+                    Utils.patientManager.mobileNo
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  mobileNo,
+                })
+              }}
+            />
+            {errors?.mobileNo && (
+              <span className="text-red-600 font-medium relative">
+                {errors.mobileNo}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Title"
+              name="txtTitle"
+              placeholder="Title"
+              value={Stores.patientRegistationStore.patientManger?.title}
+              onChange={(title) => {
+                setErrors({
+                  ...errors,
+                  title: Utils.validate.single(title, Utils.patientManager.title),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  title,
+                })
+              }}
+            />
+            {errors?.title && (
+              <span className="text-red-600 font-medium relative">
+                {errors.title}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="First Name"
+              name="txtFirstName"
+              placeholder="First Name"
+              value={Stores.patientRegistationStore.patientManger?.firstName}
+              onChange={(firstName) => {
+                setErrors({
+                  ...errors,
+                  firstName: Utils.validate.single(
+                    firstName,
+                    Utils.patientManager.firstName
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  firstName,
+                })
+              }}
+            />
+            {errors?.firstName && (
+              <span className="text-red-600 font-medium relative">
+                {errors.firstName}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Middle Name"
+              name="txtMiddleName"
+              placeholder="Middle Name"
+              value={Stores.patientRegistationStore.patientManger?.middleName}
+              onChange={(middleName) => {
+                setErrors({
+                  ...errors,
+                  middleName: Utils.validate.single(
+                    middleName,
+                    Utils.patientManager.middleName
+                  ),
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  middleName,
+                })
+              }}
+            />
+            {errors?.middleName && (
+              <span className="text-red-600 font-medium relative">
+                {errors.middleName}
+              </span>
+            )}
+            <LibraryComponents.Atoms.Form.Input
+              label="Last Name"
+              name="txtLastName"
+              placeholder="Last Name"
+              value={Stores.patientRegistationStore.patientManger?.lastName}
+              onChange={(lastName) => {
+                setErrors({
+                  ...errors,
+                  lastName: Utils.validate.single(
+                    lastName,
+                    Utils.patientManager.lastName
+                  ),  
+                })
+                Stores.patientRegistationStore.updatePatientManager({
+                  ...Stores.patientRegistationStore.patientManger,
+                  lastName,
+                })
+              }}
+            />
+            {errors?.middleName && (
+              <span className="text-red-600 font-medium relative">
+                {errors.middleName}
+              </span>
+            )}
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -148,29 +188,16 @@ const PatientManager = observer((props: PatientManagerProps) => {
               type="number"
               //value={Stores.userStore.user.password}
               onChange={(value) => {
-                setErrors({
-                  ...errors,
-                  value: Utils.validate.single(
-                    value,
-                    Utils.constraintsSessionManagement.value
-                  ),
-                })
+                // setErrors({
+                //   ...errors,
+                //   value: Utils.validate.single(
+                //     value,
+                //     Utils.constraintsSessionManagement.value
+                //   ),
+                // })
                 // Stores.enviromentSettingsStore.updateSessionManagement({
                 //   ...Stores.enviromentSettingsStore.sessionManagement,
                 //   value,
-                // })
-              }}
-            />
-            <LibraryComponents.Atoms.Form.MultilineInput
-              rows={7}
-              label="Description"
-              name="lblDescription"
-              placeholder="Description"
-              //value={Stores.userStore.user.password}
-              onChange={(descriptions) => {
-                // Stores.enviromentSettingsStore.updateSessionManagement({
-                //   ...Stores.enviromentSettingsStore.sessionManagement,
-                //   descriptions,
                 // })
               }}
             />
