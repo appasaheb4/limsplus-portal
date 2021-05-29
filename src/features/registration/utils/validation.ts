@@ -55,3 +55,39 @@ export const patientManager = {
     presence:true
   }
 }
+   
+export const patientVisit ={
+  pId:{
+    presence:true
+  },
+  labId:{
+    presence:true
+  },
+  internalId:{
+    presence:true
+  },
+  rLab:{
+    presence:true
+  },
+  birthDate:{
+    presence:true
+  },
+  age:{
+    presence:true
+  },
+  ageUnits:{
+    presence:true
+  },
+  dateRegistration:{
+    presence:true
+  },
+  dateService:{
+    presence:true
+  },
+  methodCollection:{
+    presence:true
+  },
+  dateCollection:{
+    presence:true
+  }
+}
