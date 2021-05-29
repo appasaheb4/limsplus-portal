@@ -8,7 +8,7 @@ import "@lp/library/assets/css/accordion.css"
 import * as Utils from "../../utils"
 import * as Models from "../../models"
 
-import {PatientManager} from "../PatientRegistration"
+import { PatientManager, PatientVisit } from "../PatientRegistration"
 
 import { Stores } from "../../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
@@ -38,13 +38,18 @@ const PatientRegistation = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "PATIENT MANAGER"}
+                expanded={item.title === "PATIENT VISIT"}
               >
                 {item.title === "PATIENT MANAGER" && (
                   <>
                     <PatientManager
                       onModalConfirm={(item) => setModalConfirm(item)}
                     />
+                  </>
+                )}
+                {item.title === "PATIENT VISIT" && (
+                  <>
+                    <PatientVisit />
                   </>
                 )}
               </AccordionItem>
@@ -69,10 +74,7 @@ const PatientRegistation = observer(() => {
                 title={`${item.title}`}
                 // expanded={item.title === "Patient Manager"}
               >
-                {item.title === "SAMPLE" && (
-                  <>
-                  </>
-                )}
+                {item.title === "SAMPLE" && <></>}
               </AccordionItem>
             )
           })}
@@ -88,7 +90,6 @@ const PatientRegistation = observer(() => {
           //     modalConfirm.id
           //   ).then((res: any) => {
           //     console.log({ res })
-
           //     if (res.status === 200) {
           //       RootStore.rootStore.setProcessLoading(false)
           //       LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
@@ -113,7 +114,7 @@ const PatientRegistation = observer(() => {
           //     }
           //   })
           //}
-        }}  
+        }}
         onClose={() => setModalConfirm({ show: false })}
       />
     </>
