@@ -9,16 +9,17 @@ import { Stores } from "@lp/features/login/stores"
 class PatientRegistrationStore {
   @ignore @observable patientManger?: Models.PaientManger
   @ignore @observable patientVisit?: Models.PatientVisit
-    
-  constructor() {  
+  @ignore @observable patientOrder?: Models.PatientOrder
+
+  constructor() {
     makeAutoObservable(this)
-  }   
-   
+  }
+
   @computed get PatientRegistartionService() {
     return new Services.PatientRegistrationService(
       Stores.loginStore.login?.accessToken as string
     )
-  }   
+  }
 
   @action updatePatientManager(manager: Models.PaientManger) {
     this.patientManger = manager
@@ -26,6 +27,9 @@ class PatientRegistrationStore {
   
   @action updatePatientVisit(visit: Models.PatientVisit) {
     this.patientVisit = visit
+  }
+  @action updatePatientOrder(order: Models.PatientOrder) {
+    this.patientOrder = order
   }
 }
 export default PatientRegistrationStore

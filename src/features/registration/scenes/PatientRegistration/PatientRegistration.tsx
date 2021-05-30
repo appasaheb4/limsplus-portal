@@ -8,7 +8,7 @@ import "@lp/library/assets/css/accordion.css"
 import * as Utils from "../../utils"
 import * as Models from "../../models"
 
-import { PatientManager, PatientVisit } from "../PatientRegistration"
+import { PatientManager, PatientVisit, PatientOrder } from "../PatientRegistration"
 
 import { Stores } from "../../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
@@ -38,7 +38,7 @@ const PatientRegistation = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "PATIENT VISIT"}
+                expanded={item.title === "PATIENT MANAGER"}
               >
                 {item.title === "PATIENT MANAGER" && (
                   <>
@@ -52,6 +52,7 @@ const PatientRegistation = observer(() => {
                     <PatientVisit />
                   </>
                 )}
+                {item.title === "PATIENT ORDER" && <PatientOrder />}
               </AccordionItem>
             )
           })}

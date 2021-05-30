@@ -468,7 +468,6 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             justify="stretch"
             fill
           >
-          
             <LibraryComponents.Atoms.Form.Input
               label="Bill To"
               name="txtBillTo"
