@@ -91,3 +91,12 @@ export const patientVisit ={
     presence:true
   }
 }
+
+export const patientOrder={
+  labId:{
+    presence:true
+  },
+  packageValue:{
+    presence:true
+  }
+}
