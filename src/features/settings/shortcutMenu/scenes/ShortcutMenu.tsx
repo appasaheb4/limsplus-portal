@@ -58,6 +58,8 @@ const ShortcutMenu = observer(() => {
   }
 
   const handleOnDragEnd = (result: any) => {
+    console.log({ user: LoginStore.loginStore.login })
+
     const items = Array.from(
       (LoginStore.loginStore.login?.shortcutMenu &&
         LoginStore.loginStore.login?.shortcutMenu[
@@ -67,9 +69,11 @@ const ShortcutMenu = observer(() => {
     )
     const [reorderedItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItem)
+    console.log({ items })
+
     LoginStore.loginStore.updateLogin({
       ...LoginStore.loginStore.login,
-      shortcutMenu: [{ [LoginStore.loginStore.login?.role || ""]: items }],
+      shortcutMenu: { [LoginStore.loginStore.login?.role || ""]: items },
     })
     Stores.shortcutMenuStore.updateDragDrop(true)
   }
