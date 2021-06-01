@@ -7,11 +7,11 @@
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
-class LookupService extends BaseService {
-  listLookup = () =>
-    new Promise<Models.Lookup[]>((resolve, reject) => {
+class MasterAnalyteService extends BaseService {
+  listLabs = () =>
+    new Promise<any[]>((resolve, reject) => {
       this.client
-        .get(`/lookup/listLookup`)
+        .get(`/lab/listlabs`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class LookupService extends BaseService {
           reject({ error })
         })
     })
-  addLookup = (Lookup?: Models.Lookup) =>
+  addLab = (lab?: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lookup/addLookup`, Lookup)
+        .post(`/lab/addLab`, lab)
         .then((res) => {
           resolve(res.data)
         })
@@ -33,7 +33,7 @@ class LookupService extends BaseService {
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lookup/checkExitsCode`, { code })
+        .post(`/lab/checkExitsCode`, { code })
         .then((res) => {
           resolve(res.data.data)
         })
@@ -41,10 +41,10 @@ class LookupService extends BaseService {
           reject({ error })
         })
     })
-  deleteLookup = (id: string) =>
+  deleteLab = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`/lookup/deleteLookup/${id}`)
+        .delete(`/lab/deleteLab/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +55,7 @@ class LookupService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lookup/updateSingleFiled`, newValue)
+        .post(`/lab/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
@@ -65,4 +65,4 @@ class LookupService extends BaseService {
     })
 }
 
-export default LookupService
+export default MasterAnalyteService

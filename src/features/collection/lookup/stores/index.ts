@@ -3,9 +3,9 @@ import React from 'react';
 import LookupStore from './lookup-store';
 
 export const Stores = {
-  LookupStore: new LookupStore(),
+  lookupStore: new LookupStore(),
 };
 
 export const Contexts = {
-  LookupContext: React.createContext(Stores.LookupStore),
+  lookupContext: React.createContext(Stores.lookupStore),
 };
