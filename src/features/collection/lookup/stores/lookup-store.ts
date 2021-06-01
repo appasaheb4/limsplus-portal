@@ -6,44 +6,28 @@ import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class LookupStore {
-  @observable listLookup: Models.ILookup[] = []
-  @ignore @observable Lookup?: Models.ILookup
-  @ignore @observable checkExitsCode?: boolean = false
+  @observable listLookup: Models.Lookup[] = []
+  @ignore @observable lookup?: Models.Lookup
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  private init() {
-    return {
-      lab: "",
-      code: "",
-      name: "",
-    }
-  }
-
-  @action setExitsCode(status: boolean) {
-    this.checkExitsCode = status
-  }
   @computed get LookupService() {
     return new Services.LookupService(
       Stores.loginStore.login?.accessToken as string
     )
   }
 
-  fetchListLookup() {
+  @action fetchListLookup() {
     this.LookupService.listLookup().then((res) => {
       //console.log({ Lookup: res });
       this.listLookup = res
     })
   }
 
-  @action updateLookup = (Lookup: Models.ILookup) => {
-    this.Lookup = Lookup
-  }
-
-  @action clear() {
-    this.Lookup = this.init()
+  @action updateLookup = (Lookup: Models.Lookup) => {
+    this.lookup = Lookup
   }
 }
 

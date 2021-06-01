@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-   // Stores.LookupStore.fetchListLookup();
+   // Stores.labStore.fetchListLab();
 }
 
 export default startup;

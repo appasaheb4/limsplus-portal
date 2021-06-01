@@ -21,6 +21,12 @@ const CollectionDepartment = async(
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
+// Collection Master
+const MasterAnalyte = async(
+  () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
+)
+
+const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -63,7 +69,10 @@ const NoticeBoards = async(
 
 // Registration
 const PatientRegistation = async(
-  ()=> import ('@lp/features/registration/scenes/PatientRegistration/PatientRegistration')
+  () =>
+    import(
+      "@lp/features/registration/scenes/PatientRegistration/PatientRegistration"
+    )
 )
 
 // Routes
@@ -132,6 +141,18 @@ const collectionRoutes = {
       name: "Role",
       icon: "LibraryComponents.Atoms.Icons.IconGi.GiKeyring",
       component: CollectionRole,
+    },
+    {
+      path: "/collection/masterAnalyte",
+      name: "Master Analyte",
+      icon: "LibraryComponents.Atoms.Icons.IconIo.IoMdAnalytics",
+      component: MasterAnalyte,
+    },
+    {
+      path: "/collection/lookup",
+      name: "Lookup",
+      icon: "LibraryComponents.Atoms.Icons.IconIo.IoMdAnalytics",
+      component: Lookup,
     },
   ],
 }
@@ -211,19 +232,19 @@ const settingsRoutes = {
     },
   ],
 }
-        
+
 const registrationRoutes = {
   path: "/registration",
   name: "Registration",
   icon: "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine",
-  children: [        
-    {   
+  children: [
+    {
       path: "/registration/patient",
       name: "Patient Registration",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
       component: PatientRegistation,
     },
-  ]
+  ],
 }
 
 // Login specific routes
@@ -236,7 +257,7 @@ export const dashboardRouter = [
   collectionRoutes,
   communicationRoutes,
   settingsRoutes,
-  registrationRoutes
+  registrationRoutes,
 ]
 
 // // All routes

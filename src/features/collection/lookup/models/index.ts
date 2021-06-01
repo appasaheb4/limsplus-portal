@@ -1,7 +1,8 @@
-export interface ILookup {
+export interface Lookup {
   document?: string;
-  field_name?: string;
+  fieldName?: string;
   code?: string;
   value?: string;
   description?: string;
 }
+  

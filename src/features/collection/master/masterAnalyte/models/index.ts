@@ -1,0 +1,33 @@
+export interface MasterAnalyte {
+  lab?: string   
+  analyteCode?: string
+  analyteName?: string
+  description?: string
+  shortName?: string
+  bill?: string
+  price?: number
+  schedule?: string  
+  autoRelease?: string
+  holdOOS?: string
+  instantResult?: string
+  reportGroup?: string
+  reportOrder?: string
+  tubeGroup?: string
+  pageBreak?: string
+  panelMethod?: string
+  workflow?: string
+  sampleType?: string
+  calculationFlag?: boolean
+  calcyName?: string
+  high?: string
+  low?: string
+  loincCode?: string
+  loincName?: string
+  repetition?: string
+  picture?: string
+  method?: string
+  units?: string
+  usage?: string
+  cptCode?: string
+  status?: string
+}
