@@ -45,38 +45,11 @@ const Lookup = observer(() => {
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Document" id="document">
-                  <select
-                    name="document"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                     // const document = e.target.value
-                      // setErrors({
-                      //   ...errors,
-                      //   document: Util.validate.single(
-                      //     document,
-                      //     Util.constraintsLookup.document
-                      //   ),
-                      // })
-                      // Stores.LookupStore.updateLookup({
-                      //   ...Stores.LookupStore.Lookup,
-                      //   document,
-                      // })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LabStore.labStore.listLabs.map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-
+                
                 <LibraryComponents.Atoms.Form.Input
-                  label="Document"
+                  label="Document Name"
                   id="document"
-                  placeholder="Document"
+                  placeholder="Document Name"
                   value=""
                   onChange={(document) => {
                     // setErrors({
@@ -116,6 +89,57 @@ const Lookup = observer(() => {
                     // })
                   }}
                 />
+                <LibraryComponents.Atoms.Form.Input
+                  label="Code"
+                  name="code"
+                  placeholder="Code"
+                  value=""
+                  onChange={(code) => {
+                    // setErrors({
+                    //   ...errors,
+                    //   code: Util.validate.single(
+                    //     code,
+                    //     Util.constraintsLookup.code
+                    //   ),
+                    // })
+                    // Stores.lookupStore.updateLookup({
+                    //   ...Stores.lookupStore.lookup,
+                    //   code,
+                    // })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Input
+                  label="Value"
+                  name="value"
+                  placeholder="Value"
+                  value=""
+                  onChange={(value) => {
+                    // setErrors({
+                    //   ...errors,
+                    //   value: Util.validate.single(
+                    //     field_name,
+                    //     Util.constraintsLookup.value
+                    //   ),
+                    // })
+                    // Stores.lookupStore.updateLookup({
+                    //   ...Stores.lookupStore.lookup,
+                    //   value,
+                    // })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.MultilineInput
+              rows={7}
+              label="Description"
+              name="description"
+              placeholder="Description"
+              //value={Stores.userStore.user.password}
+              onChange={(description) => {
+                Stores.lookupStore.updateLookup({
+                  ...Stores.lookupStore.updateLookup,
+                  description,
+                })
+              }}
+            />
 {/* 
                 {errors?.field_name && (
                   <span className="text-red-600 font-medium relative">

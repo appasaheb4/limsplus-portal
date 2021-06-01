@@ -26,7 +26,7 @@ const MasterAnalyte = async(
   () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
 )
 
-const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
+const Lookup = async(() => import("@lp/features/collection/lookup/scenes/lookup"))
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
