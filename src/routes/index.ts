@@ -22,6 +22,11 @@ const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
 
+// master
+const MasterAnalyte = async(
+  () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
+)
+
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
 
@@ -63,7 +68,10 @@ const NoticeBoards = async(
 
 // Registration
 const PatientRegistation = async(
-  ()=> import ('@lp/features/registration/scenes/PatientRegistration/PatientRegistration')
+  () =>
+    import(
+      "@lp/features/registration/scenes/PatientRegistration/PatientRegistration"
+    )
 )
 
 // Routes
@@ -132,6 +140,12 @@ const collectionRoutes = {
       name: "Role",
       icon: "LibraryComponents.Atoms.Icons.IconGi.GiKeyring",
       component: CollectionRole,
+    },
+    {
+      path: "/collection/masterAnalyte",
+      name: "Master Analyte",
+      icon: "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics",
+      component: MasterAnalyte,
     },
   ],
 }
@@ -211,19 +225,19 @@ const settingsRoutes = {
     },
   ],
 }
-        
+
 const registrationRoutes = {
   path: "/registration",
   name: "Registration",
   icon: "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine",
-  children: [        
-    {   
+  children: [
+    {
       path: "/registration/patient",
       name: "Patient Registration",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
       component: PatientRegistation,
     },
-  ]
+  ],
 }
 
 // Login specific routes
@@ -236,7 +250,7 @@ export const dashboardRouter = [
   collectionRoutes,
   communicationRoutes,
   settingsRoutes,
-  registrationRoutes
+  registrationRoutes,
 ]
 
 // // All routes

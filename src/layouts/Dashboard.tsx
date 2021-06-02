@@ -38,17 +38,24 @@ const Dashboard = observer(({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>()
 
   const loadApi = async (pathname?: string) => {
+    // common use api
+    await Deginisation.startup()
+    await Lab.startup()
+    await Role.startup()
+    await Department.startup()
+    await User.startup()
+    // specific api load  
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-   // console.log({ pathname })
+    // console.log({ pathname })
     if (pathname === "/collection/banner") await Banner.startup()
     if (pathname === "/settings/environmentSettings")
       await EnvironmentSettings.startup()
-    if (pathname === "/collection/deginisation") await Deginisation.startup()
-    if (pathname === "/collection/lab") await Lab.startup()
-    if (pathname === "/collection/role") await Role.startup()
-    if (pathname === "/collection/department") await Department.startup()
-    if (pathname === "/settings/users") await User.startup()
+    //if (pathname === "/collection/deginisation") await Deginisation.startup()
+    //if (pathname === "/collection/lab") await Lab.startup()
+    //if (pathname === "/collection/role") await Role.startup()
+    //if (pathname === "/collection/department") await Department.startup()
+    // if (pathname === "/settings/users") await User.startup()
     if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
     if (
       pathname === "/communication/interfaceManager" ||

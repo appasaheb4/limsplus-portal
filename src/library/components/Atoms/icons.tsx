@@ -12,6 +12,7 @@ import * as IconGr from "react-icons/gr"
 import * as IconBs from "react-icons/bs"
 import * as IconFi from "react-icons/fi"
 import * as Iconmd from "react-icons/md"
+import * as Iconio from "react-icons/io"
 
 export interface IconsProps {
   size?: string
@@ -40,6 +41,7 @@ export {
   IconBs,
   IconFi,
   Iconmd,
+  Iconio,
 }
 
 export const getIcons = (icon: string): any => {
@@ -66,6 +68,9 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconFc.FcDepartment
   if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiKeyring")
     return LibraryComponents.Atoms.Icons.IconGi.GiKeyring
+  // master
+  if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics")
+    return LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
     return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots
@@ -92,7 +97,7 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaClipboardList")
     return LibraryComponents.Atoms.Icons.IconFa.FaClipboardList
-  // registration  
+  // registration
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine")
     return LibraryComponents.Atoms.Icons.IconRi.RiUserAddLine
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard")

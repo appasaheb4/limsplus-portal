@@ -1,12 +1,12 @@
 export interface MasterAnalyte {
-  lab?: string[]
+  lab?: string
   analyteCode?: string
   analyteName?: string
   description?: string
   shortName?: string
   bill?: boolean
   pirce?: number
-  schedule?: string
+  schedule?: Date
   autoRelease?: boolean
   holdOOS?: boolean
   instantResult?: boolean
