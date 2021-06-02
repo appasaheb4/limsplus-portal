@@ -1,3 +1,3 @@
-import AnalyteMaster from "./AnalyteMaster";
+import MasterAnalyte from "./MasterAnalyte";
 
-export { AnalyteMaster };
+export { MasterAnalyte };
