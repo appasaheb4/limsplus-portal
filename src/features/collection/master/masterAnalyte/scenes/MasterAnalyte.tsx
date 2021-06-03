@@ -183,7 +183,7 @@ const MasterAnalyte = observer(() => {
                 />
                 <LibraryComponents.Atoms.Form.Toggle
                   label="InstantResult"
-                  id="modeInstant Result"
+                  id="modeInstantResult"
                   value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
                   onChange={(instantResult) => {
                     Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -193,6 +193,282 @@ const MasterAnalyte = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Grid>
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.Input
+                label="Tube Groups"
+                name="txtTubeGroups"
+                placeholder="Tube Groups"
+                value={Stores.masterAnalyteStore.masterAnalyte?.tubeGroups}
+                onChange={(tubeGroups) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    tubeGroups,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Analyte Method"
+                name="txtAnalyteMethod"
+                placeholder="Analyte Method"
+                value={Stores.masterAnalyteStore.masterAnalyte?.analyteMethod}
+                onChange={(analyteMethod) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    analyteMethod,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="Workflow"
+                id="optionWrokFlow"
+              >
+                <select
+                  name="optionWrokFlows"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflow = e.target.value as string
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      workflow,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["workflow1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="Sample Type"
+                id="optionSampleType"
+              >
+                <select
+                  name="optionSampleTypes"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sampleType = e.target.value as string
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      sampleType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["sampleType1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Grid cols={5}>
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="PageBreak"
+                  id="modePageBreak"
+                  value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
+                  onChange={(pageBreak) => {
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      pageBreak,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Method"
+                  id="modeMethod"
+                  value={Stores.masterAnalyteStore.masterAnalyte?.method}
+                  onChange={(method) => {
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      method,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Display"
+                  id="modeDisplay"
+                  value={Stores.masterAnalyteStore.masterAnalyte?.display}
+                  onChange={(display) => {
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      display,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="CalculationFlag"
+                  id="modeCalculationFlag"
+                  value={Stores.masterAnalyteStore.masterAnalyte?.calculationFlag}
+                  onChange={(calculationFlag) => {
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      calculationFlag,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Repitation"
+                  id="modeRepitation"
+                  value={Stores.masterAnalyteStore.masterAnalyte?.repetition}
+                  onChange={(repetition) => {
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      repetition,
+                    })
+                  }}
+                />
+              </LibraryComponents.Atoms.Grid>
+              <LibraryComponents.Atoms.Form.Input
+                label="Calcy Name"
+                name="txtCalcyName"
+                placeholder="Calcy Name"
+                value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
+                onChange={(calcyName) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    calcyName,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="High"
+                name="txtHigh"
+                placeholder="High"
+                value={Stores.masterAnalyteStore.masterAnalyte?.high}
+                onChange={(high) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    high,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Low"
+                name="txtLow"
+                placeholder="Low"
+                value={Stores.masterAnalyteStore.masterAnalyte?.low}
+                onChange={(low) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    low,
+                  })
+                }}
+              />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="Picture"
+                id="optionPicture"
+              >
+                <select
+                  name="optionPicture"
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const picture = e.target.value as "0" | "1" | "2" | "3"
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      picture,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["0", "1", "2", "3"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="Units"
+              >
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const units = e.target.value
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      units,
+                    })  
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Units 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="Usage"
+              >
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const usage = e.target.value
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      usage,
+                    })  
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Usage 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="CPT Code"
+                name="txtCPTCode"
+                placeholder="CPT Code"
+                value={Stores.masterAnalyteStore.masterAnalyte?.cptCode}
+                onChange={(cptCode) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    cptCode,
+                  })
+                }}
+              />
+               <LibraryComponents.Atoms.Form.InputWrapper
+                label="Status"
+              >
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      status,
+                    })  
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Status 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />

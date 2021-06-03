@@ -14,17 +14,17 @@ export interface MasterAnalyte {
   pageBreak?: boolean
   method?: boolean
   analyteMethod?: string
-  workflow?: string[]
-  sampleType?: string[]
+  workflow?: string
+  sampleType?: string
   display?: boolean
   calculationFlag?: boolean
   calcyName?: string
   high?: string
   low?: string
   repetition?: boolean
-  picture?: 0|1|2|3
-  units?: string[]
-  usage?: string[]
+  picture?: "0"|"1"|"2"|"3"
+  units?: string
+  usage?: string
   cptCode?: string
-  status?: string[]
+  status?: string
 }
