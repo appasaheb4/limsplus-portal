@@ -71,6 +71,9 @@ export const getIcons = (icon: string): any => {
   // master
   if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics")
     return LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics
+  if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics")
+    return LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics
+
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
     return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots
