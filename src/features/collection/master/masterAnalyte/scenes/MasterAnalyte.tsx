@@ -121,11 +121,11 @@ const MasterAnalyte = observer(() => {
                 name="txtPrice"
                 placeholder="Price"
                 type="number"
-                value={Stores.masterAnalyteStore.masterAnalyte?.pirce}
-                onChange={(pirce) => {
+                value={Stores.masterAnalyteStore.masterAnalyte?.price}
+                onChange={(price) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    pirce,
+                    price,
                   })
                 }}
               />

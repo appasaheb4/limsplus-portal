@@ -5,7 +5,7 @@ export interface MasterAnalyte {
   description?: string
   shortName?: string
   bill?: boolean
-  pirce?: number
+  price?: number
   schedule?: Date
   autoRelease?: boolean
   holdOOS?: boolean
