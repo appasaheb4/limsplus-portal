@@ -46,115 +46,170 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
+              <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
-                  name="optionLabs"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const lab = e.target.value as string
-                    console.log({ lab })
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      lab,
+                    const rLab = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      rLab,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
+                  {["RLab 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
                     </option>
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const pLab = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      pLab,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["PLab 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Department">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const department = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      department,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Department 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Section">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const section = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      section,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Section 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
               <LibraryComponents.Atoms.Form.Input
-                label="Analyte Code"
-                name="txtAnalyteCode"
-                placeholder="Analyte Code"
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
-                onChange={(analyteCode) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteCode,
+                label="Panel Code"
+                placeholder="Panel Code"
+                value={Stores.masterPanelStore.masterPanel?.panelCode}
+                onChange={(panelCode) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    panelCode,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="Analyte Name"
-                name="txtAnalyteName"
-                placeholder="Analyte Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
-                onChange={(analyteName) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteName,
+                label="Panel Name"
+                placeholder="Panel Name"
+                value={Stores.masterPanelStore.masterPanel?.panelName}
+                onChange={(panelName) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    panelName,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
-                name="txtDescription"
                 placeholder="Description"
-                value={Stores.masterAnalyteStore.masterAnalyte?.description}
+                value={Stores.masterPanelStore.masterPanel?.description}
                 onChange={(description) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
                     description,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Short Name"
-                name="txtShortName"
                 placeholder="Short Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
+                value={Stores.masterPanelStore.masterPanel?.shortName}
                 onChange={(shortName) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
                     shortName,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                name="txtPrice"
+                label="Price"    
                 placeholder="Price"
                 type="number"
-                value={Stores.masterAnalyteStore.masterAnalyte?.pirce}
-                onChange={(pirce) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    pirce,
+                value={Stores.masterPanelStore.masterPanel?.price}
+                onChange={(price) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    price,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputDate
+              <LibraryComponents.Atoms.Form.Input
                 label="Schedule"
-                name="txtSchedule"
                 placeholder="Schedule"
-                value={LibraryUtils.moment(
-                  Stores.masterAnalyteStore.masterAnalyte?.schedule
-                ).format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  const formatDate = LibraryUtils.moment(schedule).format(
-                    "YYYY-MM-DD HH:mm"
-                  )
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    schedule: new Date(formatDate),
+                value={Stores.masterPanelStore.masterPanel?.schedule}
+                onChange={(schedule) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    schedule,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Grid cols={4}>
+              <LibraryComponents.Atoms.Form.Input
+                label="TAT"
+                placeholder="TAT"
+                value={Stores.masterPanelStore.masterPanel?.tat}
+                onChange={(tat) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    tat,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
                   id="modeBill"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.bill}
+                  value={Stores.masterPanelStore.masterPanel?.bill}
                   onChange={(bill) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
                       bill,
                     })
                   }}
@@ -162,10 +217,10 @@ const MasterPanel = observer(() => {
                 <LibraryComponents.Atoms.Form.Toggle
                   label="AutoRelease"
                   id="modeAutoRelease"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.autoRelease}
+                  value={Stores.masterPanelStore.masterPanel?.autoRelease}
                   onChange={(autoRelease) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
                       autoRelease,
                     })
                   }}
@@ -173,22 +228,31 @@ const MasterPanel = observer(() => {
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Hold OOS"
                   id="modeHoldOOS"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.holdOOS}
+                  value={Stores.masterPanelStore.masterPanel?.holdOOS}
                   onChange={(holdOOS) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
                       holdOOS,
                     })
                   }}
                 />
                 <LibraryComponents.Atoms.Form.Toggle
-                  label="InstantResult"
-                  id="modeInstantResult"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
-                  onChange={(instantResult) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      instantResult,
+                  label="Confidential"
+                  value={Stores.masterPanelStore.masterPanel?.confidential}
+                  onChange={(confidential) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      confidential,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Urgent"
+                  value={Stores.masterPanelStore.masterPanel?.urgent}
+                  onChange={(urgent) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      urgent,
                     })
                   }}
                 />
@@ -201,166 +265,209 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const validationLevel: any = e.target.value
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      validationLevel,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[0, 1].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
+              <LibraryComponents.Atoms.Form.Input
+                label="Report Groups"
+                placeholder="Report Groups"
+                value={Stores.masterPanelStore.masterPanel?.reportGroup}
+                onChange={(reportGroup) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    reportGroup,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Report Order"
+                placeholder="Report Order"
+                value={Stores.masterPanelStore.masterPanel?.reportOrder}
+                onChange={(reportOrder) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    reportOrder,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sex = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      sex,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Male", "Female", "Other"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Hi Age"
+                placeholder="Hi Age"
+                value={Stores.masterPanelStore.masterPanel?.hiAge}
+                onChange={(hiAge) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    hiAge,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Lo Age"
+                placeholder="Lo Age"
+                value={Stores.masterPanelStore.masterPanel?.loAge}
+                onChange={(loAge) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    loAge,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const processing = e.target.value as
+                      | "MANUAL"
+                      | "AEMI"
+                      | "AUTOMATIC"
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      processing,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["MANUAL", "AEMI", "AUTOMATIC"].map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
               <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
-                name="txtTubeGroups"
                 placeholder="Tube Groups"
-                value={Stores.masterAnalyteStore.masterAnalyte?.tubeGroups}
-                onChange={(tubeGroups) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    tubeGroups,
+                value={Stores.masterPanelStore.masterPanel?.tubeGroup}
+                onChange={(tubeGroup) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    tubeGroup,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Analyte Method"
-                name="txtAnalyteMethod"
-                placeholder="Analyte Method"
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteMethod}
-                onChange={(analyteMethod) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteMethod,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.InputWrapper
-                label="Workflow"
-                id="optionWrokFlow"
-              >
-                <select
-                  name="optionWrokFlows"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const workflow = e.target.value as string
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      workflow,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["workflow1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper
-                label="Sample Type"
-                id="optionSampleType"
-              >
-                <select
-                  name="optionSampleTypes"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sampleType = e.target.value as string
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      sampleType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["sampleType1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
-                  label="PageBreak"
-                  id="modePageBreak"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
-                  onChange={(pageBreak) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      pageBreak,
+                  label="Instant Result"
+                  value={Stores.masterPanelStore.masterPanel?.instantResult}
+                  onChange={(instantResult) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      instantResult,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Sex Action"
+                  value={Stores.masterPanelStore.masterPanel?.sexAction}
+                  onChange={(sexAction) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      sexAction,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Repetition"
+                  value={Stores.masterPanelStore.masterPanel?.repitation}
+                  onChange={(repitation) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      repitation,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Print Label"
+                  value={Stores.masterPanelStore.masterPanel?.printLabel}
+                  onChange={(printLabel) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      printLabel,
                     })
                   }}
                 />
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
-                  id="modeMethod"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.method}
+                  value={Stores.masterPanelStore.masterPanel?.method}
                   onChange={(method) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
                       method,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Display"
-                  id="modeDisplay"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.display}
-                  onChange={(display) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      display,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="CalculationFlag"
-                  id="modeCalculationFlag"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.calculationFlag}
-                  onChange={(calculationFlag) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      calculationFlag,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Repitation"
-                  id="modeRepitation"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.repetition}
-                  onChange={(repetition) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      repetition,
                     })
                   }}
                 />
               </LibraryComponents.Atoms.Grid>
               <LibraryComponents.Atoms.Form.Input
-                label="Calcy Name"
-                name="txtCalcyName"
-                placeholder="Calcy Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
-                onChange={(calcyName) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    calcyName,
+                label="Label Instruction"
+                placeholder="Label Instruction"
+                value={Stores.masterPanelStore.masterPanel?.labelInstruction}
+                onChange={(labelInstruction) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    labelInstruction,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="High"
-                name="txtHigh"
-                placeholder="High"
-                value={Stores.masterAnalyteStore.masterAnalyte?.high}
-                onChange={(high) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    high,
+                label="Page Break"
+                placeholder="Page Break"
+                value={Stores.masterPanelStore.masterPanel?.pageBreak}
+                onChange={(pageBreak) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    pageBreak,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="Low"
-                name="txtLow"
-                placeholder="Low"
-                value={Stores.masterAnalyteStore.masterAnalyte?.low}
-                onChange={(low) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    low,
+                label="Panel Method"
+                placeholder="Panel Method"
+                value={Stores.masterPanelStore.masterPanel?.panelMethod}
+                onChange={(panelMethod) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    panelMethod,
                   })
                 }}
               />
@@ -371,61 +478,41 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper
-                label="Picture"
-                id="optionPicture"
-              >
+              <LibraryComponents.Atoms.Form.Input
+                label="Workflow"
+                placeholder="Workflow"
+                value={Stores.masterPanelStore.masterPanel?.workflow}
+                onChange={(workflow) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    workflow,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Report Template"
+                placeholder="Report Template"
+                value={Stores.masterPanelStore.masterPanel?.reportTemplate}
+                onChange={(reportTemplate) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    reportTemplate,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
                 <select
-                  name="optionPicture"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const picture = e.target.value as "0" | "1" | "2" | "3"
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      picture,
+                    const sampleType = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      sampleType,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {["0", "1", "2", "3"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Units">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const units = e.target.value
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      units,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Units 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const usage = e.target.value
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      usage,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Usage 1"].map((item: any, index: number) => (
+                  {["Sample Type 1"].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {item}
                     </option>
@@ -433,24 +520,24 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
-                label="CPT Code"
-                name="txtCPTCode"
-                placeholder="CPT Code"
-                value={Stores.masterAnalyteStore.masterAnalyte?.cptCode}
-                onChange={(cptCode) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    cptCode,
+                label="Special Instructions"
+                placeholder="Special Instruction"
+                value={Stores.masterPanelStore.masterPanel?.specalInstructions}
+                onChange={(specalInstructions) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    specalInstructions,
                   })
                 }}
               />
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
                       status,
                     })
                   }}
@@ -463,6 +550,18 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Toggle
+                  label="Cumulative"
+                  value={Stores.masterPanelStore.masterPanel?.cumulative}
+                  onChange={(cumulative) => {
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      cumulative,
+                    })
+                  }}
+                />
+             
+            
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />

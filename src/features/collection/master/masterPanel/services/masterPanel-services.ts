@@ -9,7 +9,7 @@ import BaseService from "@lp/library/modules/base-service"
    
 class MasterPanelService extends BaseService {
   listLabs = () =>
-    new Promise<Models.MasterAnalyte[]>((resolve, reject) => {
+    new Promise<any[]>((resolve, reject) => {
       this.client
         .get(`/lab/listlabs`)
         .then((res) => {
@@ -19,7 +19,7 @@ class MasterPanelService extends BaseService {
           reject({ error })
         })
     })
-  addLab = (lab?: Models.MasterAnalyte) =>
+  addLab = (lab?: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
         .post(`/lab/addLab`, lab)

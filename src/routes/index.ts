@@ -33,6 +33,10 @@ const TestAnalyteMapping = async(
     )
 )
 
+const MasterPanel = async(
+  () => import("@lp/features/collection/master/masterPanel/scenes/MasterPanel")
+)
+
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
 
@@ -151,7 +155,7 @@ const collectionRoutes = {
       path: "/collection/masterAnalyte",
       name: "Master Analyte",
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics",
-      component: MasterAnalyte,   
+      component: MasterAnalyte,
     },
     {
       path: "/collection/testAnalyteMapping",
@@ -159,6 +163,13 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics",
       component: TestAnalyteMapping,
     },
+    {
+      path: "/collection/masterPanel",
+      name: "Master Panel",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel",
+      component: MasterPanel,  
+    },
+    
   ],
 }
 

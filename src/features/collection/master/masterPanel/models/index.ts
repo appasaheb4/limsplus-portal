@@ -11,7 +11,7 @@ export interface MasterPanel {
   price?: number
   schedule?: string
   tat?: string
-  autoRelase?: boolean
+  autoRelease?: boolean
   holdOOS?: boolean
   validationLevel?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
   confidential?: boolean
@@ -23,7 +23,7 @@ export interface MasterPanel {
   sexAction?: boolean
   hiAge?: string
   loAge?: string
-  processing?: "manual" | "aemi" | "automatic"
+  processing?: "MANUAL" | "AEMI" | "AUTOMATIC"
   repitation?: boolean
   tubeGroup?: string
   printLabel?: boolean
