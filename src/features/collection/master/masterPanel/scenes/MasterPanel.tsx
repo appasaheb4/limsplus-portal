@@ -14,8 +14,8 @@ import { Stores as RootStore } from "@lp/library/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const MasterAnalyte = observer(() => {
-  const [errors, setErrors] = useState<Models.MasterAnalyte>()
+const MasterPanel = observer(() => {
+  const [errors, setErrors] = useState<Models.MasterPanel>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -579,4 +579,4 @@ const MasterAnalyte = observer(() => {
   )
 })
 
-export default MasterAnalyte
+export default MasterPanel

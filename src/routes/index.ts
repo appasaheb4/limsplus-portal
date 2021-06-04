@@ -26,6 +26,12 @@ const CollectionRole = async(
 const MasterAnalyte = async(
   () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
 )
+const TestAnalyteMapping = async(
+  () =>
+    import(
+      "@lp/features/collection/master/testAnalyteMapping/scenes/TestAnalyteMapping"
+    )
+)
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -145,7 +151,13 @@ const collectionRoutes = {
       path: "/collection/masterAnalyte",
       name: "Master Analyte",
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics",
-      component: MasterAnalyte,
+      component: MasterAnalyte,   
+    },
+    {
+      path: "/collection/testAnalyteMapping",
+      name: "Test Analyte Mapping",
+      icon: "LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics",
+      component: TestAnalyteMapping,
     },
   ],
 }
