@@ -10,6 +10,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -46,6 +47,75 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
                 <select
                   name="optionLabs"
@@ -116,37 +186,6 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                name="txtPrice"
-                placeholder="Price"
-                type="number"
-                value={Stores.masterAnalyteStore.masterAnalyte?.price}
-                onChange={(price) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    price,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Schedule"
-                name="txtSchedule"
-                placeholder="Schedule"
-                value={LibraryUtils.moment(
-                  Stores.masterAnalyteStore.masterAnalyte?.schedule
-                ).format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  const formatDate = LibraryUtils.moment(schedule).format(
-                    "YYYY-MM-DD HH:mm"
-                  )
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    schedule: new Date(formatDate),
-                  })
-                }}
-              />
               <LibraryComponents.Atoms.Grid cols={4}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -201,6 +240,37 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.Input
+                label="Price"
+                name="txtPrice"
+                placeholder="Price"
+                type="number"
+                value={Stores.masterAnalyteStore.masterAnalyte?.price}
+                onChange={(price) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    price,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Schedule"
+                name="txtSchedule"
+                placeholder="Schedule"
+                value={LibraryUtils.moment(
+                  Stores.masterAnalyteStore.masterAnalyte?.schedule
+                ).format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  const formatDate = LibraryUtils.moment(schedule).format(
+                    "YYYY-MM-DD HH:mm"
+                  )
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    schedule: new Date(formatDate),
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 name="txtTubeGroups"
@@ -271,7 +341,7 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-             
+
               <LibraryComponents.Atoms.Form.Input
                 label="Calcy Name"
                 name="txtCalcyName"
@@ -308,7 +378,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-               <LibraryComponents.Atoms.Grid cols={5}>
+              <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="PageBreak"
                   id="modePageBreak"
@@ -545,8 +615,8 @@ const MasterAnalyte = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({type});
-            
+            console.log({ type })
+
             // if (type === "Delete") {
             //   RootStore.rootStore.setProcessLoading(true)
             //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(

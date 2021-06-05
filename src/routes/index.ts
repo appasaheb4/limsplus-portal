@@ -165,7 +165,7 @@ const collectionRoutes = {
     },
     {
       path: "/collection/masterAnalyte",
-      name: "Master Analyte",
+      name: "Analyte Master",
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics",
       component: MasterAnalyte,
     },
@@ -177,7 +177,7 @@ const collectionRoutes = {
     },
     {
       path: "/collection/masterPanel",
-      name: "Master Panel",
+      name: "Panel Master",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel",
       component: MasterPanel,
     },
@@ -189,7 +189,7 @@ const collectionRoutes = {
     },
     {
       path: "/collection/masterPackage",
-      name: "Master Package",
+      name: "Package Master",
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiPackage",
       component: MasterPackage,
     },

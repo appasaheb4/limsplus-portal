@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as LibraryUtils from "@lp/library/utils"
+import * as LibraryUtils from "@lp/library/utils"
 // import * as FeatureComponents from "../components"
 
 // import * as Models from "../models"
@@ -10,12 +10,13 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterPackage = observer(() => {
- // const [errors, setErrors] = useState<Models.MasterPackage>()
+  // const [errors, setErrors] = useState<Models.MasterPackage>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -46,6 +47,75 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
                 <select
                   name="optionLabs"
@@ -66,6 +136,14 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -143,22 +221,14 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
-                      status,  
+                      status,
                     })
                   }}
                 >
@@ -181,9 +251,8 @@ const MasterPackage = observer(() => {
                     bill,
                   })
                 }}
-              />  
+              />
               {/* </LibraryComponents.Atoms.Grid> */}
-             
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -265,8 +334,8 @@ const MasterPackage = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({type});
-            
+            console.log({ type })
+
             // if (type === "Delete") {
             //   RootStore.rootStore.setProcessLoading(true)
             //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(

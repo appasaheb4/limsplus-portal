@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as LibraryUtils from "@lp/library/utils"
+import * as LibraryUtils from "@lp/library/utils"
 // import * as FeatureComponents from "../components"
 
 // import * as Models from "../models"
@@ -10,6 +10,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores } from "../stores"
 //import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -46,6 +47,74 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
+               <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -193,48 +262,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="TAT"
-                placeholder="TAT"
-                value={Stores.testMasterStore.testMaster?.tat}
-                onChange={(tat) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    tat,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const validationLevel: any = e.target.value
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      validationLevel,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-
-              <LibraryComponents.Atoms.Form.Input
-                label="Report Group"
-                placeholder="Report Group"
-                value={Stores.testMasterStore.testMaster?.reportGroup}
-                onChange={(reportGroup) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    reportGroup,
-                  })
-                }}
-              />
+             
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -298,7 +326,48 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-           
+            <LibraryComponents.Atoms.Form.Input
+                label="TAT"
+                placeholder="TAT"
+                value={Stores.testMasterStore.testMaster?.tat}
+                onChange={(tat) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    tat,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const validationLevel: any = e.target.value
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      validationLevel,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
+              <LibraryComponents.Atoms.Form.Input
+                label="Report Group"
+                placeholder="Report Group"
+                value={Stores.testMasterStore.testMaster?.reportGroup}
+                onChange={(reportGroup) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    reportGroup,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Result Order"
                 placeholder="Result Order"
