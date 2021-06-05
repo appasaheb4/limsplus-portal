@@ -21,6 +21,7 @@ const CollectionDepartment = async(
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
+// Collection Master
 
 // master
 const MasterAnalyte = async(
@@ -45,6 +46,7 @@ const MasterPackage = async(
 const TestMaster = async(
   () => import("@lp/features/collection/master/testMaster/scenes/TestMaster")
 )
+const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -196,7 +198,13 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconsi.SiMinetest",
       component: TestMaster,
     },
-  ],   
+    {
+      path: "/collection/lookup",
+      name: "Lookup",
+      icon: "LibraryComponents.Atoms.Icons.Iconmd.MdLooks",
+      component: Lookup,
+    },
+  ],
 }
 
 const communicationRoutes = {
