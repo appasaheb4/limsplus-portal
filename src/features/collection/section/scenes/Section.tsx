@@ -21,7 +21,7 @@ const Section = observer(() => {
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
           title={RootStore.routerStore.selectedComponents?.title || ""}
-        />    
+        />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -73,14 +73,14 @@ const Section = observer(() => {
                   })
                 }}
               />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
               direction="col"
               space={4}
               justify="stretch"
               fill
             >
-               <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Name"
                 placeholder="Name"
                 value={Stores.sectionStore.section?.name}
@@ -91,7 +91,7 @@ const Section = observer(() => {
                   })
                 }}
               />
-               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -103,7 +103,7 @@ const Section = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["ACTIVE","INACTIVE"].map((item: any) => (
+                  {["ACTIVE", "INACTIVE"].map((item: any) => (
                     <option key={item} value={item}>
                       {item}
                     </option>
@@ -205,7 +205,7 @@ const Section = observer(() => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.ToastsStore.success(`Section deleted.`)
                     setModalConfirm({ show: false })
-                   // Stores.sectionStore.fetchListSection()
+                    // Stores.sectionStore.fetchListSection()
                   }
                 }
               )
@@ -218,7 +218,7 @@ const Section = observer(() => {
                 if (res.status === 200) {
                   LibraryComponents.Atoms.ToastsStore.success(`Section updated.`)
                   setModalConfirm({ show: false })
-                 // Stores.sectionStore.fetchListSection()
+                  // Stores.sectionStore.fetchListSection()
                 }
               })
             }
