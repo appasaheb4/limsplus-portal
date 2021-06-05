@@ -87,7 +87,7 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconmd.MdLooks
     if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3")
     return LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3
-
+    
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
     return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots
@@ -99,6 +99,9 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconRi.RiGhostSmileLine
   if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiDatabase")
     return LibraryComponents.Atoms.Icons.IconGi.GiDatabase
+    if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiKeyring")
+    return LibraryComponents.Atoms.Icons.IconGi.GiKeyring
+
   //settings
   if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill")
     return LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill

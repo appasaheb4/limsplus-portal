@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as LibraryUtils from "@lp/library/utils"
+import * as LibraryUtils from "@lp/library/utils"
 // import * as FeatureComponents from "../components"
 
 //import * as Models from "../models"
@@ -10,6 +10,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -46,6 +47,75 @@ const TestPanelMapping = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
                 <select
                   name="optionLabs"
@@ -86,6 +156,15 @@ const TestPanelMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+           
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
                 name="txtTestCode"
@@ -124,9 +203,7 @@ const TestPanelMapping = observer(() => {
                 label="Description"
                 name="txtDescription"
                 placeholder="Description"
-                value={
-                  Stores.testPanelMappingStore.testPanelMapping?.description
-                }
+                value={Stores.testPanelMappingStore.testPanelMapping?.description}
                 onChange={(description) => {
                   Stores.testPanelMappingStore.updateTestPanelMapping({
                     ...Stores.testPanelMappingStore.testPanelMapping,
@@ -134,47 +211,38 @@ const TestPanelMapping = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                  <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const status = e.target.value
-                      Stores.testPanelMappingStore.updateTestPanelMapping({
-                        ...Stores.testPanelMappingStore.testPanelMapping,
-                        status,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {["Status 1"].map((item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  value={Stores.testPanelMappingStore.testPanelMapping?.bill}
-                  onChange={(bill) => {
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
-                      bill,
+                      status,
                     })
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {["Status 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Bill"
+                id="modeBill"
+                value={Stores.testPanelMappingStore.testPanelMapping?.bill}
+                onChange={(bill) => {
+                  Stores.testPanelMappingStore.updateTestPanelMapping({
+                    ...Stores.testPanelMappingStore.testPanelMapping,
+                    bill,
+                  })
+                }}
+              />
               {/* </LibraryComponents.Atoms.Grid> */}
-            
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -220,7 +288,7 @@ const TestPanelMapping = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />  
+        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           {/* <FeatureComponents.Molecules.LabList
             data={Stores.masterPanelStore.masterPanel || []}
@@ -256,8 +324,8 @@ const TestPanelMapping = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({type});
-            
+            console.log({ type })
+
             // if (type === "Delete") {
             //   RootStore.rootStore.setProcessLoading(true)
             //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(

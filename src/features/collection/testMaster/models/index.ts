@@ -1,4 +1,9 @@
 export interface TestMaster {
+  dateCreation?: string  
+  dateActive?: string  
+  version?: number
+  keyNum?: string
+  enteredBy?: string
   rLab?: string
   pLab?: string
   department?: string

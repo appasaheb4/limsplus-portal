@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as LibraryUtils from "@lp/library/utils"
+import * as LibraryUtils from "@lp/library/utils"
 // import * as FeatureComponents from "../components"
 
 // import * as Models from "../models"
@@ -10,12 +10,13 @@ import * as LibraryComponents from "@lp/library/components"
 import { Stores } from "../stores"
 //import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterPanel = observer(() => {
- // const [errors, setErrors] = useState<Models.MasterPanel>()
+  // const [errors, setErrors] = useState<Models.MasterPanel>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -46,6 +47,74 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value="1"
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -157,30 +226,7 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Short Name"
-                placeholder="Short Name"
-                value={Stores.masterPanelStore.masterPanel?.shortName}
-                onChange={(shortName) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    shortName,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                placeholder="Price"
-                type="number"
-                value={Stores.masterPanelStore.masterPanel?.price}
-                onChange={(price) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    price,
-                  })
-                }}
-              />
-             
+              
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -244,7 +290,31 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
-               <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
+                label="Short Name"
+                placeholder="Short Name"
+                value={Stores.masterPanelStore.masterPanel?.shortName}
+                onChange={(shortName) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    shortName,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Price"
+                placeholder="Price"
+                type="number"
+                value={Stores.masterPanelStore.masterPanel?.price}
+                onChange={(price) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    price,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Atoms.Form.Input
                 label="Schedule"
                 placeholder="Schedule"
                 value={Stores.masterPanelStore.masterPanel?.schedule}
@@ -278,7 +348,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[0, 1,2,3,4,5,6,7,8,9].map((item: any, index: number) => (
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {item}
                     </option>
@@ -375,8 +445,6 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              
-
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Instant Result"
@@ -434,7 +502,7 @@ const MasterPanel = observer(() => {
               direction="col"
               space={4}
               justify="stretch"
-              fill   
+              fill
             >
               <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
@@ -643,8 +711,8 @@ const MasterPanel = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({type});
-            
+            console.log({ type })
+
             // if (type === "Delete") {
             //   RootStore.rootStore.setProcessLoading(true)
             //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(

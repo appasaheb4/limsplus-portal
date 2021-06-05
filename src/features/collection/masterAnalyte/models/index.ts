@@ -1,4 +1,9 @@
 export interface MasterAnalyte {
+  dateCreation?: string  
+  dateActive?: string  
+  version?: number
+  keyNum?: string
+  enteredBy?: string
   lab?: string
   analyteCode?: string
   analyteName?: string
@@ -22,7 +27,7 @@ export interface MasterAnalyte {
   high?: string
   low?: string
   repetition?: boolean
-  picture?: "0"|"1"|"2"|"3"
+  picture?: "0" | "1" | "2" | "3"
   units?: string
   usage?: string
   cptCode?: string
