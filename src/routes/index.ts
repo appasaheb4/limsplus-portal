@@ -26,7 +26,10 @@ const MasterAnalyte = async(
   () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
 )
 
+//Lookup Master
 const Lookup = async(() => import("@lp/features/collection/lookup/scenes/lookup"))
+//Section Master
+const Section = async(() => import("@lp/features/collection/section/scenes/Section"))
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -153,6 +156,12 @@ const collectionRoutes = {
       name: "Lookup",
       icon: "LibraryComponents.Atoms.Icons.IconIo.IoMdAnalytics",
       component: Lookup,
+    },
+    {
+      path: "/collection/section",
+      name: "Section",
+      icon: "LibraryComponents.Atoms.Icons.IconIo.IoMdAnalytics",
+      component: Section,
     },
   ],
 }
