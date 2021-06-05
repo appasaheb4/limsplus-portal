@@ -85,6 +85,9 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconsi.SiMinetest
     if (icon === "LibraryComponents.Atoms.Icons.Iconmd.MdLooks")
     return LibraryComponents.Atoms.Icons.Iconmd.MdLooks
+    if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3")
+    return LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3
+
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
     return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots

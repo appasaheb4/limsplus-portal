@@ -25,28 +25,29 @@ const CollectionRole = async(
 
 // master
 const MasterAnalyte = async(
-  () => import("@lp/features/collection/master/masterAnalyte/scenes/MasterAnalyte")
+  () => import("@lp/features/collection/masterAnalyte/scenes/MasterAnalyte")
 )
 const TestAnalyteMapping = async(
   () =>
     import(
-      "@lp/features/collection/master/testAnalyteMapping/scenes/TestAnalyteMapping"
+      "@lp/features/collection/testAnalyteMapping/scenes/TestAnalyteMapping"
     )
 )
 const MasterPanel = async(
-  () => import("@lp/features/collection/master/masterPanel/scenes/MasterPanel")
+  () => import("@lp/features/collection/masterPanel/scenes/MasterPanel")
 )
 const TestPanelMapping = async(
   () =>
-    import("@lp/features/collection/master/testPanelMapping/scenes/TestPanelMapping")
+    import("@lp/features/collection/testPanelMapping/scenes/TestPanelMapping")
 )
 const MasterPackage = async(
-  () => import("@lp/features/collection/master/masterPackage/scenes/MasterPackage")
+  () => import("@lp/features/collection/masterPackage/scenes/MasterPackage")
 )
 const TestMaster = async(
-  () => import("@lp/features/collection/master/testMaster/scenes/TestMaster")
+  () => import("@lp/features/collection/testMaster/scenes/TestMaster")
 )
 const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
+const Section = async(()=> import("@lp/features/collection/section/scenes/Section"))
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -203,6 +204,12 @@ const collectionRoutes = {
       name: "Lookup",
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdLooks",
       component: Lookup,
+    },
+    {
+      path: "/collection/section",
+      name: "Section",
+      icon: "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3",
+      component: Section,
     },
   ],
 }
