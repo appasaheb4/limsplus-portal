@@ -32,9 +32,15 @@ const TestAnalyteMapping = async(
       "@lp/features/collection/master/testAnalyteMapping/scenes/TestAnalyteMapping"
     )
 )
-
 const MasterPanel = async(
   () => import("@lp/features/collection/master/masterPanel/scenes/MasterPanel")
+)
+const TestPanelMapping = async(
+  () =>
+    import("@lp/features/collection/master/testPanelMapping/scenes/TestPanelMapping")
+)
+const MasterPackage = async(
+  () => import("@lp/features/collection/master/masterPackage/scenes/MasterPackage")
 )
 
 // User
@@ -167,9 +173,20 @@ const collectionRoutes = {
       path: "/collection/masterPanel",
       name: "Master Panel",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel",
-      component: MasterPanel,  
+      component: MasterPanel,
     },
-    
+    {
+      path: "/collection/testPanelMapping",
+      name: "Test Panel Mapping",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaLayerGroup",
+      component: TestPanelMapping,
+    },
+    {
+      path: "/collection/masterPackage",
+      name: "Master Package",
+      icon: "LibraryComponents.Atoms.Icons.IconFi.FiPackage",
+      component: MasterPackage,
+    },
   ],
 }
 

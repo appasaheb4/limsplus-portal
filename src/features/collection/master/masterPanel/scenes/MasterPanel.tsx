@@ -169,7 +169,7 @@ const MasterPanel = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="Price"    
+                label="Price"
                 placeholder="Price"
                 type="number"
                 value={Stores.masterPanelStore.masterPanel?.price}
@@ -180,28 +180,7 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Schedule"
-                placeholder="Schedule"
-                value={Stores.masterPanelStore.masterPanel?.schedule}
-                onChange={(schedule) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    schedule,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="TAT"
-                placeholder="TAT"
-                value={Stores.masterPanelStore.masterPanel?.tat}
-                onChange={(tat) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    tat,
-                  })
-                }}
-              />
+             
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -265,6 +244,28 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
+               <LibraryComponents.Atoms.Form.Input
+                label="Schedule"
+                placeholder="Schedule"
+                value={Stores.masterPanelStore.masterPanel?.schedule}
+                onChange={(schedule) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    schedule,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="TAT"
+                placeholder="TAT"
+                value={Stores.masterPanelStore.masterPanel?.tat}
+                onChange={(tat) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    tat,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -374,17 +375,7 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.Input
-                label="Tube Groups"
-                placeholder="Tube Groups"
-                value={Stores.masterPanelStore.masterPanel?.tubeGroup}
-                onChange={(tubeGroup) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    tubeGroup,
-                  })
-                }}
-              />
+              
 
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
@@ -438,6 +429,24 @@ const MasterPanel = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Grid>
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill   
+            >
+              <LibraryComponents.Atoms.Form.Input
+                label="Tube Groups"
+                placeholder="Tube Groups"
+                value={Stores.masterPanelStore.masterPanel?.tubeGroup}
+                onChange={(tubeGroup) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    tubeGroup,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Label Instruction"
                 placeholder="Label Instruction"
@@ -471,13 +480,6 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.Input
                 label="Workflow"
                 placeholder="Workflow"
@@ -551,17 +553,15 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Toggle
-                  label="Cumulative"
-                  value={Stores.masterPanelStore.masterPanel?.cumulative}
-                  onChange={(cumulative) => {
-                    Stores.masterPanelStore.updateMasterPanel({
-                      ...Stores.masterPanelStore.masterPanel,
-                      cumulative,
-                    })
-                  }}
-                />
-             
-            
+                label="Cumulative"
+                value={Stores.masterPanelStore.masterPanel?.cumulative}
+                onChange={(cumulative) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    cumulative,
+                  })
+                }}
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
