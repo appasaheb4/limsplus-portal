@@ -66,8 +66,8 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconFa.FaUserMd
   if (icon === "LibraryComponents.Atoms.Icons.IconFc.FcDepartment")
     return LibraryComponents.Atoms.Icons.IconFc.FcDepartment
-  if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiKeyring")
-    return LibraryComponents.Atoms.Icons.IconGi.GiKeyring
+  if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaLayerGroup")
+    return LibraryComponents.Atoms.Icons.IconFa.FaLayerGroup
   // master
   if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics")
     return LibraryComponents.Atoms.Icons.Iconio.IoMdAnalytics
@@ -75,6 +75,10 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconio.IoIosAnalytics
     if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel")
     return LibraryComponents.Atoms.Icons.IconFa.FaSolarPanel
+    if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiPackage")
+    return LibraryComponents.Atoms.Icons.IconFi.FiPackage
+    if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiPackage")
+    return LibraryComponents.Atoms.Icons.IconFi.FiPackage
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
     return LibraryComponents.Atoms.Icons.IconFa.FaCommentDots
