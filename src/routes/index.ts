@@ -42,6 +42,9 @@ const TestPanelMapping = async(
 const MasterPackage = async(
   () => import("@lp/features/collection/master/masterPackage/scenes/MasterPackage")
 )
+const TestMaster = async(
+  () => import("@lp/features/collection/master/testMaster/scenes/TestMaster")
+)
 
 // User
 const User = async(() => import("@lp/features/users/scenes/Users"))
@@ -187,7 +190,13 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiPackage",
       component: MasterPackage,
     },
-  ],
+    {
+      path: "/collection/testMaster",
+      name: "Test Master",
+      icon: "LibraryComponents.Atoms.Icons.Iconsi.SiMinetest",
+      component: TestMaster,
+    },
+  ],   
 }
 
 const communicationRoutes = {
