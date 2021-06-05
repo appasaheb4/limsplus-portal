@@ -151,20 +151,7 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Bill"
-                id="modeBill"
-                value={Stores.masterPackageStore.masterPackage?.bill}
-                onChange={(bill) => {
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    bill,
-                  })
-                }}
-              />  
-              {/* </LibraryComponents.Atoms.Grid> */}
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -183,6 +170,20 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Bill"
+                id="modeBill"
+                value={Stores.masterPackageStore.masterPackage?.bill}
+                onChange={(bill) => {
+                  Stores.masterPackageStore.updateMasterPackage({
+                    ...Stores.masterPackageStore.masterPackage,
+                    bill,
+                  })
+                }}
+              />  
+              {/* </LibraryComponents.Atoms.Grid> */}
+             
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />

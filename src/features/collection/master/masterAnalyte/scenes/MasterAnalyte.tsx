@@ -271,7 +271,44 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Grid cols={5}>
+             
+              <LibraryComponents.Atoms.Form.Input
+                label="Calcy Name"
+                name="txtCalcyName"
+                placeholder="Calcy Name"
+                value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
+                onChange={(calcyName) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    calcyName,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="High"
+                name="txtHigh"
+                placeholder="High"
+                value={Stores.masterAnalyteStore.masterAnalyte?.high}
+                onChange={(high) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    high,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Low"
+                name="txtLow"
+                placeholder="Low"
+                value={Stores.masterAnalyteStore.masterAnalyte?.low}
+                onChange={(low) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    low,
+                  })
+                }}
+              />
+               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="PageBreak"
                   id="modePageBreak"
@@ -328,42 +365,6 @@ const MasterAnalyte = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Grid>
-              <LibraryComponents.Atoms.Form.Input
-                label="Calcy Name"
-                name="txtCalcyName"
-                placeholder="Calcy Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
-                onChange={(calcyName) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    calcyName,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="High"
-                name="txtHigh"
-                placeholder="High"
-                value={Stores.masterAnalyteStore.masterAnalyte?.high}
-                onChange={(high) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    high,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Low"
-                name="txtLow"
-                placeholder="Low"
-                value={Stores.masterAnalyteStore.masterAnalyte?.low}
-                onChange={(low) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    low,
-                  })
-                }}
-              />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"

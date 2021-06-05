@@ -278,7 +278,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {[0, 1].map((item: any, index: number) => (
+                  {[0, 1,2,3,4,5,6,7,8,9].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {item}
                     </option>
