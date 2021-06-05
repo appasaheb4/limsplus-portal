@@ -4,17 +4,17 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 
-import * as Models from "../models"
+//import * as Models from "../models"
 import * as Util from "../util"
 
 import { Stores } from "../stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
+//import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 const Lookup = observer(() => {
-  const [errors, setErrors] = useState<Models.Lookup>()
+  //const [errors, setErrors] = useState<Models.Lookup>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
   return (
@@ -57,8 +57,8 @@ const Lookup = observer(() => {
                   >
                     <option selected>Select</option>
                     {["Document Name 1"].map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
+                      <option key={item} value={item}>
+                        {item}
                       </option>
                     ))}
                   </select>
