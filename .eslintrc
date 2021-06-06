@@ -32,7 +32,7 @@
         "functions": false,
         "classes": false
       }
-    ],
+    ],   
     "react/prop-types": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-inferrable-types": "off",

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -21,7 +22,7 @@ const Lookup = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
-  useEffect(() => {
+  useEffect(() => {   
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
         item.toggle = false
