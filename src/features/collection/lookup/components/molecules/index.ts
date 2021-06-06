@@ -1,2 +1,2 @@
-export { default as LookupList } from "./Lookup"   
+export { default as LookupList } from "./LookupList"   
    

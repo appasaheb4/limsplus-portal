@@ -1,6 +1,6 @@
-//import {Stores} from './stores';
+import {Stores} from './stores';
 const startup = async () => {
-   // Stores.LookupStore.fetchListLookup();
+    Stores.lookupStore.fetchListLookup();
 }
 
 export default startup;
