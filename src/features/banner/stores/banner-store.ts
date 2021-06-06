@@ -18,7 +18,7 @@ class BannerStore {
 
   @action fetchListBanner() {
     this.BannerService.listBanner().then((banner) => {
-      console.log({ banner })
+      //console.log({ banner })
       this.listBanner = banner
     })
   }

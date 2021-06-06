@@ -27,28 +27,46 @@ const LookupList = observer((props: LookupListProps) => {
           csvExport: false,
         },
         {
-          dataField: "document_name",
+          dataField: "documentName",
           text: "Document Name",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          formatter: (cell, row) => {
+            return (
+              <>{`${row.documentName.name} - ${row.documentName.children.name}`}</>
+            )
+          },
         },
         {
-          dataField: "field_name",
+          dataField: "fieldName",
           text: "Field Name",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
-          dataField: "code",
-          text: "Code",
+          dataField: "arrValue",
+          text: "Value & code",
           sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
-        },
-        {
-          dataField: "value",
-          text: "Value",
-          sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          formatter: (cellContent, row) => (
+            <>
+              <LibraryComponents.Atoms.List
+                space={2}
+                direction="row"
+                justify="center"
+              >
+                {row.arrValue.map((item) => (
+                  <div className="mb-2">
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="medium"
+                      type="solid"
+                      onClick={() => {}}
+                    >
+                      {`${item.value} - ${item.code}`}
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  </div>
+                ))}
+              </LibraryComponents.Atoms.List>
+            </>
+          ),
         },
         {
           dataField: "description",

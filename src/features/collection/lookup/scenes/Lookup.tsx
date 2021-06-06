@@ -234,15 +234,17 @@ const Lookup = observer(() => {
                     Stores.lookupStore.lookup.value === ""
                   ) {
                     console.log({ sotre: Stores.lookupStore.lookup })
-  
-                    // RootStore.rootStore.setProcessLoading(true)
-                    // Stores.lookupStore.LookupService.addLookup(
-                    //   Stores.lookupStore.lookup
-                    // ).then(() => {
-                    //   RootStore.rootStore.setProcessLoading(false)
-                    //   LibraryComponents.Atoms.ToastsStore.success(`Lookup created.`)
-                    //   Stores.lookupStore.fetchListLookup()
-                    // })
+
+                    RootStore.rootStore.setProcessLoading(true)
+                    Stores.lookupStore.LookupService.addLookup(
+                      Stores.lookupStore.lookup
+                    ).then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Lookup created.`,
+                      })
+                      Stores.lookupStore.fetchListLookup()
+                    })
                   } else {
                     LibraryComponents.Atoms.Toast.warning({
                       message: `😔 Please enter all information!`,
@@ -273,10 +275,11 @@ const Lookup = observer(() => {
                 RootStore.routerStore.userPermission,
                 "Delete"
               )}
-              isEditModify={RouterFlow.checkPermission(
-                RootStore.routerStore.userPermission,
-                "Edit/Modify"
-              )}
+              // isEditModify={RouterFlow.checkPermission(
+              //   RootStore.routerStore.userPermission,
+              //   "Edit/Modify"
+              // )}
+              isEditModify={false}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
               onSelectedRow={(rows) => {
                 setModalConfirm({
@@ -307,7 +310,9 @@ const Lookup = observer(() => {
                   (res: any) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
-                      LibraryComponents.Atoms.ToastsStore.success(`Lookup deleted.`)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Lookup deleted.`,
+                      })
                       setModalConfirm({ show: false })
                       Stores.lookupStore.fetchListLookup()
                     }

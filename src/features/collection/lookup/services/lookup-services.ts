@@ -11,7 +11,7 @@ class LookupService extends BaseService {
   listLookup = () =>
     new Promise<Models.Lookup[]>((resolve, reject) => {
       this.client
-        .get(`/lookup/listLookup`)
+        .get(`/master/lookup/listLookup`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,23 +19,12 @@ class LookupService extends BaseService {
           reject({ error })
         })
     })
-  addLookup = (Lookup?: Models.Lookup) =>
+  addLookup = (lookup?: Models.Lookup) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lookup/addLookup`, Lookup)
+        .post(`/master/lookup/addLookup`, lookup)
         .then((res) => {
           resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  checkExitsCode = (code: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .post(`/lookup/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
         })
         .catch((error) => {
           reject({ error })
@@ -44,7 +33,7 @@ class LookupService extends BaseService {
   deleteLookup = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`/lookup/deleteLookup/${id}`)
+        .delete(`/master/lookup/deleteLookup/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +44,7 @@ class LookupService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lookup/updateSingleFiled`, newValue)
+        .post(`/master/lookup/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

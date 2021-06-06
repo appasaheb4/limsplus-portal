@@ -31,6 +31,7 @@ import * as User from "@lp/features/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
 import * as Communication from "@lp/features/communication"
 import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
+import * as Lookup from "@lp/features/collection/lookup"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -49,13 +50,9 @@ const Dashboard = observer(({ children }) => {
     pathname = pathname || currentLocation.pathname
     // console.log({ pathname })
     if (pathname === "/collection/banner") await Banner.startup()
+    if (pathname === "/collection/lookup") await Lookup.startup()
     if (pathname === "/settings/environmentSettings")
       await EnvironmentSettings.startup()
-    //if (pathname === "/collection/deginisation") await Deginisation.startup()
-    //if (pathname === "/collection/lab") await Lab.startup()
-    //if (pathname === "/collection/role") await Role.startup()
-    //if (pathname === "/collection/department") await Department.startup()
-    // if (pathname === "/settings/users") await User.startup()
     if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
     if (
       pathname === "/communication/interfaceManager" ||
