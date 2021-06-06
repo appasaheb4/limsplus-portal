@@ -46,7 +46,7 @@ const MasterPackage = async(
 const TestMaster = async(
   () => import("@lp/features/collection/testMaster/scenes/TestMaster")
 )
-const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup1"))
+const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
 const Section = async(()=> import("@lp/features/collection/section/scenes/Section"))
 
 // User

@@ -164,7 +164,6 @@ const TestPanelMapping = observer(() => {
               justify="stretch"
               fill
             >
-           
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
                 name="txtTestCode"

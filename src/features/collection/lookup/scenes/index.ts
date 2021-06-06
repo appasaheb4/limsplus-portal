@@ -1,3 +1,3 @@
-import Lookup from "./Lookup1";
+import Lookup from "./Lookup";
 
 export { Lookup };

@@ -1,6 +1,5 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
-import { useHistory } from "react-router-dom"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 
@@ -9,12 +8,11 @@ import { Stores as RootStore } from "@lp/library/stores"
 import { RouterFlow } from "@lp/flows"
 interface AutocompleteGroupByProps {
   data?: any[]
-  onChange?: () => void
+  onChange?: (item: any, children: any) => void
   onClose?: () => void
 }
 
 const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
-  const history = useHistory()
   //const [userRouter, setUserRouter] = useState<any>()
   const [value, setValue] = useState<string>("")
   const [data, setData] = useState<any[]>()
@@ -62,7 +60,8 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   }
 
   const filter = (search, data) => {
-    if (search) {
+    console.log({ search })
+    if (search !== "") {
       // const filteredOptions = options?.filter(
       //   (option) => option.title.toLowerCase().indexOf(search.toLowerCase()) > -1
       // )
@@ -89,7 +88,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
       setOptions(filterArray)
       //RootStore.routerStore.updateUserRouter(filterArray)
     } else {
-      setOptions([])
+      setOptions(data)
       //RootStore.routerStore.updateUserRouter(userRouter)
     }
   }
@@ -110,7 +109,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
 
   return (
     <>
-      <div className="p-2" ref={wrapperRef}>
+      <div ref={wrapperRef}>
         <div className="flex items-center leading-4 p-2 bg-white focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
           <input
             placeholder="Search..."
@@ -128,8 +127,8 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
         </div>
         {options && isListOpen
           ? options?.length > 0 && (
-              <div className="mt-1 absolute z-50 w-full">
-                <ul className="bg-white p-2 rounded-sm">
+              <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
+                <ul className="p-2 rounded-sm">
                   {options?.map((item, index) => (
                     <>
                       <li key={index} className="text-gray-400">
@@ -141,15 +140,10 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
                             key={childrenIndex}
                             className="hover:bg-gray-200 focus:outline-none cursor-pointer"
                             onClick={async () => {
-                              await RouterFlow.updateSelectedCategory(
-                                RootStore,
-                                item.name,
-                                children.name
-                              )
-                              history.push(children.path)
+                              props.onChange && props.onChange(item, children)
                               //RootStore.routerStore.updateUserRouter(userRouter)
                               setIsListOpen(false)
-                              setValue("")
+                              setValue(children.title)
                               setOptions([])
                             }}
                           >
