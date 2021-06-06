@@ -144,6 +144,7 @@ const InterfaceManager = observer(() => {
                   />
                 </LibraryComponents.Atoms.Grid>
               </LibraryComponents.Atoms.Form.InputWrapper>
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Filed" id="filed">
                 <LibraryComponents.Atoms.Grid cols={3}>
                   <LibraryComponents.Atoms.Form.Input
@@ -177,7 +178,7 @@ const InterfaceManager = observer(() => {
                           Stores.interfaceManagerStore.encodeCharacter?.filed
                         const value =
                           Stores.interfaceManagerStore.encodeCharacter?.value
-                        const fileds =
+                        let fileds =
                           Stores.interfaceManagerStore.encodeCharacter?.fileds || []
                         if (filed === undefined)
                           return alert("Please enter filed and value.")
@@ -187,7 +188,7 @@ const InterfaceManager = observer(() => {
                                 filed,
                                 value,
                               })
-                            : [
+                            : fileds = [
                                 {
                                   filed,
                                   value,
@@ -250,6 +251,7 @@ const InterfaceManager = observer(() => {
                   </div>
                 </LibraryComponents.Atoms.List>
               </LibraryComponents.Atoms.Form.InputWrapper>
+
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">

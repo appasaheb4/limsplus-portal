@@ -40,7 +40,7 @@ const RoleMapping = observer(() => {
       })
     }
   }
-  console.log({ roleList })
+  //console.log({ roleList })
 
   const description = roleList.length > 0 ? roleList[0].description : undefined
   const [isModify, setIsModify] = useState<any>({ status: false })

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
+import { useHistory } from "react-router-dom"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
@@ -132,6 +133,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 })
 
 const Sidebar = observer(({ location, sidebar, layout }) => {
+  const history = useHistory()
   const [openRoutes, setOpenRoutes] = useState(() => initOpenRoutes(location))
 
   useEffect(() => {
@@ -171,9 +173,17 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
               />
               <span className="align-middle ml-2">{`Lims Plus`}</span>
             </a>
-            <div>
+            <div className="p-2">
               <LibraryComponents.Molecules.AutocompleteGroupBy
                 data={RootStore.routerStore.userRouter}
+                onChange={async(item: any, children: any) => {
+                  await RouterFlow.updateSelectedCategory(
+                    RootStore,
+                    item.name,
+                    children.name
+                  )
+                  history.push(children.path)
+                }}
               />
             </div>
             {RootStore.routerStore.userRouter && (
