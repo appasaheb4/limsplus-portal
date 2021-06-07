@@ -245,6 +245,9 @@ const Lookup = observer(() => {
                         message: `😊 Lookup created.`,
                       })
                       Stores.lookupStore.fetchListLookup()
+                      setTimeout(() => {
+                        window.location.reload()
+                      }, 2000);
                     })
                   } else {
                     LibraryComponents.Atoms.Toast.warning({
