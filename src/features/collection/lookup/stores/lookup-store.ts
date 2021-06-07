@@ -16,7 +16,7 @@ class LookupStore {
   @computed get LookupService() {
     return new Services.LookupService(Stores.loginStore.login?.accessToken as string)
   }
-   
+
   @action fetchListLookup() {
     this.LookupService.listLookup().then((res) => {
       //console.log({ Lookup: res });
