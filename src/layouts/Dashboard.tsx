@@ -45,12 +45,12 @@ const Dashboard = observer(({ children }) => {
     await Role.startup()
     await Department.startup()
     await User.startup()
+    await Lookup.startup()
     // specific api load  
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
     // console.log({ pathname })
     if (pathname === "/collection/banner") await Banner.startup()
-    if (pathname === "/collection/lookup") await Lookup.startup()
     if (pathname === "/settings/environmentSettings")
       await EnvironmentSettings.startup()
     if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
@@ -58,7 +58,7 @@ const Dashboard = observer(({ children }) => {
       pathname === "/communication/interfaceManager" ||
       pathname === "/communication/mapping/conversationMapping" ||
       pathname === "/communication/mapping/segmentMapping"
-    )
+    )   
       await Communication.startup()
   }
 

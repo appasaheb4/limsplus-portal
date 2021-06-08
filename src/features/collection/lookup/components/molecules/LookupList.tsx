@@ -31,9 +31,7 @@ const LookupList = observer((props: LookupListProps) => {
           text: "Document Name",
           sort: true,
           formatter: (cell, row) => {
-            return (
-              <>{`${row.documentName.name} - ${row.documentName.children.name}`}</>
-            )
+            return <>{`${row.documentName.children.name}`}</>
           },
         },
         {
