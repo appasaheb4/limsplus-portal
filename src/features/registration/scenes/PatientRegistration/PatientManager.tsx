@@ -7,14 +7,10 @@ import "@lp/library/assets/css/accordion.css"
 import * as Utils from "../../utils"
 import * as Models from "../../models"
 
-import { Stores } from "../../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import Storage from "@lp/library/modules/storage"
 
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
+import { Stores } from "../../stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface PatientManagerProps {
   onModalConfirm?: (item: any) => void
@@ -22,6 +18,28 @@ interface PatientManagerProps {
 
 const PatientManager = observer((props: PatientManagerProps) => {
   const [errors, setErrors] = useState<Models.PaientManger>()
+  const [lookupItems, setLookupItems] = useState<any[]>([])
+
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      setLookupItems(items)
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -81,27 +99,34 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 {errors.mobileNo}
               </span>
             )}
-            <LibraryComponents.Atoms.Form.Input
-              label="Title"
-              name="txtTitle"
-              placeholder="Title"
-              value={Stores.patientRegistationStore.patientManger?.title}
-              onChange={(title) => {
-                setErrors({
-                  ...errors,
-                  title: Utils.validate.single(title, Utils.patientManager.title),
-                })
-                Stores.patientRegistationStore.updatePatientManager({
-                  ...Stores.patientRegistationStore.patientManger,
-                  title,
-                })
-              }}
-            />
-            {errors?.title && (
-              <span className="text-red-600 font-medium relative">
-                {errors.title}
-              </span>
-            )}
+            <LibraryComponents.Atoms.Form.InputWrapper label="Title">
+              <select
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const title = e.target.value
+                  setErrors({
+                    ...errors,
+                    title: Utils.validate.single(title, Utils.patientManager.title),
+                  })
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    title,
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {lookupItems.length > 0 &&
+                  lookupItems
+                    .find((item) => {
+                      return item.fieldName === "PATIENT MANAGER - TITLE"
+                    })
+                    .arrValue.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+              </select>
+            </LibraryComponents.Atoms.Form.InputWrapper>
             <LibraryComponents.Atoms.Form.Input
               label="First Name"
               name="txtFirstName"
@@ -181,12 +206,11 @@ const PatientManager = observer((props: PatientManagerProps) => {
             justify="stretch"
             fill
           >
-            <LibraryComponents.Atoms.Form.InputWrapper label="Sex" id="optionSex">
+            <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
               <select
-                name="optionSex"
                 className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
-                  const sex = e.target.value as string
+                  const sex = e.target.value
                   setErrors({
                     ...errors,
                     sex: Utils.validate.single(sex, Utils.patientManager.sex),
@@ -198,11 +222,16 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {["Male", "Female", "Other"].map((item: any, index: number) => (
-                  <option key={index} value={item}>
-                    {item}
-                  </option>
-                ))}
+                {lookupItems.length > 0 &&
+                  lookupItems
+                    .find((item) => {
+                      return item.fieldName === "PATIENT MANAGER - SEX"
+                    })
+                    .arrValue.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
             {errors?.sex && (
@@ -353,6 +382,30 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 {errors.postcode}
               </span>
             )}
+            <LibraryComponents.Atoms.Form.InputWrapper label="Species">
+              <select
+                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                onChange={(e) => {
+                  const species = e.target.value as string
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    species,
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {lookupItems.length > 0 &&
+                  lookupItems
+                    .find((item) => {
+                      return item.fieldName === "PATIENT MANAGER - SPECIES"
+                    })
+                    .arrValue.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+              </select>
+            </LibraryComponents.Atoms.Form.InputWrapper>
             <LibraryComponents.Atoms.Grid cols={2}>
               <LibraryComponents.Atoms.Form.Toggle
                 label="Permanent"

@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+/* eslint-disable */
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -6,11 +7,13 @@ import * as LibraryUtils from "@lp/library/utils"
 
 // import * as Models from "../models"
 // import * as Util from "../util"
+import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 //import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -19,7 +22,28 @@ const TestMater = observer(() => {
   //const [errors, setErrors] = useState<Models.TestMaster>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+  const [lookupItems, setLookupItems] = useState<any[]>([])
 
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      setLookupItems(items)
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -47,7 +71,7 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-               <LibraryComponents.Atoms.Form.InputDate
+              <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
                 value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
@@ -250,7 +274,6 @@ const TestMater = observer(() => {
                 }}
               />
 
-              
               <LibraryComponents.Atoms.Form.Input
                 label="Schedule"
                 placeholder="Schedule"
@@ -262,7 +285,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-             
+
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -326,7 +349,7 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-            <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="TAT"
                 placeholder="TAT"
                 value={Stores.testMasterStore.testMaster?.tat}
@@ -404,7 +427,6 @@ const TestMater = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-            
               <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
@@ -438,7 +460,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -457,18 +479,30 @@ const TestMater = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
-              <LibraryComponents.Atoms.Form.Input
-                label="Workflow"
-                placeholder="Workflow"
-                value={Stores.testMasterStore.testMaster?.workflow}
-                onChange={(workflow) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    workflow,
-                  })
-                }}
-              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflow = e.target.value as string
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      workflow,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "WORKFLOW"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
@@ -491,7 +525,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-                   <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Disease"
                 placeholder="Disease"
                 value={Stores.testMasterStore.testMaster?.disease}
@@ -502,7 +536,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -514,11 +548,16 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Category 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "CATEGORY"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
@@ -540,7 +579,7 @@ const TestMater = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-                <LibraryComponents.Atoms.Grid cols={5}>
+              <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Instant Result"
                   value={Stores.testMasterStore.testMaster?.instantResult}
@@ -600,9 +639,6 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-             
-            
-         
               <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -653,8 +689,6 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-
-            
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Prefix">
                 <select
@@ -807,19 +841,17 @@ const TestMater = observer(() => {
                     })
                   }}
                 />
-                  <LibraryComponents.Atoms.Form.Toggle
-                label="Allow Partial"
-                value={Stores.testMasterStore.testMaster?.allowPartial}
-                onChange={(allowPartial) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    allowPartial,
-                  })
-                }}
-              />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Allow Partial"
+                  value={Stores.testMasterStore.testMaster?.allowPartial}
+                  onChange={(allowPartial) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      allowPartial,
+                    })
+                  }}
+                />
               </LibraryComponents.Atoms.Grid>
-
-            
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -901,8 +933,8 @@ const TestMater = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({type});
-            
+            console.log({ type })
+
             // if (type === "Delete") {
             //   RootStore.rootStore.setProcessLoading(true)
             //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(

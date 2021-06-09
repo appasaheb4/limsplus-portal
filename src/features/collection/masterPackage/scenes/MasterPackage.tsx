@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+/* eslint-disable */
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -6,11 +7,13 @@ import * as LibraryUtils from "@lp/library/utils"
 
 // import * as Models from "../models"
 // import * as Util from "../util"
+import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -19,7 +22,28 @@ const MasterPackage = observer(() => {
   // const [errors, setErrors] = useState<Models.MasterPackage>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+  const [lookupItems, setLookupItems] = useState<any[]>([])
 
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      setLookupItems(items)
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -233,13 +257,19 @@ const MasterPackage = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Status 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "STATUS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
               <LibraryComponents.Atoms.Form.Toggle
                 label="Bill"
