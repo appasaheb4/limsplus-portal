@@ -292,7 +292,7 @@ const MasterAnalyte = observer(() => {
                   )
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    schedule: new Date(formatDate),
+                    schedule: "date", //new Date(formatDate),
                   })
                 }}
               />
@@ -439,7 +439,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 />
                 <LibraryComponents.Atoms.Form.Toggle
-                  label="CalculationFlag"
+                  label="Calculation Flag"
                   id="modeCalculationFlag"
                   value={Stores.masterAnalyteStore.masterAnalyte?.calculationFlag}
                   onChange={(calculationFlag) => {
