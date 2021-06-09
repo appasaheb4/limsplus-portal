@@ -29,7 +29,7 @@ const MasterAnalyte = observer(() => {
     if (listLookup.length > 0) {
       const selectedCategory: any = await Storage.getItem(
         `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )   
+      )
       const items = listLookup.filter((item: any) => {
         if (
           item.documentName.name === selectedCategory.category &&
@@ -320,12 +320,8 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper
-                label="Workflow"
-                id="optionWrokFlow"
-              >
+              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
-                  name="optionWrokFlows"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflow = e.target.value as string
@@ -336,11 +332,16 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["workflow1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "WORKFLOW"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper
@@ -494,7 +495,7 @@ const MasterAnalyte = observer(() => {
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const units = e.target.value
+                    const units = e.target.value as string
                     Stores.masterAnalyteStore.updateMasterAnalyte({
                       ...Stores.masterAnalyteStore.masterAnalyte,
                       units,

@@ -12,6 +12,7 @@ export interface PaientManger {
   country?: string
   postcode?: string
   email?: string
+  species?: string  
   permanent?: boolean
   vip?: boolean
 }

@@ -1,6 +1,6 @@
 export interface MasterPanel {
-  dateCreation?: string  
-  dateActive?: string  
+  dateCreation?: string
+  dateActive?: string
   version?: number
   keyNum?: string
   enteredBy?: string
@@ -28,7 +28,11 @@ export interface MasterPanel {
   sexAction?: boolean
   hiAge?: string
   loAge?: string
-  processing?: "MANUAL" | "AEMI" | "AUTOMATIC"
+  processing?: "MANUAL" | "AEMI" | "AUTOMATIC" | string
+  category?: string
+  suffix?: string
+  serviceType?: string
+  panelType?: string
   repitation?: boolean
   tubeGroup?: string
   printLabel?: boolean
