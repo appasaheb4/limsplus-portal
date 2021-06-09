@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
@@ -28,7 +29,7 @@ const MasterAnalyte = observer(() => {
     if (listLookup.length > 0) {
       const selectedCategory: any = await Storage.getItem(
         `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
+      )   
       const items = listLookup.filter((item: any) => {
         if (
           item.documentName.name === selectedCategory.category &&
@@ -508,7 +509,7 @@ const MasterAnalyte = observer(() => {
                       })
                       .arrValue.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                          {item.value}
+                          {`${item.value} - ${item.code}`}
                         </option>
                       ))}
                 </select>
@@ -525,11 +526,16 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Usage 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "USAGE"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -556,11 +562,16 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Status 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "STATUS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
