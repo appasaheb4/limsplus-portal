@@ -6,12 +6,12 @@
  */
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
-   
+
 class MasterAnalyteService extends BaseService {
-  listLabs = () =>
+  listAnalyteMaster = () =>
     new Promise<Models.MasterAnalyte[]>((resolve, reject) => {
       this.client
-        .get(`/lab/listlabs`)
+        .get(`master/analyteMaster/listAnalyteMaster`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class MasterAnalyteService extends BaseService {
           reject({ error })
         })
     })
-  addLab = (lab?: Models.MasterAnalyte) =>
+  addAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/addLab`, lab)
+        .post(`master/analyteMaster/addAnalyteMaster`, analyte)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,21 +30,10 @@ class MasterAnalyteService extends BaseService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+  deleteAnalyteMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteLab = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .delete(`/lab/deleteLab/${id}`)
+        .delete(`master/analyteMaster/deleteAnalyteMaster/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +44,7 @@ class MasterAnalyteService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/updateSingleFiled`, newValue)
+        .post(`master/analyteMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
@@ -63,6 +52,6 @@ class MasterAnalyteService extends BaseService {
           reject({ error })
         })
     })
-}
+}   
 
 export default MasterAnalyteService
