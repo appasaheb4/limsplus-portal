@@ -22,7 +22,7 @@ const Lookup = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
-  useEffect(() => {   
+  useEffect(() => {
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
         item.toggle = false
@@ -247,7 +247,7 @@ const Lookup = observer(() => {
                       Stores.lookupStore.fetchListLookup()
                       setTimeout(() => {
                         window.location.reload()
-                      }, 2000);
+                      }, 2000)
                     })
                   } else {
                     LibraryComponents.Atoms.Toast.warning({
@@ -279,11 +279,10 @@ const Lookup = observer(() => {
                 RootStore.routerStore.userPermission,
                 "Delete"
               )}
-              // isEditModify={RouterFlow.checkPermission(
-              //   RootStore.routerStore.userPermission,
-              //   "Edit/Modify"
-              // )}
-              isEditModify={false}
+              isEditModify={RouterFlow.checkPermission(
+                RootStore.routerStore.userPermission,
+                "Edit/Modify"
+              )}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
               onSelectedRow={(rows) => {
                 setModalConfirm({
@@ -329,7 +328,9 @@ const Lookup = observer(() => {
                 ).then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Lookup updated.`)
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Lookup updated.`,
+                    })
                     setModalConfirm({ show: false })
                     Stores.lookupStore.fetchListLookup()
                   }

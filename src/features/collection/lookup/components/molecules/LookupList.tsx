@@ -44,6 +44,7 @@ const LookupList = observer((props: LookupListProps) => {
           dataField: "arrValue",
           text: "Value & code",
           sort: true,
+          editable: false,
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
