@@ -265,7 +265,7 @@ const Login = observer(() => {
                             },
                           })
                             .then((res) => {
-                              console.log({ res })
+                              //console.log({ res })
                               RootStore.rootStore.setProcessLoading(false)
                               if (res.status === 200) {
                                 Stores.loginStore.updateLoginFailedCount(0)

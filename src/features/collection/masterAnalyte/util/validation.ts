@@ -5,7 +5,14 @@ export const masterAnalyte = {
     presence: true,
     length: {
       minimum: 2,
-      message: "Code must be least 2 characters ",
+      message: "Must be least 2 characters ",
     },
   },
+  analyteCode:{
+    presence:true,
+    length: {
+      minimum: 2,
+      message: "Must be least 2 characters ",
+    },
+  }
 };
