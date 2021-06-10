@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-// import * as FeatureComponents from "../components"
+import * as FeatureComponents from "../components"
 
-// import * as Models from "../models"
-// import * as Util from "../util"
+import * as Models from "../models"
+import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
@@ -19,7 +20,8 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterAnalyte = observer(() => {
-  //const [errors, setErrors] = useState<Models.MasterAnalyte>()
+  const [errors, setErrors] = useState<Models.MasterAnalyte>()
+  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -75,7 +77,9 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -91,7 +95,9 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActive || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -107,7 +113,7 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
-                value="1"
+                value={Stores.masterAnalyteStore.masterAnalyte?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -119,7 +125,7 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
-                value="1"
+                value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -141,13 +147,15 @@ const MasterAnalyte = observer(() => {
                 // }}
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
-                  name="optionLabs"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    console.log({ lab })
+                    setErrors({
+                      ...errors,
+                      lab: Utils.validate.single(lab, Utils.masterAnalyte.lab),
+                    })
                     Stores.masterAnalyteStore.updateMasterAnalyte({
                       ...Stores.masterAnalyteStore.masterAnalyte,
                       lab,
@@ -162,18 +170,35 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              {errors?.lab && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lab}
+                </span>
+              )}
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Code"
                 name="txtAnalyteCode"
                 placeholder="Analyte Code"
                 value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
                 onChange={(analyteCode) => {
+                  setErrors({
+                    ...errors,
+                    analyteCode: Utils.validate.single(
+                      analyteCode,
+                      Utils.masterAnalyte.analyteCode
+                    ),
+                  })
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
                     analyteCode,
                   })
                 }}
               />
+              {errors?.analyteCode && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.analyteCode}
+                </span>
+              )}
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Name"
                 name="txtAnalyteName"
@@ -282,9 +307,9 @@ const MasterAnalyte = observer(() => {
                 label="Schedule"
                 name="txtSchedule"
                 placeholder="Schedule"
-                value={LibraryUtils.moment(
-                  Stores.masterAnalyteStore.masterAnalyte?.schedule
-                ).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.schedule || 0)
+                  .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
                   const formatDate = LibraryUtils.moment(schedule).format(
@@ -292,7 +317,7 @@ const MasterAnalyte = observer(() => {
                   )
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    schedule: "date", //new Date(formatDate),
+                    schedule: LibraryUtils.moment(formatDate).unix(),
                   })
                 }}
               />
@@ -584,25 +609,27 @@ const MasterAnalyte = observer(() => {
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
-                // if (
-                //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                //     undefined &&
-                //   !Stores.labStore.checkExitsCode
-                // ) {
-                //   RootStore.rootStore.setProcessLoading(true)
-                //   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                //     () => {
-                //       RootStore.rootStore.setProcessLoading(false)
-                //       LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                //       Stores.labStore.fetchListLab()
-                //       Stores.labStore.clear()
-                //     }
-                //   )
-                // } else {
-                //   LibraryComponents.Atoms.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
-                // }
+                const error = Utils.validate(
+                  Stores.masterAnalyteStore.masterAnalyte,
+                  Utils.masterAnalyte
+                )
+                if (error === undefined) {
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.masterAnalyteStore.masterAnalyteService
+                    .addAnalyteMaster(Stores.masterAnalyteStore.masterAnalyte)
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Analyte master created.`,
+                      })
+                    })
+                } else {
+                  console.log({ error })
+                  setErrorsMsg(error)
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😔 Please enter all information!`,
+                  })
+                }
               }}
             >
               Save
@@ -619,19 +646,26 @@ const MasterAnalyte = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
+          <div>
+            {errorsMsg &&
+              Object.entries(errorsMsg).map((item, index) => (
+                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+              ))}
+          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <FeatureComponents.Molecules.LabList
-            data={Stores.masterAnalyteStore.masterAnalyte || []}
+          <FeatureComponents.Molecules.MasterAnalyteList
+            data={Stores.masterAnalyteStore.listMasterAnalyte || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
-              "Edit/Modify"
-            )}
+            )}  
+            // isEditModify={RouterFlow.checkPermission(
+            //   toJS(RootStore.routerStore.userPermission),
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -648,41 +682,43 @@ const MasterAnalyte = observer(() => {
                 type: "Update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
-                body: `Update lab!`,
+                body: `Update item!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({ type })
-
-            // if (type === "Delete") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // } else if (type === "Update") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // }
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterAnalyteStore.masterAnalyteService
+                .deleteAnalyteMaster(modalConfirm.id)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.masterAnalyteStore.fetchAnalyteMaster()
+                  }
+                })
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterAnalyteStore.masterAnalyteService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.masterAnalyteStore.fetchAnalyteMaster()
+                  }
+                })
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })

@@ -52,6 +52,6 @@ class MasterAnalyteService extends BaseService {
           reject({ error })
         })
     })
-}   
+}
 
 export default MasterAnalyteService

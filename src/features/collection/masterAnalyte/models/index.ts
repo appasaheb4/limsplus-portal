@@ -1,6 +1,6 @@
 export interface MasterAnalyte {
-  dateCreation?: string  
-  dateActive?: string  
+  dateCreation?: number  
+  dateActive?: number  
   version?: number
   keyNum?: string
   enteredBy?: string
@@ -11,7 +11,7 @@ export interface MasterAnalyte {
   shortName?: string
   bill?: boolean
   price?: number
-  schedule?: string
+  schedule?: number
   autoRelease?: boolean
   holdOOS?: boolean
   instantResult?: boolean
