@@ -19,15 +19,24 @@ class MasterAnalyteStore {
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
       schedule: LibraryUtils.moment().unix(),
+      bill: false,
+      autoRelease: false,
+      holdOOS: false,
+      instantResult: false,
+      pageBreak: false,
+      method: false,
+      display: true,
+      calculationFlag: false,
+      repetition: false,   
     }
   }
 
   fetchAnalyteMaster() {
     this.masterAnalyteService.listAnalyteMaster().then((res) => {
-      console.log({res});
+      console.log({ res })
       this.listMasterAnalyte = res
     })
-  }   
+  }
 
   @computed get masterAnalyteService() {
     return new Services.MasterAnalyteService(
