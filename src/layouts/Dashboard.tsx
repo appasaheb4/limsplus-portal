@@ -32,7 +32,7 @@ import * as RoleMappping from "@lp/features/settings/mapping/role"
 import * as Communication from "@lp/features/communication"
 import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
 import * as Lookup from "@lp/features/collection/lookup"
-import * as MasterAnalyte from '@lp/features/collection/masterAnalyte'
+import * as MasterAnalyte from "@lp/features/collection/masterAnalyte"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -40,28 +40,31 @@ const Dashboard = observer(({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>()
 
   const loadApi = async (pathname?: string) => {
-    // common use api
-    await Deginisation.startup()
-    await Lab.startup()
-    await Role.startup()
-    await Department.startup()
-    await User.startup()
-    await Lookup.startup()
-    // specific api load  
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    // console.log({ pathname })
-    if (pathname === "/collection/banner") await Banner.startup()
-    if (pathname === "/collection/masterAnalyte") await MasterAnalyte.startup()
-    if (pathname === "/settings/environmentSettings")
-      await EnvironmentSettings.startup()
-    if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
-    if (
-      pathname === "/communication/interfaceManager" ||
-      pathname === "/communication/mapping/conversationMapping" ||
-      pathname === "/communication/mapping/segmentMapping"
-    )   
-      await Communication.startup()
+    //console.log({ pathname })
+    if (pathname !== "/") {
+      // common use api
+      await Deginisation.startup()
+      await Lab.startup()
+      await Role.startup()
+      await Department.startup()
+      await User.startup()
+      await Lookup.startup()
+      // specific api load
+
+      if (pathname === "/collection/banner") await Banner.startup()
+      if (pathname === "/collection/masterAnalyte") await MasterAnalyte.startup()
+      if (pathname === "/settings/environmentSettings")
+        await EnvironmentSettings.startup()
+      if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
+      if (
+        pathname === "/communication/interfaceManager" ||
+        pathname === "/communication/mapping/conversationMapping" ||
+        pathname === "/communication/mapping/segmentMapping"
+      )
+        await Communication.startup()
+    }
   }
 
   const router = async () => {

@@ -28,12 +28,12 @@ function createLimsPlusClient(client: keyof typeof apiHost, token?: string) {
       headers: {
         "x-limsplus-key": token,
       },
-      timeout: 1000 * 10,  
+      timeout: 1000 * 30,
     })
   }
   return instance
 }
-
+    
 class BaseService {
   client: AxiosInstance
   constructor(token?: string) {
@@ -41,10 +41,10 @@ class BaseService {
     //   super()
     this.client = createLimsPlusClient("node", token)
     this.client.interceptors.request.use((request) => {
-      // console.log(
-      //   `${request.method?.toUpperCase()} ${request.baseURL}/${request.url}`
-      // )
-      //console.log(`${JSON.stringify(request.data)}`)
+      console.log(
+        `${request.method?.toUpperCase()} ${request.baseURL}/${request.url}`
+      )
+      console.log(`${JSON.stringify(request.data)}`)
       return request
     })
 
