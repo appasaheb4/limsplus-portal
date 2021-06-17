@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-// import * as FeatureComponents from "../components"
+ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -200,7 +200,10 @@ const TestMater = observer(() => {
                     const department = e.target.value as string
                     setErrors({
                       ...errors,
-                      department: Utils.validate.single(department, Utils.testMaster.department),
+                      department: Utils.validate.single(
+                        department,
+                        Utils.testMaster.department
+                      ),
                     })
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
@@ -547,7 +550,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              {/* <LibraryComponents.Atoms.Form.Input
                 label="Disease"
                 placeholder="Disease"
                 value={Stores.testMasterStore.testMaster?.disease}
@@ -557,7 +560,31 @@ const TestMater = observer(() => {
                     disease,
                   })
                 }}
-              />
+              /> */}
+              <LibraryComponents.Atoms.Form.InputWrapper label="Disease">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const disease = e.target.value as string
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      disease,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "DISEASE"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -594,11 +621,16 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Test Type 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "TEST_TYPE"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={5}>
@@ -724,11 +756,16 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Prefix 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "PREFIX"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
@@ -744,11 +781,16 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Sufix 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "SUFIX"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -804,11 +846,16 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Status 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "STATUS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={6}>
@@ -886,24 +933,23 @@ const TestMater = observer(() => {
                 const error = Utils.validate(
                   Stores.testMasterStore.testMaster,
                   Utils.testMaster
-                )
-                if (
-                  error === undefined
-                ) {
-                  // RootStore.rootStore.setProcessLoading(true)
-                  // Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                  //   () => {
-                  //     RootStore.rootStore.setProcessLoading(false)
-                  //     LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                  //     Stores.labStore.fetchListLab()
-                  //     Stores.labStore.clear()
-                  //   }
-                  // )
+                )  
+                setErrorsMsg(error)
+                if (error === undefined) {
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.testMasterStore.testMasterService
+                    .addTestMaster({...Stores.testMasterStore.testMaster,enteredBy:LoginStore.loginStore.login?._id})
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Test master created.`,
+                      })
+                      Stores.testMasterStore.fetchTestMaster()
+                    })
                 } else {
-                  setErrorsMsg(error)
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😔 Please enter all information!`,
+                  })
                 }
               }}
             >
@@ -914,7 +960,6 @@ const TestMater = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -930,16 +975,17 @@ const TestMater = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <FeatureComponents.Molecules.LabList
-            data={Stores.masterAnalyteStore.masterAnalyte || []}
+          <FeatureComponents.Molecules.TestMasterList
+            data={Stores.testMasterStore.listTestMaster || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
-              "Edit/Modify"
-            )}
+            // isEditModify={RouterFlow.checkPermission(
+            //   toJS(RootStore.routerStore.userPermission),
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -959,38 +1005,40 @@ const TestMater = observer(() => {
                 body: `Update lab!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({ type })
-
-            // if (type === "Delete") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // } else if (type === "Update") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // }
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.testMasterStore.testMasterService.deleteTestMaster(modalConfirm.id).then(
+                (res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Test master deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.testMasterStore.fetchTestMaster()
+                  }
+                }
+              )
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.testMasterStore.testMasterService.updateSingleFiled(modalConfirm.data).then(
+                (res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Test master updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.testMasterStore.fetchTestMaster()
+                  }
+                }
+              )
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })

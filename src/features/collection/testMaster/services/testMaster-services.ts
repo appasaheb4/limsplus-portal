@@ -8,10 +8,10 @@
 import BaseService from "@lp/library/modules/base-service"
 
 class TestMasterService extends BaseService {
-  listLabs = () =>
+  listTestMaster = () =>
     new Promise<any[]>((resolve, reject) => {
       this.client
-        .get(`/lab/listlabs`)
+        .get(`/master/testMaster/listTestMaster`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class TestMasterService extends BaseService {
           reject({ error })
         })
     })
-  addLab = (lab?: any) =>
+  addTestMaster = (test?: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/addLab`, lab)
+        .post(`/master/testMaster/addTestMaster`, test)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,21 +30,10 @@ class TestMasterService extends BaseService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+  deleteTestMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteLab = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .delete(`/lab/deleteLab/${id}`)
+        .delete(`/master/testMaster/deleteTestMaster/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +44,7 @@ class TestMasterService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/updateSingleFiled`, newValue)
+        .post(`/master/testMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

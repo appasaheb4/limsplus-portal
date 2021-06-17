@@ -33,6 +33,7 @@ import * as Communication from "@lp/features/communication"
 import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
 import * as Lookup from "@lp/features/collection/lookup"
 import * as MasterAnalyte from "@lp/features/collection/masterAnalyte"
+import * as TestMaster from '@lp/features/collection/testMaster'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -55,6 +56,7 @@ const Dashboard = observer(({ children }) => {
 
       if (pathname === "/collection/banner") await Banner.startup()
       if (pathname === "/collection/masterAnalyte") await MasterAnalyte.startup()
+      if (pathname === "/collection/testMaster") await TestMaster.startup()
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
