@@ -29,6 +29,8 @@ class MasterAnalyteStore {
       calculationFlag: false,
       repetition: false,   
     }
+    console.log({m: this.masterAnalyte});
+    
   }
 
   fetchAnalyteMaster() {
