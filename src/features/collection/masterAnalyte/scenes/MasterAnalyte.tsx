@@ -613,10 +613,11 @@ const MasterAnalyte = observer(() => {
                   Stores.masterAnalyteStore.masterAnalyte,
                   Utils.masterAnalyte
                 )
+                setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.masterAnalyteStore.masterAnalyteService
-                    .addAnalyteMaster(Stores.masterAnalyteStore.masterAnalyte)
+                    .addAnalyteMaster({...Stores.masterAnalyteStore.masterAnalyte,enteredBy:LoginStore.loginStore.login?._id})
                     .then(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
@@ -624,8 +625,6 @@ const MasterAnalyte = observer(() => {
                       })
                     })
                 } else {
-                  console.log({ error })
-                  setErrorsMsg(error)
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
                   })
@@ -660,7 +659,7 @@ const MasterAnalyte = observer(() => {
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
-            )}  
+            )}
             // isEditModify={RouterFlow.checkPermission(
             //   toJS(RootStore.routerStore.userPermission),
             //   "Edit/Modify"
