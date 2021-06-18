@@ -123,17 +123,17 @@ const ConversationMapping = observer(() => {
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Conversation Mapping created.`
-                        )
+                        LibraryComponents.Atoms.Toast.success({
+                         message : `😊Conversation Mapping created.`
+                        })
                         window.location.reload()
                         //Stores.conversationMappingStore.()
                       }
                     })
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message : "😔Please enter all information!"
+                  })
                 }
               }}
             >
@@ -197,7 +197,7 @@ const ConversationMapping = observer(() => {
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message :`😊Items deleted.`})
                   }
                 })
             } else if (type == "Update") {
@@ -208,7 +208,7 @@ const ConversationMapping = observer(() => {
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
+                    LibraryComponents.Atoms.Toast.success({message :`😊Updated.`})
                   }
                 })
             }

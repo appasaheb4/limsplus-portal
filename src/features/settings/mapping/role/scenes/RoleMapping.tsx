@@ -449,9 +449,9 @@ const RoleMapping = observer(() => {
                         })
                         .then((res) => {
                           if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                            LibraryComponents.Atoms.ToastsStore.success(
-                              `Role mapping updated.`
-                            )
+                            LibraryComponents.Atoms.Toast.success({
+                             message: `😊Role mapping updated.`
+                          })
                             setTimeout(() => {
                               window.location.reload()
                             }, 2000)
@@ -466,7 +466,7 @@ const RoleMapping = observer(() => {
                         })
                         .then((res) => {
                           if (res.status === LibraryModels.StatusCode.CREATED) {
-                            LibraryComponents.Atoms.ToastsStore.success(`Created.`)
+                            LibraryComponents.Atoms.Toast.success({message:`😊Created.`})
                             setTimeout(() => {
                               window.location.reload()
                             }, 2000)
@@ -475,9 +475,9 @@ const RoleMapping = observer(() => {
                           }
                         })
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message :"😔Please enter all information!"
+                })
                 }
               }}
             >
@@ -525,7 +525,7 @@ const RoleMapping = observer(() => {
                 .deleteRoleMapping(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Deleted.`})
                     setModalConfirm({ show: false })
                     Stores.roleMappingStore.fetchRoleMappingList()
                   }
