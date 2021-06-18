@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-// import * as FeatureComponents from "../components"
+import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -212,11 +212,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {DepartmentStore.departmentStore.listDepartment.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {`${item.code} - ${item.name}`}
-                    </option>
-                  ))}
+                  {DepartmentStore.departmentStore.listDepartment.map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.code} - ${item.name}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Section">
@@ -795,15 +797,19 @@ const MasterPanel = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  // RootStore.rootStore.setProcessLoading(true)
-                  // Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                  //   () => {
-                  //     RootStore.rootStore.setProcessLoading(false)
-                  //     LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                  //     Stores.labStore.fetchListLab()
-                  //     Stores.labStore.clear()
-                  //   }
-                  // )
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.masterPanelStore.masterPanelService
+                    .addPanelMaster({
+                      ...Stores.masterPanelStore.masterPanel,
+                      enteredBy: LoginStore.loginStore.login?._id,
+                    })
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Panel master created.`,
+                      })
+                      Stores.masterPanelStore.fetchPanelMaster()
+                    })
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -818,7 +824,6 @@ const MasterPanel = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -834,16 +839,17 @@ const MasterPanel = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <FeatureComponents.Molecules.LabList
-            data={Stores.masterAnalyteStore.masterAnalyte || []}
+          <FeatureComponents.Molecules.PanelMasterList
+            data={Stores.masterPanelStore.listMasterPanel || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
-              "Edit/Modify"
-            )}
+            // isEditModify={RouterFlow.checkPermission(
+            //   toJS(RootStore.routerStore.userPermission),
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -863,38 +869,40 @@ const MasterPanel = observer(() => {
                 body: `Update lab!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({ type })
-
-            // if (type === "Delete") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // } else if (type === "Update") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // }
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterPanelStore.masterPanelService
+                .deletePanelMaster(modalConfirm.id)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Records deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.masterPanelStore.fetchPanelMaster()
+                  }
+                })
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterPanelStore.masterPanelService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Record updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.masterPanelStore.fetchPanelMaster()
+                  }
+                })
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })
