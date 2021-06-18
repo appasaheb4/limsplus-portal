@@ -124,13 +124,13 @@ const SampleContainer = observer(() => {
                 const error = Utils.validate(
                   Stores.sampleContainerStore.sampleContainer,
                   Utils.sampleContainer
-                )
+                )  
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.sampleContainerStore.sampleContainerService
                     .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
-                    .then((res) => {  
+                    .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === LibraryModels.StatusCode.CREATED) {
                         LibraryComponents.Atoms.Toast.success({
@@ -164,22 +164,23 @@ const SampleContainer = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
         </div>
-        <br />
+        <br />  
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.BannerList
-            data={Stores.sampleContainerStore.sampleContainer || []}
+          <FeatureComponents.Molecules.SampleContainerList
+            data={Stores.sampleContainerStore.listSampleContainer || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
-              "Edit/Modify"
-            )}
+            // isEditModify={RouterFlow.checkPermission(
+            //   RootStore.routerStore.userPermission,
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -196,7 +197,7 @@ const SampleContainer = observer(() => {
                 type: "Update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
-                body: `Update banner!`,
+                body: `Update item!`,
               })
             }}
           />
@@ -206,28 +207,28 @@ const SampleContainer = observer(() => {
           click={(type: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              // Stores.bannerStore.BannerService.deleteBanner(modalConfirm.id).then(
-              //   (res: any) => {
-              //     RootStore.rootStore.setProcessLoading(false)
-              //     if (res.status === 200) {
-              //       LibraryComponents.Atoms.Toast.success({message:`😊Banner deleted.`})
-              //       setModalConfirm({ show: false })
-              //       Stores.bannerStore.fetchListBanner()
-              //     }
-              //   }
-              // )
+              Stores.sampleContainerStore.sampleContainerService.deleteSampleContainer(modalConfirm.id).then(
+                (res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({message:`😊 Records deleted.`})
+                    setModalConfirm({ show: false })
+                    Stores.sampleContainerStore.fetchListSampleContainer()
+                  }
+                }
+              )
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              // Stores.bannerStore.BannerService.updateSingleFiled(
-              //   modalConfirm.data
-              // ).then((res: any) => {
-              //   RootStore.rootStore.setProcessLoading(false)
-              //   if (res.status === 200) {
-              //     LibraryComponents.Atoms.Toast.success({message:`😊Banner updated.`})
-              //     setModalConfirm({ show: false })
-              //     Stores.bannerStore.fetchListBanner()
-              //   }
-              // })
+              Stores.sampleContainerStore.sampleContainerService.updateSingleFiled(
+                modalConfirm.data
+              ).then((res: any) => {
+                RootStore.rootStore.setProcessLoading(false)
+                if (res.status === 200) {
+                  LibraryComponents.Atoms.Toast.success({message:`😊 Record updated.`})
+                  setModalConfirm({ show: false })
+                  Stores.sampleContainerStore.fetchListSampleContainer()
+                }
+              })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

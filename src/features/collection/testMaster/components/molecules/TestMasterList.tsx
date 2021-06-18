@@ -406,7 +406,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lab"
+        fileName="TestMaster"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

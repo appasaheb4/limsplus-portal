@@ -1,1 +1,1 @@
-export { default as BannerList } from "./BannerList"
+export { default as SampleContainerList } from "./SampleContainerList"

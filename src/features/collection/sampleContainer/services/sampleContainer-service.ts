@@ -10,7 +10,7 @@ import * as Models from "../models"
 
 class SampleContainerService extends BaseService {
   listSampleContainer = () =>
-    new Promise<any[]>((resolve, reject) => {
+    new Promise<Models.SampleContainer[]>((resolve, reject) => {
       this.client
         .get(`master/sampleContainer/listSampleContainer`)
         .then((res) => {

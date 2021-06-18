@@ -4,7 +4,7 @@ import React, { useState } from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-interface BannerListProps {
+interface SampleContainerListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -13,7 +13,7 @@ interface BannerListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const BannerList = (props: BannerListProps) => {
+const SampleContainerList = (props: SampleContainerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -26,11 +26,22 @@ const BannerList = (props: BannerListProps) => {
           csvExport: false,
         },
         {
-          dataField: "title",
-          text: "Title",
+          dataField: "containerCode",
+          text: "Container Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
-          headerStyle: { minWidth: "200px" },
+        },
+        {
+          dataField: "containerName",
+          text: "Container Name",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "description",
+          text: "Description",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "image",
@@ -42,7 +53,8 @@ const BannerList = (props: BannerListProps) => {
                 <img
                   src={row.image}
                   style={{ width: 200, height: 150 }}
-                  alt="banner"
+                  alt="sampleContainer"
+                  className="object-contain"
                 />
               </>
             )
@@ -67,7 +79,7 @@ const BannerList = (props: BannerListProps) => {
                       type: "Delete",
                       id: [row._id],
                       title: "Are you sure?",
-                      body: `Delete ${row.title} banner!`,
+                      body: `Delete record!`,
                     })
                 }}
               >
@@ -79,7 +91,7 @@ const BannerList = (props: BannerListProps) => {
       ]}
       isEditModify={props.isEditModify}
       isSelectRow={true}
-      fileName="Banner"
+      fileName="SampleContainer"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
       }}
@@ -89,4 +101,4 @@ const BannerList = (props: BannerListProps) => {
     />
   )
 }
-export default BannerList
+export default SampleContainerList

@@ -367,7 +367,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lab"
+        fileName="PanelMaster"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

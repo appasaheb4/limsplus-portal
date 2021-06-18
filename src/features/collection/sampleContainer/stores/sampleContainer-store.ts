@@ -12,7 +12,7 @@ class SampleContainerStore {
     makeAutoObservable(this)
   }
 
-  @computed get sampleContainerService() {
+  @computed get sampleContainerService() {  
     return new Services.SampleContainerService(
       Stores.loginStore.login?.accessToken as string
     )
