@@ -153,7 +153,7 @@ const Banner = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Banner deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Banner deleted.`})
                     setModalConfirm({ show: false })
                     Stores.bannerStore.fetchListBanner()
                   }
