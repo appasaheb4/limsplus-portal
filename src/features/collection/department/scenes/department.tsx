@@ -158,16 +158,16 @@ const Department = observer(() => {
                       Stores.departmentStore.department
                     ).then(() => {
                       RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.ToastsStore.success(
-                        `Department created.`
-                      )
+                      LibraryComponents.Atoms.Toast.success({
+                        message:`😊Department created.`
+                      })
                       Stores.departmentStore.fetchListDepartment()
                       Stores.departmentStore.clear()
                     })
                   } else {
-                    LibraryComponents.Atoms.ToastsStore.warning(
-                      "Please enter all information!"
-                    )
+                    LibraryComponents.Atoms.Toast.warning({
+                     message: "😔Please enter all information!"
+                    })
                   }
                 }}
               >
@@ -229,9 +229,9 @@ const Department = observer(() => {
                 ).then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
-                      `Department deleted.`
-                    )
+                    LibraryComponents.Atoms.Toast.success({
+                      message:`😊Department deleted.`
+                  })
                     setModalConfirm({ show: false })
                     Stores.departmentStore.fetchListDepartment()
                   }
@@ -243,9 +243,9 @@ const Department = observer(() => {
                 ).then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
-                      `Department updated.`
-                    )
+                    LibraryComponents.Atoms.Toast.success({
+                      message:`😊Department updated.`
+                     })
                     setModalConfirm({ show: false })
                     Stores.departmentStore.fetchListDepartment()
                   }
