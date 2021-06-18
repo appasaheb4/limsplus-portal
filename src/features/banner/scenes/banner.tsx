@@ -14,10 +14,6 @@ const Banner = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
-  useEffect(() => {
-    Stores.bannerStore.fetchListBanner()
-  }, [])
-
   return (
     <>
       <LibraryComponents.Atoms.Header>

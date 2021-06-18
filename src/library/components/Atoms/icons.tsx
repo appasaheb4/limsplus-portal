@@ -14,6 +14,7 @@ import * as IconFi from "react-icons/fi"
 import * as Iconmd from "react-icons/md"
 import * as Iconio from "react-icons/io"
 import * as Iconsi from "react-icons/si"
+import * as Iconai from "react-icons/ai"
 
 export interface IconsProps {
   size?: string
@@ -43,7 +44,8 @@ export {
   IconFi,
   Iconmd,
   Iconio,
-  Iconsi
+  Iconsi,
+  Iconai
 }
 
 export const getIcons = (icon: string): any => {
@@ -87,6 +89,8 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconmd.MdLooks
     if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3")
     return LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3
+    if (icon === "LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer")
+    return LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer
     
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")
