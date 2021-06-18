@@ -157,14 +157,14 @@ const ShortcutMenu = observer(() => {
                       id: LoginStore.loginStore.login?._id,
                     }).then((res) => {
                       if (res.status === 200) {
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Shortcut Menu updated.`
-                        )
+                        LibraryComponents.Atoms.Toast.success({
+                         message: `😊Shortcut Menu updated.`
+                        })
                         Stores.shortcutMenuStore.updateDragDrop(false)
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.error(
-                          `Please try agian.`
-                        )
+                        LibraryComponents.Atoms.Toast.error({
+                         message: `😔Please try agian.`
+                        })
                       }
                     })
                   }}
@@ -227,15 +227,15 @@ const ShortcutMenu = observer(() => {
                   console.log({ res })
 
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
-                      `Shortcut Menu updated.`
-                    )
+                    LibraryComponents.Atoms.Toast.success({
+                     message: `😊Shortcut Menu updated.`
+                  })
                     LoginStore.loginStore.updateLogin({
                       ...LoginStore.loginStore.login,
                       shortcutMenu: res.data.data.user.shortcutMenu,
                     })
                   } else {
-                    LibraryComponents.Atoms.ToastsStore.error(`Please try agian.`)
+                    LibraryComponents.Atoms.Toast.error({message:`😔Please try agian.`})
                   }
                 })
               }

@@ -966,9 +966,9 @@ const HostCommunication = observer(() => {
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
-                      `Department deleted.`
-                    )
+                    LibraryComponents.Atoms.Toast.success({
+                     message : `😊Department deleted.`
+                    })
                     setDeleteItem({ show: false })
                     // rootStore.departmentStore.fetchListDepartment()
                   }

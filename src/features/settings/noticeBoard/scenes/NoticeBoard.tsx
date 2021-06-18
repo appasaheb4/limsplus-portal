@@ -158,22 +158,22 @@ const NoticeBoard = observer(() => {
               ).then((res) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 201) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Notice created.`)
+                  LibraryComponents.Atoms.Toast.success({message :`😊Notice created.`})
                   // Stores.userStore.clear()
                   // Stores.userStore.loadUser()
                   setTimeout(() => {
                     window.location.reload()
                   }, 2000)
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Notice not create.Please try again"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message: "😔Notice not create.Please try again"
+                  })
                 }
               })
             } else {
-              LibraryComponents.Atoms.ToastsStore.warning(
-                "Please enter all information!"
-              )
+              LibraryComponents.Atoms.Toast.warning({
+               message : "😔Please enter all information!"
+              })
             }
           }}
         >
@@ -238,7 +238,7 @@ const NoticeBoard = observer(() => {
 
               if (res.status === 200) {
                 RootStore.rootStore.setProcessLoading(false)
-                LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
+                LibraryComponents.Atoms.Toast.success({message:`😊Items deleted.`})
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()
@@ -252,7 +252,7 @@ const NoticeBoard = observer(() => {
             ).then((res: any) => {
               RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
-                LibraryComponents.Atoms.ToastsStore.success(`Item updated.`)
+                LibraryComponents.Atoms.Toast.success({message:`Item updated.`})
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()
