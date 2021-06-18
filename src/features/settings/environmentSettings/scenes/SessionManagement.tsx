@@ -205,22 +205,22 @@ const SessionManagement = observer((props: SessionManagementProps) => {
               ).then((res) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 201) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Session created.`)
+                  LibraryComponents.Atoms.Toast.success({message:`😊Session created.`})
                   // Stores.userStore.clear()
                   // Stores.userStore.loadUser()
                   setTimeout(() => {
                     window.location.reload()
                   }, 2000)
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Session not create.Please try again"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message: "😔Session not create.Please try again"
+                  })
                 }
               })
             } else {
-              LibraryComponents.Atoms.ToastsStore.warning(
-                "Please enter all information!"
-              )
+              LibraryComponents.Atoms.Toast.warning({
+               message: "😔Please enter all information!"
+              })
             }
           }}
         >

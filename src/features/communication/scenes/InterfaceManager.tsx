@@ -269,18 +269,18 @@ const InterfaceManager = observer(() => {
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Encode Character created.`
-                        )
+                        LibraryComponents.Atoms.Toast.success({
+                         message : `😊Encode Character created.`
+                        })
                         setTimeout(() => {
                           window.location.reload()
                         }, 1000)
                       }
                     })
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message : "😔Please enter all information!"
+                  })
                 }
               }}
             >
@@ -343,9 +343,9 @@ const InterfaceManager = observer(() => {
                   console.log({ res })
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(
-                      `Interface manager deleted.`
-                    )
+                    LibraryComponents.Atoms.Toast.success({
+                      message :`😊Interface manager deleted.`
+                    })
                     setModalConfirm({ show: false })
                     Stores.interfaceManagerStore.fetchEncodeCharacter()
                   }
@@ -357,7 +357,7 @@ const InterfaceManager = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     Stores.interfaceManagerStore.fetchEncodeCharacter()
-                    LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
+                    LibraryComponents.Atoms.Toast.success({message :`😊Updated.`})
                   }
                 })
             }

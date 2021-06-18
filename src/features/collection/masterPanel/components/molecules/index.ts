@@ -1,1 +1,1 @@
-export {default as LabList} from './LabList';
+export {default as PanelMasterList} from './PanelMasterList';

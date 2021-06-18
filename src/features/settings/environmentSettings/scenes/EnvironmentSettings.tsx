@@ -58,7 +58,7 @@ const EnvironmentSettings = observer(() => {
 
               if (res.status === 200) {
                 RootStore.rootStore.setProcessLoading(false)
-                LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
+                LibraryComponents.Atoms.Toast.success({message:`😊Items deleted.`})
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()
@@ -72,7 +72,7 @@ const EnvironmentSettings = observer(() => {
             ).then((res: any) => {
               RootStore.rootStore.setProcessLoading(false)
               if (res.status === 200) {
-                LibraryComponents.Atoms.ToastsStore.success(`Item updated.`)
+                LibraryComponents.Atoms.Toast.success({message:`😊Item updated.`})
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()

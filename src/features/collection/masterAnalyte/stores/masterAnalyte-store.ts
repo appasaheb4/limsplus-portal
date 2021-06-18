@@ -35,7 +35,6 @@ class MasterAnalyteStore {
 
   fetchAnalyteMaster() {
     this.masterAnalyteService.listAnalyteMaster().then((res) => {
-      console.log({ res })
       this.listMasterAnalyte = res
     })
   }

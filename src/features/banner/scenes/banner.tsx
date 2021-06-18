@@ -86,7 +86,7 @@ const Banner = observer(() => {
                   ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.Atoms.ToastsStore.success(`Banner created.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊Banner created.`})
                       setTimeout(() => {
                         window.location.reload()
                       }, 2000)
@@ -153,7 +153,7 @@ const Banner = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Banner deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Banner deleted.`})
                     setModalConfirm({ show: false })
                     Stores.bannerStore.fetchListBanner()
                   }
@@ -166,7 +166,7 @@ const Banner = observer(() => {
               ).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Banner updated.`)
+                  LibraryComponents.Atoms.Toast.success({message:`😊Banner updated.`})
                   setModalConfirm({ show: false })
                   Stores.bannerStore.fetchListBanner()
                 }

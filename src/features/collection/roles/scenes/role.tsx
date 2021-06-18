@@ -122,15 +122,15 @@ const Role = observer(() => {
                   Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(
                     () => {
                       RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.ToastsStore.success(`Role created.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊Role created.`})
                       Stores.roleStore.fetchListRole()
                       Stores.roleStore.clear()
                     }
                   )
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                    message:"😔Please enter all information!"
+                })
                 }
               }}
             >
@@ -191,7 +191,7 @@ const Role = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Role deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Role deleted.`})
                     setModalConfirm({ show: false })
                     Stores.roleStore.fetchListRole()
                   }
@@ -203,7 +203,7 @@ const Role = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Role updated.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Role updated.`})
                     setModalConfirm({ show: false })
                     Stores.roleStore.fetchListRole()
                   }
