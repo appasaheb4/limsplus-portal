@@ -1,25 +1,28 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 // import * as FeatureComponents from "../components"
 
-// import * as Models from "../models"
-// import * as Util from "../util"
+import * as Models from "../models"
+import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-//import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterPanel = observer(() => {
-  // const [errors, setErrors] = useState<Models.MasterPanel>()
+  const [errors, setErrors] = useState<Models.MasterPanel>()
+  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -75,7 +78,9 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -91,7 +96,9 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -107,7 +114,7 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
-                value="1"
+                value={Stores.masterPanelStore.masterPanel?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -119,7 +126,7 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
-                value="1"
+                value={Stores.masterPanelStore.masterPanel?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -145,6 +152,10 @@ const MasterPanel = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      rLab: Utils.validate.single(rLab, Utils.masterPanel.rLab),
+                    })
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       rLab,
@@ -152,9 +163,9 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["RLab 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
                     </option>
                   ))}
                 </select>
@@ -164,6 +175,10 @@ const MasterPanel = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const pLab = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      pLab: Utils.validate.single(pLab, Utils.masterPanel.pLab),
+                    })
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       pLab,
@@ -171,9 +186,9 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["PLab 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
                     </option>
                   ))}
                 </select>
@@ -183,6 +198,13 @@ const MasterPanel = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const department = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      department: Utils.validate.single(
+                        department,
+                        Utils.masterPanel.department
+                      ),
+                    })
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       department,
@@ -190,9 +212,9 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Department 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
+                  {DepartmentStore.departmentStore.listDepartment.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.code} - ${item.name}`}
                     </option>
                   ))}
                 </select>
@@ -767,25 +789,26 @@ const MasterPanel = observer(() => {
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
-                // if (
-                //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                //     undefined &&
-                //   !Stores.labStore.checkExitsCode
-                // ) {
-                //   RootStore.rootStore.setProcessLoading(true)
-                //   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                //     () => {
-                //       RootStore.rootStore.setProcessLoading(false)
-                //       LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                //       Stores.labStore.fetchListLab()
-                //       Stores.labStore.clear()
-                //     }
-                //   )
-                // } else {
-                //   LibraryComponents.Atoms.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
-                // }
+                const error = Utils.validate(
+                  Stores.masterPanelStore.masterPanel,
+                  Utils.masterPanel
+                )
+                setErrorsMsg(error)
+                if (error === undefined) {
+                  // RootStore.rootStore.setProcessLoading(true)
+                  // Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
+                  //   () => {
+                  //     RootStore.rootStore.setProcessLoading(false)
+                  //     LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
+                  //     Stores.labStore.fetchListLab()
+                  //     Stores.labStore.clear()
+                  //   }
+                  // )
+                } else {
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😔 Please enter all information!`,
+                  })
+                }
               }}
             >
               Save
@@ -802,6 +825,12 @@ const MasterPanel = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
+          <div>
+            {errorsMsg &&
+              Object.entries(errorsMsg).map((item, index) => (
+                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+              ))}
+          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">

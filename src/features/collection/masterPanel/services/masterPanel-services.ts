@@ -8,10 +8,10 @@
 import BaseService from "@lp/library/modules/base-service"
    
 class MasterPanelService extends BaseService {
-  listLabs = () =>
+  listPanelMaster = () =>
     new Promise<any[]>((resolve, reject) => {
       this.client
-        .get(`/lab/listlabs`)
+        .get(`/master/panelMaster/listPanelMaster`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class MasterPanelService extends BaseService {
           reject({ error })
         })
     })
-  addLab = (lab?: any) =>
+    addPanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/addLab`, lab)
+        .post(`/master/panelMaster/addPanelMaster`, panel)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,21 +30,10 @@ class MasterPanelService extends BaseService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+    deletePanelMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteLab = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .delete(`/lab/deleteLab/${id}`)
+        .delete(`/master/panelMaster/deletePanelMaster/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +44,7 @@ class MasterPanelService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/updateSingleFiled`, newValue)
+        .post(`/master/panelMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
