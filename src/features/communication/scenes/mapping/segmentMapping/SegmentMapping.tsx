@@ -149,7 +149,7 @@ const SegmentMapping = observer(() => {
           .importSegmentMapping(uniqueData)
           .then((res) => {
             RootStore.rootStore.setProcessLoading(false)
-            LibraryComponents.Atoms.ToastsStore.success(`File import success.`)
+            LibraryComponents.Atoms.Toast.success({message :`😊File import success.`})
             Stores.segmentMappingStore.fetchListSegmentMapping()
           })
       }
@@ -580,9 +580,9 @@ const SegmentMapping = observer(() => {
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Segment Mapping created.`
-                        )
+                        LibraryComponents.Atoms.Toast.success({
+                          message :`😊Segment Mapping created.`
+                        })
                         if (saveTitle === "Save") {
                           window.location.reload()
                         }
@@ -590,9 +590,9 @@ const SegmentMapping = observer(() => {
                       }
                     })
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message : "😔Please enter all information!"
+                })
                 }
               }}
             >
