@@ -119,15 +119,15 @@ const Lab = observer(() => {
                   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
                     () => {
                       RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊Lab created.`})
                       Stores.labStore.fetchListLab()
                       Stores.labStore.clear()
                     }
                   )
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message: "😔Please enter all information!"
+                  })
                 }
               }}
             >
@@ -188,7 +188,7 @@ const Lab = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Lab deleted.`})
                     setModalConfirm({ show: false })
                     Stores.labStore.fetchListLab()
                   }
@@ -200,7 +200,7 @@ const Lab = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Lab updated.`})
                     setModalConfirm({ show: false })
                     Stores.labStore.fetchListLab()
                   }

@@ -203,7 +203,7 @@ const Section = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`Section deleted.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊Section deleted.`})
                     setModalConfirm({ show: false })
                     // Stores.sectionStore.fetchListSection()
                   }
@@ -216,7 +216,7 @@ const Section = observer(() => {
               ).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(`Section updated.`)
+                  LibraryComponents.Atoms.Toast.success({message:`😊Section updated.`})
                   setModalConfirm({ show: false })
                   // Stores.sectionStore.fetchListSection()
                 }
