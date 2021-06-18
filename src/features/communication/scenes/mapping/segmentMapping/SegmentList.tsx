@@ -1255,7 +1255,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       Stores.segmentMappingStore.updateSelectedItem([])
-                      LibraryComponents.Atoms.ToastsStore.success(`Items deleted.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊Items deleted.`})
                     }
                   })
               } else if (type == "Update") {
@@ -1265,7 +1265,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
-                      LibraryComponents.Atoms.ToastsStore.success(`Updated.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊Updated.`})
                     }
                   })
               } else if (type == "Duplicate") {

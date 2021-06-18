@@ -478,19 +478,19 @@ const Users = observer(() => {
                       console.log({ res })
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === LibraryModels.StatusCode.CREATED) {
-                        LibraryComponents.Atoms.ToastsStore.success(`User created.`)
+                        LibraryComponents.Atoms.Toast.success({message:`😊User created.`})
                         Stores.userStore.clear()
                         Stores.userStore.loadUser()
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.warning(
-                          "User not created.Please try again."
-                        )
+                        LibraryComponents.Atoms.Toast.warning({
+                         message: "😔User not created.Please try again."
+                        })
                       }
                     })
                   } else {
-                    LibraryComponents.Atoms.ToastsStore.warning(
-                      "Please enter all information!"
-                    )
+                    LibraryComponents.Atoms.Toast.warning({
+                      message:"😔Please enter all information!"
+                  })
                   }
                 }}
               >
@@ -553,7 +553,7 @@ const Users = observer(() => {
                   (res: any) => {
                     if (res.status === 200) {
                       RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.ToastsStore.success(`User deleted.`)
+                      LibraryComponents.Atoms.Toast.success({message:`😊User deleted.`})
                       setModalConfirm({ show: false })
                       Stores.userStore.loadUser()
                     }
@@ -566,7 +566,7 @@ const Users = observer(() => {
                 ).then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.ToastsStore.success(`User updated.`)
+                    LibraryComponents.Atoms.Toast.success({message:`😊User updated.`})
                     setModalConfirm({ show: false })
                     setTimeout(() => {
                       window.location.reload()

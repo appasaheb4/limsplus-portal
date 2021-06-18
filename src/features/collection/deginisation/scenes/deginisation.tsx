@@ -129,19 +129,19 @@ const Deginisation = observer(() => {
                   ).then((res) => {
                     RootStore.rootStore.setProcessLoading(false)
                     if (res.status === 200) {
-                      LibraryComponents.Atoms.ToastsStore.success(
-                        `Deginisation created.`
-                      )
+                      LibraryComponents.Atoms.Toast.success({
+                       message: `😊Deginisation created.`
+                      })
                       Stores.deginisationStore.fetchListDeginisation()
                       Stores.deginisationStore.clear()
                     } else {
-                      LibraryComponents.Atoms.ToastsStore.error("Please try again")
+                      LibraryComponents.Atoms.Toast.error({message:"😔Please try again"})
                     }
                   })
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.warning({
+                   message: "😔Please enter all information!"
+                  })
                 }
               }}
             >
@@ -203,9 +203,9 @@ const Deginisation = observer(() => {
               ).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(
-                    `Deginisation deleted.`
-                  )
+                  LibraryComponents.Atoms.Toast.success({
+                   message: `😊Deginisation deleted.`
+                })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()
                 }
@@ -217,9 +217,9 @@ const Deginisation = observer(() => {
               ).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.Atoms.ToastsStore.success(
-                    `Deginisation updated.`
-                  )
+                  LibraryComponents.Atoms.Toast.success({
+                   message: `😊Deginisation updated.`
+                  })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()
                 }
