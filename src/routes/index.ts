@@ -7,10 +7,8 @@ import PrivacyPolicy from "@lp/features/privacyPolicy/scences/PrivacyPolicy"
 // Dashboards
 const DefaultDashboard = async(() => import("@lp/features/defaultDashboard"))
 
-// Banner
-const Banner = async(() => import("@lp/features/banner/scenes/banner"))
-
 // Collection
+const Banner = async(() => import("@lp/features/banner/scenes/banner"))
 const CollectionLab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
 const CollectionDeginisation = async(
   () => import("@lp/features/collection/deginisation/scenes/deginisation")
@@ -21,8 +19,6 @@ const CollectionDepartment = async(
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
-// Collection Master
-
 // master
 const MasterAnalyte = async(
   () => import("@lp/features/collection/masterAnalyte/scenes/MasterAnalyte")
@@ -48,9 +44,8 @@ const TestMaster = async(
 )
 const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
 const Section = async(()=> import("@lp/features/collection/section/scenes/Section"))
-
-// User
-const User = async(() => import("@lp/features/users/scenes/Users"))
+const SampleContainer = async(()=> import('@lp/features/collection/sampleContainer/scenes/SampleContainer'))
+   
 
 // Communication
 const HostCommunication = async(
@@ -71,6 +66,7 @@ const InterfaceManager = async(
 )
 
 // Settings
+const User = async(() => import("@lp/features/users/scenes/Users"))
 const RoleMapping = async(
   () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
 )
@@ -210,6 +206,12 @@ const collectionRoutes = {
       name: "Section",
       icon: "LibraryComponents.Atoms.Icons.IconBs.BsGrid3X3",
       component: Section,
+    },
+    {
+      path: "/collection/sampleContainer",
+      name: "Sample Container",
+      icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer",
+      component: SampleContainer,
     },
   ],
 }
