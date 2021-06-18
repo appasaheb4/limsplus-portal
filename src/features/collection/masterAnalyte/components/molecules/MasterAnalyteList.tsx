@@ -125,6 +125,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Instant Result",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.instantResult ? 'Yes' :'No'}
+                </>
+                )
+                }   
             },
             {
               dataField: "tubeGroups",
