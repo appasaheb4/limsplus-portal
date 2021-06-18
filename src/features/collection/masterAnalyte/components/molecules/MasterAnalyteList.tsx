@@ -268,7 +268,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="Lab"
+          fileName="AnalyteMaster"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
