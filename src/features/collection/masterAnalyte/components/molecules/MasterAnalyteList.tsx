@@ -74,6 +74,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Bill",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.bill ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "price",
@@ -92,18 +99,39 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Auto Release",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.autoRelease ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.holdOOS ? 'Yes' :'No'}
+                </>
+                )
+                }   
             },
             {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.instantResult ? 'Yes' :'No'}
+                </>
+                )
+                }   
             },
             {
               dataField: "tubeGroups",
@@ -116,12 +144,26 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Page Break",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.pageBreak ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "method",
               text: "Method",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.method ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "analyteMethod",
@@ -146,12 +188,27 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Display",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.display ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "calculationFlag",
               text: "Calculation Flag",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.calculationFlag ? 'Yes' :'No'}
+                </>
+                )
+                }
+
             },
             {
               dataField: "calcyName",
@@ -176,6 +233,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Repetition",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                <>
+                {row.repetition ? 'Yes' :'No'}
+                </>
+                )
+                }
             },
             {
               dataField: "picture",
