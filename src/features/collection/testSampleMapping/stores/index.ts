@@ -1,11 +1,11 @@
 import React from "react"
-
-import SampleTypeStore from "./testSampleMapping-store"
+     
+import TestSampleMappingStore from "./testSampleMapping-store"
 
 export const Stores = {
-  sampleTypeStore: new SampleTypeStore(),
-}   
-   
+  testSampleMappingStore: new TestSampleMappingStore(),
+}
+
 export const Contexts = {
-  sampleTypeContext: React.createContext(Stores.sampleTypeStore),
+  testSampleMappingContext: React.createContext(Stores.testSampleMappingStore),
 }

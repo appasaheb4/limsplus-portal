@@ -6,8 +6,8 @@ import { Stores } from "@lp/features/login/stores"
    
 @version(0.1)
 class TestSampleMappingStore {
-  @observable listSampleType: Models.TestSampleMapping[] = []
-  @ignore @observable sampleType?: Models.TestSampleMapping
+  @observable listTestSampleMapping: Models.TestSampleMapping[] = []
+  @ignore @observable testSampleMapping?: Models.TestSampleMapping
   
   constructor() {
     makeAutoObservable(this)
@@ -21,11 +21,11 @@ class TestSampleMappingStore {
 
   fetchSampleTypeList() {
     this.testSampleMappingService.listSampleType().then((res) => {
-      this.listSampleType = res
+      this.listTestSampleMapping = res
     })
   }
-  @action updateSampleType = (sampleType: Models.TestSampleMapping) => {
-    this.sampleType = sampleType
+  @action updateSampleType = (sampleMapping: Models.TestSampleMapping) => {
+    this.testSampleMapping = sampleMapping
   }
 }
 

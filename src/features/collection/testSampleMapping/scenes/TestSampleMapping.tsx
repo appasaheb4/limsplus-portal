@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-  
+
 import * as Models from "../models"
 import * as Utils from "../util"
 
@@ -18,7 +18,7 @@ const TestSampleMapping = observer(() => {
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -46,73 +46,84 @@ const TestSampleMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.Input
-                label="Sample Code"
-                placeholder="Sample Code"
-                value={Stores.sampleTypeStore.sampleType?.sampleCode}
-                onChange={(sampleCode) => {
-                  setErrors({
-                    ...errors,
-                    sampleCode: Utils.validate.single(
+              <LibraryComponents.Atoms.Form.InputWrapper label="Test Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const testCode = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      testCode: Utils.validate.single(
+                        testCode,
+                        Utils.testSampleMapping.testCode
+                      ),
+                    })
+                    Stores.testSampleMappingStore.updateSampleType({
+                      ...Stores.testSampleMappingStore.testSampleMapping,
+                      testCode,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Section 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sampleCode = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      sampleCode: Utils.validate.single(
+                        sampleCode,
+                        Utils.testSampleMapping.sampleCode
+                      ),
+                    })
+                    Stores.testSampleMappingStore.updateSampleType({
+                      ...Stores.testSampleMappingStore.testSampleMapping,
                       sampleCode,
-                      Utils.sampleType.sampleCode
-                    ),
-                  })
-                  Stores.sampleTypeStore.updateSampleType({
-                    ...Stores.sampleTypeStore.sampleType,
-                    sampleCode,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Sample Type"
-                placeholder="Sample Type"
-                value={Stores.sampleTypeStore.sampleType?.sampleType}
-                onChange={(sampleType) => {
-                  setErrors({
-                    ...errors,
-                    sampleType: Utils.validate.single(
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Section 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sampleType = e.target.value as string
+                    Stores.testSampleMappingStore.updateSampleType({
+                      ...Stores.testSampleMappingStore.testSampleMapping,
                       sampleType,
-                      Utils.sampleType.sampleType
-                    ),
-                  })
-                  Stores.sampleTypeStore.updateSampleType({
-                    ...Stores.sampleTypeStore.sampleType,
-                    sampleType,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Sample Group"
-                placeholder="Sample Group"
-                value={Stores.sampleTypeStore.sampleType?.sampleGroup}
-                onChange={(sampleGroup) => {
-                  Stores.sampleTypeStore.updateSampleType({
-                    ...Stores.sampleTypeStore.sampleType,
-                    sampleGroup,
-                  })
-                }}
-              />
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Section 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
               space={4}
               justify="stretch"
               fill
-            >
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={5}
-                label="Descriptions"
-                placeholder="Descriptions"
-                value={Stores.sampleTypeStore.sampleType?.descriptions}
-                onChange={(descriptions) => {
-                  Stores.sampleTypeStore.updateSampleType({
-                    ...Stores.sampleTypeStore.sampleType,
-                    descriptions,
-                  })
-                }}
-              />
-            </LibraryComponents.Atoms.List>
+            ></LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
@@ -122,21 +133,21 @@ const TestSampleMapping = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 const error = Utils.validate(
-                  Stores.sampleTypeStore.sampleType,
-                  Utils.sampleType
+                  Stores.testSampleMappingStore.testSampleMapping,
+                  Utils.testSampleMapping
                 )
                 setErrorsMsg(error)
                 if (!error) {
-                  RootStore.rootStore.setProcessLoading(true)
-                  Stores.sampleTypeStore.testSampleMappingService
-                    .addSampleType(Stores.sampleTypeStore.sampleType)
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Sample type created.`,
-                      })
-                      Stores.sampleTypeStore.fetchSampleTypeList()
-                    })
+                  // RootStore.rootStore.setProcessLoading(true)
+                  // Stores.sampleTypeStore.testSampleMappingService
+                  //   .addSampleType(Stores.sampleTypeStore.sampleType)
+                  //   .then(() => {
+                  //     RootStore.rootStore.setProcessLoading(false)
+                  //     LibraryComponents.Atoms.Toast.success({
+                  //       message: `😊 Sample type created.`,
+                  //     })
+                  //     Stores.sampleTypeStore.fetchSampleTypeList()
+                  //   })
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: "😔Please enter all information!",
@@ -152,7 +163,7 @@ const TestSampleMapping = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
                 window.location.reload()
-              }}
+              }}  
             >
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
@@ -169,15 +180,15 @@ const TestSampleMapping = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleTypeList
-            data={Stores.sampleTypeStore.listSampleType || []}
+            data={Stores.testSampleMappingStore.listTestSampleMapping || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
-            )}   
+            )}
             // isEditModify={RouterFlow.checkPermission(
             //   toJS(RootStore.routerStore.userPermission),
             //   "Edit/Modify"
-            // )}  
+            // )}
             isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
@@ -205,7 +216,7 @@ const TestSampleMapping = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.sampleTypeStore.testSampleMappingService
+              Stores.testSampleMappingStore.testSampleMappingService
                 .deleteSampleType(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -214,12 +225,12 @@ const TestSampleMapping = observer(() => {
                       message: `😊 Sample type deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.sampleTypeStore.fetchSampleTypeList()
+                    Stores.testSampleMappingStore.fetchSampleTypeList()
                   }
                 })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.sampleTypeStore.testSampleMappingService
+              Stores.testSampleMappingStore.testSampleMappingService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -228,7 +239,7 @@ const TestSampleMapping = observer(() => {
                       message: `😊 Sample type updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.sampleTypeStore.fetchSampleTypeList()
+                    Stores.testSampleMappingStore.fetchSampleTypeList()
                   }
                 })
             }
@@ -236,10 +247,10 @@ const TestSampleMapping = observer(() => {
           onClose={() => {
             setModalConfirm({ show: false })
           }}
-        />   
+        />
       </div>
     </>
   )
 })
-  
+
 export default TestSampleMapping
