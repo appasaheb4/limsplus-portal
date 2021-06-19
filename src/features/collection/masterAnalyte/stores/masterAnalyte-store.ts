@@ -22,14 +22,13 @@ class MasterAnalyteStore {
       bill: false,
       autoRelease: false,
       holdOOS: false,
-      instantResult: false,
-      pageBreak: false,
+      instantResult: false,  
+      // pageBreak: false,
       method: false,
       display: true,
       calculationFlag: false,
-      repetition: false,   
+      repetition: false,
     }
-    
   }
 
   fetchAnalyteMaster() {
