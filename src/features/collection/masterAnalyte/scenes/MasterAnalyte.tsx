@@ -211,31 +211,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={3}
-                label="Description"
-                name="txtDescription"
-                placeholder="Description"
-                value={Stores.masterAnalyteStore.masterAnalyte?.description}
-                onChange={(description) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    description,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Short Name"
-                name="txtShortName"
-                placeholder="Short Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
-                onChange={(shortName) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    shortName,
-                  })
-                }}
-              />
+              
               <LibraryComponents.Atoms.Grid cols={4}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -290,6 +266,31 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={3}
+                label="Description"
+                name="txtDescription"
+                placeholder="Description"
+                value={Stores.masterAnalyteStore.masterAnalyte?.description}
+                onChange={(description) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    description,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Short Name"
+                name="txtShortName"
+                placeholder="Short Name"
+                value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
+                onChange={(shortName) => {
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    shortName,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Price"
                 name="txtPrice"
@@ -303,7 +304,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputDate
+              {/* <LibraryComponents.Atoms.Form.InputDate
                 label="Schedule"
                 name="txtSchedule"
                 placeholder="Schedule"
@@ -332,7 +333,7 @@ const MasterAnalyte = observer(() => {
                     tubeGroups,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Method"
                 name="txtAnalyteMethod"
@@ -345,7 +346,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -391,8 +392,8 @@ const MasterAnalyte = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
+  
               <LibraryComponents.Atoms.Form.Input
                 label="Calcy Name"
                 name="txtCalcyName"
@@ -430,7 +431,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Grid cols={5}>
-                <LibraryComponents.Atoms.Form.Toggle
+                {/* <LibraryComponents.Atoms.Form.Toggle
                   label="PageBreak"
                   id="modePageBreak"
                   value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
@@ -440,7 +441,7 @@ const MasterAnalyte = observer(() => {
                       pageBreak,
                     })
                   }}
-                />
+                /> */}
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
                   id="modeMethod"
@@ -660,11 +661,10 @@ const MasterAnalyte = observer(() => {
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   toJS(RootStore.routerStore.userPermission),
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -714,7 +714,7 @@ const MasterAnalyte = observer(() => {
                       message: `😊 Analyte master updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterAnalyteStore.fetchAnalyteMaster()
+                    window.location.reload()
                   }
                 })
             }
