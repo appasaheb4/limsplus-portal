@@ -92,6 +92,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Bill",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.bill ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "price",
@@ -116,12 +123,26 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Auto Finish",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.autoFinish ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "holdOOS",
             text: "Hold OOS",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.holdOOS ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "validationLevel",
@@ -134,12 +155,26 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.confidential ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.urgent ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -147,6 +182,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Instant Result",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.instantResult ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "reportGroup",
@@ -165,12 +207,26 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Accredited",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.accredited ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "cretical",
             text: "Cretical",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.cretical ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -184,6 +240,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Repitation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.repitation ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "tubeGroup",
@@ -196,6 +259,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Print Label",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.printLabel ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "labelInstruction",
@@ -208,6 +278,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.method ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -233,6 +310,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Cumulative",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.cumulative ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -289,18 +373,39 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "QC Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.qcHold ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "oosHold",
             text: "OOS Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.oosHold ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "deltaHold",
             text: "Delta Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.deltaHold ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "prefix",
@@ -326,6 +431,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Allow Partial",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.allowPartial ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "collectionContainer",
