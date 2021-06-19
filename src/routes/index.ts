@@ -47,6 +47,9 @@ const SampleContainer = async(
 const SampleType = async(
   () => import("@lp/features/collection/sampleType/scenes/SampleType")
 )
+const TestSampleMapping = async(
+  () => import("@lp/features/collection/testSampleMapping/scenes/TestSampleMapping")
+)
 
 // Communication
 const HostCommunication = async(
@@ -214,11 +217,17 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer",
       component: SampleContainer,
     },
-    {  
+    {
       path: "/collection/sampleType",
       name: "Sample Type",
       icon: "LibraryComponents.Atoms.Icons.IconGr.GrLayer",
       component: SampleType,
+    },   
+    {   
+      path: "/collection/testSampleMapping",
+      name: "Test Sample Mapping",
+      icon: "IoIosGitCompare",
+      component: TestSampleMapping,
     },
   ],
 }

@@ -1,10 +1,10 @@
 import validate from "validate.js"
 export { validate }
-export const sampleType = {
-  sampleCode: {   
+export const testSampleMapping = {
+  testCode: {   
     presence: true,
   },
-  sampleType:{
+  sampleCode:{
     presence:true,
   },
   
