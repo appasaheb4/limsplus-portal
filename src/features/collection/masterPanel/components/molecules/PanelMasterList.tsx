@@ -93,6 +93,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Bill",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.bill ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "price",
@@ -118,12 +125,26 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Auto Release",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.autoRelease ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "holdOOS",
             text: "Hold OOS",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.holdOOS ? 'Yes' :'No'}
+              </>
+              )
+              }   
           },
 
           {
@@ -137,6 +158,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.confidential ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -144,12 +172,26 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.urgent ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "instantResult",
             text: "Instant Result",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.instantResult ? 'Yes' :'No'}
+              </>
+              )
+              }   
           },
 
           {
@@ -177,6 +219,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Sex Action",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.sexAction ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "hiAge",
@@ -228,6 +277,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Repitation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.repitation ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "tubeGroup",
@@ -241,6 +297,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Print Label",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.printLabel ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "labelInstruction",
@@ -254,12 +317,26 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Page Break",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.pageBreak ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
           {
             dataField: "method",
             text: "Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.method ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
@@ -279,6 +356,13 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Cumulative",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.cumulative ? 'Yes' :'No'}
+              </>
+              )
+              }
           },
 
           {
