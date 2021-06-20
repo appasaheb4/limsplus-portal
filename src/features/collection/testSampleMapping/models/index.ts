@@ -1,6 +1,6 @@
 export interface TestSampleMapping {
   _id?: string
-  testCode?: string
+  testCode?: string   
   sampleCode?: string
   sampleType?: string
   sampleGroup?: string
@@ -12,8 +12,8 @@ export interface TestSampleMapping {
   uniqueContainer?: boolean
   centerIfuge?: boolean
   aliquot?: boolean
-  labSpefic?: boolean
-  departmentSpefic?: boolean
+  labSpecfic?: boolean
+  departmentSpecfic?: boolean
   sharedSample?: boolean
   minDrawVol?: string
   minDrawVolUnit?: string
@@ -23,7 +23,5 @@ export interface TestSampleMapping {
   repentionUnits?: string
   labelInst?: string
   printLabels?: boolean
-  info?: string   
-  totalVol?: string
-  volUnits?: string
+  info?: string
 }

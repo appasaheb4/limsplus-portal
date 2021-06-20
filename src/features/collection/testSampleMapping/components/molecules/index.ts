@@ -1,1 +1,1 @@
-export {default as SampleTypeList} from './SampleTypeList';
+export {default as TestSampleMappingList} from './TestSampleMappingList';
