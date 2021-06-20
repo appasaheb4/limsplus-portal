@@ -365,6 +365,30 @@ const TestSampleMapping = observer(() => {
                   })
                 }}
               />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Min Test Vol Unit">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const minTestVolUnit = e.target.value as string
+                    Stores.testSampleMappingStore.updateSampleType({
+                      ...Stores.testSampleMappingStore.testSampleMapping,
+                      minTestVolUnit,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "MIN_TEST_VOL_UNIT"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
                 label="Condition"
                 placeholder="Condition"
@@ -389,14 +413,14 @@ const TestSampleMapping = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Min Draw Vol Unit">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Repention Units">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const minDrawVolUnit = e.target.value as string
+                    const repentionUnits = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
-                      minDrawVolUnit,
+                      repentionUnits,
                     })
                   }}
                 >
@@ -590,7 +614,7 @@ const TestSampleMapping = observer(() => {
                     setModalConfirm({ show: false })
                     Stores.testSampleMappingStore.fetchSampleTypeList()
                   }
-                })  
+                })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
               Stores.testSampleMappingStore.testSampleMappingService
@@ -605,7 +629,7 @@ const TestSampleMapping = observer(() => {
                     Stores.testSampleMappingStore.fetchSampleTypeList()
                   }
                 })
-            }   
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })

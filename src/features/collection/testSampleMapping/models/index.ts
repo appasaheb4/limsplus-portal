@@ -18,6 +18,7 @@ export interface TestSampleMapping {
   minDrawVol?: string
   minDrawVolUnit?: string
   minTestVol?: string
+  minTestVolUnit?: string
   condition?: string
   repentionPeriod?: string
   repentionUnits?: string

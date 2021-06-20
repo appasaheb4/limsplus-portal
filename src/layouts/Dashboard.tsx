@@ -58,9 +58,9 @@ const Dashboard = observer(({ children }) => {
       await Lookup.startup()
       // specific api load
    
-      if (pathname === "/collection/banner") await Banner.startup()
-      if (pathname === "/collection/masterAnalyte") await MasterAnalyte.startup()
-      if (pathname === "/collection/testMaster" ||  pathname === "/collection/testSampleMapping" ) await TestMaster.startup()
+      if (pathname === "/collection/banner") await Banner.startup()  
+      if (pathname === "/collection/masterAnalyte" || pathname === "/collection/testAnalyteMapping") await MasterAnalyte.startup()
+      if (pathname === "/collection/testMaster" ||  pathname === "/collection/testSampleMapping" || pathname === "/collection/testAnalyteMapping" ) await TestMaster.startup()
       if (pathname === "/collection/masterPanel") await PanelMaster.startup()
       if (pathname === "/collection/sampleContainer" ||  pathname === "/collection/testSampleMapping") await SampleContainer.startup()
       if (pathname === "/collection/sampleType" ||  pathname === "/collection/testSampleMapping") await SampleType.startup()

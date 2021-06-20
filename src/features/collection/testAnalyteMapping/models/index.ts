@@ -1,11 +1,11 @@
 export interface TestAnalyteMapping {
-  dateCreation?: string  
-  dateActive?: string  
+  dateCreation?: number  
+  dateActive?: number  
   version?: number
   keyNum?: string
   enteredBy?: string
   lab?: string
-  panelCode?: string
+  analyteCode?: Array<any>
   testCode?: string
   testName?: string
   description?: string

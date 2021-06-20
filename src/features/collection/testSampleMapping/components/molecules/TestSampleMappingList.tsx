@@ -149,7 +149,12 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
-
+          {    
+            dataField: "minTestVolUnit",
+            text: "Min Test Vol Unit",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
           {
             dataField: "condition",
             text: "Condition",
@@ -188,7 +193,7 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
-          {   
+          {
             dataField: "opration",
             text: "Delete",
             editable: false,
