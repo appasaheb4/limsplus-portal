@@ -33,12 +33,12 @@ import * as Communication from "@lp/features/communication"
 import * as EnvironmentSettings from "@lp/features/settings/environmentSettings"
 import * as Lookup from "@lp/features/collection/lookup"
 import * as MasterAnalyte from "@lp/features/collection/masterAnalyte"
-import * as TestMaster from '@lp/features/collection/testMaster'
-import * as PanelMaster from '@lp/features/collection/masterPanel'
-import * as SampleContainer from '@lp/features/collection/sampleContainer'
-import * as SampleType from '@lp/features/collection/sampleType'
-import * as TestSampleMapping from '@lp/features/collection/testSampleMapping'
-import * as TestAnalyteMapping from '@lp/features/collection/testAnalyteMapping'
+import * as TestMaster from "@lp/features/collection/testMaster"
+import * as PanelMaster from "@lp/features/collection/masterPanel"
+import * as SampleContainer from "@lp/features/collection/sampleContainer"
+import * as SampleType from "@lp/features/collection/sampleType"
+import * as TestSampleMapping from "@lp/features/collection/testSampleMapping"
+import * as TestAnalyteMapping from "@lp/features/collection/testAnalyteMapping"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -58,15 +58,39 @@ const Dashboard = observer(({ children }) => {
       await User.startup()
       await Lookup.startup()
       // specific api load
-   
-      if (pathname === "/collection/banner") await Banner.startup()  
-      if (pathname === "/collection/masterAnalyte" || pathname === "/collection/testAnalyteMapping") await MasterAnalyte.startup()
-      if (pathname === "/collection/testMaster" ||  pathname === "/collection/testSampleMapping" || pathname === "/collection/testAnalyteMapping" ) await TestMaster.startup()
-      if (pathname === "/collection/masterPanel") await PanelMaster.startup()
-      if (pathname === "/collection/sampleContainer" ||  pathname === "/collection/testSampleMapping") await SampleContainer.startup()
-      if (pathname === "/collection/sampleType" ||  pathname === "/collection/testSampleMapping") await SampleType.startup()
-      if (pathname === "/collection/testSampleMapping") await TestSampleMapping.startup()
-      if (pathname === "/collection/testAnalyteMapping") await TestAnalyteMapping.startup()
+
+      if (pathname === "/collection/banner") await Banner.startup()
+      if (
+        pathname === "/collection/masterAnalyte" ||
+        pathname === "/collection/testAnalyteMapping"
+      )
+        await MasterAnalyte.startup()
+      if (
+        pathname === "/collection/testMaster" ||
+        pathname === "/collection/testSampleMapping" ||
+        pathname === "/collection/testAnalyteMapping" ||
+        pathname === "/collection/testPanelMapping"
+      )  
+        await TestMaster.startup()
+      if (
+        pathname === "/collection/masterPanel" ||
+        pathname === "/collection/testPanelMapping"
+      )
+        await PanelMaster.startup()
+      if (
+        pathname === "/collection/sampleContainer" ||
+        pathname === "/collection/testSampleMapping"
+      )
+        await SampleContainer.startup()
+      if (
+        pathname === "/collection/sampleType" ||
+        pathname === "/collection/testSampleMapping"
+      )
+        await SampleType.startup()
+      if (pathname === "/collection/testSampleMapping")
+        await TestSampleMapping.startup()
+      if (pathname === "/collection/testAnalyteMapping")
+        await TestAnalyteMapping.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
