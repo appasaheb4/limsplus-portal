@@ -982,11 +982,11 @@ const TestMater = observer(() => {
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   toJS(RootStore.routerStore.userPermission),
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -1036,6 +1036,7 @@ const TestMater = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.testMasterStore.fetchTestMaster()
+                    window.location.reload();
                   }
                 }
               )

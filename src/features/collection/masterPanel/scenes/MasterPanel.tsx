@@ -846,11 +846,11 @@ const MasterPanel = observer(() => {
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   toJS(RootStore.routerStore.userPermission),
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -901,6 +901,7 @@ const MasterPanel = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.masterPanelStore.fetchPanelMaster()
+                    window.location.reload();
                   }
                 })
             }
