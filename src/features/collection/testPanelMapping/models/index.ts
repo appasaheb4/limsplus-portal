@@ -1,4 +1,5 @@
 export interface TestPanelMapping {
+  id?: string
   dateCreation?: string  
   dateActive?: string  
   version?: number

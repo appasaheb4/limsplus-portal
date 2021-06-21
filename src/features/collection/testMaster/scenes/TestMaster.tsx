@@ -286,30 +286,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                placeholder="Price"
-                type="number"
-                value={Stores.testMasterStore.testMaster?.price}
-                onChange={(price) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    price,
-                  })
-                }}
-              />
-
-              <LibraryComponents.Atoms.Form.Input
-                label="Schedule"
-                placeholder="Schedule"
-                value={Stores.testMasterStore.testMaster?.schedule}
-                onChange={(schedule) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    schedule,
-                  })
-                }}
-              />
+             
 
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
@@ -374,6 +351,30 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
+               <LibraryComponents.Atoms.Form.Input
+                label="Price"
+                placeholder="Price"
+                type="number"
+                value={Stores.testMasterStore.testMaster?.price}
+                onChange={(price) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    price,
+                  })
+                }}
+              />
+
+              <LibraryComponents.Atoms.Form.Input
+                label="Schedule"
+                placeholder="Schedule"
+                value={Stores.testMasterStore.testMaster?.schedule}
+                onChange={(schedule) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    schedule,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="TAT"
                 placeholder="TAT"
@@ -405,7 +406,7 @@ const TestMater = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.Input
+              {/* <LibraryComponents.Atoms.Form.Input
                 label="Report Group"
                 placeholder="Report Group"
                 value={Stores.testMasterStore.testMaster?.reportGroup}
@@ -415,7 +416,7 @@ const TestMater = observer(() => {
                     reportGroup,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Result Order"
                 placeholder="Result Order"
@@ -452,7 +453,7 @@ const TestMater = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.Input
+              {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
                 value={Stores.testMasterStore.testMaster?.tubeGroup}
@@ -473,7 +474,7 @@ const TestMater = observer(() => {
                     labelInstruction,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Panel Method"
                 placeholder="Panel Method"
@@ -528,7 +529,7 @@ const TestMater = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.Input
+              {/* <LibraryComponents.Atoms.Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
                 value={Stores.testMasterStore.testMaster?.sampleType}
@@ -538,7 +539,7 @@ const TestMater = observer(() => {
                     sampleType,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Speical Instruction"
                 placeholder="Speical Instrcution"
@@ -712,7 +713,7 @@ const TestMater = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -730,7 +731,7 @@ const TestMater = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
 
               <LibraryComponents.Atoms.Form.Input
                 label="CPT Code"
@@ -804,7 +805,7 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -822,7 +823,7 @@ const TestMater = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Holding Days"
                 placeholder="Holding Days"

@@ -1,4 +1,5 @@
 export interface MasterAnalyte {
+  _id?: string,
   dateCreation?: number  
   dateActive?: number  
   version?: number
