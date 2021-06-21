@@ -25,16 +25,13 @@ const MasterAnalyte = async(
 )
 const TestAnalyteMapping = async(
   () =>
-    import(
-      "@lp/features/collection/testAnalyteMapping/scenes/TestAnalyteMapping"
-    )
+    import("@lp/features/collection/testAnalyteMapping/scenes/TestAnalyteMapping")
 )
 const MasterPanel = async(
   () => import("@lp/features/collection/masterPanel/scenes/MasterPanel")
 )
 const TestPanelMapping = async(
-  () =>
-    import("@lp/features/collection/testPanelMapping/scenes/TestPanelMapping")
+  () => import("@lp/features/collection/testPanelMapping/scenes/TestPanelMapping")
 )
 const MasterPackage = async(
   () => import("@lp/features/collection/masterPackage/scenes/MasterPackage")
@@ -43,9 +40,16 @@ const TestMaster = async(
   () => import("@lp/features/collection/testMaster/scenes/TestMaster")
 )
 const Lookup = async(() => import("@lp/features/collection/lookup/scenes/Lookup"))
-const Section = async(()=> import("@lp/features/collection/section/scenes/Section"))
-const SampleContainer = async(()=> import('@lp/features/collection/sampleContainer/scenes/SampleContainer'))
-   
+const Section = async(() => import("@lp/features/collection/section/scenes/Section"))
+const SampleContainer = async(
+  () => import("@lp/features/collection/sampleContainer/scenes/SampleContainer")
+)
+const SampleType = async(
+  () => import("@lp/features/collection/sampleType/scenes/SampleType")
+)
+const TestSampleMapping = async(
+  () => import("@lp/features/collection/testSampleMapping/scenes/TestSampleMapping")
+)
 
 // Communication
 const HostCommunication = async(
@@ -212,6 +216,18 @@ const collectionRoutes = {
       name: "Sample Container",
       icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer",
       component: SampleContainer,
+    },
+    {
+      path: "/collection/sampleType",
+      name: "Sample Type",
+      icon: "LibraryComponents.Atoms.Icons.IconGr.GrLayer",
+      component: SampleType,
+    },   
+    {   
+      path: "/collection/testSampleMapping",
+      name: "Test Sample Mapping",
+      icon: "IoIosGitCompare",
+      component: TestSampleMapping,
     },
   ],
 }

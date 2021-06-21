@@ -16,7 +16,7 @@ import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-interface LabListProps {
+interface SampleTypeListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -25,7 +25,7 @@ interface LabListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const LabList = observer((props: LabListProps) => {
+const SampleTypeList = observer((props: SampleTypeListProps) => {
   return (
     <>
       <LibraryComponents.Organisms.TableBootstrap
@@ -39,14 +39,26 @@ const LabList = observer((props: LabListProps) => {
             csvExport: false,
           },
           {
-            dataField: "code",
-            text: "Code",
+            dataField: "sampleCode",
+            text: "Sample Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
-            dataField: "name",
-            text: "Name",
+            dataField: "sampleType",
+            text: "Sample Type",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "descriptions",
+            text: "Descriptions",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "sampleGroup",
+            text: "Sample Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -69,7 +81,7 @@ const LabList = observer((props: LabListProps) => {
                         show: true,
                         id: [row._id],
                         title: "Are you sure?",
-                        body: `Delete ${row.name} lab!`,
+                        body: `Delete record`,
                       })
                   }}
                 >
@@ -81,7 +93,7 @@ const LabList = observer((props: LabListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lab"
+        fileName="Sample Type"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))
@@ -93,4 +105,4 @@ const LabList = observer((props: LabListProps) => {
     </>
   )
 })
-export default LabList
+export default SampleTypeList

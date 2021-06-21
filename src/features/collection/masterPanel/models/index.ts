@@ -1,4 +1,5 @@
 export interface MasterPanel {
+  _id?: string
   dateCreation?: number
   dateActive?: number
   version?: number

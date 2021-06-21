@@ -7,22 +7,22 @@
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
-class TestAnalyteMappingService extends BaseService {
-  listTestAnalyteMapping = () =>
-    new Promise<Models.TestAnalyteMapping[]>((resolve, reject) => {
+class TestSampleMappingService extends BaseService {
+  listTestSampleMapping = () =>
+    new Promise<Models.TestSampleMapping[]>((resolve, reject) => {
       this.client
-        .get(`master/testAnalyteMapping/listTestAnalyteMapping`)
+        .get(`master/testSampleMapping/listTestSampleMapping`)
         .then((res) => {
           resolve(res.data.data)
         })
         .catch((error) => {
           reject({ error })
         })
-    })  
-  addTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
+    })
+  addTestSampleMapping = (sampleMapping?: Models.TestSampleMapping) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/testAnalyteMapping/addTestAnalyteMapping`, analyteMapping)
+        .post(`master/testSampleMapping/addTestSampleMapping`, sampleMapping)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,21 +30,21 @@ class TestAnalyteMappingService extends BaseService {
           reject({ error })
         })
     })
-  deleteTestAnalyteMapping = (id: string) =>
+  deleteTestSampleMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`master/testAnalyteMapping/deleteTestAnalyteMapping/${id}`)
+        .delete(`/master/testSampleMapping/deleteTestSampleMapping/${id}`)
         .then((res) => {
           resolve(res)
         })
         .catch((error) => {
           reject({ error })
         })
-    })   
+    })    
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/testAnalyteMapping/updateSingleFiled`, newValue)
+        .post(`/master/testSampleMapping/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
@@ -54,4 +54,4 @@ class TestAnalyteMappingService extends BaseService {
     })
 }
 
-export default TestAnalyteMappingService
+export default TestSampleMappingService

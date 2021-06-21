@@ -286,18 +286,7 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                placeholder="Price"
-                type="number"
-                value={Stores.masterPanelStore.masterPanel?.price}
-                onChange={(price) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
-                    price,
-                  })
-                }}
-              />
+              
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -361,6 +350,18 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
+              <LibraryComponents.Atoms.Form.Input
+                label="Price"
+                placeholder="Price"
+                type="number"
+                value={Stores.masterPanelStore.masterPanel?.price}
+                onChange={(price) => {
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    price,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Schedule"
                 placeholder="Schedule"
@@ -520,7 +521,7 @@ const MasterPanel = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -543,7 +544,7 @@ const MasterPanel = observer(() => {
                         </option>
                       ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
               <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -652,7 +653,7 @@ const MasterPanel = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.Input
+              {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
                 value={Stores.masterPanelStore.masterPanel?.tubeGroup}
@@ -662,7 +663,7 @@ const MasterPanel = observer(() => {
                     tubeGroup,
                   })
                 }}
-              />
+              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Label Instruction"
                 placeholder="Label Instruction"
@@ -718,7 +719,7 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -736,7 +737,7 @@ const MasterPanel = observer(() => {
                     </option>
                   ))}
                 </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Special Instructions"
                 placeholder="Special Instruction"
