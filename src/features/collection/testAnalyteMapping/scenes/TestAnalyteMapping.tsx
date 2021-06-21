@@ -216,11 +216,8 @@ const TestAnalyteMapping = observer(() => {
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       testName: testMasteritem.testName,
-                    })
-                    Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
-                      ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       testCode: testMasteritem.testCode,
-                    })
+                    })  
                   }}
                 >
                   <option selected>Select</option>
@@ -304,7 +301,7 @@ const TestAnalyteMapping = observer(() => {
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.testAnalyteMappingStore.testAnalyteMappingService
-                    .addTestAnalyteMapping({   
+                    .addTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       enteredBy: LoginStore.loginStore.login?._id,
                     })
@@ -338,7 +335,9 @@ const TestAnalyteMapping = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>
+                  {_.upperFirst(item.join(" : "))}
+                </h6>
               ))}
           </div>
         </div>

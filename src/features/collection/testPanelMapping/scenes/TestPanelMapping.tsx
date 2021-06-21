@@ -11,6 +11,8 @@ import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
+import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -50,7 +52,12 @@ const TestPanelMapping = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testPanelMappingStore.testPanelMapping
+                      ?.dateCreation || 0
+                  )
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -66,7 +73,12 @@ const TestPanelMapping = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testPanelMappingStore.testPanelMapping
+                      ?.dateActive || 0
+                  )
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -82,7 +94,7 @@ const TestPanelMapping = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
-                value="1"
+                value={Stores.testPanelMappingStore.testPanelMapping?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -94,7 +106,7 @@ const TestPanelMapping = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
-                value="1"
+                value={Stores.testPanelMappingStore.testPanelMapping?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -115,14 +127,11 @@ const TestPanelMapping = observer(() => {
                 //   })
                 // }}
               />
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
-                  name="optionLabs"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    console.log({ lab })
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       lab,
@@ -146,14 +155,17 @@ const TestPanelMapping = observer(() => {
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       panelCode,
                     })
-                  }}
+                  }}   
                 >
                   <option selected>Select</option>
-                  {["Panel Code1"].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {MasterPanelStore.masterPanelStore.listMasterPanel &&
+                    MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.panelCode}>
+                          {item.panelCode}
+                        </option>
+                      )
+                    )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -166,7 +178,6 @@ const TestPanelMapping = observer(() => {
             >
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
-                name="txtTestCode"
                 placeholder="Test Code"
                 disabled={true}
                 value={Stores.testPanelMappingStore.testPanelMapping?.testCode}
@@ -181,17 +192,19 @@ const TestPanelMapping = observer(() => {
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const testName = e.target.value as string
+                    const testMasteritem = JSON.parse(e.target.value)
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
-                      testName,
-                    })
+                      testName:testMasteritem.testName,
+                      testCode: testMasteritem.testCode,
+                    })  
                   }}
                 >
                   <option selected>Select</option>
-                  {["Test Name1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
+                  {TestMasterStore.testMasterStore.listTestMaster &&
+                    TestMasterStore.testMasterStore.listTestMaster.map((item: any, index: number) => (
+                    <option key={index} value={JSON.stringify(item)}>
+                      {item.testName}
                     </option>
                   ))}
                 </select>
