@@ -5,7 +5,7 @@ import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
+import moment, { normalizeUnits } from "moment"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -17,6 +17,7 @@ import * as Services from "../../services"
 import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
+
 
 interface MasterAnalyteProps {
   data: any
@@ -549,6 +550,39 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Units",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+               editorRenderer: (
+                 editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex  
+              // ) => (
+              //   <>
+              //     <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+              //   <select
+              //     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              //     onChange={(e) => {
+              //       const units = e.target.value as string
+              //         props.onUpdateItem && 
+              //           props.onUpdateItem(units,column.dataField,row._id)
+              //     }}
+              //   >
+              //     <option selected>Select</option>
+              //     {/* {lookupItems.length > 0 &&
+              //       lookupItems
+              //         .find((item) => {
+              //           return item.fieldName === "UNITS"
+              //         })
+              //         .arrValue.map((item: any, index: number) => (
+              //           <option key={index} value={item.code}>
+              //             {`${item.value} - ${item.code}`}
+              //           </option>
+              //         ))} */}
+              //   </select>
+              // </LibraryComponents.Atoms.Form.InputWrapper>
+              //   </>
+              ),
             },
             {
               dataField: "usage",
