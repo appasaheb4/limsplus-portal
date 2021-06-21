@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-// import * as FeatureComponents from "../components"
+import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -158,7 +158,7 @@ const TestAnalyteMapping = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    setErrors({   
+                    setErrors({
                       ...errors,
                       lab: Utils.validate.single(lab, Utils.testAnalyteMapping.lab),
                     })
@@ -268,9 +268,9 @@ const TestAnalyteMapping = observer(() => {
                       })
                       .arrValue.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                  ))}
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
@@ -300,25 +300,25 @@ const TestAnalyteMapping = observer(() => {
                   Utils.testAnalyteMapping
                 )
                 setErrorsMsg(error)
-                // if (
-                //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                //     undefined &&
-                //   !Stores.labStore.checkExitsCode
-                // ) {
-                //   RootStore.rootStore.setProcessLoading(true)
-                //   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                //     () => {
-                //       RootStore.rootStore.setProcessLoading(false)
-                //       LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                //       Stores.labStore.fetchListLab()
-                //       Stores.labStore.clear()
-                //     }
-                //   )
-                // } else {
-                //   LibraryComponents.Atoms.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
-                // }
+                if (error === undefined) {
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.testAnalyteMappingStore.testAnalyteMappingService
+                    .addTestAnalyteMapping({   
+                      ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                      enteredBy: LoginStore.loginStore.login?._id,
+                    })
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Test analyte mapping created.`,
+                      })
+                      Stores.testAnalyteMappingStore.fetchTestAnalyteMapping()
+                    })
+                } else {
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😔 Please enter all information!`,
+                  })
+                }
               }}
             >
               Save
@@ -328,7 +328,6 @@ const TestAnalyteMapping = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -344,16 +343,17 @@ const TestAnalyteMapping = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <FeatureComponents.Molecules.LabList
-            data={Stores.masterAnalyteStore.masterAnalyte || []}
+          <FeatureComponents.Molecules.TestAnalyteMappingList
+            data={Stores.testAnalyteMappingStore.listTestAnalyteMapping || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
-              "Edit/Modify"
-            )}
+            // isEditModify={RouterFlow.checkPermission(
+            //   toJS(RootStore.routerStore.userPermission),
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -373,38 +373,40 @@ const TestAnalyteMapping = observer(() => {
                 body: `Update lab!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            console.log({ type })
-
-            // if (type === "Delete") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // } else if (type === "Update") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // }
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.testAnalyteMappingStore.testAnalyteMappingService
+                .deleteTestAnalyteMapping(modalConfirm.id)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Record deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.testAnalyteMappingStore.fetchTestAnalyteMapping()
+                  }
+                })
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.testAnalyteMappingStore.testAnalyteMappingService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Record updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.testAnalyteMappingStore.fetchTestAnalyteMapping()
+                  }
+                })
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })

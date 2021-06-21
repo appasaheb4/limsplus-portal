@@ -38,6 +38,7 @@ import * as PanelMaster from '@lp/features/collection/masterPanel'
 import * as SampleContainer from '@lp/features/collection/sampleContainer'
 import * as SampleType from '@lp/features/collection/sampleType'
 import * as TestSampleMapping from '@lp/features/collection/testSampleMapping'
+import * as TestAnalyteMapping from '@lp/features/collection/testAnalyteMapping'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -65,7 +66,8 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/sampleContainer" ||  pathname === "/collection/testSampleMapping") await SampleContainer.startup()
       if (pathname === "/collection/sampleType" ||  pathname === "/collection/testSampleMapping") await SampleType.startup()
       if (pathname === "/collection/testSampleMapping") await TestSampleMapping.startup()
-   
+      if (pathname === "/collection/testAnalyteMapping") await TestAnalyteMapping.startup()
+
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()

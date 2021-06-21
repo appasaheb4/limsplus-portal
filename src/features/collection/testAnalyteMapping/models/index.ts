@@ -1,4 +1,5 @@
 export interface TestAnalyteMapping {
+  _id?: string
   dateCreation?: number  
   dateActive?: number  
   version?: number
