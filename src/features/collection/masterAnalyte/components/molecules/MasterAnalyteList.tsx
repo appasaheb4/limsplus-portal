@@ -180,7 +180,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 name="txtPrice"
                 placeholder="Price"
                 type="number"
-                value={Stores.masterAnalyteStore.masterAnalyte?.price}
+                value={row.price}
                 onChange={(price) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(price, column.dataField, row._id)
@@ -219,7 +219,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="AutoRelease"
                   id="modeAutoRelease"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.autoRelease}
+                  value={row.autoRelease}
                   onChange={(autoRelease) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(autoRelease, column.dataField, row._id)
@@ -252,7 +252,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="Hold OOS"
                   id="modeHoldOOS"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.holdOOS}
+                  value={row.holdOOS}
                   onChange={(holdOOS) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(holdOOS, column.dataField, row._id)
@@ -285,7 +285,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="InstantResult"
                   id="modeInstantResult"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
+                  value={row.instantResult}
                   onChange={(instantResult) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(instantResult, column.dataField, row._id)
@@ -324,7 +324,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="PageBreak"
                   id="modePageBreak"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
+                  value={row.pageBreak}
                   onChange={(pageBreak) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(pageBreak, column.dataField, row._id)
@@ -357,7 +357,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
                   id="modeMethod"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.method}
+                  value={row.method}
                   onChange={(method) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(method, column.dataField, row._id)
@@ -377,6 +377,39 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Workflow",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex  
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflow = e.target.value as string
+                      props.onUpdateItem && 
+                        props.onUpdateItem(workflow,column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "WORKFLOW"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              )
             },
             {
               dataField: "sampleType",
@@ -440,7 +473,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="Display"
                   id="modeDisplay"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.display}
+                  value={row.display}
                   onChange={(display) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(display, column.dataField, row._id)
@@ -473,7 +506,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="CalculationFlag"
                   id="modeCalculationFlag"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.calculationFlag}
+                  value={row.calculationFlag}
                   onChange={(calculationFlag) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(calculationFlag, column.dataField, row._id)
@@ -525,7 +558,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                  <LibraryComponents.Atoms.Form.Toggle
                   label="Repetition"
                   id="modeRepetition"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
+                  value={row.repetition}
                   onChange={(repetition) => {
                     props.onUpdateItem &&
                     props.onUpdateItem(repetition, column.dataField, row._id)
@@ -615,6 +648,40 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Usage",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+               value,
+               row,
+               column,
+               rowIndex,
+               columnIndex  
+             ) => (
+               <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const usage = e.target.value as string
+                      props.onUpdateItem && 
+                        props.onUpdateItem(usage,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "USAGE"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
+               </>
+             ),
             },
             {
               dataField: "cptCode",
@@ -627,33 +694,71 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Status",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+               value,
+               row,
+               column,
+               rowIndex,
+               columnIndex  
+             ) => (
+               <>
+                   <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                    props.onUpdateItem && 
+                    props.onUpdateItem(status,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "STATUS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+               </>
+             ),
             },
             {
               dataField: "dateCreation",
+              editable: false,
               text: "Date Creation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "dateActive",
+              editable: false,
               text: "Date Active",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "version",
+              editable: false,
               text: "Version",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "keyNum",
+              editable: false,
               text: "Key Num",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "enteredBy",
+              editable: false,
               text: "Entered By",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
