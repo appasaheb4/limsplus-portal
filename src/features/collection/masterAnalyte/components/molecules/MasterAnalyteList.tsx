@@ -1,11 +1,16 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React, { useEffect,useState } from "react"
 import { observer } from "mobx-react"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
 import moment, { normalizeUnits } from "moment"
+
+
+import Storage from "@lp/library/modules/storage"
+
+
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -29,6 +34,27 @@ interface MasterAnalyteProps {
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
+  const [lookupItems, setLookupItems] = useState<any[]>([])
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      setLookupItems(items)
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -126,7 +152,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
                   id="modeBill"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.bill}
+                  value={row.bill}
                   onChange={(bill) => {
                     props.onUpdateItem &&
                           props.onUpdateItem(bill, column.dataField, row._id)
@@ -552,36 +578,36 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
                editorRenderer: (
                  editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex  
-              // ) => (
-              //   <>
-              //     <LibraryComponents.Atoms.Form.InputWrapper label="Units">
-              //   <select
-              //     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-              //     onChange={(e) => {
-              //       const units = e.target.value as string
-              //         props.onUpdateItem && 
-              //           props.onUpdateItem(units,column.dataField,row._id)
-              //     }}
-              //   >
-              //     <option selected>Select</option>
-              //     {/* {lookupItems.length > 0 &&
-              //       lookupItems
-              //         .find((item) => {
-              //           return item.fieldName === "UNITS"
-              //         })
-              //         .arrValue.map((item: any, index: number) => (
-              //           <option key={index} value={item.code}>
-              //             {`${item.value} - ${item.code}`}
-              //           </option>
-              //         ))} */}
-              //   </select>
-              // </LibraryComponents.Atoms.Form.InputWrapper>
-              //   </>
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex  
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const units = e.target.value as string
+                      props.onUpdateItem && 
+                        props.onUpdateItem(units,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "UNITS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
               ),
             },
             {
