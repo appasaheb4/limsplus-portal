@@ -40,7 +40,7 @@ class TestAnalyteMappingService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })
+    })   
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client

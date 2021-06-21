@@ -717,6 +717,7 @@ const MasterAnalyte = observer(() => {
                     window.location.reload()
                   }
                 })
+                
             }
           }}
           onClose={() => {
