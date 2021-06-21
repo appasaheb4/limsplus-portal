@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
@@ -337,7 +338,7 @@ const TestAnalyteMapping = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
         </div>
