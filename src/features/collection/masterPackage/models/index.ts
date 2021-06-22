@@ -1,6 +1,6 @@
 export interface MasterPackage {
-  dateCreation?: string  
-  dateActive?: string  
+  dateCreation?: number  
+  dateActive?: number  
   version?: number
   keyNum?: string
   enteredBy?: string
