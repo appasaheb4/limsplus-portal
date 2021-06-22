@@ -13,8 +13,11 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import * as Services from "../../services"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+
 import { Stores } from "../../stores"
+
+
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
 import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
