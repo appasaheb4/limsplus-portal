@@ -3,12 +3,25 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
+import * as LibraryUtils from "@lp/library/utils"
+
+
+
 @version(0.1)
 class MasterPackageStore {
   @ignore @observable masterPackage?: Models.MasterPackage
 
   constructor() {
     makeAutoObservable(this)
+    this.masterPackage = {
+      ...this.masterPackage,
+      dateCreation: LibraryUtils.moment().unix(),
+      dateActive: LibraryUtils.moment().unix(),
+      version: 1,
+      keyNum: "1",
+      enteredBy: Stores.loginStore.login?._id,
+      bill: false,
+    }
   }
 
   @computed get MasterPackageService() {
