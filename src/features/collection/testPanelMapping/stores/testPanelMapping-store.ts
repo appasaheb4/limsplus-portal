@@ -5,11 +5,11 @@ import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
 import * as LibraryUtils from "@lp/library/utils"
 
-
 @version(0.1)
 class TestPanelMappingStore {
   @ignore @observable testPanelMapping?: Models.TestPanelMapping
-   
+  @observable listTestPanelMapping?: Models.TestPanelMapping[] = []
+
   constructor() {
     makeAutoObservable(this)
     this.testPanelMapping = {
@@ -19,14 +19,20 @@ class TestPanelMappingStore {
       version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
-      bill:false
+      bill: false,
     }
   }
 
-  @computed get TestPanelMappingService() {
+  @computed get testPanelMappingService() {
     return new Services.TestPanelMappingService(
       Stores.loginStore.login?.accessToken as string
     )
+  }
+
+  fetchTestPanelMapping() {
+    this.testPanelMappingService.listTestPanelMapping().then((res) => {
+      this.listTestPanelMapping = res
+    })
   }
 
   @action updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
