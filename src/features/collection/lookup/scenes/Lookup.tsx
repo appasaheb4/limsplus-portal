@@ -99,18 +99,8 @@ const Lookup = observer(() => {
                     })
                   }}
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Value & Code">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Code & Value">
                   <LibraryComponents.Atoms.Grid cols={3}>
-                    <LibraryComponents.Atoms.Form.Input
-                      placeholder="Value"
-                      value={Stores.lookupStore.lookup?.value}
-                      onChange={(value) => {
-                        Stores.lookupStore.updateLookup({
-                          ...Stores.lookupStore.lookup,
-                          value,
-                        })
-                      }}
-                    />
                     <LibraryComponents.Atoms.Form.Input
                       placeholder="Code"
                       value={Stores.lookupStore.lookup?.code}
@@ -118,6 +108,16 @@ const Lookup = observer(() => {
                         Stores.lookupStore.updateLookup({
                           ...Stores.lookupStore.lookup,
                           code,
+                        })
+                      }}
+                    />
+                    <LibraryComponents.Atoms.Form.Input
+                      placeholder="Value"
+                      value={Stores.lookupStore.lookup?.value}
+                      onChange={(value) => {
+                        Stores.lookupStore.updateLookup({
+                          ...Stores.lookupStore.lookup,
+                          value,
                         })
                       }}
                     />

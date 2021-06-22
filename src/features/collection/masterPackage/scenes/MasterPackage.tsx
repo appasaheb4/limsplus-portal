@@ -1,12 +1,13 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-// import * as FeatureComponents from "../components"
+import * as FeatureComponents from "../components"
 
-// import * as Models from "../models"
-// import * as Util from "../util"
+import * as Models from "../models"
+import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
@@ -19,7 +20,8 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterPackage = observer(() => {
-  // const [errors, setErrors] = useState<Models.MasterPackage>()
+  const [errors, setErrors] = useState<Models.MasterPackage>()
+  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -74,7 +76,9 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -90,7 +94,9 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
                 placeholder="Date Creation"
-                value={LibraryUtils.moment(new Date()).format("YYYY-MM-DD")}
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateActive || 0)
+                  .format("YYYY-MM-DD")}
                 disabled={true}
                 // onChange={(e) => {
                 //   const schedule = new Date(e.target.value)
@@ -106,7 +112,7 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
-                value="1"
+                value={Stores.masterPackageStore.masterPackage?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -118,7 +124,7 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
-                value="1"
+                value={Stores.masterPackageStore.masterPackage?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -140,12 +146,15 @@ const MasterPackage = observer(() => {
                 // }}
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="optionLab">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
-                  name="optionLabs"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      lab: Utils.validate.single(lab, Utils.masterPackage.lab),
+                    })
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       lab,
@@ -292,6 +301,11 @@ const MasterPackage = observer(() => {
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
+                const error = Utils.validate(
+                  Stores.masterPackageStore.masterPackage,
+                  Utils.masterPackage
+                )
+                setErrorsMsg(error)
                 // if (
                 //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
                 //     undefined &&
@@ -320,13 +334,18 @@ const MasterPackage = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
+          <div>
+            {errorsMsg &&
+              Object.entries(errorsMsg).map((item, index) => (
+                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+              ))}
+          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
