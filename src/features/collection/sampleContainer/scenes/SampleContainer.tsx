@@ -176,11 +176,11 @@ const SampleContainer = observer(() => {
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   RootStore.routerStore.userPermission,
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -227,6 +227,7 @@ const SampleContainer = observer(() => {
                   LibraryComponents.Atoms.Toast.success({message:`😊 Record updated.`})
                   setModalConfirm({ show: false })
                   Stores.sampleContainerStore.fetchListSampleContainer()
+                  window.location.reload();
                 }
               })
             }
