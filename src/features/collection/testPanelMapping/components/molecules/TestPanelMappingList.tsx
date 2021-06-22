@@ -16,7 +16,7 @@ import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-interface LabListProps {
+interface TestPanelMappingListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -25,7 +25,7 @@ interface LabListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const LabList = observer((props: LabListProps) => {
+const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
   return (
     <>
       <LibraryComponents.Organisms.TableBootstrap
@@ -39,14 +39,83 @@ const LabList = observer((props: LabListProps) => {
             csvExport: false,
           },
           {
-            dataField: "code",
-            text: "Code",
+            dataField: "lab",
+            text: "Lab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
-            dataField: "name",
-            text: "Name",
+            dataField: "panelCode",
+            text: "Panel Code",
+            sort: true,
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cellContent, row) => (
+              <>
+                <ul style={{ listStyle: "inside" }}>
+                  {row.panelCode.map((item, index) => (
+                    <li key={index}>{item.panelCode}</li>
+                  ))}
+                </ul>
+              </>
+            ),
+          },
+          {
+            dataField: "testCode",
+            text: "Test Code",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "testName",
+            text: "Test Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "description",
+            text: "Description",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "bill",
+            text: "Bill",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "status",
+            text: "Status",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          }, 
+          {
+            dataField: "dateCreation",
+            text: "Date Creation",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "dateActive",
+            text: "Date Active",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "version",
+            text: "Version",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "keyNum",
+            text: "Key Num",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "enteredBy",
+            text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -69,7 +138,7 @@ const LabList = observer((props: LabListProps) => {
                         show: true,
                         id: [row._id],
                         title: "Are you sure?",
-                        body: `Delete ${row.name} lab!`,
+                        body: `Delete record`,
                       })
                   }}
                 >
@@ -81,7 +150,7 @@ const LabList = observer((props: LabListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lab"
+        fileName="Test Panel Mapping"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))
@@ -93,4 +162,4 @@ const LabList = observer((props: LabListProps) => {
     </>
   )
 })
-export default LabList
+export default TestPanelMappingList
