@@ -59,6 +59,26 @@ const SampleContainerList = (props: SampleContainerListProps) => {
               </>
             )
           },
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex  
+          ) => (
+            <>
+                <LibraryComponents.Atoms.Form.InputFile
+                label="Image"
+                placeholder="Image"
+                onChange={(e) => {
+                  const image = e.target.files[0]
+                      props.onUpdateItem && 
+                        props.onUpdateItem(image,column.dataField,row._id)
+                }}
+              />
+            </>
+          ), 
         },
         {
           dataField: "operation",
