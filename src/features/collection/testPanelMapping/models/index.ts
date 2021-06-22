@@ -6,7 +6,7 @@ export interface TestPanelMapping {
   keyNum?: string
   enteredBy?: string
   lab?: string
-  panelCode?: string
+  panelCode?: Array<any>
   testCode?: string
   testName?: string
   description?: string

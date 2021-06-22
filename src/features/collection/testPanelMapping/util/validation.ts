@@ -1,11 +1,10 @@
 import validate from "validate.js";
 export { validate };
-export const testAnalyteMapping = {
+export const testPanelMapping = {
   lab: {
-    presence: true,
-    length: {
-      minimum: 2,
-      message: "Code must be least 2 characters ",
-    },
+    presence: true
   },
+  panelCode:{
+    presence: true
+  }
 };
