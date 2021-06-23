@@ -10,6 +10,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 class MasterPackageStore {
   @ignore @observable masterPackage?: Models.MasterPackage
+  @observable listMasterPackage?: Models.MasterPackage[] =[]
 
   constructor() {
     makeAutoObservable(this)
@@ -24,10 +25,16 @@ class MasterPackageStore {
     }
   }
 
-  @computed get MasterPackageService() {
+  @computed get masterPackageService() {
     return new Services.MasterPackageService(
       Stores.loginStore.login?.accessToken as string
     )
+  }
+
+  fetchPackageMaster() {
+    this.masterPackageService.listPackageMaster().then((res) => {
+      this.listMasterPackage = res
+    })
   }
 
   @action updateMasterPackage(pacakge: Models.MasterPackage) {

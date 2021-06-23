@@ -40,6 +40,7 @@ import * as SampleType from "@lp/features/collection/sampleType"
 import * as TestSampleMapping from "@lp/features/collection/testSampleMapping"
 import * as TestAnalyteMapping from "@lp/features/collection/testAnalyteMapping"
 import * as TestPanelMapping from '@lp/features/collection/testPanelMapping'
+import * as PackageMaster from '@lp/features/collection/masterPackage'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -94,6 +95,8 @@ const Dashboard = observer(({ children }) => {
         await TestAnalyteMapping.startup()
         if (pathname === "/collection/testPanelMapping")
         await TestPanelMapping.startup()
+        if (pathname === "/collection/masterPackage")
+        await PackageMaster.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
