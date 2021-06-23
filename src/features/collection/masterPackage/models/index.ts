@@ -11,4 +11,5 @@ export interface MasterPackage {
   panelName?: string
   bill?: boolean
   status?: string
+  serviceType?: string
 }

@@ -76,7 +76,7 @@ const Dashboard = observer(({ children }) => {
         await TestMaster.startup()
       if (
         pathname === "/collection/masterPanel" ||
-        pathname === "/collection/testPanelMapping"
+        pathname === "/collection/testPanelMapping" || pathname === "/collection/masterPackage"
       )
         await PanelMaster.startup()
       if (

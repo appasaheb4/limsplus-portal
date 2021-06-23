@@ -15,6 +15,7 @@ import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as PanelMasterStore } from "@lp/features/collection/masterPanel/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -25,7 +26,8 @@ const MasterPackage = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
-  const [arrPanelCodes, setArrPanelCodes] = useState<any>()
+  const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
+  const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
 
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -170,6 +172,17 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Bill"
+                id="modeBill"
+                value={Stores.masterPackageStore.masterPackage?.bill}
+                onChange={(bill) => {
+                  Stores.masterPackageStore.updateMasterPackage({
+                    ...Stores.masterPackageStore.masterPackage,
+                    bill,
+                  })
+                }}
+              />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -178,16 +191,29 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const packageItem = JSON.parse(e.target.value)
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      packageCode: packageItem.code,
-                      packageName: packageItem.value,
-                      panelName: undefined,
+                    const serviceItem = JSON.parse(e.target.value)
+                    if (PanelMasterStore.masterPanelStore.listMasterPanel) {
+                      const listPackageItems = LibraryUtils.findArrayKeyArrayWise(
+                        PanelMasterStore.masterPanelStore.listMasterPanel,
+                        [serviceItem.code]
+                      )
+                      setArrPackageItems(listPackageItems)
+                      const listPanelItems = LibraryUtils.findArrayKeyArrayWise(
+                        PanelMasterStore.masterPanelStore.listMasterPanel,
+                        serviceItem.code === "K" ? ["N"] : ["S"]
+                      )
+                      setArrPanelItems(listPanelItems)
+                    }
+                    setErrors({
+                      ...errors,
+                      panelCode: Utils.validate.single(
+                        undefined,
+                        Utils.masterPackage.panelCode
+                      ),
                     })
                     setErrors({
                       ...errors,
@@ -196,26 +222,45 @@ const MasterPackage = observer(() => {
                         Utils.masterPackage.panelName
                       ),
                     })
-                    setArrPanelCodes(
-                      LibraryUtils.findArrayKeyArrayWise(
-                        lookupItems.find((item) => {
-                          return item.fieldName === "SERVICE_TYPE"
-                        }).arrValue,
-                        packageItem.code === "K" ? ["N"] : ["S"]
-                      )
-                    )
+                    Stores.masterPackageStore.updateMasterPackage({
+                      ...Stores.masterPackageStore.masterPackage,
+                      serviceType: serviceItem.code,
+                      packageName:undefined,
+                      panelName:undefined
+                    })
                   }}
                 >
                   <option selected>Select</option>
                   {lookupItems.length > 0 &&
-                    LibraryUtils.findArrayKeyArrayWise(
-                      lookupItems.find((item) => {
+                    lookupItems
+                      .find((item) => {
                         return item.fieldName === "SERVICE_TYPE"
-                      }).arrValue,
-                      ["K", "M"]
-                    ).map((item: any, index: number) => (
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={JSON.stringify(item)}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const packageItem = JSON.parse(e.target.value)
+
+                    Stores.masterPackageStore.updateMasterPackage({
+                      ...Stores.masterPackageStore.masterPackage,
+                      packageCode: packageItem.panelCode,
+                      packageName: packageItem.panelName,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {arrPackageItems &&
+                    arrPackageItems.map((item: any, index: number) => (
                       <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
+                        {`${item.panelName} - ${item.panelCode}`}
                       </option>
                     ))}
                 </select>
@@ -238,23 +283,30 @@ const MasterPackage = observer(() => {
                     const panelItem = JSON.parse(e.target.value)
                     setErrors({
                       ...errors,
+                      panelCode: Utils.validate.single(
+                        panelItem.panelCode,
+                        Utils.masterPackage.panelCode
+                      ),
+                    })
+                    setErrors({
+                      ...errors,
                       panelName: Utils.validate.single(
-                        panelItem.value,
+                        panelItem.panelName,
                         Utils.masterPackage.panelName
                       ),
                     })
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
-                      panelCode: panelItem.code,
-                      panelName: panelItem.value,
+                      panelCode: panelItem.panelCode,
+                      panelName: panelItem.panelName,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {arrPanelCodes &&
-                    arrPanelCodes.map((item: any, index: number) => (
+                  {arrPanelItems &&
+                    arrPanelItems.map((item: any, index: number) => (
                       <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
+                        {`${item.panelName} - ${item.panelCode}`}
                       </option>
                     ))}
                 </select>
@@ -291,20 +343,6 @@ const MasterPackage = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Bill"
-                id="modeBill"
-                value={Stores.masterPackageStore.masterPackage?.bill}
-                onChange={(bill) => {
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    bill,
-                  })
-                }}
-              />
-              {/* </LibraryComponents.Atoms.Grid> */}
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -357,7 +395,7 @@ const MasterPackage = observer(() => {
               ))}
           </div>
         </div>
-        <br />   
+        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PackageMasterList
             data={Stores.masterPackageStore.listMasterPackage || []}
@@ -397,8 +435,9 @@ const MasterPackage = observer(() => {
             console.log({ type })
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.masterPackageStore.masterPackageService.deletePackageMaster(modalConfirm.id).then(
-                (res: any) => {
+              Stores.masterPackageStore.masterPackageService
+                .deletePackageMaster(modalConfirm.id)
+                .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
@@ -407,23 +446,22 @@ const MasterPackage = observer(() => {
                     setModalConfirm({ show: false })
                     Stores.masterPackageStore.fetchPackageMaster()
                   }
-                }
-              )
+                })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.masterPackageStore.masterPackageService.updateSingleFiled(modalConfirm.data).then(
-                (res: any) => {
+              Stores.masterPackageStore.masterPackageService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
-                  if (res.status === 200) { 
+                  if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                    message: `😊 Package master updated.`,
-                  })
+                      message: `😊 Package master updated.`,
+                    })
                     setModalConfirm({ show: false })
                     Stores.masterPackageStore.fetchPackageMaster()
-                    window.location.reload();
+                    window.location.reload()
                   }
-                }
-              )
+                })
             }
           }}
           onClose={() => {

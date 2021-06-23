@@ -19,11 +19,15 @@ export const findArrayKeyArrayWise = (
   arrMain: Array<any>,
   arrKeys: Array<any>
 ): Array<any> => {
+  console.log({arrMain,arrKeys});
+  
   const arrFinal: Array<any> =[]
   arrKeys.filter((item) => {
     arrFinal.push(arrMain.find((mainItem) => {
-      return mainItem.code === item
+      return mainItem.serviceType === item
     }))
   })
+  console.log({arrFinal});
+  
   return arrFinal
 }
