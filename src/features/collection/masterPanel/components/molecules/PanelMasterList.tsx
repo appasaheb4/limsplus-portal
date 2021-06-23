@@ -208,6 +208,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            
           },
           {
             dataField: "panelName",
@@ -1056,7 +1057,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="PanelMaster"
+        fileName="Panel Master"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))

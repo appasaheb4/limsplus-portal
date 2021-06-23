@@ -4,6 +4,10 @@ export const masterPackage = {
   lab: {
     presence: true,
   },
+  
+  panelCode:{
+    presence:true,
+  },
   panelName:{
     presence:true,
   }

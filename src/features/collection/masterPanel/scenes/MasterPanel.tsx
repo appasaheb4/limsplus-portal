@@ -246,6 +246,10 @@ const MasterPanel = observer(() => {
                 placeholder="Panel Code"
                 value={Stores.masterPanelStore.masterPanel?.panelCode}
                 onChange={(panelCode) => {
+                  setErrors({
+                    ...errors,
+                    panelCode: Utils.validate.single(panelCode, Utils.masterPanel.panelCode),
+                  })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     panelCode,
@@ -257,6 +261,10 @@ const MasterPanel = observer(() => {
                 placeholder="Panel Name"
                 value={Stores.masterPanelStore.masterPanel?.panelName}
                 onChange={(panelName) => {
+                  setErrors({
+                    ...errors,
+                    panelName: Utils.validate.single(panelName, Utils.masterPanel.panelName),
+                  })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     panelName,
@@ -550,6 +558,10 @@ const MasterPanel = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const serviceType = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      serviceType: Utils.validate.single(serviceType, Utils.masterPanel.serviceType),
+                    })
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       serviceType,

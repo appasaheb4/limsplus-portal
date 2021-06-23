@@ -5,10 +5,19 @@ export const masterPanel = {
   rLab: {
     presence: true,
   },
-  pLab: {  
+  pLab: {
     presence: true,
   },
   department: {
+    presence: true,
+  },
+  panelCode: {
+    presence: true,
+  },
+  panelName: {
+    presence: true,
+  },
+  serviceType: {
     presence: true,
   },
 }
