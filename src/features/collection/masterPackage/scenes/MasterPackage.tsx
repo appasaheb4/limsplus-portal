@@ -25,6 +25,7 @@ const MasterPackage = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
+  const [arrPanelCodes, setArrPanelCodes] = useState<any>()
 
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -181,77 +182,89 @@ const MasterPackage = observer(() => {
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const packageCode = e.target.value as string
+                    const packageItem = JSON.parse(e.target.value)
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
-                      packageCode,
+                      packageCode: packageItem.code,
+                      packageName: packageItem.value,
+                      panelName: undefined,
                     })
+                    setErrors({
+                      ...errors,
+                      panelName: Utils.validate.single(
+                        undefined,
+                        Utils.masterPackage.panelName
+                      ),
+                    })
+                    setArrPanelCodes(
+                      LibraryUtils.findArrayKeyArrayWise(
+                        lookupItems.find((item) => {
+                          return item.fieldName === "SERVICE_TYPE"
+                        }).arrValue,
+                        packageItem.code === "K" ? ["N"] : ["S"]
+                      )
+                    )
                   }}
                 >
                   <option selected>Select</option>
-                  {["Package Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {lookupItems.length > 0 &&
+                    LibraryUtils.findArrayKeyArrayWise(
+                      lookupItems.find((item) => {
+                        return item.fieldName === "SERVICE_TYPE"
+                      }).arrValue,
+                      ["K", "M"]
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Name">
                 <select
+                  disabled={true}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const packageName = e.target.value as string
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      packageName,
-                    })
-                  }}
                 >
-                  <option selected>Select</option>
-                  {["Package Name 1"].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  <option selected>
+                    {Stores.masterPackageStore.masterPackage?.packageName ||
+                      `Select`}
+                  </option>
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const panelCode = e.target.value as string
+                    const panelItem = JSON.parse(e.target.value)
+                    setErrors({
+                      ...errors,
+                      panelName: Utils.validate.single(
+                        panelItem.value,
+                        Utils.masterPackage.panelName
+                      ),
+                    })
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
-                      panelCode,
+                      panelCode: panelItem.code,
+                      panelName: panelItem.value,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {["Panel Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {arrPanelCodes &&
+                    arrPanelCodes.map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const panelName = e.target.value as string
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      panelName,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Panel Name 1"].map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                <select className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+                  <option selected>
+                    {Stores.masterPackageStore.masterPackage?.panelName || `Select`}
+                  </option>
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
@@ -306,25 +319,22 @@ const MasterPackage = observer(() => {
                   Utils.masterPackage
                 )
                 setErrorsMsg(error)
-                // if (
-                //   Util.validate(Stores.labStore.labs, Util.constraintsLabs) ===
-                //     undefined &&
-                //   !Stores.labStore.checkExitsCode
-                // ) {
-                //   RootStore.rootStore.setProcessLoading(true)
-                //   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                //     () => {
-                //       RootStore.rootStore.setProcessLoading(false)
-                //       LibraryComponents.Atoms.ToastsStore.success(`Lab created.`)
-                //       Stores.labStore.fetchListLab()
-                //       Stores.labStore.clear()
-                //     }
-                //   )
-                // } else {
-                //   LibraryComponents.Atoms.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
-                // }
+                if (!error) {
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.masterPackageStore.masterPackageService
+                    .addPackageMaster(Stores.masterPackageStore.masterPackage)
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Package master created.`,
+                      })
+                      Stores.masterPackageStore.fetchPackageMaster()
+                    })
+                } else {
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😔 Please enter all information!`,
+                  })
+                }
               }}
             >
               Save
@@ -347,18 +357,19 @@ const MasterPackage = observer(() => {
               ))}
           </div>
         </div>
-        <br />
+        <br />   
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <FeatureComponents.Molecules.LabList
-            data={Stores.masterAnalyteStore.masterAnalyte || []}
+          <FeatureComponents.Molecules.PackageMasterList
+            data={Stores.masterPackageStore.listMasterPackage || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
-              "Edit/Modify"
-            )}
+            // isEditModify={RouterFlow.checkPermission(
+            //   toJS(RootStore.routerStore.userPermission),
+            //   "Edit/Modify"
+            // )}
+            isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -378,38 +389,41 @@ const MasterPackage = observer(() => {
                 body: `Update lab!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             console.log({ type })
-
-            // if (type === "Delete") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab deleted.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // } else if (type === "Update") {
-            //   RootStore.rootStore.setProcessLoading(true)
-            //   Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-            //     (res: any) => {
-            //       RootStore.rootStore.setProcessLoading(false)
-            //       if (res.status === 200) {
-            //         LibraryComponents.Atoms.ToastsStore.success(`Lab updated.`)
-            //         setModalConfirm({ show: false })
-            //         Stores.labStore.fetchListLab()
-            //       }
-            //     }
-            //   )
-            // }
+            if (type === "Delete") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterPackageStore.masterPackageService.deletePackageMaster(modalConfirm.id).then(
+                (res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Package master deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.masterPackageStore.fetchPackageMaster()
+                  }
+                }
+              )
+            } else if (type === "Update") {
+              RootStore.rootStore.setProcessLoading(true)
+              Stores.masterPackageStore.masterPackageService.updateSingleFiled(modalConfirm.data).then(
+                (res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) { 
+                    LibraryComponents.Atoms.Toast.success({
+                    message: `😊 Package master updated.`,
+                  })
+                    setModalConfirm({ show: false })
+                    Stores.masterPackageStore.fetchPackageMaster()
+                  }
+                }
+              )
+            }
           }}
           onClose={() => {
             setModalConfirm({ show: false })

@@ -4,4 +4,7 @@ export const masterPackage = {
   lab: {
     presence: true,
   },
+  panelName:{
+    presence:true,
+  }
 };

@@ -1,1 +1,1 @@
-export {default as LabList} from './LabList';
+export {default as PackageMasterList} from './PackageMasterList';

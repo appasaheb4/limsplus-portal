@@ -12,5 +12,17 @@ export const uniqArrayByKeepFirst = (a, key) => {
     const k = key(item)
     return seen.has(k) ? false : seen.add(k)
   })
-}   
+}
 
+export const findArrayKeyArrayWise = (
+  arrMain: Array<any>,
+  arrKeys: Array<any>
+): Array<any> => {
+  const arrFinal: Array<any> =[]
+  arrKeys.filter((item) => {
+    arrFinal.push(arrMain.find((mainItem) => {
+      return mainItem.code === item
+    }))
+  })
+  return arrFinal
+}

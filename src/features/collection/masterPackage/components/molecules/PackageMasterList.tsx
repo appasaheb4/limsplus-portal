@@ -16,16 +16,16 @@ import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
-interface LabListProps {
+interface PackageMasterListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-}
+}   
 
-const LabList = observer((props: LabListProps) => {
+const PackageMasterList = observer((props: PackageMasterListProps) => {
   return (
     <>
       <LibraryComponents.Organisms.TableBootstrap
@@ -39,14 +39,80 @@ const LabList = observer((props: LabListProps) => {
             csvExport: false,
           },
           {
-            dataField: "code",
-            text: "Code",
+            dataField: "lab",
+            text: "Lab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
-            dataField: "name",
-            text: "Name",
+            dataField: "packageCode",
+            text: "Package Code",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+
+          {
+            dataField: "packageName",
+            text: "Package Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "panelCode",
+            text: "Panel Code",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "panelName",
+            text: "Panel Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "bill",
+            text: "Bill",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "status",
+            text: "Status",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "dateCreation",
+            editable: false,
+            text: "Date Creation",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {  
+            dataField: "dateActive",
+            editable: false,
+            text: "Date Active",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "version",
+            editable: false,
+            text: "Version",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "keyNum",
+            editable: false,
+            text: "Key Num",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "enteredBy",
+            editable: false,
+            text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -69,7 +135,7 @@ const LabList = observer((props: LabListProps) => {
                         show: true,
                         id: [row._id],
                         title: "Are you sure?",
-                        body: `Delete ${row.name} lab!`,
+                        body: `Delete record!`,
                       })
                   }}
                 >
@@ -81,7 +147,7 @@ const LabList = observer((props: LabListProps) => {
         ]}
         isEditModify={props.isEditModify}
         isSelectRow={true}
-        fileName="Lab"
+        fileName="Package Master"
         onSelectedRow={(rows) => {
           props.onSelectedRow &&
             props.onSelectedRow(rows.map((item: any) => item._id))
@@ -91,6 +157,6 @@ const LabList = observer((props: LabListProps) => {
         }}
       />
     </>
-  )
+  )   
 })
-export default LabList
+export default PackageMasterList
