@@ -4,14 +4,14 @@
  * @package Feed Service
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
-
+   
 class MasterPackageService extends BaseService {
-  listLabs = () =>
-    new Promise<any[]>((resolve, reject) => {
+  listPackageMaster = () =>
+    new Promise<Models.MasterPackage[]>((resolve, reject) => {
       this.client
-        .get(`/lab/listlabs`)
+        .get(`master/packageMaster/listPackageMaster`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class MasterPackageService extends BaseService {
           reject({ error })
         })
     })
-  addLab = (lab?: any) =>
+  addPackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/addLab`, lab)
+        .post(`master/packageMaster/addPackageMaster`, packageMaster)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,32 +30,21 @@ class MasterPackageService extends BaseService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+  deletePackageMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteLab = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .delete(`/lab/deleteLab/${id}`)
+        .delete(`master/packageMaster/deletePackageMaster/${id}`)
         .then((res) => {
           resolve(res)
         })
         .catch((error) => {
           reject({ error })
         })
-    })
+    })   
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/lab/updateSingleFiled`, newValue)
+        .post(`master/packageMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
