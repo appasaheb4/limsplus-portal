@@ -1,0 +1,64 @@
+.theme-options{
+    padding: 0px 0px;
+    overflow: hidden;
+    overflow-x: scroll; 
+}
+.theme-options::-webkit-scrollbar{
+    width: 0;
+}
+.theme{
+    width: 20px;
+    height: 20px;
+    border-radius: 24px;
+    padding: 0px 9px;
+    margin: 0px 6px;
+    border: 1px solid;
+}
+.color-black{
+    background-color : #333;
+}
+.color-white{
+    background-color: white;
+}
+.color-red{
+    background-color: red;
+}
+.color-green{
+    background-color: green;
+}
+.color-blue{
+    background-color: blue;
+}
+.color-yellow{
+    background-color: yellow;
+}
+.color-indigo{
+    background-color: indigo;
+}
+.color-silver{
+    background-color: silver;
+}
+.color-gold{
+    background-color: gold;
+}
+.color-orange{
+    background-color: orange;
+}
+.color-pink{
+    background-color: pink;
+}
+.color-violet{
+    background-color: violet;
+}
+.color-purple{
+    background-color: purple;
+}
+.color-brown{
+    background-color: brown;
+}
+.color-beige{
+    background-color: beige;
+}
+.color-grey{
+    background-color: gray;
+}
