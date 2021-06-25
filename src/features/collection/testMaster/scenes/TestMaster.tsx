@@ -17,6 +17,8 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
+
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -28,6 +30,9 @@ const TestMater = observer(() => {
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
 
+
+  console.log({LoginStores});
+  
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
     if (listLookup.length > 0) {
@@ -149,6 +154,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
+                value={LoginStores.loginStore.login?.lab}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
@@ -163,7 +169,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                  {LoginStores.loginStore.login?.labList && LoginStores.loginStore.login?.labList.map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {item.name}
                     </option>
