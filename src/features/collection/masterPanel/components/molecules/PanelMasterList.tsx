@@ -174,34 +174,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Section",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Section">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const section = e.target.value as string
-                    props.onUpdateItem &&
-                    props.onUpdateItem(section,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Section 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
+            editable : false
           },
           {
             dataField: "panelCode",
@@ -294,12 +267,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false
           },
           {
             dataField: "tat",
             text: "TAT",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable : false
           },
           {
             dataField: "autoRelease",
@@ -480,12 +455,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Report Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "reportOrder",
             text: "Report Order",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
@@ -567,12 +544,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Hi Age",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "loAge",
             text: "Lo Age",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
@@ -659,6 +638,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Suffix",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "serviceType",
@@ -704,40 +684,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const panelType = e.target.value as string
-                    props.onUpdateItem &&
-                    props.onUpdateItem(panelType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PANEL_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-
+            editable:false
           },
 
           {
@@ -778,6 +725,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "TubeGroup",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
@@ -818,6 +766,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Label Instruction",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
@@ -898,6 +847,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Workflow",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "cumulative",
@@ -938,18 +888,21 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Report Template",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "sampleType",
             text: "Sample Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "specalInstructions",
             text: "Specal Instructions",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
