@@ -14,51 +14,9 @@
     margin: 0px 6px;
     border: 1px solid;
 }
-.color-black{
-    background-color : #333;
+.colors{
+    margin: 13px 0px;
 }
-.color-white{
-    background-color: white;
-}
-.color-red{
-    background-color: red;
-}
-.color-green{
-    background-color: green;
-}
-.color-blue{
-    background-color: blue;
-}
-.color-yellow{
-    background-color: yellow;
-}
-.color-indigo{
-    background-color: indigo;
-}
-.color-silver{
-    background-color: silver;
-}
-.color-gold{
-    background-color: gold;
-}
-.color-orange{
-    background-color: orange;
-}
-.color-pink{
-    background-color: pink;
-}
-.color-violet{
-    background-color: violet;
-}
-.color-purple{
-    background-color: purple;
-}
-.color-brown{
-    background-color: brown;
-}
-.color-beige{
-    background-color: beige;
-}
-.color-grey{
-    background-color: gray;
+.title{
+    margin: 10px 0px;
 }
