@@ -49,6 +49,14 @@ const MasterPackage = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const getServiceTypes = (fileds: any) => {
+    const finalArray = fileds.arrValue.filter((fileds) => {
+      if (fileds.code === "K" || fileds.code === "M") return fileds
+    })
+    return finalArray
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -196,6 +204,8 @@ const MasterPackage = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const serviceItem = JSON.parse(e.target.value)
+                    console.log({serviceItem});
+                    
                     if (PanelMasterStore.masterPanelStore.listMasterPanel) {
                       const listPackageItems = LibraryUtils.findArrayKeyArrayWise(
                         PanelMasterStore.masterPanelStore.listMasterPanel,
@@ -225,22 +235,22 @@ const MasterPackage = observer(() => {
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       serviceType: serviceItem.code,
-                      packageName:undefined,
-                      panelName:undefined
+                      packageName: undefined,
+                      panelName: undefined,
                     })
                   }}
                 >
                   <option selected>Select</option>
                   {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
+                    getServiceTypes(
+                      lookupItems.find((item) => {
                         return item.fieldName === "SERVICE_TYPE"
                       })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={JSON.stringify(item)}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">

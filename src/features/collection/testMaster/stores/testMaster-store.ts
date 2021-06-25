@@ -2,8 +2,12 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import { Stores } from "@lp/features/login/stores"
 import * as LibraryUtils from "@lp/library/utils"
+
+import { Stores } from "@lp/features/login/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
+
+
 @version(0.1)
 class TestMasterStore {
   @ignore @observable testMaster?: Models.TestMaster
@@ -18,6 +22,7 @@ class TestMasterStore {
       version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
+      rLab:LoginStores.loginStore.login?.lab,
       bill: false,
       autoFinish: false,
       holdOOS: false,
