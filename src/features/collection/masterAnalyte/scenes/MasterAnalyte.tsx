@@ -39,7 +39,20 @@ const MasterAnalyte = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.masterAnalyteStore.updateMasterAnalyte({
+            ...Stores.masterAnalyteStore.masterAnalyte,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -93,22 +106,26 @@ const MasterAnalyte = observer(() => {
                 // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActive || 0)
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
@@ -211,7 +228,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              
+
               <LibraryComponents.Atoms.Grid cols={4}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -393,7 +410,7 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper> */}
-  
+
               <LibraryComponents.Atoms.Form.Input
                 label="Calcy Name"
                 name="txtCalcyName"
@@ -579,6 +596,7 @@ const MasterAnalyte = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
@@ -618,7 +636,10 @@ const MasterAnalyte = observer(() => {
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.masterAnalyteStore.masterAnalyteService
-                    .addAnalyteMaster({...Stores.masterAnalyteStore.masterAnalyte,enteredBy:LoginStore.loginStore.login?._id})
+                    .addAnalyteMaster({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      enteredBy: LoginStore.loginStore.login?._id,
+                    })
                     .then(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
@@ -652,7 +673,7 @@ const MasterAnalyte = observer(() => {
                 <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
-        </div>
+        </div>  
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.MasterAnalyteList
@@ -717,7 +738,6 @@ const MasterAnalyte = observer(() => {
                     window.location.reload()
                   }
                 })
-                
             }
           }}
           onClose={() => {

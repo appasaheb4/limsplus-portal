@@ -20,7 +20,6 @@ export const findArrayKeyArrayWise = (
   arrKeys: Array<any>
 ): Array<any> => {
   console.log({arrMain,arrKeys});
-  
   const arrFinal: Array<any> =[]
   arrKeys.filter((item) => {
     arrFinal.push(arrMain.find((mainItem) => {
