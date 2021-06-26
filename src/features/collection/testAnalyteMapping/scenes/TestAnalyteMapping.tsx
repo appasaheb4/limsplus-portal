@@ -41,7 +41,20 @@ const TestAnalyteMapping = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
+            ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -98,25 +111,32 @@ const TestAnalyteMapping = observer(() => {
                 // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
                   .unix(
-                    Stores.testAnalyteMappingStore.testAnalyteMapping?.dateActive ||
-                      0
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.dateActiveFrom || 0
                   )
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />   
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.dateActiveTo || 0
+                  )
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
+                    ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
@@ -178,20 +198,26 @@ const TestAnalyteMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
-                <LibraryComponents.Molecules.AutocompleteChecked
-                  data={{
-                    defulatValues: [],
-                    list: AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte,
-                    displayKey: "analyteCode",
-                    findKey: "analyteCode",
-                  }}
-                  onUpdate={(items) => {
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const analyteCode = e.target.value
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                      analyteCode: items,
+                      analyteCode,
                     })
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte &&
+                    AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.analyteCode}>
+                          {`${item.analyteName} - ${item.analyteCode}`}
+                        </option>
+                      )
+                    )}
+                </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
 
@@ -217,7 +243,7 @@ const TestAnalyteMapping = observer(() => {
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       testName: testMasteritem.testName,
                       testCode: testMasteritem.testCode,
-                    })  
+                    })
                   }}
                 >
                   <option selected>Select</option>
@@ -249,6 +275,7 @@ const TestAnalyteMapping = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.testAnalyteMappingStore.testAnalyteMapping?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value

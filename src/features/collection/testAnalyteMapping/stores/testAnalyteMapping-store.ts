@@ -14,7 +14,8 @@ class TestAnalyteMappingStore {
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
       dateCreation: LibraryUtils.moment().unix(),
-      dateActive: LibraryUtils.moment().unix(),
+      dateActiveFrom: LibraryUtils.moment().unix(),
+      dateActiveTo: LibraryUtils.moment().unix(),
       version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,

@@ -6,6 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 interface AutocompleteCheckedProps {
+  placeholder?:string
   data?: any
   defaultData?: any[]
   onUpdate?: (item: any) => void
@@ -108,7 +109,7 @@ const AutocompleteChecked = observer((props: AutocompleteCheckedProps) => {
       <div ref={wrapperRef}>
         <div className="flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
           <input
-            placeholder="Search ..."
+            placeholder= {props.placeholder || "Search ..."}
             value={
               !isListOpen
                 ? `${

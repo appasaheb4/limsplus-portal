@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
@@ -28,7 +28,7 @@ interface PackageMasterListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-}   
+}
 
 const PackageMasterList = observer((props: PackageMasterListProps) => {
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -76,77 +76,34 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex  
+              columnIndex
             ) => (
               <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const lab = e.target.value as string
-                      props.onUpdateItem && 
-                        props.onUpdateItem(lab,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+                  <select
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const lab = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(lab, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </>
-            )
+            ),
           },
           {
             dataField: "packageCode",
             text: "Package Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const packageItem = JSON.parse(e.target.value)
-                    props.onUpdateItem && 
-                        props.onUpdateItem(packageItem,column.dataField,row._id)
-                    
-                    setArrPanelCodes(
-                      LibraryUtils.findArrayKeyArrayWise(
-                        lookupItems.find((item) => {
-                          return item.fieldName === "SERVICE_TYPE"
-                        }).arrValue,
-                        packageItem.code === "K" ? ["N"] : ["S"]
-                      )
-                    )
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    LibraryUtils.findArrayKeyArrayWise(
-                      lookupItems.find((item) => {
-                        return item.fieldName === "SERVICE_TYPE"
-                      }).arrValue,
-                      ["K", "M"]
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            ),
           },
 
           {
@@ -154,61 +111,19 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             text: "Package Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Package Name">
-                <select
-                  disabled={true}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                >
-                  <option selected>
-                    {row.packageName ||
-                      `Select`}
-                  </option>
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            ),
           },
           {
             dataField: "panelCode",
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const panelItem = JSON.parse(e.target.value)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(panelItem,column.dataField,row._id);
-                  }}
-                >
-                  <option selected>Select</option>
-                  {arrPanelCodes &&
-                    arrPanelCodes.map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+            formatter: (cellContent, row) => (
+              <>  
+                <ul style={{ listStyle: "inside" }}>
+                  {row.panelCode.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
               </>
             ),
           },
@@ -217,22 +132,13 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             text: "Panel Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
+            formatter: (cellContent, row) => (
               <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
-                <select className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
-                  <option selected>
-                    {Stores.masterPackageStore.masterPackage?.panelName || `Select`}
-                  </option>
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                <ul style={{ listStyle: "inside" }}>
+                  {row.panelName.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </ul>
               </>
             ),
           },
@@ -242,32 +148,28 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return (
+              return <>{row.bill ? "Yes" : "No"}</>
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
               <>
-              {row.bill ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-               <LibraryComponents.Atoms.Form.Toggle
-                label="Bill"
-                id="modeBill"
-                value={row.bill}
-                onChange={(bill) => {
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Bill"
+                  id="modeBill"
+                  value={row.bill}
+                  onChange={(bill) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(bill,column.dataField,row._id)
-                }}
-              />
-                </>
-              ),
+                      props.onUpdateItem(bill, column.dataField, row._id)
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: "status",
@@ -280,31 +182,31 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex  
+              columnIndex
             ) => (
               <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const status = e.target.value
+                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  <select
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(status,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems.length > 0 &&
+                      lookupItems
+                        .find((item) => {
+                          return item.fieldName === "STATUS"
+                        })
+                        .arrValue.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </>
             ),
           },
@@ -315,7 +217,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
-          {  
+          {
             dataField: "dateActive",
             editable: false,
             text: "Date Active",
@@ -384,6 +286,6 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
         }}
       />
     </>
-  )   
+  )
 })
 export default PackageMasterList

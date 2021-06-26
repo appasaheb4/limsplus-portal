@@ -48,16 +48,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             dataField: "analyteCode",
             text: "Analyte Code",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cellContent, row) => (
-              <>
-                <ul style={{ listStyle: "inside" }}>
-                  {row.analyteCode.map((item, index) => (
-                    <li key={index}>{item.analyteCode}</li>
-                  ))}
-                </ul>
-              </>
-            ),
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "testCode",

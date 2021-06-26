@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
- import * as FeatureComponents from "../components"
+import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -19,7 +19,6 @@ import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
-
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -30,9 +29,8 @@ const TestMater = observer(() => {
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
 
+  console.log({ LoginStores })
 
-  console.log({LoginStores});
-  
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
     if (listLookup.length > 0) {
@@ -46,7 +44,20 @@ const TestMater = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.testMasterStore.updateTestMaster({
+            ...Stores.testMasterStore.testMaster,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -87,74 +98,50 @@ const TestMater = observer(() => {
                   .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateActive || 0)
+                  .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"   
+                value={LibraryUtils.moment
+                  .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
                 value={Stores.testMasterStore.testMaster?.version}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
                 value={Stores.testMasterStore.testMaster?.keyNum}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
                 placeholder="Entered By"
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
-                value={LoginStores.loginStore.login?.lab}
+                  value={LoginStores.loginStore.login?.lab}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
@@ -169,11 +156,14 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LoginStores.loginStore.login?.labList && LoginStores.loginStore.login?.labList.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {LoginStores.loginStore.login?.labList &&
+                    LoginStores.loginStore.login?.labList.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      )
+                    )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
@@ -292,7 +282,6 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-             
 
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
@@ -357,7 +346,7 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-               <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Price"
                 placeholder="Price"
                 type="number"
@@ -843,6 +832,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.testMasterStore.testMaster?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
@@ -940,12 +930,15 @@ const TestMater = observer(() => {
                 const error = Utils.validate(
                   Stores.testMasterStore.testMaster,
                   Utils.testMaster
-                )  
+                )
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.testMasterStore.testMasterService
-                    .addTestMaster({...Stores.testMasterStore.testMaster,enteredBy:LoginStore.loginStore.login?._id})
+                    .addTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      enteredBy: LoginStore.loginStore.login?._id,
+                    })
                     .then(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
@@ -1019,8 +1012,9 @@ const TestMater = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.testMasterStore.testMasterService.deleteTestMaster(modalConfirm.id).then(
-                (res: any) => {
+              Stores.testMasterStore.testMasterService
+                .deleteTestMaster(modalConfirm.id)
+                .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
@@ -1029,12 +1023,12 @@ const TestMater = observer(() => {
                     setModalConfirm({ show: false })
                     Stores.testMasterStore.fetchTestMaster()
                   }
-                }
-              )
+                })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.testMasterStore.testMasterService.updateSingleFiled(modalConfirm.data).then(
-                (res: any) => {
+              Stores.testMasterStore.testMasterService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
@@ -1042,10 +1036,9 @@ const TestMater = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.testMasterStore.fetchTestMaster()
-                    window.location.reload();
+                    window.location.reload()
                   }
-                }
-              )
+                })
             }
           }}
           onClose={() => {
