@@ -2,30 +2,14 @@ import React from 'react'
 
 import '../../library/assets/css/setting.css';
 
-// import * as Assets from '../../library/assets/images'
+
 import * as Assets from "@lp/library/assets/backimg"
 
-import colorList from './hexaColor';
+import colorList from './parent';
 
 import * as LibraryComponents from "@lp/library/components"
-import { useState } from 'react';
-import { useEffect } from 'react';
-
 
 export const SettingAdjustment = ()=> {
-    const [colorbg , setbgcolor] = useState<any>([colorList])
-    useEffect(()=>{
-        const currentbgcolor = localStorage.getItem('bgcolor')
-        if(currentbgcolor){
-            setbgcolor(currentbgcolor)
-        }
-    },[])
-
-    const hanleClick = (data)=>{
-        setbgcolor(data)
-        localStorage.setItem('bgcolor',data)
-        console.log(colorbg)
-    }
     return (
         <>
              <hr/>
@@ -41,7 +25,7 @@ export const SettingAdjustment = ()=> {
                         {
                             colorList.map((data,index)=>{
                                 return(
-                                    <div key={index} className='theme' onClick={hanleClick} style={{backgroundColor:`${data}`}} />
+                                    <div key={index} className='theme' style={{backgroundColor:`${data}`}} />
                                 )
                             })
                         }
@@ -55,9 +39,9 @@ export const SettingAdjustment = ()=> {
                       </div>
                       <div className='col-md-7 d-flex theme-options'>
                       {
-                            colorList.map((data,index)=>{
+                             colorList.map((data,index)=>{
                                 return(
-                                    <div key={index} className='theme' style={{backgroundColor:`${data}`}} />
+                                    <div key={index}  className='theme' style={{backgroundColor:`${data}`}} />
                                 )
                             })
                         }
