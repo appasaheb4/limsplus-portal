@@ -1,5 +1,6 @@
 export interface MasterAnalyte {
   _id?: string,
+  duplicateId?: string,
   dateCreation?: number  
   dateActiveFrom?: number  
   dateActiveTo?: number 

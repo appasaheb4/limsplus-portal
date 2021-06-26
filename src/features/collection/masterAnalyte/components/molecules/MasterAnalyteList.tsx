@@ -24,6 +24,7 @@ interface MasterAnalyteProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onDuplicate?:(item:any)=>void;
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
@@ -758,14 +759,8 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                     size="small"
                     type="outline"
                     onClick={() => {
-                      props.onDelete &&
-                        props.onDelete({
-                          type: "Duplicate",
-                          show: true,
-                          id: row,
-                          title: "Are you duplicate?",
-                          body: `Duplicate this record`,
-                        })
+                      props.onDuplicate &&
+                        props.onDuplicate(row)
                     }}   
                   >
                     <LibraryComponents.Atoms.Icon.EvaIcon
