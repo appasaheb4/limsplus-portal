@@ -166,6 +166,7 @@ const MasterAnalyte = observer(() => {
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.lab}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
@@ -516,6 +517,7 @@ const MasterAnalyte = observer(() => {
                 id="optionPicture"
               >
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.picture}
                   name="optionPicture"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -536,6 +538,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Units">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.units}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const units = e.target.value as string
@@ -560,6 +563,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.usage}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const usage = e.target.value
@@ -635,17 +639,33 @@ const MasterAnalyte = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.masterAnalyteStore.masterAnalyteService
-                    .addAnalyteMaster({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      enteredBy: LoginStore.loginStore.login?._id,
-                    })
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Analyte master created.`,
+                  if (!Stores.masterAnalyteStore.masterAnalyte?.duplicateId) {
+                    Stores.masterAnalyteStore.masterAnalyteService
+                      .addAnalyteMaster({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        enteredBy: LoginStore.loginStore.login?._id,
                       })
-                    })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Analyte master created.`,
+                        })  
+                        Stores.masterAnalyteStore.fetchAnalyteMaster()
+                      })
+                  } else {
+                    Stores.masterAnalyteStore.masterAnalyteService
+                      .duplicateAnalyteMaster({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Analyte master duplicate created.`,
+                        })
+                        Stores.masterAnalyteStore.fetchAnalyteMaster()
+                      })
+                  }
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -673,7 +693,7 @@ const MasterAnalyte = observer(() => {
                 <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
-        </div>  
+        </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.MasterAnalyteList
@@ -703,6 +723,15 @@ const MasterAnalyte = observer(() => {
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update item!`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "Duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
               })
             }}
           />
@@ -738,6 +767,14 @@ const MasterAnalyte = observer(() => {
                     window.location.reload()
                   }
                 })
+            } else if (type === "Duplicate") {
+              Stores.masterAnalyteStore.updateMasterAnalyte({
+                ...modalConfirm.data,
+                _id:undefined,
+                duplicateId: modalConfirm.data._id,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
             }
           }}
           onClose={() => {
