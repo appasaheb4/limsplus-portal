@@ -111,30 +111,12 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Test Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cellContent, row) => (
-              <>  
-                <ul style={{ listStyle: "inside" }}>
-                  {row.testCode.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </>
-            ),
           },
           {
             dataField: "testName",
             text: "Test Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cellContent, row) => (
-              <>  
-                <ul style={{ listStyle: "inside" }}>
-                  {row.testName.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </>
-            ),
           },
           {
             dataField: "description",

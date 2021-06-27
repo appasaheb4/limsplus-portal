@@ -198,29 +198,25 @@ const TestAnalyteMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const analyteCode = e.target.value
+                <LibraryComponents.Molecules.AutocompleteChecked
+                  data={{
+                    defulatValues: [],
+                    list: AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte,
+                    displayKey: "analyteCode",
+                    findKey: "analyteCode",
+                  }}
+                  onUpdate={(items) => {
+                    console.log({items});
+                    
+
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                      analyteCode,
+                      analyteCode: items,
                     })
                   }}
-                >
-                  <option selected>Select</option>
-                  {AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte &&
-                    AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.analyteCode}>
-                          {`${item.analyteName} - ${item.analyteCode}`}
-                        </option>
-                      )
-                    )}
-                </select>
+                />
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
-
             <LibraryComponents.Atoms.List
               direction="col"
               space={4}

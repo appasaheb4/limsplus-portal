@@ -117,30 +117,12 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cellContent, row) => (
-              <>  
-                <ul style={{ listStyle: "inside" }}>
-                  {row.panelCode.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </>
-            ),
           },
-          {
+          {  
             dataField: "panelName",
             text: "Panel Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cellContent, row) => (
-              <>
-                <ul style={{ listStyle: "inside" }}>
-                  {row.panelName.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul>
-              </>
-            ),
           },
           {
             dataField: "bill",
