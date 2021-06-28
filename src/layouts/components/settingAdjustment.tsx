@@ -1,16 +1,13 @@
 import React from 'react'
-
 import '../../library/assets/css/setting.css';
-
-
 import * as Assets from "@lp/library/assets/backimg"
-
-import colorList from './parent';
-
 import * as LibraryComponents from "@lp/library/components"
 
-export const SettingAdjustment = ()=> {
+
+export const SettingAdjustment = (props)=> {
+  // console.log('Data in props',props)
     return (
+        <React.Fragment>
         <>
              <hr/>
                 <small className="d-block text-uppercase font-weight-bold text-muted mb-2 colors">
@@ -23,11 +20,11 @@ export const SettingAdjustment = ()=> {
                       </div>
                       <div className='col-md-7 d-flex theme-options'>
                         {
-                            colorList.map((data,index)=>{
-                                return(
-                                    <div key={index} className='theme' style={{backgroundColor:`${data}`}} />
-                                )
-                            })
+                           props.data.map((data,index)=>{
+                               return(
+                                <div key={index} className='theme' style={{backgroundColor:`${data.color}`}}  />
+                               )
+                           })
                         }
                       </div>
                   </div>
@@ -39,11 +36,11 @@ export const SettingAdjustment = ()=> {
                       </div>
                       <div className='col-md-7 d-flex theme-options'>
                       {
-                             colorList.map((data,index)=>{
-                                return(
-                                    <div key={index}  className='theme' style={{backgroundColor:`${data}`}} />
-                                )
-                            })
+                           props.data.map((data,index)=>{
+                               return(
+                                <div key={index} className='theme' style={{backgroundColor:`${data.color}`}} onClick={(e)=>props.toggleState(e,data.color)} />
+                               )
+                           })
                         }
                       </div>
                   </div>
@@ -65,5 +62,6 @@ export const SettingAdjustment = ()=> {
                 </div>
                
         </>
+        </React.Fragment>
     )
 }
