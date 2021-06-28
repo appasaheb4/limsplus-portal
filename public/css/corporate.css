@@ -1827,6 +1827,7 @@ textarea.form-control {
 
 .form-inline {
   display: flex;
+  background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
   flex-flow: row wrap;
   align-items: center; }
   .form-inline .form-check {
@@ -9456,14 +9457,21 @@ body {
   height: 1.5rem; }
 
 .sidebar {
+  background-image:/* linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12),*/
+  url('https://images.pexels.com/photos/2506594/pexels-photo-2506594.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  /* background: transparent; */
   min-width: 260px;
   max-width: 260px;
   transition: margin-left 0.35s ease-in-out, left 0.35s ease-in-out;
-  background: #262F3D;
+  /* background: #262F3D; */
   border-right: 0; }
 
 .sidebar-content {
-  background: #262F3D;
+  /* background-color: #7fcec5; */
+  /* background: #262F3D; */
   transition: margin-left 0.35s ease-in-out, left 0.35s ease-in-out; }
   .sidebar-sticky .sidebar-content {
     border-right: 0; }
