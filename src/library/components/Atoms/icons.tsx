@@ -95,12 +95,14 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer
     if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsBookmarks")
     return LibraryComponents.Atoms.Icons.IconBs.BsBookmarks
-    if (icon === "LibraryComponents.Atoms.Icons.IconGr.GrLayer")
-    return LibraryComponents.Atoms.Icons.IconGr.GrLayer
+    if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte")
+    return LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte
     if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare")
     return LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare
     if (icon === "LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod")
     return LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod
+    if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross")
+    return LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross
     
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")

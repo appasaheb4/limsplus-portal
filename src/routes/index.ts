@@ -51,6 +51,12 @@ const TestSampleMapping = async(
   () => import("@lp/features/collection/testSampleMapping/scenes/TestSampleMapping")
 )
 const Methods = async(() => import("@lp/features/collection/methods/scenes/Methods"))
+const Doctors = async(()=> import("@lp/features/collection/doctors/scenes/Doctors"))
+
+
+
+
+
 
 // Communication
 const HostCommunication = async(
@@ -221,10 +227,10 @@ const collectionRoutes = {
     {
       path: "/collection/sampleType",
       name: "Sample Type",
-      icon: "LibraryComponents.Atoms.Icons.IconGr.GrLayer",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte",
       component: SampleType,
     },
-    {
+    {   
       path: "/collection/testSampleMapping",
       name: "Test Sample Mapping",
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare",
@@ -235,6 +241,12 @@ const collectionRoutes = {
       name: "Methods",
       icon: "LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod",
       component: Methods,
+    },
+    {   
+      path: "/collection/doctors",
+      name: "Doctors",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross",
+      component: Doctors,
     },
   ],
 }

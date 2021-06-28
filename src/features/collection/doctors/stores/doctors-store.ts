@@ -5,29 +5,29 @@ import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
-class MethodsStore {
-  @ignore @observable methods?: Models.Methods
-  @observable listMethods?: Models.Methods[] = []
+class DoctorsStore {
+  @ignore @observable methods?: Models.Doctors
+  @observable listMethods?: Models.Doctors[] = []
 
   constructor() {
     makeAutoObservable(this)
   }
    
-  @computed get methodsService() {
-    return new Services.MethodsService(
+  @computed get doctorsService() {
+    return new Services.DoctorsService(
       Stores.loginStore.login?.accessToken as string
     )
   }
 
   fetchMethods() {
-    this.methodsService.listMethods().then((res) => {
+    this.doctorsService.listMethods().then((res) => {
       this.listMethods = res
     })
   }
 
-  @action updateMethods(methods: Models.Methods) {
+  @action updateMethods(methods: Models.Doctors) {
     this.methods = methods
   }
 }
 
-export default MethodsStore
+export default DoctorsStore

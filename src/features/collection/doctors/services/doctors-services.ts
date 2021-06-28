@@ -7,9 +7,9 @@
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
-class MethodsService extends BaseService {
+class DoctorsService extends BaseService {
   listMethods = () =>
-    new Promise<Models.Methods[]>((resolve, reject) => {
+    new Promise<Models.Doctors[]>((resolve, reject) => {
       this.client
         .get(`master/methods/listMethods`)
         .then((res) => {
@@ -19,7 +19,7 @@ class MethodsService extends BaseService {
           reject({ error })
         })
     })
-  addMethods = (methods?: Models.Methods) =>
+  addMethods = (methods?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
       this.client
         .post(`master/methods/addMethods`, methods)
@@ -55,4 +55,4 @@ class MethodsService extends BaseService {
     })
 }
 
-export default MethodsService
+export default DoctorsService
