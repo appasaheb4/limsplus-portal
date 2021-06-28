@@ -31,17 +31,16 @@ class MasterAnalyteStore {
       repetition: false,
     }
   }
+  @computed get masterAnalyteService() {
+    return new Services.MasterAnalyteService(
+      Stores.loginStore.login?.accessToken as string
+    )
+  }
 
   fetchAnalyteMaster() {
     this.masterAnalyteService.listAnalyteMaster().then((res) => {
       this.listMasterAnalyte = res
     })
-  }
-
-  @computed get masterAnalyteService() {
-    return new Services.MasterAnalyteService(
-      Stores.loginStore.login?.accessToken as string
-    )
   }
 
   @action updateMasterAnalyte(analyte: Models.MasterAnalyte) {

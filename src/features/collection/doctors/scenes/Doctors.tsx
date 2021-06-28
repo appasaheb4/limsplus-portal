@@ -14,8 +14,8 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-const Methods = observer(() => {
-  const [errors, setErrors] = useState<Models.Methods>()
+const Doctors = observer(() => {
+  const [errors, setErrors] = useState<Models.Doctors>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -162,7 +162,7 @@ const Methods = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.methodsStore.methodsService
+                  Stores.methodsStore.doctorsService
                     .addMethods(Stores.methodsStore.methods)
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
@@ -241,7 +241,7 @@ const Methods = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.methodsStore.methodsService
+              Stores.methodsStore.doctorsService
                 .deleteMethods(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -255,7 +255,7 @@ const Methods = observer(() => {
                 })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.methodsStore.methodsService
+              Stores.methodsStore.doctorsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -276,4 +276,4 @@ const Methods = observer(() => {
   )
 })
 
-export default Methods
+export default Doctors

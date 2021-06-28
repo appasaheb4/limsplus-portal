@@ -690,7 +690,7 @@ const MasterAnalyte = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
         </div>

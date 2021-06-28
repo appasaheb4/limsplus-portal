@@ -14,7 +14,7 @@ import { Stores } from "../../stores"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
-interface SectionListProps {
+interface MethodsListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -23,7 +23,7 @@ interface SectionListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const SectionList = observer((props: SectionListProps) => {
+const MethodsList = observer((props: MethodsListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -36,14 +36,26 @@ const SectionList = observer((props: SectionListProps) => {
           csvExport: false,
         },
         {
-          dataField: "code",
-          text: "Code",
+          dataField: "methodsCode",
+          text: "Methods Code",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "methodsName",
+          text: "Methods Name",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "description",
           text: "Description",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "status",
+          text: "Status",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
@@ -66,7 +78,7 @@ const SectionList = observer((props: SectionListProps) => {
                       show: true,
                       id: [row._id],
                       title: "Are you sure?",
-                      body: `Delete ${row.description} section!`,
+                      body: `Delete record`,
                     })
                 }}
               >
@@ -78,7 +90,7 @@ const SectionList = observer((props: SectionListProps) => {
       ]}
       isEditModify={props.isEditModify}
       isSelectRow={true}
-      fileName="Section"
+      fileName="Methods"
       onSelectedRow={(rows) => {
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
       }}
@@ -88,4 +100,5 @@ const SectionList = observer((props: SectionListProps) => {
     />
   )
 })
-export default SectionList
+
+export default MethodsList
