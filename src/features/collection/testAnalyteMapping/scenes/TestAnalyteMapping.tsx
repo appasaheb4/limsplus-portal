@@ -120,7 +120,7 @@ const TestAnalyteMapping = observer(() => {
                   )
                   .format("YYYY-MM-DD")}
                 disabled={true}
-              />   
+              />
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active To"
                 placeholder="Date Active T0"
@@ -197,39 +197,6 @@ const TestAnalyteMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
-                <LibraryComponents.Molecules.AutocompleteChecked
-                  data={{
-                    defulatValues: [],
-                    list: AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte,
-                    displayKey: "analyteCode",
-                    findKey: "analyteCode",
-                  }}
-                  onUpdate={(items) => {
-                    console.log({items});
-                    
-
-                    Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
-                      ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                      analyteCode: items,
-                    })
-                  }}
-                />
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <LibraryComponents.Atoms.Form.Input
-                label="Test Code"
-                name="txtTestCode"
-                placeholder="Test Code"
-                disabled={true}
-                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.testCode}
-              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -253,7 +220,54 @@ const TestAnalyteMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
+              <LibraryComponents.Atoms.Form.Input
+                label="Test Code"
+                name="txtTestCode"
+                placeholder="Test Code"
+                disabled={true}
+                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.testCode}
+              />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                  placeholder="Search by analyte name or analyte code"
+                  data={{
+                    defulatValues: [],
+                    list:
+                      AnalyteMasterStore.masterAnalyteStore.listMasterAnalyte || [],
+                    displayKey: ["analyteName", "analyteCode"],
+                    findKey: ["analyteName", "analyteCode"],
+                  }}
+                  onUpdate={(items) => {
+                    const analyteCode: string[] = []
+                    const analyteName: string[] = []
+                    items.filter((item: any) => {
+                      analyteCode.push(item.analyteCode)
+                      analyteName.push(item.analyteName)
+                    })
+                    console.log({ analyteName, analyteCode })
+                    Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
+                      ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                      analyteName,
+                      analyteCode,
+                    })
+                  }}
+                />
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Analyte Name"
+                placeholder="Analyte Name"
+                disabled={true}
+                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.analyteName?.join(
+                  ","
+                )}
+              />
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"

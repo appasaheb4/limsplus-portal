@@ -8,6 +8,7 @@ export interface TestAnalyteMapping {
   enteredBy?: string  
   lab?: string
   analyteCode?: Array<any>
+  analyteName?: Array<any>
   testCode?: string
   testName?: string
   description?: string
