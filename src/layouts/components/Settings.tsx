@@ -12,12 +12,14 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
+
 import { SettingAdjustment } from "./settingAdjustment"
+// import { createThis } from "typescript"
 
 
 
 type Props = { layout; sidebar; dispatch }
-type State = { isOpen: boolean }
+type State = { isOpen: boolean,colorList: any }
 
 class Settings extends React.Component<Props, State> {
   constructor(props) {
@@ -25,6 +27,18 @@ class Settings extends React.Component<Props, State> {
   
     this.state = {
       isOpen: false,
+      colorList : [
+        {color:'red'},
+        {color:'white'},
+        {color:'green'},
+        {color:'orange'},
+        {color:'grey'},
+        {color:'silver'},
+        {color:'brown'},
+        {color:'purple'},
+        {color:'indigo'},
+        {color:'violet'}
+      ],
     }
 
     this.setWrapperRef = this.setWrapperRef.bind(this)
@@ -42,6 +56,14 @@ class Settings extends React.Component<Props, State> {
   // componentWillUnmount() {
   //   document.removeEventListener("mousedown", this.handleClickOutside)
   // }
+  // seletedColor(){
+  //   this.setState({
+  //     colorList : [
+  //       {color:'red'},
+  //       {color:'white'}
+  //     ]
+  //   })
+  // }
 
   setWrapperRef() {
     //  this.wrapperRef = node;
@@ -54,11 +76,11 @@ class Settings extends React.Component<Props, State> {
     //   this.setState({ isOpen: false });
     // }
   }
+   
 
   render() {
     const { isOpen } = this.state
-    const { layout, sidebar, dispatch } = this.props
-
+    const { layout, sidebar, dispatch } = this.props 
     return (
       <div ref={this.setWrapperRef} className={"settings " + (isOpen ? "open" : "")}>
         <div className="settings-toggle" onClick={() => this.toggleSidebar()}>
@@ -117,7 +139,7 @@ class Settings extends React.Component<Props, State> {
                     </span>
                   </li>
                 </ul>
-                <SettingAdjustment/>
+               <SettingAdjustment data={this.state.colorList} />
               </div>
             </PerfectScrollbar>
           </div>
@@ -126,6 +148,7 @@ class Settings extends React.Component<Props, State> {
     )
   }
 }
+
 
 export default connect((store: any) => ({
   layout: store.layout,
