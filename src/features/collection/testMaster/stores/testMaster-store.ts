@@ -7,11 +7,10 @@ import * as LibraryUtils from "@lp/library/utils"
 import { Stores } from "@lp/features/login/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
-
 @version(0.1)
 class TestMasterStore {
   @ignore @observable testMaster?: Models.TestMaster
-  @observable listTestMaster?: Models.TestMaster[] =[]
+  @observable listTestMaster?: Models.TestMaster[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -23,7 +22,7 @@ class TestMasterStore {
       version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
-      rLab:LoginStores.loginStore.login?.lab,
+      rLab: LoginStores.loginStore.login?.lab,
       bill: false,
       autoFinish: false,
       holdOOS: false,
@@ -48,10 +47,10 @@ class TestMasterStore {
       Stores.loginStore.login?.accessToken as string
     )
   }
-
+  
   fetchTestMaster() {
     this.testMasterService.listTestMaster().then((res) => {
-      console.log({ res })
+      //console.log({ res })
       this.listTestMaster = res
     })
   }

@@ -15,6 +15,7 @@ import * as Iconmd from "react-icons/md"
 import * as Iconio from "react-icons/io"
 import * as Iconsi from "react-icons/si"
 import * as Iconai from "react-icons/ai"
+import * as Iconvsc from 'react-icons/vsc'
 
 export interface IconsProps {
   size?: string
@@ -45,7 +46,8 @@ export {
   Iconmd,
   Iconio,
   Iconsi,
-  Iconai
+  Iconai,
+  Iconvsc
 }
 
 export const getIcons = (icon: string): any => {
@@ -93,8 +95,12 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconai.AiOutlineContainer
     if (icon === "LibraryComponents.Atoms.Icons.IconBs.BsBookmarks")
     return LibraryComponents.Atoms.Icons.IconBs.BsBookmarks
+    if (icon === "LibraryComponents.Atoms.Icons.IconGr.GrLayer")
+    return LibraryComponents.Atoms.Icons.IconGr.GrLayer
     if (icon === "LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare")
     return LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare
+    if (icon === "LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod")
+    return LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod
     
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")

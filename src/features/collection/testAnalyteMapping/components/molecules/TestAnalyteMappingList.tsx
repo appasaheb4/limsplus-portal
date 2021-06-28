@@ -51,14 +51,20 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
+            dataField: "testName",
+            text: "Test Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
             dataField: "analyteCode",
             text: "Analyte Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
-          {
-            dataField: "testName",
-            text: "Test Name",
+          {    
+            dataField: "analyteName",
+            text: "Analyte Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },

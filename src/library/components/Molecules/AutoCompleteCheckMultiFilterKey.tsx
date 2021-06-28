@@ -68,7 +68,7 @@ const AutoCompleteCheckMultiFilterKey = observer(
           count++
           return item
         })
-        console.log({ finalList })
+        // console.log({ finalList })
         list = finalList
       }
       return list
@@ -113,7 +113,7 @@ const AutoCompleteCheckMultiFilterKey = observer(
           if (value) {
             return value.toLowerCase().indexOf(search.toLowerCase()) > -1
           } else {
-            return;
+            return
           }
         })
 
