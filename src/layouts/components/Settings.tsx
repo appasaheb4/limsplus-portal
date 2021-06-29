@@ -12,19 +12,19 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
-
+import * as Images from '@lp/library/assets/backimg'
 import { SettingAdjustment } from "./settingAdjustment"
+
 // import { createThis } from "typescript"
 
 
 
 type Props = { layout; sidebar; dispatch }
-type State = { isOpen: boolean,colorList: any }
+type State = { isOpen: boolean,colorList: any,imageList: any}
 
 class Settings extends React.Component<Props, State> {
   constructor(props) {
     super(props)
-  
     this.state = {
       isOpen: false,
       colorList : [
@@ -39,10 +39,17 @@ class Settings extends React.Component<Props, State> {
         {color:'indigo'},
         {color:'violet'}
       ],
+      imageList : [
+        {image : Images.img1},
+        {image : Images.img2},
+        {image : Images.img3},
+        {image : Images.img4},
+      ]
     }
-
+    
     this.setWrapperRef = this.setWrapperRef.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.shortCutBarColor = this.shortCutBarColor.bind(this)
   }
 
   toggleSidebar() {
@@ -56,18 +63,15 @@ class Settings extends React.Component<Props, State> {
   // componentWillUnmount() {
   //   document.removeEventListener("mousedown", this.handleClickOutside)
   // }
-  // seletedColor(){
-  //   this.setState({
-  //     colorList : [
-  //       {color:'red'},
-  //       {color:'white'}
-  //     ]
-  //   })
-  // }
 
+  
   setWrapperRef() {
     //  this.wrapperRef = node;
     //console.log({ node })
+  }
+  shortCutBarColor(event){
+    this.shortCutBarColor = event.target.value;
+    console.log('SideBarColor Value',this.shortCutBarColor);
   }
 
   handleClickOutside(event) {
@@ -139,7 +143,7 @@ class Settings extends React.Component<Props, State> {
                     </span>
                   </li>
                 </ul>
-               <SettingAdjustment data={this.state.colorList} />
+               <SettingAdjustment data={this.state.colorList} images={this.state.imageList} changeColor = {this.shortCutBarColor} />
               </div>
             </PerfectScrollbar>
           </div>
