@@ -16,10 +16,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
+
 // import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
+
 
 const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
@@ -163,7 +165,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           (sidebar.isSticky ? " sidebar-sticky" : "")
         }
       >
-        <div className="sidebar-content">
+        <div className="sidebar-content" >
           <PerfectScrollbar>
             <a className="flex sidebar-brand items-center" href="/">
               <img

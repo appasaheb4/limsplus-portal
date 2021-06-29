@@ -33,6 +33,7 @@ interface PackageMasterListProps {
 const PackageMasterList = observer((props: PackageMasterListProps) => {
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const [arrPanelCodes, setArrPanelCodes] = useState<any>()
+  const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
     if (listLookup.length > 0) {
@@ -191,20 +192,20 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               columnIndex  
             ) => (
               <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const panelItem = JSON.parse(e.target.value)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(panelItem,column.dataField,row._id);
+                    props.onUpdateItem && 
+                      props.onUpdateItem(panelItem,column.dataField,row._id)
                   }}
                 >
                   <option selected>Select</option>
-                  {arrPanelCodes &&
-                    arrPanelCodes.map((item: any, index: number) => (
+                  {arrPanelItems &&
+                    arrPanelItems.map((item: any, index: number) => (
                       <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
+                        {`${item.panelName} - ${item.panelCode}`}
                       </option>
                     ))}
                 </select>
@@ -226,7 +227,8 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               columnIndex  
             ) => (
               <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
+
                 <select className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
                   <option selected>
                     {Stores.masterPackageStore.masterPackage?.panelName || `Select`}
