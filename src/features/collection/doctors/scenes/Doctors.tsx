@@ -3,6 +3,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -11,6 +12,7 @@ import Storage from "@lp/library/modules/storage"
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -41,8 +43,8 @@ const Doctors = observer(() => {
           })
           ?.arrValue?.find((statusItem) => statusItem.code === "A")
         if (status) {
-          Stores.methodsStore.updateMethods({
-            ...Stores.methodsStore.methods,
+          Stores.doctorsStore.updateDoctors({
+            ...Stores.doctorsStore.doctors,
             status: status.code,
           })
         }
@@ -81,40 +83,121 @@ const Doctors = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.Input
-                label="Method Code"
-                placeholder="Method Code"
-                value={Stores.methodsStore.methods?.methodsCode}
-                onChange={(methodsCode) => {
-                  Stores.methodsStore.updateMethods({
-                    ...Stores.methodsStore.methods,
-                    methodsCode,
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment
+                  .unix(Stores.doctorsStore.doctors?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active From"
+                placeholder="Date Active From"
+                value={LibraryUtils.moment
+                  .unix(Stores.doctorsStore.doctors?.dateActiveFrom || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(Stores.doctorsStore.doctors?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.Input
-                label="Method Name"
-                placeholder="Method Name"
-                value={Stores.methodsStore.methods?.methodsName}
-                onChange={(methodsName) => {
-                  Stores.methodsStore.updateMethods({
-                    ...Stores.methodsStore.methods,
-                    methodsName,
+                label="Version"
+                placeholder="Version"
+                value={Stores.doctorsStore.doctors?.version}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value={Stores.doctorsStore.doctors?.keyNum}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+              />
+
+              <LibraryComponents.Atoms.Form.Input
+                label="Doctor Code"
+                placeholder="Doctor Code"
+                value={Stores.doctorsStore.doctors?.doctorCode}
+                onChange={(doctorCode) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    doctorCode,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={4}
-                label="Description"
-                placeholder="Description"
-                value={Stores.methodsStore.methods?.description}
-                onChange={(description) => {
-                  Stores.methodsStore.updateMethods({
-                    ...Stores.methodsStore.methods,
-                    description,
+              <LibraryComponents.Atoms.Form.Input
+                label="Doctor Name"
+                placeholder="Doctor Name"
+                value={Stores.doctorsStore.doctors?.doctorName}
+                onChange={(doctorName) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    doctorName,
                   })
                 }}
               />
+
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sex = e.target.value
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      sex,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Male", "Female"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {`${item}`}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Title">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const title = e.target.value
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      title,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "TITLE"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -127,8 +210,8 @@ const Doctors = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
-                    Stores.methodsStore.updateMethods({
-                      ...Stores.methodsStore.methods,
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
                       status,
                     })
                   }}
@@ -156,21 +239,21 @@ const Doctors = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 const error = Utils.validate(
-                  Stores.methodsStore.methods,
-                  Utils.methods
+                  Stores.doctorsStore.doctors,
+                  Utils.doctors
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.methodsStore.doctorsService
-                    .addMethods(Stores.methodsStore.methods)
+                  Stores.doctorsStore.doctorsService
+                    .addMethods(Stores.doctorsStore.doctors)
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Methods created.`,
+                          message: `😊 Doctor record created.`,
                         })
-                        Stores.methodsStore.fetchMethods()
+                        Stores.doctorsStore.fetchDoctors()
                       }
                     })
                 } else {
@@ -205,7 +288,7 @@ const Doctors = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.MethodsList
-            data={Stores.methodsStore.listMethods || []}
+            data={Stores.doctorsStore.listDoctors || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
               "Delete"
@@ -241,7 +324,7 @@ const Doctors = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.methodsStore.doctorsService
+              Stores.doctorsStore.doctorsService
                 .deleteMethods(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -250,12 +333,12 @@ const Doctors = observer(() => {
                       message: `😊 Methods record deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.methodsStore.fetchMethods()
-                  }   
+                    Stores.doctorsStore.fetchDoctors()
+                  }
                 })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.methodsStore.doctorsService
+              Stores.doctorsStore.doctorsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
@@ -264,7 +347,7 @@ const Doctors = observer(() => {
                       message: `😊 Methods record updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.methodsStore.fetchMethods()
+                    Stores.doctorsStore.fetchDoctors()
                   }
                 })
             }
@@ -274,6 +357,6 @@ const Doctors = observer(() => {
       </div>
     </>
   )
-})
+})   
 
 export default Doctors
