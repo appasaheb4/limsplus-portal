@@ -1,11 +1,10 @@
 import React from 'react'
 import '../../library/assets/css/setting.css';
-import * as Assets from "@lp/library/assets/backimg"
 import * as LibraryComponents from "@lp/library/components"
 
 
 export const SettingAdjustment = (props)=> {
-  // console.log('Data in props',props)
+  // console.log('Data in props',props) 
     return (
         <React.Fragment>
         <>
@@ -38,7 +37,7 @@ export const SettingAdjustment = (props)=> {
                       {
                            props.data.map((data,index)=>{
                                return(
-                                <div key={index} className='theme' style={{backgroundColor:`${data.color}`}} onClick={(e)=>props.toggleState(e,data.color)} />
+                                <div key={index} className='theme' style={{backgroundColor:`${data.color}`}} onChange={props.changeShortCutColor} />
                                )
                            })
                         }
@@ -57,8 +56,13 @@ export const SettingAdjustment = (props)=> {
                 </div>
                     <h4 className='title'>Background Images</h4>
                 <div className='d-flex justify-content-between'>
-                    <img src={Assets.img1} alt="" width='120px' height='70px'/>
-                    <img src={Assets.img2} alt="" width='120px' height='70px'/>
+                    {
+                      props.images.map((data,index)=>{
+                        return(
+                          <img key={index} className='backimage' src={data.image} alt="" />
+                        )
+                      })
+                    }
                 </div>
                
         </>
