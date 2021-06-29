@@ -8,10 +8,10 @@ import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
 class DoctorsService extends BaseService {
-  listMethods = () =>
+  listDoctors = () =>
     new Promise<Models.Doctors[]>((resolve, reject) => {
       this.client
-        .get(`master/methods/listMethods`)
+        .get(`master/doctors/listDoctors`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class DoctorsService extends BaseService {
           reject({ error })
         })
     })
-  addMethods = (methods?: Models.Doctors) =>
+    addDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/methods/addMethods`, methods)
+        .post(`master/doctors/addDoctors`, doctor)
         .then((res) => {
           resolve(res)
         })
@@ -30,10 +30,10 @@ class DoctorsService extends BaseService {
           reject({ error })
         })
     })
-  deleteMethods = (id: string) =>
+    deleteDoctors = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`master/methods/deleteMethods/${id}`)
+        .delete(`master/doctors/deleteDoctors/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -45,7 +45,7 @@ class DoctorsService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/methods/updateSingleFiled`, newValue)
+        .post(`master/doctors/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)   
         })

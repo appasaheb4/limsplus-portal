@@ -421,13 +421,6 @@ const Doctors = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.Input
                 label="Work Hours"
                 placeholder="Work Hours"
@@ -440,6 +433,35 @@ const Doctors = observer(() => {
                   })
                 }}
               />
+              <LibraryComponents.Atoms.Grid cols={5}>
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Confidential"
+                  value={Stores.doctorsStore.doctors?.confidential}
+                  onChange={(confidential) => {
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      confidential,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Urgent"
+                  value={Stores.doctorsStore.doctors?.urgent}
+                  onChange={(urgent) => {
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      urgent,
+                    })
+                  }}
+                />
+              </LibraryComponents.Atoms.Grid>
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -679,7 +701,7 @@ const Doctors = observer(() => {
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.doctorsStore.doctorsService
-                    .addMethods(Stores.doctorsStore.doctors)
+                    .addDoctors(Stores.doctorsStore.doctors)
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
@@ -719,8 +741,8 @@ const Doctors = observer(() => {
           </div>
         </div>
         <br />
-        <div className="p-2 rounded-lg shadow-xl">
-          <FeatureComponents.Molecules.MethodsList
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
+          <FeatureComponents.Molecules.DoctorsList
             data={Stores.doctorsStore.listDoctors || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
@@ -740,7 +762,7 @@ const Doctors = observer(() => {
                 title: "Are you sure?",
                 body: `Delete selected items!`,
               })
-            }}
+            }}   
             onUpdateItem={(value: any, dataField: string, id: string) => {
               setModalConfirm({
                 show: true,
@@ -758,12 +780,12 @@ const Doctors = observer(() => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
               Stores.doctorsStore.doctorsService
-                .deleteMethods(modalConfirm.id)
+                .deleteDoctors(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record deleted.`,
+                      message: `😊 Doctors record deleted.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.doctorsStore.fetchDoctors()
@@ -777,7 +799,7 @@ const Doctors = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record updated.`,
+                      message: `😊 Doctors record updated.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.doctorsStore.fetchDoctors()

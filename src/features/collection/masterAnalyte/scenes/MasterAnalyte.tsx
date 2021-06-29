@@ -421,17 +421,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Grid cols={5}>
-                {/* <LibraryComponents.Atoms.Form.Toggle
-                  label="PageBreak"
-                  id="modePageBreak"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
-                  onChange={(pageBreak) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      pageBreak,
-                    })
-                  }}
-                /> */}
+               
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
                   id="modeMethod"
