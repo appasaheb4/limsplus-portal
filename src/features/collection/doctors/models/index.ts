@@ -19,7 +19,7 @@ export interface Doctors {
   city?: string
   state?: string
   country?: string
-  postcode?: string
+  postcode?: number
   doctorType?: string
   speciality?: string
   confidential?: boolean
