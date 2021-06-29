@@ -33,6 +33,7 @@ interface PackageMasterListProps {
 const PackageMasterList = observer((props: PackageMasterListProps) => {
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const [arrPanelCodes, setArrPanelCodes] = useState<any>()
+  const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
     if (listLookup.length > 0) {
@@ -141,15 +142,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  value={row.bill}
-                  onChange={(bill) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(bill, column.dataField, row._id)
-                  }}
-                />
+
               </>
             ),
           },
