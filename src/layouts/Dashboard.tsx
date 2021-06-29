@@ -41,12 +41,14 @@ import * as TestSampleMapping from "@lp/features/collection/testSampleMapping"
 import * as TestAnalyteMapping from "@lp/features/collection/testAnalyteMapping"
 import * as TestPanelMapping from '@lp/features/collection/testPanelMapping'
 import * as PackageMaster from '@lp/features/collection/masterPackage'
+import * as Methods from '@lp/features/collection/methods'
+import * as Doctors from '@lp/features/collection/doctors'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
-
+  
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
@@ -97,7 +99,10 @@ const Dashboard = observer(({ children }) => {
         await TestPanelMapping.startup()
         if (pathname === "/collection/masterPackage")
         await PackageMaster.startup()
-
+        if (pathname === "/collection/methods")
+        await Methods.startup()
+        if (pathname === "/collection/doctors")
+        await Doctors.startup()
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()

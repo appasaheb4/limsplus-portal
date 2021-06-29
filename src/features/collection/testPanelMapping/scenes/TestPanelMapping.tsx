@@ -41,7 +41,20 @@ const TestPanelMapping = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.testPanelMappingStore.updateTestPanelMapping({
+            ...Stores.testPanelMappingStore.testPanelMapping,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -85,60 +98,45 @@ const TestPanelMapping = observer(() => {
                   )
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
                   .unix(
-                    Stores.testPanelMappingStore.testPanelMapping?.dateActive || 0
+                    Stores.testPanelMappingStore.testPanelMapping?.dateActiveFrom ||
+                      0
                   )
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testPanelMappingStore.testPanelMapping?.dateActiveTo || 0
+                  )
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.testPanelMappingStore.updateTestPanelMapping({
+                    ...Stores.testPanelMappingStore.testPanelMapping,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
                 value={Stores.testPanelMappingStore.testPanelMapping?.version}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
                 value={Stores.testPanelMappingStore.testPanelMapping?.keyNum}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
@@ -176,27 +174,33 @@ const TestPanelMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                <LibraryComponents.Molecules.AutocompleteChecked
-                  data={{
-                    defulatValues: [],
-                    list: MasterPanelStore.masterPanelStore.listMasterPanel,
-                    displayKey: "panelCode",
-                    findKey: "panelCode",
-                  }}
-                  onUpdate={(items) => {
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const panelCode = e.target.value
                     setErrors({
                       ...errors,
                       panelCode: Utils.validate.single(
-                        items,
+                        panelCode,
                         Utils.testPanelMapping.panelCode
                       ),
                     })
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
-                      panelCode: items,
+                      panelCode: panelCode,
                     })
                   }}
-                />
+                >
+                  <option selected>Select</option>
+                  {MasterPanelStore.masterPanelStore.listMasterPanel &&
+                    MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.panelCode}>
+                          {`${item.panelName} - ${item.panelCode}`}
+                        </option>
+                      )
+                    )}
+                </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
 
@@ -219,27 +223,28 @@ const TestPanelMapping = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const testMasteritem = JSON.parse(e.target.value)
+                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                  placeholder="Search by test name or test code"
+                  data={{
+                    defulatValues: [],
+                    list: TestMasterStore.testMasterStore.listTestMaster || [],
+                    displayKey: ["testName", "testCode"],
+                    findKey: ["testName", "testCode"],
+                  }}
+                  onUpdate={(items) => {
+                    const testCode: string[] = []
+                    const testName: string[] = []
+                    items.filter((item: any) => {
+                      testCode.push(item.testCode)
+                      testName.push(item.testName)
+                    })
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
-                      testName: testMasteritem.testName,
-                      testCode: testMasteritem.testCode,
+                      testName,
+                      testCode,
                     })
                   }}
-                >
-                  <option selected>Select</option>
-                  {TestMasterStore.testMasterStore.listTestMaster &&
-                    TestMasterStore.testMasterStore.listTestMaster.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={JSON.stringify(item)}>
-                          {item.testName}
-                        </option>
-                      )
-                    )}
-                </select>
+                />
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <LibraryComponents.Atoms.Form.MultilineInput
@@ -257,6 +262,7 @@ const TestPanelMapping = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.testPanelMappingStore.testPanelMapping?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
@@ -356,10 +362,10 @@ const TestPanelMapping = observer(() => {
               toJS(RootStore.routerStore.userPermission),
               "Delete"
             )}
-             isEditModify={RouterFlow.checkPermission(
-             toJS(RootStore.routerStore.userPermission),
-             "Edit/Modify"
-             )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(RootStore.routerStore.userPermission),
+              "Edit/Modify"
+            )}
             // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
@@ -398,7 +404,7 @@ const TestPanelMapping = observer(() => {
                     setModalConfirm({ show: false })
                     Stores.testPanelMappingStore.fetchTestPanelMapping()
                   }
-                })  
+                })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
               Stores.testPanelMappingStore.testPanelMappingService
@@ -411,7 +417,7 @@ const TestPanelMapping = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.testPanelMappingStore.fetchTestPanelMapping()
-                    window.location.reload();
+                    window.location.reload()
                   }
                 })
             }

@@ -14,7 +14,8 @@ class MasterAnalyteStore {
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: LibraryUtils.moment().unix(),
-      dateActive: LibraryUtils.moment().unix(),
+      dateActiveFrom: LibraryUtils.moment().unix(),
+      dateActiveTo: LibraryUtils.moment().unix(),
       version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
@@ -22,7 +23,7 @@ class MasterAnalyteStore {
       bill: false,
       autoRelease: false,
       holdOOS: false,
-      instantResult: false,  
+      instantResult: false,
       // pageBreak: false,
       method: false,
       display: true,
@@ -30,17 +31,16 @@ class MasterAnalyteStore {
       repetition: false,
     }
   }
+  @computed get masterAnalyteService() {
+    return new Services.MasterAnalyteService(
+      Stores.loginStore.login?.accessToken as string
+    )
+  }
 
   fetchAnalyteMaster() {
     this.masterAnalyteService.listAnalyteMaster().then((res) => {
       this.listMasterAnalyte = res
     })
-  }
-
-  @computed get masterAnalyteService() {
-    return new Services.MasterAnalyteService(
-      Stores.loginStore.login?.accessToken as string
-    )
   }
 
   @action updateMasterAnalyte(analyte: Models.MasterAnalyte) {
