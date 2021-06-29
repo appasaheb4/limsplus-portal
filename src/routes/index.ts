@@ -51,12 +51,13 @@ const TestSampleMapping = async(
   () => import("@lp/features/collection/testSampleMapping/scenes/TestSampleMapping")
 )
 const Methods = async(() => import("@lp/features/collection/methods/scenes/Methods"))
-const Doctors = async(()=> import("@lp/features/collection/doctors/scenes/Doctors"))
-
-
-
-
-
+const Doctors = async(() => import("@lp/features/collection/doctors/scenes/Doctors"))
+const RegistrationLocation = async(
+  () =>
+    import(
+      "@lp/features/collection/registrationLocations/scenes/RegistrationLocations"
+    )
+)
 
 // Communication
 const HostCommunication = async(
@@ -230,25 +231,31 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaBuromobelexperte",
       component: SampleType,
     },
-    {   
+    {
       path: "/collection/testSampleMapping",
       name: "Test Sample Mapping",
       icon: "LibraryComponents.Atoms.Icons.Iconio.IoIosGitCompare",
       component: TestSampleMapping,
     },
-    {   
+    {
       path: "/collection/methods",
       name: "Methods",
       icon: "LibraryComponents.Atoms.Icons.Iconvsc.VscSymbolMethod",
       component: Methods,
     },
-    {   
+    {
       path: "/collection/doctors",
       name: "Doctors",
       icon: "LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross",
       component: Doctors,
     },
-  ],
+    {
+      path: "/collection/registrationLocations",
+      name: "Registartion Locations",
+      icon: "LibraryComponents.Atoms.Icons.IconRi.RiMap2Line",
+      component: RegistrationLocation,
+    },
+  ],  
 }
 
 const communicationRoutes = {
