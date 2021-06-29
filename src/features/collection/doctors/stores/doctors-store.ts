@@ -17,9 +17,11 @@ class DoctorsStore {
       dateCreation: LibraryUtils.moment().unix(),
       dateActiveFrom: LibraryUtils.moment().unix(),
       dateActiveTo: LibraryUtils.moment().unix(),
-      version: 1,
+      version: 1,  
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
+      confidential:false,
+      urgent:false
     }
   }
    
@@ -30,7 +32,7 @@ class DoctorsStore {
   }
 
   fetchDoctors() {
-    this.doctorsService.listMethods().then((res) => {
+    this.doctorsService.listDoctors().then((res) => {
       this.listDoctors = res
     })
   }

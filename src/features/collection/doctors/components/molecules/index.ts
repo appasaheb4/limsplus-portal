@@ -1,1 +1,1 @@
-export { default as MethodsList } from "./MethodsList"
+export { default as DoctorsList } from "./DoctorsList"
