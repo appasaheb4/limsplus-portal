@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { connect } from "react-redux"
 
 import { toggleBoxedLayout } from "../../redux/actions/layoutActions"
@@ -11,7 +11,6 @@ import PerfectScrollbar from "react-perfect-scrollbar"
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
-import * as Images from "@lp/library/assets/backimg"
 import { SideBarColorBgImages } from "./SideBarColorBgImages"
 import * as Assets from '@lp/library/assets'
 
@@ -26,28 +25,27 @@ class Settings extends React.Component<Props, State> {
     this.state = {
       isOpen: false,
       colorList: [
-        { color: "red" },
-        { color: "white" },
-        { color: "green" },
-        { color: "orange" },
-        { color: "grey" },
-        { color: "silver" },
-        { color: "brown" },
-        { color: "purple" },
-        { color: "indigo" },
-        { color: "violet" },
+        { color: "#FF0000" },
+        { color: "#FFFFFF" },
+        { color: "#00FF00" },
+        { color: "#FFA500" },
+        { color: "#C0C0C0" },
+        { color: "#FFFF00" },
+        { color: "#0000FF" },
+        { color: "#800080" },
+        { color: "#000080" },
+        { color: "#008080" },
       ],
       imageList: [
         { image: Assets.images.img1 },
-        { image: Assets.images.img1 },
-        { image: Assets.images.img1 },
-        { image: Assets.images.img1 },
+        // { image: Assets.images.img2 },
+        // { image: Assets.images.img3 },
+        // { image: Assets.images.img4 },
       ],
     }
 
     this.setWrapperRef = this.setWrapperRef.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.shortCutBarColor = this.shortCutBarColor.bind(this)
   }
 
   toggleSidebar() {
@@ -66,11 +64,7 @@ class Settings extends React.Component<Props, State> {
     //  this.wrapperRef = node;
     //console.log({ node })
   }
-  shortCutBarColor(event) {
-    this.shortCutBarColor = event.target.value
-    console.log("SideBarColor Value", this.shortCutBarColor)
-  }
-
+  
   handleClickOutside(event) {
     console.log({ event })
     // if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
@@ -142,8 +136,9 @@ class Settings extends React.Component<Props, State> {
                 <SideBarColorBgImages
                   data={this.state.colorList}
                   images={this.state.imageList}
-                  onChangeSidebarColor={(color: string)=>console.log({color})
-                  }
+                  onChangeSidebarColor={(color: string)=>console.log({color})}
+                  onChangeShoutcutColor={(color: string)=>console.log({color})}
+                  onChangeImage={(image: any)=>console.log({image})}
                 />
               </div>
             </PerfectScrollbar>
