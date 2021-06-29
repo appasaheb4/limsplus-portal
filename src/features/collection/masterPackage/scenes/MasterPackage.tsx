@@ -42,13 +42,34 @@ const MasterPackage = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.masterPackageStore.updateMasterPackage({
+            ...Stores.masterPackageStore.masterPackage,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const getServiceTypes = (fileds: any) => {
+    const finalArray = fileds.arrValue.filter((fileds) => {
+      if (fileds.code === "K" || fileds.code === "M") return fileds
+    })
+    return finalArray
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -83,70 +104,46 @@ const MasterPackage = observer(() => {
                   .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateActive || 0)
+                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.masterPackageStore.updateMasterPackage({
+                    ...Stores.masterPackageStore.masterPackage,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
+              />  
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
                 value={Stores.masterPackageStore.masterPackage?.version}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
                 value={Stores.masterPackageStore.masterPackage?.keyNum}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
                 placeholder="Entered By"
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
@@ -197,14 +194,22 @@ const MasterPackage = observer(() => {
                   onChange={(e) => {
                     const serviceItem = JSON.parse(e.target.value)
                     if (PanelMasterStore.masterPanelStore.listMasterPanel) {
-                      const listPackageItems = LibraryUtils.findArrayKeyArrayWise(
-                        PanelMasterStore.masterPanelStore.listMasterPanel,
-                        [serviceItem.code]
+                      console.log({
+                        items: PanelMasterStore.masterPanelStore.listMasterPanel,
+                      })
+                      const listPackageItems: any = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                        (item) => {
+                          return item.serviceType === serviceItem.code
+                        }
                       )
                       setArrPackageItems(listPackageItems)
-                      const listPanelItems = LibraryUtils.findArrayKeyArrayWise(
-                        PanelMasterStore.masterPanelStore.listMasterPanel,
-                        serviceItem.code === "K" ? ["N"] : ["S"]
+                      const listPanelItems = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                        (item) => {
+                          return (
+                            item.serviceType ===
+                            (serviceItem.code === "K" ? "N" : "S")
+                          )
+                        }
                       )
                       setArrPanelItems(listPanelItems)
                     }
@@ -225,22 +230,22 @@ const MasterPackage = observer(() => {
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       serviceType: serviceItem.code,
-                      packageName:undefined,
-                      panelName:undefined
+                      packageName: undefined,
+                      panelName: undefined,
                     })
                   }}
                 >
                   <option selected>Select</option>
                   {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
+                    getServiceTypes(
+                      lookupItems.find((item) => {
                         return item.fieldName === "SERVICE_TYPE"
                       })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={JSON.stringify(item)}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
@@ -276,51 +281,50 @@ const MasterPackage = observer(() => {
                   </option>
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const panelItem = JSON.parse(e.target.value)
-                    setErrors({
-                      ...errors,
-                      panelCode: Utils.validate.single(
-                        panelItem.panelCode,
-                        Utils.masterPackage.panelCode
-                      ),
-                    })
-                    setErrors({
-                      ...errors,
-                      panelName: Utils.validate.single(
-                        panelItem.panelName,
-                        Utils.masterPackage.panelName
-                      ),
-                    })
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      panelCode: panelItem.panelCode,
-                      panelName: panelItem.panelName,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {arrPanelItems &&
-                    arrPanelItems.map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.panelName} - ${item.panelCode}`}
+              {arrPanelItems && (
+                <>
+                  {" "}
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
+                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                      placeholder="Search by panel name or panel code"
+                      data={{
+                        defulatValues: [],
+                        list: arrPanelItems,
+                        displayKey: ["panelName", "panelCode"],
+                        findKey: ["panelName", "panelCode"],
+                      }}
+                      onUpdate={(items) => {
+                        const panelCode: string[] = []
+                        const panelName: string[] = []
+                        items.filter((item: any) => {
+                          panelCode.push(item.panelCode)
+                          panelName.push(item.panelName)
+                        })
+                        Stores.masterPackageStore.updateMasterPackage({
+                          ...Stores.masterPackageStore.masterPackage,
+                          panelCode,
+                          panelName,
+                        })
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
+                    <select
+                      disabled={true}
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    >
+                      <option selected>
+                        {Stores.masterPackageStore.masterPackage?.panelName?.join(
+                          ","
+                        ) || `Select`}
                       </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
-                <select className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
-                  <option selected>
-                    {Stores.masterPackageStore.masterPackage?.panelName || `Select`}
-                  </option>
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              )}
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.masterPackageStore.masterPackage?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value

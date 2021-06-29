@@ -39,7 +39,20 @@ const MasterAnalyte = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.masterAnalyteStore.updateMasterAnalyte({
+            ...Stores.masterAnalyteStore.masterAnalyte,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -81,74 +94,51 @@ const MasterAnalyte = observer(() => {
                   .unix(Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActive || 0)
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
                 value={Stores.masterAnalyteStore.masterAnalyte?.version}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
                 value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
                 placeholder="Entered By"
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.lab}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
@@ -211,7 +201,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
-              
+
               <LibraryComponents.Atoms.Grid cols={4}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -393,7 +383,7 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper> */}
-  
+
               <LibraryComponents.Atoms.Form.Input
                 label="Calcy Name"
                 name="txtCalcyName"
@@ -431,17 +421,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Grid cols={5}>
-                {/* <LibraryComponents.Atoms.Form.Toggle
-                  label="PageBreak"
-                  id="modePageBreak"
-                  value={Stores.masterAnalyteStore.masterAnalyte?.pageBreak}
-                  onChange={(pageBreak) => {
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      pageBreak,
-                    })
-                  }}
-                /> */}
+               
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
                   id="modeMethod"
@@ -499,6 +479,7 @@ const MasterAnalyte = observer(() => {
                 id="optionPicture"
               >
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.picture}
                   name="optionPicture"
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -519,6 +500,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Units">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.units}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const units = e.target.value as string
@@ -543,6 +525,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.usage}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const usage = e.target.value
@@ -579,6 +562,7 @@ const MasterAnalyte = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
@@ -617,14 +601,33 @@ const MasterAnalyte = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.masterAnalyteStore.masterAnalyteService
-                    .addAnalyteMaster({...Stores.masterAnalyteStore.masterAnalyte,enteredBy:LoginStore.loginStore.login?._id})
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Analyte master created.`,
+                  if (!Stores.masterAnalyteStore.masterAnalyte?.duplicateId) {
+                    Stores.masterAnalyteStore.masterAnalyteService
+                      .addAnalyteMaster({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        enteredBy: LoginStore.loginStore.login?._id,
                       })
-                    })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Analyte master created.`,
+                        })  
+                        Stores.masterAnalyteStore.fetchAnalyteMaster()
+                      })
+                  } else {
+                    Stores.masterAnalyteStore.masterAnalyteService
+                      .duplicateAnalyteMaster({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Analyte master duplicate created.`,
+                        })
+                        Stores.masterAnalyteStore.fetchAnalyteMaster()
+                      })
+                  }
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -649,7 +652,7 @@ const MasterAnalyte = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
               ))}
           </div>
         </div>
@@ -682,6 +685,15 @@ const MasterAnalyte = observer(() => {
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update item!`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "Duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
               })
             }}
           />
@@ -717,7 +729,14 @@ const MasterAnalyte = observer(() => {
                     window.location.reload()
                   }
                 })
-                
+            } else if (type === "Duplicate") {
+              Stores.masterAnalyteStore.updateMasterAnalyte({
+                ...modalConfirm.data,
+                _id:undefined,
+                duplicateId: modalConfirm.data._id,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
             }
           }}
           onClose={() => {

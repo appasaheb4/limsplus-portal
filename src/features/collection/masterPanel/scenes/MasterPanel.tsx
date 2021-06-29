@@ -16,6 +16,7 @@ import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -40,7 +41,20 @@ const MasterPanel = observer(() => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.masterPanelStore.updateMasterPanel({
+            ...Stores.masterPanelStore.masterPanel,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
     }
   }
 
@@ -82,34 +96,28 @@ const MasterPanel = observer(() => {
                   .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
-              />
+              />   
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Creation"
+                label="Date Active From"
+                placeholder="Date Active From"
                 value={LibraryUtils.moment
-                  .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
+                  .unix(Stores.masterPanelStore.masterPanel?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active To"
+                placeholder="Date Active T0"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPanelStore.masterPanel?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.masterPanelStore.updateMasterPanel({
+                    ...Stores.masterPanelStore.masterPanel,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
@@ -149,6 +157,7 @@ const MasterPanel = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
+                  value={LoginStore.loginStore.login?.lab}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
@@ -163,11 +172,14 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {LoginStores.loginStore.login?.labList &&
+                    LoginStores.loginStore.login?.labList.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      )
+                    )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
@@ -248,7 +260,10 @@ const MasterPanel = observer(() => {
                 onChange={(panelCode) => {
                   setErrors({
                     ...errors,
-                    panelCode: Utils.validate.single(panelCode, Utils.masterPanel.panelCode),
+                    panelCode: Utils.validate.single(
+                      panelCode,
+                      Utils.masterPanel.panelCode
+                    ),
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
@@ -263,7 +278,10 @@ const MasterPanel = observer(() => {
                 onChange={(panelName) => {
                   setErrors({
                     ...errors,
-                    panelName: Utils.validate.single(panelName, Utils.masterPanel.panelName),
+                    panelName: Utils.validate.single(
+                      panelName,
+                      Utils.masterPanel.panelName
+                    ),
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
@@ -294,7 +312,7 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
-              
+
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
@@ -560,7 +578,10 @@ const MasterPanel = observer(() => {
                     const serviceType = e.target.value as string
                     setErrors({
                       ...errors,
-                      serviceType: Utils.validate.single(serviceType, Utils.masterPanel.serviceType),
+                      serviceType: Utils.validate.single(
+                        serviceType,
+                        Utils.masterPanel.serviceType
+                      ),
                     })
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
@@ -763,6 +784,7 @@ const MasterPanel = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.masterPanelStore.masterPanel?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value as string
@@ -913,7 +935,7 @@ const MasterPanel = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.masterPanelStore.fetchPanelMaster()
-                    window.location.reload();
+                    window.location.reload()
                   }
                 })
             }
