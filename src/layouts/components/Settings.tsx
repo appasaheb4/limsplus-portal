@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 
 import { toggleBoxedLayout } from "../../redux/actions/layoutActions"
@@ -8,45 +8,43 @@ import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { Badge, Button } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
 
-
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
-import * as Images from '@lp/library/assets/backimg'
-import { SettingAdjustment } from "./settingAdjustment"
+import * as Images from "@lp/library/assets/backimg"
+import { SideBarColorBgImages } from "./SideBarColorBgImages"
+import * as Assets from '@lp/library/assets'
 
 // import { createThis } from "typescript"
 
-
-
 type Props = { layout; sidebar; dispatch }
-type State = { isOpen: boolean,colorList: any,imageList: any}
+type State = { isOpen: boolean; colorList: any; imageList: any }
 
 class Settings extends React.Component<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
       isOpen: false,
-      colorList : [
-        {color:'red'},
-        {color:'white'},
-        {color:'green'},
-        {color:'orange'},
-        {color:'grey'},
-        {color:'silver'},
-        {color:'brown'},
-        {color:'purple'},
-        {color:'indigo'},
-        {color:'violet'}
+      colorList: [
+        { color: "red" },
+        { color: "white" },
+        { color: "green" },
+        { color: "orange" },
+        { color: "grey" },
+        { color: "silver" },
+        { color: "brown" },
+        { color: "purple" },
+        { color: "indigo" },
+        { color: "violet" },
       ],
-      imageList : [
-        {image : Images.img1},
-        {image : Images.img2},
-        {image : Images.img3},
-        {image : Images.img4},
-      ]
+      imageList: [
+        { image: Assets.images.img1 },
+        { image: Assets.images.img1 },
+        { image: Assets.images.img1 },
+        { image: Assets.images.img1 },
+      ],
     }
-    
+
     this.setWrapperRef = this.setWrapperRef.bind(this)
     this.handleClickOutside = this.handleClickOutside.bind(this)
     this.shortCutBarColor = this.shortCutBarColor.bind(this)
@@ -64,14 +62,13 @@ class Settings extends React.Component<Props, State> {
   //   document.removeEventListener("mousedown", this.handleClickOutside)
   // }
 
-  
   setWrapperRef() {
     //  this.wrapperRef = node;
     //console.log({ node })
   }
-  shortCutBarColor(event){
-    this.shortCutBarColor = event.target.value;
-    console.log('SideBarColor Value',this.shortCutBarColor);
+  shortCutBarColor(event) {
+    this.shortCutBarColor = event.target.value
+    console.log("SideBarColor Value", this.shortCutBarColor)
   }
 
   handleClickOutside(event) {
@@ -80,11 +77,10 @@ class Settings extends React.Component<Props, State> {
     //   this.setState({ isOpen: false });
     // }
   }
-   
 
   render() {
     const { isOpen } = this.state
-    const { layout, sidebar, dispatch } = this.props 
+    const { layout, sidebar, dispatch } = this.props
     return (
       <div ref={this.setWrapperRef} className={"settings " + (isOpen ? "open" : "")}>
         <div className="settings-toggle" onClick={() => this.toggleSidebar()}>
@@ -143,7 +139,12 @@ class Settings extends React.Component<Props, State> {
                     </span>
                   </li>
                 </ul>
-               <SettingAdjustment data={this.state.colorList} images={this.state.imageList} changeColor = {this.shortCutBarColor} />
+                <SideBarColorBgImages
+                  data={this.state.colorList}
+                  images={this.state.imageList}
+                  onChangeSidebarColor={(color: string)=>console.log({color})
+                  }
+                />
               </div>
             </PerfectScrollbar>
           </div>
@@ -152,7 +153,6 @@ class Settings extends React.Component<Props, State> {
     )
   }
 }
-
 
 export default connect((store: any) => ({
   layout: store.layout,
