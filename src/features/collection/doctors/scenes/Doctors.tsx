@@ -13,6 +13,7 @@ import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -174,13 +175,6 @@ const Doctors = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Title">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -261,6 +255,13 @@ const Doctors = observer(() => {
                   })
                 }}
               />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 label="City"
                 placeholder="City"
@@ -306,13 +307,6 @@ const Doctors = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Type"
                 placeholder="Doctor Type"
@@ -427,6 +421,13 @@ const Doctors = observer(() => {
                   })
                 }}
               />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
               <LibraryComponents.Atoms.Form.Input
                 label="Work Hours"
                 placeholder="Work Hours"
@@ -487,6 +488,156 @@ const Doctors = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="EDI"
+                placeholder="EDI"
+                value={Stores.doctorsStore.doctors?.edi}
+                onChange={(edi) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    edi,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="EDI Address"
+                placeholder="EDI Address"
+                value={Stores.doctorsStore.doctors?.ediAddress}
+                onChange={(ediAddress) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    ediAddress,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Registartion Location">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const registrationLocation = e.target.value
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      registrationLocation,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems.length > 0 &&
+                    lookupItems
+                      .find((item) => {
+                        return item.fieldName === "STATUS"
+                      })
+                      .arrValue.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+                <select
+                  value={Stores.doctorsStore.doctors?.lab}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const lab = e.target.value as string
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      lab,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Location">
+                <select
+                  value={Stores.doctorsStore.doctors?.location}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const location = e.target.value as string
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      location,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+                <select
+                  value={Stores.doctorsStore.doctors?.schedule}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const schedule = e.target.value as string
+                    Stores.doctorsStore.updateDoctors({
+                      ...Stores.doctorsStore.doctors,
+                      schedule,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Report Format"
+                placeholder="Report Format"
+                value={Stores.doctorsStore.doctors?.reportFormat}
+                onChange={(reportFormat) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    reportFormat,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Info"
+                placeholder="Info"
+                value={Stores.doctorsStore.doctors?.info}
+                onChange={(info) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    info,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="FYI Line"
+                placeholder="FYI Line"
+                value={Stores.doctorsStore.doctors?.fyiLine}
+                onChange={(fyiLine) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    fyiLine,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Work Line"
+                placeholder="Work Line"
+                value={Stores.doctorsStore.doctors?.workLine}
+                onChange={(workLine) => {
+                  Stores.doctorsStore.updateDoctors({
+                    ...Stores.doctorsStore.doctors,
+                    workLine,
+                  })
+                }}
+              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"

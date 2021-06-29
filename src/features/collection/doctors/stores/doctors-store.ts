@@ -3,6 +3,7 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
+import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 class DoctorsStore {
@@ -11,6 +12,15 @@ class DoctorsStore {
 
   constructor() {
     makeAutoObservable(this)
+    this.doctors ={
+      ...this.doctors,
+      dateCreation: LibraryUtils.moment().unix(),
+      dateActiveFrom: LibraryUtils.moment().unix(),
+      dateActiveTo: LibraryUtils.moment().unix(),
+      version: 1,
+      keyNum: "1",
+      enteredBy: Stores.loginStore.login?._id,
+    }
   }
    
   @computed get doctorsService() {

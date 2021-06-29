@@ -214,7 +214,7 @@ const TestAnalyteMapping = observer(() => {
                     TestMasterStore.testMasterStore.listTestMaster.map(
                       (item: any, index: number) => (
                         <option key={index} value={JSON.stringify(item)}>
-                          {item.testName}
+                          {`${item.testName} - ${item.testCode}`}
                         </option>
                       )
                     )}
