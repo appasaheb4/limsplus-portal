@@ -6,6 +6,22 @@
 .theme-options::-webkit-scrollbar{
     width: 0;
 }
+.backimageBar {
+    padding: 0px 0px;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+.backimage{
+    
+   border: 1px solid white;
+   padding: 0px 9px;
+    margin: 0px 6px;
+    width: 90px;
+    height: 120px;
+}
+.backimageBar::-webkit-scrollbar{
+    width: 0;
+}
 .theme{
     width: 20px;
     height: 20px;
