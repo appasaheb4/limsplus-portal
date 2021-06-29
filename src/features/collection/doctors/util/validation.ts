@@ -1,10 +1,10 @@
 import validate from "validate.js"
 export { validate }
-export const methods = {
-  methodsCode: {
+export const doctors = {
+  doctorCode: {
     presence: true,
   },
-  methodsName: {
+  doctorName: {
     presence: true,
   },
 }

@@ -6,8 +6,8 @@ import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class DoctorsStore {
-  @ignore @observable methods?: Models.Doctors
-  @observable listMethods?: Models.Doctors[] = []
+  @ignore @observable doctors?: Models.Doctors
+  @observable listDoctors?: Models.Doctors[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -19,14 +19,14 @@ class DoctorsStore {
     )
   }
 
-  fetchMethods() {
+  fetchDoctors() {
     this.doctorsService.listMethods().then((res) => {
-      this.listMethods = res
+      this.listDoctors = res
     })
   }
 
-  @action updateMethods(methods: Models.Doctors) {
-    this.methods = methods
+  @action updateDoctors(methods: Models.Doctors) {
+    this.doctors = methods
   }
 }
 

@@ -94,16 +94,6 @@ const MasterAnalyte = observer(() => {
                   .unix(Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active From"
@@ -132,36 +122,18 @@ const MasterAnalyte = observer(() => {
                 placeholder="Version"
                 value={Stores.masterAnalyteStore.masterAnalyte?.version}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
                 placeholder="Key Num"
                 value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
                 placeholder="Entered By"
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
               />
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
