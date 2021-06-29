@@ -13,8 +13,8 @@ interface SideBarColorBgImagesProps {
 export const SideBarColorBgImages = ({
   data,
   images,
-  onChangeShoutcutColor,
   onChangeSidebarColor,
+  onChangeShoutcutColor,
   onChangeImage,
 }: SideBarColorBgImagesProps) => {
   // console.log('Data in props',props)
