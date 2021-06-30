@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
@@ -138,6 +139,13 @@ const Doctors = observer(() => {
                 placeholder="Doctor Code"
                 value={Stores.doctorsStore.doctors?.doctorCode}
                 onChange={(doctorCode) => {
+                  setErrors({
+                    ...errors,
+                    doctorCode: Utils.validate.single(
+                      doctorCode,
+                      Utils.doctors.doctorCode
+                    ),
+                  })
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorCode,
@@ -149,6 +157,13 @@ const Doctors = observer(() => {
                 placeholder="Doctor Name"
                 value={Stores.doctorsStore.doctors?.doctorName}
                 onChange={(doctorName) => {
+                  setErrors({
+                    ...errors,
+                    doctorName: Utils.validate.single(
+                      doctorName,
+                      Utils.doctors.doctorName
+                    ),
+                  })  
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorName,
@@ -762,7 +777,7 @@ const Doctors = observer(() => {
                 title: "Are you sure?",
                 body: `Delete selected items!`,
               })
-            }}   
+            }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
               setModalConfirm({
                 show: true,
