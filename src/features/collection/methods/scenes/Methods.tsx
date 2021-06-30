@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
@@ -86,6 +87,13 @@ const Methods = observer(() => {
                 placeholder="Method Code"
                 value={Stores.methodsStore.methods?.methodsCode}
                 onChange={(methodsCode) => {
+                  setErrors({
+                    ...errors,
+                    methodsCode: Utils.validate.single(
+                      methodsCode,
+                      Utils.methods.methodsCode
+                    ),
+                  })
                   Stores.methodsStore.updateMethods({
                     ...Stores.methodsStore.methods,
                     methodsCode,
@@ -97,6 +105,13 @@ const Methods = observer(() => {
                 placeholder="Method Name"
                 value={Stores.methodsStore.methods?.methodsName}
                 onChange={(methodsName) => {
+                  setErrors({
+                    ...errors,
+                    methodsName: Utils.validate.single(
+                      methodsName,
+                      Utils.methods.methodsName
+                    ),
+                  })
                   Stores.methodsStore.updateMethods({
                     ...Stores.methodsStore.methods,
                     methodsName,
@@ -134,7 +149,9 @@ const Methods = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
+                  {lookupItems.find((item) => {
+                    return item.fieldName === "STATUS"
+                  }) &&  
                     lookupItems
                       .find((item) => {
                         return item.fieldName === "STATUS"
@@ -251,7 +268,7 @@ const Methods = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.methodsStore.fetchMethods()
-                  }   
+                  }
                 })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
