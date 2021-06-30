@@ -105,6 +105,8 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconGi.GiHospitalCross
     if (icon === "LibraryComponents.Atoms.Icons.IconRi.RiMap2Line")
     return LibraryComponents.Atoms.Icons.IconRi.RiMap2Line
+    if (icon === "LibraryComponents.Atoms.Icons.IconFi.FiUsers")
+    return LibraryComponents.Atoms.Icons.IconFi.FiUsers
     
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")

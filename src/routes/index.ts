@@ -58,6 +58,9 @@ const RegistrationLocation = async(
       "@lp/features/collection/registrationLocations/scenes/RegistrationLocations"
     )
 )
+const CorporateClients = async(
+  () => import("@lp/features/collection/corporateClients/scenes/CorporateClients")
+)
 
 // Communication
 const HostCommunication = async(
@@ -255,7 +258,13 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconRi.RiMap2Line",
       component: RegistrationLocation,
     },
-  ],  
+    {
+      path: "/collection/corporateClients",
+      name: "Corporate Clients",
+      icon: "LibraryComponents.Atoms.Icons.IconFi.FiUsers",
+      component: CorporateClients,
+    },
+  ],
 }
 
 const communicationRoutes = {
