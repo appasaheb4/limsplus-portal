@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
@@ -785,7 +786,7 @@ const RegistrationLocation = observer(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Doctor record created.`,
+                          message: `😊 Registration Locations record created.`,
                         })
                         Stores.registrationLocationsStore.fetchRegistrationLocations()
                       }
@@ -821,7 +822,7 @@ const RegistrationLocation = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.DoctorsList
+          <FeatureComponents.Molecules.RegistrationLocationsList
             data={Stores.registrationLocationsStore.listRegistrationLocations || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
@@ -864,7 +865,7 @@ const RegistrationLocation = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Doctors record deleted.`,
+                      message: `😊 Registration Locations record deleted.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.registrationLocationsStore.fetchRegistrationLocations()
@@ -878,7 +879,7 @@ const RegistrationLocation = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Doctors record updated.`,
+                      message: `😊 Registration Locations record updated.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.registrationLocationsStore.fetchRegistrationLocations()

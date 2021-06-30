@@ -1,1 +1,1 @@
-export { default as DoctorsList } from "./DoctorsList"
+export { default as RegistrationLocationsList } from "./RegistrationLocationsList"
