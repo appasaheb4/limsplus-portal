@@ -12,27 +12,29 @@ class RegistrationLocationsStore {
 
   constructor() {
     makeAutoObservable(this)
-    this.registrationLocations ={
+    this.registrationLocations = {
       ...this.registrationLocations,
       dateCreation: LibraryUtils.moment().unix(),
       dateActiveFrom: LibraryUtils.moment().unix(),
       dateActiveTo: LibraryUtils.moment().unix(),
-      version: 1,  
+      version: 1,
       keyNum: "1",
       enteredBy: Stores.loginStore.login?._id,
-      confidential:false,
-      urgent:false
+      confidential: false,
+      printLabel: false,
+      neverBill: false,
+      urgent: false,  
     }
   }
-   
+
   @computed get registrationLocationsService() {
     return new Services.RegistrationLocationsService(
       Stores.loginStore.login?.accessToken as string
     )
   }
 
-  fetchDoctors() {
-    this.registrationLocationsService.listDoctors().then((res) => {
+  fetchRegistrationLocations() {
+    this.registrationLocationsService.listRegistrationLocations().then((res) => {
       this.listRegistrationLocations = res
     })
   }

@@ -39,16 +39,17 @@ import * as SampleContainer from "@lp/features/collection/sampleContainer"
 import * as SampleType from "@lp/features/collection/sampleType"
 import * as TestSampleMapping from "@lp/features/collection/testSampleMapping"
 import * as TestAnalyteMapping from "@lp/features/collection/testAnalyteMapping"
-import * as TestPanelMapping from '@lp/features/collection/testPanelMapping'
-import * as PackageMaster from '@lp/features/collection/masterPackage'
-import * as Methods from '@lp/features/collection/methods'
-import * as Doctors from '@lp/features/collection/doctors'
+import * as TestPanelMapping from "@lp/features/collection/testPanelMapping"
+import * as PackageMaster from "@lp/features/collection/masterPackage"
+import * as Methods from "@lp/features/collection/methods"
+import * as Doctors from "@lp/features/collection/doctors"
+import * as RegistrationLocations from "@lp/features/collection/registrationLocations"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
-  
+
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
@@ -74,11 +75,12 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testSampleMapping" ||
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/testPanelMapping"
-      )  
+      )
         await TestMaster.startup()
       if (
         pathname === "/collection/masterPanel" ||
-        pathname === "/collection/testPanelMapping" || pathname === "/collection/masterPackage"
+        pathname === "/collection/testPanelMapping" ||
+        pathname === "/collection/masterPackage"
       )
         await PanelMaster.startup()
       if (
@@ -95,14 +97,12 @@ const Dashboard = observer(({ children }) => {
         await TestSampleMapping.startup()
       if (pathname === "/collection/testAnalyteMapping")
         await TestAnalyteMapping.startup()
-        if (pathname === "/collection/testPanelMapping")
+      if (pathname === "/collection/testPanelMapping")
         await TestPanelMapping.startup()
-        if (pathname === "/collection/masterPackage")
-        await PackageMaster.startup()
-        if (pathname === "/collection/methods")
-        await Methods.startup()
-        if (pathname === "/collection/doctors")
-        await Doctors.startup()
+      if (pathname === "/collection/masterPackage") await PackageMaster.startup()
+      if (pathname === "/collection/methods") await Methods.startup()
+      if (pathname === "/collection/doctors") await Doctors.startup()
+      if (pathname === "/collection/registrationLocations") await RegistrationLocations.startup()
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
