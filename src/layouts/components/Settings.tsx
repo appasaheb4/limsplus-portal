@@ -26,7 +26,7 @@ class Settings extends React.Component<Props, State> {
       isOpen: false,
       colorList: [
         { color: "#FF0000" },
-        { color: "#FFFFFF" },
+        { color: "#991AFF" },
         { color: "#00FF00" },
         { color: "#FFA500" },
         { color: "#C0C0C0" },
