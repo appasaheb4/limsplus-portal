@@ -10052,7 +10052,7 @@ a {
   z-index: 100;
   top: 0;
   bottom: 0;
-  right: -320px;
+  right: -500px;
   transition: right .2s ease-in-out; }
   .settings.open .settings-panel:before {
     content: "";
