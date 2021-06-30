@@ -44,6 +44,7 @@ import * as PackageMaster from "@lp/features/collection/masterPackage"
 import * as Methods from "@lp/features/collection/methods"
 import * as Doctors from "@lp/features/collection/doctors"
 import * as RegistrationLocations from "@lp/features/collection/registrationLocations"
+import * as CorporateClients from '@lp/features/collection/corporateClients'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -103,6 +104,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/methods") await Methods.startup()
       if (pathname === "/collection/doctors") await Doctors.startup()
       if (pathname === "/collection/registrationLocations") await RegistrationLocations.startup()
+      if (pathname === "/collection/corporateClients") await CorporateClients.startup()
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
