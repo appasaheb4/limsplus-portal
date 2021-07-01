@@ -1,22 +1,17 @@
 /* eslint-disable */
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
 
 import Storage from "@lp/library/modules/storage"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+
+import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import * as Services from "../../services"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores } from "../../stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+
 
 interface TestMasterProps {
   data: any
@@ -208,12 +203,14 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Test Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "testName",
             text: "Test Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "description",
@@ -1281,6 +1278,15 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateCreation || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActive",
