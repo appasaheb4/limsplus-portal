@@ -95,7 +95,7 @@ const Lookup = observer(() => {
                   onChange={(fieldName) => {
                     Stores.lookupStore.updateLookup({
                       ...Stores.lookupStore.lookup,
-                      fieldName,
+                      fieldName:fieldName.toUpperCase(),
                     })
                   }}
                 />
@@ -107,7 +107,7 @@ const Lookup = observer(() => {
                       onChange={(code) => {
                         Stores.lookupStore.updateLookup({
                           ...Stores.lookupStore.lookup,
-                          code,
+                          code:code.toUpperCase(),
                         })
                       }}
                     />

@@ -19,14 +19,24 @@ export const findArrayKeyArrayWise = (
   arrMain: Array<any>,
   arrKeys: Array<any>
 ): Array<any> => {
-  console.log({arrMain,arrKeys});
-  const arrFinal: Array<any> =[]
+  console.log({ arrMain, arrKeys })
+  const arrFinal: Array<any> = []
   arrKeys.filter((item) => {
-    arrFinal.push(arrMain.find((mainItem) => {
-      return mainItem.serviceType === item
-    }))
+    arrFinal.push(
+      arrMain.find((mainItem) => {
+        return mainItem.serviceType === item
+      })
+    )
   })
-  console.log({arrFinal});
-  
+  console.log({ arrFinal })
   return arrFinal
+}
+
+export const lookupItems = (arrLookup, key): Array<any> => {
+  const result = arrLookup.find((item) => {
+    return item.fieldName === key
+  }) && arrLookup.find((item) => {
+    return item.fieldName === key
+  }).arrValue
+  return result || []
 }

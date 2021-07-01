@@ -163,7 +163,7 @@ const Doctors = observer(() => {
                       doctorName,
                       Utils.doctors.doctorName
                     ),
-                  })  
+                  })
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorName,
@@ -202,16 +202,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "TITLE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "TITLE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -345,16 +342,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SPECIALITY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
@@ -369,16 +363,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SPECIALITY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -489,16 +480,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "DELIVERY_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
@@ -513,16 +501,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "DELIVERY_METHOD"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -556,19 +541,16 @@ const Doctors = observer(() => {
                       ...Stores.doctorsStore.doctors,
                       registrationLocation,
                     })
-                  }}
+                  }}  
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
@@ -687,12 +669,7 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
