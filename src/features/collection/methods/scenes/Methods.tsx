@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -149,18 +150,13 @@ const Methods = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.find((item) => {
-                    return item.fieldName === "STATUS"
-                  }) &&  
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
