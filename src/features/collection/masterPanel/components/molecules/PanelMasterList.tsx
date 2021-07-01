@@ -11,6 +11,7 @@ import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import Storage from "@lp/library/modules/storage"
+import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
@@ -997,6 +998,15 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateCreation || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActive",
@@ -1004,6 +1014,15 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateActive || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "version",
