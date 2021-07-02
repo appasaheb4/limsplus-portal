@@ -8,9 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import Storage from "@lp/library/modules/storage"
 
-import * as Services from "../../services"
 
-import { Stores } from "../../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -25,8 +23,6 @@ interface PackageMasterListProps {
 
 const PackageMasterList = observer((props: PackageMasterListProps) => {
   const [lookupItems, setLookupItems] = useState<any[]>([])
-  const [arrPanelCodes, setArrPanelCodes] = useState<any>()
-  const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
     if (listLookup.length > 0) {
@@ -98,6 +94,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             text: "Package Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
 
           {
@@ -106,18 +103,21 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editor:false,
+            editable:false
           },
           {
             dataField: "panelCode",
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "panelName",
             text: "Panel Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "bill",
@@ -134,7 +134,17 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => <></>,
+            ) => <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                label="Bill"
+                id="modeBill"
+                value={row.bill}
+                onChange={(bill) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(bill,column.dataField,row._id)
+                }}
+              />
+            </>,
           },
           {
             dataField: "status",
@@ -181,6 +191,15 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateCreation || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActive",
