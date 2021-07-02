@@ -1,26 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
 
 import Storage from "@lp/library/modules/storage"
-
+import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import * as Services from "../../services"
-
-import { Stores } from "../../stores"
-
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
 import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface TestPanelMappingListProps {
@@ -105,18 +93,51 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const panelCode = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(panelCode,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {MasterPanelStore.masterPanelStore.listMasterPanel &&
+                    MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.panelCode}>
+                          {`${item.panelName} - ${item.panelCode}`}
+                        </option>
+                      )
+                    )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "testCode",
             text: "Test Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "testName",
             text: "Test Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "description",
@@ -198,6 +219,15 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateCreation || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActive",

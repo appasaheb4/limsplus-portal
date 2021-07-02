@@ -7,15 +7,9 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-
+import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
-import * as Services from "../../services"
-
-import { Stores } from "../../stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
 
 interface MasterAnalyteProps {
   data: any
@@ -691,6 +685,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Date Creation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {LibraryUtils.moment
+                      .unix(row.dateCreation || 0)
+                      .format("YYYY-MM-DD")}
+                  </>
+                )
+              },
             },
             {
               dataField: "dateActiveFrom",
@@ -698,6 +701,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Date Active From",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {LibraryUtils.moment
+                      .unix(row.dateActiveFrom || 0)
+                      .format("YYYY-MM-DD")}
+                  </>
+                )
+              },
             },
             {
               dataField: "dateActiveTo",
@@ -705,6 +717,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Date Active To",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {LibraryUtils.moment
+                      .unix(row.dateActiveTo || 0)
+                      .format("YYYY-MM-DD")}
+                  </>
+                )
+              },
             },
             {
               dataField: "version",
