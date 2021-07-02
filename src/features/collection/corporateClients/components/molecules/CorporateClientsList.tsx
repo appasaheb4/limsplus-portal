@@ -35,11 +35,12 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             hidden: true,
             csvExport: false,
           },
-          {
+          {   
             dataField: "corporateCode",
             text: "Corporate Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "corporateName",

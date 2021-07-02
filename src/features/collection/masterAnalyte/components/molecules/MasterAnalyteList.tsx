@@ -97,6 +97,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Analyte Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
             },
             {
               dataField: "analyteName",

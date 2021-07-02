@@ -78,6 +78,7 @@ const RegistrationLocationsList = observer(
               text: "Location Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable:false
             },
             {
               dataField: "locationName",
