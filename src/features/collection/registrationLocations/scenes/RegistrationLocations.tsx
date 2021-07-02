@@ -266,12 +266,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "CUSTOMER_GROUP"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -290,12 +285,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "Category"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -360,12 +350,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "DELIVERY_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -384,12 +369,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "DELIVERY_METHOD"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -459,12 +439,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "METHOD_COLN"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "METHOD_COLN").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -497,12 +472,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SPECIALITY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -750,12 +720,7 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>

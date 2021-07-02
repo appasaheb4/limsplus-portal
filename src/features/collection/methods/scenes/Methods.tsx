@@ -171,7 +171,7 @@ const Methods = observer(() => {
                 const error = Utils.validate(
                   Stores.methodsStore.methods,
                   Utils.methods
-                )
+                )   
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
