@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
@@ -7,9 +7,11 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 import moment from "moment"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import * as LibraryUtils from "@lp/library/utils"
+import Storage from "@lp/library/modules/storage"
 import { Stores } from "../../stores"
-
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
@@ -23,6 +25,40 @@ interface CorporateClientListProps {
 }
 
 const CorporateClient = observer((props: CorporateClientListProps) => {
+  const [lookupItems, setLookupItems] = useState<any[]>([])
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.corporateClientsStore.updateCorporateClients({
+            ...Stores.corporateClientsStore.corporateClients,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -58,6 +94,33 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Price List",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+               <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const priceList = e.target.value
+                      props.onUpdateItem && 
+                        props.onUpdateItem(priceList,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {`${item}`}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>       
+            </>,
           },
           {
             dataField: "priceGroup",
@@ -106,6 +169,33 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Customer Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+               <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const customerGroup = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(customerGroup,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>      
+            </>,
           },
 
           {
@@ -113,12 +203,60 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Category",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const category = e.target.value
+                      props.onUpdateItem &&
+                      props.onUpdateItem(category,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>     
+            </>,
           },
           {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return <>{row.confidential ? "Yes" : "No"}</>
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                label="Confidential"
+                id="modeConfidential"
+                value={row.confidential}
+                onChange={(confidential) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(confidential,column.dataField,row._id)
+                }}
+              />
+            </>,
           },
           {
             dataField: "telephone",
@@ -143,18 +281,99 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Delivery Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const deliveryType = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(deliveryType,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>     
+            </>,
           },
           {
             dataField: "deliveryMethod",
             text: "Delivery Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+                     <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const deliveryMethod = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(deliveryMethod,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            </>,
           },
           {
             dataField: "salesTerritoRy",
             text: "Sales TerritoRy",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const salesTerritoRy = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(salesTerritoRy,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>    
+            </>,
           },
           {
             dataField: "area",
@@ -185,6 +404,27 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return <>{row.urgent ? "Yes" : "No"}</>
+            },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                label="urgent"
+                id="modeUrgent"
+                value={row.urgent}
+                onChange={(urgent) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(urgent,column.dataField,row._id)
+                }}
+              />
+            </>,
           },
 
           {
@@ -198,6 +438,34 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+                <select
+                  value={Stores.corporateClientsStore.corporateClients?.schedule}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const schedule = e.target.value as string
+                    props.onUpdateItem &&
+                      props.onUpdateItem(schedule,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            </>,
           },
           {
             dataField: "reportFormat",
@@ -228,6 +496,33 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Status",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => 
+            <>
+               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>     
+            </>,
           },
           {
             dataField: "dateCreation",
@@ -235,6 +530,15 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateCreation || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActiveFrom",
@@ -242,6 +546,15 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Date Active From",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateActiveFrom || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "dateActiveTo",
@@ -249,6 +562,15 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             text: "Date Active To",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateActiveTo || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "version",
