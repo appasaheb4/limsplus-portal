@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
+
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 import * as Utils from "../../utils"
@@ -115,16 +117,14 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {lookupItems.length > 0 &&
-                  lookupItems
-                    .find((item) => {
-                      return item.fieldName === "PATIENT MANAGER - TITLE"
-                    })
-                    .arrValue.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
+                {LibraryUtils.lookupItems(
+                  lookupItems,
+                  "PATIENT MANAGER - TITLE"
+                ).map((item: any, index: number) => (
+                  <option key={index} value={item.code}>
+                    {LibraryUtils.lookupValue(item)}
+                  </option>  
+                ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
             <LibraryComponents.Atoms.Form.Input
@@ -222,15 +222,13 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {lookupItems.length > 0 &&
-                  lookupItems
-                    .find((item) => {
-                      return item.fieldName === "PATIENT MANAGER - SEX"
-                    })
-                    .arrValue.map((item: any, index: number) => (
+                {LibraryUtils.lookupItems(
+                  lookupItems,
+                  "PATIENT MANAGER - SEX"
+                ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>  
                     ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
@@ -338,7 +336,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           >
             <LibraryComponents.Atoms.Form.Input
               label="Postcode"
-              name="txtPostcode"
+              name="txtPostcode"   
               placeholder="Postcode"
               value={Stores.patientRegistationStore.patientManger?.postcode}
               onChange={(postcode) => {
@@ -394,14 +392,12 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 }}
               >
                 <option selected>Select</option>
-                {lookupItems.length > 0 &&
-                  lookupItems
-                    .find((item) => {
-                      return item.fieldName === "PATIENT MANAGER - SPECIES"
-                    })
-                    .arrValue.map((item: any, index: number) => (
+                {LibraryUtils.lookupItems(
+                  lookupItems,
+                  "PATIENT MANAGER - SPECIES"
+                ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                       {LibraryUtils.lookupValue(item)}
                       </option>
                     ))}
               </select>
