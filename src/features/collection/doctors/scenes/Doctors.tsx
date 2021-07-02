@@ -740,11 +740,11 @@ const Doctors = observer(() => {
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   RootStore.routerStore.userPermission,
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -795,6 +795,7 @@ const Doctors = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.doctorsStore.fetchDoctors()
+                    window.location.reload();
                   }
                 })
             }
