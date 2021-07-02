@@ -209,7 +209,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
+            editable: false,
           },
           {
             dataField: "panelName",

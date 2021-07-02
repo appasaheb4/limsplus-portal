@@ -78,6 +78,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Doctor Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "doctorName",

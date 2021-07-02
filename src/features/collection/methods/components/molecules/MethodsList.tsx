@@ -74,6 +74,7 @@ const MethodsList = observer((props: MethodsListProps) => {
           text: "Methods Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable:false
         },
         {
           dataField: "methodsName",
