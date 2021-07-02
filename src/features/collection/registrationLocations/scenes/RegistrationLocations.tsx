@@ -793,11 +793,11 @@ const RegistrationLocation = observer(() => {
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   RootStore.routerStore.userPermission,
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -848,6 +848,7 @@ const RegistrationLocation = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.registrationLocationsStore.fetchRegistrationLocations()
+                    window.location.reload();
                   }
                 })
             }
