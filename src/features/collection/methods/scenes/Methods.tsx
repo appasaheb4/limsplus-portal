@@ -223,11 +223,11 @@ const Methods = observer(() => {
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   RootStore.routerStore.userPermission,
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -278,6 +278,7 @@ const Methods = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.methodsStore.fetchMethods()
+                    window.location.reload();
                   }
                 })
             }
