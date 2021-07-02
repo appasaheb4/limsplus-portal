@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -340,18 +341,15 @@ const TestSampleMapping = observer(() => {
                       minDrawVolUnit,
                     })
                   }}
-                >
+                >   
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "MIN_DRAW_VOL_UNIT"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "MIN_DRAW_VOL_UNIT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -377,16 +375,13 @@ const TestSampleMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "MIN_TEST_VOL_UNIT"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "MIN_TEST_VOL_UNIT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -627,7 +622,7 @@ const TestSampleMapping = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.testSampleMappingStore.fetchSampleTypeList()
-                    window.location.reload();
+                    window.location.reload()
                   }
                 })
             }

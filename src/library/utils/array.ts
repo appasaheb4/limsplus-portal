@@ -40,3 +40,10 @@ export const lookupItems = (arrLookup, key): Array<any> => {
   }).arrValue
   return result || []
 }
+export const lookupValue = (item:any):string=>{
+  return `${
+    item.value === item.code
+      ? item.code
+      : item.value + "-" + item.code
+  }`
+}

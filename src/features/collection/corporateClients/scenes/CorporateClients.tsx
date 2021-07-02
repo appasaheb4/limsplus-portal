@@ -241,7 +241,16 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+            
+             
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+                <LibraryComponents.Atoms.Form.Input
                 label="City"
                 placeholder="City"
                 value={Stores.corporateClientsStore.corporateClients?.city}
@@ -252,7 +261,7 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+               <LibraryComponents.Atoms.Form.Input
                 label="State"
                 placeholder="State"
                 value={Stores.corporateClientsStore.corporateClients?.state}
@@ -286,13 +295,6 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -421,51 +423,6 @@ const CorporateClients = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.Input
-                label="Area"
-                placeholder="Area"
-                value={Stores.corporateClientsStore.corporateClients?.area}
-                onChange={(area) => {
-                  Stores.corporateClientsStore.updateCorporateClients({
-                    ...Stores.corporateClientsStore.corporateClients,
-                    area,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Zone"
-                placeholder="Zone"
-                value={Stores.corporateClientsStore.corporateClients?.zone}
-                onChange={(zone) => {
-                  Stores.corporateClientsStore.updateCorporateClients({
-                    ...Stores.corporateClientsStore.corporateClients,
-                    zone,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="EDI"
-                placeholder="EDI"
-                value={Stores.corporateClientsStore.corporateClients?.edi}
-                onChange={(edi) => {
-                  Stores.corporateClientsStore.updateCorporateClients({
-                    ...Stores.corporateClientsStore.corporateClients,
-                    edi,
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="EDI Address"
-                placeholder="EDI Address"
-                value={Stores.corporateClientsStore.corporateClients?.ediAddress}
-                onChange={(ediAddress) => {
-                  Stores.corporateClientsStore.updateCorporateClients({
-                    ...Stores.corporateClientsStore.corporateClients,
-                    ediAddress,
-                  })
-                }}
-              />
-
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Confidential"
@@ -495,6 +452,53 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
+               <LibraryComponents.Atoms.Form.Input
+                label="Area"
+                placeholder="Area"
+                value={Stores.corporateClientsStore.corporateClients?.area}
+                onChange={(area) => {
+                  Stores.corporateClientsStore.updateCorporateClients({
+                    ...Stores.corporateClientsStore.corporateClients,
+                    area,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Zone"
+                placeholder="Zone"
+                value={Stores.corporateClientsStore.corporateClients?.zone}
+                onChange={(zone) => {
+                  Stores.corporateClientsStore.updateCorporateClients({
+                    ...Stores.corporateClientsStore.corporateClients,
+                    zone,
+                  })
+                }}
+              />
+             
+             
+               <LibraryComponents.Atoms.Form.Input
+                label="EDI"
+                placeholder="EDI"
+                value={Stores.corporateClientsStore.corporateClients?.edi}
+                onChange={(edi) => {
+                  Stores.corporateClientsStore.updateCorporateClients({
+                    ...Stores.corporateClientsStore.corporateClients,
+                    edi,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="EDI Address"
+                placeholder="EDI Address"
+                value={Stores.corporateClientsStore.corporateClients?.ediAddress}
+                onChange={(ediAddress) => {
+                  Stores.corporateClientsStore.updateCorporateClients({
+                    ...Stores.corporateClientsStore.corporateClients,
+                    ediAddress,
+                  })
+                }}
+              />
+
               <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
                   value={Stores.corporateClientsStore.corporateClients?.schedule}
