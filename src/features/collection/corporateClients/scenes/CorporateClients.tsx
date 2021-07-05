@@ -648,11 +648,11 @@ const CorporateClients = observer(() => {
               RootStore.routerStore.userPermission,
               "Delete"
             )}
-            // isEditModify={RouterFlow.checkPermission(
-            //   RootStore.routerStore.userPermission,
-            //   "Edit/Modify"
-            // )}
-            isEditModify={false}
+            isEditModify={RouterFlow.checkPermission(
+              RootStore.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -703,6 +703,7 @@ const CorporateClients = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.corporateClientsStore.fetchCorporateClients()
+                    window.location.reload()
                   }
                 })
             }
