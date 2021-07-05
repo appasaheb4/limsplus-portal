@@ -58,7 +58,7 @@ const SampleContainer = observer(() => {
                   })
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
-                    containerCode,
+                    containerCode:containerCode.toUpperCase()
                   })
                 }}
               />
@@ -76,7 +76,7 @@ const SampleContainer = observer(() => {
                   })
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
-                    containerName,
+                    containerName:containerName.toUpperCase()
                   })
                 }}
               />
