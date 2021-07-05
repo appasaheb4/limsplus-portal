@@ -244,7 +244,7 @@ const TestMater = observer(() => {
                 onChange={(testCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testCode,
+                    testCode:testCode.toUpperCase()
                   })
                 }}
               />
@@ -255,7 +255,7 @@ const TestMater = observer(() => {
                 onChange={(testName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testName,
+                    testName:testName.toUpperCase()
                   })
                 }}
               />
@@ -278,7 +278,7 @@ const TestMater = observer(() => {
                 onChange={(shortName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    shortName,
+                    shortName:shortName.toUpperCase()
                   })
                 }}
               />
@@ -366,7 +366,7 @@ const TestMater = observer(() => {
                 onChange={(schedule) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    schedule,
+                    schedule:schedule.toUpperCase()
                   })
                 }}
               />
@@ -377,7 +377,7 @@ const TestMater = observer(() => {
                 onChange={(tat) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    tat,
+                    tat:tat.toUpperCase()
                   })
                 }}
               />
@@ -419,7 +419,7 @@ const TestMater = observer(() => {
                 onChange={(resultOrder) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    resultOrder,
+                    resultOrder:resultOrder.toUpperCase()
                   })
                 }}
               />
@@ -542,7 +542,7 @@ const TestMater = observer(() => {
                 onChange={(speicalInstructions) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    speicalInstructions,
+                    speicalInstructions:speicalInstructions.toUpperCase()
                   })
                 }}
               />
@@ -735,7 +735,7 @@ const TestMater = observer(() => {
                 onChange={(cptCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    cptCode,
+                    cptCode:cptCode.toUpperCase()
                   })
                 }}
               />
@@ -796,7 +796,7 @@ const TestMater = observer(() => {
                 onChange={(deleverySchedule) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    deleverySchedule,
+                    deleverySchedule:deleverySchedule.toUpperCase()
                   })
                 }}
               />
@@ -826,7 +826,7 @@ const TestMater = observer(() => {
                 onChange={(holdingDays) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    holdingDays,
+                    holdingDays:holdingDays.toUpperCase()
                   })
                 }}
               />
@@ -862,7 +862,7 @@ const TestMater = observer(() => {
                   onChange={(method) => {
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
-                      method,
+                      method
                     })
                   }}
                 />
