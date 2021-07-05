@@ -180,7 +180,7 @@ const MasterAnalyte = observer(() => {
                   })
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteCode,
+                    analyteCode:analyteCode.toUpperCase(),
                   })
                 }}
               />
@@ -197,7 +197,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(analyteName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteName,
+                    analyteName:analyteName.toUpperCase(),
                   })
                 }}
               />
@@ -277,7 +277,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(shortName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    shortName,
+                    shortName:shortName.toUpperCase()
                   })
                 }}
               />
@@ -290,7 +290,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(price) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    price,
+                    price
                   })
                 }}
               />
@@ -392,7 +392,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(calcyName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    calcyName,
+                    calcyName:calcyName.toUpperCase()
                   })
                 }}
               />
@@ -404,7 +404,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(high) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    high,
+                    high:high.toUpperCase()
                   })
                 }}
               />
@@ -416,7 +416,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(low) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    low,
+                    low:low.toUpperCase()
                   })
                 }}
               />
@@ -506,7 +506,7 @@ const MasterAnalyte = observer(() => {
                     const units = e.target.value as string
                     Stores.masterAnalyteStore.updateMasterAnalyte({
                       ...Stores.masterAnalyteStore.masterAnalyte,
-                      units,
+                      units
                     })
                   }}
                 >
@@ -556,7 +556,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(cptCode) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    cptCode,
+                    cptCode:cptCode.toUpperCase()
                   })
                 }}
               />
