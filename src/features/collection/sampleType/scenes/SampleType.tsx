@@ -60,7 +60,7 @@ const SampleType = observer(() => {
                   })
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
-                    sampleCode,
+                    sampleCode:sampleCode.toUpperCase()
                   })
                 }}
               />
@@ -78,7 +78,7 @@ const SampleType = observer(() => {
                   })
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
-                    sampleType,
+                    sampleType:sampleType.toUpperCase()
                   })
                 }}
               />
@@ -89,7 +89,7 @@ const SampleType = observer(() => {
                 onChange={(sampleGroup) => {
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
-                    sampleGroup,
+                    sampleGroup:sampleGroup.toUpperCase()
                   })
                 }}
               />
