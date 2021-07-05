@@ -267,7 +267,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelCode,
+                    panelCode:panelCode.toUpperCase()
                   })
                 }}
               />
@@ -285,7 +285,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelName,
+                    panelName:panelName.toUpperCase()
                   })
                 }}
               />
@@ -308,7 +308,7 @@ const MasterPanel = observer(() => {
                 onChange={(shortName) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    shortName,
+                    shortName:shortName.toUpperCase()
                   })
                 }}
               />
@@ -395,7 +395,7 @@ const MasterPanel = observer(() => {
                 onChange={(schedule) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    schedule,
+                    schedule:schedule.toUpperCase()
                   })
                 }}
               />
@@ -406,7 +406,7 @@ const MasterPanel = observer(() => {
                 onChange={(tat) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    tat,
+                    tat:tat.toUpperCase()
                   })
                 }}
               />
@@ -437,7 +437,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportGroup) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportGroup,
+                    reportGroup:reportGroup.toUpperCase()
                   })
                 }}
               />
@@ -448,7 +448,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportOrder) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportOrder,
+                    reportOrder:reportOrder.toUpperCase()
                   })
                 }}
               />
@@ -483,7 +483,7 @@ const MasterPanel = observer(() => {
                 onChange={(hiAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    hiAge,
+                    hiAge:hiAge.toUpperCase()
                   })
                 }}
               />
@@ -494,7 +494,7 @@ const MasterPanel = observer(() => {
                 onChange={(loAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    loAge,
+                    loAge:loAge.toUpperCase()
                   })
                 }}
               />
@@ -704,7 +704,7 @@ const MasterPanel = observer(() => {
                 onChange={(labelInstruction) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    labelInstruction,
+                    labelInstruction:labelInstruction.toUpperCase()
                   })
                 }}
               />
@@ -778,7 +778,7 @@ const MasterPanel = observer(() => {
                 onChange={(specalInstructions) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    specalInstructions,
+                    specalInstructions:specalInstructions.toUpperCase()
                   })
                 }}
               />
