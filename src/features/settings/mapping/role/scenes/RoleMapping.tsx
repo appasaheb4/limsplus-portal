@@ -15,8 +15,8 @@ const router = dashboardRoutes
 
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -135,7 +135,7 @@ const RoleMapping = observer(() => {
             </select>
           </LibraryComponents.Atoms.Form.InputWrapper>
 
-          <div className="mt-4">
+          <div className="mt-4 overflow-auto">
             {RootStore.routerStore.router && (
               <DragDropContext
                 onDragEnd={(result: any) => {
@@ -449,14 +449,20 @@ const RoleMapping = observer(() => {
                         })
                         .then((res) => {
                           if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                            if (
+                              Stores.roleMappingStore.selectedRole?.code ===
+                              LoginStore.loginStore.login?.role
+                            ) {
+                              RootStore.routerStore.updateUserRouter(router)
+                            }
                             LibraryComponents.Atoms.Toast.success({
-                             message: `😊Role mapping updated.`
-                          })
+                              message: `😊 Role mapping updated.`,
+                            })
                             setTimeout(() => {
                               window.location.reload()
                             }, 2000)
                           } else {
-                            alert("Data not update.Please try again")
+                            alert("Data not update. Please try again")
                           }
                         })
                     : Stores.roleMappingStore.roleMappingService
@@ -466,7 +472,9 @@ const RoleMapping = observer(() => {
                         })
                         .then((res) => {
                           if (res.status === LibraryModels.StatusCode.CREATED) {
-                            LibraryComponents.Atoms.Toast.success({message:`😊Created.`})
+                            LibraryComponents.Atoms.Toast.success({
+                              message: `😊 Role mapping created.`,
+                            })
                             setTimeout(() => {
                               window.location.reload()
                             }, 2000)
@@ -476,8 +484,8 @@ const RoleMapping = observer(() => {
                         })
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
-                   message :"😔Please enter all information!"
-                })
+                    message: "😔 Please enter all information!",
+                  })
                 }
               }}
             >
@@ -525,7 +533,7 @@ const RoleMapping = observer(() => {
                 .deleteRoleMapping(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                    LibraryComponents.Atoms.Toast.success({message:`😊Deleted.`})
+                    LibraryComponents.Atoms.Toast.success({ message: `😊Deleted.` })
                     setModalConfirm({ show: false })
                     Stores.roleMappingStore.fetchRoleMappingList()
                   }
