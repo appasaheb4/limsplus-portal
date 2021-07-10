@@ -42,7 +42,7 @@ export const lookupItems = (arrLookup, key): Array<any> => {
 }
 export const lookupValue = (item:any):string=>{
   return `${
-    item.value === item.code
+    item.value.toUpperCase() === item.code.toUpperCase()
       ? item.code
       : item.value + "-" + item.code
   }`

@@ -361,12 +361,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {lookupItems.length > 0 &&
-                        lookupItems
-                          .find((item) => {
-                            return item.fieldName === "WORKFLOW"
-                          })
-                          .arrValue.map((item: any, index: number) => (
+                      {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {`${item.value} - ${item.code}`}
                             </option>
@@ -581,12 +576,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {lookupItems.length > 0 &&
-                        lookupItems
-                          .find((item) => {
-                            return item.fieldName === "UNITS"
-                          })
-                          .arrValue.map((item: any, index: number) => (
+                      {LibraryUtils.lookupItems(lookupItems, "UNITS").map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {`${item.value} - ${item.code}`}
                             </option>
@@ -620,12 +610,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {lookupItems.length > 0 &&
-                        lookupItems
-                          .find((item) => {
-                            return item.fieldName === "USAGE"
-                          })
-                          .arrValue.map((item: any, index: number) => (
+                      {LibraryUtils.lookupItems(lookupItems, "USAGE").map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {`${item.value} - ${item.code}`}
                             </option>
@@ -665,12 +650,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {lookupItems.length > 0 &&
-                        lookupItems
-                          .find((item) => {
-                            return item.fieldName === "STATUS"
-                          })
-                          .arrValue.map((item: any, index: number) => (
+                      {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {`${item.value} - ${item.code}`}
                             </option>

@@ -198,12 +198,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems.length > 0 &&
-                      lookupItems
-                        .find((item) => {
-                          return item.fieldName === "STATUS"
-                        })
-                        .arrValue.map((item: any, index: number) => (
+                    {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.value} - ${item.code}`}
                           </option>

@@ -464,12 +464,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SEX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SEX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -511,12 +506,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PROCESSING"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -535,12 +525,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "CATEGORY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -590,12 +575,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SERVICE_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SERVICE_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -614,12 +594,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PANEL_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "PANEL_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -795,12 +770,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
