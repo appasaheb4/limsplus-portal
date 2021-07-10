@@ -137,6 +137,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                           router,
                           id: row._id,
                           description: row.role.description,
+                          code: row.role.code
                         })
                     }}
                   >
