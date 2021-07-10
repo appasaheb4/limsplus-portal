@@ -9,17 +9,7 @@ export interface DeliverySchedule {
   pEndTime?: string
   cutofTime?: string
   secoundCutofTime?: string
-  processingType?:
-    | "Minutes"
-    | "Hours"
-    | "Day"
-    | "Weekly"
-    | "Month"
-    | "Weekly"
-    | "Monthly"
-    | "Result"
-    | "Batch1"
-    | "Batch2"
+  processingType?: string
   schFrequency?: string
   reportOn?: string
   dynamicRT?: string
