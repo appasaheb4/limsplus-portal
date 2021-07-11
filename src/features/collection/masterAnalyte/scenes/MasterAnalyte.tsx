@@ -48,7 +48,7 @@ const MasterAnalyte = observer(() => {
         if (status) {
           Stores.masterAnalyteStore.updateMasterAnalyte({
             ...Stores.masterAnalyteStore.masterAnalyte,
-            status: status.code,
+            status: status.code
           })
         }
         setLookupItems(items)

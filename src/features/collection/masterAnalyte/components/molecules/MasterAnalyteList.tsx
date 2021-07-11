@@ -15,13 +15,16 @@ interface MasterAnalyteProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
+  // isRowNotEditable?:boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onDuplicate?:(item:any)=>void;
+  onDuplicate?:(item:any)=>void
+  // onRowNotEditable?: (value: any,id: string) => void
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
+  // console.log('Value of isRowEditable',props.isRowNotEditable)
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -36,7 +39,19 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "I")
+        if (status) {
+
+          // props.isEditModify
+        }
+        setLookupItems(items)
+      }
+      // setLookupItems(items)
     }
   }
 
@@ -646,6 +661,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Status",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              // editable:false,
               editorRenderer: (
                 editorProps,
                 value,
@@ -660,8 +676,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value
+                        if(status === 'A'){
                         props.onUpdateItem &&
                           props.onUpdateItem(status, column.dataField, row._id)
+                        }else if(status === 'I'){
+                          props.onUpdateItem &&
+                          props.onUpdateItem(status, column.dataField, row._id)
+                          // props.isRowNotEditable
+                          // console.log(props.)
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -796,7 +819,9 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ),
             },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={props.isEditModify} // true
+          isRowNotEditable={true}
+          // isEditModify={false}
           isSelectRow={true}
           fileName="AnalyteMaster"
           onSelectedRow={(rows) => {
