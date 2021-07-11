@@ -61,6 +61,9 @@ const RegistrationLocation = async(
 const CorporateClients = async(
   () => import("@lp/features/collection/corporateClients/scenes/CorporateClients")
 )
+const DeliverySchedule = async(
+  () => import("@lp/features/collection/deliverySchedule/scenes/DeliverySchedule")
+)
 
 // Communication
 const HostCommunication = async(
@@ -263,6 +266,12 @@ const collectionRoutes = {
       name: "Corporate Clients",
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiUsers",
       component: CorporateClients,
+    },
+    {   
+      path: "/collection/deliverySchedule",
+      name: "Delivery Schedule",
+      icon: "LibraryComponents.Atoms.Icons.IconGr.GrDeliver",
+      component: DeliverySchedule,
     },
   ],
 }

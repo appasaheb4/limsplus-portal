@@ -244,7 +244,7 @@ const TestMater = observer(() => {
                 onChange={(testCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testCode,
+                    testCode:testCode.toUpperCase()
                   })
                 }}
               />
@@ -255,7 +255,7 @@ const TestMater = observer(() => {
                 onChange={(testName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testName,
+                    testName:testName.toUpperCase()
                   })
                 }}
               />
@@ -278,7 +278,7 @@ const TestMater = observer(() => {
                 onChange={(shortName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    shortName,
+                    shortName:shortName.toUpperCase()
                   })
                 }}
               />
@@ -366,7 +366,7 @@ const TestMater = observer(() => {
                 onChange={(schedule) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    schedule,
+                    schedule:schedule.toUpperCase()
                   })
                 }}
               />
@@ -377,7 +377,7 @@ const TestMater = observer(() => {
                 onChange={(tat) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    tat,
+                    tat:tat.toUpperCase()
                   })
                 }}
               />
@@ -419,7 +419,7 @@ const TestMater = observer(() => {
                 onChange={(resultOrder) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    resultOrder,
+                    resultOrder:resultOrder.toUpperCase()
                   })
                 }}
               />
@@ -512,12 +512,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "WORKFLOW"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -542,7 +537,7 @@ const TestMater = observer(() => {
                 onChange={(speicalInstructions) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    speicalInstructions,
+                    speicalInstructions:speicalInstructions.toUpperCase()
                   })
                 }}
               />
@@ -569,12 +564,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "DISEASE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -593,12 +583,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "CATEGORY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -617,12 +602,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "TEST_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -735,7 +715,7 @@ const TestMater = observer(() => {
                 onChange={(cptCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    cptCode,
+                    cptCode:cptCode.toUpperCase()
                   })
                 }}
               />
@@ -752,12 +732,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PREFIX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -777,12 +752,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SUFIX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -796,7 +766,7 @@ const TestMater = observer(() => {
                 onChange={(deleverySchedule) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    deleverySchedule,
+                    deleverySchedule:deleverySchedule.toUpperCase()
                   })
                 }}
               />
@@ -826,7 +796,7 @@ const TestMater = observer(() => {
                 onChange={(holdingDays) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    holdingDays,
+                    holdingDays:holdingDays.toUpperCase()
                   })
                 }}
               />
@@ -843,12 +813,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -862,7 +827,7 @@ const TestMater = observer(() => {
                   onChange={(method) => {
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
-                      method,
+                      method
                     })
                   }}
                 />
