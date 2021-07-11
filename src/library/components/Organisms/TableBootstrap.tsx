@@ -23,7 +23,6 @@ interface TableBootstrapProps {
   isDelete?: boolean
   isEditModify?: boolean
   isSelectRow?: boolean
-  isRowNotEditable?:boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
@@ -35,8 +34,6 @@ const TableBootstrap = (props: TableBootstrapProps) => {
     props.isEditModify || false
   )
   const [isSelectRow, setIsSelectRow] = useState<boolean>(props.isSelectRow || false)
-  // const [isRowNotEditable,setRowNotEditable] = useState<boolean>(props.isRowNotEditable || true)
-  // console.log('isRowNotEditable Value....',isRowNotEditable)
 
   useEffect(() => {
     if (props.isEditModify) {
@@ -228,10 +225,6 @@ const TableBootstrap = (props: TableBootstrapProps) => {
                 : undefined
             }
             cellEdit={
-              // isRowNotEditable 
-              // ? cellEditFactory({
-              //   editable : false
-              // }):
               isEditModify
                 ? cellEditFactory({
                     mode: "dbclick",

@@ -15,12 +15,10 @@ interface MasterAnalyteProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
-  // isRowNotEditable?:boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onDuplicate?:(item:any)=>void
-  // onRowNotEditable?: (value: any,id: string) => void
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
@@ -661,15 +659,8 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value
-                        if(status === 'A'){
                         props.onUpdateItem &&
                           props.onUpdateItem(status, column.dataField, row._id)
-                        }else if(status === 'I'){
-                          props.onUpdateItem &&
-                          props.onUpdateItem(status, column.dataField, row._id)
-                          // props.isRowNotEditable
-                          // console.log(props.)
-                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -799,9 +790,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ),
             },
           ]}
-          isEditModify={props.isEditModify} // true
-          isRowNotEditable={true}
-          // isEditModify={false}
+          isEditModify={props.isEditModify} 
           isSelectRow={true}
           fileName="AnalyteMaster"
           onSelectedRow={(rows) => {
