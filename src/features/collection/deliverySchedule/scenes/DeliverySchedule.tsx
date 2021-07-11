@@ -337,7 +337,9 @@ const DeliverySchedule = observer(() => {
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Delivery Schdule record created.`,
                       })
-                      Stores.deliveryScheduleStore.fetchDeliverySchedule()
+                     setTimeout(() => {
+                      window.location.reload()
+                     }, 2000);
                     })
                 } else {
                   LibraryComponents.Atoms.Toast.warning({

@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react"
+/* eslint-disable */
+import React, { useState } from "react"
 import _ from "lodash"
 import classnames from "classnames"
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap"
 
-import Storage from "@lp/library/modules/storage"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
 
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+
 
 interface ScheduleFrequencyProps {
   type: string
@@ -84,6 +81,20 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
   ])
   const [monthlyDateValue, setMonthlyDateValue] = useState<number>()
 
+  const [result, setResult] = useState<any[]>([
+    { title: "First Intrim", value: "", selected: false },
+    { title: "Second Intrim", value: "", selected: false },
+    { title: "Third Intrim", value: "", selected: false },
+    { title: "Final", value: "", selected: false },
+    { title: "Negative", value: "", selected: false },
+    { title: "Positive", value: "", selected: false },
+  ])
+  const [batch1StartTime, setBatch1StartTime] = useState<string>()
+  const [batch1EndTime,setBatch1EndTime] = useState<string>()
+  const [batch2StartTime, setBatch2StartTime] = useState<string>()
+  const [batch2Units, setBatch2Units] = useState<string>()
+  const [batch2Value,setBatch2Value] = useState<number>()
+
   const onChangeWeeklyItem = (item, index) => {
     if (item.value === "") return alert("Please enter value")
     weekly[index].selected = !weekly[index].selected
@@ -115,6 +126,18 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
       return e.weekly
     })
     onChnage && onChnage(monthlyItems)
+  }
+
+  const onChangeResultItem = (item, index) => {
+    if (item.value === "") return alert("Please enter value")
+    result[index].selected = !result[index].selected
+    setWeekly(JSON.parse(JSON.stringify(result)))
+    onChnage &&
+      onChnage(
+        result.filter((item) => {
+          return item.selected === true
+        })
+      )
   }
 
   return (
@@ -231,7 +254,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                     setMonthlyDateValue(value)
                   }}
                 />
-                <br />
+                <div className="mb-2" />
                 {monthlyDateValue && (
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date"
@@ -250,6 +273,124 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
               </>
             </TabPane>
           </TabContent>
+        </LibraryComponents.Atoms.Form.InputWrapper>
+      )}
+      {type === "RESULT" && (
+        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+          <ul className="rounded-lg shadow-xl p-2">
+            {result?.map((item: any, index: number) => (
+              <li
+                key={index}
+                value={item}
+                className="inline-flex flex-col items-center ml-1 mb-2"
+              >
+                <input
+                  type="checkbox"
+                  name={item.title}
+                  value={item.title}
+                  checked={item.selected}
+                  onChange={() => onChangeResultItem(item, index)}
+                />
+                <h6 className="ml-2 mr-2 items-center"> {`  ${item.title}  `}</h6>
+                <input
+                  type="number"
+                  onChange={(e) => {
+                    const value = e.target.value
+                    result[index].value = value
+                    setResult(result)
+                  }}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md mr-1"
+                />
+              </li>
+            ))}
+          </ul>
+        </LibraryComponents.Atoms.Form.InputWrapper>
+      )}
+      {type === "BATCH1" && (
+        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+          <LibraryComponents.Atoms.Form.Clock
+            label="Start Time"
+            onChange={(startTime) => {
+              setBatch1StartTime(startTime)
+              onChnage &&
+                  onChnage({
+                    startTime: startTime,
+                    endtime: batch1EndTime,
+                  })
+            }}
+          />
+          <div className="mb-2" />
+          {batch1StartTime && (
+            <LibraryComponents.Atoms.Form.Clock
+              label="End Time"
+              onChange={(endTime) => {
+                setBatch1EndTime(endTime)
+                onChnage &&
+                  onChnage({
+                    startTime: batch1StartTime,
+                    endtime: endTime,
+                  })
+              }}
+            />
+          )}
+        </LibraryComponents.Atoms.Form.InputWrapper>
+      )}
+      {type === "BATCH2" && (
+        <LibraryComponents.Atoms.Form.InputWrapper label="Schdule Frequnecy">
+          <LibraryComponents.Atoms.Form.Clock
+            label="Start Time"
+            onChange={(startTime) => {
+              setBatch2StartTime(startTime)
+              onChnage &&
+              onChnage({
+                startTime: startTime,
+                units: batch2Units,
+                value:batch2Value,
+              })
+            }}
+          />
+          <div className="mb-2" />
+          {batch2StartTime && (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const units = e.target.value as string
+                    setBatch2Units(units)
+                    onChnage &&
+                    onChnage({
+                      startTime: batch2StartTime,
+                      units: units,
+                      value:batch2Value,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["MINUTES", "HOURS", "DAY"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              {batch2Units && (
+                <LibraryComponents.Atoms.Form.Input
+                type="number"
+                  placeholder="Value"
+                  onChange={(value) => {
+                    setBatch2Value(value)
+                    onChnage &&
+                      onChnage({
+                        startTime: batch2StartTime,
+                        units: batch2Units,
+                        value,
+                      })
+                  }}
+                />
+              )}
+            </>
+          )}
         </LibraryComponents.Atoms.Form.InputWrapper>
       )}
     </>

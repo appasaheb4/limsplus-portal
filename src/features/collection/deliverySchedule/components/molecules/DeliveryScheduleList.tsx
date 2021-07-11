@@ -124,6 +124,9 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "Sch Frequency",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return <>{JSON.stringify(row.schFrequency)}</>
+              },
             },
             {
               dataField: "reportOn",
