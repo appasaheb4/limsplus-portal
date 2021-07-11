@@ -16,7 +16,7 @@ export default function ModalFileUpload(props: ModalProps) {
   useEffect(() => {
     setShowModal(props.show)
   }, [props.show])
-
+  
   return (
     <Container>
       {showModal && (

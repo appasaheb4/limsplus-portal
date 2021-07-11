@@ -6,6 +6,8 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
+import { ScheduleFrequency } from "../components/molecules"
+
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
@@ -15,7 +17,7 @@ import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"   
+import { toJS } from "mobx"
 
 const DeliverySchedule = observer(() => {
   const [errors, setErrors] = useState<Models.DeliverySchedule>()
@@ -41,7 +43,7 @@ const DeliverySchedule = observer(() => {
         setLookupItems(items)
       }
     }
-  }  
+  }
 
   useEffect(() => {
     getLookupValues()
@@ -85,9 +87,8 @@ const DeliverySchedule = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Clock
                 label="P Start Time"
-                placeholder="P Start Time"
                 value={Stores.deliveryScheduleStore.deliverySchedule?.pStartTime}
                 onChange={(pStartTime) => {
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
@@ -96,9 +97,8 @@ const DeliverySchedule = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Clock
                 label="P End Time"
-                placeholder="P End Time"
                 value={Stores.deliveryScheduleStore.deliverySchedule?.pEndTime}
                 onChange={(pEndTime) => {
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
@@ -107,9 +107,8 @@ const DeliverySchedule = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Clock
                 label="Cutof Time"
-                placeholder="Cutof Time"
                 value={Stores.deliveryScheduleStore.deliverySchedule?.cutofTime}
                 onChange={(cutofTime) => {
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
@@ -118,9 +117,8 @@ const DeliverySchedule = observer(() => {
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Clock
                 label="Secound Cutof Time"
-                placeholder="Secound Cutof Time"
                 value={
                   Stores.deliveryScheduleStore.deliverySchedule?.secoundCutofTime
                 }
@@ -136,6 +134,8 @@ const DeliverySchedule = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const processingType = e.target.value as string
+                    console.log({processingType});
+                    
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       processingType,
@@ -143,32 +143,27 @@ const DeliverySchedule = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                         {LibraryUtils.lookupValue(item)} 
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {LibraryUtils.lookupValue(item)}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule Frequency">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const schFrequency = e.target.value
-                    Stores.deliveryScheduleStore.updateDeliverySchedule({
-                      ...Stores.deliveryScheduleStore.deliverySchedule,
-                      schFrequency,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[].map((item: any, index: number) => (
-                    <option key={index} value={item.panelCode}>
-                      {`${item.panelName} - ${item.panelCode}`}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+
+              <ScheduleFrequency
+                type={Stores.deliveryScheduleStore.deliverySchedule?.processingType ||''}
+                onChnage={(schFrequency)=>{
+                  console.log({schFrequency});
+                  
+                  Stores.deliveryScheduleStore.updateDeliverySchedule({
+                    ...Stores.deliveryScheduleStore.deliverySchedule,
+                    schFrequency,
+                  })
+                }}
+              />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -213,11 +208,13 @@ const DeliverySchedule = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DYNAMIC_TU").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DYNAMIC_TU").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
@@ -332,13 +329,13 @@ const DeliverySchedule = observer(() => {
                 if (!error) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.deliveryScheduleStore.deliveryScheduleService
-                    .addTestPanelMapping(
+                    .addDeliverySchdule(
                       Stores.deliveryScheduleStore.deliverySchedule
                     )
                     .then(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Test panel mapping created.`,
+                        message: `😊 Delivery Schdule record created.`,
                       })
                       Stores.deliveryScheduleStore.fetchDeliverySchedule()
                     })
@@ -373,7 +370,7 @@ const DeliverySchedule = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.TestPanelMappingList
+          <FeatureComponents.Molecules.DeliverySchduleList
             data={Stores.deliveryScheduleStore.listDeliverySchedule || []}
             isDelete={RouterFlow.checkPermission(
               toJS(RootStore.routerStore.userPermission),
@@ -411,7 +408,7 @@ const DeliverySchedule = observer(() => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
               Stores.deliveryScheduleStore.deliveryScheduleService
-                .deleteTestPanelMapping(modalConfirm.id)
+                .deleteDeliverySchdule(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {

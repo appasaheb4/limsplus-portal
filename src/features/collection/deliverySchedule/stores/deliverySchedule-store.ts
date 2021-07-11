@@ -3,7 +3,8 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
-  
+import * as LibraryUtils from "@lp/library/utils"
+
 @version(0.1)
 class DeliveryScheduleStore {
   @ignore @observable deliverySchedule?: Models.DeliverySchedule
@@ -18,6 +19,10 @@ class DeliveryScheduleStore {
       sundayReporting: false,
       holidayReporting: false,
       onTime: false,
+      pStartTime: LibraryUtils.moment().format("hh:mm a"),
+      pEndTime: LibraryUtils.moment().format("hh:mm a"),
+      cutofTime: LibraryUtils.moment().format("hh:mm a"),
+      secoundCutofTime: LibraryUtils.moment().format("hh:mm a"),
     }
   }
 
@@ -28,7 +33,7 @@ class DeliveryScheduleStore {
   }
 
   fetchDeliverySchedule() {
-    this.deliveryScheduleService.listTestPanelMapping().then((res) => {
+    this.deliveryScheduleService.listDeliverySchdule().then((res) => {
       this.listDeliverySchedule = res
     })
   }

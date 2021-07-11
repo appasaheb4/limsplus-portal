@@ -9,10 +9,10 @@ import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
     
 class DeliveryScheduleService extends BaseService {
-  listTestPanelMapping = () =>
+  listDeliverySchdule = () =>
     new Promise<Models.DeliverySchedule[]>((resolve, reject) => {
       this.client
-        .get(`master/testPanelMapping/listTestPanelMapping`)
+        .get(`master/deliverySchdule/listDeliverySchdule`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -20,10 +20,10 @@ class DeliveryScheduleService extends BaseService {
           reject({ error })
         })
     })  
-  addTestPanelMapping = (panelMappping?: Models.DeliverySchedule) =>
+    addDeliverySchdule = (deliverySchdule?: Models.DeliverySchedule) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/testPanelMapping/addTestPanelMapping`, panelMappping)
+        .post(`master/deliverySchdule/addDeliverySchdule`, deliverySchdule)
         .then((res) => {
           resolve(res.data)
         })
@@ -31,10 +31,10 @@ class DeliveryScheduleService extends BaseService {
           reject({ error })
         })
     })
-    deleteTestPanelMapping = (id: string) =>
+    deleteDeliverySchdule = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`master/testPanelMapping/deleteTestPanelMapping/${id}`)
+        .delete(`master/deliverySchdule/deleteDeliverySchdule/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -45,7 +45,7 @@ class DeliveryScheduleService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/testPanelMapping/updateSingleFiled`, newValue)
+        .post(`master/deliverySchdule/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
