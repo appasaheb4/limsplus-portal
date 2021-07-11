@@ -10,7 +10,7 @@ export interface DeliverySchedule {
   cutofTime?: string
   secoundCutofTime?: string
   processingType?: string
-  schFrequency?: string
+  schFrequency?: any
   reportOn?: string
   dynamicRT?: string
   dynamicTU?: string
