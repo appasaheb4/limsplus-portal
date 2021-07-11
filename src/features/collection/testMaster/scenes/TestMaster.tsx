@@ -18,6 +18,7 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -109,7 +110,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active To"
-                placeholder="Date Active T0"   
+                placeholder="Date Active T0"
                 value={LibraryUtils.moment
                   .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
                   .format("YYYY-MM-DD")}
@@ -244,7 +245,7 @@ const TestMater = observer(() => {
                 onChange={(testCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testCode:testCode.toUpperCase()
+                    testCode: testCode.toUpperCase(),
                   })
                 }}
               />
@@ -255,7 +256,7 @@ const TestMater = observer(() => {
                 onChange={(testName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    testName:testName.toUpperCase()
+                    testName: testName.toUpperCase(),
                   })
                 }}
               />
@@ -278,7 +279,7 @@ const TestMater = observer(() => {
                 onChange={(shortName) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    shortName:shortName.toUpperCase()
+                    shortName: shortName.toUpperCase(),
                   })
                 }}
               />
@@ -358,18 +359,32 @@ const TestMater = observer(() => {
                   })
                 }}
               />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const schedule = e.target.value as string
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      schedule,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {DeliveryScheduleStore.deliveryScheduleStore
+                    .listDeliverySchedule &&
+                    DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule
+                      ?.length > 0 &&
+                    DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule?.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.schCode}>
+                          {`${item.schCode}`}
+                        </option>
+                      )
+                    )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.Input
-                label="Schedule"
-                placeholder="Schedule"
-                value={Stores.testMasterStore.testMaster?.schedule}
-                onChange={(schedule) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    schedule:schedule.toUpperCase()
-                  })
-                }}
-              />
               <LibraryComponents.Atoms.Form.Input
                 label="TAT"
                 placeholder="TAT"
@@ -377,7 +392,7 @@ const TestMater = observer(() => {
                 onChange={(tat) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    tat:tat.toUpperCase()
+                    tat: tat.toUpperCase(),
                   })
                 }}
               />
@@ -419,7 +434,7 @@ const TestMater = observer(() => {
                 onChange={(resultOrder) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    resultOrder:resultOrder.toUpperCase()
+                    resultOrder: resultOrder.toUpperCase(),
                   })
                 }}
               />
@@ -512,11 +527,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Form.Input
@@ -537,7 +554,7 @@ const TestMater = observer(() => {
                 onChange={(speicalInstructions) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    speicalInstructions:speicalInstructions.toUpperCase()
+                    speicalInstructions: speicalInstructions.toUpperCase(),
                   })
                 }}
               />
@@ -564,11 +581,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
@@ -583,11 +602,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
@@ -602,11 +623,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={5}>
@@ -715,7 +738,7 @@ const TestMater = observer(() => {
                 onChange={(cptCode) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    cptCode:cptCode.toUpperCase()
+                    cptCode: cptCode.toUpperCase(),
                   })
                 }}
               />
@@ -732,11 +755,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
@@ -752,11 +777,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -766,7 +793,7 @@ const TestMater = observer(() => {
                 onChange={(deleverySchedule) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    deleverySchedule:deleverySchedule.toUpperCase()
+                    deleverySchedule: deleverySchedule.toUpperCase(),
                   })
                 }}
               />
@@ -796,7 +823,7 @@ const TestMater = observer(() => {
                 onChange={(holdingDays) => {
                   Stores.testMasterStore.updateTestMaster({
                     ...Stores.testMasterStore.testMaster,
-                    holdingDays:holdingDays.toUpperCase()
+                    holdingDays: holdingDays.toUpperCase(),
                   })
                 }}
               />
@@ -813,11 +840,13 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={6}>
@@ -827,7 +856,7 @@ const TestMater = observer(() => {
                   onChange={(method) => {
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
-                      method
+                      method,
                     })
                   }}
                 />
