@@ -267,7 +267,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelCode,
+                    panelCode:panelCode.toUpperCase()
                   })
                 }}
               />
@@ -285,7 +285,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelName,
+                    panelName:panelName.toUpperCase()
                   })
                 }}
               />
@@ -308,7 +308,7 @@ const MasterPanel = observer(() => {
                 onChange={(shortName) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    shortName,
+                    shortName:shortName.toUpperCase()
                   })
                 }}
               />
@@ -395,7 +395,7 @@ const MasterPanel = observer(() => {
                 onChange={(schedule) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    schedule,
+                    schedule:schedule.toUpperCase()
                   })
                 }}
               />
@@ -406,7 +406,7 @@ const MasterPanel = observer(() => {
                 onChange={(tat) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    tat,
+                    tat:tat.toUpperCase()
                   })
                 }}
               />
@@ -437,7 +437,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportGroup) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportGroup,
+                    reportGroup:reportGroup.toUpperCase()
                   })
                 }}
               />
@@ -448,7 +448,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportOrder) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportOrder,
+                    reportOrder:reportOrder.toUpperCase()
                   })
                 }}
               />
@@ -464,12 +464,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SEX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SEX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -483,7 +478,7 @@ const MasterPanel = observer(() => {
                 onChange={(hiAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    hiAge,
+                    hiAge:hiAge.toUpperCase()
                   })
                 }}
               />
@@ -494,7 +489,7 @@ const MasterPanel = observer(() => {
                 onChange={(loAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    loAge,
+                    loAge:loAge.toUpperCase()
                   })
                 }}
               />
@@ -511,12 +506,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PROCESSING"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -535,12 +525,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "CATEGORY"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -590,12 +575,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SERVICE_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "SERVICE_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -614,12 +594,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "PANEL_TYPE"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "PANEL_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -704,7 +679,7 @@ const MasterPanel = observer(() => {
                 onChange={(labelInstruction) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    labelInstruction,
+                    labelInstruction:labelInstruction.toUpperCase()
                   })
                 }}
               />
@@ -778,7 +753,7 @@ const MasterPanel = observer(() => {
                 onChange={(specalInstructions) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    specalInstructions,
+                    specalInstructions:specalInstructions.toUpperCase()
                   })
                 }}
               />
@@ -795,12 +770,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "STATUS"
-                      })
-                      .arrValue.map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>

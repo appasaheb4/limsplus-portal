@@ -15,7 +15,7 @@ const ModalConfirm = (props: ModalProps) => {
   useEffect(() => {
     setShowModal(props.show)
   }, [props])
-
+   
   return (
     <Container>
       {showModal && (

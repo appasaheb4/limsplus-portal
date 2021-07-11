@@ -16,102 +16,105 @@ interface LookupListProps {
 
 const LookupList = observer((props: LookupListProps) => {
   return (
-    <LibraryComponents.Organisms.TableBootstrap
-      id="_id"
-      data={props.data}
-      columns={[
-        {
-          dataField: "_id",
-          text: "Id",
-          hidden: true,
-          csvExport: false,
-        },
-        {
-          dataField: "documentName",
-          text: "Document Name",
-          sort: true,
-          formatter: (cell, row) => {
-            return <>{`${row.documentName.children.name}`}</>
+    <div style={{ position: "relative" }}>
+      <LibraryComponents.Organisms.TableBootstrap
+        id="_id"
+        data={props.data}
+        columns={[
+          {
+            dataField: "_id",
+            text: "Id",
+            hidden: true,
+            csvExport: false,
           },
-        },
-        {
-          dataField: "fieldName",
-          text: "Field Name",
-          sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
-        },
-        {
-          dataField: "arrValue",
-          text: "Value & code",
-          sort: true,
-          editable: false,
-          formatter: (cellContent, row) => (
-            <>
-              <LibraryComponents.Atoms.List
-                space={2}
-                direction="row"
-                justify="center"
-              >
-                {row.arrValue.map((item) => (
-                  <div className="mb-2">
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="medium"
-                      type="solid"
-                      onClick={() => {}}
-                    >
-                      {`${item.value} - ${item.code}`}
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </div>
-                ))}
-              </LibraryComponents.Atoms.List>
-            </>
-          ),
-        },
-        {
-          dataField: "description",
-          text: "Description",
-          sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
-        },
-        {
-          dataField: "opration",
-          text: "Delete",
-          editable: false,
-          csvExport: false,
-          hidden: !props.isDelete,
-          formatter: (cellContent, row) => (
-            <>
-              <LibraryComponents.Atoms.Buttons.Button
-                size="small"
-                type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
-                onClick={() => {
-                  props.onDelete &&
-                    props.onDelete({
-                      type: "Delete",
-                      show: true,
-                      id: [row._id],
-                      title: "Are you sure?",
-                      body: `Delete ${row.name} lab!`,
-                    })
-                }}
-              >
-                Delete
-              </LibraryComponents.Atoms.Buttons.Button>
-            </>
-          ),
-        },
-      ]}
-      isEditModify={props.isEditModify}
-      isSelectRow={true}
-      fileName="Lookup"
-      onSelectedRow={(rows) => {
-        props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
-      }}
-      onUpdateItem={(value: any, dataField: string, id: string) => {
-        props.onUpdateItem && props.onUpdateItem(value, dataField, id)
-      }}
-    />
+          {
+            dataField: "documentName",
+            text: "Document Name",
+            sort: true,
+            formatter: (cell, row) => {
+              return <>{`${row.documentName.children.name}`}</>
+            },
+          },
+          {
+            dataField: "fieldName",
+            text: "Field Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "arrValue",
+            text: "Value & code",
+            sort: true,
+            editable: false,
+            formatter: (cellContent, row) => (
+              <>
+                <LibraryComponents.Atoms.List
+                  space={2}
+                  direction="row"
+                  justify="center"
+                >
+                  {row.arrValue.map((item) => (
+                    <div className="mb-2">
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="medium"
+                        type="solid"
+                        onClick={() => {}}
+                      >
+                        {`${item.value} - ${item.code}`}
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </div>
+                  ))}
+                </LibraryComponents.Atoms.List>
+              </>
+            ),
+          },
+          {
+            dataField: "description",
+            text: "Description",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          {
+            dataField: "opration",
+            text: "Delete",
+            editable: false,
+            csvExport: false,
+            hidden: !props.isDelete,
+            formatter: (cellContent, row) => (
+              <>
+                <LibraryComponents.Atoms.Buttons.Button
+                  size="small"
+                  type="outline"
+                  icon={LibraryComponents.Atoms.Icon.Remove}
+                  onClick={() => {
+                    props.onDelete &&
+                      props.onDelete({
+                        type: "Delete",
+                        show: true,
+                        id: [row._id],
+                        title: "Are you sure?",
+                        body: `Delete ${row.name} lab!`,
+                      })
+                  }}
+                >
+                  Delete
+                </LibraryComponents.Atoms.Buttons.Button>
+              </>
+            ),
+          },
+        ]}
+        isEditModify={props.isEditModify}
+        isSelectRow={true}
+        fileName="Lookup"
+        onSelectedRow={(rows) => {
+          props.onSelectedRow &&
+            props.onSelectedRow(rows.map((item: any) => item._id))
+        }}
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+      />
+    </div>
   )
 })
 export default LookupList

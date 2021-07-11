@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
 import "./css/toggle.css"
 import classNames from "classnames"
 
@@ -40,7 +41,7 @@ interface InputProps extends InputWrapperProps {
   disabled?: boolean
   className?: string
   rows?: number
-  style?: any;
+  style?: any
   onChange?: (e: any) => void
   onBlur?: (e: any) => void
   onKeyDown?: (e: any) => void
@@ -270,6 +271,45 @@ export const Toggle = (props: ToggleProps) => {
           type="checkbox"
           aria-label="Toggle Button"
           className="wrg-toggle-input"
+        />
+      </div>
+    </InputWrapper>
+  )
+}
+
+interface ClockProps extends InputWrapperProps {
+  value?: any
+  onChange?: (e: any) => void
+}
+
+export const Clock = (props: ClockProps) => {
+  const [time, setTime] = useState(
+    props.value || LibraryUtils.moment().format("hh:mm a")
+  )
+  const [showTime, setShowTime] = useState(false)
+
+  return (
+    <InputWrapper label={props.label} id={props.id}>
+      <div>
+        {showTime && (
+          <>
+            <LibraryComponents.Molecules.ModalClock
+              show={true}
+              time={time}
+              onClick={(time) => {
+                props.onChange && props.onChange(time)
+                setTime(time)
+              }}
+              onClose={() => {
+                setShowTime(false)
+              }}
+            />
+          </>
+        )}
+        <input
+          value={time}
+          className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+          onClick={() => setShowTime(true)}
         />
       </div>
     </InputWrapper>
