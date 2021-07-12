@@ -18,7 +18,7 @@ interface MasterAnalyteProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onDuplicate?:(item:any)=>void;
+  onDuplicate?: (item: any) => void
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
@@ -43,6 +43,11 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -61,6 +66,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Lab",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -104,24 +110,28 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Analyte Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "description",
               text: "Description",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "shortName",
               text: "Short Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "bill",
               text: "Bill",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.bill ? "Yes" : "No"}</>
               },
@@ -151,6 +161,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Price",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -179,12 +190,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Schedule",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.autoRelease ? "Yes" : "No"}</>
               },
@@ -214,6 +227,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Hold OOS",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.holdOOS ? "Yes" : "No"}</>
               },
@@ -243,6 +257,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Instant Result",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.instantResult ? "Yes" : "No"}</>
               },
@@ -272,12 +287,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Tube Groups",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.pageBreak ? "Yes" : "No"}</>
               },
@@ -307,6 +324,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Method",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.method ? "Yes" : "No"}</>
               },
@@ -336,12 +354,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Analyte Method",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "workflow",
               text: "Workflow",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -361,11 +381,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          ))}
+                      {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -376,6 +398,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "sampleType",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -414,6 +437,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Display",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.display ? "Yes" : "No"}</>
               },
@@ -443,6 +467,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Calculation Flag",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.calculationFlag ? "Yes" : "No"}</>
               },
@@ -476,24 +501,28 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Calcy Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "high",
               text: "High",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "low",
               text: "Low",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "repetition",
               text: "Repetition",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.repetition ? "Yes" : "No"}</>
               },
@@ -523,6 +552,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "picture",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -557,6 +587,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Units",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -576,11 +607,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "UNITS").map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          ))}
+                      {LibraryUtils.lookupItems(lookupItems, "UNITS").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -591,6 +624,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Usage",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -610,11 +644,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "USAGE").map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          ))}
+                      {LibraryUtils.lookupItems(lookupItems, "USAGE").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -625,12 +661,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "CPT Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "status",
               text: "Status",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -650,11 +688,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          ))}
+                      {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -679,7 +719,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             {
               dataField: "dateActiveFrom",
               editable: false,
-              text: "Date Active From",
+              text: "Date Active",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
@@ -695,7 +735,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             {
               dataField: "dateActiveTo",
               editable: false,
-              text: "Date Active To",
+              text: "Date Expire",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
@@ -754,24 +794,23 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                   >
                     Delete
                   </LibraryComponents.Atoms.Buttons.Button>
-                  <div 
-                    style={{marginTop:6}}
-                    />
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="small"
-                    type="outline"
-                    onClick={() => {
-                      props.onDuplicate &&
-                        props.onDuplicate(row)
-                    }}   
-                  >
-                    <LibraryComponents.Atoms.Icon.EvaIcon
-                      icon="copy-outline"
-                      size="medium"
-                      color={Config.Styles.COLORS.BLACK}
-                    />
-                    Duplicate
-                  </LibraryComponents.Atoms.Buttons.Button>
+                  <div style={{ marginTop: 6 }} />
+                  {row.status !== "I" && (
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="small"
+                      type="outline"
+                      onClick={() => {
+                        props.onDuplicate && props.onDuplicate(row)
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Icon.EvaIcon
+                        icon="copy-outline"
+                        size="medium"
+                        color={Config.Styles.COLORS.BLACK}
+                      />
+                      Duplicate
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  )}
                 </>
               ),
             },

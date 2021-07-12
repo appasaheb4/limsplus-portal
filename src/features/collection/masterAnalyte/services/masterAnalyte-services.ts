@@ -32,8 +32,6 @@ class MasterAnalyteService extends BaseService {
     })
   duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
-      console.log({analyte});
-      
       this.client
         .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
         .then((res) => {

@@ -671,7 +671,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           {
             dataField: "dateActiveFrom",
             editable: false,
-            text: "Date Active From",
+            text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
@@ -687,7 +687,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           {
             dataField: "dateActiveTo",
             editable: false,
-            text: "Date Active To",
+            text: "Date Expire",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {

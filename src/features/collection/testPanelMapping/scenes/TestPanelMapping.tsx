@@ -100,8 +100,8 @@ const TestPanelMapping = observer(() => {
                 disabled={true}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active From"
-                placeholder="Date Active From"
+                label="Date Active"
+                placeholder="Date Active"
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testPanelMappingStore.testPanelMapping?.dateActiveFrom ||
@@ -111,8 +111,8 @@ const TestPanelMapping = observer(() => {
                 disabled={true}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active To"
-                placeholder="Date Active T0"
+                label="Date Expire"
+                placeholder="Date Expire"
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testPanelMappingStore.testPanelMapping?.dateActiveTo || 0

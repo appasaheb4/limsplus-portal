@@ -98,16 +98,16 @@ const MasterPanel = observer(() => {
                 disabled={true}
               />   
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active From"
-                placeholder="Date Active From"
+                label="Date Active"
+                placeholder="Date Active"
                 value={LibraryUtils.moment
                   .unix(Stores.masterPanelStore.masterPanel?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
               <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active To"
-                placeholder="Date Active T0"
+                label="Date Expire"
+                placeholder="Date Expire"
                 value={LibraryUtils.moment
                   .unix(Stores.masterPanelStore.masterPanel?.dateActiveTo || 0)
                   .format("YYYY-MM-DD")}
