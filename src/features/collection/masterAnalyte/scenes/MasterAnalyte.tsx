@@ -180,7 +180,7 @@ const MasterAnalyte = observer(() => {
                   })
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteCode:analyteCode.toUpperCase(),
+                    analyteCode: analyteCode.toUpperCase(),
                   })
                 }}
               />
@@ -197,7 +197,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(analyteName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteName:analyteName.toUpperCase(),
+                    analyteName: analyteName.toUpperCase(),
                   })
                 }}
               />
@@ -277,7 +277,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(shortName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    shortName:shortName.toUpperCase()
+                    shortName: shortName.toUpperCase(),
                   })
                 }}
               />
@@ -290,7 +290,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(price) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    price
+                    price,
                   })
                 }}
               />
@@ -392,7 +392,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(calcyName) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    calcyName:calcyName.toUpperCase()
+                    calcyName: calcyName.toUpperCase(),
                   })
                 }}
               />
@@ -404,7 +404,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(high) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    high:high.toUpperCase()
+                    high: high.toUpperCase(),
                   })
                 }}
               />
@@ -416,12 +416,11 @@ const MasterAnalyte = observer(() => {
                 onChange={(low) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    low:low.toUpperCase()
+                    low: low.toUpperCase(),
                   })
                 }}
               />
               <LibraryComponents.Atoms.Grid cols={5}>
-               
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
                   id="modeMethod"
@@ -506,16 +505,18 @@ const MasterAnalyte = observer(() => {
                     const units = e.target.value as string
                     Stores.masterAnalyteStore.updateMasterAnalyte({
                       ...Stores.masterAnalyteStore.masterAnalyte,
-                      units
+                      units,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "UNITS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "UNITS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
@@ -531,11 +532,13 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "USAGE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "USAGE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -546,7 +549,7 @@ const MasterAnalyte = observer(() => {
                 onChange={(cptCode) => {
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
-                    cptCode:cptCode.toUpperCase()
+                    cptCode: cptCode.toUpperCase(),
                   })
                 }}
               />
@@ -563,11 +566,13 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -586,7 +591,10 @@ const MasterAnalyte = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  if (!Stores.masterAnalyteStore.masterAnalyte?.duplicateId) {
+                  if (
+                    !Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
+                    !Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId
+                  ) {
                     Stores.masterAnalyteStore.masterAnalyteService
                       .addAnalyteMaster({
                         ...Stores.masterAnalyteStore.masterAnalyte,
@@ -596,12 +604,15 @@ const MasterAnalyte = observer(() => {
                         RootStore.rootStore.setProcessLoading(false)
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master created.`,
-                        })  
+                        })
                         Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
-                  } else {
+                  } else if (
+                    Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
+                    !Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId
+                  ) {
                     Stores.masterAnalyteStore.masterAnalyteService
-                      .duplicateAnalyteMaster({
+                      .versionUpgradeAnalyteMaster({
                         ...Stores.masterAnalyteStore.masterAnalyte,
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
@@ -612,7 +623,10 @@ const MasterAnalyte = observer(() => {
                         })
                         Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
-                  }
+                  }else if(!Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
+                    Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId){
+                      
+                    }
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -637,7 +651,9 @@ const MasterAnalyte = observer(() => {
           <div>
             {errorsMsg &&
               Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
+                <h6 className="text-red-700" key={index}>
+                  {_.upperFirst(item.join(" : "))}
+                </h6>
               ))}
           </div>
         </div>
@@ -672,10 +688,19 @@ const MasterAnalyte = observer(() => {
                 body: `Update item!`,
               })
             }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
             onDuplicate={(item) => {
               setModalConfirm({
                 show: true,
-                type: "Duplicate",
+                type: "duplicate",
                 data: item,
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
@@ -714,12 +739,20 @@ const MasterAnalyte = observer(() => {
                     window.location.reload()
                   }
                 })
-            } else if (type === "Duplicate") {
+            } else if (type === "versionUpgrade") {
               Stores.masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
-                _id:undefined,
-                duplicateId: modalConfirm.data._id,
+                _id: undefined,
+                exitsVersionId: modalConfirm.data._id,
                 version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+            } else if (type === "duplicate") {
+              Stores.masterAnalyteStore.updateMasterAnalyte({
+                ...modalConfirm.data,
+                _id: undefined,
+                exitsRecordId: modalConfirm.data._id,
+                version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
             }
