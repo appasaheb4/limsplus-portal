@@ -110,7 +110,7 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
 
   return (
     <li
-      className={"sidebar-item " + getSidebarItemClass(props.to)}
+      className={"sidebar-item " +  getSidebarItemClass(props.to)}
       onClick={() => {
         props.onChangeItem && props.onChangeItem(props.category, props.name)
       }}

@@ -37,7 +37,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps)
       type="button"
       disabled={!!props.disabled}
       title={props.disabled}
-      className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm  font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+      className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
     >
       {Icon && (
         <Icon

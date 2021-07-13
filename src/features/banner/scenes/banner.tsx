@@ -33,7 +33,7 @@ const Banner = observer(() => {
             "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
           }
         >
-          <LibraryComponents.Atoms.Grid cols={2}>
+          <LibraryComponents.Atoms.Grid cols={2} >
             <LibraryComponents.Atoms.List
               direction="col"
               space={4}

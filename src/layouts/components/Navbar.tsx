@@ -46,7 +46,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline style={{width:'73%'}}>
+        <Form inline>
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
@@ -102,7 +102,7 @@ const NavbarComponent = observer(({ dispatch }) => {
 
         <Collapse navbar>   
           <Nav className="ml-auto items-center" navbar>
-            <Button color="primary" className="shadow-sm h-10">
+            <Button color="primary" className="hidden shadow-sm h-10 sm:block">
               <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
             </Button>
             <UncontrolledDropdown nav inNavbar>

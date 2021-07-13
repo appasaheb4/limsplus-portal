@@ -202,7 +202,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Atoms.Grid cols={4}>
+              <LibraryComponents.Atoms.Grid cols={2}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
                   id="modeBill"
