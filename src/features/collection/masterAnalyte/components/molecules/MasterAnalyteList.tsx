@@ -18,6 +18,7 @@ interface MasterAnalyteProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
 }
 
@@ -771,7 +772,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             },
             {
               dataField: "opration",
-              text: "Delete",
+              text: "Action",
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
@@ -794,22 +795,42 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                   >
                     Delete
                   </LibraryComponents.Atoms.Buttons.Button>
-                  <div style={{ marginTop: 6 }} />
+                  <div className="mb-2" />
                   {row.status !== "I" && (
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="small"
-                      type="outline"
-                      onClick={() => {
-                        props.onDuplicate && props.onDuplicate(row)
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Icon.EvaIcon
-                        icon="copy-outline"
-                        size="medium"
-                        color={Config.Styles.COLORS.BLACK}
-                      />
-                      Duplicate
-                    </LibraryComponents.Atoms.Buttons.Button>
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
                   )}
                 </>
               ),
