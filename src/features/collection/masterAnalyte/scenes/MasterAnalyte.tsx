@@ -592,8 +592,8 @@ const MasterAnalyte = observer(() => {
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   if (
-                    !Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
-                    !Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId
+                    !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
+                    !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
                   ) {
                     Stores.masterAnalyteStore.masterAnalyteService
                       .addAnalyteMaster({
@@ -608,11 +608,29 @@ const MasterAnalyte = observer(() => {
                         Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
                   } else if (
-                    Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
-                    !Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId
+                    Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
+                    !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
                   ) {
                     Stores.masterAnalyteStore.masterAnalyteService
                       .versionUpgradeAnalyteMaster({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Analyte master version upgrade.`,
+                        })
+                        Stores.masterAnalyteStore.fetchAnalyteMaster()
+                      })
+                  } else if (
+                    !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
+                    Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
+                  ) {
+                    console.log('duplicate');
+                    
+                    Stores.masterAnalyteStore.masterAnalyteService
+                      .duplicateAnalyteMaster({
                         ...Stores.masterAnalyteStore.masterAnalyte,
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
@@ -623,10 +641,7 @@ const MasterAnalyte = observer(() => {
                         })
                         Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
-                  }else if(!Stores.masterAnalyteStore.masterAnalyte?.exitsVersionId &&
-                    Stores.masterAnalyteStore.masterAnalyte?.exitsRecordId){
-                      
-                    }
+                  }
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -743,7 +758,8 @@ const MasterAnalyte = observer(() => {
               Stores.masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
                 _id: undefined,
-                exitsVersionId: modalConfirm.data._id,
+                existsVersionId: modalConfirm.data._id,
+                existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
@@ -751,7 +767,8 @@ const MasterAnalyte = observer(() => {
               Stores.masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
                 _id: undefined,
-                exitsRecordId: modalConfirm.data._id,
+                existsVersionId: undefined,
+                existsRecordId: modalConfirm.data._id,
                 version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
