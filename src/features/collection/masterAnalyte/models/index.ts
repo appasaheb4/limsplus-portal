@@ -1,9 +1,10 @@
 export interface MasterAnalyte {
-  _id?: string,
-  duplicateId?: string,
-  dateCreation?: number  
-  dateActiveFrom?: number  
-  dateActiveTo?: number 
+  _id?: string
+  existsVersionId?: string
+  existsRecordId?: string
+  dateCreation?: number
+  dateActiveFrom?: number
+  dateActiveTo?: number
   version?: number
   keyNum?: string
   enteredBy?: string
