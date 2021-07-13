@@ -1,7 +1,7 @@
 export interface MasterAnalyte {
   _id?: string
-  exitsVersionId?: string
-  exitsRecordId?: string
+  existsVersionId?: string
+  existsRecordId?: string
   dateCreation?: number
   dateActiveFrom?: number
   dateActiveTo?: number
