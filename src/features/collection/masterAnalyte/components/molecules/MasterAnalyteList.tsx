@@ -23,6 +23,7 @@ interface MasterAnalyteProps {
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
+  // console.log('Value of isRowEditable',props.isRowNotEditable)
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -37,7 +38,19 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
         )
           return item
       })
-      setLookupItems(items)
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "I")
+        if (status) {
+
+          // props.isEditModify
+        }
+        setLookupItems(items)
+      }
+      // setLookupItems(items)
     }
   }
 
@@ -836,7 +849,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ),
             },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={props.isEditModify} 
           isSelectRow={true}
           fileName="AnalyteMaster"
           onSelectedRow={(rows) => {

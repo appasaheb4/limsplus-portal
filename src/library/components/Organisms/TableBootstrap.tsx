@@ -199,11 +199,11 @@ const TableBootstrap = (props: TableBootstrapProps) => {
         <div>
           <SearchBar {...props.searchProps} />
           <ClearSearchButton
-            className={`inline-flex ml-4 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+            className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
             {...props.searchProps}
           />
           <ExportCSVButton
-            className={`inline-flex ml-2 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+            className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center `}
             {...props.csvProps}
           >
             Export CSV!!
@@ -231,7 +231,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
                     blurToSave: true,
                     afterSaveCell,
                   })
-                : undefined
+                : undefined              
             }
           />
         </div>
