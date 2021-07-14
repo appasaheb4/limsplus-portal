@@ -2,6 +2,8 @@
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 
+import * as Config from "@lp/config"
+
 import Storage from "@lp/library/modules/storage"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -20,6 +22,8 @@ interface TestMasterProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
 }
 
 const TestMasterList = observer((props: TestMasterProps) => {
@@ -44,6 +48,10 @@ const TestMasterList = observer((props: TestMasterProps) => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
 
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+
   return (
     <>
      <div style={{ position: "relative" }}>
@@ -62,6 +70,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "RLab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -96,6 +105,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "PLab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -132,6 +142,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Department",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -168,6 +179,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Section",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -217,18 +229,21 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Description",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "shortName",
             text: "Short Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "bill",
             text: "Bill",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -262,24 +277,28 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Price",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "schedule",
             text: "Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "tat",
             text: "TAT",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "autoFinish",
             text: "Auto Finish",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -313,6 +332,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Hold OOS",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -346,6 +366,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Validation Level",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -382,6 +403,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -415,6 +437,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -449,6 +472,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Instant Result",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -482,18 +506,21 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Report Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "resultOrder",
             text: "Result Order",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "accredited",
             text: "Accredited",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -528,6 +555,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Cretical",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -562,6 +590,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Processing",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -602,6 +631,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Repitation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -635,12 +665,14 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Tube Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "printLabel",
             text: "Print Label",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -674,12 +706,14 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Label Instruction",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "method",
             text: "Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -714,12 +748,14 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Panel Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "sampleRunOn",
             text: "Sample Run On",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -755,6 +791,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Workflow",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -789,6 +826,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Cumulative",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -823,18 +861,21 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Sample Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "speicalInstructions",
             text: "Speical Instructions",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "disease",
             text: "disease",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -870,6 +911,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Category",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -904,6 +946,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Test Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -941,6 +984,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Workflow Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -975,18 +1019,21 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Worklist Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "cptCode",
             text: "CPT Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "qcHold",
             text: "QC Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -1020,6 +1067,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "OOS Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -1053,6 +1101,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Delta Hold",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -1086,6 +1135,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Prefix",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -1122,6 +1172,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Sufix",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -1157,12 +1208,14 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Delevery Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "allowPartial",
             text: "Allow Partial",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -1196,18 +1249,21 @@ const TestMasterList = observer((props: TestMasterProps) => {
             text: "Collection Container",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "holdingDays",
             text: "Holding Days",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "status",
             text: "Status",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -1239,10 +1295,10 @@ const TestMasterList = observer((props: TestMasterProps) => {
           },
           {
             dataField: "dateCreation",
-            editable: false,
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -1255,31 +1311,40 @@ const TestMasterList = observer((props: TestMasterProps) => {
           },
           {
             dataField: "dateActive",
-            editable: false,
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
+            formatter: (cell, row) => {
+              return (
+                <>
+                  {LibraryUtils.moment
+                    .unix(row.dateActive || 0)
+                    .format("YYYY-MM-DD")}
+                </>
+              )
+            },
           },
           {
             dataField: "version",
-            editable: false,
             text: "Version",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "keyNum",
-            editable: false,
             text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "enteredBy",
-            editable: false,
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "opration",
@@ -1306,6 +1371,43 @@ const TestMasterList = observer((props: TestMasterProps) => {
                 >
                   Delete
                 </LibraryComponents.Atoms.Buttons.Button>
+                <div className="mb-2" />
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
+                  )}
               </>
             ),
           },

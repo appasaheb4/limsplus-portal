@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 
+import * as Config from "@lp/config"
+
 import Storage from "@lp/library/modules/storage"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
@@ -18,6 +20,8 @@ interface TestPanelMappingListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
 }
 
 const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
@@ -42,6 +46,11 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+
   return (
     <>
       <LibraryComponents.Organisms.TableBootstrap
@@ -59,6 +68,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Lab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -93,6 +103,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Panel Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -144,12 +155,14 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Description",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "bill",
             text: "Bill",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return <>{row.bill ? "Yes" : "No"}</>
             },
@@ -179,6 +192,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Status",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -226,31 +240,31 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
           },
           {
             dataField: "dateActive",
-            editable: false,
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "version",
-            editable: false,
             text: "Version",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "keyNum",
-            editable: false,
             text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "enteredBy",
-            editable: false,
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "opration",
@@ -277,6 +291,43 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                 >
                   Delete
                 </LibraryComponents.Atoms.Buttons.Button>
+                <div className="mb-2" />
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
+                  )}
               </>
             ),
           },
