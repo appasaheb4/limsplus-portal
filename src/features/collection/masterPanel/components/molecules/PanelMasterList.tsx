@@ -1,11 +1,8 @@
 /* eslint-disable */
 import React, { useState ,useEffect} from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
+
+import * as Config from "@lp/config"
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -15,12 +12,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import * as Services from "../../services"
-
-import { Stores } from "../../stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
-
 interface PanelMasterListProps {
   data: any
   isDelete?: boolean
@@ -28,6 +19,9 @@ interface PanelMasterListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
+
 }
 
 const PanelMasterList = observer((props: PanelMasterListProps) => {
@@ -52,6 +46,11 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+
   return (
     <>
     <div style={{ position: "relative" }}>
@@ -70,6 +69,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "RLab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -104,6 +104,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "PLab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -139,6 +140,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Department",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -175,6 +177,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Section",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -216,24 +219,28 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "description",
             text: "Description",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "shortName",
             text: "Short Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "bill",
             text: "Bill",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -267,6 +274,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Price",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -295,18 +303,21 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "tat",
             text: "TAT",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "autoRelease",
             text: "Auto Release",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -340,6 +351,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Hold OOS",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -374,12 +386,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Validation Level",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -414,6 +428,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -447,6 +462,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Instant Result",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -481,12 +497,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Report Group",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "reportOrder",
             text: "Report Order",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -494,6 +512,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "sex",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -530,6 +549,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Sex Action",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -563,12 +583,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Hi Age",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "loAge",
             text: "Lo Age",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -576,6 +598,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Processing",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -610,6 +633,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Category",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -645,12 +669,14 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Suffix",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "serviceType",
             text: "Service Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -685,6 +711,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -721,6 +748,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Repitation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -754,6 +782,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "TubeGroup",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -761,6 +790,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Print Label",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -794,6 +824,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Label Instruction",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -801,6 +832,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Page Break",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -834,6 +866,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -868,18 +901,21 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Panel Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "workflow",
             text: "Workflow",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "cumulative",
             text: "Cumulative",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
               <>
@@ -914,18 +950,21 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Report Template",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "sampleType",
             text: "Sample Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "specalInstructions",
             text: "Specal Instructions",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -933,6 +972,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             text: "Status",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -964,10 +1004,10 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
           },
           {
             dataField: "dateCreation",
-            editable: false,
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -980,10 +1020,10 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
           },
           {
             dataField: "dateActive",
-            editable: false,
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -996,24 +1036,24 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
           },
           {
             dataField: "version",
-            editable: false,
             text: "Version",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "keyNum",
-            editable: false,
             text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "enteredBy",
-            editable: false,
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "opration",
@@ -1040,6 +1080,45 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                 >
                   Delete
                 </LibraryComponents.Atoms.Buttons.Button>
+                <div className="mb-2" />
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
+                  )}
+
+
               </>
             ),
           },
