@@ -48,7 +48,7 @@ const MasterAnalyte = observer(() => {
         if (status) {
           Stores.masterAnalyteStore.updateMasterAnalyte({
             ...Stores.masterAnalyteStore.masterAnalyte,
-            status: status.code,
+            status: status.code
           })
         }
         setLookupItems(items)
@@ -202,7 +202,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
 
-              <LibraryComponents.Atoms.Grid cols={4}>
+              <LibraryComponents.Atoms.Grid cols={2}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
                   id="modeBill"
