@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
+import * as Config from "@lp/config"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
@@ -24,6 +25,8 @@ interface DoctorsListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
 }
 
 const DoctorsList = observer((props: DoctorsListProps) => {
@@ -61,6 +64,11 @@ const DoctorsList = observer((props: DoctorsListProps) => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+  
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -85,12 +93,14 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Doctor Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "sex",
             text: "Sex",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -124,6 +134,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Title",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -159,60 +170,70 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "First Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "middleName",
             text: "Middle Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "lastName",
             text: "Last Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "reportName",
             text: "Report Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "address",
             text: "Address",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "city",
             text: "City",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "state",
             text: "State",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "country",
             text: "Country",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "postcode",
             text: "Postcode",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "doctorType",
             text: "Doctor Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -220,6 +241,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Speciality",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -255,6 +277,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Confidential",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return <>{row.confidential ? "Yes" : "No"}</>
             },
@@ -282,6 +305,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Sales TerritoRy",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -317,42 +341,49 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Area",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "zone",
             text: "Zone",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "telephone",
             text: "Telephone",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "mobileNo",
             text: "Mobile No",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "email",
             text: "Email",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "workHours",
             text: "Work Hours",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "deliveryType",
             text: "Delivery Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -388,6 +419,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Delivery Method",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -423,12 +455,14 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "EDI",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "ediAddress",
             text: "EDI Address",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
@@ -436,6 +470,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Urgent",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return <>{row.urgent ? "Yes" : "No"}</>
             },
@@ -463,6 +498,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Registration Location",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -498,6 +534,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Lab",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -532,6 +569,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Location",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -566,6 +604,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Schedule",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -600,30 +639,35 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             text: "Report Format",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "info",
             text: "Info",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "fyiLine",
             text: "FYI Line",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "workLine",
             text: "Work Line",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "status",
             text: "Status",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             editorRenderer: (
               editorProps,
               value,
@@ -654,10 +698,10 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           },
           {
             dataField: "dateCreation",
-            editable: false,
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -670,10 +714,10 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           },
           {
             dataField: "dateActiveFrom",
-            editable: false,
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -686,10 +730,10 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           },
           {
             dataField: "dateActiveTo",
-            editable: false,
             text: "Date Expire",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
             formatter: (cell, row) => {
               return (
                 <>
@@ -702,24 +746,24 @@ const DoctorsList = observer((props: DoctorsListProps) => {
           },
           {
             dataField: "version",
-            editable: false,
             text: "Version",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "keyNum",
-            editable: false,
             text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "enteredBy",
-            editable: false,
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
 
           {
@@ -747,6 +791,43 @@ const DoctorsList = observer((props: DoctorsListProps) => {
                 >
                   Delete
                 </LibraryComponents.Atoms.Buttons.Button>
+                <div className="mb-2" />
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
+                  )}
               </>
             ),
           },
