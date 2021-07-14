@@ -999,6 +999,24 @@ const TestMater = observer(() => {
                 body: `Update lab!`,
               })
             }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
@@ -1033,6 +1051,24 @@ const TestMater = observer(() => {
                     window.location.reload()
                   }
                 })
+            }else if (type === "versionUpgrade") {
+              Stores.testMasterStore.updateTestMaster({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: modalConfirm.data._id,
+                existsRecordId: undefined,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+            } else if (type === "duplicate") {
+              Stores.testMasterStore.updateTestMaster({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: undefined,
+                existsRecordId: modalConfirm.data._id,
+                version: 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
             }
           }}
           onClose={() => {
