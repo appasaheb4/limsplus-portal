@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
+import * as Config from "@lp/config"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import paginationFactory from "react-bootstrap-table2-paginator"
@@ -23,6 +24,8 @@ interface RegistrationLocationsListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
 }
 
 const RegistrationLocationsList = observer(
@@ -61,6 +64,9 @@ const RegistrationLocationsList = observer(
     useEffect(() => {
       getLookupValues()
     }, [LookupStore.lookupStore.listLookup])
+    const editorCell = (row: any) => {
+      return row.status !== "I" ? true : false
+    }
     return (
       <div style={{ position: "relative" }}>
         <LibraryComponents.Organisms.TableBootstrap
@@ -85,42 +91,49 @@ const RegistrationLocationsList = observer(
               text: "Location Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "address",
               text: "Address",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "city",
               text: "City",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "state",
               text: "State",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "country",
               text: "Country",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "postcode",
               text: "Postcode",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "customerGroup",
               text: "Customer Group",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -154,6 +167,7 @@ const RegistrationLocationsList = observer(
               text: "Category",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -187,6 +201,7 @@ const RegistrationLocationsList = observer(
               text: "Confidential",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.confidential ? "Yes" : "No"}</>
               },
@@ -214,24 +229,28 @@ const RegistrationLocationsList = observer(
               text: "Telephone",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "mobileNo",
               text: "Mobile No",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "email",
               text: "Email",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "deliveryType",
               text: "Delivery Type",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -265,6 +284,7 @@ const RegistrationLocationsList = observer(
               text: "Delivery Method",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -298,6 +318,7 @@ const RegistrationLocationsList = observer(
               text: "Corporate Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -331,6 +352,7 @@ const RegistrationLocationsList = observer(
               text: "Invoice Ac",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -364,12 +386,14 @@ const RegistrationLocationsList = observer(
               text: "Lab Licence",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.printLabel ? "Yes" : "No"}</>
               },
@@ -398,6 +422,7 @@ const RegistrationLocationsList = observer(
               text: "Method Coln",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -431,12 +456,14 @@ const RegistrationLocationsList = observer(
               text: "Work Hrs",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "salesTerritoRy",
               text: "Sales TerritoRy",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -470,24 +497,28 @@ const RegistrationLocationsList = observer(
               text: "Area",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "zone",
               text: "Zone",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "route",
               text: "Route",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "lab",
               text: "Lab",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -524,12 +555,14 @@ const RegistrationLocationsList = observer(
               text: "Location",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "neverBill",
               text: "Never Bill",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.neverBill ? "Yes" : "No"}</>
               },
@@ -557,12 +590,14 @@ const RegistrationLocationsList = observer(
               text: "EDI",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "ediAddress",
               text: "EDI Address",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
 
             {
@@ -570,6 +605,7 @@ const RegistrationLocationsList = observer(
               text: "Urgent",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{row.urgent ? "Yes" : "No"}</>
               },
@@ -597,6 +633,7 @@ const RegistrationLocationsList = observer(
               text: "Schedule",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -633,30 +670,35 @@ const RegistrationLocationsList = observer(
               text: "Report Format",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "info",
               text: "Info",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "fyiLine",
               text: "FYI Line",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "workLine",
               text: "Work Line",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "status",
               text: "Status",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -687,10 +729,10 @@ const RegistrationLocationsList = observer(
             },
             {
               dataField: "dateCreation",
-              editable: false,
               text: "Date Creation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -703,10 +745,10 @@ const RegistrationLocationsList = observer(
             },
             {
               dataField: "dateActiveFrom",
-              editable: false,
               text: "Date Active",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -719,10 +761,10 @@ const RegistrationLocationsList = observer(
             },
             {
               dataField: "dateActiveTo",
-              editable: false,
               text: "Date Expire",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
@@ -735,24 +777,24 @@ const RegistrationLocationsList = observer(
             },
             {
               dataField: "version",
-              editable: false,
               text: "Version",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
             },
             {
               dataField: "keyNum",
-              editable: false,
               text: "Key Num",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
             },
             {
               dataField: "enteredBy",
-              editable: false,
               text: "Entered By",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
             },
 
             {
@@ -780,6 +822,43 @@ const RegistrationLocationsList = observer(
                   >
                     Delete
                   </LibraryComponents.Atoms.Buttons.Button>
+                  <div className="mb-2" />
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onVersionUpgrade && props.onVersionUpgrade(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                        Version Upgrade
+                      </LibraryComponents.Atoms.Buttons.Button>
+                      <div className="mb-2" />
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="small"
+                        type="outline"
+                        onClick={() => {
+                          props.onDuplicate && props.onDuplicate(row)
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon
+                          icon="copy-outline"
+                          size="medium"
+                          color={Config.Styles.COLORS.BLACK}
+                        />
+                        Duplicate
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </>
+                  )}
                 </>
               ),
             },
