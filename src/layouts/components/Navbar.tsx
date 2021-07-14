@@ -46,7 +46,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline>
+        <Form inline className='mr-9'>
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
@@ -70,7 +70,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               LoginStores.loginStore.login.role || ""
             ].map((item) => (
               <>
-                <div className="ml-1">
+                <div className="ml-1 m-0.5">
                   <LibraryComponents.Atoms.Buttons.Button
                     size="medium"
                     type="outline"
