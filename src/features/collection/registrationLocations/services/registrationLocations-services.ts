@@ -19,10 +19,32 @@ class RegistrationLocationsService extends BaseService {
           reject({ error })
         })
     })
-    addRegistrationLocations = (doctor?: Models.RegistrationLocations) =>
+    addRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/registartionLocations/addRegistrationLocations`, doctor)
+        .post(`master/registartionLocations/addRegistrationLocations`, regLocation)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    versionUpgradeRegistrationLocations = (doctor?: Models.RegistrationLocations) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/registartionLocations/versionUpgradeRegistrationLocations`, doctor)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    duplicateRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/registartionLocations/duplicateRegistrationLocations`, regLocation)
         .then((res) => {
           resolve(res)
         })

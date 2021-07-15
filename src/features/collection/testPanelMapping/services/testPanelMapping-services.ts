@@ -18,7 +18,7 @@ class TestPanelMappingService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })  
+    })
   addTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
     new Promise<any>((resolve, reject) => {
       this.client
@@ -30,7 +30,33 @@ class TestPanelMappingService extends BaseService {
           reject({ error })
         })
     })
-    deleteTestPanelMapping = (id: string) =>
+  versionUpgradeTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(
+          `master/testPanelMapping/versionUpgradeTestPanelMapping`,
+          panelMappping
+        )
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+  duplicateTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/testPanelMapping/duplicateTestPanelMapping`, panelMappping)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })   
+
+  deleteTestPanelMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
         .delete(`master/testPanelMapping/deleteTestPanelMapping/${id}`)

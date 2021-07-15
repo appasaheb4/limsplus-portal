@@ -35,5 +35,7 @@ export interface MasterAnalyte {
   units?: string
   usage?: string
   cptCode?: string
+  resultType?: string
+  analyteType?: string
   status?: string
 }

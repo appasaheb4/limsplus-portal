@@ -30,6 +30,31 @@ class TestAnalyteMappingService extends BaseService {
           reject({ error })
         })
     })
+    versionUpgradeTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/testAnalyteMapping/versionUpgradeTestAnalyteMapping`, analyteMapping)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    duplicateTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/testAnalyteMapping/duplicateTestAnalyteMapping`, analyteMapping)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+
+
+
   deleteTestAnalyteMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client

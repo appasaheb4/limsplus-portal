@@ -541,7 +541,7 @@ const Doctors = observer(() => {
                       ...Stores.doctorsStore.doctors,
                       registrationLocation,
                     })
-                  }}  
+                  }}
                 >
                   <option selected>Select</option>
                   {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
@@ -669,11 +669,13 @@ const Doctors = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -692,17 +694,52 @@ const Doctors = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.doctorsStore.doctorsService
-                    .addDoctors(Stores.doctorsStore.doctors)
-                    .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Doctor record created.`,
-                        })
-                        Stores.doctorsStore.fetchDoctors()
-                      }
-                    })
+                  if (
+                    !Stores.doctorsStore.doctors?.existsVersionId &&
+                    !Stores.doctorsStore.doctors?.existsRecordId
+                  ) {
+                    Stores.doctorsStore.doctorsService
+                      .addDoctors(Stores.doctorsStore.doctors)
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Doctor record created.`,
+                          })
+                        }
+                      })
+                  } else if (
+                    Stores.doctorsStore.doctors?.existsVersionId &&
+                    !Stores.doctorsStore.doctors?.existsRecordId
+                  ) {
+                    Stores.doctorsStore.doctorsService
+                      .versionUpgradeDoctors(Stores.doctorsStore.doctors)
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Doctor record version upgrade.`,
+                          })
+                        }
+                      })
+                  } else if (
+                    !Stores.doctorsStore.doctors?.existsVersionId &&
+                    Stores.doctorsStore.doctors?.existsRecordId
+                  ) {
+                    Stores.doctorsStore.doctorsService
+                      .duplicateDoctors(Stores.doctorsStore.doctors)
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Doctor record duplicate created.`,
+                          })
+                        }
+                      })
+                  }
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -813,10 +850,10 @@ const Doctors = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.doctorsStore.fetchDoctors()
-                    window.location.reload();
+                    window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.doctorsStore.updateDoctors({
                 ...modalConfirm.data,
                 _id: undefined,

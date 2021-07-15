@@ -264,9 +264,14 @@ const TestAnalyteMapping = observer(() => {
                 label="Analyte Name"
                 placeholder="Analyte Name"
                 disabled={true}
-                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.analyteName?.join(
-                  ","
-                )}
+                value={
+                  typeof Stores.testAnalyteMappingStore.testAnalyteMapping
+                    ?.analyteName !== "string"
+                    ? Stores.testAnalyteMappingStore.testAnalyteMapping?.analyteName?.join(
+                        ","
+                      )
+                    : Stores.testAnalyteMappingStore.testAnalyteMapping?.analyteName
+                }
               />
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
@@ -296,11 +301,13 @@ const TestAnalyteMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
@@ -332,18 +339,60 @@ const TestAnalyteMapping = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.testAnalyteMappingStore.testAnalyteMappingService
-                    .addTestAnalyteMapping({
-                      ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                      enteredBy: LoginStore.loginStore.login?._id,
-                    })
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Test analyte mapping created.`,
+                  if (
+                    !Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.existsVersionId &&
+                    !Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.existsRecordId
+                  ) {
+                    Stores.testAnalyteMappingStore.testAnalyteMappingService
+                      .addTestAnalyteMapping({
+                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                        enteredBy: LoginStore.loginStore.login?._id,
                       })
-                      Stores.testAnalyteMappingStore.fetchTestAnalyteMapping()
-                    })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test analyte mapping created.`,
+                        })
+                      })
+                  } else if (
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.existsVersionId &&
+                    !Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.existsRecordId
+                  ) {
+                    Stores.testAnalyteMappingStore.testAnalyteMappingService
+                      .versionUpgradeTestAnalyteMapping({
+                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test analyte version upgrade.`,
+                        })
+                      })
+                  } else if (
+                    !Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.existsVersionId &&
+                    Stores.testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
+                  ) {
+                    Stores.testAnalyteMappingStore.testAnalyteMappingService
+                      .duplicateTestAnalyteMapping({
+                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test analyte duplicate created.`,
+                        })
+                      })
+                  }
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -457,7 +506,7 @@ const TestAnalyteMapping = observer(() => {
                     window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                 ...modalConfirm.data,
                 _id: undefined,
@@ -476,7 +525,6 @@ const TestAnalyteMapping = observer(() => {
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
             }
-
           }}
           onClose={() => {
             setModalConfirm({ show: false })

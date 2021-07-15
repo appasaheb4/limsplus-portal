@@ -1,6 +1,7 @@
 export interface RegistrationLocations {
   _id?: string
-  duplicateId?: string  
+  existsVersionId?: string
+  existsRecordId?: string
   dateCreation?: number
   dateActiveFrom?: number
   dateActiveTo?: number

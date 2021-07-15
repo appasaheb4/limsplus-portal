@@ -483,7 +483,7 @@ const Login = observer(() => {
             })
             setModalChangePassword({ show: false })
           }}
-        />
+        />  
         <LibraryComponents.Molecules.ModalSessionAllowed
           {...modalSessionAllowed}
           onClick={(data: any, item: any, index: number) => {

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import Storage from "@lp/library/modules/storage"
 
@@ -101,13 +101,11 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               </>
@@ -118,14 +116,14 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             text: "Test Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "testName",
             text: "Test Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "analyteCode",
@@ -134,7 +132,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          {    
+          {
             dataField: "analyteName",
             text: "Analyte Name",
             sort: true,
@@ -193,31 +191,32 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               columnIndex
             ) => (
               <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                <select
-                  value={row.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const status = e.target.value
-                      props.onUpdateItem && 
-                        props.onUpdateItem(status,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  <select
+                    value={row.status}
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                      (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </>
             ),
-
           },
           {
             dataField: "dateCreation",
-            editable:false,
+            editable: false,
             text: "Date Creation",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -236,28 +235,28 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             text: "Date Active",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false,
+            editable: false,
           },
           {
             dataField: "version",
             text: "Version",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false,
+            editable: false,
           },
           {
             dataField: "keyNum",
             text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false,
+            editable: false,
           },
           {
             dataField: "enteredBy",
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false,
+            editable: false,
           },
           {
             dataField: "opration",
@@ -285,43 +284,42 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
                   Delete
                 </LibraryComponents.Atoms.Buttons.Button>
                 <div className="mb-2" />
-                  {row.status !== "I" && (
-                    <>
-                      <LibraryComponents.Atoms.Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
-                          props.onVersionUpgrade && props.onVersionUpgrade(row)
-                        }}
+                {row.status !== "I" && (
+                  <>  
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="small"
+                      type="outline"
+                      onClick={() => {
+                        props.onVersionUpgrade && props.onVersionUpgrade(row)
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="20"
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
-                          size="20"
-                        >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
-                          )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                        Version Upgrade
-                      </LibraryComponents.Atoms.Buttons.Button>
-                      <div className="mb-2" />
-                      <LibraryComponents.Atoms.Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
-                          props.onDuplicate && props.onDuplicate(row)
-                        }}
-                      >
-                        <LibraryComponents.Atoms.Icon.EvaIcon
-                          icon="copy-outline"
-                          size="medium"
-                          color={Config.Styles.COLORS.BLACK}
-                        />
-                        Duplicate
-                      </LibraryComponents.Atoms.Buttons.Button>
-                    </>
-                  )}
-
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                      Version Upgrade
+                    </LibraryComponents.Atoms.Buttons.Button>
+                    <div className="mb-2" />
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="small"
+                      type="outline"
+                      onClick={() => {
+                        props.onDuplicate && props.onDuplicate(row)
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Icon.EvaIcon
+                        icon="copy-outline"
+                        size="medium"
+                        color={Config.Styles.COLORS.BLACK}
+                      />
+                      Duplicate
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  </>
+                )}
               </>
             ),
           },

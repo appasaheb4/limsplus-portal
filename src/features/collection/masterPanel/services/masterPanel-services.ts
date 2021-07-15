@@ -30,6 +30,30 @@ class MasterPanelService extends BaseService {
           reject({ error })
         })
     })
+    versionUpgradePanelMaster = (panel?: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({panel});
+      
+      this.client
+        .post(`/master/panelMaster/versionUpgradePanelMaster`, panel)
+        .then((res) => {  
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    duplicatePanelMaster = (panel?: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/master/panelMaster/duplicatePanelMaster`, panel)
+        .then((res) => {  
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
     deletePanelMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client

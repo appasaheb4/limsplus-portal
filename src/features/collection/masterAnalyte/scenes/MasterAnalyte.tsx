@@ -48,7 +48,7 @@ const MasterAnalyte = observer(() => {
         if (status) {
           Stores.masterAnalyteStore.updateMasterAnalyte({
             ...Stores.masterAnalyteStore.masterAnalyte,
-            status: status.code
+            status: status.code,
           })
         }
         setLookupItems(items)
@@ -553,6 +553,50 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               />
+               <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
+                <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const resultType = e.target.value
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      resultType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "RESULT_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
+                <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const analyteType = e.target.value
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      analyteType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ANALYTE_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.status}
@@ -605,7 +649,6 @@ const MasterAnalyte = observer(() => {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master created.`,
                         })
-                        Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
                   } else if (
                     Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
@@ -621,14 +664,11 @@ const MasterAnalyte = observer(() => {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master version upgrade.`,
                         })
-                        Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
                   } else if (
                     !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
                     Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
                   ) {
-                    console.log('duplicate');
-                    
                     Stores.masterAnalyteStore.masterAnalyteService
                       .duplicateAnalyteMaster({
                         ...Stores.masterAnalyteStore.masterAnalyte,
@@ -639,9 +679,11 @@ const MasterAnalyte = observer(() => {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master duplicate created.`,
                         })
-                        Stores.masterAnalyteStore.fetchAnalyteMaster()
                       })
-                  }
+                  }  
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,

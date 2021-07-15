@@ -928,18 +928,56 @@ const TestMater = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.testMasterStore.testMasterService
-                    .addTestMaster({
+                  if (
+                    !Stores.testMasterStore.testMaster?.existsVersionId &&
+                    !Stores.testMasterStore.testMaster?.existsRecordId
+                  ) {
+                    Stores.testMasterStore.testMasterService
+                      .addTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test master created.`,
+                        })
+                      })
+                  }else if(
+                    Stores.testMasterStore.testMaster?.existsVersionId &&
+                    !Stores.testMasterStore.testMaster?.existsRecordId
+                  ){
+                    Stores.testMasterStore.testMasterService
+                    .versionUpgradeTestMaster({
                       ...Stores.testMasterStore.testMaster,
                       enteredBy: LoginStore.loginStore.login?._id,
                     })
                     .then(() => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Test master created.`,
+                        message: `😊 Test master version upgrade.`,
                       })
-                      Stores.testMasterStore.fetchTestMaster()
                     })
+                  }else if(
+                    !Stores.testMasterStore.testMaster
+                    ?.existsVersionId &&
+                  Stores.testMasterStore.testMaster?.existsRecordId
+                  ){
+                    Stores.testMasterStore.testMasterService
+                    .duplicateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      enteredBy: LoginStore.loginStore.login?._id,
+                    })
+                    .then(() => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Test master duplicate created.`,
+                      })
+                    })
+                  }
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -1051,7 +1089,7 @@ const TestMater = observer(() => {
                     window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
                 _id: undefined,

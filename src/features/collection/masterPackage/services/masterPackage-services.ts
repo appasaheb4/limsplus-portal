@@ -30,6 +30,28 @@ class MasterPackageService extends BaseService {
           reject({ error })
         })
     })
+    versionUpgradePackageMaster = (packageMaster?: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/packageMaster/versionUpgradePackageMaster`, packageMaster)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    duplicatePackageMaster = (packageMaster?: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client  
+        .post(`master/packageMaster/duplicatePackageMaster`, packageMaster)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
   deletePackageMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
