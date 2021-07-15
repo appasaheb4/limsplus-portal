@@ -678,6 +678,20 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
+              dataField: "resultType",
+              text: "Result Type",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: false,
+            },
+            {
+              dataField: "analyteType",
+              text: "Analyte Type",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
               dataField: "status",
               text: "Status",
               sort: true,

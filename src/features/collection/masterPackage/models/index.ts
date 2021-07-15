@@ -1,4 +1,6 @@
 export interface MasterPackage {
+  existsVersionId?: string
+  existsRecordId?: string
   dateCreation?: number  
   dateActiveFrom?: number  
   dateActiveTo?: number 

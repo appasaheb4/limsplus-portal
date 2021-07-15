@@ -96,7 +96,7 @@ const MasterPanel = observer(() => {
                   .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
-              />   
+              />
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
                 placeholder="Date Active"
@@ -267,7 +267,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelCode:panelCode.toUpperCase()
+                    panelCode: panelCode.toUpperCase(),
                   })
                 }}
               />
@@ -285,7 +285,7 @@ const MasterPanel = observer(() => {
                   })
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    panelName:panelName.toUpperCase()
+                    panelName: panelName.toUpperCase(),
                   })
                 }}
               />
@@ -308,7 +308,7 @@ const MasterPanel = observer(() => {
                 onChange={(shortName) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    shortName:shortName.toUpperCase()
+                    shortName: shortName.toUpperCase(),
                   })
                 }}
               />
@@ -395,7 +395,7 @@ const MasterPanel = observer(() => {
                 onChange={(schedule) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    schedule:schedule.toUpperCase()
+                    schedule: schedule.toUpperCase(),
                   })
                 }}
               />
@@ -406,7 +406,7 @@ const MasterPanel = observer(() => {
                 onChange={(tat) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    tat:tat.toUpperCase()
+                    tat: tat.toUpperCase(),
                   })
                 }}
               />
@@ -437,7 +437,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportGroup) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportGroup:reportGroup.toUpperCase()
+                    reportGroup: reportGroup.toUpperCase(),
                   })
                 }}
               />
@@ -448,7 +448,7 @@ const MasterPanel = observer(() => {
                 onChange={(reportOrder) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    reportOrder:reportOrder.toUpperCase()
+                    reportOrder: reportOrder.toUpperCase(),
                   })
                 }}
               />
@@ -464,11 +464,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SEX").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SEX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -478,7 +480,7 @@ const MasterPanel = observer(() => {
                 onChange={(hiAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    hiAge:hiAge.toUpperCase()
+                    hiAge: hiAge.toUpperCase(),
                   })
                 }}
               />
@@ -489,7 +491,7 @@ const MasterPanel = observer(() => {
                 onChange={(loAge) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    loAge:loAge.toUpperCase()
+                    loAge: loAge.toUpperCase(),
                   })
                 }}
               />
@@ -506,11 +508,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
@@ -525,11 +529,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
@@ -575,11 +581,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SERVICE_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SERVICE_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
@@ -594,11 +602,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PANEL_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "PANEL_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
@@ -679,7 +689,7 @@ const MasterPanel = observer(() => {
                 onChange={(labelInstruction) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    labelInstruction:labelInstruction.toUpperCase()
+                    labelInstruction: labelInstruction.toUpperCase(),
                   })
                 }}
               />
@@ -753,7 +763,7 @@ const MasterPanel = observer(() => {
                 onChange={(specalInstructions) => {
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
-                    specalInstructions:specalInstructions.toUpperCase()
+                    specalInstructions: specalInstructions.toUpperCase(),
                   })
                 }}
               />
@@ -770,11 +780,13 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Toggle
@@ -803,18 +815,55 @@ const MasterPanel = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.masterPanelStore.masterPanelService
-                    .addPanelMaster({
-                      ...Stores.masterPanelStore.masterPanel,
-                      enteredBy: LoginStore.loginStore.login?._id,
-                    })
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Panel master created.`,
+                  if (
+                    !Stores.masterPanelStore.masterPanel?.existsVersionId &&
+                    !Stores.masterPanelStore.masterPanel?.existsRecordId
+                  ) {
+                    Stores.masterPanelStore.masterPanelService
+                      .addPanelMaster({
+                        ...Stores.masterPanelStore.masterPanel,
+                        enteredBy: LoginStore.loginStore.login?._id,
                       })
-                      Stores.masterPanelStore.fetchPanelMaster()
-                    })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Panel master created.`,
+                        })
+                      })
+                  } else if (
+                    Stores.masterPanelStore.masterPanel?.existsVersionId &&
+                    !Stores.masterPanelStore.masterPanel?.existsRecordId
+                  ) {
+                    Stores.masterPanelStore.masterPanelService
+                      .versionUpgradePanelMaster({
+                        ...Stores.masterPanelStore.masterPanel,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Panel master version upgrade.`,
+                        })
+                      })
+                  } else if (
+                    !Stores.masterPanelStore.masterPanel?.existsVersionId &&
+                    Stores.masterPanelStore.masterPanel?.existsRecordId
+                  ) {
+                    Stores.masterPanelStore.masterPanelService
+                      .duplicatePanelMaster({
+                        ...Stores.masterPanelStore.masterPanel,
+                        enteredBy: LoginStore.loginStore.login?._id,
+                      })
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Panel master duplicate created.`,
+                        })
+                      })
+                  }
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -926,7 +975,7 @@ const MasterPanel = observer(() => {
                     window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,
                 _id: undefined,

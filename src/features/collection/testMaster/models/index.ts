@@ -1,5 +1,7 @@
 export interface TestMaster {
   _id?: string
+  existsVersionId?: string
+  existsRecordId?: string
   dateCreation?: number  
   dateActiveFrom?: number  
   dateActiveTo?: number  

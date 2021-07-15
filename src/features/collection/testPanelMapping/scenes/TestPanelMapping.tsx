@@ -273,11 +273,13 @@ const TestPanelMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
@@ -309,17 +311,54 @@ const TestPanelMapping = observer(() => {
                 setErrorsMsg(error)
                 if (!error) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.testPanelMappingStore.testPanelMappingService
-                    .addTestPanelMapping(
-                      Stores.testPanelMappingStore.testPanelMapping
-                    )
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Test panel mapping created.`,
+                  if (
+                    !Stores.testPanelMappingStore.testPanelMapping
+                      ?.existsVersionId &&
+                    !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+                  ) {
+                    Stores.testPanelMappingStore.testPanelMappingService
+                      .addTestPanelMapping(
+                        Stores.testPanelMappingStore.testPanelMapping
+                      )
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test panel mapping created.`,
+                        })
                       })
-                      Stores.testPanelMappingStore.fetchTestPanelMapping()
-                    })
+                  } else if (
+                    Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
+                    !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+                  ) {
+                    Stores.testPanelMappingStore.testPanelMappingService
+                      .versionUpgradeTestPanelMapping(
+                        Stores.testPanelMappingStore.testPanelMapping
+                      )
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test panel version upgrade.`,
+                        })
+                      })
+                  } else if (
+                    !Stores.testPanelMappingStore.testPanelMapping
+                      ?.existsVersionId &&
+                    Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+                  ) {
+                    Stores.testPanelMappingStore.testPanelMappingService
+                      .duplicateTestPanelMapping(
+                        Stores.testPanelMappingStore.testPanelMapping
+                      )
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Test panel duplicate created.`,
+                        })
+                      })
+                  }   
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -433,7 +472,7 @@ const TestPanelMapping = observer(() => {
                     window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,
                 _id: undefined,
@@ -452,7 +491,6 @@ const TestPanelMapping = observer(() => {
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
             }
-
           }}
           onClose={() => {
             setModalConfirm({ show: false })

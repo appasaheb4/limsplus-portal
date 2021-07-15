@@ -30,6 +30,28 @@ class DoctorsService extends BaseService {
           reject({ error })
         })
     })
+    versionUpgradeDoctors = (doctor?: Models.Doctors) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`master/doctors/versionUpgradeDoctors`, doctor)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
+    duplicateDoctors = (doctor?: Models.Doctors) =>
+    new Promise<any>((resolve, reject) => {
+      this.client  
+        .post(`master/doctors/duplicateDoctors`, doctor)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })
     deleteDoctors = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client

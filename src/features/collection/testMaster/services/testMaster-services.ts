@@ -29,6 +29,28 @@ class TestMasterService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
+    })   
+  versionUpgradeTestMaster = (test?: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/master/testMaster/versionUpgradeTestMaster`, test)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
+    })  
+  duplicateTestMaster = (test?: any) =>
+    new Promise<any>((resolve, reject) => {
+      this.client
+        .post(`/master/testMaster/duplicateTestMaster`, test)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch((error) => {
+          reject({ error })
+        })
     })
   deleteTestMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {

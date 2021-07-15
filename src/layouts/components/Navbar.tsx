@@ -46,7 +46,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline className='mr-9'>
+        <Form inline className='mr-9' style={{width:'73%'}}>
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"

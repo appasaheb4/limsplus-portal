@@ -1,5 +1,7 @@
 export interface TestPanelMapping {
-  id?: string
+  id?: string  
+  existsVersionId?: string
+  existsRecordId?: string
   dateCreation?: number
   dateActiveFrom?: number
   dateActiveTo?: number

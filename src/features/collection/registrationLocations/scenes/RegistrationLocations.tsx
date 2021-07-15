@@ -176,7 +176,7 @@ const RegistrationLocation = observer(() => {
                     ?.locationName
                 }
                 onChange={(locationName) => {
-                  setErrors({  
+                  setErrors({
                     ...errors,
                     locationName: Utils.validate.single(
                       locationName,
@@ -266,11 +266,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
@@ -285,11 +287,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -350,11 +354,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
@@ -369,11 +375,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Corporate Code">
@@ -439,11 +447,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "METHOD_COLN").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "METHOD_COLN").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -472,11 +482,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -720,11 +732,13 @@ const RegistrationLocation = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -743,19 +757,64 @@ const RegistrationLocation = observer(() => {
                 setErrorsMsg(error)
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.registrationLocationsStore.registrationLocationsService
-                    .addRegistrationLocations(
-                      Stores.registrationLocationsStore.registrationLocations
-                    )
-                    .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Registration Locations record created.`,
-                        })
-                        Stores.registrationLocationsStore.fetchRegistrationLocations()
-                      }
-                    })
+                  if (
+                    !Stores.registrationLocationsStore.registrationLocations
+                      ?.existsVersionId &&
+                    !Stores.registrationLocationsStore.registrationLocations
+                      ?.existsRecordId
+                  ) {
+                    Stores.registrationLocationsStore.registrationLocationsService
+                      .addRegistrationLocations(
+                        Stores.registrationLocationsStore.registrationLocations
+                      )
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Registration Locations record created.`,
+                          })
+                        }
+                      })
+                  } else if (
+                    Stores.registrationLocationsStore.registrationLocations
+                      ?.existsVersionId &&
+                    !Stores.registrationLocationsStore.registrationLocations
+                      ?.existsRecordId
+                  ) {
+                    Stores.registrationLocationsStore.registrationLocationsService
+                      .versionUpgradeRegistrationLocations(
+                        Stores.registrationLocationsStore.registrationLocations
+                      )
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Registration Locations version updraged.`,
+                          })
+                        }
+                      })
+                  } else if (
+                    !Stores.registrationLocationsStore.registrationLocations
+                      ?.existsVersionId &&
+                    Stores.registrationLocationsStore.registrationLocations
+                      ?.existsRecordId
+                  ) {
+                    Stores.registrationLocationsStore.registrationLocationsService
+                      .duplicateRegistrationLocations(
+                        Stores.registrationLocationsStore.registrationLocations
+                      )
+                      .then((res) => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        if (res.status === 200) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Registration Locations duplicate created.`,
+                          })
+                        }  
+                      })
+                  }
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -866,10 +925,10 @@ const RegistrationLocation = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.registrationLocationsStore.fetchRegistrationLocations()
-                    window.location.reload();
+                    window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.registrationLocationsStore.updateRegistrationLocations({
                 ...modalConfirm.data,
                 _id: undefined,

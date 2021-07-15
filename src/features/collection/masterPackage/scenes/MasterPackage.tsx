@@ -126,7 +126,7 @@ const MasterPackage = observer(() => {
                     dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
-              />  
+              />
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
                 placeholder="Version"
@@ -335,11 +335,13 @@ const MasterPackage = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -358,15 +360,52 @@ const MasterPackage = observer(() => {
                 setErrorsMsg(error)
                 if (!error) {
                   RootStore.rootStore.setProcessLoading(true)
-                  Stores.masterPackageStore.masterPackageService
-                    .addPackageMaster(Stores.masterPackageStore.masterPackage)
-                    .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Package master created.`,
+
+                  if (
+                    !Stores.masterPackageStore.masterPackage?.existsVersionId &&
+                    !Stores.masterPackageStore.masterPackage?.existsRecordId
+                  ) {
+                    Stores.masterPackageStore.masterPackageService
+                      .addPackageMaster(Stores.masterPackageStore.masterPackage)
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Package master created.`,
+                        })
                       })
-                      Stores.masterPackageStore.fetchPackageMaster()
-                    })
+                  } else if (
+                    Stores.masterPackageStore.masterPackage?.existsVersionId &&
+                    !Stores.masterPackageStore.masterPackage?.existsRecordId
+                  ) {
+                    Stores.masterPackageStore.masterPackageService
+                      .versionUpgradePackageMaster(
+                        Stores.masterPackageStore.masterPackage
+                      )
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Package master version upgrade.`,
+                        })
+                      })
+                  } else if (
+                    !Stores.masterPackageStore.masterPackage?.existsVersionId &&
+                    Stores.masterPackageStore.masterPackage?.existsRecordId
+                  ) {
+                    Stores.masterPackageStore.masterPackageService
+                      .duplicatePackageMaster(
+                        Stores.masterPackageStore.masterPackage
+                      )
+                      .then(() => {
+                        RootStore.rootStore.setProcessLoading(false)
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Package master duplicate created.`,
+                        })
+                      })
+                  }
+
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: `😔 Please enter all information!`,
@@ -479,7 +518,7 @@ const MasterPackage = observer(() => {
                     window.location.reload()
                   }
                 })
-            }else if (type === "versionUpgrade") {
+            } else if (type === "versionUpgrade") {
               Stores.masterPackageStore.updateMasterPackage({
                 ...modalConfirm.data,
                 _id: undefined,
