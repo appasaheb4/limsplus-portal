@@ -1,29 +1,21 @@
 /* eslint-disable */
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
-import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import Storage from "@lp/library/modules/storage"
-import { Stores } from "../../stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
-
-interface MethodsListProps {
+   
+interface SalesTeamListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-}
+}  
 
-const MethodsList = observer((props: MethodsListProps) => {
+export const SalesTeamList = observer((props: SalesTeamListProps) => {
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -59,33 +51,41 @@ const MethodsList = observer((props: MethodsListProps) => {
           csvExport: false,
         },
         {
-          dataField: "methodsCode",
-          text: "Methods Code",
-          sort: true,
-          filter: LibraryComponents.Organisms.Utils.textFilter(),
-          editable:false
-        },
-        {
-          dataField: "methodsName",
-          text: "Methods Name",
+          dataField: "salesHierarchy",
+          text: "Sales Hierarchy",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
-          dataField: "description",
-          text: "Description",
+          dataField: "salesTerritory",
+          text: "Sales Territory",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          formatter: (cell, row) => {
+            return <>{row.salesTerritory.area || ""}</>
+          },
+        },
+        {
+          dataField: "empCode",
+          text: "Employee Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
-          dataField: "status",
-          text: "Status",
+          dataField: "empName",
+          text: "Employee Name",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "reportingTo",
+          text: "Reporting To",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "opration",
-          text: "Delete",
+          text: "Actions",
           editable: false,
           csvExport: false,
           hidden: !props.isDelete,
@@ -104,7 +104,7 @@ const MethodsList = observer((props: MethodsListProps) => {
                       title: "Are you sure?",
                       body: `Delete record`,
                     })
-                }}
+                }} 
               >
                 Delete
               </LibraryComponents.Atoms.Buttons.Button>
@@ -125,4 +125,3 @@ const MethodsList = observer((props: MethodsListProps) => {
   )
 })
 
-export default MethodsList

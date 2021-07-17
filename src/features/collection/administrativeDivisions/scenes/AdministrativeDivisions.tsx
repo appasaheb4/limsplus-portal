@@ -104,7 +104,7 @@ export const AdministrativeDivisions = observer(() => {
                   })
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
-                    state,
+                    state:[state],
                   })
                 }}
               />
@@ -122,7 +122,7 @@ export const AdministrativeDivisions = observer(() => {
                   })
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
-                    district,
+                    district:[district],
                   })
                 }}
               />
@@ -133,7 +133,7 @@ export const AdministrativeDivisions = observer(() => {
                 onChange={(city) => {
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
-                    city,
+                    city:[city],
                   })
                 }}
               />
@@ -144,7 +144,7 @@ export const AdministrativeDivisions = observer(() => {
                 onChange={(area) => {
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
-                    area,
+                    area:[area],
                   })
                 }}
               />
@@ -159,11 +159,11 @@ export const AdministrativeDivisions = observer(() => {
                 type="number"
                 label="Postcode"
                 placeholder="Postcode"
-                value={Stores.administrativeDivStore.administrativeDiv?.postcode}
-                onChange={(postcode) => {
+                value={Stores.administrativeDivStore.administrativeDiv?.postalCode}
+                onChange={(postalCode) => {
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
-                    postcode,
+                    postalCode:[postalCode],
                   })
                 }}
               />

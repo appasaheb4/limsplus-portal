@@ -1,4 +1,31 @@
 export interface Labs {
-  code?: string;
-  name?: string;
+  _id?: string
+  code?: string
+  name?: string
+  country?: string
+  state?: string
+  district?: string
+  city?: string
+  area?: string
+  postalCode?: string
+  address?: string
+  deliveryType?: 'Interim'|'Progress'|'Complete'|'Single'
+  salesTerritory?: string
+  labLicence?: string
+  director?: string
+  physician?: string
+  mobileNo?: string
+  contactNo?: string
+  speciality?: string
+  labType?: string
+  openingTime?: string
+  closingTime?: string
+  email?: string
+  labLog?: string
+  autoRelease?: boolean
+  requireReceveInLab?: boolean
+  requireScainIn?: boolean
+  routingDept?: boolean
+  fyiLine?: string
+  workLine?: string
 }
