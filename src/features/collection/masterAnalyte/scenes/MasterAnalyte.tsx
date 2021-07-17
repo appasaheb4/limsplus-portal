@@ -555,7 +555,7 @@ const MasterAnalyte = observer(() => {
               />
                <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
                 <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                  value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const resultType = e.target.value
@@ -577,7 +577,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
                 <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                  value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const analyteType = e.target.value
