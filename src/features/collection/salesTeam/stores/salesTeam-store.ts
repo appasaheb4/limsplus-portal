@@ -20,7 +20,7 @@ export class SalesTeamStore {
   }
 
   fetchSalesTeam() {
-    this.salesTeamService.listMethods().then((res) => {
+    this.salesTeamService.listSalesTeam().then((res) => {
       this.listSalesTeam = res
     })
   }

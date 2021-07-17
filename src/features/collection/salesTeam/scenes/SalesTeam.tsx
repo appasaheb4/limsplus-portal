@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import { SalesTeamList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
@@ -13,6 +13,8 @@ import Storage from "@lp/library/modules/storage"
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
+import { Stores as UserStore } from "@lp/features/users/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -104,7 +106,7 @@ export const SalesTeam = observer(() => {
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const salesTerritory = e.target.value
+                    const salesTerritory = JSON.parse(e.target.value)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       salesTerritory,
@@ -112,34 +114,42 @@ export const SalesTeam = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "area").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
-                      </option>
-                    )
-                  )}
+                  {AdministrativeDivStore.administrativeDivStore
+                    .listAdministrativeDiv &&
+                    AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={JSON.stringify(item)}>
+                          {`${item.area}`}
+                        </option>
+                      )
+                    )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Employee code">
                 <select
+                  //value={Stores.salesTeamStore.salesTeam?.empCode}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const empCode = e.target.value
+                    const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
-                      empCode,
+                      empCode: userDetials.empCode,
+                      empName: userDetials.empName,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "userId").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
+                  {UserStore.userStore.userList &&
+                    Utils.filterUsersItems(
+                      UserStore.userStore.userList,
+                      "role",
+                      "code",
+                      "SALES"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.empCode} -${item.empName}`}
                       </option>
-                    )
-                  )}
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -151,44 +161,54 @@ export const SalesTeam = observer(() => {
             >
               <LibraryComponents.Atoms.Form.InputWrapper label="Employee Name">
                 <select
+                  //value={Stores.salesTeamStore.salesTeam?.empName}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const empName = e.target.value
+                    const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
-                      empName,
+                      empCode: userDetials.empCode,
+                      empName: userDetials.empName,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "name").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
+                  {UserStore.userStore.userList &&
+                    Utils.filterUsersItems(
+                      UserStore.userStore.userList,
+                      "role",
+                      "code",
+                      "SALES"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.empCode} -${item.empName}`}
                       </option>
-                    )
-                  )}
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const reportingTo = e.target.value
+                    const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
-                      reportingTo,
+                      reportingTo: userDetials.empCode,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "userId").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
+                  {UserStore.userStore.userList &&
+                    Utils.filterUsersItems(
+                      UserStore.userStore.userList,
+                      "role",
+                      "code",
+                      "SALES"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={JSON.stringify(item)}>
+                        {`${item.empCode} -${item.empName}`}
                       </option>
-                    )
-                  )}
+                    ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -208,12 +228,12 @@ export const SalesTeam = observer(() => {
                 if (error === undefined) {
                   RootStore.rootStore.setProcessLoading(true)
                   Stores.salesTeamStore.salesTeamService
-                    .addMethods(Stores.salesTeamStore.salesTeam)
+                    .addSalesTeam(Stores.salesTeamStore.salesTeam)
                     .then((res) => {
                       RootStore.rootStore.setProcessLoading(false)
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Methods created.`,
+                          message: `😊 Sales team created.`,
                         })
                       }
                     })
@@ -251,7 +271,7 @@ export const SalesTeam = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
-          <FeatureComponents.Molecules.MethodsList
+          <SalesTeamList
             data={Stores.salesTeamStore.listSalesTeam || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
@@ -289,12 +309,12 @@ export const SalesTeam = observer(() => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
               Stores.salesTeamStore.salesTeamService
-                .deleteMethods(modalConfirm.id)
+                .deleteSalesTeam(modalConfirm.id)
                 .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record deleted.`,
+                      message: `😊 Sales team record deleted.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.salesTeamStore.fetchSalesTeam()
@@ -308,7 +328,7 @@ export const SalesTeam = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record updated.`,
+                      message: `😊 Sales team record updated.`,
                     })
                     setModalConfirm({ show: false })
                     window.location.reload()
@@ -317,7 +337,7 @@ export const SalesTeam = observer(() => {
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
-        />  
+        />
       </div>
     </>
   )

@@ -6,12 +6,12 @@
  */
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
-   
+
 export class SalesTeamService extends BaseService {
-  listMethods = () =>
+  listSalesTeam = () =>
     new Promise<Models.SalesTeam[]>((resolve, reject) => {
       this.client
-        .get(`master/methods/listMethods`)
+        .get(`master/salesTeam/listSalesTeam`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ export class SalesTeamService extends BaseService {
           reject({ error })
         })
     })
-  addMethods = (methods?: Models.SalesTeam) =>
+    addSalesTeam = (salesTeam?: Models.SalesTeam) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/methods/addMethods`, methods)
+        .post(`master/salesTeam/addSalesTeam`, salesTeam)
         .then((res) => {
           resolve(res)
         })
@@ -30,10 +30,10 @@ export class SalesTeamService extends BaseService {
           reject({ error })
         })
     })
-  deleteMethods = (id: string) =>
+    deleteSalesTeam = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`master/methods/deleteMethods/${id}`)
+        .delete(`master/salesTeam/deleteSalesTeam/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -45,12 +45,12 @@ export class SalesTeamService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`master/methods/updateSingleFiled`, newValue)
+        .post(`master/salesTeam/updateSingleFiled`, newValue)
         .then((res) => {
-          resolve(res)  
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })
         })
     })
-}
+}   

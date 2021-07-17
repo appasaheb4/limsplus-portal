@@ -46,7 +46,8 @@ import * as Doctors from "@lp/features/collection/doctors"
 import * as RegistrationLocations from "@lp/features/collection/registrationLocations"
 import * as CorporateClients from "@lp/features/collection/corporateClients"
 import * as DeliverySchdule from "@lp/features/collection/deliverySchedule"
-import * as AdministrativeDivisions from '@lp/features/collection/administrativeDivisions'
+import * as AdministrativeDivisions from "@lp/features/collection/administrativeDivisions"
+import * as SalesTeam from '@lp/features/collection/salesTeam'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -114,10 +115,16 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testMaster"
       )
         await DeliverySchdule.startup()
+      if (
+        pathname === "/collection/administrativeDivisions" ||
+        pathname === "/collection/salesTeam" || pathname === "/collection/lab"
+      )  
+        await AdministrativeDivisions.startup()
         if (
-          pathname === "/collection/administrativeDivisions"
+          pathname === "/collection/salesTeam" || pathname === "/collection/lab"
         )  
-          await AdministrativeDivisions.startup()
+          await SalesTeam.startup()
+
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()

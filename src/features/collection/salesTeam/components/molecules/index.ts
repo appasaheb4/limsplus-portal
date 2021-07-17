@@ -1,1 +1,1 @@
-export { default as MethodsList } from "./MethodsList"
+export * from "./SalesTeamList"
