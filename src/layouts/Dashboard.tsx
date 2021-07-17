@@ -46,6 +46,7 @@ import * as Doctors from "@lp/features/collection/doctors"
 import * as RegistrationLocations from "@lp/features/collection/registrationLocations"
 import * as CorporateClients from "@lp/features/collection/corporateClients"
 import * as DeliverySchdule from "@lp/features/collection/deliverySchedule"
+import * as AdministrativeDivisions from '@lp/features/collection/administrativeDivisions'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -113,6 +114,10 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/testMaster"
       )
         await DeliverySchdule.startup()
+        if (
+          pathname === "/collection/administrativeDivisions"
+        )  
+          await AdministrativeDivisions.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()

@@ -65,6 +65,16 @@ const DeliverySchedule = async(
   () => import("@lp/features/collection/deliverySchedule/scenes/DeliverySchedule")
 )
 
+const AdministrativeDivisions = async(
+  () =>
+    import(
+      "@lp/features/collection/administrativeDivisions/scenes/AdministrativeDivisions"
+    )
+)
+const SalesTeam = async(
+  () => import("@lp/features/collection/salesTeam/scenes/SalesTeam")
+)
+
 // Communication
 const HostCommunication = async(
   () => import("@lp/features/communication/scenes/HostCommunication")
@@ -267,11 +277,23 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiUsers",
       component: CorporateClients,
     },
-    {   
+    {
       path: "/collection/deliverySchedule",
       name: "Delivery Schedule",
       icon: "LibraryComponents.Atoms.Icons.IconGr.GrDeliver",
       component: DeliverySchedule,
+    },
+    {
+      path: "/collection/administrativeDivisions",
+      name: "Administrative Divisions",
+      icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
+      component: AdministrativeDivisions,
+    },
+    {
+      path: "/collection/salesTeam",
+      name: "Sales Team",  
+      icon: "LibraryComponents.Atoms.Icons.IconRi.RiTeamLine",
+      component: SalesTeam,
     },
   ],
 }
