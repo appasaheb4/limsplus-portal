@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -7,11 +7,13 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
 import * as Utils from "../util"
+import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
-import {Stores as SalesTeamStore} from '@lp/features/collection/salesTeam/stores'
+import { Stores as SalesTeamStore } from "@lp/features/collection/salesTeam/stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -21,6 +23,30 @@ const Lab = observer(() => {
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+  const [lookupItems, setLookupItems] = useState<any[]>([])
+
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      if (items) {
+        setLookupItems(items)
+      }
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
 
   return (
     <>
@@ -286,22 +312,11 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const deliveryType = e.target.value as
-                      | "Interim"
-                      | "Progress"
-                      | "Complete"
-                      | "Single"
+                    const deliveryType = e.target.value 
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       deliveryType,
@@ -309,15 +324,23 @@ const Lab = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Interim", "Progress", "Complete", "Single"].map(
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map(
                     (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {`${item}`}
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
                       </option>
                     )
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+             
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -330,15 +353,223 @@ const Lab = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {SalesTeamStore.salesTeamStore.listSalesTeam && SalesTeamStore.salesTeamStore.listSalesTeam.map(
+                  {SalesTeamStore.salesTeamStore.listSalesTeam &&
+                    SalesTeamStore.salesTeamStore.listSalesTeam.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.salesTerritory.area}>
+                          {`${item.salesTerritory.area}`}
+                        </option>
+                      )
+                    )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Lab Licence"
+                placeholder="Lab Licence"
+                value={Stores.labStore.labs?.labLicence}
+                onChange={(labLicence) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    labLicence,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Director"
+                placeholder="Director"
+                value={Stores.labStore.labs?.director}
+                onChange={(director) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    director,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Physician"
+                placeholder="Physician"
+                value={Stores.labStore.labs?.physician}
+                onChange={(physician) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    physician,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                type="number"
+                label="Mobile Number"
+                placeholder="Mobile Number"
+                value={Stores.labStore.labs?.mobileNo}
+                onChange={(mobileNo) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    mobileNo,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                type="number"
+                label="Contact Number"
+                placeholder="Contact Number"
+                value={Stores.labStore.labs?.contactNo}
+                onChange={(contactNo) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    contactNo,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Speciality"
+                placeholder="Speciality"
+                value={Stores.labStore.labs?.speciality}
+                onChange={(speciality) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    speciality,
+                  })
+                }}
+              />
+               <LibraryComponents.Atoms.Form.InputWrapper label="Lab type">
+                <select
+                  value={Stores.labStore.labs?.labType}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const labType = e.target.value
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      labType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "LAB_TYPE").map(
                     (item: any, index: number) => (
-                      <option key={index} value={item.salesTerritory.area}>
-                        {`${item.salesTerritory.area}`}
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
                       </option>
                     )
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+             
+              <LibraryComponents.Atoms.Form.Clock
+                label="Opening Time"
+                value={Stores.labStore.labs?.openingTime}
+                onChange={(openingTime) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    openingTime,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Clock
+                label="Closing Time"
+                value={Stores.labStore.labs?.closingTime}
+                onChange={(closingTime) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    closingTime,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Email"
+                placeholder="Email"
+                value={Stores.labStore.labs?.email}
+                onChange={(email) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    email,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputFile
+                label="Lab logo"
+                placeholder="Lab logo"
+                onChange={(e) => {
+                  const labLog = e.target.files[0]
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    labLog,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={2}
+                label="FYI line"
+                placeholder="FYI line"
+                value={Stores.labStore.labs?.fyiLine}
+                onChange={(fyiLine) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    fyiLine,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={2}
+                label="Work line"
+                placeholder="Work line"
+                value={Stores.labStore.labs?.workLine}
+                onChange={(workLine) => {
+                  Stores.labStore.updateLabs({
+                    ...Stores.labStore.labs,
+                    workLine,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Grid cols={4}>
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Auto Release"
+                  value={Stores.labStore.labs?.autoRelease}
+                  onChange={(autoRelease) => {
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      autoRelease,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Require receve in lab"
+                  value={Stores.labStore.labs?.requireReceveInLab}
+                  onChange={(requireReceveInLab) => {
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      requireReceveInLab,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Require Scain In"
+                  value={Stores.labStore.labs?.requireScainIn}
+                  onChange={(requireScainIn) => {
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      requireScainIn,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Routing Dept"
+                  value={Stores.labStore.labs?.routingDept}
+                  onChange={(routingDept) => {
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      routingDept,
+                    })
+                  }}
+                />  
+              </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -359,7 +590,6 @@ const Lab = observer(() => {
                         message: `😊Lab created.`,
                       })
                       Stores.labStore.fetchListLab()
-                      Stores.labStore.clear()
                     }
                   )
                 } else {

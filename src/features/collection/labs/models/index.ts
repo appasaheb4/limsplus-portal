@@ -9,7 +9,7 @@ export interface Labs {
   area?: string
   postalCode?: string
   address?: string
-  deliveryType?: 'Interim'|'Progress'|'Complete'|'Single'
+  deliveryType?: string
   salesTerritory?: string
   labLicence?: string
   director?: string
