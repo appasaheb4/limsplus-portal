@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
@@ -316,7 +317,7 @@ const Lab = observer(() => {
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const deliveryType = e.target.value 
+                    const deliveryType = e.target.value
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       deliveryType,
@@ -340,7 +341,6 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
-             
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -431,7 +431,7 @@ const Lab = observer(() => {
                   })
                 }}
               />
-               <LibraryComponents.Atoms.Form.InputWrapper label="Lab type">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab type">
                 <select
                   value={Stores.labStore.labs?.labType}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -461,7 +461,6 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
-             
               <LibraryComponents.Atoms.Form.Clock
                 label="Opening Time"
                 value={Stores.labStore.labs?.openingTime}
@@ -568,7 +567,7 @@ const Lab = observer(() => {
                       routingDept,
                     })
                   }}
-                />  
+                />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -587,14 +586,16 @@ const Lab = observer(() => {
                     () => {
                       RootStore.rootStore.setProcessLoading(false)
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊Lab created.`,
+                        message: `😊 Lab created.`,
                       })
-                      Stores.labStore.fetchListLab()
                     }
-                  )
+                  )  
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)  
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
-                    message: "😔Please enter all information!",
+                    message: "😔 Please enter all information!",
                   })
                 }
               }}
@@ -664,7 +665,7 @@ const Lab = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊Lab deleted.`,
+                      message: `😊 Lab deleted.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.labStore.fetchListLab()
@@ -678,7 +679,7 @@ const Lab = observer(() => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊Lab updated.`,
+                      message: `😊 Lab updated.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.labStore.fetchListLab()

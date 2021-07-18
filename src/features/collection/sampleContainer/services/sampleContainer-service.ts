@@ -28,7 +28,7 @@ class SampleContainerService extends BaseService {
       form.append("description", sampleContainer.description)
       form.append("file", sampleContainer.image)
       form.append("folder", "sampleconatiner")
-      form.append("name", sampleContainer.image.name)
+      form.append("fileName", sampleContainer.image.name)
       form.append(
         "image",
         `https://limsplus.blob.core.windows.net/sampleconatiner/${sampleContainer.image.name}`

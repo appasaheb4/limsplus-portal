@@ -1,3 +1,3 @@
-import Department from "./department";
+export * from "./Department";  
 
-export { Department };
+

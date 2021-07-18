@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const filterUsersItems = (arr, arrKey, key, value): any => {
     const result: any = []
     arr.filter((item) => {

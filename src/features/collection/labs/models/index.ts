@@ -21,7 +21,8 @@ export interface Labs {
   openingTime?: string
   closingTime?: string
   email?: string
-  labLog?: string
+  labLog?: any   
+  image?: string,
   autoRelease?: boolean
   requireReceveInLab?: boolean
   requireScainIn?: boolean

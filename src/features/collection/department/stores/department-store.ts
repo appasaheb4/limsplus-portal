@@ -6,8 +6,8 @@ import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class DepartmentStore {
-  @observable listDepartment: Models.IDepartment[] = []
-  @ignore @observable department?: Models.IDepartment
+  @observable listDepartment: Models.Department[] = []
+  @ignore @observable department?: Models.Department
   @ignore @observable checkExitsCode?: boolean = false
 
   constructor() {
@@ -38,7 +38,7 @@ class DepartmentStore {
     })
   }
 
-  @action updateDepartment = (department: Models.IDepartment) => {
+  @action updateDepartment = (department: Models.Department) => {
     this.department = department
   }
 

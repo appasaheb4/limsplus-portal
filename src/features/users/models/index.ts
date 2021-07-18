@@ -14,7 +14,7 @@ export interface Users {
   fullName?: string
   mobileNo?: string
   email?: string
-  department?: ModelsDepartment.IDepartment[]
+  department?: ModelsDepartment.Department[]
   exipreDate?: Date
   exipreDays?: number
   role?: ModelsRole.IRole[]
