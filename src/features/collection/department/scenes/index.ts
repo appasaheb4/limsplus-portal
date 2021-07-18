@@ -1,3 +1,3 @@
-export * from "./Department";  
+export * from "./Department1";  
 
 
