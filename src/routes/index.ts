@@ -15,7 +15,7 @@ const CollectionDeginisation = async(
 )  
 
 const CollectionDepartment = async(
-  () => import("@lp/features/collection/department/scenes/Department")
+  () => import("@lp/features/collection/department/scenes/Department1")
 )  
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
