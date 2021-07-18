@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const stateList = (arr, countryName): any => {
   const result = arr.find((item) => {
     return item.country === countryName

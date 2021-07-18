@@ -14,7 +14,7 @@ class AssetsService extends BaseService {
         const form = new FormData()
         form.append("file", file)
         form.append("folder", folder)
-        form.append("name", name)
+        form.append("fileName", name)
         this.client
           .post(`/assets/uploadFile`, form, {
             headers: {

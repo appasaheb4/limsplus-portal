@@ -66,7 +66,7 @@ const Login = observer(() => {
                         key={key}
                         src={item.image}
                         className="img-thumbnail img-fluid"
-                        alt="First slide"
+                        alt={key.toString()}
                       />
                     </Bootstrap.Carousel.Item>
                   ))}

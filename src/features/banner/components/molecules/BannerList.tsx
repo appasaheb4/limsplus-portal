@@ -41,9 +41,8 @@ const BannerList = (props: BannerListProps) => {
               <>
                 <img
                   src={row.image}
-                  style={{ width: 200, height: 150 }}
                   alt="banner"
-                  className='object-contain'
+                  className='object-fill h-35 w-40 rounded-md'
                 />
               </>
             )

@@ -44,6 +44,87 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
+
+        {
+          dataField: "shortName",
+          text: "Short Name",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "hod",
+          text: "HOD",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "mobileNo",
+          text: "Mobile No",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "contactNo",
+          text: "Contact No",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "autoRelease",
+          text: "Auto Release",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+
+        {
+          dataField: "requireReceveInLab",
+          text: "Require Receve In Lab",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "requireScainIn",
+          text: "Require Scain In",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "routingDept",
+          text: "Routing Dept",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "openingTime",
+          text: "Opening Time",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "closingTime",
+          text: "Closing Time",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+
+        {
+          dataField: "fyiLine",
+          text: "Fyi Line",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "workLine",
+          text: "Work Line",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "status",
+          text: "Status",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
         {
           dataField: "opration",
           text: "Delete",

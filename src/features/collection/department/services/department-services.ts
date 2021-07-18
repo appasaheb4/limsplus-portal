@@ -7,11 +7,11 @@
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
 
-class DepartmentService extends BaseService {
+class DepartmentService extends BaseService {   
   listDepartment = () =>
-    new Promise<Models.IDepartment[]>((resolve, reject) => {
+    new Promise<Models.Department[]>((resolve, reject) => {
       this.client
-        .get(`/department/listDepartment`)
+        .get(`/master/department/listDepartment`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,11 @@ class DepartmentService extends BaseService {
           reject({ error })
         })
     })
-  adddepartment = (department?: Models.IDepartment) =>
+
+  adddepartment = (department?: Models.Department) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/department/addDepartment`, department)
+        .post(`/master/department/addDepartment`, department)
         .then((res) => {
           resolve(res.data)
         })
@@ -33,7 +34,7 @@ class DepartmentService extends BaseService {
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/department/checkExitsCode`, { code })
+        .post(`/master/department/checkExitsCode`, { code })
         .then((res) => {
           resolve(res.data.data)
         })
@@ -44,7 +45,7 @@ class DepartmentService extends BaseService {
   deletedepartment = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`/department/deleteDepartment/${id}`)
+        .delete(`/master/department/deleteDepartment/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -55,7 +56,7 @@ class DepartmentService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/department/updateSingleFiled`, newValue)
+        .post(`/master/department/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

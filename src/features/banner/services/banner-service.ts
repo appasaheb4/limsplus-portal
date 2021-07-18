@@ -26,7 +26,7 @@ class BannerService extends BaseService {
       form.append("title", banner.title)
       form.append("file", banner.image)
       form.append("folder", "banner")
-      form.append("name", banner.image.name)
+      form.append("fileName", banner.image.name)
       form.append(
         "image",
         `https://limsplus.blob.core.windows.net/banner/${banner.image.name}`

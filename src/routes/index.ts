@@ -12,10 +12,11 @@ const Banner = async(() => import("@lp/features/banner/scenes/banner"))
 const CollectionLab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
 const CollectionDeginisation = async(
   () => import("@lp/features/collection/deginisation/scenes/deginisation")
-)
+)  
+
 const CollectionDepartment = async(
-  () => import("@lp/features/collection/department/scenes/department")
-)
+  () => import("@lp/features/collection/department/scenes/Department")
+)  
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
