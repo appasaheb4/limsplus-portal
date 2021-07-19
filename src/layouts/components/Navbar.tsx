@@ -8,7 +8,8 @@ import { Button } from "reactstrap"
 
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-
+import { Stores } from "../../library/stores/index"
+import { Stores as AppStore } from "@lp/library/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as RootStore } from "@lp/library/stores"
@@ -46,7 +47,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline className='mr-9' style={{width:'73%'}}>
+        <Form inline className='mr-9' style={{width:'73%',backgroundColor:`${Stores.appStore.applicationSetting?.shortCutBarColor}`}} >
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
