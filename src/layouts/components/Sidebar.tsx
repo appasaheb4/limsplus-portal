@@ -166,7 +166,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           (!sidebar.isOpen ? " toggled" : "") +
           (sidebar.isSticky ? " sidebar-sticky" : "")
         }
-        style={{backgroundColor:`${Stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${Stores.appStore.applicationSetting?.imageSideBarBgImage})`}}
+        style={{backgroundColor:`${Stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${Stores.appStore.applicationSetting?.imageSideBarBgImage})`,backgroundSize:'100% 100%'}}
       >
         <div className="sidebar-content">
           <PerfectScrollbar>

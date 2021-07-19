@@ -26,6 +26,7 @@ const App = observer(() => {
   const loader = async () => {
     await hydrateStore("loginStore", LoginStore.loginStore)
     await hydrateStore("routerStore", RootStore.routerStore)
+    await hydrateStore("appStore", RootStore.appStore)
   }
 
   React.useEffect(() => {
