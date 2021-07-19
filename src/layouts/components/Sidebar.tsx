@@ -4,6 +4,7 @@ import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom"
+import { Stores } from "../../library/stores/index"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
@@ -21,6 +22,7 @@ import * as Assets from "@lp/library/assets"
 import { Stores as RootStore } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
+
 
 
 const initOpenRoutes = (location) => {
@@ -164,8 +166,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           (!sidebar.isOpen ? " toggled" : "") +
           (sidebar.isSticky ? " sidebar-sticky" : "")
         }
+        style={{backgroundColor:`${Stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${Stores.appStore.applicationSetting?.imageSideBarBgImage})`}}
       >
-        <div className="sidebar-content" >
+        <div className="sidebar-content">
           <PerfectScrollbar>
             <a className="flex sidebar-brand items-center" href="/">
               <img
