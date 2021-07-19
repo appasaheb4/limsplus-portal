@@ -48,6 +48,7 @@ import * as CorporateClients from "@lp/features/collection/corporateClients"
 import * as DeliverySchdule from "@lp/features/collection/deliverySchedule"
 import * as AdministrativeDivisions from "@lp/features/collection/administrativeDivisions"
 import * as SalesTeam from '@lp/features/collection/salesTeam'
+import * as Section from '@lp/features/collection/section'
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -124,6 +125,10 @@ const Dashboard = observer(({ children }) => {
           pathname === "/collection/salesTeam" || pathname === "/collection/lab"
         )  
           await SalesTeam.startup()
+          if (
+            pathname === "/collection/section"
+          )    
+            await Section.startup()
 
 
       if (pathname === "/settings/environmentSettings")

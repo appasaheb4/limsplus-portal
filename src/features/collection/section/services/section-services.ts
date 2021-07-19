@@ -6,13 +6,11 @@
  */
 import * as Models from "../models"
 import BaseService from "@lp/library/modules/base-service"
-import { Section } from "../scenes"
-
-class SectionService extends BaseService {
+export class SectionService extends BaseService {
   listSection = () =>
     new Promise<Models.Section[]>((resolve, reject) => {
       this.client
-        .get(`/section/listSection`)
+        .get(`/master/section/listSection`)
         .then((res) => {
           resolve(res.data.data)
         })
@@ -23,7 +21,7 @@ class SectionService extends BaseService {
   addSection = (section?: Models.Section) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/section/addSection`, section)
+        .post(`/master/section/addSection`, section)
         .then((res) => {
           resolve(res)
         })
@@ -34,20 +32,9 @@ class SectionService extends BaseService {
   deleteSection = (id: string) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .delete(`/section/deleteSection/${id}`)
+        .delete(`/master/section/deleteSection/${id}`)
         .then((res) => {
           resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  checkExitsCode = (code: string) =>
-    new Promise<any>((resolve, reject) => {
-      this.client
-        .post(`/section/checkExitsCode`, { code })
-        .then((res) => {
-          resolve(res.data.data)
         })
         .catch((error) => {
           reject({ error })
@@ -57,7 +44,7 @@ class SectionService extends BaseService {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       this.client
-        .post(`/section/updateSingleFiled`, newValue)
+        .post(`/master/section/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
@@ -66,5 +53,3 @@ class SectionService extends BaseService {
         })
     })
 }
-
-export default SectionService

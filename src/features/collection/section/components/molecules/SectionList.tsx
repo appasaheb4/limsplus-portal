@@ -1,18 +1,9 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
-import { Stores } from "../../stores"
-
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 interface SectionListProps {
   data: any
@@ -23,7 +14,7 @@ interface SectionListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const SectionList = observer((props: SectionListProps) => {
+export const SectionList = observer((props: SectionListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -36,20 +27,68 @@ const SectionList = observer((props: SectionListProps) => {
           csvExport: false,
         },
         {
+          dataField: "departmentCode",
+          text: "Department Code",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
           dataField: "code",
           text: "Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
-          dataField: "description",
-          text: "Description",
+          dataField: "name",
+          text: "Name",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "shortName",
+          text: "Short Name",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "sectionInCharge",
+          text: "Section In Charge",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "mobieNo",
+          text: "Mobie No",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "contactNo",
+          text: "Contact No",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "fyiLine",
+          text: "Fyi Line",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "workLine",
+          text: "Work Line",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+        },
+        {
+          dataField: "status",
+          text: "Status",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
         {
           dataField: "opration",
-          text: "Delete",
+          text: "Action",
           editable: false,
           csvExport: false,
           hidden: !props.isDelete,
@@ -88,4 +127,3 @@ const SectionList = observer((props: SectionListProps) => {
     />
   )
 })
-export default SectionList
