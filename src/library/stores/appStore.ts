@@ -14,7 +14,6 @@ class AppStore {
     }
     @action updateApplicationSetting(setting: ApplicationSetting){
         this.applicationSetting = setting
-        // console.log('Value Checking.......',this.applicationSetting.sideBarColor)
     }
     
 }
