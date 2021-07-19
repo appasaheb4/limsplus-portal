@@ -77,12 +77,12 @@ export const SideBarColorBgImages = ({
           <LibraryComponents.Atoms.Form.Toggle />
         </div>
         <h4 className="title my-2.5">Background Images</h4>
-        <div className="d-flex justify-content-between">
+        <div className="d-flex flex-wrap justify-between">
           {images.map((item, index) => {
             return (
               <img
                 key={index}
-                className="w-15 h-20"
+                className="w-15 h-20 mb-2.5 rounded-md"
                 src={item.image}
                 alt=""
                 onClick={() => onChangeImage && onChangeImage(item.image)}

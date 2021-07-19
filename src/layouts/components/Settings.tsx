@@ -7,7 +7,7 @@ import { toggleSidebar } from "../../redux/actions/sidebarActions"
 
 import { Badge, Button } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
-
+import { Stores } from "../../library/stores/index"
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
@@ -25,7 +25,8 @@ class Settings extends React.Component<Props, State> {
     this.state = {
       isOpen: false,
       colorList: [
-        { color: "#FF0000" },
+        // { color: "#FF0000" },
+        {color:  '#f06d06'},
         { color: "#991AFF" },
         { color: "#00FF00" },
         { color: "#FFA500" },
@@ -37,10 +38,10 @@ class Settings extends React.Component<Props, State> {
         { color: "#008080" },
       ],
       imageList: [
-        { image: Assets.images.img1 },
-        // { image: Assets.images.img2 },
-        // { image: Assets.images.img3 },
-        // { image: Assets.images.img4 },
+        { image: Assets.images.img1},
+        { image: Assets.images.img2 },
+        { image: Assets.images.img3 },
+        { image: Assets.images.img4 },
       ],
     }
 
@@ -136,9 +137,24 @@ class Settings extends React.Component<Props, State> {
                 <SideBarColorBgImages
                   data={this.state.colorList}
                   images={this.state.imageList}
-                  onChangeSidebarColor={(color: string)=>console.log({color})}
-                  onChangeShoutcutColor={(color: string)=>console.log({color})}
-                  onChangeImage={(image: any)=>console.log({image})}
+                  onChangeSidebarColor={(color: string)=>{
+                   Stores.appStore.updateApplicationSetting({
+                    ...Stores.appStore.applicationSetting,
+                    sideBarColor:color
+                   })
+                  }}
+                  onChangeShoutcutColor={(color: string)=>{
+                    Stores.appStore.updateApplicationSetting({
+                      ...Stores.appStore.applicationSetting,
+                      shortCutBarColor:color
+                     })
+                  }}
+                  onChangeImage={(image: any)=>{
+                    Stores.appStore.updateApplicationSetting({
+                      ...Stores.appStore.applicationSetting,
+                      imageSideBarBgImage:image
+                    })
+                  }}
                 />
               </div>
             </PerfectScrollbar>
