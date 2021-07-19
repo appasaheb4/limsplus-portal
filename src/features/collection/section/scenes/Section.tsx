@@ -1,20 +1,60 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-// import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 
-//import * as Models from "../models"
-// import * as Util from "../util"
+import * as Models from "../models"
+import * as Utils from "../util"
+import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as RootStore } from "@lp/library/stores"
+import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 const Section = observer(() => {
-  //const [errors, setErrors] = useState<Models.Section>()
+  const [errors, setErrors] = useState<Models.Section>()
+  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
+  const [lookupItems, setLookupItems] = useState<any[]>([])
+
+  const getLookupValues = async () => {
+    const listLookup = LookupStore.lookupStore.listLookup
+    if (listLookup.length > 0) {
+      const selectedCategory: any = await Storage.getItem(
+        `__persist_mobx_stores_routerStore_SelectedCategory__`
+      )
+      const items = listLookup.filter((item: any) => {
+        if (
+          item.documentName.name === selectedCategory.category &&
+          item.documentName.children.name === selectedCategory.item
+        )
+          return item
+      })
+      if (items) {
+        const status = items
+          .find((fileds) => {
+            return fileds.fieldName === "STATUS"
+          })
+          ?.arrValue?.find((statusItem) => statusItem.code === "A")
+        if (status) {
+          Stores.sectionStore.updateSection({
+            ...Stores.sectionStore.section,
+            status: status.code,
+          })
+        }
+        setLookupItems(items)
+      }
+    }
+  }
+
+  useEffect(() => {
+    getLookupValues()
+  }, [LookupStore.lookupStore.listLookup])
 
   return (
     <>
@@ -47,6 +87,13 @@ const Section = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const departmentCode = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      departmentCode: Utils.validate.single(
+                        departmentCode,
+                        Utils.section.departmentCode
+                      ),
+                    })
                     Stores.sectionStore.updateSection({
                       ...Stores.sectionStore.section,
                       departmentCode,
@@ -54,11 +101,14 @@ const Section = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["Department code 1"].map((item: any) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {DepartmentStore.departmentStore.listDepartment &&
+                    DepartmentStore.departmentStore.listDepartment.map(
+                      (item: any, key: number) => (
+                        <option key={key} value={item.code}>
+                          {`${item.code} - ${item.name}`}
+                        </option>
+                      )
+                    )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -67,9 +117,74 @@ const Section = observer(() => {
                 placeholder="Code"
                 value={Stores.sectionStore.section?.code}
                 onChange={(code) => {
+                  setErrors({
+                    ...errors,
+                    code: Utils.validate.single(code, Utils.section.code),
+                  })
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     code,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Name"
+                placeholder="Name"
+                value={Stores.sectionStore.section?.name}
+                onChange={(name) => {
+                  setErrors({
+                    ...errors,
+                    name: Utils.validate.single(name, Utils.section.name),
+                  })
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    name,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Short Name"
+                placeholder="Short Name"
+                value={Stores.sectionStore.section?.shortName}
+                onChange={(shortName) => {
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    shortName,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Section In Charge"
+                placeholder="Section In Charge"
+                value={Stores.sectionStore.section?.sectionInCharge}
+                onChange={(sectionInCharge) => {
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    sectionInCharge,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                type="number"
+                label="Mobile No"
+                placeholder="Mobile No"
+                value={Stores.sectionStore.section?.mobieNo}
+                onChange={(mobieNo) => {
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    mobieNo,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                type="number"
+                label="Contact No"
+                placeholder="Contact No"
+                value={Stores.sectionStore.section?.contactNo}
+                onChange={(contactNo) => {
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    contactNo,
                   })
                 }}
               />
@@ -80,22 +195,36 @@ const Section = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.Input
-                label="Name"
-                placeholder="Name"
-                value={Stores.sectionStore.section?.name}
-                onChange={(name) => {
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={2}
+                label="FYI line"
+                placeholder="FYI line"
+                value={Stores.sectionStore.section?.fyiLine}
+                onChange={(fyiLine) => {
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
-                    name,
+                    fyiLine,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={2}
+                label="Work line"
+                placeholder="Work line"
+                value={Stores.sectionStore.section?.workLine}
+                onChange={(workLine) => {
+                  Stores.sectionStore.updateSection({
+                    ...Stores.sectionStore.section,
+                    workLine,
                   })
                 }}
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
+                  value={Stores.sectionStore.section?.status}
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
-                    const status = e.target.value as "ACTIVE" | "INACTIVE"
+                    const status = e.target.value
                     Stores.sectionStore.updateSection({
                       ...Stores.sectionStore.section,
                       status,
@@ -103,11 +232,13 @@ const Section = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {["ACTIVE", "INACTIVE"].map((item: any) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -120,6 +251,14 @@ const Section = observer(() => {
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
+                const error = Utils.validate(
+                  Stores.sectionStore.section,
+                  Utils.section
+                )
+                setErrorsMsg(error)
+                if (error === undefined) {
+                  {}
+                }
                 // if (
                 //   Util.validate(
                 //     Stores.sectionStore.section,
@@ -160,6 +299,14 @@ const Section = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
+          <div>
+            {errorsMsg &&
+              Object.entries(errorsMsg).map((item, index) => (
+                <h6 className="text-red-700" key={index}>
+                  {_.upperFirst(item.join(" : "))}
+                </h6>
+              ))}
+          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
@@ -203,7 +350,9 @@ const Section = observer(() => {
                 (res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({message:`😊Section deleted.`})
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊Section deleted.`,
+                    })
                     setModalConfirm({ show: false })
                     // Stores.sectionStore.fetchListSection()
                   }
@@ -216,7 +365,9 @@ const Section = observer(() => {
               ).then((res: any) => {
                 RootStore.rootStore.setProcessLoading(false)
                 if (res.status === 200) {
-                  LibraryComponents.Atoms.Toast.success({message:`😊Section updated.`})
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊Section updated.`,
+                  })
                   setModalConfirm({ show: false })
                   // Stores.sectionStore.fetchListSection()
                 }
