@@ -378,9 +378,10 @@ export const Department = observer(() => {
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Department created.`,
                       })
-                      Stores.departmentStore.fetchListDepartment()
-                      Stores.departmentStore.clear()
-                    })
+                    })  
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
                   } else {
                     LibraryComponents.Atoms.Toast.warning({
                       message: "😔 Please enter all information!",

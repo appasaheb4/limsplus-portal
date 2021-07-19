@@ -1,7 +1,12 @@
-export interface Section {
+export interface Section {   
   departmentCode?: string
-  code?: string;
+  code?: string
   name?: string
-  status?: "ACTIVE"|'INACTIVE'
+  shortName?: string
+  sectionInCharge?: string
+  mobieNo?: string
+  contactNo?: string
+  fyiLine?: string
+  workLine?: string
+  status?: string
 }
-  

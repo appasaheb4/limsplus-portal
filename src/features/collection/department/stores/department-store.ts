@@ -3,6 +3,7 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
+import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 class DepartmentStore {
@@ -12,13 +13,14 @@ class DepartmentStore {
 
   constructor() {
     makeAutoObservable(this)
-  }
-
-  private init() {
-    return {
-      lab: "",
-      code: "",
-      name: "",
+    this.department = {
+      ...this.department,
+      autoRelease: false,
+      requireReceveInLab: false,
+      requireScainIn: false,
+      routingDept: false,
+      openingTime:LibraryUtils.moment().format("hh:mm a"),
+      closingTime:LibraryUtils.moment().format("hh:mm a"),
     }
   }
 
@@ -42,9 +44,7 @@ class DepartmentStore {
     this.department = department
   }
 
-  @action clear() {
-    this.department = this.init()
-  }
+  
 }
 
 export default DepartmentStore
