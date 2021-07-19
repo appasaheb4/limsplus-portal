@@ -1,2 +1,2 @@
-import SectionService from "./section-services"
-export { SectionService }
+export * from "./section-services"
+

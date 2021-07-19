@@ -4,6 +4,8 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
+import {SectionList} from '../components/molecules'
+
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
@@ -257,32 +259,27 @@ const Section = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  {}
+                  RootStore.rootStore.setProcessLoading(true)
+                  Stores.sectionStore.sectionService
+                    .addSection(Stores.sectionStore.section)
+                    .then((res) => {
+                      RootStore.rootStore.setProcessLoading(false)
+                      if (res.status === 200) {
+                        LibraryComponents.Atoms.ToastsStore.success(
+                          `Section created.`
+                        )
+                      } else {
+                        LibraryComponents.Atoms.ToastsStore.error("Please try again")
+                      }
+                    })
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
+                } else {
+                  LibraryComponents.Atoms.ToastsStore.warning(
+                    "Please enter all information!"
+                  )
                 }
-                // if (
-                //   Util.validate(
-                //     Stores.sectionStore.section,
-                //     Util.constraintsSection
-                //   ) === undefined
-                // ) {
-                //   RootStore.rootStore.setProcessLoading(true)
-                //   Stores.sectionStore.SectionService.addSection(
-                //     Stores.sectionStore.section
-                //   ).then((res) => {
-                //     RootStore.rootStore.setProcessLoading(false)
-                //     if (res.status === 200) {
-                //       LibraryComponents.Atoms.ToastsStore.success(`Section created.`)
-                //       Stores.sectionStore.fetchListSection()
-                //       //Stores.sectionStore.clear()
-                //     } else {
-                //       LibraryComponents.Atoms.ToastsStore.error("Please try again")
-                //     }
-                //   })
-                // } else {
-                //   LibraryComponents.Atoms.ToastsStore.warning(
-                //     "Please enter all information!"
-                //   )
-                // }
               }}
             >
               Save
@@ -292,7 +289,6 @@ const Section = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.SectionStore.clear();
                 window.location.reload()
               }}
             >
@@ -310,7 +306,7 @@ const Section = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
-          {/* <FeatureComponents.Molecules.SectionList
+          <SectionList
             data={Stores.sectionStore.listSection || []}
             isDelete={RouterFlow.checkPermission(
               RootStore.routerStore.userPermission,
@@ -339,39 +335,41 @@ const Section = observer(() => {
                 body: `Update Section!`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.sectionStore.SectionService.deleteSection(modalConfirm.id).then(
-                (res: any) => {
+              Stores.sectionStore.sectionService
+                .deleteSection(modalConfirm.id)
+                .then((res: any) => {
                   RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊Section deleted.`,
+                      message: `😊 Section deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    // Stores.sectionStore.fetchListSection()
+                    Stores.sectionStore.fetchSections()
                   }
-                }
-              )
+                })
             } else if (type === "Update") {
               RootStore.rootStore.setProcessLoading(true)
-              Stores.sectionStore.SectionService.updateSingleFiled(
-                modalConfirm.data
-              ).then((res: any) => {
-                RootStore.rootStore.setProcessLoading(false)
-                if (res.status === 200) {
-                  LibraryComponents.Atoms.Toast.success({
-                    message: `😊Section updated.`,
-                  })
-                  setModalConfirm({ show: false })
-                  // Stores.sectionStore.fetchListSection()
-                }
-              })
+              Stores.sectionStore.sectionService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  RootStore.rootStore.setProcessLoading(false)
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Section updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
+                  }  
+                })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

@@ -6,30 +6,28 @@ import { Stores } from "@lp/features/login/stores"
 
 @version(0.1)
 class SectionStore {
- // @observable listSection: Models.Section[] = []
+  @observable listSection: Models.Section[] = []
   @ignore @observable section?: Models.Section
-  // @ignore @observable checkExitsCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
   }
 
-  // private init() {
-  //   return {
-  //     code: "",
-  //     description: "",
-  //   }
-  // }
-
-  @computed get SectionService() {
+  @computed get sectionService() {
     return new Services.SectionService(
       Stores.loginStore.login?.accessToken as string
     )
   }
+  
+  @action fetchSections() {
+    this.sectionService.listSection().then((res) => {
+      this.listSection = res
+    })
+  }
 
- @action updateSection(section: Models.Section){
-   this.section = section;
- }
+  @action updateSection(section: Models.Section) {
+    this.section = section
+  }
 }
 
 export default SectionStore
