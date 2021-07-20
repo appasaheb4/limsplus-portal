@@ -274,61 +274,65 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Buttons.Button
-                  size="small"
-                  type="outline"
-                  icon={LibraryComponents.Atoms.Icon.Remove}
-                  onClick={() => {
-                    props.onDelete &&
+              <div className="flex flex-row">
+                <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                  <LibraryComponents.Atoms.Icons.IconContext
+                    color="#000"
+                    size="20"
+                    onClick={() =>
+                      props.onDelete &&
                       props.onDelete({
                         type: "Delete",
                         show: true,
                         id: [row._id],
                         title: "Are you sure?",
-                        body: `Delete record`,
+                        body: `Delete item`,
                       })
-                  }}
-                >
-                  Delete
-                </LibraryComponents.Atoms.Buttons.Button>
-                <div className="mb-2" />
-                  {row.status !== "I" && (
-                    <>
-                      <LibraryComponents.Atoms.Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
+                    }
+                  >
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Tooltip>
+                {row.status !== "I" && (
+                  <>
+                    <LibraryComponents.Atoms.Tooltip
+                      className="ml-2"
+                      tooltipText="Version Upgrade"
+                    >
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="20"
+                        onClick={() =>
                           props.onVersionUpgrade && props.onVersionUpgrade(row)
-                        }}
+                        }
                       >
-                        <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
-                          size="20"
-                        >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
-                          )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                        Version Upgrade
-                      </LibraryComponents.Atoms.Buttons.Button>
-                      <div className="mb-2" />
-                      <LibraryComponents.Atoms.Buttons.Button
-                        size="small"
-                        type="outline"
-                        onClick={() => {
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                    <LibraryComponents.Atoms.Tooltip
+                      className="ml-2"
+                      tooltipText="Duplicate"
+                    >
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="20"
+                        onClick={() =>
                           props.onDuplicate && props.onDuplicate(row)
-                        }}
+                        }
                       >
-                        <LibraryComponents.Atoms.Icon.EvaIcon
-                          icon="copy-outline"
-                          size="medium"
-                          color={Config.Styles.COLORS.BLACK}
-                        />
-                        Duplicate
-                      </LibraryComponents.Atoms.Buttons.Button>
-                    </>
-                  )}
-              </>
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                  </>
+                )}
+              </div>
+            </>
             ),
           },
         ]}
