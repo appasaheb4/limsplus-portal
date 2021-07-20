@@ -683,6 +683,7 @@ const Lab = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.labStore.fetchListLab()
+                    window.location.reload()
                   }
                 }
               )
