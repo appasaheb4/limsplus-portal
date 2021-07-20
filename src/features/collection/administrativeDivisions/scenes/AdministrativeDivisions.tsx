@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -50,10 +50,10 @@ export const AdministrativeDivisions = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -224,13 +224,13 @@ export const AdministrativeDivisions = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.administrativeDivStore.administrativeDivisionsService
                     .addAdministrativeDivisions(
                       Stores.administrativeDivStore.administrativeDiv
                     )
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Administrative divisions created.`,
@@ -274,11 +274,11 @@ export const AdministrativeDivisions = observer(() => {
           <AdminstrativeDivList
             data={Stores.administrativeDivStore.listAdministrativeDiv || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -307,11 +307,11 @@ export const AdministrativeDivisions = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.administrativeDivStore.administrativeDivisionsService
                 .deleteAdministrativeDivisions(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Administrative divisions record deleted.`,
@@ -321,11 +321,11 @@ export const AdministrativeDivisions = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.administrativeDivStore.administrativeDivisionsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Administrative divisions record updated.`,

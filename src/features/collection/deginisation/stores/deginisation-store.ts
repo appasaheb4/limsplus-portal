@@ -23,7 +23,6 @@ class DeginisationStore {
 
   @computed get DeginisationService() {
     return new Services.DeginisationService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

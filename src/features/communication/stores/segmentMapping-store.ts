@@ -31,7 +31,6 @@ class SegmentMappingStore {
 
   @computed get segmentMappingService() {
     return new Services.CommunicationService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

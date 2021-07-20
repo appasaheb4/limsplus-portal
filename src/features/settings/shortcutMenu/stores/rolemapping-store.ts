@@ -1,7 +1,6 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
-import { Stores as LoginStores } from "@lp/features/login/stores"
 
 @version(0.1)
 class ShortcutMenuStore {
@@ -12,7 +11,7 @@ class ShortcutMenuStore {
   }
 
   @computed get ShortcutMenuService() {
-    return new Services.ShortcutMenuService(LoginStores.loginStore.login?.accessToken)
+    return new Services.ShortcutMenuService()
   }
 
   @action updateShortcutMenu = (shortcut: any) => {

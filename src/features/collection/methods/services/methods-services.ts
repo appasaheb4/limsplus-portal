@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class MethodsService extends BaseService {
+class MethodsService  {
   listMethods = () =>
     new Promise<Models.Methods[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/methods/listMethods`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class MethodsService extends BaseService {
     })
   addMethods = (methods?: Models.Methods) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/methods/addMethods`, methods)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class MethodsService extends BaseService {
     })
   deleteMethods = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/methods/deleteMethods/${id}`)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ class MethodsService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/methods/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)   

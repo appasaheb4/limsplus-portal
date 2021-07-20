@@ -27,7 +27,6 @@ class CorporateClientsStore {
 
   @computed get corporateClientsService() {
     return new Services.CorporateClientsService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

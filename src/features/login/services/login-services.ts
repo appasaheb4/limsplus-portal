@@ -5,12 +5,12 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class LoginService extends BaseService {
+export class LoginService {
   onLogin = (user: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/login`, user)
         .then((res) => {
           resolve(res)
@@ -21,7 +21,7 @@ class LoginService extends BaseService {
     })
   accountStatusUpdate = (statusInfo: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`auth/statusUpdate`, statusInfo)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class LoginService extends BaseService {
     })
   forgotPassword = (userInfo: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`auth/forgotPassword`, userInfo)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ class LoginService extends BaseService {
 
   logout = (details: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/logout`, details)
         .then((res) => {
           resolve(res)
@@ -56,7 +56,7 @@ class LoginService extends BaseService {
 
   sessionAllowedLogout = (details: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/sessionAllowedLogout`, details)
         .then((res) => {
           resolve(res)
@@ -66,5 +66,3 @@ class LoginService extends BaseService {
         })
     })
 }
-
-export default LoginService

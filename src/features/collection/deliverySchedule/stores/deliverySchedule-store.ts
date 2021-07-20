@@ -28,7 +28,6 @@ class DeliveryScheduleStore {
 
   @computed get deliveryScheduleService() {
     return new Services.DeliveryScheduleService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

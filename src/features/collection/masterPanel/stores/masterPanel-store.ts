@@ -37,7 +37,6 @@ class MasterPanelStore {
 
   @computed get masterPanelService() {
     return new Services.MasterPanelService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

@@ -3,7 +3,6 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
-import { Stores as LoginStores } from "@lp/features/login/stores"
 
 @version(0.1)
 class UsersStore {
@@ -37,9 +36,7 @@ class UsersStore {
   }
 
   @computed get UsersService() {
-    return new Services.UserService(
-      LoginStores.loginStore.login?.accessToken as string
-    )
+    return new Services.UserService()
   }
 
   @action loadUser() {

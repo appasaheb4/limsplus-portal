@@ -11,11 +11,10 @@ import moment from "moment"
 import * as Utils from "../utils"
 import * as Models from "../models"
 import { useHistory } from "react-router-dom"
-import * as Services from "../services"
 
 import { Stores } from "@lp/features/login/stores"
 import { Stores as BannerStores } from "@lp/features/banner/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -38,7 +37,7 @@ const Login = observer(() => {
 
   useEffect(() => {
     BannerStores.bannerStore.fetchListBanner()
-    RootStore.rootStore.isLogin().then((isLogin) => {
+    stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         history.push("/dashboard/default")
       } else {
@@ -105,10 +104,12 @@ const Login = observer(() => {
                       })
                     }}
                     onBlur={(userId) => {
-                      RootStore.rootStore.setProcessLoading(true)
-                      UserStore.userStore.UsersService.checkExitsUserId(userId).then(
-                        (res) => {
-                          RootStore.rootStore.setProcessLoading(false)
+                      if (userId) {
+                        // 
+                        UserStore.userStore.UsersService.checkExitsUserId(
+                          userId.trim()
+                        ).then((res) => {
+                          // 
                           if (res) {
                             Stores.loginStore.updateInputUser({
                               ...Stores.loginStore.inputLogin,
@@ -123,8 +124,8 @@ const Login = observer(() => {
                               message: `😔 User not found!`,
                             })
                           }
-                        }
-                      )
+                        })
+                      }
                     }}
                   />
                   {errors?.userId && (
@@ -245,16 +246,14 @@ const Login = observer(() => {
                           Utils.constraintsLogin
                         ) === undefined
                       ) {
-                        RootStore.rootStore.setProcessLoading(true)
                         if (loginFailedCount > 4) {
                           Stores.loginStore.LoginService.accountStatusUpdate({
                             userId: Stores.loginStore.inputLogin?.userId,
                             status: "Disable",
                           }).then((res) => {
-                            RootStore.rootStore.setProcessLoading(false)
-                            LibraryComponents.Atoms.ToastsStore.error(
-                              "Your account is disable. Please contact admin"
-                            )
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 Your account is disable. Please contact admin`,
+                            })
                             Stores.loginStore.updateLoginFailedCount(0)
                           })
                         } else {
@@ -265,8 +264,6 @@ const Login = observer(() => {
                             },
                           })
                             .then((res) => {
-                              //console.log({ res })
-                              RootStore.rootStore.setProcessLoading(false)
                               if (res.status === 200) {
                                 Stores.loginStore.updateLoginFailedCount(0)
                                 if (res.data.data.passChanged !== true) {
@@ -483,7 +480,7 @@ const Login = observer(() => {
             })
             setModalChangePassword({ show: false })
           }}
-        />  
+        />
         <LibraryComponents.Molecules.ModalSessionAllowed
           {...modalSessionAllowed}
           onClick={(data: any, item: any, index: number) => {

@@ -28,7 +28,6 @@ class MasterPackageStore {
 
   @computed get masterPackageService() {
     return new Services.MasterPackageService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

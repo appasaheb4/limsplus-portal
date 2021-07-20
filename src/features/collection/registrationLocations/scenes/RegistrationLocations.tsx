@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -63,10 +63,10 @@ const RegistrationLocation = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -756,7 +756,7 @@ const RegistrationLocation = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   if (
                     !Stores.registrationLocationsStore.registrationLocations
                       ?.existsVersionId &&
@@ -768,7 +768,7 @@ const RegistrationLocation = observer(() => {
                         Stores.registrationLocationsStore.registrationLocations
                       )
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Registration Locations record created.`,
@@ -786,7 +786,7 @@ const RegistrationLocation = observer(() => {
                         Stores.registrationLocationsStore.registrationLocations
                       )
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Registration Locations version updraged.`,
@@ -804,7 +804,7 @@ const RegistrationLocation = observer(() => {
                         Stores.registrationLocationsStore.registrationLocations
                       )
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Registration Locations duplicate created.`,
@@ -849,11 +849,11 @@ const RegistrationLocation = observer(() => {
           <FeatureComponents.Molecules.RegistrationLocationsList
             data={Stores.registrationLocationsStore.listRegistrationLocations || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -900,11 +900,11 @@ const RegistrationLocation = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.registrationLocationsStore.registrationLocationsService
                 .deleteRegistrationLocations(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Registration Locations record deleted.`,
@@ -914,11 +914,11 @@ const RegistrationLocation = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.registrationLocationsStore.registrationLocationsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Registration Locations record updated.`,

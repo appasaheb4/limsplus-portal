@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class LookupService extends BaseService {
+class LookupService  {
   listLookup = () =>
     new Promise<Models.Lookup[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/lookup/listLookup`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class LookupService extends BaseService {
     })
   addLookup = (lookup?: Models.Lookup) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/lookup/addLookup`, lookup)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class LookupService extends BaseService {
     })
   deleteLookup = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/lookup/deleteLookup/${id}`)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ class LookupService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/lookup/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

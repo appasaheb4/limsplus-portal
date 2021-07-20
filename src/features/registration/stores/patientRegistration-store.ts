@@ -17,7 +17,6 @@ class PatientRegistrationStore {
 
   @computed get PatientRegistartionService() {
     return new Services.PatientRegistrationService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

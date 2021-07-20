@@ -16,7 +16,6 @@ class RoleMappingStore {
 
   @computed get roleMappingService() {
     return new Services.RoleMappingService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

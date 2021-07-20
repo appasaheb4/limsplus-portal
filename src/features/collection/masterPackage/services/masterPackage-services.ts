@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
    
-class MasterPackageService extends BaseService {
+class MasterPackageService  {
   listPackageMaster = () =>
     new Promise<Models.MasterPackage[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/packageMaster/listPackageMaster`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class MasterPackageService extends BaseService {
     })
   addPackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/packageMaster/addPackageMaster`, packageMaster)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class MasterPackageService extends BaseService {
     })
     versionUpgradePackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/packageMaster/versionUpgradePackageMaster`, packageMaster)
         .then((res) => {
           resolve(res.data)
@@ -43,7 +43,7 @@ class MasterPackageService extends BaseService {
     })
     duplicatePackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client  
+      http  
         .post(`master/packageMaster/duplicatePackageMaster`, packageMaster)
         .then((res) => {
           resolve(res.data)
@@ -54,7 +54,7 @@ class MasterPackageService extends BaseService {
     })
   deletePackageMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/packageMaster/deletePackageMaster/${id}`)
         .then((res) => {
           resolve(res)
@@ -65,7 +65,7 @@ class MasterPackageService extends BaseService {
     })   
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/packageMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

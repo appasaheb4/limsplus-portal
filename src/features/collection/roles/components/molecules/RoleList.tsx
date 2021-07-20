@@ -14,7 +14,7 @@ import * as Services from "../../services"
 
 import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport

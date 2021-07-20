@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class MasterAnalyteService extends BaseService {
+class MasterAnalyteService  {
   listAnalyteMaster = () =>
     new Promise<Models.MasterAnalyte[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/analyteMaster/listAnalyteMaster`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class MasterAnalyteService extends BaseService {
     })
   addAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/analyteMaster/addAnalyteMaster`, analyte)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class MasterAnalyteService extends BaseService {
     })
   versionUpgradeAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/analyteMaster/versionUpgradeAnalyteMaster`, analyte)
         .then((res) => {
           resolve(res.data)
@@ -43,7 +43,7 @@ class MasterAnalyteService extends BaseService {
     })
     duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
         .then((res) => {
           resolve(res.data)
@@ -55,7 +55,7 @@ class MasterAnalyteService extends BaseService {
 
   deleteAnalyteMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/analyteMaster/deleteAnalyteMaster/${id}`)
         .then((res) => {
           resolve(res)
@@ -66,7 +66,7 @@ class MasterAnalyteService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/analyteMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

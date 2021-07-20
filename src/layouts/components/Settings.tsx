@@ -4,15 +4,21 @@ import { connect } from "react-redux"
 import { toggleBoxedLayout } from "../../redux/actions/layoutActions"
 import { toggleStickySidebar } from "../../redux/actions/sidebarActions"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
-
-import { Badge, Button } from "reactstrap"
-import PerfectScrollbar from "react-perfect-scrollbar"
-import { Stores } from "../../library/stores/index"
 import { Settings as SettingsIcon } from "react-feather"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons"
 import { SideBarColorBgImages } from "./SideBarColorBgImages"
 import * as Assets from '@lp/library/assets'
+
+
+import { Badge, Button } from "reactstrap"
+import PerfectScrollbar from "react-perfect-scrollbar"
+
+
+import { stores } from "@lp/library/stores"
+
+
+
 
 // import { createThis } from "typescript"
 
@@ -138,20 +144,20 @@ class Settings extends React.Component<Props, State> {
                   data={this.state.colorList}
                   images={this.state.imageList}
                   onChangeSidebarColor={(color: string)=>{
-                   Stores.appStore.updateApplicationSetting({
-                    ...Stores.appStore.applicationSetting,
+                    stores.appStore.updateApplicationSetting({
+                    ...stores.appStore.applicationSetting,
                     sideBarColor:color
                    })
                   }}
                   onChangeShoutcutColor={(color: string)=>{
-                    Stores.appStore.updateApplicationSetting({
-                      ...Stores.appStore.applicationSetting,
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
                       shortCutBarColor:color
                      })
                   }}
                   onChangeImage={(image: any)=>{
-                    Stores.appStore.updateApplicationSetting({
-                      ...Stores.appStore.applicationSetting,
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
                       imageSideBarBgImage:image
                     })
                   }}

@@ -4,12 +4,12 @@ import Session from "@lp/library/modules/session"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 @version(1.0)
-class RootStore {
+class RootStore  {
   @ignore @observable processLoading: boolean = false
   @ignore @observable session?: any
 
   //modals
-  @ignore @observable modalTokenExpire?: any;
+  @ignore @observable modalTokenExpire?: any
   constructor() {
     makeAutoObservable(this)
   }

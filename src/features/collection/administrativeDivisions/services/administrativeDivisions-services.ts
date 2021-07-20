@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class AdministrativeDivisionsService extends BaseService {
+class AdministrativeDivisionsService  {
   listAdministrativeDivisions = () =>
     new Promise<Models.AdministrativeDivisions[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/administrativeDivisions/listAdministrativeDivisions`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class AdministrativeDivisionsService extends BaseService {
     })
   addAdministrativeDivisions = (methods?: Models.AdministrativeDivisions) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/administrativeDivisions/addAdministrativeDivisions`, methods)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class AdministrativeDivisionsService extends BaseService {
     })
   deleteAdministrativeDivisions = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/administrativeDivisions/deleteAdministrativeDivisions/${id}`)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ class AdministrativeDivisionsService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/administrativeDivisions/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

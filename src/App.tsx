@@ -5,28 +5,24 @@ import { Provider } from "react-redux"
 import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-
+   
 // toast
 import "react-toastify/dist/ReactToastify.css"
 
-// import { configure } from "mobx"
-    
-import { Stores as RootStore } from "./library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-
-
-
+  
 import hydrateStore from "@lp/library/modules/startup"
 
 // configure({
 //   useProxies: "never",
-// })
-
+// })  
+         
 const App = observer(() => {
   const loader = async () => {
     await hydrateStore("loginStore", LoginStore.loginStore)
-    await hydrateStore("routerStore", RootStore.routerStore)
-    await hydrateStore("appStore", RootStore.appStore)
+    await hydrateStore("routerStore", stores.routerStore)
+    await hydrateStore("appStore", stores.appStore)
   }
 
   React.useEffect(() => {
@@ -52,8 +48,8 @@ const App = observer(() => {
         store={LibraryComponents.Atoms.ToastsStore}
         className="h-20"
       />
-      <LibraryComponents.Atoms.ToastContainer />
-      {RootStore.rootStore.processLoading && <LibraryComponents.Atoms.ModelLoader />}
+      {/* <LibraryComponents.Atoms.ToastContainer /> */}
+      {stores.loading && <LibraryComponents.Atoms.ModelLoader />}
     </>
   )
 })

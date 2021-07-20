@@ -5,13 +5,13 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class RoleMappingService extends BaseService {
+class RoleMappingService  {
   addRoleMapping = (roleMapping: any) =>
     new Promise<any>((resolve, reject) => {
       console.log({ roleMapping })
-      this.client
+      http
         .post(`/mapping/addRoleMapping`, roleMapping)
         .then((res) => {
           resolve(res)
@@ -22,9 +22,9 @@ class RoleMappingService extends BaseService {
     })
   roleMappingList = () =>
     new Promise<Models.IRole[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/mapping/roleMappingList`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -33,7 +33,7 @@ class RoleMappingService extends BaseService {
     })
   deleteRoleMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/mapping/deleteRoleMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -46,7 +46,7 @@ class RoleMappingService extends BaseService {
   updateRoleMapping = (roleMapping: any) =>
     new Promise<any>((resolve, reject) => {
       console.log({ roleMapping })
-      this.client
+      http
         .post(`/mapping/updateRoleMapping`, roleMapping)
         .then((res) => {
           resolve(res)

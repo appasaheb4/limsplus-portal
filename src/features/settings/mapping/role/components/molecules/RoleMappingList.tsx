@@ -10,7 +10,7 @@ import * as Services from "../../services"
 
 import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { toJS } from "mobx"
 
@@ -110,7 +110,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                     size="small"
                     type="outline"
                     onClick={() => {
-                      const router = toJS(RootStore.routerStore.router)
+                      const router = toJS(stores.routerStore.router)
                       const roleRouter = JSON.parse(row.router)
                       roleRouter.filter((item, index) => {
                         router.filter((routerItem, indexRouter) => {
@@ -131,7 +131,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                           }
                         })
                       })
-                      RootStore.routerStore.updateRouter(router)
+                      stores.routerStore.updateRouter(router)
                       props.onDuplicate &&
                         props.onDuplicate({
                           router,

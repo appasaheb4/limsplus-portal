@@ -25,7 +25,6 @@ class TestAnalyteMappingStore {
 
   @computed get testAnalyteMappingService() {
     return new Services.TestAnalyteMappingService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

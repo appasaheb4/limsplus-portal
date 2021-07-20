@@ -15,7 +15,6 @@ class LabMappingStore {
 
   @computed get LabMappingService() {
     return new Services.LabMappingService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

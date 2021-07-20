@@ -8,7 +8,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -22,10 +22,10 @@ const SampleContainer = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddBanner}
           onClick={() => setHideAddBanner(!hideAddBanner)}
@@ -127,11 +127,11 @@ const SampleContainer = observer(() => {
                 )  
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.sampleContainerStore.sampleContainerService
                     .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === LibraryModels.StatusCode.CREATED) {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Sample container created.`,
@@ -173,11 +173,11 @@ const SampleContainer = observer(() => {
           <FeatureComponents.Molecules.SampleContainerList
             data={Stores.sampleContainerStore.listSampleContainer || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -206,10 +206,10 @@ const SampleContainer = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sampleContainerStore.sampleContainerService.deleteSampleContainer(modalConfirm.id).then(
                 (res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({message:`😊 Records deleted.`})
                     setModalConfirm({ show: false })
@@ -218,11 +218,11 @@ const SampleContainer = observer(() => {
                 }
               )
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sampleContainerStore.sampleContainerService.updateSingleFiled(
                 modalConfirm.data
               ).then((res: any) => {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 if (res.status === 200) {
                   LibraryComponents.Atoms.Toast.success({message:`😊 Record updated.`})
                   setModalConfirm({ show: false })

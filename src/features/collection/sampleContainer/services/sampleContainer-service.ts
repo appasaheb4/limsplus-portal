@@ -5,15 +5,15 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 import * as Models from "../models"
 
-class SampleContainerService extends BaseService {
+class SampleContainerService  {
   listSampleContainer = () =>
     new Promise<Models.SampleContainer[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/sampleContainer/listSampleContainer`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -33,7 +33,7 @@ class SampleContainerService extends BaseService {
         "image",
         `https://limsplus.blob.core.windows.net/sampleconatiner/${sampleContainer.image.name}`
       )
-      this.client
+      http
         .post(`master/sampleContainer/addSampleContainer`, form, {
           headers: {
             Accept: "application/json",
@@ -51,7 +51,7 @@ class SampleContainerService extends BaseService {
 
   deleteSampleContainer = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/sampleContainer/deleteSampleContainer/${id}`)
         .then((res) => {
           resolve(res)
@@ -63,7 +63,7 @@ class SampleContainerService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/sampleContainer/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

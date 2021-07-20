@@ -12,7 +12,7 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
@@ -66,11 +66,11 @@ const TestPanelMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -310,7 +310,7 @@ const TestPanelMapping = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (!error) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   if (
                     !Stores.testPanelMappingStore.testPanelMapping
                       ?.existsVersionId &&
@@ -321,7 +321,7 @@ const TestPanelMapping = observer(() => {
                         Stores.testPanelMappingStore.testPanelMapping
                       )
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test panel mapping created.`,
                         })
@@ -335,7 +335,7 @@ const TestPanelMapping = observer(() => {
                         Stores.testPanelMappingStore.testPanelMapping
                       )
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test panel version upgrade.`,
                         })
@@ -350,7 +350,7 @@ const TestPanelMapping = observer(() => {
                         Stores.testPanelMappingStore.testPanelMapping
                       )
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test panel duplicate created.`,
                         })
@@ -393,11 +393,11 @@ const TestPanelMapping = observer(() => {
           <FeatureComponents.Molecules.TestPanelMappingList
             data={Stores.testPanelMappingStore.listTestPanelMapping || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -444,11 +444,11 @@ const TestPanelMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testPanelMappingStore.testPanelMappingService
                 .deleteTestPanelMapping(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Record deleted.`,
@@ -458,11 +458,11 @@ const TestPanelMapping = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testPanelMappingStore.testPanelMappingService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Record updated.`,

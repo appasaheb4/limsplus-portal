@@ -1,3 +1,3 @@
-import LoginService from "./login-services"
-export { LoginService }
+export * from "./login-services"
+
 

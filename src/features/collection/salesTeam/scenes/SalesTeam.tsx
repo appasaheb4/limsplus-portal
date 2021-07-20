@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
@@ -52,10 +52,10 @@ export const SalesTeam = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -226,11 +226,11 @@ export const SalesTeam = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.salesTeamStore.salesTeamService
                     .addSalesTeam(Stores.salesTeamStore.salesTeam)
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Sales team created.`,
@@ -274,11 +274,11 @@ export const SalesTeam = observer(() => {
           <SalesTeamList
             data={Stores.salesTeamStore.listSalesTeam || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -307,11 +307,11 @@ export const SalesTeam = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.salesTeamStore.salesTeamService
                 .deleteSalesTeam(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sales team record deleted.`,
@@ -321,11 +321,11 @@ export const SalesTeam = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.salesTeamStore.salesTeamService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sales team record updated.`,

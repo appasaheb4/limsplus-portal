@@ -12,7 +12,7 @@ import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -152,11 +152,11 @@ const NoticeBoard = observer(() => {
                 Utils.constraintsNoticeBoard
               ) === undefined
             ) {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.noticeBoardStore.NoticeBoardService.addNoticeBoard(
                 Stores.noticeBoardStore.noticeBoard as Models.NoticeBoard
               ).then((res) => {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 if (res.status === 201) {
                   LibraryComponents.Atoms.Toast.success({message :`😊Notice created.`})
                   // Stores.userStore.clear()
@@ -197,11 +197,11 @@ const NoticeBoard = observer(() => {
         <FeatureComponents.Molecules.NoticeBoardsList
           data={Stores.noticeBoardStore.noticeBoardList}
           isDelete={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -230,14 +230,14 @@ const NoticeBoard = observer(() => {
         {...modalConfirm}
         click={(type?: string) => {
           if (type === "Delete") {
-            RootStore.rootStore.setProcessLoading(true)
+            
             Stores.noticeBoardStore.NoticeBoardService.deleteNoticeBoards(
               modalConfirm.id
             ).then((res: any) => {
               console.log({ res })
 
               if (res.status === 200) {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 LibraryComponents.Atoms.Toast.success({message:`😊Items deleted.`})
                 setModalConfirm({ show: false })
                 setTimeout(() => {
@@ -246,11 +246,11 @@ const NoticeBoard = observer(() => {
               }
             })
           } else if (type === "Update") {
-            RootStore.rootStore.setProcessLoading(true)
+            
             Stores.noticeBoardStore.NoticeBoardService.updateSingleFiled(
               modalConfirm.data  
             ).then((res: any) => {
-              RootStore.rootStore.setProcessLoading(false)
+              
               if (res.status === 200) {
                 LibraryComponents.Atoms.Toast.success({message:`Item updated.`})
                 setModalConfirm({ show: false })

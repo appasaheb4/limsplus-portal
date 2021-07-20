@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class TestAnalyteMappingService extends BaseService {
+class TestAnalyteMappingService  {
   listTestAnalyteMapping = () =>
     new Promise<Models.TestAnalyteMapping[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/testAnalyteMapping/listTestAnalyteMapping`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class TestAnalyteMappingService extends BaseService {
     })  
   addTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testAnalyteMapping/addTestAnalyteMapping`, analyteMapping)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class TestAnalyteMappingService extends BaseService {
     })
     versionUpgradeTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testAnalyteMapping/versionUpgradeTestAnalyteMapping`, analyteMapping)
         .then((res) => {
           resolve(res.data)
@@ -43,7 +43,7 @@ class TestAnalyteMappingService extends BaseService {
     })
     duplicateTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testAnalyteMapping/duplicateTestAnalyteMapping`, analyteMapping)
         .then((res) => {
           resolve(res.data)
@@ -57,7 +57,7 @@ class TestAnalyteMappingService extends BaseService {
 
   deleteTestAnalyteMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/testAnalyteMapping/deleteTestAnalyteMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -68,7 +68,7 @@ class TestAnalyteMappingService extends BaseService {
     })   
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testAnalyteMapping/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

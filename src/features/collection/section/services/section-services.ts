@@ -5,13 +5,13 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
-export class SectionService extends BaseService {
+import { http } from "@lp/library/modules/http"
+export class SectionService  {
   listSection = () =>
     new Promise<Models.Section[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/section/listSection`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -20,7 +20,7 @@ export class SectionService extends BaseService {
     })
   addSection = (section?: Models.Section) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/section/addSection`, section)
         .then((res) => {
           resolve(res)
@@ -31,7 +31,7 @@ export class SectionService extends BaseService {
     })
   deleteSection = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/section/deleteSection/${id}`)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ export class SectionService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/section/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

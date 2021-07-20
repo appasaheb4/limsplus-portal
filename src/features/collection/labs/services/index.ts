@@ -1,5 +1,5 @@
-import LabService from './lab-services'
-export{LabService}
+export * from './lab-services'
+
 
 
 

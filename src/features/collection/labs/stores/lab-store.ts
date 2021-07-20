@@ -21,7 +21,7 @@ class LabStore {
   }
 
   @computed get LabService() {
-    return new Services.LabService(Stores.loginStore.login?.accessToken as string)
+    return new Services.LabService()
   }
 
   fetchListLab() {

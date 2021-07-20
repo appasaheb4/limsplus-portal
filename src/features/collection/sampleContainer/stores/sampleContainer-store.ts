@@ -14,7 +14,6 @@ class SampleContainerStore {
 
   @computed get sampleContainerService() {  
     return new Services.SampleContainerService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

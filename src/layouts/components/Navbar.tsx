@@ -12,7 +12,7 @@ import { Stores } from "../../library/stores/index"
 import { Stores as AppStore } from "@lp/library/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
@@ -47,7 +47,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline className='mr-9' style={{width:'73%',backgroundColor:`${Stores.appStore.applicationSetting?.shortCutBarColor}`}} >
+        <Form inline className='mr-9' style={{width:'73%',backgroundColor:`${stores.appStore.applicationSetting?.shortCutBarColor}`}} >
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
@@ -77,7 +77,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                     type="outline"
                     onClick={async () => {
                       await RouterFlow.updateSelectedCategory(
-                        RootStore,
+                        stores,
                         item.category,
                         item.name
                       )
@@ -137,11 +137,11 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <DropdownItem>Help</DropdownItem>
                 <DropdownItem
                   onClick={() => {
-                    RootStore.rootStore.setProcessLoading(true)
+                    
                     LoginStores.loginStore
                       .removeUser()
                       .then(async (res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res) {
                           history.push("/")
                         }

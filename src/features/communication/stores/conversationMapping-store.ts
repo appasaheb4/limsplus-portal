@@ -16,7 +16,7 @@ class ConversationMappingStore {
   }
 
   @computed get conversationMappingService() {
-    return new Services.CommunicationService(LoginStores.loginStore.login?.accessToken as string)
+    return new Services.CommunicationService()
   }
 
   @action fetchConversationMapping() {

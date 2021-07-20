@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
 import { Stores as SampleTypeStore } from "@lp/features/collection/sampleType/stores"
 import { Stores as SampleContainerStore } from "@lp/features/collection/sampleContainer/stores"
@@ -51,11 +51,11 @@ const TestSampleMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -513,13 +513,13 @@ const TestSampleMapping = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (!error) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.testSampleMappingStore.testSampleMappingService
                     .addTestSampleMapping(
                       Stores.testSampleMappingStore.testSampleMapping
                     )
                     .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Test sample mapping created.`,
                       })
@@ -559,11 +559,11 @@ const TestSampleMapping = observer(() => {
           <FeatureComponents.Molecules.TestSampleMappingList
             data={Stores.testSampleMappingStore.listTestSampleMapping || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -592,11 +592,11 @@ const TestSampleMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testSampleMappingStore.testSampleMappingService
                 .deleteTestSampleMapping(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Test sample mapping deleted.`,
@@ -606,11 +606,11 @@ const TestSampleMapping = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testSampleMappingStore.testSampleMappingService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Test sample mapping updated.`,

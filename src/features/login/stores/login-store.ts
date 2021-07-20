@@ -4,8 +4,7 @@ import Session from "@lp/library/modules/session"
 import * as Models from "../models"
 import * as Services from "../services"
 
-import { Stores } from "@lp/features/login/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import Storage from "@lp/library/modules/storage"
 
 @version(0.1)
@@ -20,12 +19,12 @@ class LoginStore {
     Session.initialize({ name: "limsplus" })
     runInAction(async () => {
       const session = await Session.getSession()
-      RootStore.rootStore.updateSesssion(session)
+      stores.rootStore.updateSesssion(session)
     })
   }
 
   @computed get LoginService() {
-    return new Services.LoginService(Stores.loginStore.login?.accessToken as string)
+    return new Services.LoginService()
   }
 
   @action saveLogin = async (session) => {
@@ -48,7 +47,7 @@ class LoginStore {
               `__persist_mobx_stores_routerStore_SelectedCategory__`
             )
             Session.deleteSession()
-            RootStore.routerStore.updateUserRouter(undefined)
+            stores.routerStore.updateUserRouter(undefined)
             runInAction(() => {
               this.login = undefined
             })
@@ -67,7 +66,7 @@ class LoginStore {
         `__persist_mobx_stores_routerStore_SelectedCategory__`
       )
       Session.deleteSession()
-      RootStore.routerStore.updateUserRouter(undefined)
+      stores.routerStore.updateUserRouter(undefined)
       runInAction(() => {
         this.login = undefined
       })

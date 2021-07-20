@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class LabService extends BaseService {
+export class LabService {
   listLabs = () =>
     new Promise<Models.Labs[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/lab/listlabs`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -61,7 +61,7 @@ class LabService extends BaseService {
       form.append("routingDept", JSON.stringify(lab?.routingDept || false))
       form.append("fyiLine", lab?.fyiLine || "")
       form.append("workLine", lab?.workLine || "")
-      this.client
+      http
         .post(`/master/lab/addLab`, form, {
           headers: {
             Accept: "application/json",
@@ -79,9 +79,9 @@ class LabService extends BaseService {
 
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/lab/checkExitsCode`, { code })
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -90,7 +90,7 @@ class LabService extends BaseService {
     })
   deleteLab = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/lab/deleteLab/${id}`)
         .then((res) => {
           resolve(res)
@@ -101,7 +101,7 @@ class LabService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/lab/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -111,5 +111,3 @@ class LabService extends BaseService {
         })
     })
 }
-
-export default LabService

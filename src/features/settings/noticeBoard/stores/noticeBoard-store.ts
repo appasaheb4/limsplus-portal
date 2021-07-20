@@ -14,7 +14,6 @@ class NoticeBoardStore {
 
   @computed get NoticeBoardService() {
     return new Services.NoticeBoardService(
-      LoginStores.loginStore.login?.accessToken as string
     )
   }
 

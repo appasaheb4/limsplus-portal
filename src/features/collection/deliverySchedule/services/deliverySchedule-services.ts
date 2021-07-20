@@ -6,14 +6,14 @@
  */
 
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
     
-class DeliveryScheduleService extends BaseService {
+class DeliveryScheduleService  {
   listDeliverySchdule = () =>
     new Promise<Models.DeliverySchedule[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/deliverySchdule/listDeliverySchdule`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -22,7 +22,7 @@ class DeliveryScheduleService extends BaseService {
     })  
     addDeliverySchdule = (deliverySchdule?: Models.DeliverySchedule) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/deliverySchdule/addDeliverySchdule`, deliverySchdule)
         .then((res) => {
           resolve(res.data)
@@ -33,7 +33,7 @@ class DeliveryScheduleService extends BaseService {
     })
     deleteDeliverySchdule = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/deliverySchdule/deleteDeliverySchdule/${id}`)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ class DeliveryScheduleService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/deliverySchdule/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

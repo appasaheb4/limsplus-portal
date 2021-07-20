@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 interface AutocompleteGroupByProps {
@@ -48,7 +48,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   }, [props])
 
   // useEffect(() => {
-  //   setUserRouter(RootStore.routerStore.userRouter)
+  //   setUserRouter(stores.routerStore.userRouter)
   // }, [])
 
   const uniqByKeepFirst = (a, key) => {
@@ -86,10 +86,10 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
         })
       })
       setOptions(filterArray)
-      //RootStore.routerStore.updateUserRouter(filterArray)
+      //stores.routerStore.updateUserRouter(filterArray)
     } else {
       setOptions(data)
-      //RootStore.routerStore.updateUserRouter(userRouter)
+      //stores.routerStore.updateUserRouter(userRouter)
     }
   }
 
@@ -141,7 +141,7 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
                             className="hover:bg-gray-200 focus:outline-none cursor-pointer"
                             onClick={async () => {
                               props.onChange && props.onChange(item, children)
-                              //RootStore.routerStore.updateUserRouter(userRouter)
+                              //stores.routerStore.updateUserRouter(userRouter)
                               setIsListOpen(false)
                               setValue(children.title)
                               setOptions([])

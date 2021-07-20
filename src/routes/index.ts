@@ -12,11 +12,11 @@ const Banner = async(() => import("@lp/features/banner/scenes/banner"))
 const CollectionLab = async(() => import("@lp/features/collection/labs/scenes/Lab"))
 const CollectionDeginisation = async(
   () => import("@lp/features/collection/deginisation/scenes/deginisation")
-)  
+)
 
 const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/Department1")
-)  
+)
 const CollectionRole = async(
   () => import("@lp/features/collection/roles/scenes/role")
 )
@@ -74,6 +74,9 @@ const AdministrativeDivisions = async(
 )
 const SalesTeam = async(
   () => import("@lp/features/collection/salesTeam/scenes/SalesTeam")
+)
+const PossibleResults = async(
+  () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
 )
 
 // Communication
@@ -290,11 +293,17 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
       component: AdministrativeDivisions,
     },
-    {
+    {  
       path: "/collection/salesTeam",
-      name: "Sales Team",  
+      name: "Sales Team",
       icon: "LibraryComponents.Atoms.Icons.IconRi.RiTeamLine",
       component: SalesTeam,
+    },
+    {
+      path: "/collection/possibleResults",
+      name: "Possible Results",
+      icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution",
+      component: PossibleResults,
     },
   ],
 }

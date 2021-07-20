@@ -26,7 +26,6 @@ class TestSampleMappingStore {
 
   @computed get testSampleMappingService() {
     return new Services.TestSampleMappingService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

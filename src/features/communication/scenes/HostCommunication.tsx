@@ -6,7 +6,7 @@ import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import * as Models from "../models"
 import * as Services from "../services"
@@ -52,11 +52,11 @@ const HostCommunication = observer(() => {
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={RootStore.routerStore.selectedComponents?.title || ""}
+            title={stores.routerStore.selectedComponents?.title || ""}
           />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
-          toJS(RootStore.routerStore.userPermission),
+          toJS(stores.routerStore.userPermission),
           "Add"
         ) && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -960,11 +960,11 @@ const HostCommunication = observer(() => {
           <LibraryComponents.Molecules.ModalConfirm
             {...deleteItem}
             click={() => {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.conversationMappingStore.conversationMappingService
                 .deletedepartment(deleteItem.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                      message : `😊Department deleted.`

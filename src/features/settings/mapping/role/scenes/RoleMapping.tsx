@@ -15,7 +15,7 @@ const router = dashboardRoutes
 
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -81,7 +81,7 @@ const RoleMapping = observer(() => {
       }
     })
     if (routers) {
-      RootStore.routerStore.updateRouter(routers)
+      stores.routerStore.updateRouter(routers)
     }
   }, [])
 
@@ -93,11 +93,11 @@ const RoleMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -136,14 +136,14 @@ const RoleMapping = observer(() => {
           </LibraryComponents.Atoms.Form.InputWrapper>
 
           <div className="mt-4 overflow-auto">
-            {RootStore.routerStore.router && (
+            {stores.routerStore.router && (
               <DragDropContext
                 onDragEnd={(result: any) => {
                   console.log({ result })
-                  const items = Array.from(RootStore.routerStore.router || [])
+                  const items = Array.from(stores.routerStore.router || [])
                   const [reorderedItem] = items.splice(result.source.index, 1)
                   items.splice(result.destination.index, 0, reorderedItem)
-                  RootStore.routerStore.updateRouter(items)
+                  stores.routerStore.updateRouter(items)
                 }}
               >
                 <Droppable droppableId="parent" direction="vertical">
@@ -154,7 +154,7 @@ const RoleMapping = observer(() => {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      {RootStore.routerStore.router.map((item, index) => (
+                      {stores.routerStore.router.map((item, index) => (
                         <Draggable
                           key={item.name}
                           draggableId={item.name}
@@ -175,17 +175,17 @@ const RoleMapping = observer(() => {
                                   onChange={(e) => {
                                     const title = e.target.value
                                     const routers = toJS(
-                                      RootStore.routerStore.router
+                                      stores.routerStore.router
                                     )
                                     routers[index].title = title
-                                    RootStore.routerStore.updateRouter(routers)
+                                    stores.routerStore.updateRouter(routers)
                                   }}
                                   onBlur={() => {
                                     const routers = toJS(
-                                      RootStore.routerStore.router
+                                      stores.routerStore.router
                                     )
                                     routers[index].toggle = false
-                                    RootStore.routerStore.updateRouter(routers)
+                                    stores.routerStore.updateRouter(routers)
                                   }}
                                 />
                               ) : (
@@ -193,10 +193,10 @@ const RoleMapping = observer(() => {
                                   className="font-bold"
                                   onDoubleClick={() => {
                                     const routers = toJS(
-                                      RootStore.routerStore.router
+                                      stores.routerStore.router
                                     )
                                     routers[index].toggle = true
-                                    RootStore.routerStore.updateRouter(routers)
+                                    stores.routerStore.updateRouter(routers)
                                   }}
                                 >
                                   {item.title}
@@ -215,9 +215,9 @@ const RoleMapping = observer(() => {
                                       0,
                                       reorderedItem
                                     )
-                                    const router = [...RootStore.routerStore.router]
+                                    const router = [...stores.routerStore.router]
                                     router[index].children = items
-                                    RootStore.routerStore.updateRouter(router)
+                                    stores.routerStore.updateRouter(router)
                                   }}
                                 >
                                   <Droppable
@@ -254,25 +254,25 @@ const RoleMapping = observer(() => {
                                                       onChange={(e) => {
                                                         const title = e.target.value
                                                         const routers = toJS(
-                                                          RootStore.routerStore
+                                                          stores.routerStore
                                                             .router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].title = title
-                                                        RootStore.routerStore.updateRouter(
+                                                        stores.routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
                                                       onBlur={() => {
                                                         const routers = toJS(
-                                                          RootStore.routerStore
+                                                          stores.routerStore
                                                             .router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].toggle = false
-                                                        RootStore.routerStore.updateRouter(
+                                                        stores.routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
@@ -282,13 +282,13 @@ const RoleMapping = observer(() => {
                                                       className="font-bold"
                                                       onDoubleClick={() => {
                                                         const routers = toJS(
-                                                          RootStore.routerStore
+                                                          stores.routerStore
                                                             .router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].toggle = true
-                                                        RootStore.routerStore.updateRouter(
+                                                        stores.routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
@@ -306,7 +306,7 @@ const RoleMapping = observer(() => {
                                                         <li
                                                           onClick={async () => {
                                                             const routers = toJS(
-                                                              RootStore.routerStore
+                                                              stores.routerStore
                                                                 .router
                                                             )
                                                             const modifyPermission =
@@ -338,7 +338,7 @@ const RoleMapping = observer(() => {
                                                             ] = toJS(
                                                               modifyPermission
                                                             )
-                                                            RootStore.routerStore.updateRouter(
+                                                            stores.routerStore.updateRouter(
                                                               routers
                                                             )
                                                           }}
@@ -389,10 +389,10 @@ const RoleMapping = observer(() => {
               onClick={() => {
                 if (
                   Stores.roleMappingStore.selectedRole?.description !== undefined &&
-                  RootStore.routerStore.router !== undefined
+                  stores.routerStore.router !== undefined
                 ) {
                   let router: any[] = []
-                  RootStore.routerStore.router.filter((item) => {
+                  stores.routerStore.router.filter((item) => {
                     return item.children.filter((childern, indexChildern) => {
                       childern.permission.filter((permission, indexPermission) => {
                         if (permission.checked) {
@@ -453,7 +453,7 @@ const RoleMapping = observer(() => {
                               Stores.roleMappingStore.selectedRole?.code ===
                               LoginStore.loginStore.login?.role
                             ) {
-                              RootStore.routerStore.updateUserRouter(router)
+                              stores.routerStore.updateUserRouter(router)
                             }
                             LibraryComponents.Atoms.Toast.success({
                               message: `😊 Role mapping updated.`,
@@ -509,11 +509,11 @@ const RoleMapping = observer(() => {
           <FeatureComponents.Molecules.RoleMappingList
             data={Stores.roleMappingStore.roleMappingList || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}

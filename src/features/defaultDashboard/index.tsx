@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import BarChart from "./BarChart"
 import Feed from "./Feed"
@@ -134,7 +134,7 @@ const Default = observer(() => {
               userId: LoginStore.loginStore.inputLogin?.userId,
               status: "Disable",
             }).then((res) => {
-              RootStore.rootStore.setProcessLoading(false)
+              
               LibraryComponents.Atoms.ToastsStore.error(
                 "Your account is disable. Please contact admin"
               )
