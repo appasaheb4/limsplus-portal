@@ -474,6 +474,7 @@ export const Department = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.departmentStore.fetchListDepartment()
+                    window.location.reload()
                   }
                 })
               }
