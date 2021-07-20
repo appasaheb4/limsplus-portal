@@ -268,7 +268,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
           },
           {
             dataField: "opration",
-            text: "Delete",
+            text: "Action",
             editable: false,
             csvExport: false,
             hidden: !props.isDelete,
