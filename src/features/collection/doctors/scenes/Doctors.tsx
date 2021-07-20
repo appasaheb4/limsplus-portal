@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -63,10 +63,10 @@ const Doctors = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -693,7 +693,7 @@ const Doctors = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   if (
                     !Stores.doctorsStore.doctors?.existsVersionId &&
                     !Stores.doctorsStore.doctors?.existsRecordId
@@ -701,7 +701,7 @@ const Doctors = observer(() => {
                     Stores.doctorsStore.doctorsService
                       .addDoctors(Stores.doctorsStore.doctors)
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Doctor record created.`,
@@ -715,7 +715,7 @@ const Doctors = observer(() => {
                     Stores.doctorsStore.doctorsService
                       .versionUpgradeDoctors(Stores.doctorsStore.doctors)
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Doctor record version upgrade.`,
@@ -729,7 +729,7 @@ const Doctors = observer(() => {
                     Stores.doctorsStore.doctorsService
                       .duplicateDoctors(Stores.doctorsStore.doctors)
                       .then((res) => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 Doctor record duplicate created.`,
@@ -774,11 +774,11 @@ const Doctors = observer(() => {
           <FeatureComponents.Molecules.DoctorsList
             data={Stores.doctorsStore.listDoctors || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -825,11 +825,11 @@ const Doctors = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.doctorsStore.doctorsService
                 .deleteDoctors(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Doctors record deleted.`,
@@ -839,11 +839,11 @@ const Doctors = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.doctorsStore.doctorsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Doctors record updated.`,

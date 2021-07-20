@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom"
 import { useIdleTimer } from "react-idle-timer"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { toJS } from "mobx"
@@ -145,11 +145,11 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(LoginStore.loginStore.login)
-    if (router && !RootStore.routerStore.userRouter) {
+    if (router && !stores.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
       //await hydrateStore("loginStore", LoginStore.loginStore)
-      //await hydrateStore("routerStore", RootStore.routerStore)
-      RootStore.routerStore.updateUserRouter(router)
+      //await hydrateStore("routerStore", stores.routerStore)
+      stores.routerStore.updateUserRouter(router)
     }
   }
   const permission = async () => {
@@ -158,17 +158,17 @@ const Dashboard = observer(({ children }) => {
     )
     if (selectedCategory !== null) {
       const permission = await RouterFlow.getPermission(
-        toJS(RootStore.routerStore.userRouter),
+        toJS(stores.routerStore.userRouter),
         selectedCategory.category,
         selectedCategory.item
       )
       const selectedComp = await RouterFlow.selectedComponents(
-        toJS(RootStore.routerStore.userRouter),
+        toJS(stores.routerStore.userRouter),
         selectedCategory.category,
         selectedCategory.item
       )
-      RootStore.routerStore.updateSelectedComponents(selectedComp)
-      RootStore.routerStore.updateUserPermission(permission)
+      stores.routerStore.updateSelectedComponents(selectedComp)
+      stores.routerStore.updateUserPermission(permission)
     } else {
       history.push("/dashboard/default")
     }
@@ -176,7 +176,7 @@ const Dashboard = observer(({ children }) => {
 
   useEffect(() => {
     // buz reload page after not showing delete and update so added settimout
-    RootStore.rootStore.isLogin().then((isLogin) => {
+    stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         loadApi()
         history.listen((location, action) => {
@@ -194,7 +194,7 @@ const Dashboard = observer(({ children }) => {
   // issue come realod then going default dashboard page so added dependancy
   useEffect(() => {
     setTimeout(() => {
-      RootStore.rootStore.isLogin().then((isLogin) => {
+      stores.rootStore.isLogin().then((isLogin) => {
         if (!isLogin && !isLogined) history.push("/")
       })
     }, 1000)
@@ -204,12 +204,12 @@ const Dashboard = observer(({ children }) => {
   const handleOnIdle = (event) => {
     // console.log("user is idle", event)
     console.log("last active", getLastActiveTime())
-    RootStore.rootStore.setProcessLoading(true)
+    
     setIsLogined(true)
     LoginStores.loginStore
       .removeUser()
       .then(async (res) => {
-        RootStore.rootStore.setProcessLoading(false)
+        
         if (res) {
           setModalIdleTime({
             show: true,
@@ -258,7 +258,7 @@ const Dashboard = observer(({ children }) => {
         }}
       />
       {/* <LibraryComponents.Molecules.ModalTokenExpire
-        {...RootStore.rootStore.modalTokenExpire}
+        {...stores.rootStore.modalTokenExpire}
         onClick={() => {
           LoginStore.loginStore.removeLocalSession().then(() => {
             history.push("/")

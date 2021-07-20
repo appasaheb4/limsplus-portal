@@ -13,7 +13,7 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -65,10 +65,10 @@ export const Department = observer(() => {
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={RootStore.routerStore.selectedComponents?.title || ""}
+            title={stores.routerStore.selectedComponents?.title || ""}
           />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddDepartment}
             onClick={() => setHideAddDepartment(!hideAddDepartment)}
@@ -370,11 +370,11 @@ export const Department = observer(() => {
                   )
                   setErrorsMsg(error)
                   if (error === undefined) {
-                    RootStore.rootStore.setProcessLoading(true)
+                    
                     Stores.departmentStore.DepartmentService.adddepartment(
                       Stores.departmentStore.department
                     ).then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Department created.`,
                       })
@@ -417,11 +417,11 @@ export const Department = observer(() => {
             <FeatureComponents.Molecules.DepartmentList
               data={Stores.departmentStore.listDepartment || []}
               isDelete={RouterFlow.checkPermission(
-                RootStore.routerStore.userPermission,
+                stores.routerStore.userPermission,
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                RootStore.routerStore.userPermission,
+                stores.routerStore.userPermission,
                 "Edit/Modify"
               )}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -449,11 +449,11 @@ export const Department = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                RootStore.rootStore.setProcessLoading(true)
+                
                 Stores.departmentStore.DepartmentService.deletedepartment(
                   modalConfirm.id
                 ).then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Department deleted.`,
@@ -463,11 +463,11 @@ export const Department = observer(() => {
                   }
                 })
               } else if (type === "Update") {
-                RootStore.rootStore.setProcessLoading(true)
+                
                 Stores.departmentStore.DepartmentService.updateSingleFiled(
                   modalConfirm.data
                 ).then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Department updated.`,

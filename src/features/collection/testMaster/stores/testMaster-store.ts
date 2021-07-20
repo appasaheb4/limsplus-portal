@@ -44,7 +44,6 @@ class TestMasterStore {
 
   @computed get testMasterService() {
     return new Services.TestMasterService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
   

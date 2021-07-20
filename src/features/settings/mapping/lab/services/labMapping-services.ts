@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class LabMappingService extends BaseService {
+class LabMappingService  {
   labMappingList = () =>
     new Promise<Models.ILabMapping[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/mapping/labMappingList`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class LabMappingService extends BaseService {
     })
   addLabMapping = (userMapping: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/mapping/addLabMapping`, userMapping)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class LabMappingService extends BaseService {
     })
   deleteLabMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/mapping/deleteLabMapping/${id}`)
         .then((res) => {
           resolve(res)

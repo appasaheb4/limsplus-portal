@@ -15,7 +15,6 @@ export class SalesTeamStore {
    
   @computed get salesTeamService() {
     return new SalesTeamService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

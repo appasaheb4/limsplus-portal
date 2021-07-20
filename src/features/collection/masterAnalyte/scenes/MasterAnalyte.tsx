@@ -12,7 +12,7 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -64,11 +64,11 @@ const MasterAnalyte = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -634,7 +634,7 @@ const MasterAnalyte = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   if (
                     !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
                     !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
@@ -645,7 +645,7 @@ const MasterAnalyte = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master created.`,
                         })
@@ -660,7 +660,7 @@ const MasterAnalyte = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master version upgrade.`,
                         })
@@ -675,7 +675,7 @@ const MasterAnalyte = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Analyte master duplicate created.`,
                         })
@@ -719,11 +719,11 @@ const MasterAnalyte = observer(() => {
           <FeatureComponents.Molecules.MasterAnalyteList
             data={Stores.masterAnalyteStore.listMasterAnalyte || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -769,11 +769,11 @@ const MasterAnalyte = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.masterAnalyteStore.masterAnalyteService
                 .deleteAnalyteMaster(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Analyte master deleted.`,
@@ -783,11 +783,11 @@ const MasterAnalyte = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.masterAnalyteStore.masterAnalyteService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Analyte master updated.`,

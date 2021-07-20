@@ -33,7 +33,6 @@ class MasterAnalyteStore {
   }
   @computed get masterAnalyteService() {
     return new Services.MasterAnalyteService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

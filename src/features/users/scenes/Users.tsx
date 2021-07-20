@@ -15,7 +15,7 @@ import { Stores as DeginisationStore } from "@lp/features/collection/deginisatio
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -30,11 +30,11 @@ const Users = observer(() => {
       <Container fluid>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={RootStore.routerStore.selectedComponents?.title || ""}
+            title={stores.routerStore.selectedComponents?.title || ""}
           />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
-          toJS(RootStore.routerStore.userPermission),
+          toJS(stores.routerStore.userPermission),
           "Add"
         ) && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -471,12 +471,12 @@ const Users = observer(() => {
                       undefined &&
                     !Stores.userStore.checkExitsUserId
                   ) {
-                    RootStore.rootStore.setProcessLoading(true)
+                    
                     Stores.userStore.UsersService.addUser(
                       Stores.userStore.user
                     ).then((res: any) => {
                       console.log({ res })
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === LibraryModels.StatusCode.CREATED) {
                         LibraryComponents.Atoms.Toast.success({message:`😊 User created.`})
                         Stores.userStore.clear()
@@ -516,11 +516,11 @@ const Users = observer(() => {
             <FeatureComponents.Molecules.UserList
               data={Stores.userStore.userList || []}
               isDelete={RouterFlow.checkPermission(
-                toJS(RootStore.routerStore.userPermission),
+                toJS(stores.routerStore.userPermission),
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                toJS(RootStore.routerStore.userPermission),
+                toJS(stores.routerStore.userPermission),
                 "Edit/Modify"
               )}
               onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -548,11 +548,11 @@ const Users = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                RootStore.rootStore.setProcessLoading(true)
+                
                 Stores.userStore.UsersService.deleteUser(modalConfirm.id).then(
                   (res: any) => {
                     if (res.status === 200) {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       LibraryComponents.Atoms.Toast.success({message:`😊 User deleted.`})
                       setModalConfirm({ show: false })
                       Stores.userStore.loadUser()
@@ -560,11 +560,11 @@ const Users = observer(() => {
                   }  
                 )
               } else if (type === "Update") {
-                RootStore.rootStore.setProcessLoading(true)
+                
                 Stores.userStore.UsersService.updateSingleFiled(
                   modalConfirm.data
                 ).then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({message:`😊 User updated.`})
                     setModalConfirm({ show: false })

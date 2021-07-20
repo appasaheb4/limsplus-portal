@@ -51,12 +51,12 @@ export const checkPermission = (permission: any[], title: string) => {
 }
 
 export const updateSelectedCategory = async (
-  RootStore: any,
+  stores: any,
   category: string,
   item: string
 ) => {
-  RootStore.routerStore.updateSelectedCategory({
-    ...RootStore.routerStore.selectedUserCategory,
+  stores.routerStore.updateSelectedCategory({
+    ...stores.routerStore.selectedUserCategory,
     category,
     item,
   })
@@ -67,16 +67,16 @@ export const updateSelectedCategory = async (
     item,
   })
   const permission = getPermission(
-    toJS(RootStore.routerStore.userRouter),
+    toJS(stores.routerStore.userRouter),
     category,
     item
   )
   const selectedComp = selectedComponents(
-    toJS(RootStore.routerStore.userRouter),
+    toJS(stores.routerStore.userRouter),
     category,
     item
   )   
-  RootStore.routerStore.updateSelectedComponents(selectedComp)
-  RootStore.routerStore.updateUserPermission(permission)
-  await hydrateStore("routerStore", RootStore.routerStore)
+  stores.routerStore.updateSelectedComponents(selectedComp)
+  stores.routerStore.updateUserPermission(permission)
+  await hydrateStore("routerStore", stores.routerStore)
 }

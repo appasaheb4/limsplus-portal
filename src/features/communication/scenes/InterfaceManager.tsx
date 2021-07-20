@@ -5,7 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -19,11 +19,11 @@ const InterfaceManager = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -261,13 +261,13 @@ const InterfaceManager = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.interfaceManagerStore.encodeCharacterService
                     .addInterfaceManager(
                       Stores.interfaceManagerStore.encodeCharacter
                     )
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                          message : `😊Encode Character created.`
@@ -304,11 +304,11 @@ const InterfaceManager = observer(() => {
           <FeatureComponents.Molecules.InterfaceManagerList
             data={Stores.interfaceManagerStore.listEncodeCharacter || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -335,13 +335,13 @@ const InterfaceManager = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type) => {
-            RootStore.rootStore.setProcessLoading(true)
+            
             if (type === "Delete") {
               Stores.interfaceManagerStore.encodeCharacterService
                 .deleteInterfaceManager(modalConfirm.id)
                 .then((res: any) => {
                   console.log({ res })
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message :`😊Interface manager deleted.`
@@ -354,7 +354,7 @@ const InterfaceManager = observer(() => {
               Stores.interfaceManagerStore.encodeCharacterService
                 .interfaceManagerUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     Stores.interfaceManagerStore.fetchEncodeCharacter()
                     LibraryComponents.Atoms.Toast.success({message :`😊Updated.`})

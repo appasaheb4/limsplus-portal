@@ -10,7 +10,7 @@ import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
 
 import { Stores } from "../../../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -144,11 +144,11 @@ const SegmentMapping = observer(() => {
       }, [])
       console.log({ uniqueData })
       if (fileImaport) {
-        RootStore.rootStore.setProcessLoading(true)
+        
         Stores.segmentMappingStore.segmentMappingService
           .importSegmentMapping(uniqueData)
           .then((res) => {
-            RootStore.rootStore.setProcessLoading(false)
+            
             LibraryComponents.Atoms.Toast.success({message :`😊File import success.`})
             Stores.segmentMappingStore.fetchListSegmentMapping()
           })
@@ -161,11 +161,11 @@ const SegmentMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -574,11 +574,11 @@ const SegmentMapping = observer(() => {
                     Utils.constraintsSegmentMapping
                   ) === undefined
                 ) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.segmentMappingStore.segmentMappingService
                     .addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                           message :`😊Segment Mapping created.`
@@ -633,11 +633,11 @@ const SegmentMapping = observer(() => {
         {/* <FeatureComponents.Molecules.SegmentMappingList
           data={Stores.segmentMappingStore.listSegmentMapping || []}
           isDelete={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) => setModalConfirm(selectedUser)}

@@ -8,7 +8,7 @@ import * as Util from "../util"
 
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -21,10 +21,10 @@ const Role = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddRole}
           onClick={() => setHideAddRole(!hideAddRole)}
@@ -118,10 +118,10 @@ const Role = observer(() => {
                     undefined &&
                   !Stores.roleStore.checkExitsCode
                 ) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(
                     () => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       LibraryComponents.Atoms.Toast.success({message:`😊Role created.`})
                       Stores.roleStore.fetchListRole()
                       Stores.roleStore.clear()
@@ -154,11 +154,11 @@ const Role = observer(() => {
           <FeatureComponents.Molecules.RoleList
             data={Stores.roleStore.listRole || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -186,10 +186,10 @@ const Role = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.roleStore.RoleService.deleterole(modalConfirm.id).then(
                 (res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({message:`😊Role deleted.`})
                     setModalConfirm({ show: false })
@@ -198,10 +198,10 @@ const Role = observer(() => {
                 }
               )
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.roleStore.RoleService.updateSingleFiled(modalConfirm.data).then(
                 (res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({message:`😊Role updated.`})
                     setModalConfirm({ show: false })

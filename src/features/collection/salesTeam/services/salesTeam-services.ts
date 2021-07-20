@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-export class SalesTeamService extends BaseService {
+export class SalesTeamService  {
   listSalesTeam = () =>
     new Promise<Models.SalesTeam[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/salesTeam/listSalesTeam`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ export class SalesTeamService extends BaseService {
     })
     addSalesTeam = (salesTeam?: Models.SalesTeam) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/salesTeam/addSalesTeam`, salesTeam)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ export class SalesTeamService extends BaseService {
     })
     deleteSalesTeam = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/salesTeam/deleteSalesTeam/${id}`)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ export class SalesTeamService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/salesTeam/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

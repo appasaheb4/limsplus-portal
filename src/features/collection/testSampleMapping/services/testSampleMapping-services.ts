@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class TestSampleMappingService extends BaseService {
+class TestSampleMappingService  {
   listTestSampleMapping = () =>
     new Promise<Models.TestSampleMapping[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/testSampleMapping/listTestSampleMapping`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class TestSampleMappingService extends BaseService {
     })
   addTestSampleMapping = (sampleMapping?: Models.TestSampleMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testSampleMapping/addTestSampleMapping`, sampleMapping)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class TestSampleMappingService extends BaseService {
     })
   deleteTestSampleMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/testSampleMapping/deleteTestSampleMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ class TestSampleMappingService extends BaseService {
     })    
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/testSampleMapping/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

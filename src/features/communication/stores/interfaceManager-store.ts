@@ -14,7 +14,7 @@ class InterfaceManagerStore {
   }
 
   @computed get encodeCharacterService() {
-    return new Services.CommunicationService(LoginStores.loginStore.login?.accessToken as string)
+    return new Services.CommunicationService()
   }
 
   @action fetchEncodeCharacter() {

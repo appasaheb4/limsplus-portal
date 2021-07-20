@@ -15,7 +15,6 @@ class SampleTypeStore {
 
   @computed get sampleTypeService() {
     return new Services.SampleTypeService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

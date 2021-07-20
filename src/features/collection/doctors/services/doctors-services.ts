@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class DoctorsService extends BaseService {
+class DoctorsService  {
   listDoctors = () =>
     new Promise<Models.Doctors[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/doctors/listDoctors`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class DoctorsService extends BaseService {
     })
     addDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/doctors/addDoctors`, doctor)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class DoctorsService extends BaseService {
     })
     versionUpgradeDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/doctors/versionUpgradeDoctors`, doctor)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ class DoctorsService extends BaseService {
     })
     duplicateDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
-      this.client  
+      http  
         .post(`master/doctors/duplicateDoctors`, doctor)
         .then((res) => {
           resolve(res)
@@ -54,7 +54,7 @@ class DoctorsService extends BaseService {
     })
     deleteDoctors = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/doctors/deleteDoctors/${id}`)
         .then((res) => {
           resolve(res)
@@ -66,7 +66,7 @@ class DoctorsService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/doctors/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)   

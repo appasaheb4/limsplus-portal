@@ -10,6 +10,6 @@ class AssetsStore {
   @computed get AssetsService() {
     return new Services.AssetsService()
   }
-}
+}  
 
 export default AssetsStore

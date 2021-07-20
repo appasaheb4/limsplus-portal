@@ -6,7 +6,7 @@ import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -18,10 +18,10 @@ const Banner = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddBanner}
           onClick={() => setHideAddBanner(!hideAddBanner)}
@@ -76,13 +76,11 @@ const Banner = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (Stores.bannerStore.banner !== undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
                   Stores.bannerStore.BannerService.addBanner(
                     Stores.bannerStore.banner
                   ).then((res) => {
-                    RootStore.rootStore.setProcessLoading(false)
                     if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.Atoms.Toast.success({message:`😊Banner created.`})
+                      LibraryComponents.Atoms.Toast.success({message:`😊 Banner created.`})
                       setTimeout(() => {
                         window.location.reload()
                       }, 2000)
@@ -112,11 +110,11 @@ const Banner = observer(() => {
           <FeatureComponents.Molecules.BannerList
             data={Stores.bannerStore.listBanner || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -144,10 +142,8 @@ const Banner = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
               Stores.bannerStore.BannerService.deleteBanner(modalConfirm.id).then(
                 (res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({message:`😊Banner deleted.`})
                     setModalConfirm({ show: false })
@@ -156,11 +152,11 @@ const Banner = observer(() => {
                 }
               )
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.bannerStore.BannerService.updateSingleFiled(
                 modalConfirm.data
               ).then((res: any) => {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 if (res.status === 200) {
                   LibraryComponents.Atoms.Toast.success({message:`😊Banner updated.`})
                   setModalConfirm({ show: false })

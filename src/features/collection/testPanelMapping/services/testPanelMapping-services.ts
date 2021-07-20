@@ -5,15 +5,15 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class TestPanelMappingService extends BaseService {
+class TestPanelMappingService  {
   listTestPanelMapping = () =>
     new Promise<Models.TestPanelMapping[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/testPanelMapping/listTestPanelMapping`)
-        .then((res) => {
-          resolve(res.data.data)
+        .then((res: any) => {
+          resolve(res.data.data)  
         })
         .catch((error) => {
           reject({ error })
@@ -21,7 +21,7 @@ class TestPanelMappingService extends BaseService {
     })
   addTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testPanelMapping/addTestPanelMapping`, panelMappping)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class TestPanelMappingService extends BaseService {
     })
   versionUpgradeTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(
           `master/testPanelMapping/versionUpgradeTestPanelMapping`,
           panelMappping
@@ -46,7 +46,7 @@ class TestPanelMappingService extends BaseService {
     })
   duplicateTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testPanelMapping/duplicateTestPanelMapping`, panelMappping)
         .then((res) => {
           resolve(res.data)
@@ -58,7 +58,7 @@ class TestPanelMappingService extends BaseService {
 
   deleteTestPanelMapping = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/testPanelMapping/deleteTestPanelMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -69,7 +69,7 @@ class TestPanelMappingService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/testPanelMapping/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

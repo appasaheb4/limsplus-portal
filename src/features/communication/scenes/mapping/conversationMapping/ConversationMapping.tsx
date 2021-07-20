@@ -13,7 +13,7 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../../../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -29,11 +29,11 @@ const ConversationMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -115,13 +115,13 @@ const ConversationMapping = observer(() => {
                 if (
                   Stores.conversationMappingStore.conversationMapping !== undefined
                 ) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.conversationMappingStore.conversationMappingService
                     .addConversationMapping(
                       Stores.conversationMappingStore.conversationMapping
                     )
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                          message : `😊Conversation Mapping created.`
@@ -157,11 +157,11 @@ const ConversationMapping = observer(() => {
           <FeatureComponents.Molecules.ConversationMappingList
             data={Stores.conversationMappingStore.listConversationMapping || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -188,12 +188,12 @@ const ConversationMapping = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            RootStore.rootStore.setProcessLoading(true)
+            
             if (type === "Delete") {
               Stores.conversationMappingStore.conversationMappingService
                 .deleteConversationMapping(modalConfirm.id)
                 .then((res) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
@@ -204,7 +204,7 @@ const ConversationMapping = observer(() => {
               Stores.conversationMappingStore.conversationMappingService
                 .updateConversationMappingUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()

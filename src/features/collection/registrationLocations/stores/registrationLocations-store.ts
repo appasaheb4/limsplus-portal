@@ -29,7 +29,6 @@ class RegistrationLocationsStore {
 
   @computed get registrationLocationsService() {
     return new Services.RegistrationLocationsService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

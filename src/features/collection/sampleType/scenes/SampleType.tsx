@@ -8,7 +8,7 @@ import * as Models from "../models"
 import * as Utils from "../util"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -23,11 +23,11 @@ const SampleType = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -127,11 +127,11 @@ const SampleType = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (!error) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.sampleTypeStore.sampleTypeService
                     .addSampleType(Stores.sampleTypeStore.sampleType)
                     .then(() => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Sample type created.`,
                       })
@@ -171,11 +171,11 @@ const SampleType = observer(() => {
           <FeatureComponents.Molecules.SampleTypeList
             data={Stores.sampleTypeStore.listSampleType || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}   
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}  
             // isEditModify={false}
@@ -204,11 +204,11 @@ const SampleType = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sampleTypeStore.sampleTypeService
                 .deleteSampleType(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sample type deleted.`,
@@ -218,11 +218,11 @@ const SampleType = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sampleTypeStore.sampleTypeService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sample type updated.`,

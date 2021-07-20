@@ -443,12 +443,12 @@ const PatientManager = observer((props: PatientManagerProps) => {
             //     Utils.constraintsSessionManagement
             //   ) === undefined
             // ) {
-            //   RootStore.rootStore.setProcessLoading(true)
+            //   
             //   Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
             //     Stores.enviromentSettingsStore
             //       .sessionManagement as Models.SessionManagement
             //   ).then((res) => {
-            //     RootStore.rootStore.setProcessLoading(false)
+            //     
             //     if (res.status === 201) {
             //       LibraryComponents.Atoms.ToastsStore.success(`Session created.`)
             //       // Stores.userStore.clear()

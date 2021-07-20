@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class UserService extends BaseService {
+export class UserService  {
   userList = () =>
     new Promise<Models.Users[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/auth/listUser`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class UserService extends BaseService {
     })
   reSendPassword = (userInfo: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/reSendPassword`, userInfo)
         .then((res) => {
           resolve(res)
@@ -32,9 +32,9 @@ class UserService extends BaseService {
     })
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/checkExitsUserId`, { userId })
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -43,7 +43,7 @@ class UserService extends BaseService {
     })
   addUser = (user: Models.Users) =>
     new Promise((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/addUser`, user)
         .then((res) => {
           resolve(res)
@@ -54,7 +54,7 @@ class UserService extends BaseService {
     })
   deleteUser = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/auth/deleteUser/${id}`)
         .then((res) => {
           resolve(res)
@@ -66,7 +66,7 @@ class UserService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -77,7 +77,7 @@ class UserService extends BaseService {
     })
   changePassword = (body: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/changePassword`, body)
         .then((res) => {
           resolve(res)
@@ -88,7 +88,7 @@ class UserService extends BaseService {
     })
   switchAccess = (accessInfo: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/auth/switchAccess`, accessInfo)
         .then((res) => {
           resolve(res)
@@ -98,5 +98,3 @@ class UserService extends BaseService {
         })
     })
 }
-
-export default UserService

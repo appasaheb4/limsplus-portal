@@ -4,14 +4,14 @@
  * @package Feed Service
  * @author limsplus
  */
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
 
-class CommunicationService extends BaseService {
+class CommunicationService  {
   adddepartment = (department?: Models.IHostCommunication) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/communication/addDepartment`, department)
         .then((res) => {
           resolve(res.data)
@@ -22,9 +22,9 @@ class CommunicationService extends BaseService {
     })
   listDepartment = () =>
     new Promise<Models.IHostCommunication[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/communication/listDepartment`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -33,7 +33,7 @@ class CommunicationService extends BaseService {
     })
   deletedepartment = (id: string) =>
     new Promise<Models.IHostCommunication[]>((resolve, reject) => {
-      this.client
+      http
         .delete(`/communication/deleteDepartment/${id}`)
         .then((res) => {
           resolve(res.data)
@@ -44,7 +44,7 @@ class CommunicationService extends BaseService {
     })
   deleteSegmentMapping = (id: string[]) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/communication/deleteSegmentMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -96,7 +96,7 @@ class CommunicationService extends BaseService {
         form.append("required_for_lims", segments.required_for_lims || false)
         form.append("notes", segments.notes)
         form.append("attachments", JSON.stringify(path))
-        this.client
+        http
           .post(`/communication/addSegmentMapping`, form, {
             headers: {
               Accept: "application/json",
@@ -114,7 +114,7 @@ class CommunicationService extends BaseService {
   importSegmentMapping = (segments: any) =>
     new Promise<any>((resolve, reject) => {
       console.log({ segments })
-      this.client
+      http
         .post(`/communication/importSegmentMapping`, segments)
         .then((res) => {
           resolve(res)
@@ -125,7 +125,7 @@ class CommunicationService extends BaseService {
     })
   listSegmentMapping = () =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .get(`/communication/listSegmentMapping`)
         .then((res) => {
           const data = res.data.data
@@ -154,7 +154,7 @@ class CommunicationService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/communication/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -166,7 +166,7 @@ class CommunicationService extends BaseService {
 
   mappingList = () =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .get(`/communication/listSegmentMapping`)
         .then((res) => {
           const data = res.data.data
@@ -187,7 +187,7 @@ class CommunicationService extends BaseService {
                 component: [Number(item.field_no), 1],
                 field_no: Number(item.field_no),
                 default: "",
-              })
+              })  
             }
           })
           const group = values.reduce((r: any, a: any) => {
@@ -257,7 +257,7 @@ class CommunicationService extends BaseService {
 
         return item
       })
-      this.client
+      http
         .post(`/communication/addInterfaceManager`, encode)
         .then((res) => {
           resolve(res)
@@ -269,9 +269,9 @@ class CommunicationService extends BaseService {
 
   listInterfaceManager = () =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .get(`/communication/listInterfaceManager`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -281,7 +281,7 @@ class CommunicationService extends BaseService {
 
   deleteInterfaceManager = (id: string) =>
     new Promise((resolve, reject) => {
-      this.client
+      http
         .delete(`communication/deleteInterfaceManager/${id}`)
         .then((res) => {
           resolve(res)
@@ -293,7 +293,7 @@ class CommunicationService extends BaseService {
 
   interfaceManagerUpdateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/communication/interfaceManager/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -336,7 +336,7 @@ class CommunicationService extends BaseService {
               .replaceAll("’", "â")
               .replaceAll("…", "â¦")
           : undefined
-      this.client
+      http
         .post(
           `/communication/conversationMapping/addConversationMapping`,
           conversation
@@ -351,9 +351,9 @@ class CommunicationService extends BaseService {
 
   listConversationMapping = () =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .get(`/communication/conversationMapping/listConversationMapping`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -363,7 +363,7 @@ class CommunicationService extends BaseService {
 
   deleteConversationMapping = (id: string[]) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/communication/conversationMapping/deleteConversationMapping/${id}`)
         .then((res) => {
           resolve(res)
@@ -375,7 +375,7 @@ class CommunicationService extends BaseService {
 
   updateConversationMappingUpdateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/communication/conversationMapping/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -384,6 +384,6 @@ class CommunicationService extends BaseService {
           reject({ error })
         })
     })
-}
+}  
 
 export default CommunicationService

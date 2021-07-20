@@ -12,7 +12,6 @@ class LoginActivityStore {
 
   @computed get LoginActivityService() {
     return new Services.LoginActivityService(
-      LoginStores.loginStore.login?.accessToken as string
     )
   }
 

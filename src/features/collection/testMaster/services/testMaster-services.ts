@@ -5,14 +5,14 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class TestMasterService extends BaseService {
+class TestMasterService  {
   listTestMaster = () =>
     new Promise<any[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/testMaster/listTestMaster`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class TestMasterService extends BaseService {
     })
   addTestMaster = (test?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/testMaster/addTestMaster`, test)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class TestMasterService extends BaseService {
     })   
   versionUpgradeTestMaster = (test?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/testMaster/versionUpgradeTestMaster`, test)
         .then((res) => {
           resolve(res.data)
@@ -43,7 +43,7 @@ class TestMasterService extends BaseService {
     })  
   duplicateTestMaster = (test?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/testMaster/duplicateTestMaster`, test)
         .then((res) => {
           resolve(res.data)
@@ -54,7 +54,7 @@ class TestMasterService extends BaseService {
     })
   deleteTestMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/testMaster/deleteTestMaster/${id}`)
         .then((res) => {
           resolve(res)
@@ -65,7 +65,7 @@ class TestMasterService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/testMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

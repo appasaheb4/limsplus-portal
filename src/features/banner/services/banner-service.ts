@@ -5,15 +5,15 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 import * as Models from "../models"
 
-class BannerService extends BaseService {
+export class BannerService {
   listBanner = () =>
     new Promise<Models.IBanner[]>((resolve, reject) => {
-      this.client
-        .get(`banner/listBanner`)
-        .then((res) => {
+      http
+        .get(`/banner/listBanner`)
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -31,7 +31,7 @@ class BannerService extends BaseService {
         "image",
         `https://limsplus.blob.core.windows.net/banner/${banner.image.name}`
       )
-      this.client
+      http
         .post(`banner/addBanner`, form, {
           headers: {
             Accept: "application/json",
@@ -49,7 +49,7 @@ class BannerService extends BaseService {
 
   deleteBanner = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/banner/deleteBanner/${id}`)
         .then((res) => {
           resolve(res)
@@ -61,7 +61,7 @@ class BannerService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/banner/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -71,5 +71,3 @@ class BannerService extends BaseService {
         })
     })
 }
-
-export default BannerService

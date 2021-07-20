@@ -11,7 +11,7 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 const LoginActivity = observer(() => {
   useEffect(() => {
@@ -21,7 +21,7 @@ const LoginActivity = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">

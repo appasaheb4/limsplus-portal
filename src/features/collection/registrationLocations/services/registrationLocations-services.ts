@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class RegistrationLocationsService extends BaseService {
+class RegistrationLocationsService  {
   listRegistrationLocations = () =>
     new Promise<Models.RegistrationLocations[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/registartionLocations/listRegistrationLocations`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class RegistrationLocationsService extends BaseService {
     })
     addRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/registartionLocations/addRegistrationLocations`, regLocation)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class RegistrationLocationsService extends BaseService {
     })
     versionUpgradeRegistrationLocations = (doctor?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/registartionLocations/versionUpgradeRegistrationLocations`, doctor)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ class RegistrationLocationsService extends BaseService {
     })
     duplicateRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/registartionLocations/duplicateRegistrationLocations`, regLocation)
         .then((res) => {
           resolve(res)
@@ -54,7 +54,7 @@ class RegistrationLocationsService extends BaseService {
     })
     deleteRegistrationLocations = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/registartionLocations/deleteRegistrationLocations/${id}`)
         .then((res) => {
           resolve(res)
@@ -66,7 +66,7 @@ class RegistrationLocationsService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/registartionLocations/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)   

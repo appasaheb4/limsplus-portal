@@ -12,7 +12,7 @@ import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -198,12 +198,12 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                 Utils.constraintsSessionManagement
               ) === undefined
             ) {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
                 Stores.enviromentSettingsStore
                   .sessionManagement as Models.SessionManagement
               ).then((res) => {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 if (res.status === 201) {
                   LibraryComponents.Atoms.Toast.success({message:`😊Session created.`})
                   // Stores.userStore.clear()
@@ -244,11 +244,11 @@ const SessionManagement = observer((props: SessionManagementProps) => {
         <FeatureComponents.Molecules.SessionManagementList
           data={Stores.enviromentSettingsStore.sessionManagementList}
           isDelete={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(RootStore.routerStore.userPermission),
+            toJS(stores.routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) =>

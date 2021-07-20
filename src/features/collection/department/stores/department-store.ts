@@ -29,7 +29,6 @@ class DepartmentStore {
   }
   @computed get DepartmentService() {
     return new Services.DepartmentService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

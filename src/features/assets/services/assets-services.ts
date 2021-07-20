@@ -4,10 +4,10 @@
  * @package Feed Service
  * @author limsplus
  */
+  
+ import { http } from "@lp/library/modules/http"
 
-import BaseService from "@lp/library/modules/base-service"
-
-class AssetsService extends BaseService {
+export class AssetsService {
   uploadFile = (file: any, folder: string, name: string) =>
     new Promise<any>((resolve, reject) => {
       if (file) {
@@ -15,7 +15,7 @@ class AssetsService extends BaseService {
         form.append("file", file)
         form.append("folder", folder)
         form.append("fileName", name)
-        this.client
+        http
           .post(`/assets/uploadFile`, form, {
             headers: {
               Accept: "application/json",
@@ -42,7 +42,7 @@ class AssetsService extends BaseService {
         "image",
         `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
       )
-      this.client
+      http
         .post(`/auth/uploadImage`, formData, {
           headers: {
             Accept: "application/json",
@@ -57,5 +57,3 @@ class AssetsService extends BaseService {
         })
     })
 }
-
-export default AssetsService

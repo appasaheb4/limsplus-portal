@@ -6,14 +6,14 @@
  */
 
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class CorporateClientsService extends BaseService {
+class CorporateClientsService  {
   listCorporateClients = () =>
     new Promise<Models.CorporateClients[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/corporateClients/listCorporateClients`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -22,7 +22,7 @@ class CorporateClientsService extends BaseService {
     })
   addCorporateClients = (clients?: Models.CorporateClients) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/corporateClients/addCorporateClients`, clients)
         .then((res) => {
           resolve(res)
@@ -33,7 +33,7 @@ class CorporateClientsService extends BaseService {
     })
   deleteCorporateClients = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`master/corporateClients/deleteCorporateClients/${id}`)
         .then((res) => {
           resolve(res)
@@ -45,7 +45,7 @@ class CorporateClientsService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/corporateClients/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

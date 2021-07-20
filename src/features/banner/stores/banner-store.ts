@@ -13,8 +13,8 @@ class BannerStore {
   }
 
   @computed get BannerService() {
-    return new Services.BannerService(Stores.loginStore.login?.accessToken as string)
-  }  
+    return new Services.BannerService()
+  }
 
   @action fetchListBanner() {
     this.BannerService.listBanner().then((banner) => {

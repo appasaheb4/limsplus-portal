@@ -1,22 +1,29 @@
 import React from "react"
+
 import RootStore from "./rootStore"
 import RouterStore from "./routerStore"
 import AppStore from "./appStore"
+import LoginStore from '@lp/features/login/stores/login-store'
 
+import { Store } from './Store';
 
-
-
-   
-export const Stores = {
-  rootStore: new RootStore(),
-  routerStore: new RouterStore(),
-  appStore: new AppStore()
+  
+export class Stores extends Store {
+	rootStore!: RootStore;
+	appStore!: AppStore;
+    routerStore!: RouterStore;
+	loginStore: LoginStore;
+     
+	constructor() {
+		super();
+		this.rootStore = new RootStore();
+		this.appStore = new AppStore();
+        this.routerStore = new RouterStore();
+		this.loginStore = new LoginStore();
+	}
 }
 
+export const stores = new Stores();
+export const StoresContext = React.createContext(stores);
+export const useStores = () => React.useContext(StoresContext);
 
-
-export const Contexts = {
-  rootStore: React.createContext(Stores.rootStore),
-  routerStore: React.createContext(Stores.routerStore),
-  appStore: React.createContext(Stores.appStore)
-}

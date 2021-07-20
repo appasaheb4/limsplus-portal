@@ -16,7 +16,7 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../../../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 interface SegmentListProps {
   duplicate: (item: Models.SegmentMapping) => void
@@ -1251,7 +1251,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                     )
                   )
                   .then((res) => {
-                    RootStore.rootStore.setProcessLoading(false)
+                    
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       Stores.segmentMappingStore.updateSelectedItem([])
@@ -1262,14 +1262,14 @@ const SegmentList = observer((props: SegmentListProps) => {
                 Stores.segmentMappingStore.segmentMappingService
                   .updateSingleFiled(Stores.segmentMappingStore.updateItem)
                   .then((res) => {
-                    RootStore.rootStore.setProcessLoading(false)
+                    
                     if (res.status === 200) {
                       Stores.segmentMappingStore.fetchListSegmentMapping()
                       LibraryComponents.Atoms.Toast.success({message:`😊Updated.`})
                     }
                   })
               } else if (type == "Duplicate") {
-                RootStore.rootStore.setProcessLoading(false)
+                
                 props.duplicate(Stores.segmentMappingStore.selectedItems[0])
               }
             }

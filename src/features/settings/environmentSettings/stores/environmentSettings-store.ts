@@ -14,7 +14,6 @@ class EnvironmentSettingsStore {
   }
   @computed get EnvironmentSettingsService() {
     return new Services.EnvironmentSettingsService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
   @action fetchSessionManagementList() {

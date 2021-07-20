@@ -5,13 +5,13 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
    
-class ShortcutMenuService extends BaseService {
+class ShortcutMenuService  {
   updateShortcutMenu = (shortcutMenu: any) =>
     new Promise<any>((resolve, reject) => {
       //console.log({shortcutMenu});
-      this.client
+      http
         .post(`/auth/updateShortcutMenu`, shortcutMenu)
         .then((res) => {
           resolve(res)

@@ -26,7 +26,6 @@ class TestPanelMappingStore {
 
   @computed get testPanelMappingService() {
     return new Services.TestPanelMappingService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

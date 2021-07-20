@@ -12,7 +12,7 @@ import { Stores } from "../../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -576,12 +576,12 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             //     Utils.constraintsSessionManagement
             //   ) === undefined
             // ) {
-            //   RootStore.rootStore.setProcessLoading(true)
+            //   
             //   Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
             //     Stores.enviromentSettingsStore
             //       .sessionManagement as Models.SessionManagement
             //   ).then((res) => {
-            //     RootStore.rootStore.setProcessLoading(false)
+            //     
             //     if (res.status === 201) {
             //       LibraryComponents.Atoms.ToastsStore.success(`Session created.`)
             //       // Stores.userStore.clear()

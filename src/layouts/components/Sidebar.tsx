@@ -4,7 +4,6 @@ import { NavLink, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom"
-import { Stores } from "../../library/stores/index"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
@@ -18,8 +17,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
 
-// import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -29,8 +27,8 @@ const initOpenRoutes = (location) => {
   /* Open collapse element that matches current url */
   const pathName = location.pathname
   let _routes = {}
-  if (RootStore.routerStore.userRouter)
-    RootStore.routerStore.userRouter.forEach((route: any, index) => {
+  if (stores.routerStore.userRouter)
+    stores.routerStore.userRouter.forEach((route: any, index) => {
       const isActive = pathName.indexOf(route.path) === 0
       const isOpen = route.open
       const isHome = route.containsHome && pathName === "/" ? true : false
@@ -142,7 +140,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
 
   useEffect(() => {
     setOpenRoutes(initOpenRoutes(location))
-  }, [RootStore.routerStore.userRouter])
+  }, [stores.routerStore.userRouter])
 
   const toggle = (index) => {
     Object.keys(openRoutes).forEach(
@@ -166,7 +164,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
           (!sidebar.isOpen ? " toggled" : "") +
           (sidebar.isSticky ? " sidebar-sticky" : "")
         }
-        style={{backgroundColor:`${Stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${Stores.appStore.applicationSetting?.imageSideBarBgImage})`,backgroundSize:'100% 100%'}}
+        style={{backgroundColor:`${stores.appStore.applicationSetting?.sideBarColor}`,backgroundImage:`url(${stores.appStore.applicationSetting?.imageSideBarBgImage})`,backgroundSize:'100% 100%'}}
       >
         <div className="sidebar-content">
           <PerfectScrollbar>
@@ -180,10 +178,10 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
             </a>
             <div className="p-2">
               <LibraryComponents.Molecules.AutocompleteGroupBy
-                data={RootStore.routerStore.userRouter}
+                data={stores.routerStore.userRouter}
                 onChange={async(item: any, children: any) => {
                   await RouterFlow.updateSelectedCategory(
-                    RootStore,
+                    stores,
                     item.name,
                     children.name
                   )
@@ -191,9 +189,9 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 }}
               />
             </div>
-            {RootStore.routerStore.userRouter && (
+            {stores.routerStore.userRouter && (
               <ul className="sidebar-nav">
-                {RootStore.routerStore.userRouter.map((category: any, index) => {
+                {stores.routerStore.userRouter.map((category: any, index) => {
                   return (
                     <React.Fragment key={index}>
                       {category.children ? (
@@ -225,7 +223,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                               }
                               onChangeItem={async (category, item) => {
                                 await RouterFlow.updateSelectedCategory(
-                                  RootStore,
+                                  stores,
                                   category,
                                   item
                                 )
@@ -245,7 +243,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                           badgeText={category.badgeText}
                           onChangeItem={async (category, item) => {
                             await RouterFlow.updateSelectedCategory(
-                              RootStore,
+                              stores,
                               category,
                               item
                             )

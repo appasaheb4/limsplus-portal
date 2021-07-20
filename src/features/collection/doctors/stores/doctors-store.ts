@@ -27,7 +27,6 @@ class DoctorsStore {
    
   @computed get doctorsService() {
     return new Services.DoctorsService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

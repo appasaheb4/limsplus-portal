@@ -5,14 +5,14 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
    
-class MasterPanelService extends BaseService {
+class MasterPanelService  {
   listPanelMaster = () =>
     new Promise<any[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/panelMaster/listPanelMaster`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class MasterPanelService extends BaseService {
     })
     addPanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/panelMaster/addPanelMaster`, panel)
         .then((res) => {
           resolve(res.data)
@@ -34,7 +34,7 @@ class MasterPanelService extends BaseService {
     new Promise<any>((resolve, reject) => {
       console.log({panel});
       
-      this.client
+      http
         .post(`/master/panelMaster/versionUpgradePanelMaster`, panel)
         .then((res) => {  
           resolve(res.data)
@@ -45,7 +45,7 @@ class MasterPanelService extends BaseService {
     })
     duplicatePanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/panelMaster/duplicatePanelMaster`, panel)
         .then((res) => {  
           resolve(res.data)
@@ -56,7 +56,7 @@ class MasterPanelService extends BaseService {
     })
     deletePanelMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/panelMaster/deletePanelMaster/${id}`)
         .then((res) => {
           resolve(res)
@@ -67,7 +67,7 @@ class MasterPanelService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/panelMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

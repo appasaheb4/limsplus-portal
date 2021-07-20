@@ -12,7 +12,7 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as AnalyteMasterStore } from "@lp/features/collection/masterAnalyte/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
@@ -66,11 +66,11 @@ const TestAnalyteMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(RootStore.routerStore.userPermission),
+        toJS(stores.routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -338,7 +338,7 @@ const TestAnalyteMapping = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   if (
                     !Stores.testAnalyteMappingStore.testAnalyteMapping
                       ?.existsVersionId &&
@@ -351,7 +351,7 @@ const TestAnalyteMapping = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test analyte mapping created.`,
                         })
@@ -368,7 +368,7 @@ const TestAnalyteMapping = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test analyte version upgrade.`,
                         })
@@ -384,7 +384,7 @@ const TestAnalyteMapping = observer(() => {
                         enteredBy: LoginStore.loginStore.login?._id,
                       })
                       .then(() => {
-                        RootStore.rootStore.setProcessLoading(false)
+                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Test analyte duplicate created.`,
                         })
@@ -427,11 +427,11 @@ const TestAnalyteMapping = observer(() => {
           <FeatureComponents.Molecules.TestAnalyteMappingList
             data={Stores.testAnalyteMappingStore.listTestAnalyteMapping || []}
             isDelete={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(RootStore.routerStore.userPermission),
+              toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -478,11 +478,11 @@ const TestAnalyteMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testAnalyteMappingStore.testAnalyteMappingService
                 .deleteTestAnalyteMapping(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Record deleted.`,
@@ -492,11 +492,11 @@ const TestAnalyteMapping = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.testAnalyteMappingStore.testAnalyteMappingService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Record updated.`,

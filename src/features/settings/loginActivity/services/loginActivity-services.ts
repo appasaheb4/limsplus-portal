@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class LoginActivityService extends BaseService {
+class LoginActivityService  {
   listLoginActivity = () =>
     new Promise<Models.ILoginActivity[]>((resolve, reject) => {
-      this.client
+      http
         .get(`auth/listLoginActivity`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {

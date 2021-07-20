@@ -11,7 +11,7 @@ import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
@@ -62,10 +62,10 @@ const Section = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={RootStore.routerStore.selectedComponents?.title || ""}
+          title={stores.routerStore.selectedComponents?.title || ""}
         />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(RootStore.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -198,7 +198,7 @@ const Section = observer(() => {
               fill
             >
               <LibraryComponents.Atoms.Form.MultilineInput
-                rows={2}
+                rows={3}
                 label="FYI line"
                 placeholder="FYI line"
                 value={Stores.sectionStore.section?.fyiLine}
@@ -210,7 +210,7 @@ const Section = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Form.MultilineInput
-                rows={2}
+                rows={3}
                 label="Work line"
                 placeholder="Work line"
                 value={Stores.sectionStore.section?.workLine}
@@ -259,11 +259,11 @@ const Section = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  RootStore.rootStore.setProcessLoading(true)
+                  
                   Stores.sectionStore.sectionService
                     .addSection(Stores.sectionStore.section)
                     .then((res) => {
-                      RootStore.rootStore.setProcessLoading(false)
+                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.ToastsStore.success(
                           `Section created.`
@@ -309,11 +309,11 @@ const Section = observer(() => {
           <SectionList
             data={Stores.sectionStore.listSection || []}
             isDelete={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              RootStore.routerStore.userPermission,
+              stores.routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -341,11 +341,11 @@ const Section = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sectionStore.sectionService
                 .deleteSection(modalConfirm.id)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Section deleted.`,
@@ -355,11 +355,11 @@ const Section = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              RootStore.rootStore.setProcessLoading(true)
+              
               Stores.sectionStore.sectionService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  RootStore.rootStore.setProcessLoading(false)
+                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Section updated.`,

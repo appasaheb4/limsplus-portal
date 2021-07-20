@@ -15,7 +15,6 @@ class MethodsStore {
    
   @computed get methodsService() {
     return new Services.MethodsService(
-      Stores.loginStore.login?.accessToken as string
     )
   }
 

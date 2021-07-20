@@ -1,2 +1,3 @@
-import RoleService from "./role-services"
-export { RoleService }
+export * from "./role-services"
+
+   

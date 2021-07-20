@@ -5,14 +5,14 @@
  * @author limsplus
  */   
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class SampleTypeService extends BaseService {
+class SampleTypeService  {
   listSampleType = () =>
     new Promise<Models.SampleType[]>((resolve, reject) => {
-      this.client
+      http
         .get(`master/sampleType/listSampleType`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class SampleTypeService extends BaseService {
     })
   addSampleType = (sampleType?: Models.SampleType) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`master/sampleType/addSampleType`, sampleType)
         .then((res) => {
           resolve(res.data)
@@ -32,7 +32,7 @@ class SampleTypeService extends BaseService {
     })
   deleteSampleType = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/sampleType/deleteSampleType/${id}`)
         .then((res) => {
           resolve(res)
@@ -43,7 +43,7 @@ class SampleTypeService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/sampleType/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

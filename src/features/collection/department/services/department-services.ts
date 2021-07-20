@@ -5,16 +5,16 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class DepartmentService extends BaseService {   
+class DepartmentService  {   
   listDepartment = () =>
     new Promise<Models.Department[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/master/department/listDepartment`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
-        })
+        })   
         .catch((error) => {
           reject({ error })
         })
@@ -22,7 +22,7 @@ class DepartmentService extends BaseService {
 
   adddepartment = (department?: Models.Department) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/department/addDepartment`, department)
         .then((res) => {
           resolve(res.data)
@@ -30,12 +30,12 @@ class DepartmentService extends BaseService {
         .catch((error) => {
           reject({ error })
         })
-    })
+    })   
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/department/checkExitsCode`, { code })
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -44,7 +44,7 @@ class DepartmentService extends BaseService {
     })
   deletedepartment = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/master/department/deleteDepartment/${id}`)
         .then((res) => {
           resolve(res)
@@ -55,7 +55,7 @@ class DepartmentService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/master/department/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

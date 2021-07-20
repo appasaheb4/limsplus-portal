@@ -1,2 +1,2 @@
-import AssetsService from "./assets-services"
-export { AssetsService }
+export * from "./assets-services"
+

@@ -17,7 +17,7 @@ import { Stores as SampleTypeStore } from "@lp/features/collection/sampleType/st
 import { Stores as SampleContainerStore } from "@lp/features/collection/sampleContainer/stores"
 import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RootStore } from "@lp/library/stores"
+import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface TestSampleMappingListProps {

@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class DeginisationService extends BaseService {
+class DeginisationService  {
   listDeginisation = () =>
     new Promise<Models.IDeginisation[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/deginisation/listDeginisation`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class DeginisationService extends BaseService {
     })
   addDeginisation = (deginisation?: Models.IDeginisation) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/deginisation/addDeginisation`, deginisation)
         .then((res) => {
           resolve(res)
@@ -32,7 +32,7 @@ class DeginisationService extends BaseService {
     })
   deleteDeginisation = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/deginisation/deleteDeginisation/${id}`)
         .then((res) => {
           resolve(res)
@@ -43,9 +43,9 @@ class DeginisationService extends BaseService {
     })
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/deginisation/checkExitsCode`, { code })
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -55,7 +55,7 @@ class DeginisationService extends BaseService {
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/deginisation/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -64,6 +64,6 @@ class DeginisationService extends BaseService {
           reject({ error })
         })
     })
-}
-
+}   
+  
 export default DeginisationService

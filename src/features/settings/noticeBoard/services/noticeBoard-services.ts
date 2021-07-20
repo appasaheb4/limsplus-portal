@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class NoticeBoardService extends BaseService {
+class NoticeBoardService  {
   noticeBoardsList = () =>
     new Promise<Models.NoticeBoard[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/settings/noticeBoards/listNoticeBoards`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class NoticeBoardService extends BaseService {
     })
   addNoticeBoard = (notice: Models.NoticeBoard) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/settings/noticeBoards/addNoticeBoards`, notice)
         .then((res) => {
           resolve(res)
@@ -33,7 +33,7 @@ class NoticeBoardService extends BaseService {
 
   deleteNoticeBoards = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/settings/noticeBoards/deleteNoticeBoards/${id}`)
         .then((res) => {
           resolve(res)
@@ -44,7 +44,7 @@ class NoticeBoardService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/settings/noticeBoards/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)

@@ -5,14 +5,14 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import BaseService from "@lp/library/modules/base-service"
+import { http } from "@lp/library/modules/http"
 
-class RoleService extends BaseService {
-  listRole = () =>
+export class RoleService {  
+  listRole = () =>  
     new Promise<Models.IRole[]>((resolve, reject) => {
-      this.client
+      http
         .get(`/role/listRole`)
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -21,7 +21,7 @@ class RoleService extends BaseService {
     })
   addrole = (lab?: Models.IRole) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/role/addRole`, lab)
         .then((res) => {
           resolve(res.data)
@@ -33,9 +33,9 @@ class RoleService extends BaseService {
 
   checkExitsCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/role/checkExitsCode`, { code })
-        .then((res) => {
+        .then((res: any) => {
           resolve(res.data.data)
         })
         .catch((error) => {
@@ -44,7 +44,7 @@ class RoleService extends BaseService {
     })
   deleterole = (id: string) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .delete(`/role/deleteRole/${id}`)
         .then((res) => {
           resolve(res)
@@ -55,7 +55,7 @@ class RoleService extends BaseService {
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      this.client
+      http
         .post(`/role/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
@@ -65,5 +65,3 @@ class RoleService extends BaseService {
         })
     })
 }
-
-export default RoleService
