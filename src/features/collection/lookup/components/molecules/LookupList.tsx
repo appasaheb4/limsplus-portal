@@ -1,9 +1,11 @@
 /* eslint-disable */
-import React from "react"
+import React,{useEffect} from "react"
 import { observer } from "mobx-react"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+let router = dashboardRoutes
 
 interface LookupListProps {
   data: any
@@ -15,6 +17,20 @@ interface LookupListProps {
 }
 
 const LookupList = observer((props: LookupListProps) => {
+  useEffect(() => {
+    router = router.filter((item: any) => {
+      if (item.name !== "Dashboard") {
+        item.toggle = false
+        item.title = item.name
+        item = item.children.filter((childernItem) => {
+          childernItem.title = childernItem.name
+          childernItem.toggle = false
+          return childernItem
+        })
+        return item
+      }
+    })
+  }, [])
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -34,6 +50,32 @@ const LookupList = observer((props: LookupListProps) => {
             formatter: (cell, row) => {
               return <>{`${row.documentName.children.name}`}</>
             },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Document Name">
+                  <LibraryComponents.Molecules.AutocompleteGroupBy
+                    data={router}
+                    onChange={async (item: any, children: any) => {
+                      const documentName = {
+                        name: item.name,
+                        title: item.title,
+                        path: item.path,
+                        children,
+                      }
+                      props.onUpdateItem &&
+                        props.onUpdateItem(documentName,column.dataField,row._id)
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "fieldName",
@@ -76,29 +118,34 @@ const LookupList = observer((props: LookupListProps) => {
           },
           {
             dataField: "opration",
-            text: "Delete",
+            text: "Action",
             editable: false,
             csvExport: false,
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-                <LibraryComponents.Atoms.Buttons.Button
-                  size="small"
-                  type="outline"
-                  icon={LibraryComponents.Atoms.Icon.Remove}
-                  onClick={() => {
-                    props.onDelete &&
-                      props.onDelete({
-                        type: "Delete",
-                        show: true,
-                        id: [row._id],
-                        title: "Are you sure?",
-                        body: `Delete ${row.name} lab!`,
-                      })
-                  }}
-                >
-                  Delete
-                </LibraryComponents.Atoms.Buttons.Button>
+              <div className="flex flex-row">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="20"
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: "Delete",
+                            show: true,
+                            id: [row._id],
+                            title: "Are you sure?",
+                            body: `Delete item`,
+                          })
+                        }
+                      >
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                  </div>
               </>
             ),
           },
