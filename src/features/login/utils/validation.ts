@@ -1,7 +1,7 @@
 import validate from "validate.js"
 export { validate }
 
-export const constraintsLogin = {
+export const login = {
   lab: {
     presence: true,
     length: {

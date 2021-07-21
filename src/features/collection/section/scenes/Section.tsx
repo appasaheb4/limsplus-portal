@@ -266,20 +266,22 @@ const Section = observer(() => {
                     .then((res) => {
                       
                       if (res.status === 200) {
-                        LibraryComponents.Atoms.ToastsStore.success(
-                          `Section created.`
-                        )
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Section created.`,
+                        })
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.error("Please try again")
+                        LibraryComponents.Atoms.Toast.error({
+                          message: `😔 Please try again`,
+                        })
                       }
                     })
                   setTimeout(() => {
                     window.location.reload()
                   }, 2000)
                 } else {
-                  LibraryComponents.Atoms.ToastsStore.warning(
-                    "Please enter all information!"
-                  )
+                  LibraryComponents.Atoms.Toast.error({
+                    message: `😔 Please enter all information!`,
+                  })
                 }
               }}
             >

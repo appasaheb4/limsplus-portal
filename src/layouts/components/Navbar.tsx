@@ -186,14 +186,18 @@ const NavbarComponent = observer(({ dispatch }) => {
                 ...UserStores.userStore.changePassword,
                 tempHide: true,
               })
-              LibraryComponents.Atoms.ToastsStore.success(`Password changed!`)
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Password changed!`,
+              })
               setModalChangePassword({ show: false })
             } else if (res.status === 203) {
-              LibraryComponents.Atoms.ToastsStore.error(res.data.data.message)
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 ${res.data.data.message}`,
+              })
             } else {
-              LibraryComponents.Atoms.ToastsStore.error(
-                `Please enter correct old password`
-              )
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 Please enter correct old password`,
+              })
             }
           })
         }}

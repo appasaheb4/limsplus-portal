@@ -162,9 +162,9 @@ export default function ModalChangePassword(props: ModalProps) {
                       ) {
                         props.onClick()
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.warning(
-                          "Please enter all information!"
-                        )
+                        LibraryComponents.Atoms.Toast.error({
+                          message: `😔 Please enter all information!`,
+                        })
                       }
                     }}
                   >

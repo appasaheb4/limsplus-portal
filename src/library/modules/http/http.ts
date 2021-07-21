@@ -38,10 +38,10 @@ export class Http {
   seesion = Session.getSession()
   accessToken!: string
 
-  constructor(token?: string) {
+  constructor() {
     if (!this.accessToken) {
       this.seesion.then((val) => {
-        this.accessToken = val ? val.accessToken : token
+        this.accessToken = val ? val.accessToken : undefined
       })
     }
   }
@@ -53,7 +53,10 @@ export class Http {
   initHttp() {
     const http = Axios.create({
       baseURL: Config.Api.LIMSPLUS_API_HOST,
-      headers,
+      headers: {
+        ...headers,
+        Authorization: `x-limsplus-key ${this.accessToken || localStorage.getItem("accessToken")}`,
+      },
       timeout: 1000 * 30,
     })
 
@@ -85,7 +88,12 @@ export class Http {
         return Http.handleError(response)
       }
     )
-    //this.instance = http
+    const token = localStorage.getItem("accessToken")
+    if (token) {
+      localStorage.removeItem("accessToken")
+      this.instance = http
+    }
+
     return http
   }
 

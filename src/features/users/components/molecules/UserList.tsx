@@ -314,13 +314,13 @@ const UserList = observer((props: UserListProps) => {
                       }).then((res) => {
                         console.log({ res })
                         if (res.status === 200) {
-                          LibraryComponents.Atoms.ToastsStore.success(
-                            `Password re-send successfully.`
-                          )
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Password re-send successfully.`,
+                          })
                         } else {
-                          LibraryComponents.Atoms.ToastsStore.error(
-                            `Password re-send not successfully please try again.`
-                          )
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 Password re-send not successfully please try again.`,
+                          })
                         }
                       })
                     }}

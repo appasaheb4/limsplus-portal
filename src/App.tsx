@@ -5,19 +5,19 @@ import { Provider } from "react-redux"
 import ReduxToastr from "react-redux-toastr"
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-   
+
 // toast
 import "react-toastify/dist/ReactToastify.css"
 
 import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-  
+
 import hydrateStore from "@lp/library/modules/startup"
 
 // configure({
 //   useProxies: "never",
-// })  
-         
+// })
+
 const App = observer(() => {
   const loader = async () => {
     await hydrateStore("loginStore", LoginStore.loginStore)
@@ -41,14 +41,9 @@ const App = observer(() => {
           transitionOut="fadeOut"
           progressBar
           closeOnToastrClick
-        />
+        />   
       </Provider>
-      <LibraryComponents.Atoms.ToastsContainer
-        position={LibraryComponents.Atoms.ToastsContainerPosition.BOTTOM_RIGHT}
-        store={LibraryComponents.Atoms.ToastsStore}
-        className="h-20"
-      />
-      {/* <LibraryComponents.Atoms.ToastContainer /> */}
+      <LibraryComponents.Atoms.ToastContainer />
       {stores.loading && <LibraryComponents.Atoms.ModelLoader />}
     </>
   )
