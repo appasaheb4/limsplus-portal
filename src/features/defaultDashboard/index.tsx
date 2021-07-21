@@ -15,7 +15,7 @@ import LineChart from "./LineChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
 import moment from "moment"
-import { useHistory } from "react-router-dom"
+import { useHistory,useLocation } from "react-router-dom"
 
 // registration
 
@@ -25,6 +25,8 @@ const Default = observer(() => {
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const history = useHistory()
+
+  
 
   useEffect(() => {
     if (LoginStores.loginStore.login) {

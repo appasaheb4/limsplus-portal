@@ -137,11 +137,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                 <DropdownItem>Help</DropdownItem>
                 <DropdownItem
                   onClick={() => {
-                    
                     LoginStores.loginStore
                       .removeUser()
                       .then(async (res) => {
-                        
                         if (res) {
                           history.push("/")
                         }

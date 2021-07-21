@@ -105,11 +105,11 @@ const Login = observer(() => {
                     }}
                     onBlur={(userId) => {
                       if (userId) {
-                        // 
+                        //
                         UserStore.userStore.UsersService.checkExitsUserId(
                           userId.trim()
                         ).then((res) => {
-                          // 
+                          //
                           if (res) {
                             Stores.loginStore.updateInputUser({
                               ...Stores.loginStore.inputLogin,
@@ -282,7 +282,9 @@ const Login = observer(() => {
                                     })
                                     Stores.loginStore.saveLogin(res.data.data)
                                     Stores.loginStore.clearInputUser()
-                                    history.push("/dashboard/default")
+                                    setTimeout(() => {
+                                      history.push("/dashboard/default")   
+                                    }, 1000)
                                   }
                                 }
                               } else if (res.status === 203) {
@@ -402,7 +404,9 @@ const Login = observer(() => {
               })
               Stores.loginStore.saveLogin(noticeBoard.userInfo)
               Stores.loginStore.clearInputUser()
-              history.push("/dashboard/default")
+              setTimeout(() => {   
+                history.push("/dashboard/default")
+              }, 1000)
             }
           }}
           onClose={() => {

@@ -24,9 +24,8 @@ const headers: Readonly<Record<string, string | boolean>> = {
 const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   try {
     const token = localStorage.getItem("accessToken")
-
     if (token != null) {
-      config.headers = `x-limsplus-key ${token}`
+      config.headers.Authorization = `x-limsplus-key ${token}`
     }
     return config
   } catch (error) {
@@ -34,15 +33,15 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
   }
 }
 
-class Http {
+export class Http {
   private instance: AxiosInstance | null = null
   seesion = Session.getSession()
-  private accessToken;
+  accessToken!: string
 
-  constructor() {
-    if(!this.accessToken){
+  constructor(token?: string) {
+    if (!this.accessToken) {
       this.seesion.then((val) => {
-        this.accessToken = val.accessToken
+        this.accessToken = val ? val.accessToken : token
       })
     }
   }
@@ -54,9 +53,7 @@ class Http {
   initHttp() {
     const http = Axios.create({
       baseURL: Config.Api.LIMSPLUS_API_HOST,
-      headers: {
-        "x-limsplus-key": this.accessToken || "",
-      },
+      headers,
       timeout: 1000 * 30,
     })
 
@@ -66,8 +63,8 @@ class Http {
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)
         }
-        //return injectToken(config)
-        return config
+        return injectToken(config)
+        //return config
       },
       (error) => {
         stores.setLoading(false)
@@ -77,7 +74,7 @@ class Http {
 
     http.interceptors.response.use(
       (response) => {
-        console.log("Axios Response: ", response)
+        //console.log("Axios Response: ", response)
         stores.setLoading(false)
         return response
       },
@@ -88,8 +85,7 @@ class Http {
         return Http.handleError(response)
       }
     )
-
-    this.instance = http
+    //this.instance = http
     return http
   }
 
@@ -101,8 +97,6 @@ class Http {
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R> {
-    console.log({ url, config })
-
     return this.http.get<T, R>(url, config)
   }
 
