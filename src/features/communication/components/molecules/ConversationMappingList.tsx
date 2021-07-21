@@ -89,29 +89,34 @@ const ConversationMappingList = (props: ConversationMappingListProps) => {
         },
         {
           dataField: "operation",
-          text: "Delete",
+          text: "Action",
           editable: false,
           csvExport: false,
           hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
-              <LibraryComponents.Atoms.Buttons.Button
-                size="small"
-                type="outline"
-                icon={LibraryComponents.Atoms.Icon.Remove}
-                onClick={() => {
-                  props.onDelete &&
-                    props.onDelete({
-                      type: "Delete",
-                      show: true,
-                      id: [row._id],
-                      title: "Are you sure?",
-                      body: `Delete ${row.hexadecimal} hexadecimal!`,
-                    })
-                }}
-              >
-                Delete
-              </LibraryComponents.Atoms.Buttons.Button>
+              <div className="flex flex-row">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#000"
+                        size="20"
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: "Delete",
+                            show: true,
+                            id: [row._id],
+                            title: "Are you sure?",
+                            body: `Delete item`,
+                          })
+                        }
+                      >
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+                  </div>
             </>
           ),
         },
