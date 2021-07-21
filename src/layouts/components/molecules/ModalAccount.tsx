@@ -76,9 +76,9 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                         lab,
                       })
                       history.push("/dashboard/default")
-                      LibraryComponents.Atoms.ToastsStore.success(
-                        `Your lab change successfully`
-                      )
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Your lab change successfully`,
+                      })
                       props.onClose && props.onClose()
                       // 
                       // UserStores.userStore.UsersService.switchAccess({
@@ -128,15 +128,15 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                           const router = JSON.parse(res.data.data.router[0])
                           console.log({ router })
                           stores.routerStore.updateUserRouter(router)
-                          LibraryComponents.Atoms.ToastsStore.success(
-                            `Your role change successfully`
-                          )
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 Your role change successfully`,
+                          })
                           history.push("/dashboard/default")
                           props.onClose && props.onClose()
                         } else {
-                          LibraryComponents.Atoms.ToastsStore.error(
-                            res.data.data.errorMessage
-                          )
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.data.data.errorMessage}`,
+                          })
                         }
                       })
                     }}
@@ -169,13 +169,13 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                 ...LoginStores.loginStore.login,
                 image: res.data.data.image,
               })
-              LibraryComponents.Atoms.ToastsStore.success(
-                `Image upload successfully!`
-              )
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Image upload successfully!`,
+              })
             } else {
-              LibraryComponents.Atoms.ToastsStore.error(
-                `Image not upload. Please try again!`
-              )
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 Image not upload. Please try again!`,
+              })
             }
           })
         }}

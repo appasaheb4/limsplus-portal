@@ -162,9 +162,9 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                       ) {
                         props.onClick(Stores.loginStore.forgotPassword)
                       } else {
-                        LibraryComponents.Atoms.ToastsStore.warning(
-                          "Please enter all information!"
-                        )
+                        LibraryComponents.Atoms.Toast.warning({
+                          message: `😔 Please enter all information!`,
+                        })
                       }
                     }}
                   >
