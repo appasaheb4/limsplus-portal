@@ -333,6 +333,7 @@ const Lookup = observer(() => {
                     })
                     setModalConfirm({ show: false })
                     Stores.lookupStore.fetchListLookup()
+                    window.location.reload()
                   }
                 })
               }
