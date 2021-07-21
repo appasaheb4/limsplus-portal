@@ -3,7 +3,6 @@ import { makeAutoObservable, action, observable, runInAction, computed } from "m
 import Session from "@lp/library/modules/session"
 import * as Models from "../models"
 import * as Services from "../services"
-
 import { stores } from "@lp/library/stores"
 import Storage from "@lp/library/modules/storage"
 
@@ -26,11 +25,13 @@ class LoginStore {
   @computed get LoginService() {
     return new Services.LoginService()
   }
-
+  
   @action saveLogin = async (session) => {
+    //new Http(session.accessToken);
+    localStorage.setItem('accessToken',session.accessToken)
     Session.saveSession(session)
     this.login = session
-  }
+  }   
 
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
@@ -38,7 +39,7 @@ class LoginStore {
         this.LoginService.logout({
           id: this.login?.loginActivityId,
           userId: this.login?._id,
-          accessToken: this.login?.accessToken
+          accessToken: this.login?.accessToken,
         }).then(async (res) => {
           if (res.status === 200) {
             await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
@@ -59,7 +60,7 @@ class LoginStore {
   }
 
   @action removeLocalSession = (): Promise<boolean> => {
-    return new Promise<boolean>(async(resolve) => {
+    return new Promise<boolean>(async (resolve) => {
       await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
       await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
       await Storage.removeItem(
