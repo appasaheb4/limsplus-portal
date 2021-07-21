@@ -681,7 +681,37 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               text: "Result Type",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const resultType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(resultType,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "RESULT_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "analyteType",
@@ -689,6 +719,36 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const analyteType = e.target.value
+                      props.onUpdateItem && 
+                        props.onUpdateItem(analyteType,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ANALYTE_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "status",
