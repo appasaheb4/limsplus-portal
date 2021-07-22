@@ -47,8 +47,8 @@ import * as RegistrationLocations from "@lp/features/collection/registrationLoca
 import * as CorporateClients from "@lp/features/collection/corporateClients"
 import * as DeliverySchdule from "@lp/features/collection/deliverySchedule"
 import * as AdministrativeDivisions from "@lp/features/collection/administrativeDivisions"
-import * as SalesTeam from '@lp/features/collection/salesTeam'
-import * as Section from '@lp/features/collection/section'
+import * as SalesTeam from "@lp/features/collection/salesTeam"
+import * as Section from "@lp/features/collection/section"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -72,8 +72,9 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/banner") await Banner.startup()
       if (
         pathname === "/collection/masterAnalyte" ||
-        pathname === "/collection/testAnalyteMapping"
-      )
+        pathname === "/collection/testAnalyteMapping" ||
+        pathname === "/collection/possibleResults"
+      )   
         await MasterAnalyte.startup()
       if (
         pathname === "/collection/testMaster" ||
@@ -118,18 +119,13 @@ const Dashboard = observer(({ children }) => {
         await DeliverySchdule.startup()
       if (
         pathname === "/collection/administrativeDivisions" ||
-        pathname === "/collection/salesTeam" || pathname === "/collection/lab"
-      )  
+        pathname === "/collection/salesTeam" ||
+        pathname === "/collection/lab"
+      )
         await AdministrativeDivisions.startup()
-        if (
-          pathname === "/collection/salesTeam" || pathname === "/collection/lab"
-        )  
-          await SalesTeam.startup()
-          if (
-            pathname === "/collection/section"
-          )    
-            await Section.startup()
-
+      if (pathname === "/collection/salesTeam" || pathname === "/collection/lab")
+        await SalesTeam.startup()
+      if (pathname === "/collection/section") await Section.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
@@ -204,12 +200,11 @@ const Dashboard = observer(({ children }) => {
   const handleOnIdle = (event) => {
     // console.log("user is idle", event)
     console.log("last active", getLastActiveTime())
-    
+
     setIsLogined(true)
     LoginStores.loginStore
       .removeUser()
       .then(async (res) => {
-        
         if (res) {
           setModalIdleTime({
             show: true,

@@ -55,14 +55,16 @@ export class Http {
       baseURL: Config.Api.LIMSPLUS_API_HOST,
       headers: {
         ...headers,
-        Authorization: `x-limsplus-key ${this.accessToken || localStorage.getItem("accessToken")}`,
+        Authorization: `x-limsplus-key ${
+          this.accessToken || localStorage.getItem("accessToken")
+        }`,
       },
       timeout: 1000 * 30,
     })
 
     http.interceptors.request.use(
       (config) => {
-        console.log("Axios Request: ", config)
+        //console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)
         }

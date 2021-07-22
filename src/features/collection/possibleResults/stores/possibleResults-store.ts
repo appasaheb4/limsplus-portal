@@ -1,12 +1,12 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
-import * as Models from "../models"
+import {PossibleResults} from "../models"
 import * as Services from "../services"
 
 @version(0.1)
 export class PossibleResultsStore {
-  @observable listPossibleResults: Models.PossibleResults[] = []
-  @ignore @observable possibleResults?: Models.PossibleResults
+  @observable listPossibleResults: PossibleResults[] = []
+  @ignore @observable possibleResults!: PossibleResults
     
   constructor() {
     makeAutoObservable(this)
@@ -23,7 +23,7 @@ export class PossibleResultsStore {
     })
   }
    
-  @action updatePossibleResults = (results: Models.PossibleResults) => {
+  @action updatePossibleResults = (results: PossibleResults) => {
     this.possibleResults = results
   }
 }
