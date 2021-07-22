@@ -6,17 +6,17 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 
 import * as Models from "../models"
-import * as Util from "../util"
+import * as Utils from "../util"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 
 import { Stores } from "../stores"
-//import { Stores as LabStore } from "@lp/features/collection/labs/stores"
+import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 let router = dashboardRoutes
-   
+
 export const PossibleResults = observer(() => {
   const [errors, setErrors] = useState<Models.PossibleResults>()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -58,66 +58,69 @@ export const PossibleResults = observer(() => {
             }
           >
             <LibraryComponents.Atoms.Grid cols={2}>
-              {/* <LibraryComponents.Atoms.List
+              <LibraryComponents.Atoms.List
                 direction="col"
                 space={4}
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Document Name">
-                  <LibraryComponents.Molecules.AutocompleteGroupBy
-                    data={router}
-                    onChange={async (item: any, children: any) => {
-                      const documentName = {
-                        name: item.name,
-                        title: item.title,
-                        path: item.path,
-                        children,
-                      }
-                      setErrors({
-                        ...errors,
-                        documentName: Util.validate.single(
-                          documentName,
-                          Util.lookup.documentName
-                        ),
-                      })
-                      Stores.lookupStore.updateLookup({
-                        ...Stores.lookupStore.lookup,
-                        documentName,
+                <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+                  <select
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const analyte = JSON.parse(e.target.value)   
+                      // setErrors({
+                      //   ...errors,
+                      //   analyteCode: Utils.validate.single(
+                      //     analyteCode,
+                      //     Utils.possibleResults.analyteCode
+                      //   ),
+                      // })   
+                      Stores.possibleResultsStore.updatePossibleResults({
+                        ...Stores.possibleResultsStore.possibleResults,
+                        analyteCode: analyte.analyteCode,
+                        analyteName: analyte.analyteName,
                       })
                     }}
-                  />
+                  >
+                    <option selected>Select</option>
+                    {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
+                      AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.analyteCode} - ${item.analyteName}`}
+                          </option>
+                        )
+                      )}
+                  </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 <LibraryComponents.Atoms.Form.Input
-                  label="Field Name"
-                  placeholder="Field Name"
-                  value={Stores.lookupStore.lookup?.fieldName}
-                  onChange={(fieldName) => {
-                    Stores.lookupStore.updateLookup({
-                      ...Stores.lookupStore.lookup,
-                      fieldName:fieldName.toUpperCase(),
-                    })
-                  }}
+                  disabled={true}
+                  label="Analyte Name"
+                  placeholder="Analyte Name"
+                  value={Stores.possibleResultsStore.possibleResults?.analyteName}
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Code & Value">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
                   <LibraryComponents.Atoms.Grid cols={3}>
                     <LibraryComponents.Atoms.Form.Input
-                      placeholder="Code"
-                      value={Stores.lookupStore.lookup?.code}
-                      onChange={(code) => {
-                        Stores.lookupStore.updateLookup({
-                          ...Stores.lookupStore.lookup,
-                          code:code.toUpperCase(),
+                      placeholder="Result"
+                      value={Stores.possibleResultsStore.possibleResults?.result}
+                      onChange={(result) => {
+                        Stores.possibleResultsStore.updatePossibleResults({
+                          ...Stores.possibleResultsStore.possibleResults,
+                          result,
                         })
                       }}
                     />
                     <LibraryComponents.Atoms.Form.Input
-                      placeholder="Value"
-                      value={Stores.lookupStore.lookup?.value}
-                      onChange={(value) => {
-                        Stores.lookupStore.updateLookup({
-                          ...Stores.lookupStore.lookup,
-                          value,
+                      placeholder="Possible Value"
+                      value={
+                        Stores.possibleResultsStore.possibleResults?.possibleValue
+                      }
+                      onChange={(possibleValue) => {
+                        Stores.possibleResultsStore.updatePossibleResults({
+                          ...Stores.possibleResultsStore.possibleResults,
+                          possibleValue,
                         })
                       }}
                     />
@@ -126,32 +129,43 @@ export const PossibleResults = observer(() => {
                         size="medium"
                         type="solid"
                         onClick={() => {
-                          const value = Stores.lookupStore.lookup?.value
-                          const code = Stores.lookupStore.lookup?.code
-                          let arrValue = Stores.lookupStore.lookup?.arrValue || []
-                          if (value === undefined || code === undefined)
+                          const result =
+                            Stores.possibleResultsStore.possibleResults?.result
+                          const possibleValue =
+                            Stores.possibleResultsStore.possibleResults
+                              ?.possibleValue
+                          let conclusionResult =
+                            Stores.possibleResultsStore.possibleResults
+                              ?.conclusionResult || []
+                          if (result === undefined || possibleValue === undefined)
                             return alert("Please enter value and code.")
-                          if (value !== undefined) {
-                            console.log({ len: arrValue.length })
-                            arrValue !== undefined
-                              ? arrValue.push({
-                                  value,
-                                  code,
+                          if (result !== undefined) {
+                            conclusionResult !== undefined
+                              ? conclusionResult.push({
+                                  result,
+                                  possibleValue,
+                                  abNormal: false,
+                                  critical: false,
                                 })
-                              : (arrValue = [
+                              : (conclusionResult = [
                                   {
-                                    value,
-                                    code,
+                                    result,
+                                    possibleValue,
+                                    abNormal: false,
+                                    critical: false,
                                   },
                                 ])
-                            Stores.lookupStore.updateLookup({
-                              ...Stores.lookupStore.lookup,
-                              arrValue,
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              conclusionResult,
                             })
-                            Stores.lookupStore.updateLookup({
-                              ...Stores.lookupStore.lookup,
-                              value: "",
-                              code: "",
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              conclusionResult,
+                              result: "",
+                              possibleValue: "",
+                              abNormal: false,
+                              critical: false,
                             })
                           }
                         }}
@@ -168,7 +182,7 @@ export const PossibleResults = observer(() => {
                     justify="center"
                   >
                     <div>
-                      {Stores.lookupStore.lookup?.arrValue?.map((item, index) => (
+                      {/* {Stores.lookupStore.lookup?.arrValue?.map((item, index) => (
                         <div className="mb-2" key={index}>
                           <LibraryComponents.Atoms.Buttons.Button
                             size="medium"
@@ -194,11 +208,11 @@ export const PossibleResults = observer(() => {
                             {`${item.value} - ${item.code}`}
                           </LibraryComponents.Atoms.Buttons.Button>
                         </div>
-                      ))}
+                      ))} */}
                     </div>
                   </LibraryComponents.Atoms.List>
                 </LibraryComponents.Atoms.Form.InputWrapper>
-              </LibraryComponents.Atoms.List> */}
+              </LibraryComponents.Atoms.List>
 
               <LibraryComponents.Atoms.List
                 direction="col"
@@ -235,11 +249,11 @@ export const PossibleResults = observer(() => {
                   //     Stores.lookupStore.lookup.value === ""
                   //   ) {
                   //     console.log({ sotre: Stores.lookupStore.lookup })
-                  //     
+                  //
                   //     Stores.lookupStore.LookupService.addLookup(
                   //       Stores.lookupStore.lookup
                   //     ).then(() => {
-                  //       
+                  //
                   //       LibraryComponents.Atoms.Toast.success({
                   //         message: `😊 Lookup created.`,
                   //       })
@@ -307,11 +321,9 @@ export const PossibleResults = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                
                 Stores.possibleResultsStore.possibleResultsService
                   .deleteLookup(modalConfirm.id)
                   .then((res: any) => {
-                    
                     if (res.status === 200) {
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Lookup deleted.`,
@@ -321,11 +333,9 @@ export const PossibleResults = observer(() => {
                     }
                   })
               } else if (type === "Update") {
-                
                 Stores.possibleResultsStore.possibleResultsService
                   .updateSingleFiled(modalConfirm.data)
                   .then((res: any) => {
-                    
                     if (res.status === 200) {
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Lookup updated.`,

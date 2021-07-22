@@ -134,7 +134,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                       stores.appStore.updateApplicationSetting({
                         ...stores.appStore.applicationSetting,
                         isExpandScreen: false,
-                      })  
+                      })
                       document.exitFullscreen()
                     }
                   }
@@ -145,14 +145,16 @@ const NavbarComponent = observer(({ dispatch }) => {
             >
               <LibraryComponents.Atoms.Tooltip
                 tooltipText={
-                  (stores.appStore.applicationSetting?.isExpandScreen)
+                  stores.appStore.applicationSetting?.isExpandScreen
                     ? "Collapse"
                     : "Expand"
                 }
-              >
+              >  
                 <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
                   {LibraryComponents.Atoms.Icons.getIconTag(
-                    LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
+                    stores.appStore.applicationSetting?.isExpandScreen
+                      ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
+                      : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand  
                   )}
                 </LibraryComponents.Atoms.Icons.IconContext>
               </LibraryComponents.Atoms.Tooltip>
@@ -188,8 +190,6 @@ const NavbarComponent = observer(({ dispatch }) => {
                   Change Password
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Settings & Privacy</DropdownItem>
-                <DropdownItem>Help</DropdownItem>
                 <DropdownItem
                   onClick={() => {
                     LoginStores.loginStore
