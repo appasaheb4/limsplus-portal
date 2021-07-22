@@ -65,10 +65,9 @@ const Banner = observer(() => {
                   })
                 }}
               />
-            </LibraryComponents.Atoms.List>
-          </LibraryComponents.Atoms.Grid>
-          <br />
-
+            </LibraryComponents.Atoms.List>  
+          </LibraryComponents.Atoms.Grid>  
+          <br />   
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"

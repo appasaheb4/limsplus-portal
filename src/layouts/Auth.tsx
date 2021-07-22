@@ -13,7 +13,7 @@ const Auth = ({ children }) => (
           <Col sm="10" md="8" lg="6" className="mx-auto d-table h-100">
             <div className="d-table-cell align-middle">{children}</div>
           </Col>
-        </Row>
+        </Row>  
       </Container>
     </Main>
     <Settings  />
