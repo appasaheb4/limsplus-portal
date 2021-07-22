@@ -8,8 +8,6 @@ import { Button } from "reactstrap"
 
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-import { Stores } from "../../library/stores/index"
-import { Stores as AppStore } from "@lp/library/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { stores } from "@lp/library/stores"
@@ -37,7 +35,14 @@ const NavbarComponent = observer(({ dispatch }) => {
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   return (
     <>
-      <Navbar color="white" light expand>
+      <Navbar
+        style={{
+          backgroundColor:
+            stores.appStore.applicationSetting?.shortCutBarColor || "white",
+        }}
+        light
+        expand
+      >
         <span
           className="sidebar-toggle d-flex mr-2"
           onClick={() => {
@@ -47,7 +52,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           <i className="hamburger align-self-center" />
         </span>
 
-        <Form inline className='mr-9' style={{width:'73%',backgroundColor:`${stores.appStore.applicationSetting?.shortCutBarColor}`}} >
+        <Form inline className="mr-9" style={{ width: "73%" }}>
           <LibraryComponents.Atoms.Buttons.Button
             size="medium"
             type="outline"
@@ -101,8 +106,58 @@ const NavbarComponent = observer(({ dispatch }) => {
             ))}
         </Form>
 
-        <Collapse navbar>   
+        <Collapse navbar>
           <Nav className="ml-auto items-center" navbar>
+            <LibraryComponents.Atoms.Buttons.Button
+              size="medium"
+              type="outline"
+              onClick={() => {
+                const elem: any = document.body
+                function openFullscreen() {
+                  stores.appStore.updateApplicationSetting({
+                    ...stores.appStore.applicationSetting,
+                    isExpandScreen: true,
+                  })
+                  if (elem.requestFullscreen) {
+                    elem.requestFullscreen()
+                  } else if (elem.webkitRequestFullscreen) {
+                    /* Safari */
+                    elem.webkitRequestFullscreen()
+                  } else if (elem.msRequestFullscreen) {
+                    /* IE11 */
+                    elem.msRequestFullscreen()
+                  }
+                }
+                function closeFullscreen() {
+                  if (document.fullscreenElement) {
+                    if (document.exitFullscreen) {
+                      stores.appStore.updateApplicationSetting({
+                        ...stores.appStore.applicationSetting,
+                        isExpandScreen: false,
+                      })  
+                      document.exitFullscreen()
+                    }
+                  }
+                }
+                openFullscreen()
+                closeFullscreen()
+              }}
+            >
+              <LibraryComponents.Atoms.Tooltip
+                tooltipText={
+                  (stores.appStore.applicationSetting?.isExpandScreen)
+                    ? "Collapse"
+                    : "Expand"
+                }
+              >
+                <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+                  {LibraryComponents.Atoms.Icons.getIconTag(
+                    LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
+                  )}
+                </LibraryComponents.Atoms.Icons.IconContext>
+              </LibraryComponents.Atoms.Tooltip>
+            </LibraryComponents.Atoms.Buttons.Button>
+            <div className="ml-2" />
             <Button color="primary" className="hidden shadow-sm h-10 sm:block">
               <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
             </Button>
