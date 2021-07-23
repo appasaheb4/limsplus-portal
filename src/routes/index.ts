@@ -78,6 +78,7 @@ const SalesTeam = async(
 const PossibleResults = async(
   () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
 )
+const Library = async(() => import("@lp/features/collection/library/scenes/Library"))
 
 // Communication
 const HostCommunication = async(
@@ -293,7 +294,7 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaAddressCard",
       component: AdministrativeDivisions,
     },
-    {  
+    {
       path: "/collection/salesTeam",
       name: "Sales Team",
       icon: "LibraryComponents.Atoms.Icons.IconRi.RiTeamLine",
@@ -304,6 +305,12 @@ const collectionRoutes = {
       name: "Possible Results",
       icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution",
       component: PossibleResults,
+    },
+    {  
+      path: "/collection/library",
+      name: "Library",
+      icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+      component: Library,
     },
   ],
 }

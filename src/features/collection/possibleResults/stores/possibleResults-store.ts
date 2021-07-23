@@ -18,7 +18,7 @@ export class PossibleResultsStore {
   }
 
   @action fetchListPossibleResults() {
-    this.possibleResultsService.listLookup().then((res) => {
+    this.possibleResultsService.listPossibleResults().then((res) => {
       this.listPossibleResults = res
     })
   }

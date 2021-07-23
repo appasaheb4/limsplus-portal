@@ -1,8 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
+import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 
 import * as Models from "../models"
@@ -19,6 +20,7 @@ let router = dashboardRoutes
 
 export const PossibleResults = observer(() => {
   const [errors, setErrors] = useState<Models.PossibleResults>()
+  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
@@ -68,14 +70,14 @@ export const PossibleResults = observer(() => {
                   <select
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
-                      const analyte = JSON.parse(e.target.value)   
+                      const analyte = JSON.parse(e.target.value)
                       // setErrors({
                       //   ...errors,
                       //   analyteCode: Utils.validate.single(
                       //     analyteCode,
                       //     Utils.possibleResults.analyteCode
                       //   ),
-                      // })   
+                      // })
                       Stores.possibleResultsStore.updatePossibleResults({
                         ...Stores.possibleResultsStore.possibleResults,
                         analyteCode: analyte.analyteCode,
@@ -101,7 +103,7 @@ export const PossibleResults = observer(() => {
                   value={Stores.possibleResultsStore.possibleResults?.analyteName}
                 />
                 <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
-                  <LibraryComponents.Atoms.Grid cols={3}>
+                  <LibraryComponents.Atoms.Grid cols={5}>
                     <LibraryComponents.Atoms.Form.Input
                       placeholder="Result"
                       value={Stores.possibleResultsStore.possibleResults?.result}
@@ -121,6 +123,26 @@ export const PossibleResults = observer(() => {
                         Stores.possibleResultsStore.updatePossibleResults({
                           ...Stores.possibleResultsStore.possibleResults,
                           possibleValue,
+                        })
+                      }}
+                    />
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="AB Normal"
+                      value={Stores.possibleResultsStore.possibleResults?.abNormal}
+                      onChange={(abNormal) => {
+                        Stores.possibleResultsStore.updatePossibleResults({
+                          ...Stores.possibleResultsStore.possibleResults,
+                          abNormal,
+                        })
+                      }}
+                    />
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Critical"
+                      value={Stores.possibleResultsStore.possibleResults?.critical}
+                      onChange={(critical) => {
+                        Stores.possibleResultsStore.updatePossibleResults({
+                          ...Stores.possibleResultsStore.possibleResults,
+                          critical,
                         })
                       }}
                     />
@@ -182,57 +204,44 @@ export const PossibleResults = observer(() => {
                     justify="center"
                   >
                     <div>
-                      {/* {Stores.lookupStore.lookup?.arrValue?.map((item, index) => (
-                        <div className="mb-2" key={index}>
-                          <LibraryComponents.Atoms.Buttons.Button
-                            size="medium"
-                            type="solid"
-                            icon={LibraryComponents.Atoms.Icon.Remove}
-                            onClick={() => {
-                              const firstArr =
-                                Stores.lookupStore.lookup?.arrValue?.slice(
-                                  0,
-                                  index
-                                ) || []
-                              const secondArr =
-                                Stores.lookupStore.lookup?.arrValue?.slice(
-                                  index + 1
-                                ) || []
-                              const finalArray = [...firstArr, ...secondArr]
-                              Stores.lookupStore.updateLookup({
-                                ...Stores.lookupStore.lookup,
-                                arrValue: finalArray,
-                              })
-                            }}
-                          >
-                            {`${item.value} - ${item.code}`}
-                          </LibraryComponents.Atoms.Buttons.Button>
-                        </div>
-                      ))} */}
+                      {Stores.possibleResultsStore.possibleResults?.conclusionResult?.map(
+                        (item, index) => (
+                          <div className="mb-2" key={index}>
+                            <LibraryComponents.Atoms.Buttons.Button
+                              size="medium"
+                              type="solid"
+                              icon={LibraryComponents.Atoms.Icon.Remove}
+                              onClick={() => {
+                                const firstArr =
+                                  Stores.possibleResultsStore.possibleResults?.conclusionResult?.slice(
+                                    0,
+                                    index
+                                  ) || []
+                                const secondArr =
+                                  Stores.possibleResultsStore.possibleResults?.conclusionResult?.slice(
+                                    index + 1
+                                  ) || []
+                                const finalArray = [
+                                  ...firstArr,
+                                  ...secondArr,
+                                ] as typeof Stores.possibleResultsStore.possibleResults.conclusionResult
+                                Stores.possibleResultsStore.updatePossibleResults({
+                                  ...Stores.possibleResultsStore.possibleResults,
+                                  conclusionResult: finalArray,
+                                })
+                              }}
+                            >
+                              {`Result: ${item.result}  
+                              Possible Value: ${item.possibleValue}  
+                              AB Normal: ${item.abNormal}  
+                              Critical: ${item.critical}`}
+                            </LibraryComponents.Atoms.Buttons.Button>
+                          </div>
+                        )
+                      )}
                     </div>
                   </LibraryComponents.Atoms.List>
                 </LibraryComponents.Atoms.Form.InputWrapper>
-              </LibraryComponents.Atoms.List>
-
-              <LibraryComponents.Atoms.List
-                direction="col"
-                space={4}
-                justify="stretch"
-                fill
-              >
-                {/* <LibraryComponents.Atoms.Form.MultilineInput
-                  rows={4}
-                  label="Description"
-                  name="txtDescription"
-                  placeholder="Description"
-                  value={Stores.lookupStore.lookup?.description}
-                  onChange={(description) => {
-                    Stores.lookupStore.updateLookup({
-                      ...Stores.lookupStore.lookup,
-                      description,
-                    })
-                  }}
-                /> */}
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />
@@ -242,31 +251,29 @@ export const PossibleResults = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Atoms.Icon.Save}
                 onClick={() => {
-                  //   if (
-                  //     Util.validate(Stores.lookupStore.lookup, Util.lookup) ===
-                  //       undefined &&
-                  //     Stores.lookupStore.lookup?.value === "" &&
-                  //     Stores.lookupStore.lookup.value === ""
-                  //   ) {
-                  //     console.log({ sotre: Stores.lookupStore.lookup })
-                  //
-                  //     Stores.lookupStore.LookupService.addLookup(
-                  //       Stores.lookupStore.lookup
-                  //     ).then(() => {
-                  //
-                  //       LibraryComponents.Atoms.Toast.success({
-                  //         message: `😊 Lookup created.`,
-                  //       })
-                  //       Stores.lookupStore.fetchListLookup()
-                  //       setTimeout(() => {
-                  //         window.location.reload()
-                  //       }, 2000)
-                  //     })
-                  //   } else {
-                  //     LibraryComponents.Atoms.Toast.warning({
-                  //       message: `😔 Please enter all information!`,
-                  //     })
-                  //   }
+                  const error = Utils.validate(
+                    Stores.possibleResultsStore.possibleResults,
+                    Utils.possibleResults
+                  )
+                  setErrorsMsg(error)
+                  if (error === undefined) {
+                    Stores.possibleResultsStore.possibleResultsService
+                      .addPossibleResults(
+                        Stores.possibleResultsStore.possibleResults
+                      )
+                      .then(() => {
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 Possible results created.`,
+                        })
+                        setTimeout(() => {
+                          window.location.reload()
+                        }, 2000)
+                      })
+                  } else {
+                    LibraryComponents.Atoms.Toast.warning({
+                      message: `😔 Please enter all information!`,
+                    })
+                  }
                 }}
               >
                 Save
@@ -283,10 +290,18 @@ export const PossibleResults = observer(() => {
                 Clear
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
+            <div>
+              {errorsMsg &&
+                Object.entries(errorsMsg).map((item, index) => (
+                  <h6 className="text-red-700" key={index}>
+                    {_.upperFirst(item.join(" : "))}
+                  </h6>
+                ))}
+            </div>
           </div>
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-            <FeatureComponents.Molecules.LookupList
+            <PossibleResultsList
               data={Stores.possibleResultsStore.listPossibleResults || []}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
@@ -322,11 +337,11 @@ export const PossibleResults = observer(() => {
             click={(type?: string) => {
               if (type === "Delete") {
                 Stores.possibleResultsStore.possibleResultsService
-                  .deleteLookup(modalConfirm.id)
+                  .deletePossibleResults(modalConfirm.id)
                   .then((res: any) => {
                     if (res.status === 200) {
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Lookup deleted.`,
+                        message: `😊 Possible results deleted.`,
                       })
                       setModalConfirm({ show: false })
                       Stores.possibleResultsStore.fetchListPossibleResults()
@@ -338,7 +353,7 @@ export const PossibleResults = observer(() => {
                   .then((res: any) => {
                     if (res.status === 200) {
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Lookup updated.`,
+                        message: `😊 Possible results updated.`,
                       })
                       setModalConfirm({ show: false })
                       Stores.possibleResultsStore.fetchListPossibleResults()
