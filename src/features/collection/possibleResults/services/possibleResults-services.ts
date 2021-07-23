@@ -6,12 +6,12 @@
  */
 import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
-   
-export class PossibleResultsService  {
-  listLookup = () =>
+
+export class PossibleResultsService {
+  listPossibleResults = () =>
     new Promise<Models.PossibleResults[]>((resolve, reject) => {
       http
-        .get(`/master/lookup/listLookup`)
+        .get(`/master/possibleResults/listPossibleResults`)
         .then((res: any) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ export class PossibleResultsService  {
           reject({ error })
         })
     })
-  addLookup = (lookup?: Models.PossibleResults) =>
+  addPossibleResults = (lookup?: Models.PossibleResults) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/lookup/addLookup`, lookup)
+        .post(`/master/possibleResults/addPossibleResults`, lookup)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,10 +30,10 @@ export class PossibleResultsService  {
           reject({ error })
         })
     })
-  deleteLookup = (id: string) =>
+  deletePossibleResults = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .delete(`/master/lookup/deleteLookup/${id}`)
+        .delete(`/master/possibleResults/deletePossibleResults/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -44,7 +44,7 @@ export class PossibleResultsService  {
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/lookup/updateSingleFiled`, newValue)
+        .post(`/master/possibleResults/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
@@ -52,4 +52,4 @@ export class PossibleResultsService  {
           reject({ error })
         })
     })
-}   
+}

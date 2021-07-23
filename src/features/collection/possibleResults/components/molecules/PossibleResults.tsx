@@ -5,7 +5,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-interface LookupListProps {
+interface PossibleResultsListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -14,7 +14,7 @@ interface LookupListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const LookupList = observer((props: LookupListProps) => {
+export const PossibleResultsList = observer((props: PossibleResultsListProps) => {
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -28,22 +28,19 @@ const LookupList = observer((props: LookupListProps) => {
             csvExport: false,
           },
           {
-            dataField: "documentName",
-            text: "Document Name",
+            dataField: "analyteCode",
+            text: "Analyte Code",
             sort: true,
-            formatter: (cell, row) => {
-              return <>{`${row.documentName.children.name}`}</>
-            },
           },
           {
-            dataField: "fieldName",
-            text: "Field Name",
+            dataField: "analyteName",
+            text: "Analyte Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
-            dataField: "arrValue",
-            text: "Value & code",
+            dataField: "conclusionResult",
+            text: "Conclusion Result",
             sort: true,
             editable: false,
             formatter: (cellContent, row) => (
@@ -53,14 +50,17 @@ const LookupList = observer((props: LookupListProps) => {
                   direction="row"
                   justify="center"
                 >
-                  {row.arrValue.map((item) => (
+                  {row.conclusionResult.map((item) => (
                     <div className="mb-2">
                       <LibraryComponents.Atoms.Buttons.Button
                         size="medium"
                         type="solid"
                         onClick={() => {}}
-                      >
-                        {`${item.value} - ${item.code}`}
+                      >  
+                        {`Result: ${item.result} 
+                         PossibleValue: ${item.code}
+                         Ab Normal: ${item.abNormal}
+                         Critical: ${item.critical}`}
                       </LibraryComponents.Atoms.Buttons.Button>
                     </div>
                   ))}
@@ -83,27 +83,27 @@ const LookupList = observer((props: LookupListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="20"
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: "Delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </div>
+                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#000"
+                      size="20"
+                      onClick={() =>
+                        props.onDelete &&
+                        props.onDelete({
+                          type: "Delete",
+                          show: true,
+                          id: [row._id],
+                          title: "Are you sure?",
+                          body: `Delete item`,
+                        })
+                      }
+                    >
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
+                  </LibraryComponents.Atoms.Tooltip>
+                </div>
               </>
             ),
           },
@@ -122,4 +122,3 @@ const LookupList = observer((props: LookupListProps) => {
     </div>
   )
 })
-export default LookupList

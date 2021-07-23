@@ -16,6 +16,7 @@ import * as Iconio from "react-icons/io"
 import * as Iconsi from "react-icons/si"
 import * as Iconai from "react-icons/ai"
 import * as Iconvsc from "react-icons/vsc"
+import * as Iconhi from 'react-icons/hi'
 
 export interface IconsProps {
   size?: string
@@ -49,6 +50,7 @@ export {
   Iconsi,
   Iconai,
   Iconvsc,
+  Iconhi
 }
 
 export const getIcons = (icon: string): any => {
@@ -116,6 +118,10 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.IconRi.RiTeamLine
     if (icon === "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution")
     return LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution
+    if (icon === "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary")
+    return LibraryComponents.Atoms.Icons.Iconhi.HiLibrary
+
+
 
   //communication
   if (icon === "LibraryComponents.Atoms.Icons.IconFa.FaCommentDots")

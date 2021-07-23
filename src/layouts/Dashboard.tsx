@@ -49,6 +49,7 @@ import * as DeliverySchdule from "@lp/features/collection/deliverySchedule"
 import * as AdministrativeDivisions from "@lp/features/collection/administrativeDivisions"
 import * as SalesTeam from "@lp/features/collection/salesTeam"
 import * as Section from "@lp/features/collection/section"
+import * as PossibleResults from "@lp/features/collection/possibleResults"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -74,7 +75,7 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/masterAnalyte" ||
         pathname === "/collection/testAnalyteMapping" ||
         pathname === "/collection/possibleResults"
-      )   
+      )
         await MasterAnalyte.startup()
       if (
         pathname === "/collection/testMaster" ||
@@ -124,10 +125,10 @@ const Dashboard = observer(({ children }) => {
       )
         await AdministrativeDivisions.startup()
       if (pathname === "/collection/salesTeam" || pathname === "/collection/lab")
-        await SalesTeam.startup()
+        await SalesTeam.startup()  
       if (pathname === "/collection/section") await Section.startup()
-
-      if (pathname === "/settings/environmentSettings")
+      if (pathname === "/collection/possibleResults") await PossibleResults.startup()     
+      if (pathname === "/settings/environmentSettings")  
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (
