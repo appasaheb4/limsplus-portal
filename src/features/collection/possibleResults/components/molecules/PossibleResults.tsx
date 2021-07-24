@@ -102,12 +102,6 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
             ),
           },
           {
-            dataField: "description",
-            text: "Description",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-          },
-          {
             dataField: "opration",
             text: "Action",
             editable: false,
