@@ -5,10 +5,9 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
-
 interface PossibleResultsListProps {
-  data: any
+  data: Array<any>
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -42,18 +41,18 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
               columnIndex
             ) => (
               <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+                <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
                   <select
                     className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const analyte = JSON.parse(e.target.value)
-                        props.onUpdateItem && 
-                          props.onUpdateItem(analyte,column.dataField,row._id)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(analyte, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
-                    {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
-                      AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
+                    {props.extraData.listMasterAnalyte &&
+                      props.extraData.listMasterAnalyte.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
                             {`${item.analyteCode} - ${item.analyteName}`}
@@ -70,6 +69,7 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
             text: "Analyte Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "conclusionResult",
@@ -89,7 +89,7 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                         size="medium"
                         type="solid"
                         onClick={() => {}}
-                      >  
+                      >
                         {`Result: ${item.result} 
                          PossibleValue: ${item.code}
                          Ab Normal: ${item.abNormal}
