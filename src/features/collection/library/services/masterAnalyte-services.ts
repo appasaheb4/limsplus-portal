@@ -7,11 +7,11 @@
 import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
-class MasterAnalyteService  {
-  listAnalyteMaster = () =>
+class MasterAnalyteService {
+  listLibrary = () =>
     new Promise<Models.Library[]>((resolve, reject) => {
       http
-        .get(`master/analyteMaster/listAnalyteMaster`)
+        .get(`master/library/listLibrary`)
         .then((res: any) => {
           resolve(res.data.data)
         })
@@ -19,10 +19,10 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-  addAnalyteMaster = (analyte?: Models.Library) =>
+  addLibrary = (analyte?: Models.Library) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`master/analyteMaster/addAnalyteMaster`, analyte)
+        .post(`master/library/addLibrary`, analyte)
         .then((res) => {
           resolve(res.data)
         })
@@ -30,44 +30,21 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-  versionUpgradeAnalyteMaster = (analyte?: Models.Library) =>
+  deleteLibrary = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`master/analyteMaster/versionUpgradeAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-    duplicateAnalyteMaster = (analyte?: Models.Library) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-
-  deleteAnalyteMaster = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/analyteMaster/deleteAnalyteMaster/${id}`)
+        .delete(`master/library/deleteLibrary/${id}`)
         .then((res) => {
           resolve(res)
         })
         .catch((error) => {
           reject({ error })
         })
-    })
+    })    
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/updateSingleFiled`, newValue)
+      http   
+        .post(`master/library/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })

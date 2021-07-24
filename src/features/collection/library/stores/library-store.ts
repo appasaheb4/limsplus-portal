@@ -21,7 +21,7 @@ class LibraryStore {
   }
 
   @action fetchLibrary() {
-    this.libraryService.listAnalyteMaster().then((res) => {
+    this.libraryService.listLibrary().then((res) => {
       this.listLibrary = res
     })
   }

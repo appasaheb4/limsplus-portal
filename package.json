@@ -52,6 +52,7 @@
     "react-excel-renderer": "^1.1.0",
     "react-feather": "^2.0.9",
     "react-file-reader": "^1.1.4",
+    "react-hook-form": "^7.12.0",
     "react-icons": "^4.2.0",
     "react-idle-timer": "^4.6.2",
     "react-perfect-scrollbar": "^1.5.8",
@@ -72,7 +73,7 @@
     "simple-hl7": "^3.2.1",
     "socket.io-client": "^4.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.1",
-    "typescript": "^3.7.5",
+    "typescript": "^4.3.5",
     "validate.js": "^0.13.1",
     "xlsx": "^0.16.9",
     "yarn": "^1.22.10"
