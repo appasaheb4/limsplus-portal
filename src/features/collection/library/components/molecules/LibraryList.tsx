@@ -1,8 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import * as Config from "@lp/config"
-
+   
 import Storage from "@lp/library/modules/storage"
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -11,7 +10,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-interface MasterAnalyteProps {
+interface LibraryListProps {
   data: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -22,7 +21,7 @@ interface MasterAnalyteProps {
   onDuplicate?: (item: any) => void
 }
 
-const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
+export const LibraryList = observer((props: LibraryListProps) => {
   // console.log('Value of isRowEditable',props.isRowNotEditable)
   const [lookupItems, setLookupItems] = useState<any[]>([])
   const getLookupValues = async () => {
@@ -261,7 +260,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(holdOOS, column.dataField, row._id)
                     }}
-                  />
+                  />  
                 </>
               ),
             },
@@ -941,4 +940,3 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
     </>
   )
 })
-export default MasterAnalyteList

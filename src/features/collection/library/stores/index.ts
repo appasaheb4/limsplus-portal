@@ -1,11 +1,11 @@
 import React from "react"
-    
-import MasterAnalyteStore from "./masterAnalyte-store"
-   
+
+import LibraryStore from "./library-store"
+
 export const Stores = {
-  masterAnalyteStore: new MasterAnalyteStore(),
-}
-    
+  libraryStore: new LibraryStore(),
+}   
+
 export const Contexts = {
-  masterAnalyteContext: React.createContext(Stores.masterAnalyteStore),
+  libraryContext: React.createContext(Stores.libraryStore),
 }

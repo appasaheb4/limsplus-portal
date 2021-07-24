@@ -241,8 +241,6 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-            
-             
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -250,7 +248,7 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
-                <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="City"
                 placeholder="City"
                 value={Stores.corporateClientsStore.corporateClients?.city}
@@ -261,7 +259,7 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-               <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="State"
                 placeholder="State"
                 value={Stores.corporateClientsStore.corporateClients?.state}
@@ -307,11 +305,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
@@ -326,11 +326,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Input
@@ -378,11 +380,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
@@ -397,11 +401,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
@@ -416,11 +422,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={5}>
@@ -452,7 +460,7 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
-               <LibraryComponents.Atoms.Form.Input
+              <LibraryComponents.Atoms.Form.Input
                 label="Area"
                 placeholder="Area"
                 value={Stores.corporateClientsStore.corporateClients?.area}
@@ -474,9 +482,8 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
-             
-             
-               <LibraryComponents.Atoms.Form.Input
+
+              <LibraryComponents.Atoms.Form.Input
                 label="EDI"
                 placeholder="EDI"
                 value={Stores.corporateClientsStore.corporateClients?.edi}
@@ -575,11 +582,13 @@ const CorporateClients = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
@@ -597,17 +606,15 @@ const CorporateClients = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  
                   Stores.corporateClientsStore.corporateClientsService
                     .addCorporateClients(
                       Stores.corporateClientsStore.corporateClients
                     )
                     .then((res) => {
-                      
                       if (res.status === 200) {
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Corporate Client record created.`,
-                        })   
+                        })
                         Stores.corporateClientsStore.fetchCorporateClients()
                       }
                     })
@@ -678,11 +685,9 @@ const CorporateClients = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.corporateClientsStore.corporateClientsService
                 .deleteCorporateClients(modalConfirm.id)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Corporate Client record deleted.`,
@@ -692,11 +697,9 @@ const CorporateClients = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.corporateClientsStore.corporateClientsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Corporate Client record updated.`,

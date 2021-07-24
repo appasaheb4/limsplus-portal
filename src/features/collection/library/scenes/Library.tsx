@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-import * as FeatureComponents from "../components"
+import { LibraryList } from "../components/molecules"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -12,15 +12,16 @@ import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-   
+
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-   
+
 export const Library = observer(() => {
-  const [errors, setErrors] = useState<Models.MasterAnalyte>()
+  const [errors, setErrors] = useState<Models.Library>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -46,9 +47,9 @@ export const Library = observer(() => {
           })
           ?.arrValue?.find((statusItem) => statusItem.code === "A")
         if (status) {
-          Stores.masterAnalyteStore.updateMasterAnalyte({
-            ...Stores.masterAnalyteStore.masterAnalyte,
-            status: status.code,
+          Stores.libraryStore.updateLibrary({
+            ...Stores.libraryStore.library,
+            status: status.code as string,
           })
         }
         setLookupItems(items)
@@ -81,7 +82,140 @@ export const Library = observer(() => {
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
-           
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.Input
+                placeholder="Code"
+                value={Stores.libraryStore.library?.code}
+                onChange={(code) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    code,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={3}
+                label="Description"
+                placeholder="Description"
+                value={Stores.libraryStore.library?.description}
+                onChange={(description) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    description,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Usage Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const usageType = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      usageType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "USAGE_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Library Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const libraryType = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      libraryType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "LIBRARY_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Comment Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const commentType = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      commentType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "COMMENT_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const lab = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      lab,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs &&
+                    LabStores.labStore.listLabs.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.code} - ${item.name}`}
+                      </option>
+                    ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Department">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const department = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      department,
+                    })
+                  }}   
+                >
+                  <option selected>Select</option>
+                  {DepartmentStore.departmentStore.listDepartment &&
+                    DepartmentStore.departmentStore.listDepartment.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.code} - ${item.name}`}
+                        </option>
+                      )
+                    )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
@@ -91,54 +225,18 @@ export const Library = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 const error = Utils.validate(
-                  Stores.masterAnalyteStore.masterAnalyte,
-                  Utils.masterAnalyte
+                  Stores.libraryStore.library,
+                  Utils.library
                 )
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  if (
-                    !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-                    !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
-                  ) {
-                    Stores.masterAnalyteStore.masterAnalyteService
-                      .addAnalyteMaster({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
-                        enteredBy: LoginStore.loginStore.login?._id,
+                  Stores.libraryStore.libraryService
+                    .addAnalyteMaster(Stores.libraryStore.library)
+                    .then(() => {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 Library created.`,
                       })
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Analyte master created.`,
-                        })
-                      })
-                  } else if (
-                    Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-                    !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
-                  ) {
-                    Stores.masterAnalyteStore.masterAnalyteService
-                      .versionUpgradeAnalyteMaster({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Analyte master version upgrade.`,
-                        })
-                      })
-                  } else if (
-                    !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-                    Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
-                  ) {
-                    Stores.masterAnalyteStore.masterAnalyteService
-                      .duplicateAnalyteMaster({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Analyte master duplicate created.`,
-                        })
-                      })   
-                  }
+                    })
                   setTimeout(() => {
                     window.location.reload()
                   }, 2000)
@@ -156,7 +254,6 @@ export const Library = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -174,8 +271,8 @@ export const Library = observer(() => {
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.MasterAnalyteList
-            data={Stores.masterAnalyteStore.listMasterAnalyte || []}
+          {/* <LibraryList
+            data={Stores.libraryStore.library || []}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
@@ -221,53 +318,35 @@ export const Library = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-          />
+          /> */}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.masterAnalyteStore.masterAnalyteService
+              Stores.libraryStore.libraryService
                 .deleteAnalyteMaster(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master deleted.`,
+                      message: `😊 Library deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterAnalyteStore.fetchAnalyteMaster()
+                    Stores.libraryStore.fetchLibrary()
                   }
                 })
             } else if (type === "Update") {
-              Stores.masterAnalyteStore.masterAnalyteService
+              Stores.libraryStore.libraryService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master updated.`,
+                      message: `😊 Library updated.`,
                     })
                     setModalConfirm({ show: false })
                     window.location.reload()
                   }
                 })
-            } else if (type === "versionUpgrade") {
-              Stores.masterAnalyteStore.updateMasterAnalyte({
-                ...modalConfirm.data,
-                _id: undefined,
-                existsVersionId: modalConfirm.data._id,
-                existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
-              })
-            } else if (type === "duplicate") {
-              Stores.masterAnalyteStore.updateMasterAnalyte({
-                ...modalConfirm.data,
-                _id: undefined,
-                existsVersionId: undefined,
-                existsRecordId: modalConfirm.data._id,
-                version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
-              })
             }
           }}
           onClose={() => {
@@ -277,6 +356,6 @@ export const Library = observer(() => {
       </div>
     </>
   )
-}) 
- 
+})
+
 export default Library
