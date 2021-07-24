@@ -1,5 +1,4 @@
 import React from "react"
-import * as LibraryComponents from "@lp/library/components"
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>

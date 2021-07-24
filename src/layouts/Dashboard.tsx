@@ -50,6 +50,7 @@ import * as AdministrativeDivisions from "@lp/features/collection/administrative
 import * as SalesTeam from "@lp/features/collection/salesTeam"
 import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
+import * as Library from "@lp/features/collection/library"
 
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
@@ -68,7 +69,7 @@ const Dashboard = observer(({ children }) => {
       await Department.startup()
       await User.startup()
       await Lookup.startup()
-      // specific api load   
+      // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
       if (
         pathname === "/collection/masterAnalyte" ||
@@ -128,6 +129,8 @@ const Dashboard = observer(({ children }) => {
         await SalesTeam.startup()
       if (pathname === "/collection/section") await Section.startup()
       if (pathname === "/collection/possibleResults") await PossibleResults.startup()
+      if (pathname === "/collection/library") await Library.startup()
+
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()

@@ -4,7 +4,7 @@ import { stores } from "@lp/library/stores"
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import * as Config from "@lp/config"
 import Session from "@lp/library/modules/session"
-import { async } from "validate.js"
+
 
 enum StatusCode {
   Unauthorized = 401,
@@ -42,16 +42,14 @@ export class Http {
   constructor() {
     if (!this.accessToken) {
       this.seesion.then((val) => {
-        console.log({ val })
-
+//        console.log({ val })
         this.accessToken = val ? val.accessToken : undefined
       })
     }
   }
 
   private get http(): AxiosInstance {
-    console.log({ in: this.instance })
-
+    //console.log({ instance: this.instance })
     return this.instance != null ? this.instance : this.initHttp()
   }
 
@@ -69,7 +67,7 @@ export class Http {
 
     http.interceptors.request.use(
       (config) => {
-        console.log("Axios Request: ", config)
+        //console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)
         }
