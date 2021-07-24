@@ -357,6 +357,7 @@ export const PossibleResults = observer(() => {
                       })
                       setModalConfirm({ show: false })
                       Stores.possibleResultsStore.fetchListPossibleResults()
+                      window.location.reload()
                     }
                   })
               }
