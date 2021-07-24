@@ -14,7 +14,7 @@ import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores } from "@lp/library/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as PanelMasterStore } from "@lp/features/collection/masterPanel/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -89,6 +89,7 @@ export const Library = observer(() => {
               fill
             >
               <LibraryComponents.Atoms.Form.Input
+                label="Code"
                 placeholder="Code"
                 value={Stores.libraryStore.library?.code}
                 onChange={(code) => {
@@ -202,7 +203,7 @@ export const Library = observer(() => {
                       ...Stores.libraryStore.library,
                       department,
                     })
-                  }}   
+                  }}
                 >
                   <option selected>Select</option>
                   {DepartmentStore.departmentStore.listDepartment &&
@@ -213,6 +214,284 @@ export const Library = observer(() => {
                         </option>
                       )
                     )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Comments Target">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const commentsTarget = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      commentsTarget,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "COMMENTS_TARGET").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={3}
+                label="Details"
+                placeholder="Detials"
+                value={Stores.libraryStore.library?.details}
+                onChange={(details) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    details,
+                  })
+                }}
+              />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.InputWrapper label="Parameter">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const parameter = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      parameter,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "PARAMETER").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Action">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const action = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      action,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ACTION").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Results">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const results = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      results,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "RESULTS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Value"
+                placeholder="Value"
+                value={Stores.libraryStore.library?.value}
+                onChange={(value) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    value,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Reflex">
+                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                  placeholder="Search by panel name or panel code"
+                  data={{
+                    defulatValues: [],
+                    list: PanelMasterStore.masterPanelStore.listMasterPanel || [],
+                    displayKey: ["panelName", "panelCode"],
+                    findKey: ["panelName", "panelCode"],
+                  }}
+                  onUpdate={(items) => {
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      reflex: items,
+                    })
+                  }}
+                />
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Analyte"
+                placeholder="Analyte"
+                value={Stores.libraryStore.library?.analyte}
+                onChange={(analyte) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    analyte,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.MultilineInput
+                rows={3}
+                label="Rule"
+                placeholder="Rule"
+                value={Stores.libraryStore.library?.rule}
+                onChange={(rule) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    rule,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const status = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      status,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Toggle
+                label="AB Normal"
+                value={Stores.libraryStore.library?.abNormal}
+                onChange={(abNormal) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    abNormal,
+                  })
+                }}
+              />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              <LibraryComponents.Atoms.Form.Input
+                label="Organism Group"
+                placeholder="Organism Group"
+                value={Stores.libraryStore.library?.organismGroup}
+                onChange={(organismGroup) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    organismGroup,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Organism Class"
+                placeholder="Organism Class"
+                value={Stores.libraryStore.library?.organismClass}
+                onChange={(organismClass) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    organismClass,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="LO Age"
+                placeholder="LO Age"
+                value={Stores.libraryStore.library?.loAge}
+                onChange={(loAge) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    loAge,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="HI Age"
+                placeholder="HI Age"
+                value={Stores.libraryStore.library?.hiAge}
+                onChange={(hiAge) => {
+                  Stores.libraryStore.updateLibrary({
+                    ...Stores.libraryStore.library,
+                    hiAge,
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sex = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      sex,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "SEX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex Action">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sexAction = e.target.value
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      sexAction,
+                    })
+                  }}
+                >  
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "SEX_ACTION").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>

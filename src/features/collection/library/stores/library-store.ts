@@ -15,10 +15,11 @@ class LibraryStore {
       abNormal: false,
     }
   }
+
   @computed get libraryService() {
     return new Services.MasterAnalyteService()
   }
-   
+
   @action fetchLibrary() {
     this.libraryService.listAnalyteMaster().then((res) => {
       this.listLibrary = res

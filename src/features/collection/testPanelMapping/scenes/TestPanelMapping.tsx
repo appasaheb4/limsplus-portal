@@ -223,7 +223,7 @@ const TestPanelMapping = observer(() => {
                 }}
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
-                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                   placeholder="Search by test name or test code"
                   data={{
                     defulatValues: [],

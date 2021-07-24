@@ -34,7 +34,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
             fill
           >
             <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
-              <LibraryComponents.Molecules.AutocompleteChecked
+              <LibraryComponents.Molecules.AutocompleteCheck
                 data={{
                   defulatValues: [],
                   list: LabStore.labStore.listLabs,
@@ -59,7 +59,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
 
             {UserStore.userStore.userList && (
               <LibraryComponents.Atoms.Form.InputWrapper label="Users" id="user">
-                <LibraryComponents.Molecules.AutocompleteChecked
+                <LibraryComponents.Molecules.AutocompleteCheck
                   data={{
                     defulatValues: [],
                     list: UserStore.userStore.userList,
@@ -87,7 +87,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
               label="Department"
               id="department"
             >
-              <LibraryComponents.Molecules.AutocompleteChecked
+              <LibraryComponents.Molecules.AutocompleteCheck
                 data={{
                   defulatValues: [],
                   list: DepartmentStore.departmentStore.listDepartment,

@@ -12,7 +12,7 @@ export class Library {
   action: string
   results: string
   value: string
-  reflex: string
+  reflex: Array<any>
   analyte: string
   rule: string
   abNormal: boolean
