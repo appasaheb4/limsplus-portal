@@ -18,8 +18,8 @@ class DepartmentStore {
       requireReceveInLab: false,
       requireScainIn: false,
       routingDept: false,
-      openingTime:LibraryUtils.moment().format("hh:mm a"),
-      closingTime:LibraryUtils.moment().format("hh:mm a"),
+      openingTime: LibraryUtils.moment().format("hh:mm a"),
+      closingTime: LibraryUtils.moment().format("hh:mm a"),
     }
   }
 
@@ -27,13 +27,12 @@ class DepartmentStore {
     this.checkExitsCode = status
   }
   @computed get DepartmentService() {
-    return new Services.DepartmentService(
-    )
+    return new Services.DepartmentService()
   }
 
   fetchListDepartment() {
     this.DepartmentService.listDepartment().then((res) => {
-      //console.log({ department: res });
+      //  console.log({ department: res });
       this.listDepartment = res
     })
   }
@@ -41,8 +40,6 @@ class DepartmentStore {
   @action updateDepartment = (department: Models.Department) => {
     this.department = department
   }
-
-  
 }
 
 export default DepartmentStore

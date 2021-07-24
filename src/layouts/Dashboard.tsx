@@ -68,8 +68,7 @@ const Dashboard = observer(({ children }) => {
       await Department.startup()
       await User.startup()
       await Lookup.startup()
-      // specific api load
-
+      // specific api load   
       if (pathname === "/collection/banner") await Banner.startup()
       if (
         pathname === "/collection/masterAnalyte" ||
@@ -125,10 +124,10 @@ const Dashboard = observer(({ children }) => {
       )
         await AdministrativeDivisions.startup()
       if (pathname === "/collection/salesTeam" || pathname === "/collection/lab")
-        await SalesTeam.startup()  
+        await SalesTeam.startup()
       if (pathname === "/collection/section") await Section.startup()
-      if (pathname === "/collection/possibleResults") await PossibleResults.startup()     
-      if (pathname === "/settings/environmentSettings")  
+      if (pathname === "/collection/possibleResults") await PossibleResults.startup()
+      if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (
