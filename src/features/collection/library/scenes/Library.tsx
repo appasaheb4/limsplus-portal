@@ -4,7 +4,8 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-import { LibraryList } from "../components/molecules"
+
+import { useForm, Controller } from "react-hook-form"
 
 import * as Models from "../models"
 import * as Utils from "../util"
@@ -21,11 +22,17 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Library = observer(() => {
-  const [errors, setErrors] = useState<Models.Library>()
+  //const [errors, setErrors] = useState<Models.Library>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
   const getLookupValues = async () => {
     const listLookup = LookupStore.lookupStore.listLookup
@@ -61,6 +68,10 @@ export const Library = observer(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
 
+  const onSubmitLibrary = (data) => {
+    console.log({ data })
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -88,17 +99,28 @@ export const Library = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.Input
-                label="Code"
-                placeholder="Code"
-                value={Stores.libraryStore.library?.code}
-                onChange={(code) => {
-                  Stores.libraryStore.updateLibrary({
-                    ...Stores.libraryStore.library,
-                    code,
-                  })
-                }}
+              <Controller
+                control={control}
+                render={({ field: { onChange, onBlur } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Code"
+                    placeholder={errors.code ? "Please enter code" : "Code"}
+                    value={Stores.libraryStore.library?.code}
+                    hasError={errors.code}
+                    onChange={(code) => {
+                      onChange(code)
+                      Stores.libraryStore.updateLibrary({
+                        ...Stores.libraryStore.library,
+                        code,
+                      })
+                    }}
+                  />
+                )}
+                name="code"
+                rules={{ required: true }}
+                defaultValue=""
               />
+
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
@@ -483,7 +505,7 @@ export const Library = observer(() => {
                       sexAction,
                     })
                   }}
-                >  
+                >
                   <option selected>Select</option>
                   {LibraryUtils.lookupItems(lookupItems, "SEX_ACTION").map(
                     (item: any, index: number) => (
@@ -502,29 +524,29 @@ export const Library = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.libraryStore.library,
-                  Utils.library
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  Stores.libraryStore.libraryService
-                    .addAnalyteMaster(Stores.libraryStore.library)
-                    .then(() => {
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Library created.`,
-                      })
-                    })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitLibrary)}
+              //   const error = Utils.validate(
+              //     Stores.libraryStore.library,
+              //     Utils.library
+              //   )
+              //   setErrorsMsg(error)
+              //   if (error === undefined) {
+              //     Stores.libraryStore.libraryService
+              //       .addLibrary(Stores.libraryStore.library)
+              //       .then(() => {
+              //         LibraryComponents.Atoms.Toast.success({
+              //           message: `😊 Library created.`,
+              //         })
+              //       })
+              //     setTimeout(() => {
+              //       window.location.reload()
+              //     }, 2000)
+              //   } else {
+              //     LibraryComponents.Atoms.Toast.warning({
+              //       message: `😔 Please enter all information!`,
+              //     })
+              //   }
+              // }}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -604,7 +626,7 @@ export const Library = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               Stores.libraryStore.libraryService
-                .deleteAnalyteMaster(modalConfirm.id)
+                .deleteLibrary(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
