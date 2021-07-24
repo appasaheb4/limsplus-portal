@@ -69,7 +69,7 @@ export const SideBarColorBgImages = ({
 
         <hr />
 
-        <small className="d-block text-uppercase font-weight-bold text-muted mb-2 my-2.5">
+        {/* <small className="d-block text-uppercase font-weight-bold text-muted mb-2 my-2.5">
           IMAGES
         </small>
         <div className="backImages d-flex justify-content-between">
@@ -89,7 +89,7 @@ export const SideBarColorBgImages = ({
               />
             )
           })}
-        </div>
+        </div> */}
       </>
     </React.Fragment>
   )
