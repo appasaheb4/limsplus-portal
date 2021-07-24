@@ -1,2 +1,2 @@
-export * from "./PossibleResults"   
+export * from "./PossibleResultsList"   
    
