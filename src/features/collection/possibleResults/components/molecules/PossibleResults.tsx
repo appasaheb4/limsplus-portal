@@ -5,6 +5,8 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
+import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
+
 interface PossibleResultsListProps {
   data: any
   isDelete?: boolean
@@ -31,6 +33,37 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
             dataField: "analyteCode",
             text: "Analyte Code",
             sort: true,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+                  <select
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const analyte = JSON.parse(e.target.value)
+                        props.onUpdateItem && 
+                          props.onUpdateItem(analyte,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
+                      AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.analyteCode} - ${item.analyteName}`}
+                          </option>
+                        )
+                      )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "analyteName",
