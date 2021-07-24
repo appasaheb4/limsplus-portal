@@ -19,10 +19,10 @@ class MasterAnalyteService {
           reject({ error })
         })
     })
-  addLibrary = (analyte?: Models.Library) =>
+  addLibrary = (library?: Models.Library) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`master/library/addLibrary`, analyte)
+        .post(`master/library/addLibrary`, library)
         .then((res) => {
           resolve(res.data)
         })

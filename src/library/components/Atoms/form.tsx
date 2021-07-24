@@ -6,15 +6,16 @@ import classNames from "classnames"
 
 interface LabelProps {
   htmlFor: string
+  hasError?: boolean
 }
 
 export const Label: React.FunctionComponent<LabelProps> = (props) => (
   <>
     <label
       htmlFor={props.htmlFor}
-      className="block text-xs font-medium text-gray-700 mb-1"
+      className={`${props.hasError ?'text-red-400' :'text-gray-700'} block text-xs font-medium  mb-1`}
     >
-      {props.children}
+      {props.children}  
     </label>
   </>
 )
@@ -23,11 +24,12 @@ interface InputWrapperProps {
   id?: string
   label?: string
   className?: string
+  hasError?: boolean
 }
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
   <div className={props.className}>
-    <Label htmlFor={props.id || ""}>{props.label}</Label>
+    <Label htmlFor={props.id || ""} hasError={props.hasError}>{props.label}</Label>
     {props.children}
   </div>
 )
@@ -49,7 +51,7 @@ interface InputProps extends InputWrapperProps {
 }
 
 export const Input = (props: InputProps) => (
-  <InputWrapper label={props.label} id={props.id}>
+  <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
     <input
       type={props.type || "text"}
       id={props.id}
@@ -61,8 +63,10 @@ export const Input = (props: InputProps) => (
       autoComplete="given-name"
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
-      className={`leading-4 p-2  block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError ? "border-red-500 placeholder-red-500 focus:border-red-500" : "border-gray-300"
+      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  block w-full shadow-sm sm:text-base border-2 ${
+        props.hasError
+          ? "border-red-500 placeholder-red-500 focus:border-red-500"
+          : "border-gray-200"
       } rounded-md`}
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
       onKeyDown={props.onKeyDown}

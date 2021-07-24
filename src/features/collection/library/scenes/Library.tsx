@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-
+import { LibraryList } from "../components"
+  
 import { useForm, Controller } from "react-hook-form"
 
 import * as Models from "../models"
-import * as Utils from "../util"
+//import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
 import { Stores } from "../stores"
@@ -22,8 +22,6 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Library = observer(() => {
-  //const [errors, setErrors] = useState<Models.Library>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -69,7 +67,18 @@ export const Library = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitLibrary = (data) => {
+    console.log("click")
     console.log({ data })
+    Stores.libraryStore.libraryService
+      .addLibrary(Stores.libraryStore.library)
+      .then(() => {
+        LibraryComponents.Atoms.Toast.success({
+          message: `😊 Library created.`,
+        })
+      })
+    setTimeout(() => {
+      window.location.reload()
+    }, 2000)
   }
 
   return (
@@ -101,7 +110,7 @@ export const Library = observer(() => {
             >
               <Controller
                 control={control}
-                render={({ field: { onChange, onBlur } }) => (
+                render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="Code"
                     placeholder={errors.code ? "Please enter code" : "Code"}
@@ -525,28 +534,6 @@ export const Library = observer(() => {
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={handleSubmit(onSubmitLibrary)}
-              //   const error = Utils.validate(
-              //     Stores.libraryStore.library,
-              //     Utils.library
-              //   )
-              //   setErrorsMsg(error)
-              //   if (error === undefined) {
-              //     Stores.libraryStore.libraryService
-              //       .addLibrary(Stores.libraryStore.library)
-              //       .then(() => {
-              //         LibraryComponents.Atoms.Toast.success({
-              //           message: `😊 Library created.`,
-              //         })
-              //       })
-              //     setTimeout(() => {
-              //       window.location.reload()
-              //     }, 2000)
-              //   } else {
-              //     LibraryComponents.Atoms.Toast.warning({
-              //       message: `😔 Please enter all information!`,
-              //     })
-              //   }
-              // }}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -561,19 +548,11 @@ export const Library = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          {/* <LibraryList
-            data={Stores.libraryStore.library || []}
+          <LibraryList
+            data={Stores.libraryStore.listLibrary || []}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
@@ -619,7 +598,7 @@ export const Library = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-          /> */}
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
