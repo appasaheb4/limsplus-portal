@@ -11,8 +11,8 @@ interface AutocompleteGroupByProps {
   onChange?: (item: any, children: any) => void
   onClose?: () => void
 }
-
-const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
+   
+export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   //const [userRouter, setUserRouter] = useState<any>()
   const [value, setValue] = useState<string>("")
   const [data, setData] = useState<any[]>()
@@ -161,4 +161,3 @@ const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
     </>
   )
 })
-export default AutocompleteGroupBy

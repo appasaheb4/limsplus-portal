@@ -235,7 +235,7 @@ const TestAnalyteMapping = observer(() => {
               fill
             >
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
-                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                   placeholder="Search by analyte name or analyte code"
                   data={{
                     defulatValues: [],

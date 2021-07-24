@@ -5,9 +5,9 @@ import lodash from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
-interface AutoCompleteCheckMultiFilterKeyProps {
+interface AutoCompleteCheckMultiFilterKeysProps {
   placeholder?: string
-  data?: {
+  data?: {  
     defulatValues?: any[]
     list?: any[]
     displayKey?: string[]
@@ -15,10 +15,10 @@ interface AutoCompleteCheckMultiFilterKeyProps {
   }
   defaultData?: any[]
   onUpdate?: (item: any) => void
-}
+}    
 
-const AutoCompleteCheckMultiFilterKey = observer(
-  (props: AutoCompleteCheckMultiFilterKeyProps) => {
+export const AutoCompleteCheckMultiFilterKeys = observer(
+  (props: AutoCompleteCheckMultiFilterKeysProps) => {
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [originalOptions, setOriginalOptions] = useState<any[]>()
@@ -195,4 +195,3 @@ const AutoCompleteCheckMultiFilterKey = observer(
   }
 )
 
-export default AutoCompleteCheckMultiFilterKey

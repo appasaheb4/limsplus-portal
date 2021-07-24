@@ -136,7 +136,7 @@ const Users = observer(() => {
                   </span>
                 )}
                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: [{ code: Stores.userStore.user.defaultLab }],
                       list: LabStore.labStore.listLabs,
@@ -311,7 +311,7 @@ const Users = observer(() => {
                   label="Department"
                   id="department"
                 >
-                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
+                  <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
                     data={{
                       defulatValues: [],
                       list: DepartmentStore.departmentStore.listDepartment,
@@ -429,7 +429,7 @@ const Users = observer(() => {
                 </LibraryComponents.Atoms.List>
 
                 <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: [],
                       list: RoleStore.roleStore.listRole,

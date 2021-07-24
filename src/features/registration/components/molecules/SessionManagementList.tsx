@@ -63,7 +63,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.lab || []),
                       list: LabStore.labStore.listLabs,
@@ -102,7 +102,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.user || []),
                       list: UserStore.userStore.userList,
@@ -140,7 +140,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
+                  <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
                     data={{
                       defulatValues: toJS(row.department || []),
                       list: DepartmentStore.departmentStore.listDepartment,

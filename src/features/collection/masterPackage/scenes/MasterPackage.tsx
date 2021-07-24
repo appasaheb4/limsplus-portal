@@ -285,7 +285,7 @@ const MasterPackage = observer(() => {
                 <>
                   {" "}
                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeyProps
+                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                       placeholder="Search by panel name or panel code"
                       data={{
                         defulatValues: [],
@@ -359,8 +359,6 @@ const MasterPackage = observer(() => {
                 )
                 setErrorsMsg(error)
                 if (!error) {
-                  
-
                   if (
                     !Stores.masterPackageStore.masterPackage?.existsVersionId &&
                     !Stores.masterPackageStore.masterPackage?.existsRecordId
@@ -368,7 +366,6 @@ const MasterPackage = observer(() => {
                     Stores.masterPackageStore.masterPackageService
                       .addPackageMaster(Stores.masterPackageStore.masterPackage)
                       .then(() => {
-                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Package master created.`,
                         })
@@ -382,7 +379,6 @@ const MasterPackage = observer(() => {
                         Stores.masterPackageStore.masterPackage
                       )
                       .then(() => {
-                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Package master version upgrade.`,
                         })
@@ -396,7 +392,6 @@ const MasterPackage = observer(() => {
                         Stores.masterPackageStore.masterPackage
                       )
                       .then(() => {
-                        
                         LibraryComponents.Atoms.Toast.success({
                           message: `😊 Package master duplicate created.`,
                         })
@@ -490,11 +485,9 @@ const MasterPackage = observer(() => {
           click={(type?: string) => {
             console.log({ type })
             if (type === "Delete") {
-              
               Stores.masterPackageStore.masterPackageService
                 .deletePackageMaster(modalConfirm.id)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Package master deleted.`,
@@ -504,11 +497,9 @@ const MasterPackage = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.masterPackageStore.masterPackageService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Package master updated.`,

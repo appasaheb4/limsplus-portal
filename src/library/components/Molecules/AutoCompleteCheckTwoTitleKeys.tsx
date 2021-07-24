@@ -5,14 +5,14 @@ import lodash from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
-interface AutocompleteCheckedProps {
+interface AutocompleteCheckProps {
   data?: any
   defaultData?: any[]
   titleKey?: any
   onUpdate?: (item: any) => void
-}
-
-const AutoCompleteCheckedByTitleKey = observer((props: AutocompleteCheckedProps) => {
+}     
+  
+export const AutoCompleteCheckTwoTitleKeys = observer((props: AutocompleteCheckProps) => {
   const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
   const [originalOptions, setOriginalOptions] = useState<any[]>()
@@ -160,4 +160,3 @@ const AutoCompleteCheckedByTitleKey = observer((props: AutocompleteCheckedProps)
     </>
   )
 })
-export default AutoCompleteCheckedByTitleKey

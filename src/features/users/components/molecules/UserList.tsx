@@ -80,7 +80,7 @@ const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.lab),
                       list: LabStore.labStore.listLabs,
@@ -139,7 +139,7 @@ const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteCheckedByTitleKey
+                  <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
                     data={{
                       defulatValues: toJS(row.department),
                       list: DepartmentStore.departmentStore.listDepartment,
@@ -215,7 +215,7 @@ const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteChecked
+                  <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.role),
                       list: RoleStore.roleStore.listRole,
