@@ -6,11 +6,12 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 interface AutocompleteCheckProps {
-  placeholder?:string
+  placeholder?: string
   data?: any
   defaultData?: any[]
+  hasError?: boolean
   onUpdate?: (item: any) => void
-}  
+}
 
 export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
   const [value, setValue] = useState<string>("")
@@ -107,9 +108,15 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
   return (
     <>
       <div ref={wrapperRef}>
-        <div className="flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+        <div
+          className={`flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border-2 ${
+            props.hasError
+              ? "border-red-500  focus:border-red-500"
+              : "border-gray-300"
+          } rounded-md`}
+        >
           <input
-            placeholder= {props.placeholder || "Search ..."}
+            placeholder={props.placeholder || "Search ..."}
             value={
               !isListOpen
                 ? `${
@@ -117,7 +124,7 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
                   } Items`
                 : value
             }
-            className="w-full focus:outline-none bg-none"
+            className={`w-full focus:outline-none bg-none`}
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
@@ -130,7 +137,7 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
         </div>
 
         {options && isListOpen
-          ? options?.length > 0 && (  
+          ? options?.length > 0 && (
               <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
                 <ul>
                   {options?.map((item, index) => (
@@ -157,4 +164,4 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
       </div>
     </>
   )
-})  
+})

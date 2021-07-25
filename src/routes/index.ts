@@ -1,7 +1,7 @@
 import async from "../layouts/components/Async"
 
 // Landing
-import login from "@lp/features/login/scenes/login"
+import login from "@lp/features/login/scenes/Login"
 import PrivacyPolicy from "@lp/features/privacyPolicy/scences/PrivacyPolicy"
 
 // Dashboards

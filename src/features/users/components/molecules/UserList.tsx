@@ -7,7 +7,6 @@ import * as LibraryComponents from "@lp/library/components"
 
 import * as LibraryModels from "@lp/library/models"
 
-import * as Services from "../../services"
 import { Stores } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -24,7 +23,7 @@ interface UserListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
 }
 
-const UserList = observer((props: UserListProps) => {
+export const UserList = observer((props: UserListProps) => {
   const [labs, setLabs] = useState<any>()
   let count = 0
 
@@ -330,30 +329,31 @@ const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            {
+            {   
               dataField: "opration",
               text: "Action",
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
-                <>
+                <>   
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#000"
                         size="20"
-                        onClick={() =>
+                        onClick={() => {
+                          console.log("delete")
                           props.onDelete &&
-                          props.onDelete({
-                            type: "Delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
-                      >
+                            props.onDelete({
+                              type: "Delete",
+                              show: true,
+                              id: [row._id],
+                              title: "Are you sure?",
+                              body: `Delete item`,
+                            })
+                        }}
+                      >   
                         {LibraryComponents.Atoms.Icons.getIconTag(
                           LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
                         )}
@@ -379,5 +379,3 @@ const UserList = observer((props: UserListProps) => {
     </>
   )
 })
-
-export default UserList

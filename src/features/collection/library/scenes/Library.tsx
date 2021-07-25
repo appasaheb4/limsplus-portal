@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { LibraryList } from "../components"
-  
+
 import { useForm, Controller } from "react-hook-form"
 
 import * as Models from "../models"
@@ -116,7 +116,7 @@ export const Library = observer(() => {
                     placeholder={errors.code ? "Please enter code" : "Code"}
                     value={Stores.libraryStore.library?.code}
                     hasError={errors.code}
-                    onChange={(code) => {
+                    onChange={(code) => {   
                       onChange(code)
                       Stores.libraryStore.updateLibrary({
                         ...Stores.libraryStore.library,

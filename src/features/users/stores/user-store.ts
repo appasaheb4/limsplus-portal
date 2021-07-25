@@ -6,33 +6,20 @@ import * as Services from "../services"
 
 @version(0.1)
 class UsersStore {
-  @ignore @observable user: Models.Users
+  @ignore @observable user!: Models.Users
   @observable userList?: Models.Users[]
   @ignore @observable changePassword?: Models.ChangePassword
   @ignore @observable checkExitsUserId: boolean = false
 
   constructor() {
-    this.user = this.initUser()
-    makeAutoObservable(this)
-  }
-
-  private initUser() {
     let date: Date = new Date()
     date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
-    return {
-      userId: "",
-      lab: [],
-      password: "",
-      deginisation: "",
-      status: "Active",
-      fullName: "",
-      mobileNo: "",
-      email: "",
-      department: [],
+    this.user = {
+      ...this.user,
       exipreDate: new Date(date),
       exipreDays: 30,
-      role: [],
     }
+    makeAutoObservable(this)
   }
 
   @computed get UsersService() {
@@ -51,10 +38,6 @@ class UsersStore {
 
   @action updateChangePassword(password: Models.ChangePassword) {
     this.changePassword = password
-  }
-
-  @action clear() {
-    this.user = this.initUser()
   }
 
   @action setExitsUserId(status: boolean) {
