@@ -13,9 +13,11 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
   <>
     <label
       htmlFor={props.htmlFor}
-      className={`${props.hasError ?'text-red-400' :'text-gray-700'} block text-xs font-medium  mb-1`}
+      className={`${
+        props.hasError ? "text-red-400" : "text-gray-700"
+      } block text-xs font-medium  mb-1`}
     >
-      {props.children}  
+      {props.children}
     </label>
   </>
 )
@@ -29,7 +31,9 @@ interface InputWrapperProps {
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
   <div className={props.className}>
-    <Label htmlFor={props.id || ""} hasError={props.hasError}>{props.label}</Label>
+    <Label htmlFor={props.id || ""} hasError={props.hasError}>
+      {props.label}
+    </Label>
     {props.children}
   </div>
 )
@@ -64,9 +68,7 @@ export const Input = (props: InputProps) => (
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  block w-full shadow-sm sm:text-base border-2 ${
-        props.hasError
-          ? "border-red-500 placeholder-red-500 focus:border-red-500"
-          : "border-gray-200"
+        props.hasError ? "border-red-500 " : "border-gray-300"
       } rounded-md`}
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
       onKeyDown={props.onKeyDown}
@@ -126,11 +128,12 @@ interface InputDateProps extends InputWrapperProps {
   name?: string
   placeholder?: string
   disabled?: boolean
+  hasError?: boolean
   onChange?: (e: any) => void
 }
 
 export const InputDate = (props: InputDateProps) => (
-  <InputWrapper label={props.label} id={props.id}>
+  <InputWrapper label={props.label} id={props.id} hasError={props.hasError}>
     <input
       type="date"
       id={props.id}
@@ -138,7 +141,9 @@ export const InputDate = (props: InputDateProps) => (
       disabled={props.disabled || false}
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e)}
-      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+        props.hasError ? "border-red-500 " : "border-gray-300"
+      } rounded-md`}   
     />
   </InputWrapper>
 )

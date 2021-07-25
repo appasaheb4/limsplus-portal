@@ -4,7 +4,8 @@ import { stores } from "@lp/library/stores"
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import * as Config from "@lp/config"
 import Session from "@lp/library/modules/session"
-
+import { ServiceResponse } from "./ServiceResponse"
+import _ from "lodash"
 
 enum StatusCode {
   Unauthorized = 401,
@@ -42,7 +43,7 @@ export class Http {
   constructor() {
     if (!this.accessToken) {
       this.seesion.then((val) => {
-//        console.log({ val })
+        //        console.log({ val })
         this.accessToken = val ? val.accessToken : undefined
       })
     }
@@ -67,7 +68,7 @@ export class Http {
 
     http.interceptors.request.use(
       (config) => {
-        //console.log("Axios Request: ", config)
+        console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)
         }
@@ -175,6 +176,40 @@ export class Http {
         break
     }
     return Promise.reject(finalResponse)
+  }
+
+  static handleResponse<T>(
+    response: AxiosResponse,
+    Type?: { new (...args: any): T },
+    path?: string
+  ): ServiceResponse<T> {
+    console.log({ response })
+
+    if (response?.data?.data?.settings?.success) {
+      // API Success
+      const { settings, data } = response.data.data
+      console.log({ settings, data })
+   
+      const strippedResponse = path ? _.get(data, path) : data
+      return new ServiceResponse<T>(
+        settings.success, // 1= Success, 0= Failure,
+        settings.message,
+        Type ? new Type(strippedResponse) : strippedResponse
+      )
+    }
+
+    if (response?.data?.data?.settings?.hasOwnProperty("success")) {
+      // API Error
+      return new ServiceResponse<T>(0, response?.data?.data?.settings?.message)
+    }
+
+    if (response.hasOwnProperty("fallbackError")) {
+      // Unknown network error
+      return new ServiceResponse<T>(0, response?.statusText || " ")
+    }
+
+    // Service function error
+    return new ServiceResponse<T>(0, "App has encountered some issues")
   }
 }
 

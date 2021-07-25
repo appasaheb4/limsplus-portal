@@ -8,6 +8,7 @@ import { Col, Container, Row } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
 import moment from "moment"
+import { useForm, Controller } from "react-hook-form"
 
 import * as Utils from "../utils"
 import * as Models from "../models"
@@ -21,9 +22,9 @@ import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
 
-const Login = observer(() => {
+export const Login = observer(() => {
   const history = useHistory()
-  const [errors, setErrors] = useState<Models.ILogin>()
+  //const [errors, setErrors] = useState<Models.ILogin>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -32,6 +33,12 @@ const Login = observer(() => {
   const [modalForgotPassword, setModalForgotPassword] = useState<any>()
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalSessionAllowed, setModalSessionAllowed] = useState<any>()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
 
   const handleWindowSizeChange = () => {
     setWidth(window.innerWidth)
@@ -51,6 +58,75 @@ const Login = observer(() => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
   }, [Stores.loginStore.login])
+  
+  const onLogin = async (data: any) => {
+    const loginFailedCount = Stores.loginStore.loginFailedCount || 0
+    if (loginFailedCount > 4) {
+      Stores.loginStore.LoginService.accountStatusUpdate({
+        userId: Stores.loginStore.inputLogin?.userId,
+        status: "Disable",
+      }).then((res) => {
+        LibraryComponents.Atoms.Toast.error({
+          message: `😔 Your account is disable. Please contact admin`,
+        })
+        Stores.loginStore.updateLoginFailedCount(0)
+      })
+    } else {
+      Stores.loginStore.LoginService.onLogin({
+        login: Stores.loginStore.inputLogin,
+        loginActivity: {
+          device: width <= 768 ? "Mobile" : "Desktop",
+        },
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            Stores.loginStore.updateLoginFailedCount(0)
+            if (res.data.data.passChanged !== true) {
+              setModalChangePassword({ show: true })
+            } else {
+              if (res.data.data.noticeBoard !== undefined) {
+                setNoticeBoard({
+                  show: true,
+                  userInfo: res.data.data,
+                  data: res.data.data.noticeBoard,
+                })
+              } else {
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 Welcome ${res.data.data.fullName}`,
+                })
+                Stores.loginStore.saveLogin(res.data.data)
+                Stores.loginStore.clearInputUser()
+                setTimeout(() => {
+                  history.push("/dashboard/default")
+                }, 1000)
+              }
+            }
+          } else if (res.status === 203) {
+            Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
+            LibraryComponents.Atoms.Toast.error({
+              message: `😔 ${res.data.data.message}`,
+            })
+            if (
+              res.data.data.message ===
+                "Your session allowed all used.Please logout other session" &&
+              res.data.data.loginActivityActiveUserByUserId
+            ) {
+              setModalSessionAllowed({
+                show: true,
+                data: res.data.data.loginActivityActiveUserByUserId,
+              })
+            }
+          }
+        })
+        .catch(() => {
+          console.log({ failed: loginFailedCount })
+          Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
+          LibraryComponents.Atoms.Toast.error({
+            message: `😔 User not found. Please enter correct information!`,
+          })
+        })
+    }
+  }
 
   return (
     <>
@@ -87,137 +163,153 @@ const Login = observer(() => {
                   justify="stretch"
                   fill
                 >
-                  <LibraryComponents.Atoms.Form.Input
-                    label="User Id"
-                    id="userId"
-                    placeholder="User Id"
-                    value={Stores.loginStore.inputLogin?.userId}
-                    onChange={(userId) => {
-                      setErrors({
-                        ...errors,
-                        userId: Utils.validate.single(userId, Utils.login.userId),
-                      })
-                      Stores.loginStore.updateInputUser({
-                        ...Stores.loginStore.inputLogin,
-                        userId,
-                      })
-                    }}
-                    onBlur={(userId) => {
-                      if (userId) {
-                        //
-                        UserStore.userStore.UsersService.checkExitsUserId(
-                          userId.trim()
-                        ).then((res) => {
-                          //
-                          if (res) {
-                            Stores.loginStore.updateInputUser({
-                              ...Stores.loginStore.inputLogin,
-                              lab: res.defaultLab,
-                              role: res.role.length == 1 ? res.role[0].code : "",
-                            })
-                            LabStores.labStore.fetchListLab()
-                            RoleStores.roleStore.fetchListRole()
-                            setlabRoleList({ labList: res.lab, roleList: res.role })
-                          } else {
-                            LibraryComponents.Atoms.Toast.error({
-                              message: `😔 User not found!`,
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        label="User Id"
+                        placeholder={
+                          errors.userId ? "Please enter userId" : "UserId"
+                        }
+                        hasError={errors.userId}
+                        value={Stores.loginStore.inputLogin?.userId}
+                        onChange={(userId) => {
+                          onChange(userId)
+                          Stores.loginStore.updateInputUser({
+                            ...Stores.loginStore.inputLogin,
+                            userId,
+                          })
+                        }}
+                        onBlur={(userId) => {
+                          if (userId) {
+                            UserStore.userStore.UsersService.checkExitsUserId(
+                              userId.trim()
+                            ).then((res) => {
+                              if (res.success) {
+                                const {
+                                  data: { user },
+                                } = res
+                                Stores.loginStore.updateInputUser({
+                                  ...Stores.loginStore.inputLogin,
+                                  lab: user.defaultLab,
+                                  role:
+                                    user.role.length == 1 ? user.role[0].code : "",
+                                })
+                                LabStores.labStore.fetchListLab()
+                                RoleStores.roleStore.fetchListRole()
+                                setlabRoleList({
+                                  labList: user.lab,
+                                  roleList: user.role,
+                                })
+                              } else {
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 User not found!`,
+                                })
+                              }
                             })
                           }
-                        })
-                      }
-                    }}
+                        }}
+                      />
+                    )}
+                    name="userId"
+                    rules={{ required: true }}
+                    defaultValue=""
                   />
-                  {errors?.userId && (
-                    <span className="text-red-600 font-medium relative">
-                      {errors.userId}
-                    </span>
-                  )}
-                  <LibraryComponents.Atoms.Form.Input
-                    type="password"
-                    label="Password"
-                    id="password"
-                    placeholder="Password"
-                    value={Stores.loginStore.inputLogin?.password}
-                    onChange={(password) => {
-                      setErrors({
-                        ...errors,
-                        password: Utils.validate.single(
-                          password,
-                          Utils.login.password
-                        ),
-                      })
-                      Stores.loginStore.updateInputUser({
-                        ...Stores.loginStore.inputLogin,
-                        password,
-                      })
-                    }}
-                  />
-                  {errors?.password && (
-                    <span className="text-red-600 font-medium relative">
-                      {errors.password}
-                    </span>
-                  )}
 
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
-                    <select
-                      name="lab"
-                      value={Stores.loginStore.inputLogin?.lab}
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const lab = e.target.value
-                        setErrors({
-                          ...errors,
-                          lab: Utils.validate.single(lab, Utils.login.lab),
-                        })
-                        Stores.loginStore.updateInputUser({
-                          ...Stores.loginStore.inputLogin,
-                          lab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labRoleList.labList.map((item: any) => (
-                        <option key={item.code} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                  {errors?.lab && (
-                    <span className="text-red-600 font-medium relative">
-                      {errors.lab}
-                    </span>
-                  )}
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Role" id="role">
-                    <select
-                      name="role"
-                      value={Stores.loginStore.inputLogin?.role}
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const role = e.target.value
-                        setErrors({
-                          ...errors,
-                          role: Utils.validate.single(role, Utils.login.role),
-                        })
-                        Stores.loginStore.updateInputUser({
-                          ...Stores.loginStore.inputLogin,
-                          role,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labRoleList.roleList.map((item: any) => (
-                        <option key={item.code} value={item.code}>
-                          {item.description}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                  {errors?.lab && (
-                    <span className="text-red-600 font-medium relative">
-                      {errors.lab}
-                    </span>
-                  )}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        type="password"
+                        label="Password"
+                        placeholder={
+                          errors.password ? "Please enter password" : "Password"
+                        }
+                        hasError={errors.password}
+                        value={Stores.loginStore.inputLogin?.password}
+                        onChange={(password) => {
+                          onChange(password)
+                          Stores.loginStore.updateInputUser({
+                            ...Stores.loginStore.inputLogin,
+                            password,
+                          })
+                        }}
+                      />
+                    )}
+                    name="password"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.InputWrapper
+                        label="Lab"
+                        hasError={errors.lab}
+                      >
+                        <select
+                          value={Stores.loginStore.inputLogin?.lab}
+                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                            errors.lab ? "border-red-500" : "border-gray-200"
+                          } rounded-md`}
+                          onChange={(e) => {
+                            const lab = e.target.value
+                            onChange(lab)
+                            Stores.loginStore.updateInputUser({
+                              ...Stores.loginStore.inputLogin,
+                              lab,
+                            })
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {labRoleList.labList.map((item: any) => (
+                            <option key={item.code} value={item.code}>
+                              {item.name}
+                            </option>
+                          ))}
+                        </select>
+                      </LibraryComponents.Atoms.Form.InputWrapper>
+                    )}
+                    name="lab"
+                    rules={{ required: true }}
+                    defaultValue={Stores.loginStore.inputLogin?.lab}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.InputWrapper
+                        label="Role"
+                        hasError={errors.role}
+                      >
+                        <select
+                          value={Stores.loginStore.inputLogin?.role}
+                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                            errors.role ? "border-red-500" : "border-gray-200"
+                          } rounded-md`}
+                          onChange={(e) => {
+                            const role = e.target.value
+                            onChange(role)
+                            Stores.loginStore.updateInputUser({
+                              ...Stores.loginStore.inputLogin,
+                              role,
+                            })
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {labRoleList.roleList.map((item: any) => (
+                            <option key={item.code} value={item.code}>
+                              {item.description}
+                            </option>
+                          ))}
+                        </select>
+                      </LibraryComponents.Atoms.Form.InputWrapper>
+                    )}
+                    name="role"
+                    rules={{ required: true }}
+                    defaultValue={Stores.loginStore.inputLogin?.role}
+                  />
                 </LibraryComponents.Atoms.List>
 
                 <br />
@@ -230,91 +322,7 @@ const Login = observer(() => {
                     size="medium"
                     type="solid"
                     icon={LibraryComponents.Atoms.Icon.Check}
-                    onClick={async () => {
-                      const loginFailedCount =
-                        Stores.loginStore.loginFailedCount || 0
-                      const error = Utils.validate(
-                        Stores.loginStore.inputLogin,
-                        Utils.login
-                      )
-                      setErrorsMsg(error)
-                      if (error === undefined) {
-                        if (loginFailedCount > 4) {
-                          Stores.loginStore.LoginService.accountStatusUpdate({
-                            userId: Stores.loginStore.inputLogin?.userId,
-                            status: "Disable",
-                          }).then((res) => {
-                            LibraryComponents.Atoms.Toast.error({
-                              message: `😔 Your account is disable. Please contact admin`,
-                            })
-                            Stores.loginStore.updateLoginFailedCount(0)
-                          })
-                        } else {
-                          Stores.loginStore.LoginService.onLogin({
-                            login: Stores.loginStore.inputLogin,
-                            loginActivity: {
-                              device: width <= 768 ? "Mobile" : "Desktop",
-                            },
-                          })
-                            .then((res) => {
-                              if (res.status === 200) {
-                                Stores.loginStore.updateLoginFailedCount(0)
-                                if (res.data.data.passChanged !== true) {
-                                  setModalChangePassword({ show: true })
-                                } else {
-                                  if (res.data.data.noticeBoard !== undefined) {
-                                    setNoticeBoard({
-                                      show: true,
-                                      userInfo: res.data.data,
-                                      data: res.data.data.noticeBoard,
-                                    })
-                                  } else {
-                                    LibraryComponents.Atoms.Toast.success({
-                                      message: `😊 Welcome ${res.data.data.fullName}`,
-                                    })
-                                    Stores.loginStore.saveLogin(res.data.data)
-                                    Stores.loginStore.clearInputUser()
-                                    setTimeout(() => {
-                                      history.push("/dashboard/default")
-                                    }, 1000)
-                                  }
-                                }
-                              } else if (res.status === 203) {
-                                Stores.loginStore.updateLoginFailedCount(
-                                  loginFailedCount + 1
-                                )
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.data.data.message}`,
-                                })
-                                if (
-                                  res.data.data.message ===
-                                    "Your session allowed all used.Please logout other session" &&
-                                  res.data.data.loginActivityActiveUserByUserId
-                                ) {
-                                  setModalSessionAllowed({
-                                    show: true,
-                                    data:
-                                      res.data.data.loginActivityActiveUserByUserId,
-                                  })
-                                }
-                              }
-                            })
-                            .catch(() => {
-                              console.log({ failed: loginFailedCount })
-                              Stores.loginStore.updateLoginFailedCount(
-                                loginFailedCount + 1
-                              )
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 User not found. Please enter correct information!`,
-                              })
-                            })
-                        }
-                      } else {
-                        LibraryComponents.Atoms.Toast.warning({
-                          message: `😔 Please enter all information!`,
-                        })
-                      }
-                    }}
+                    onClick={handleSubmit(onLogin)}
                   >
                     Login
                   </LibraryComponents.Atoms.Buttons.Button>
@@ -325,7 +333,7 @@ const Login = observer(() => {
                     onClick={() => {
                       window.location.reload()
                     }}
-                  >  
+                  >
                     Clear
                   </LibraryComponents.Atoms.Buttons.Button>
                 </LibraryComponents.Atoms.List>

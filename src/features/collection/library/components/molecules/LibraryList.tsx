@@ -37,6 +37,162 @@ export const LibraryList = observer((props: LibraryListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
+              dataField: "description",
+              text: "Description",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "usageType",
+              text: "Usage Type",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "libraryType",
+              text: "Library Type",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "commentType",
+              text: "Comment Type",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "lab",
+              text: "Lab",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "department",
+              text: "Department",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "commentsTarget",
+              text: "CommentsTarget",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "details",
+              text: "Details",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "parameter",
+              text: "Parameter",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "action",
+              text: "Action",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "results",
+              text: "Aesults",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "value",
+              text: "Value",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "reflex",
+              text: "Reflex",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cellContent, row) => (
+                <>
+                 <div className="flex flex-row">
+                    {row.reflex.map((item) => (
+                      <div className="mb-2 ml-2">
+                        <LibraryComponents.Atoms.Buttons.Button
+                          size="medium"
+                          type="solid"
+                          onClick={() => {}}
+                        >
+                          {`Panel Name: ${item.panelName} 
+                           Panel Code: ${item.panelCode}`}
+                        </LibraryComponents.Atoms.Buttons.Button>
+                      </div>
+                    ))}
+                    </div>
+                </>
+              ),
+            },
+            {
+              dataField: "analyte",
+              text: "Analyte",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "rule",
+              text: "Rule",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "abNormal",
+              text: "AbNormal",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "status",
+              text: "Status",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "organismGroup",
+              text: "Organism Group",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "organismClass",
+              text: "Organism Class",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "loAge",
+              text: "LO Age",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "hiAge",
+              text: "HI Age",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "sex",
+              text: "Sex",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
+              dataField: "sexAction",
+              text: "Sex Action",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+            },
+            {
               dataField: "opration",
               text: "Action",
               editable: false,

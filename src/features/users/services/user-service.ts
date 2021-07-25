@@ -5,9 +5,9 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
 
-export class UserService  {
+export class UserService {
   userList = () =>
     new Promise<Models.Users[]>((resolve, reject) => {
       http
@@ -30,17 +30,20 @@ export class UserService  {
           reject({ error })
         })
     })
+
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/auth/checkExitsUserId`, { userId })
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
           reject({ error })
         })
     })
+
   addUser = (user: Models.Users) =>
     new Promise((resolve, reject) => {
       http
