@@ -306,7 +306,7 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution",
       component: PossibleResults,
     },
-    {  
+    {
       path: "/collection/library",
       name: "Library",
       icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
