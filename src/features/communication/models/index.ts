@@ -1,3 +1,5 @@
+/* eslint-disable */
+export * from "./constants"
 export interface IHostCommunication {
   id?: string
   manualAutomaticMode?: boolean
@@ -116,8 +118,6 @@ export interface EncodeCharacter {
   value?: string
   fileds?: { filed?: string | undefined; value?: string | undefined }[]
 }
-
-export * from "./constants"
 
 // renames
 // encode character to interface manager
