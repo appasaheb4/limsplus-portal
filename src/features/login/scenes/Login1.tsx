@@ -38,6 +38,7 @@ export const Login = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
 
   const handleWindowSizeChange = () => {
@@ -58,7 +59,7 @@ export const Login = observer(() => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
   }, [Stores.loginStore.login])
-  
+
   const onLogin = async (data: any) => {
     const loginFailedCount = Stores.loginStore.loginFailedCount || 0
     if (loginFailedCount > 4) {
@@ -188,7 +189,8 @@ export const Login = observer(() => {
                               if (res.success) {
                                 const {
                                   data: { user },
-                                } = res
+                                } = res  
+                                setValue("lab", user.defaultLab)
                                 Stores.loginStore.updateInputUser({
                                   ...Stores.loginStore.inputLogin,
                                   lab: user.defaultLab,
@@ -271,8 +273,8 @@ export const Login = observer(() => {
                         </select>
                       </LibraryComponents.Atoms.Form.InputWrapper>
                     )}
-                    name="lab"  
-                    rules={{ required: false }}
+                    name="lab"
+                    rules={{ required: true }}
                     defaultValue={Stores.loginStore.inputLogin?.lab}
                   />
 
