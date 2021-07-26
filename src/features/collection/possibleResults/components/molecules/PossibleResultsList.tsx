@@ -111,10 +111,10 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                  <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Input
                       placeholder="Result"
-                      value={props.extraData.Stores?.result}
+                      value={props.extraData.possibleResultStore?.result}
                       onChange={(result) => {
-                        props.extraData.updateStore({
-                          ...props.extraData.Stores,
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
                           result,
                         })
                       }}
@@ -122,31 +122,31 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                 <LibraryComponents.Atoms.Form.Input
                       placeholder="Possible Value"
                       value={
-                        props.extraData.Stores?.possibleValue
+                        props.extraData.possibleResultStore?.possibleValue
                       }
                       onChange={(possibleValue) => {
-                        props.extraData.updateStore({
-                          ...props.extraData.Stores,
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
                           possibleValue,
                         })
                       }}
                />
                 <LibraryComponents.Atoms.Form.Toggle
                       label="AB Normal"
-                      value={props.extraData.Stores?.abNormal}
+                      value={props.extraData.possibleResultStore?.abNormal}
                       onChange={(abNormal) => {
-                        props.extraData.updateStore({
-                          ...props.extraData.Stores,
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
                           abNormal,
                         })
                       }}
                     />
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Critical"
-                      value={props.extraData.Stores?.critical}
+                      value={props.extraData.possibleResultStore?.critical}
                       onChange={(critical) => {
-                        props.extraData.updateStore({
-                          ...props.extraData.Stores,
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
                           critical,
                         })
                       }}
@@ -158,9 +158,9 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                         type="solid"
                         onClick={() => {
                           let result =
-                          props.extraData.Stores?.result
+                          props.extraData.possibleResultStore?.result
                           let possibleValue =
-                          props.extraData.Stores
+                          props.extraData.possibleResultStore
                               ?.possibleValue
                           let conclusionResult = row.conclusionResult || []           
                           if (result === undefined || possibleValue === undefined)
@@ -183,12 +183,8 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                                 ]
                                 props.onUpdateItem &&
                           props.onUpdateItem(conclusionResult, "conclusionResult", row._id)
-                            // Stores.possibleResultsStore.updatePossibleResults({
-                            //   ...Stores.possibleResultsStore.possibleResults,
-                            //   conclusionResult,
-                            // })
-                            props.extraData.updateStore({
-                              ...props.extraData.Stores,
+                            props.extraData. updatePossibleResultStore({
+                              ...props.extraData.possibleResultStore,
                               conclusionResult,
                               result: "",
                               possibleValue: "",
@@ -231,9 +227,9 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                                 const finalArray = [
                                   ...firstArr,
                                   ...secondArr,
-                                ] as typeof props.extraData.Stores.conclusionResult
-                                props.extraData.updateStore({
-                                  ...props.extraData.Stores,
+                                ] as typeof props.extraData.possibleResultStore.conclusionResult
+                                props.extraData. updatePossibleResultStore({
+                                  ...props.extraData.possibleResultStore,
                                   conclusionResult: finalArray,
                                 })
                                 props.onUpdateItem &&
