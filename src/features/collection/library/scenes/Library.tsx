@@ -553,6 +553,14 @@ export const Library = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <LibraryList
             data={Stores.libraryStore.listLibrary || []}
+            extraData={{
+              listLookup:LookupStore.lookupStore.listLookup,
+              library:Stores.libraryStore.library,
+              listLabs:LabStores.labStore.listLabs,
+              listDepartment:DepartmentStore.departmentStore.listDepartment,
+              listMasterPanel:PanelMasterStore.masterPanelStore.listMasterPanel,
+              updateLibraryStore: Stores.libraryStore.updateLibrary,
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
