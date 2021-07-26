@@ -271,8 +271,8 @@ export const Login = observer(() => {
                         </select>
                       </LibraryComponents.Atoms.Form.InputWrapper>
                     )}
-                    name="lab"
-                    rules={{ required: true }}
+                    name="lab"  
+                    rules={{ required: false }}
                     defaultValue={Stores.loginStore.inputLogin?.lab}
                   />
 
