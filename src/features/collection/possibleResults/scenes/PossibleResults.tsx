@@ -305,6 +305,8 @@ export const PossibleResults = observer(() => {
               data={Stores.possibleResultsStore.listPossibleResults || []}
               extraData={{
                 listMasterAnalyte: AnalyteStore.masterAnalyteStore.listMasterAnalyte,
+                Stores: Stores.possibleResultsStore.possibleResults,
+                updateStore:Stores.possibleResultsStore.updatePossibleResults
               }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
