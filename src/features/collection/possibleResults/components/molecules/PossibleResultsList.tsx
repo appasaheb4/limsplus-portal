@@ -47,7 +47,7 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                     onChange={(e) => {
                       const analyte = JSON.parse(e.target.value)
                       props.onUpdateItem &&
-                        props.onUpdateItem(analyte, column.dataField, row._id)
+                        props.onUpdateItem(analyte.analyteCode, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
@@ -75,7 +75,6 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
             dataField: "conclusionResult",
             text: "Conclusion Result",
             sort: true,
-            editable: false,
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -98,6 +97,155 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                     </div>
                   ))}
                 </LibraryComponents.Atoms.List>
+              </>
+            ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Grid cols={5}>
+                <LibraryComponents.Atoms.Form.Input
+                      placeholder="Result"
+                      value={props.extraData.possibleResultStore?.result}
+                      onChange={(result) => {
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
+                          result,
+                        })
+                      }}
+                />
+                <LibraryComponents.Atoms.Form.Input
+                      placeholder="Possible Value"
+                      value={
+                        props.extraData.possibleResultStore?.possibleValue
+                      }
+                      onChange={(possibleValue) => {
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
+                          possibleValue,
+                        })
+                      }}
+               />
+                <LibraryComponents.Atoms.Form.Toggle
+                      label="AB Normal"
+                      value={props.extraData.possibleResultStore?.abNormal}
+                      onChange={(abNormal) => {
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
+                          abNormal,
+                        })
+                      }}
+                    />
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Critical"
+                      value={props.extraData.possibleResultStore?.critical}
+                      onChange={(critical) => {
+                        props.extraData. updatePossibleResultStore({
+                          ...props.extraData.possibleResultStore,
+                          critical,
+                        })
+                      }}
+                    />
+
+                    <div className="mt-2">
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="medium"
+                        type="solid"
+                        onClick={() => {
+                          let result =
+                          props.extraData.possibleResultStore?.result
+                          let possibleValue =
+                          props.extraData.possibleResultStore
+                              ?.possibleValue
+                          let conclusionResult = row.conclusionResult || []           
+                          if (result === undefined || possibleValue === undefined)
+                            return alert("Please enter value and code.")
+                          if (result !== undefined) {
+                            conclusionResult !== undefined
+                              ? conclusionResult.push({
+                                  result,
+                                  possibleValue,
+                                  abNormal: false,
+                                  critical: false,
+                                })
+                              :  [
+                                  {
+                                    result,
+                                    possibleValue,
+                                    abNormal: false,
+                                    critical: false,
+                                  },
+                                ]
+                                props.onUpdateItem &&
+                          props.onUpdateItem(conclusionResult, "conclusionResult", row._id)
+                            props.extraData. updatePossibleResultStore({
+                              ...props.extraData.possibleResultStore,
+                              conclusionResult,
+                              result: "",
+                              possibleValue: "",
+                              abNormal: false,
+                              critical: false,
+                            })
+                            
+                          }
+                        }}
+                      >
+                        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                        {`Add`}
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </div>
+                    <div className="clearfix"></div>
+              </LibraryComponents.Atoms.Grid>
+              <LibraryComponents.Atoms.List
+                    space={2}
+                    direction="row"
+                    justify="center"
+                  >
+                    <div>
+                      {row.conclusionResult?.map(
+                        (item, index) => (
+                          <div className="mb-2" key={index}>
+                            <LibraryComponents.Atoms.Buttons.Button
+                              size="medium"
+                              type="solid"
+                              icon={LibraryComponents.Atoms.Icon.Remove}
+                              onClick={() => {
+                                const firstArr =
+                                  row?.conclusionResult?.slice(
+                                    0,
+                                    index
+                                  ) || []
+                                const secondArr =
+                                  row?.conclusionResult?.slice(
+                                    index + 1
+                                  ) || []
+                                const finalArray = [
+                                  ...firstArr,
+                                  ...secondArr,
+                                ] as typeof props.extraData.possibleResultStore.conclusionResult
+                                props.extraData. updatePossibleResultStore({
+                                  ...props.extraData.possibleResultStore,
+                                  conclusionResult: finalArray,
+                                })
+                                props.onUpdateItem &&
+                                props.onUpdateItem(finalArray, "conclusionResult", row._id)
+                              }}
+                            >
+                              {`Result: ${item.result}  
+                              Possible Value: ${item.possibleValue}  
+                              AB Normal: ${item.abNormal}  
+                              Critical: ${item.critical}`}
+                            </LibraryComponents.Atoms.Buttons.Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                    </LibraryComponents.Atoms.List>
               </>
             ),
           },
