@@ -1,5 +1,3 @@
-/* eslint-disable */
-export * from "./constants"
 export interface IHostCommunication {
   id?: string
   manualAutomaticMode?: boolean
@@ -86,7 +84,7 @@ export interface UpdateItem {
 export interface MappingValues {
   segments?: string
   field?: string
-  component?: [number?, number?]
+  component?: any
   field_no?: number
   mandatory?: boolean
   default?: string
@@ -118,7 +116,4 @@ export interface EncodeCharacter {
   value?: string
   fileds?: { filed?: string | undefined; value?: string | undefined }[]
 }
-
-// renames
-// encode character to interface manager
-// segment mapping to data segment mapping
+export * from "./constants"
