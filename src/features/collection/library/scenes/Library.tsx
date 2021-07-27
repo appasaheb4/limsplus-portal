@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form"
 import * as Models from "../models"
 //import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
-
+   
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -423,7 +423,7 @@ export const Library = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Toggle
-                label="AB Normal"
+                label="AbNormal"
                 value={Stores.libraryStore.library?.abNormal}
                 onChange={(abNormal) => {
                   Stores.libraryStore.updateLibrary({
