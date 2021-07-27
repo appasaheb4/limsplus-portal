@@ -132,7 +132,7 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                       }}
                />
                 <LibraryComponents.Atoms.Form.Toggle
-                      label="AB Normal"
+                      label="AbNormal"
                       value={props.extraData.possibleResultStore?.abNormal}
                       onChange={(abNormal) => {
                         props.extraData. updatePossibleResultStore({
@@ -238,7 +238,7 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                             >
                               {`Result: ${item.result}  
                               Possible Value: ${item.possibleValue}  
-                              AB Normal: ${item.abNormal}  
+                              AbNormal: ${item.abNormal}  
                               Critical: ${item.critical}`}
                             </LibraryComponents.Atoms.Buttons.Button>
                           </div>

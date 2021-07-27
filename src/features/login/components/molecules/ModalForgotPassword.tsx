@@ -23,7 +23,7 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
   useEffect(() => {
     setShowModal(props.show)
   }, [props])
-
+    
   return (
     <Container>
       {showModal && (
@@ -74,13 +74,13 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                       placeholder="User Id"
                       value={Stores.loginStore.forgotPassword?.userId}
                       onChange={(userId) => {
-                        setErrors({
-                          ...errors,
-                          userId: Utils.validate.single(
-                            userId,
-                            Utils.constraintsForgotPassword.userId
-                          ),
-                        })
+                        // setErrors({
+                        //   ...errors,
+                        //   userId: Utils.validate.single(
+                        //     userId,
+                        //     Utils.constraintsForgotPassword.userId
+                        //   ),
+                        // })
                         Stores.loginStore.updateForgotPassword({
                           ...Stores.loginStore.forgotPassword,
                           userId,
@@ -99,13 +99,13 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                       placeholder="Email"
                       value={Stores.loginStore.forgotPassword?.email}
                       onChange={(email) => {
-                        setErrors({
-                          ...errors,
-                          email: Utils.validate.single(
-                            email,
-                            Utils.constraintsForgotPassword.email
-                          ),
-                        })
+                        // setErrors({
+                        //   ...errors,
+                        //   email: Utils.validate.single(
+                        //     email,
+                        //     Utils.constraintsForgotPassword.email
+                        //   ),
+                        // })
                         Stores.loginStore.updateForgotPassword({
                           ...Stores.loginStore.forgotPassword,
                           email,
@@ -125,13 +125,13 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                       placeholder="Mobile Number"
                       value={Stores.loginStore.forgotPassword?.mobileNo}
                       onChange={(mobileNo) => {
-                        setErrors({
-                          ...errors,
-                          mobileNo: Utils.validate.single(
-                            mobileNo,
-                            Utils.constraintsForgotPassword.mobileNo
-                          ),
-                        })
+                        // setErrors({
+                        //   ...errors,
+                        //   mobileNo: Utils.validate.single(
+                        //     mobileNo,
+                        //     Utils.constraintsForgotPassword.mobileNo
+                        //   ),
+                        // })
                         Stores.loginStore.updateForgotPassword({
                           ...Stores.loginStore.forgotPassword,
                           mobileNo,

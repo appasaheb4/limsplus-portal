@@ -87,6 +87,35 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
+                <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+                <select
+                  value={Stores.masterAnalyteStore.masterAnalyte?.lab}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const lab = e.target.value as string
+                    setErrors({
+                      ...errors,
+                      lab: Utils.validate.single(lab, Utils.masterAnalyte.lab),
+                    })
+                    Stores.masterAnalyteStore.updateMasterAnalyte({
+                      ...Stores.masterAnalyteStore.masterAnalyte,
+                      lab,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {item.name}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              {errors?.lab && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.lab}
+                </span>
+              )}
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
@@ -136,35 +165,11 @@ const MasterAnalyte = observer(() => {
                 disabled={true}
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const lab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(lab, Utils.masterAnalyte.lab),
-                    })
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      lab,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              {errors?.lab && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.lab}
-                </span>
-              )}
+            
+
+
+
+
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Code"
                 name="txtAnalyteCode"

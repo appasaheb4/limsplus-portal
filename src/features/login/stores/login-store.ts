@@ -1,17 +1,17 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
 import Session from "@lp/library/modules/session"
-import * as Models from "../models"
+import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
 import { stores } from "@lp/library/stores"
 import Storage from "@lp/library/modules/storage"
 
 @version(0.1)
 class LoginStore {
-  @ignore @observable inputLogin?: Models.ILogin
-  @observable login?: Models.ILogin
+  @ignore @observable inputLogin!: Login
+  @observable login!: Login
   @observable loginFailedCount?: number
-  @ignore @observable forgotPassword?: Models.ForgotPassword
+  @ignore @observable forgotPassword!: ForgotPassword
 
   constructor() {
     makeAutoObservable(this)
@@ -25,12 +25,12 @@ class LoginStore {
   @computed get LoginService() {
     return new Services.LoginService()
   }
-  
+
   @action saveLogin = async (session) => {
-    localStorage.setItem('accessToken',session.accessToken)
+    localStorage.setItem("accessToken", session.accessToken)
     Session.saveSession(session)
     this.login = session
-  }   
+  }
 
   @action removeUser = (): Promise<boolean> => {
     return new Promise<any>((resolve) => {
@@ -49,7 +49,7 @@ class LoginStore {
             Session.deleteSession()
             stores.routerStore.updateUserRouter(undefined)
             runInAction(() => {
-              this.login = undefined
+              this.login = new Login({})
             })
             resolve(true)
           }
@@ -68,18 +68,18 @@ class LoginStore {
       Session.deleteSession()
       stores.routerStore.updateUserRouter(undefined)
       runInAction(() => {
-        this.login = undefined
+        this.login = new Login({})
       })
       resolve(true)
     })
   }
 
-  @action updateInputUser(user: Models.ILogin) {
+  @action updateInputUser(user: Login) {
     this.inputLogin = user
   }
 
   @action clearInputUser() {
-    this.inputLogin = undefined
+    this.inputLogin = new Login({})
   }
 
   @action updateLogin = (login: any) => {
@@ -89,9 +89,10 @@ class LoginStore {
   @action updateLoginFailedCount(val: number) {
     this.loginFailedCount = val
   }
-  @action updateForgotPassword(details?: Models.ForgotPassword | undefined) {
-    this.forgotPassword = details
-  }
+  @action updateForgotPassword(details?: ForgotPassword | undefined) {
+    if (details) this.forgotPassword = details
+    else this.forgotPassword = new ForgotPassword({})
+  }  
 }
 
 export default LoginStore
