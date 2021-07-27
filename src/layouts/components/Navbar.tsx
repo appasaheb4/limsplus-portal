@@ -16,7 +16,7 @@ import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-import { RouterFlow } from "@lp/flows"
+import {LayoutFlow, RouterFlow } from "@lp/flows"
 
 import {
   Collapse,
@@ -57,7 +57,8 @@ const NavbarComponent = observer(({ dispatch }) => {
             size="medium"
             type="outline"
             onClick={() => {
-              window.location.href = "/dashboard/default"
+              // window.location.href = "/dashboard/default"
+              history.push('/dashboard/default')
             }}
           >
             <LibraryComponents.Atoms.Tooltip tooltipText="Dashboard">
@@ -112,35 +113,8 @@ const NavbarComponent = observer(({ dispatch }) => {
               size="medium"
               type="outline"
               onClick={() => {
-                const elem: any = document.body
-                function openFullscreen() {
-                  stores.appStore.updateApplicationSetting({
-                    ...stores.appStore.applicationSetting,
-                    isExpandScreen: true,
-                  })
-                  if (elem.requestFullscreen) {
-                    elem.requestFullscreen()
-                  } else if (elem.webkitRequestFullscreen) {
-                    /* Safari */
-                    elem.webkitRequestFullscreen()
-                  } else if (elem.msRequestFullscreen) {
-                    /* IE11 */
-                    elem.msRequestFullscreen()
-                  }
-                }
-                function closeFullscreen() {
-                  if (document.fullscreenElement) {
-                    if (document.exitFullscreen) {
-                      stores.appStore.updateApplicationSetting({
-                        ...stores.appStore.applicationSetting,
-                        isExpandScreen: false,
-                      })
-                      document.exitFullscreen()
-                    }
-                  }
-                }
-                openFullscreen()
-                closeFullscreen()
+               LayoutFlow.openFullscreen()
+               LayoutFlow.closeFullscreen()
               }}
             >
               <LibraryComponents.Atoms.Tooltip
@@ -160,7 +134,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               </LibraryComponents.Atoms.Tooltip>
             </LibraryComponents.Atoms.Buttons.Button>
             <div className="ml-2" />
-            <Button color="primary" className="hidden shadow-sm h-10 sm:block">
+            <Button color="primary" className="hidden shadow-sm h-10 sm:block" style={{width:'108px'}}>
               <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
             </Button>
             <UncontrolledDropdown nav inNavbar>

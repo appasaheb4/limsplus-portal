@@ -20,7 +20,7 @@ import { toJS } from "mobx"
 
 import Storage from "@lp/library/modules/storage"
 
-import { RouterFlow } from "@lp/flows"
+import { LayoutFlow, RouterFlow } from "@lp/flows"
 
 import * as Banner from "@lp/features/banner"
 import * as Deginisation from "@lp/features/collection/deginisation"
@@ -173,8 +173,19 @@ const Dashboard = observer(({ children }) => {
       history.push("/dashboard/default")
     }
   }
-
+    const escLayout = () =>{
+      document.addEventListener('keydown',(event)=>{
+        if(event.key === 'Escape'){
+          stores.appStore.updateApplicationSetting({
+            ...stores.appStore.applicationSetting,
+            isExpandScreen:false,
+          })
+          LayoutFlow.closeFullscreen()         
+        }
+      })
+    }
   useEffect(() => {
+    escLayout()
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {

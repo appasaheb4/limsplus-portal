@@ -20,6 +20,7 @@ import * as Assets from "@lp/library/assets"
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
+import { Link } from "@reach/router"
 
 
 
@@ -168,14 +169,14 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
       >
         <div className="sidebar-content">
           <PerfectScrollbar>
-            <a className="flex sidebar-brand items-center" href="/">
+            <Link className="flex sidebar-brand items-center"  to="/">
               <img
                 src={Assets.appIcon}
                 alt="appIcon"
                 style={{ width: 40, height: 40 }}
               />
               <span className="align-middle ml-2">{`Lims Plus`}</span>
-            </a>
+            </Link>
             <div className="p-2">
               <LibraryComponents.Molecules.AutocompleteGroupBy
                 data={stores.routerStore.userRouter}
