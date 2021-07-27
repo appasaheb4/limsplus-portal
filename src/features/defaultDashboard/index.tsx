@@ -15,7 +15,7 @@ import LineChart from "./LineChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
 import moment from "moment"
-import { useHistory,useLocation } from "react-router-dom"
+import { useHistory, useLocation } from "react-router-dom"
 
 // registration
 
@@ -25,8 +25,6 @@ const Default = observer(() => {
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const history = useHistory()
-
-  
 
   useEffect(() => {
     if (LoginStores.loginStore.login) {
@@ -84,7 +82,7 @@ const Default = observer(() => {
             const exipreDate = new Date(
               moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
             )
-            let body = Object.assign(
+            let body: any = Object.assign(
               LoginStores.loginStore.login,
               UserStores.userStore.changePassword
             )

@@ -24,7 +24,7 @@ import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
 
 export const Login = observer(() => {
   const history = useHistory()
-  //const [errors, setErrors] = useState<Models.ILogin>()
+  //const [errors, setErrors] = useState<Models.Login>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -191,6 +191,7 @@ export const Login = observer(() => {
                                   data: { user },
                                 } = res  
                                 setValue("lab", user.defaultLab)
+                                if(user.role.length == 1)  setValue("role", user.role[0].code)
                                 Stores.loginStore.updateInputUser({
                                   ...Stores.loginStore.inputLogin,
                                   lab: user.defaultLab,
