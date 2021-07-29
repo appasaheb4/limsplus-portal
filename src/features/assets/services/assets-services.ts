@@ -21,7 +21,7 @@ export class AssetsService {
               Accept: "application/json",
               "Content-Type": "multipart/form-data",
             },
-          })
+          })  
           .then((res) => {
             resolve(res)
           })
@@ -29,31 +29,5 @@ export class AssetsService {
             reject({ error })
           })
       }
-    })
-
-  uploadImage = (deatils: any) =>
-    new Promise<any>((resolve, reject) => {
-      const formData = new FormData()
-      formData.append("id", deatils.id)
-      formData.append("file", deatils.image)
-      formData.append("folder", deatils.folder)
-      formData.append("name", deatils.image.name)
-      formData.append(
-        "image",
-        `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
-      )
-      http
-        .post(`/auth/uploadImage`, formData, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
 }

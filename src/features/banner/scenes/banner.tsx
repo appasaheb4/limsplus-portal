@@ -56,7 +56,6 @@ const Banner = observer(() => {
                 label="File"
                 id="file"
                 placeholder="File"
-                //value={rootStore.bannerStore.banner?.image}
                 onChange={(e) => {
                   const image = e.target.files[0]
                   Stores.bannerStore.updateBanner({

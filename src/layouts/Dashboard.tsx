@@ -52,6 +52,7 @@ import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 
+
 const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
@@ -174,10 +175,15 @@ const Dashboard = observer(({ children }) => {
     }
   }
 
+
+  const layout=()=>{
+
+  }
   useEffect(() => {
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
+        layout()
         loadApi()
         history.listen((location, action) => {
           let pathname = location.pathname
