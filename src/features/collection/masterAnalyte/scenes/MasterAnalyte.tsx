@@ -116,6 +116,34 @@ const MasterAnalyte = observer(() => {
                   {errors.lab}
                 </span>
               )}
+  <LibraryComponents.Atoms.Form.Input
+                label="Analyte Code"
+                name="txtAnalyteCode"
+                placeholder="Analyte Code"
+                value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
+                onChange={(analyteCode) => {
+                  setErrors({
+                    ...errors,
+                    analyteCode: Utils.validate.single(
+                      analyteCode,
+                      Utils.masterAnalyte.analyteCode
+                    ),
+                  })
+                  Stores.masterAnalyteStore.updateMasterAnalyte({
+                    ...Stores.masterAnalyteStore.masterAnalyte,
+                    analyteCode: analyteCode.toUpperCase(),
+                  })
+                }}
+              />
+              {errors?.analyteCode && (
+                <span className="text-red-600 font-medium relative">
+                  {errors.analyteCode}
+                </span>
+              )}
+
+
+
+
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
                 placeholder="Date Creation"
@@ -170,30 +198,11 @@ const MasterAnalyte = observer(() => {
 
 
 
-              <LibraryComponents.Atoms.Form.Input
-                label="Analyte Code"
-                name="txtAnalyteCode"
-                placeholder="Analyte Code"
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
-                onChange={(analyteCode) => {
-                  setErrors({
-                    ...errors,
-                    analyteCode: Utils.validate.single(
-                      analyteCode,
-                      Utils.masterAnalyte.analyteCode
-                    ),
-                  })
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteCode: analyteCode.toUpperCase(),
-                  })
-                }}
-              />
-              {errors?.analyteCode && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.analyteCode}
-                </span>
-              )}
+            
+
+
+
+
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Name"
                 name="txtAnalyteName"

@@ -158,7 +158,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
         {...modalFileUpload}
         onClick={(image: any) => {
           console.log({ image, login: LoginStores.loginStore.login })
-          AssetsStores.assetsStore.AssetsService.uploadImage({
+          UserStores.userStore.UsersService.uploadImage({
             image,
             id: LoginStores.loginStore.login?._id,
             folder: "users",

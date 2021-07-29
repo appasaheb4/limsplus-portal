@@ -3,6 +3,7 @@ import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import * as Services from "../services"
+import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 class UsersStore {
@@ -10,14 +11,24 @@ class UsersStore {
   @observable userList?: Models.Users[]
   @ignore @observable changePassword?: Models.ChangePassword
   @ignore @observable checkExitsUserId: boolean = false
+  @ignore @observable checkExistsEmpCode: boolean = false
 
   constructor() {
     let date: Date = new Date()
     date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
+
     this.user = {
       ...this.user,
-      exipreDate: new Date(date),
+      exipreDate: LibraryUtils.moment(date).unix(),
       exipreDays: 30,
+      dateOfEntry: LibraryUtils.moment(new Date()).unix(),
+      dateOfBirth: LibraryUtils.moment(
+        new Date(moment(date).add(-30, "years").format("YYYY-MM-DD HH:mm:ss"))
+      ).unix(),
+      marriageAnniversary: LibraryUtils.moment(
+        new Date(moment(date).add(-5, "years").format("YYYY-MM-DD HH:mm:ss"))
+      ).unix(),
+      confidential: false,
     }
     makeAutoObservable(this)
   }
@@ -42,6 +53,10 @@ class UsersStore {
 
   @action setExitsUserId(status: boolean) {
     this.checkExitsUserId = status
+  }
+
+  @action setExistsEmpCodeStatus(status: boolean) {
+    this.checkExistsEmpCode = status
   }
 }
 

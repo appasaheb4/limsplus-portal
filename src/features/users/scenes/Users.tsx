@@ -20,12 +20,12 @@ import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Users = observer(() => {
-  //const [errors, setErrors] = useState<Models.Users>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
@@ -71,10 +71,29 @@ export const Users = observer(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
 
-  
-
   const onSubmitUser = (data: any) => {
     console.log({ data })
+
+    if (!Stores.userStore.checkExitsUserId && !Stores.userStore.checkExistsEmpCode) {
+      Stores.userStore.UsersService.addUser(Stores.userStore.user).then(
+        (res: any) => {
+          if (res) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 User created.`,
+            })
+            Stores.userStore.loadUser()
+          } else {
+            LibraryComponents.Atoms.Toast.warning({
+              message: "😔 User not created. Please try again.",
+            })
+          }
+        }
+      )
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: "😔 Please enter userid or emp code!",
+      })
+    }
   }
 
   return (
@@ -125,9 +144,9 @@ export const Users = observer(() => {
                       onBlur={(userId) => {
                         if (userId) {
                           Stores.userStore.UsersService.checkExitsUserId(
-                            userId  
+                            userId
                           ).then((res) => {
-                            if (!res.success) Stores.userStore.setExitsUserId(true)
+                            if (res.success) Stores.userStore.setExitsUserId(true)
                             else Stores.userStore.setExitsUserId(false)
                           })
                         }
@@ -141,6 +160,47 @@ export const Users = observer(() => {
                 {Stores.userStore.checkExitsUserId && (
                   <span className="text-red-600 font-medium relative">
                     UserId already exits. Please use other userid.
+                  </span>
+                )}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Emp Code"
+                      placeholder={
+                        errors.empCode ? "Please enter emp code" : "Emp Code"
+                      }
+                      hasError={errors.empCode}
+                      value={Stores.userStore.user.empCode}
+                      onChange={(empCode) => {
+                        onChange(empCode)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          empCode,
+                        })
+                      }}
+                      onBlur={(empCode) => {
+                        if (empCode) {
+                          Stores.userStore.UsersService.findUserByEmpCode(empCode)
+                            .then((res) => {
+                              if (res.success)
+                                Stores.userStore.setExistsEmpCodeStatus(true)
+                              else Stores.userStore.setExistsEmpCodeStatus(false)
+                            })
+                            .catch((error) => {
+                              Stores.userStore.setExistsEmpCodeStatus(false)
+                            })
+                        }
+                      }}
+                    />
+                  )}
+                  name="empCode"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+                {Stores.userStore.checkExistsEmpCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Emp code already exits. Please use other emp code.
                   </span>
                 )}
                 <Controller
@@ -285,37 +345,114 @@ export const Users = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Status"
-                      hasError={errors.status}
+                      label="Department"
+                      hasError={errors.department}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
+                        data={{
+                          defulatValues: [],
+                          list: DepartmentStore.departmentStore.listDepartment,
+                          displayKey: "name",
+                          findKey: "code",
+                        }}
+                        hasError={errors.department}
+                        titleKey={{ key1: "code", key2: "name" }}
+                        onUpdate={(items) => {
+                          onChange(items)
+                          Stores.userStore.updateUser({
+                            ...Stores.userStore.user,
+                            department: items,
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="department"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Validation Level"
+                      hasError={errors.validationLevel}
                     >
                       <select
                         className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status
+                          errors.validationLevel
                             ? "border-red-500  focus:border-red-500"
                             : "border-gray-200"
                         } rounded-md`}
                         onChange={(e) => {
-                          const status = e.target.value
-                          onChange(status)
+                          const validationLevel = (e.target.value || 0) as number
+                          onChange(validationLevel)
                           Stores.userStore.updateUser({
                             ...Stores.userStore.user,
-                            status,
+                            validationLevel,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          )
-                        )}
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
+                          <option key={item.description} value={item}>
+                            {item}
+                          </option>
+                        ))}
                       </select>
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
-                  name="status"
-                  rules={{ required: true }}
+                  name="validationLevel"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Workstation"
+                      placeholder={
+                        errors.workstation
+                          ? "Please enter workstation"
+                          : "Workstation"
+                      }
+                      hasError={errors.workstation}
+                      value={Stores.userStore.user.workstation}
+                      onChange={(workstation) => {
+                        onChange(workstation)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          workstation,
+                        })
+                      }}
+                    />
+                  )}
+                  name="workstation"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Ip Address"
+                      placeholder={
+                        errors.ipAddress ? "Please enter ipAddress" : "Ip Address"
+                      }
+                      hasError={errors.ipAddress}
+                      value={Stores.userStore.user.ipAddress}
+                      onChange={(ipAddress) => {
+                        onChange(ipAddress)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          ipAddress,
+                        })
+                      }}
+                    />
+                  )}
+                  name="ipAddress"
+                  rules={{ required: false }}
                   defaultValue=""
                 />
               </LibraryComponents.Atoms.List>
@@ -355,7 +492,7 @@ export const Users = observer(() => {
                     <LibraryComponents.Atoms.Form.Input
                       label="Mobile No"
                       placeholder={
-                        errors.userId ? "Please enter mobile no" : "Mobile No"
+                        errors.mobileNo ? "Please enter mobile no" : "Mobile No"
                       }
                       hasError={errors.mobileNo}
                       value={Stores.userStore.user.mobileNo}
@@ -376,12 +513,36 @@ export const Users = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
+                      label="Contact No"
+                      placeholder={
+                        errors.contactNo ? "Please enter contact no" : "Contact No"
+                      }
+                      hasError={errors.contactNo}
+                      value={Stores.userStore.user.contactNo}
+                      onChange={(contactNo) => {
+                        onChange(contactNo)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          contactNo,
+                        })
+                      }}
+                    />
+                  )}
+                  name="contactNo"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
                       type="mail"
                       label="Email"
-                      placeholder={errors.userId ? "Please enter email" : "Email"}
+                      placeholder={errors.email ? "Please enter email" : "Email"}
                       hasError={errors.email}
                       value={Stores.userStore.user.email}
                       onChange={(email) => {
+                        onChange(email)
                         Stores.userStore.updateUser({
                           ...Stores.userStore.user,
                           email,
@@ -393,36 +554,83 @@ export const Users = observer(() => {
                   rules={{ required: true }}
                   defaultValue=""
                 />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="User Degree"
+                      placeholder={
+                        errors.userDegree
+                          ? "Please enter user degree"
+                          : "User Degree"
+                      }
+                      hasError={errors.userDegree}
+                      value={Stores.userStore.user.userDegree}
+                      onChange={(userDegree) => {
+                        onChange(userDegree)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          userDegree,
+                        })
+                      }}
+                    />
+                  )}
+                  name="userDegree"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
 
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Department"
-                      hasError={errors.department}
-                    >
-                      <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
-                        data={{
-                          defulatValues: [],
-                          list: DepartmentStore.departmentStore.listDepartment,
-                          displayKey: "name",
-                          findKey: "code",
-                        }}
-                        hasError={errors.department}
-                        titleKey={{ key1: "code", key2: "name" }}
-                        onUpdate={(items) => {
-                          onChange(items)
-                          Stores.userStore.updateUser({
-                            ...Stores.userStore.user,
-                            department: items,
-                          })
-                        }}
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    <LibraryComponents.Atoms.Form.InputDate
+                      label="Birthday Date"
+                      hasError={errors.dateOfBirth}
+                      value={LibraryUtils.moment
+                        .unix(Stores.userStore.user.dateOfBirth || 0)
+                        .format("YYYY-MM-DD")}
+                      onChange={(e: any) => {
+                        let date = new Date(e.target.value)
+                        date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
+                        onChange(LibraryUtils.moment(date).unix())
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          dateOfBirth: LibraryUtils.moment(date).unix(),
+                        })
+                      }}
+                    />
                   )}
-                  name="department"
+                  name="dateOfBirth"
                   rules={{ required: true }}
-                  defaultValue=""
+                  defaultValue={moment(Stores.userStore.user.dateOfBirth).format(
+                    "YYYY-MM-DD"
+                  )}
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputDate
+                      label="Marriage Anniversary Date"
+                      hasError={errors.marriageAnniversary}
+                      value={LibraryUtils.moment
+                        .unix(Stores.userStore.user.marriageAnniversary || 0)
+                        .format("YYYY-MM-DD")}
+                      onChange={(e: any) => {
+                        let date = new Date(e.target.value)
+                        date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
+                        onChange(LibraryUtils.moment(date).unix())
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          marriageAnniversary: LibraryUtils.moment(date).unix(),
+                        })
+                      }}
+                    />
+                  )}
+                  name="marriageAnniversary"
+                  rules={{ required: true }}
+                  defaultValue={moment(
+                    Stores.userStore.user.marriageAnniversary
+                  ).format("YYYY-MM-DD")}
                 />
 
                 <LibraryComponents.Atoms.List space={3} direction="row">
@@ -432,9 +640,9 @@ export const Users = observer(() => {
                       <LibraryComponents.Atoms.Form.InputDate
                         label="Exipre Date"
                         hasError={errors.exipreDate}
-                        value={moment(Stores.userStore.user.exipreDate).format(
-                          "YYYY-MM-DD"
-                        )}
+                        value={LibraryUtils.moment
+                          .unix(Stores.userStore.user.exipreDate || 0)
+                          .format("YYYY-MM-DD")}
                         onChange={(e: any) => {
                           let date = new Date(e.target.value)
                           date = new Date(
@@ -442,11 +650,10 @@ export const Users = observer(() => {
                               .add(Stores.userStore.user.exipreDays, "days")
                               .format("YYYY-MM-DD HH:mm")
                           )
-                          const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
-                          onChange(new Date(formatDate))
+                          onChange(LibraryUtils.moment(date).unix())
                           Stores.userStore.updateUser({
                             ...Stores.userStore.user,
-                            exipreDate: new Date(formatDate),
+                            exipreDate: LibraryUtils.moment(date).unix(),
                           })
                         }}
                       />
@@ -490,16 +697,17 @@ export const Users = observer(() => {
                     type="solid"
                     onClick={() => {
                       const date = new Date(
-                        moment(Stores.userStore.user.exipreDate)
+                        moment(
+                          LibraryUtils.moment
+                            .unix(Stores.userStore.user.exipreDate || 0)
+                            .format("YYYY-MM-DD")
+                        )
                           .add(Stores.userStore.user.exipreDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
-                      const exipreDate = new Date(
-                        moment(date).format("YYYY-MM-DD HH:mm")
-                      )
                       Stores.userStore.updateUser({
                         ...Stores.userStore.user,
-                        exipreDate,
+                        exipreDate: LibraryUtils.moment(date).unix(),
                       })
                     }}
                   >
@@ -536,6 +744,143 @@ export const Users = observer(() => {
                   rules={{ required: true }}
                   defaultValue=""
                 />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Confidential"
+                      value={Stores.userStore.user?.confidential}
+                      onChange={(confidential) => {
+                        onChange(confidential)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          confidential,
+                        })
+                      }}
+                    />
+                  )}
+                  name="confidential"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              </LibraryComponents.Atoms.List>
+              <LibraryComponents.Atoms.List
+                direction="col"
+                space={4}
+                justify="stretch"
+                fill
+              >
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputDate
+                      label="Date Creation"
+                      disabled={true}
+                      value={LibraryUtils.moment
+                        .unix(Stores.userStore.user.dateOfEntry || 0)
+                        .format("YYYY-MM-DD")}
+                    />
+                  )}
+                  name="dateOfEntry"
+                  rules={{ required: false }}
+                  defaultValue={moment(Stores.userStore.user.dateOfEntry).format(
+                    "YYYY-MM-DD"
+                  )}
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      label="Created By"
+                      disabled={true}
+                      placeholder={
+                        errors.createdBy ? "Please enter created by" : "Created By"
+                      }
+                      hasError={errors.createdBy}
+                      value={
+                        (LoginStore.loginStore.login &&
+                          LoginStore.loginStore.login.userId) ||
+                        ""
+                      }
+                    />
+                  )}
+                  name="createdBy"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputFile
+                      label="Signature"
+                      placeholder="File"
+                      onChange={(e) => {
+                        const signature = e.target.files[0]
+                        onChange(signature)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          signature,
+                        })
+                      }}
+                    />
+                  )}
+                  name="signature"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputFile
+                      label="Picture"
+                      placeholder="File"
+                      onChange={(e) => {
+                        const picture = e.target.files[0]
+                        onChange(picture)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          picture,
+                        })
+                      }}
+                    />
+                  )}
+                  name="picture"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                      <select
+                        value={Stores.userStore.user?.status}
+                        className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const status = e.target.value
+                          onChange(status)
+                          Stores.userStore.updateUser({
+                            ...Stores.userStore.user,
+                            status,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.value} - ${item.code}`}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="status"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />
@@ -546,35 +891,6 @@ export const Users = observer(() => {
                 type="solid"
                 icon={LibraryComponents.Atoms.Icon.Save}
                 onClick={handleSubmit(onSubmitUser)}
-                // onClick={() => {
-                //   if (
-                //     Utils.validate(Stores.userStore.user, Utils.constraintsUser) ===
-                //       undefined &&
-                //     !Stores.userStore.checkExitsUserId
-                //   ) {
-                //     Stores.userStore.UsersService.addUser(
-                //       Stores.userStore.user
-                //     ).then((res: any) => {
-                //       console.log({ res })
-
-                //       if (res.status === LibraryModels.StatusCode.CREATED) {
-                //         LibraryComponents.Atoms.Toast.success({
-                //           message: `😊 User created.`,
-                //         })
-                //         Stores.userStore.clear()
-                //         Stores.userStore.loadUser()
-                //       } else {
-                //         LibraryComponents.Atoms.Toast.warning({
-                //           message: "😔 User not created.Please try again.",
-                //         })
-                //       }
-                //     })
-                //   } else {
-                //     LibraryComponents.Atoms.Toast.warning({
-                //       message: "😔 Please enter all information!",
-                //     })
-                //   }
-                // }}
               >
                 Save
               </LibraryComponents.Atoms.Buttons.Button>

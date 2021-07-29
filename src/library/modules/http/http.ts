@@ -12,6 +12,7 @@ enum StatusCode {
   Forbidden = 403,
   TooManyRequests = 429,
   InternalServerError = 500,
+  NotFound =404
 }
 const blackList = ["send_message"]
 const headers: Readonly<Record<string, string | boolean>> = {
@@ -172,6 +173,10 @@ export class Http {
           "Server Load has been exceeded. Please try again after some time."
         break
       }
+      case StatusCode.NotFound:{
+        finalResponse.message = "Not found"
+        break
+      }
       default:
         break
     }
@@ -214,3 +219,4 @@ export class Http {
 }
 
 export const http = new Http()
+export {ServiceResponse}
