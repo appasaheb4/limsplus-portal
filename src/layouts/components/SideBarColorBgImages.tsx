@@ -2,18 +2,18 @@ import React from "react"
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>
-  images: Array<{ image: any }>
+  //images: Array<{ image: any }>
   onChangeShoutcutColor?: (color: string) => void
   onChangeSidebarColor?: (color: string) => void
-  onChangeImage?: (image: any) => void
+  //onChangeImage?: (image: any) => void
 }
 
 export const SideBarColorBgImages = ({
   data,
-  images,
+  //images,
   onChangeSidebarColor,
   onChangeShoutcutColor,
-  onChangeImage,
+  //onChangeImage,
 }: SideBarColorBgImagesProps) => {
   // console.log('Data in props',props)
   return (

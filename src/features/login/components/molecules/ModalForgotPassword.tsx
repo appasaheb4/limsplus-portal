@@ -18,7 +18,7 @@ interface ModalForgotPasswordProps {
 }
 
 const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
-  const [errors, setErrors] = useState<Models.ForgotPassword>()
+  // const [errors, setErrors] = useState<Models.ForgotPassword>()
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
@@ -87,11 +87,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                         })
                       }}
                     />
-                    {errors?.userId && (
+                    {/* {errors?.userId && (
                       <span className="text-red-600 font-medium relative">
                         {errors.userId}
                       </span>
-                    )}
+                    )} */}
                     <LibraryComponents.Atoms.Form.Input
                       type="mail"
                       label="Email"
@@ -112,11 +112,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                         })
                       }}
                     />
-                    {errors?.email && (
+                    {/* {errors?.email && (
                       <span className="text-red-600 font-medium relative">
                         {errors.email}
                       </span>
-                    )}
+                    )} */}
                     <span className="text-center">OR</span>
                     <LibraryComponents.Atoms.Form.Input
                       type="number"
@@ -138,11 +138,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                         })
                       }}
                     />
-                    {errors?.mobileNo && (
+                    {/* {errors?.mobileNo && (
                       <span className="text-red-600 font-medium relative">
                         {errors.mobileNo}
                       </span>
-                    )}
+                    )} */}
                   </LibraryComponents.Atoms.List>
                 </div>
                 {/*footer*/}

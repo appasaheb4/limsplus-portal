@@ -1,7 +1,7 @@
 export interface IRole {
   _id?: string
   role?: any
-  rolePermission?: [any]
+  rolePermission?: any[]
 }
 
 export interface RoleMapping {
