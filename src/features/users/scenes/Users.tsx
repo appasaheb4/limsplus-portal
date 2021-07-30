@@ -2,16 +2,15 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 import { UserList } from "../components"
 import moment from "moment"
+import { Container } from "reactstrap"
+import { FormHelper } from "@lp/helper"
 
 import { useForm, Controller } from "react-hook-form"
 
 import Storage from "@lp/library/modules/storage"
-
-import { Container } from "reactstrap"
 
 import { Stores } from "../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
@@ -35,6 +34,7 @@ export const Users = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
 
   const getLookupValues = async () => {
@@ -72,23 +72,22 @@ export const Users = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitUser = (data: any) => {
-    console.log({ data })
-
     if (!Stores.userStore.checkExitsUserId && !Stores.userStore.checkExistsEmpCode) {
-      Stores.userStore.UsersService.addUser(Stores.userStore.user).then(
-        (res: any) => {
-          if (res) {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 User created.`,
-            })
-            Stores.userStore.loadUser()
-          } else {
-            LibraryComponents.Atoms.Toast.warning({
-              message: "😔 User not created. Please try again.",
-            })
-          }
+      Stores.userStore.UsersService.addUser({
+        ...Stores.userStore.user,
+        createdBy: LoginStore.loginStore.login?._id,
+      }).then((res: any) => {
+        if (res.success) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 ${res.message}`,
+          })
+          Stores.userStore.loadUser()
+        } else {
+          LibraryComponents.Atoms.Toast.warning({
+            message: `😔 ${res.message}`,
+          })
         }
-      )
+      })
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: "😔 Please enter userid or emp code!",
@@ -226,6 +225,7 @@ export const Users = observer(() => {
                           const lab: any = LabStore.labStore.listLabs.find(
                             (item) => item.code == defaultLab
                           )
+                          setValue("labs", lab)
                           Stores.userStore.updateUser({
                             ...Stores.userStore.user,
                             lab,
@@ -300,7 +300,7 @@ export const Users = observer(() => {
                     />
                   )}
                   name="password"
-                  rules={{ required: true }}
+                  rules={{ required: true, pattern: FormHelper.patterns.password }}
                   defaultValue=""
                 />
 
@@ -647,7 +647,7 @@ export const Users = observer(() => {
                           let date = new Date(e.target.value)
                           date = new Date(
                             moment(date)
-                              .add(Stores.userStore.user.exipreDays, "days")
+                              .add(Stores.userStore.user.expireDays, "days")
                               .format("YYYY-MM-DD HH:mm")
                           )
                           onChange(LibraryUtils.moment(date).unix())
@@ -672,24 +672,24 @@ export const Users = observer(() => {
                         type="number"
                         label="Exipre Days"
                         placeholder={
-                          errors.exipreDays
+                          errors.expireDays
                             ? "Please enter exipre days"
                             : "Exipre Days"
                         }
-                        hasError={errors.exipreDays}
-                        value={Stores.userStore.user.exipreDays}
-                        onChange={(exipreDays) => {
-                          onChange(exipreDays)
+                        hasError={errors.expireDays}
+                        value={Stores.userStore.user.expireDays}
+                        onChange={(expireDays) => {
+                          onChange(expireDays)
                           Stores.userStore.updateUser({
                             ...Stores.userStore.user,
-                            exipreDays,
+                            expireDays,
                           })
                         }}
                       />
                     )}
-                    name="exipreDays"
+                    name="expireDays"
                     rules={{ required: true }}
-                    defaultValue={Stores.userStore.user.exipreDays}
+                    defaultValue={Stores.userStore.user.expireDays}
                   />
 
                   <LibraryComponents.Atoms.Buttons.Button
@@ -702,7 +702,7 @@ export const Users = observer(() => {
                             .unix(Stores.userStore.user.exipreDate || 0)
                             .format("YYYY-MM-DD")
                         )
-                          .add(Stores.userStore.user.exipreDays, "days")
+                          .add(Stores.userStore.user.expireDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
                       Stores.userStore.updateUser({

@@ -9,9 +9,8 @@ import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
 import moment from "moment"
 import { useForm, Controller } from "react-hook-form"
+import { FormHelper } from "@lp/helper"
 
-import * as Utils from "../utils"
-import * as Models from "../models"
 import { useHistory } from "react-router-dom"
 
 import { Stores } from "@lp/features/login/stores"
@@ -24,8 +23,6 @@ import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
 
 export const Login = observer(() => {
   const history = useHistory()
-  //const [errors, setErrors] = useState<Models.Login>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
   const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] })
@@ -116,7 +113,7 @@ export const Login = observer(() => {
                 show: true,
                 data: res.data.data.loginActivityActiveUserByUserId,
               })
-            }
+            }   
           }
         })
         .catch(() => {
@@ -189,9 +186,10 @@ export const Login = observer(() => {
                               if (res.success) {
                                 const {
                                   data: { user },
-                                } = res  
+                                } = res
                                 setValue("lab", user.defaultLab)
-                                if(user.role.length == 1)  setValue("role", user.role[0].code)
+                                if (user.role.length == 1)
+                                  setValue("role", user.role[0].code)
                                 Stores.loginStore.updateInputUser({
                                   ...Stores.loginStore.inputLogin,
                                   lab: user.defaultLab,
@@ -240,7 +238,7 @@ export const Login = observer(() => {
                       />
                     )}
                     name="password"
-                    rules={{ required: true }}
+                    rules={{ required: true, pattern: FormHelper.patterns.password }}
                     defaultValue=""
                   />
 
@@ -340,14 +338,6 @@ export const Login = observer(() => {
                     Clear
                   </LibraryComponents.Atoms.Buttons.Button>
                 </LibraryComponents.Atoms.List>
-                <div className="mt-4">
-                  {errorsMsg &&
-                    Object.entries(errorsMsg).map((item, index) => (
-                      <h6 className="text-red-700" key={index}>
-                        {_.upperFirst(item.join(" : "))}
-                      </h6>
-                    ))}
-                </div>
               </div>
               <div className="flex p-4 flex-row items-center justify-around">
                 <div className="flex mt-2 justify-center items-center">

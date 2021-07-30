@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
 import moment from "moment"
+import dayjs from "dayjs"
 
 import * as LibraryComponents from "@lp/library/components"
 
@@ -236,7 +237,7 @@ export const UserList = observer((props: UserListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cell, row) => {
-                return moment(row.exipreDate).format("YYYY-MM-DD")
+                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
               },
               editorRenderer: (
                 editorProps,
@@ -250,14 +251,14 @@ export const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Exipre Date"
                     id="exipreData"
-                    value={moment(row.exipreDate).format("YYYY-MM-DD")}
+                    value={dayjs.unix(row.exipreDate).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
-                      date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
-                      const formatDate = moment(date).format("YYYY-MM-DD HH:mm")
+                      console.log({ unix: dayjs(new Date(date)).unix() })
+   
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          new Date(formatDate),
+                          dayjs(new Date(date)).unix(),
                           column.dataField,
                           row._id
                         )
@@ -329,14 +330,14 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            {   
+            {
               dataField: "opration",
               text: "Action",
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
               formatter: (cellContent, row) => (
-                <>   
+                <>
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
                       <LibraryComponents.Atoms.Icons.IconContext
@@ -353,7 +354,7 @@ export const UserList = observer((props: UserListProps) => {
                               body: `Delete item`,
                             })
                         }}
-                      >   
+                      >
                         {LibraryComponents.Atoms.Icons.getIconTag(
                           LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
                         )}

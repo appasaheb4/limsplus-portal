@@ -13,7 +13,7 @@ export class Login {
   accessToken: string
   refreshToken: string
   roleMapping: any
-  image: string
+  picture: string
   shortcutMenu: any
   sessionTimeoutCount: number
   sessionAllowed: string
@@ -32,7 +32,7 @@ export class Login {
     this.accessToken = rawData.accessToken
     this.refreshToken = rawData.refreshToken
     this.roleMapping = rawData.roleMapping
-    this.image = rawData.image
+    this.picture = rawData.picture
     this.shortcutMenu = rawData.shortcutMenu
     this.sessionTimeoutCount = rawData.sessionTimeoutCount
     this.sessionAllowed = rawData.sessionAllowed

@@ -31,7 +31,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
         <LibraryComponents.Atoms.Image
           widht={200}
           height={200}
-          source={LoginStores.loginStore.login?.image || Assets.defaultAvatar}
+          source={LoginStores.loginStore.login?.picture || Assets.defaultAvatar}
           onClick={() =>
             setModalFileUpload({ show: true, title: "Profile image select" })
           }

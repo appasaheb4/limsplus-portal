@@ -5,7 +5,7 @@ export class Users {
   _id: string
   userId: string
   empCode: string
-  defaultLab: string
+  defaultLab: string   
   lab: ModelsLab.Labs[]
   password: string
   passChanged: boolean
@@ -19,7 +19,7 @@ export class Users {
   userDegree: string
   department: ModelsDepartment.Department[]
   exipreDate: number
-  exipreDays: number
+  expireDays: number
   role: ModelsRole.IRole[]
   validationLevel: number
   workstation: string
@@ -47,7 +47,7 @@ export class Users {
     this.userDegree = rawData.userDegree
     this.department = rawData.department
     this.exipreDate = rawData.exipreDate
-    this.exipreDays = rawData.exipreDays
+    this.expireDays = rawData.expireDays
     this.role = rawData.role
     this.validationLevel = rawData.validationLevel
     this.workstation = rawData.workstation
