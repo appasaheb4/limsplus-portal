@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import moment from "moment"
+import * as LibraryUtils from "@lp/library/utils"
 
 import { Button } from "reactstrap"
 
@@ -149,12 +150,12 @@ const NavbarComponent = observer(({ dispatch }) => {
                     ? "Collapse"
                     : "Expand"
                 }
-              >  
+              >
                 <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
                   {LibraryComponents.Atoms.Icons.getIconTag(
                     stores.appStore.applicationSetting?.isExpandScreen
                       ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
-                      : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand  
+                      : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
                   )}
                 </LibraryComponents.Atoms.Icons.IconContext>
               </LibraryComponents.Atoms.Tooltip>
@@ -225,9 +226,9 @@ const NavbarComponent = observer(({ dispatch }) => {
             LoginStores.loginStore.login,
             UserStores.userStore.changePassword
           )
-          body = {
+          body = {  
             ...body,
-            exipreDate,
+            exipreDate: LibraryUtils.moment(exipreDate).unix(),
           }
           UserStores.userStore.UsersService.changePassword(body).then((res) => {
             console.log({ res })

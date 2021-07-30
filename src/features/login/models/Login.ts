@@ -9,7 +9,7 @@ export class Login {
   password: string
   passChanged: boolean
   loginActivityId: string
-  exipreDate: Date
+  exipreDate: number
   accessToken: string
   refreshToken: string
   roleMapping: any

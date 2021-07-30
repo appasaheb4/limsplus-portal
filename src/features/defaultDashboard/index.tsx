@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from "react"
 import { Container, Row, Col } from "reactstrap"
 import { observer } from "mobx-react"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
-import { stores } from "@lp/library/stores"
 
 import BarChart from "./BarChart"
 import Feed from "./Feed"
@@ -15,7 +15,7 @@ import LineChart from "./LineChart"
 import Projects from "./Projects"
 import Statistics from "./Statistics"
 import moment from "moment"
-import { useHistory, useLocation } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 // registration
 
@@ -28,22 +28,24 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (LoginStores.loginStore.login) {
-      const diffInDays = moment(LoginStores.loginStore.login?.exipreDate).diff(
-        moment(new Date()),
-        "days"
-      )
+      const date1 = LoginStores.loginStore.login?.exipreDate
+      const date2 = dayjs(new Date()).unix()
+      console.log({ date1,date2 })    
+      const diff = 6; //date1.diff(dayjs(new Date()).unix(), "day")
+      console.log({ diff })
+      //console.log({diffInDays});   
       if (
-        diffInDays >= 0 &&
-        diffInDays <= 5 &&
+        diff >= 0 &&
+        diff <= 5 &&
         UserStores.userStore.changePassword?.tempHide !== true
       ) {
         UserStores.userStore.updateChangePassword({
           ...UserStores.userStore.changePassword,
-          subTitle: `Please change you password. Your remaining exipre days ${diffInDays}`,
+          subTitle: `Please change you password. Your remaining exipre days ${diff}`,
         })
         setModalChangePassword({ show: true })
       }
-      if (diffInDays < 0) {
+      if (diff < 0) {
         setModalConfirm({
           type: "accountexpire",
           show: true,
