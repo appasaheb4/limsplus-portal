@@ -4,7 +4,6 @@ import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as AssetsStores } from "@lp/features/assets/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
 import { stores } from "@lp/library/stores"
 
