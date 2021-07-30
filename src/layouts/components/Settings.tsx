@@ -13,15 +13,10 @@ import * as Assets from '@lp/library/assets'
 
 import { Badge, Button } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
-
-
 import { stores } from "@lp/library/stores"
-
-
-
-
+   
 // import { createThis } from "typescript"
-
+    
 type Props = { layout; sidebar; dispatch }
 type State = { isOpen: boolean; colorList: any; imageList: any }
 
@@ -155,12 +150,12 @@ class Settings extends React.Component<Props, State> {
                       shortCutBarColor:color
                      })
                   }}
-                  onChangeImage={(image: any)=>{
-                    stores.appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
-                      imageSideBarBgImage:image
-                    })
-                  }}
+                  // onChangeImage={(image: any)=>{
+                  //   stores.appStore.updateApplicationSetting({
+                  //     ...stores.appStore.applicationSetting,
+                  //     imageSideBarBgImage:image
+                  //   })
+                  // }}
                 />
               </div>
             </PerfectScrollbar>

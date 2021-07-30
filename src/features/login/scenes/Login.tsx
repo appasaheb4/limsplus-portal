@@ -10,6 +10,7 @@ import * as Bootstrap from "react-bootstrap"
 import moment from "moment"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
+import * as LibraryUtils from "@lp/library/utils"
 
 import { useHistory } from "react-router-dom"
 
@@ -77,50 +78,51 @@ export const Login = observer(() => {
         },
       })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.success) {
+            console.log({ res })
+
             Stores.loginStore.updateLoginFailedCount(0)
-            if (res.data.data.passChanged !== true) {
+            if (res.data.user.passChanged !== true) {
               setModalChangePassword({ show: true })
             } else {
-              if (res.data.data.noticeBoard !== undefined) {
+              if (res.data.user.noticeBoard !== undefined) {
                 setNoticeBoard({
                   show: true,
-                  userInfo: res.data.data,
-                  data: res.data.data.noticeBoard,
+                  userInfo: res.data.user,
+                  data: res.data.user.noticeBoard,
                 })
               } else {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 Welcome ${res.data.data.fullName}`,
+                  message: `😊 ${res.message}`,
                 })
-                Stores.loginStore.saveLogin(res.data.data)
+                Stores.loginStore.saveLogin(res.data.user)
                 Stores.loginStore.clearInputUser()
                 setTimeout(() => {
                   history.push("/dashboard/default")
                 }, 1000)
               }
             }
-          } else if (res.status === 203) {
+          } else {
             Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
             LibraryComponents.Atoms.Toast.error({
-              message: `😔 ${res.data.data.message}`,
+              message: `😔 ${res.message}`,
             })
-            if (
-              res.data.data.message ===
-                "Your session allowed all used.Please logout other session" &&
-              res.data.data.loginActivityActiveUserByUserId
-            ) {
-              setModalSessionAllowed({
-                show: true,
-                data: res.data.data.loginActivityActiveUserByUserId,
-              })
-            }   
+            // if (
+            //   res.message ===
+            //     "Your session allowed all used. Please logout other session" &&
+            //   res.data.user.loginActivityActiveUserByUserId
+            // ) {
+            //   setModalSessionAllowed({
+            //     show: true,
+            //     data: res.data.data.loginActivityActiveUserByUserId,
+            //   })
+            // }
           }
         })
-        .catch(() => {
-          console.log({ failed: loginFailedCount })
+        .catch((error) => {
           Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
           LibraryComponents.Atoms.Toast.error({
-            message: `😔 User not found. Please enter correct information!`,
+            message: `😔 ${error.message}`,
           })
         })
     }
@@ -204,7 +206,7 @@ export const Login = observer(() => {
                                 })
                               } else {
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 User not found!`,
+                                  message: `😔 ${res.message}`,
                                 })
                               }
                             })
@@ -449,17 +451,17 @@ export const Login = observer(() => {
             let body = Object.assign(
               Stores.loginStore.inputLogin,
               UserStores.userStore.changePassword
-            )
+            )  
             body = {
               ...body,
-              exipreDate,
+              exipreDate: LibraryUtils.moment(exipreDate).unix(),
             }
             UserStores.userStore.UsersService.changePassword(body).then((res) => {
               console.log({ res })
               if (res.status === 200) {
                 Stores.loginStore.updateLogin({
                   ...Stores.loginStore.login,
-                  exipreDate,
+                  exipreDate: LibraryUtils.moment(exipreDate).unix(),
                   passChanged: true,
                 })
                 UserStores.userStore.updateChangePassword({
