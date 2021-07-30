@@ -20,7 +20,7 @@ class UsersStore {
     this.user = {
       ...this.user,
       exipreDate: LibraryUtils.moment(date).unix(),
-      exipreDays: 30,
+      expireDays: 30,  
       dateOfEntry: LibraryUtils.moment(new Date()).unix(),
       dateOfBirth: LibraryUtils.moment(
         new Date(moment(date).add(-30, "years").format("YYYY-MM-DD HH:mm:ss"))

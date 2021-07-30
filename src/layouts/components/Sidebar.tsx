@@ -260,7 +260,7 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 <div className="media">
                   <img
                     className="rounded-circle mr-3"
-                    src={LoginStores.loginStore.login?.image || Assets.defaultAvatar}
+                    src={LoginStores.loginStore.login?.picture || Assets.defaultAvatar}
                     alt={LoginStores.loginStore.login?.fullName}
                     width="40"
                     height="40"

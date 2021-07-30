@@ -12,7 +12,7 @@ enum StatusCode {
   Forbidden = 403,
   TooManyRequests = 429,
   InternalServerError = 500,
-  NotFound =404
+  NotFound = 404,
 }
 const blackList = ["send_message"]
 const headers: Readonly<Record<string, string | boolean>> = {
@@ -173,7 +173,7 @@ export class Http {
           "Server Load has been exceeded. Please try again after some time."
         break
       }
-      case StatusCode.NotFound:{
+      case StatusCode.NotFound: {
         finalResponse.message = "Not found"
         break
       }
@@ -188,17 +188,15 @@ export class Http {
     Type?: { new (...args: any): T },
     path?: string
   ): ServiceResponse<T> {
-    console.log({ response })
-
+    //console.log({ response })
     if (response?.data?.data?.settings?.success) {
       // API Success
       const { settings, data } = response.data.data
-      console.log({ settings, data })
-   
+      //console.log({ settings, data })
       const strippedResponse = path ? _.get(data, path) : data
       return new ServiceResponse<T>(
         settings.success, // 1= Success, 0= Failure,
-        settings.message,
+        settings.message,  
         Type ? new Type(strippedResponse) : strippedResponse
       )
     }
@@ -219,4 +217,4 @@ export class Http {
 }
 
 export const http = new Http()
-export {ServiceResponse}
+export { ServiceResponse }

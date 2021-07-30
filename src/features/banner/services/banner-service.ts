@@ -19,7 +19,7 @@ export class BannerService {
         .catch((error) => {
           reject({ error })
         })
-    })
+    }) 
   addBanner = (banner: any) =>
     new Promise<any>((resolve, reject) => {
       const form = new FormData()

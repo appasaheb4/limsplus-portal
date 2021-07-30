@@ -170,7 +170,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                     <img
                       className="rounded-circle mr-3"
                       src={
-                        LoginStores.loginStore.login?.image || Assets.defaultAvatar
+                        LoginStores.loginStore.login?.picture || Assets.defaultAvatar
                       }
                       alt={LoginStores.loginStore.login?.fullName}
                       width="40"

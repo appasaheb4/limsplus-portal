@@ -47,8 +47,8 @@ export class UserService {
 
   addUser = async (user: Models.Users) =>
     new Promise((resolve, reject) => {
-      let signaturePath: string = ""
-      let picturePath: string = ""
+      let signaturePath: string | undefined
+      let picturePath: string| undefined
       if (user.signature) {
         signaturePath = `https://limsplus.blob.core.windows.net/users/${user.signature.name}`
         new AssetsService().uploadFile(user.signature, "users", user.signature.name)
@@ -56,44 +56,49 @@ export class UserService {
       if (user.picture) {
         picturePath = `https://limsplus.blob.core.windows.net/users/${user.picture.name}`
         new AssetsService().uploadFile(user.signature, "users", user.picture.name)
-      }
+      }   
       const form = new FormData()
       form.append("userId", user.userId)
       form.append("empCode", user.empCode)
       form.append("defaultLab", user.defaultLab)
-      form.append("lab", JSON.stringify(user.lab))
-      form.append("password", user.password)
+      form.append("lab", JSON.stringify(user.lab))  
+      form.append("password", user.password)      
       form.append("passChanged", JSON.stringify(user.passChanged))
       form.append("deginisation", user.deginisation)
       form.append("fullName", user.fullName)
-      form.append("mobileNo", user.mobileNo)
-      form.append("contactNo", user.contactNo)
+      form.append("mobileNo", user.mobileNo)   
+      form.append("contactNo", user.contactNo)      
       form.append("email", user.email)
       form.append("dateOfBirth", JSON.stringify(user.dateOfBirth))
       form.append("marriageAnniversary", JSON.stringify(user.marriageAnniversary))
       form.append("userDegree", user.userDegree)
       form.append("department", JSON.stringify(user.department))
-      form.append("passChanged", JSON.stringify(user.passChanged))
-      form.append("deginisation", user.deginisation)
       form.append("exipreDate", JSON.stringify(user.exipreDate))
-      form.append("exipreDays", JSON.stringify(user.exipreDays))
-      form.append("role", JSON.stringify(user.role))
+      form.append("expireDays", JSON.stringify(user.expireDays))
+      form.append("role", JSON.stringify(user.role))   
       form.append("validationLevel", JSON.stringify(user.validationLevel))
       form.append("workstation", user.workstation)
       form.append("ipAddress", user.ipAddress)
       form.append("dateOfEntry", JSON.stringify(user.dateOfEntry))
       form.append("createdBy", user.createdBy)
       form.append("confidential", JSON.stringify(user.confidential))
-      form.append("signature", signaturePath)
-      form.append("picture", picturePath)
+      form.append("signature", signaturePath ||'')
+      form.append("picture", picturePath ||'')
       form.append("status", user.status)
-      http
-        .post(`/auth/addUser`, user)
-        .then((res) => {
-          resolve(res)
+      http   
+        .post(`/auth/addUser`, form)
+        .then((response) => {   
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(
+            new ServiceResponse<any>(
+              0,
+              error.message,
+              undefined
+            )
+          )
         })
     })
   deleteUser = (id: string) =>
@@ -144,35 +149,21 @@ export class UserService {
 
   findUserByEmpCode = (empCode: string) =>
     new Promise<any>((resolve, reject) => {
-      try {
-        http
-          .post(`/auth/findUserByEmpcode`, { empCode })
-          .then((response: any) => {
-            console.log({ response })
-            const serviceResponse = Http.handleResponse<any>(response)
-            console.log({ serviceResponse })
-            resolve(serviceResponse)
-          })
-          .catch((error) => {
-            console.log("log1", { error })
-            reject(
-              new ServiceResponse<any>(
-                0, // 1= Success, 0= Failure,
-                error.message,
-                undefined
-              )
+      http
+        .post(`/auth/findUserByEmpcode`, { empCode })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(
+            new ServiceResponse<any>(
+              0, // 1= Success, 0= Failure,
+              error.message,
+              undefined
             )
-          })
-      } catch (error) {
-        console.log("log2", error)
-        reject(
-          new ServiceResponse<any>(
-            0, // 1= Success, 0= Failure,
-            error.message,
-            undefined
           )
-        )
-      }
+        })
     })
   uploadImage = (deatils: any) =>
     new Promise<any>((resolve, reject) => {
@@ -182,7 +173,7 @@ export class UserService {
       formData.append("folder", deatils.folder)
       formData.append("name", deatils.image.name)
       formData.append(
-        "image",
+        "picture",
         `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
       )
       http
