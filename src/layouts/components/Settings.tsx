@@ -141,8 +141,8 @@ class Settings extends React.Component<Props, State> {
                   </li>
                 </ul>
                 <SideBarColorBgImages
-                  data={this.state.colorList}
-                  images={this.state.imageList}
+                  data={this.state.colorList}  
+                  //images={this.state.imageList}
                   onChangeSidebarColor={(color: string)=>{
                     stores.appStore.updateApplicationSetting({
                     ...stores.appStore.applicationSetting,
