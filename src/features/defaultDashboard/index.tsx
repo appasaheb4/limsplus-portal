@@ -28,24 +28,22 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (LoginStores.loginStore.login) {
-      const date1 = LoginStores.loginStore.login?.exipreDate
-      const date2 = dayjs(new Date()).unix()
-      console.log({ date1,date2 })    
-      const diff = 6; //date1.diff(dayjs(new Date()).unix(), "day")
-      console.log({ diff })
-      //console.log({diffInDays});   
-      if (
-        diff >= 0 &&
-        diff <= 5 &&
+      const date1 = dayjs.unix(LoginStores.loginStore.login?.exipreDate)
+      const date2 = dayjs.unix(dayjs(new Date()).unix())
+      console.log({ date1, date2 })
+      let days = date1.diff(date2, "day")
+      if (   
+        days >= 0 &&
+        days <= 5 &&
         UserStores.userStore.changePassword?.tempHide !== true
       ) {
         UserStores.userStore.updateChangePassword({
           ...UserStores.userStore.changePassword,
-          subTitle: `Please change you password. Your remaining exipre days ${diff}`,
+          subTitle: `Please change you password. Your remaining exipre days ${days}`,
         })
         setModalChangePassword({ show: true })
       }
-      if (diff < 0) {
+      if (days < 0) {
         setModalConfirm({
           type: "accountexpire",
           show: true,
