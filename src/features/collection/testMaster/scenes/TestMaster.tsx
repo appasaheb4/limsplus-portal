@@ -92,54 +92,8 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder="Date Creation"
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Active"
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder="Date Expire"
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder="Version"
-                value={Stores.testMasterStore.testMaster?.version}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder="Key Num"
-                value={Stores.testMasterStore.testMaster?.keyNum}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder="Entered By"
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
-              />
+             
+              
               <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
                   value={LoginStores.loginStore.login?.lab}
@@ -283,70 +237,6 @@ const TestMater = observer(() => {
                   })
                 }}
               />
-
-              <LibraryComponents.Atoms.Grid cols={5}>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  value={Stores.testMasterStore.testMaster?.bill}
-                  onChange={(bill) => {
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      bill,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="AutoFinish"
-                  id="modeAutoFinish"
-                  value={Stores.testMasterStore.testMaster?.autoFinish}
-                  onChange={(autoFinish) => {
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      autoFinish,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Hold OOS"
-                  id="modeHoldOOS"
-                  value={Stores.testMasterStore.testMaster?.holdOOS}
-                  onChange={(holdOOS) => {
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      holdOOS,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Confidential"
-                  value={Stores.testMasterStore.testMaster?.confidential}
-                  onChange={(confidential) => {
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      confidential,
-                    })
-                  }}
-                />
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Urgent"
-                  value={Stores.testMasterStore.testMaster?.urgent}
-                  onChange={(urgent) => {
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      urgent,
-                    })
-                  }}
-                />
-              </LibraryComponents.Atoms.Grid>
-            </LibraryComponents.Atoms.List>
-
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.Input
                 label="Price"
                 placeholder="Price"
@@ -415,18 +305,6 @@ const TestMater = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
-              {/* <LibraryComponents.Atoms.Form.Input
-                label="Report Group"
-                placeholder="Report Group"
-                value={Stores.testMasterStore.testMaster?.reportGroup}
-                onChange={(reportGroup) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    reportGroup,
-                  })
-                }}
-              /> */}
               <LibraryComponents.Atoms.Form.Input
                 label="Result Order"
                 placeholder="Result Order"
@@ -462,6 +340,83 @@ const TestMater = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+
+              <LibraryComponents.Atoms.Grid cols={5}>
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Bill"
+                  id="modeBill"
+                  value={Stores.testMasterStore.testMaster?.bill}
+                  onChange={(bill) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      bill,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="AutoFinish"
+                  id="modeAutoFinish"
+                  value={Stores.testMasterStore.testMaster?.autoFinish}
+                  onChange={(autoFinish) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      autoFinish,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Hold OOS"
+                  id="modeHoldOOS"
+                  value={Stores.testMasterStore.testMaster?.holdOOS}
+                  onChange={(holdOOS) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      holdOOS,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Confidential"
+                  value={Stores.testMasterStore.testMaster?.confidential}
+                  onChange={(confidential) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      confidential,
+                    })
+                  }}
+                />
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Urgent"
+                  value={Stores.testMasterStore.testMaster?.urgent}
+                  onChange={(urgent) => {
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      urgent,
+                    })
+                  }}
+                />
+              </LibraryComponents.Atoms.Grid>
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              
+              {/* <LibraryComponents.Atoms.Form.Input
+                label="Report Group"
+                placeholder="Report Group"
+                value={Stores.testMasterStore.testMaster?.reportGroup}
+                onChange={(reportGroup) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    reportGroup,
+                  })
+                }}
+              /> */}
+              
 
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
@@ -632,6 +587,111 @@ const TestMater = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflowCode = e.target.value as string
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      workflowCode,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Workflow Code 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const worklistCode = e.target.value as string
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      worklistCode,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Worklist Code 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper> */}
+
+              <LibraryComponents.Atoms.Form.Input
+                label="CPT Code"
+                placeholder="CPT Code"
+                value={Stores.testMasterStore.testMaster?.cptCode}
+                onChange={(cptCode) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    cptCode: cptCode.toUpperCase(),
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Prefix">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const prefix = e.target.value
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      prefix,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sufix">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sufix = e.target.value
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      sufix,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Delevery Schedule"
+                placeholder="Delevery Schedule"
+                value={Stores.testMasterStore.testMaster?.deleverySchedule}
+                onChange={(deleverySchedule) => {
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    deleverySchedule: deleverySchedule.toUpperCase(),
+                  })
+                }}
+              />
+
               <LibraryComponents.Atoms.Grid cols={5}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Instant Result"
@@ -692,111 +752,8 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const workflowCode = e.target.value as string
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      workflowCode,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Workflow Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const worklistCode = e.target.value as string
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      worklistCode,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Worklist Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
-
-              <LibraryComponents.Atoms.Form.Input
-                label="CPT Code"
-                placeholder="CPT Code"
-                value={Stores.testMasterStore.testMaster?.cptCode}
-                onChange={(cptCode) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    cptCode: cptCode.toUpperCase(),
-                  })
-                }}
-              />
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Prefix">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const prefix = e.target.value
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      prefix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sufix">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sufix = e.target.value
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      sufix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.Input
-                label="Delevery Schedule"
-                placeholder="Delevery Schedule"
-                value={Stores.testMasterStore.testMaster?.deleverySchedule}
-                onChange={(deleverySchedule) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    deleverySchedule: deleverySchedule.toUpperCase(),
-                  })
-                }}
-              />
+              
+              
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -849,6 +806,54 @@ const TestMater = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment
+                  .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Active"
+                value={LibraryUtils.moment
+                  .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Expire"
+                placeholder="Date Expire"
+                value={LibraryUtils.moment
+                  .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.testMasterStore.updateTestMaster({
+                    ...Stores.testMasterStore.testMaster,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value={Stores.testMasterStore.testMaster?.version}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value={Stores.testMasterStore.testMaster?.keyNum}
+                disabled={true}
+              />
               <LibraryComponents.Atoms.Grid cols={6}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
