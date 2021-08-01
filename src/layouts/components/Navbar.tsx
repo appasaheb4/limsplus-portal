@@ -161,7 +161,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               </LibraryComponents.Atoms.Tooltip>
             </LibraryComponents.Atoms.Buttons.Button>
             <div className="ml-2" />
-            <Button color="primary" className="hidden shadow-sm h-10 sm:block">
+            <Button color="primary" className="hidden shadow-sm h-10 sm:block" style={{width:'108px'}}>
               <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
             </Button>
             <UncontrolledDropdown nav inNavbar>
