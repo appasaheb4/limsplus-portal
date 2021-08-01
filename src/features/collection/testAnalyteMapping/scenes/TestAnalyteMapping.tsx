@@ -89,91 +89,6 @@ const TestAnalyteMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder="Date Creation"
-                value={LibraryUtils.moment
-                  .unix(
-                    Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.dateCreation || 0
-                  )
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-                // onChange={(e) => {
-                //   const schedule = new Date(e.target.value)
-                //   const formatDate = LibraryUtils.moment(schedule).format(
-                //     "YYYY-MM-DD HH:mm"
-                //   )
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     schedule: new Date(formatDate),
-                //   })
-                // }}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Active"
-                value={LibraryUtils.moment
-                  .unix(
-                    Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.dateActiveFrom || 0
-                  )
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder="Date Expire"
-                value={LibraryUtils.moment
-                  .unix(
-                    Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.dateActiveTo || 0
-                  )
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
-                    ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder="Version"
-                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.version}
-                disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder="Key Num"
-                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.keyNum}
-                disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder="Entered By"
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
-                // onChange={(analyteCode) => {
-                //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                //     ...Stores.masterAnalyteStore.masterAnalyte,
-                //     analyteCode,
-                //   })
-                // }}
-              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -197,6 +112,13 @@ const TestAnalyteMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Test Code"
+                name="txtTestCode"
+                placeholder="Test Code"
+                disabled={true}
+                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.testCode}
+              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -220,20 +142,6 @@ const TestAnalyteMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.Input
-                label="Test Code"
-                name="txtTestCode"
-                placeholder="Test Code"
-                disabled={true}
-                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.testCode}
-              />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
                 <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                   placeholder="Search by analyte name or analyte code"
@@ -310,7 +218,6 @@ const TestAnalyteMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
               <LibraryComponents.Atoms.Form.Toggle
                 label="Bill"
                 id="modeBill"
@@ -322,6 +229,105 @@ const TestAnalyteMapping = observer(() => {
                   })
                 }}
               />
+             
+             
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+             
+             <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.dateCreation || 0
+                  )
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+                // onChange={(e) => {
+                //   const schedule = new Date(e.target.value)
+                //   const formatDate = LibraryUtils.moment(schedule).format(
+                //     "YYYY-MM-DD HH:mm"
+                //   )
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     schedule: new Date(formatDate),
+                //   })
+                // }}
+              />
+             <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Active"
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.dateActiveFrom || 0
+                  )
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Expire"
+                placeholder="Date Expire"
+                value={LibraryUtils.moment
+                  .unix(
+                    Stores.testAnalyteMappingStore.testAnalyteMapping
+                      ?.dateActiveTo || 0
+                  )
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
+                    ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
+              />
+              
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.version}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value={Stores.testAnalyteMappingStore.testAnalyteMapping?.keyNum}
+                disabled={true}
+                // onChange={(analyteCode) => {
+                //   Stores.masterAnalyteStore.updateMasterAnalyte({
+                //     ...Stores.masterAnalyteStore.masterAnalyte,
+                //     analyteCode,
+                //   })
+                // }}
+              />
+             
+              {/* <LibraryComponents.Atoms.Grid cols={5}> */}
+             
               {/* </LibraryComponents.Atoms.Grid> */}
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
