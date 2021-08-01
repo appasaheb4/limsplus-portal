@@ -97,54 +97,8 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder="Date Creation"
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder="Date Active"
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder="Date Expire"
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveTo || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder="Version"
-                value={Stores.masterPackageStore.masterPackage?.version}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder="Key Num"
-                value={Stores.masterPackageStore.masterPackage?.keyNum}
-                disabled={true}
-              />
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder="Entered By"
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
-              />
+             
+              
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
@@ -169,25 +123,6 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Bill"
-                id="modeBill"
-                value={Stores.masterPackageStore.masterPackage?.bill}
-                onChange={(bill) => {
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    bill,
-                  })
-                }}
-              />
-            </LibraryComponents.Atoms.List>
-
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -344,6 +279,78 @@ const MasterPackage = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              <LibraryComponents.Atoms.Form.Input
+                label="Entered By"
+                placeholder="Entered By"
+                value={LoginStore.loginStore.login?.userId}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Creation"
+                placeholder="Date Creation"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Bill"
+                id="modeBill"
+                value={Stores.masterPackageStore.masterPackage?.bill}
+                onChange={(bill) => {
+                  Stores.masterPackageStore.updateMasterPackage({
+                    ...Stores.masterPackageStore.masterPackage,
+                    bill,
+                  })
+                }}
+              />
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Active"
+                placeholder="Date Active"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0)
+                  .format("YYYY-MM-DD")}
+                disabled={true}
+              />
+              
+              
+              
+              <LibraryComponents.Atoms.Form.InputDate
+                label="Date Expire"
+                placeholder="Date Expire"
+                value={LibraryUtils.moment
+                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveTo || 0)
+                  .format("YYYY-MM-DD")}
+                onChange={(e) => {
+                  const schedule = new Date(e.target.value)
+                  Stores.masterPackageStore.updateMasterPackage({
+                    ...Stores.masterPackageStore.masterPackage,
+                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                  })
+                }}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Version"
+                placeholder="Version"
+                value={Stores.masterPackageStore.masterPackage?.version}
+                disabled={true}
+              />
+              <LibraryComponents.Atoms.Form.Input
+                label="Key Num"
+                placeholder="Key Num"
+                value={Stores.masterPackageStore.masterPackage?.keyNum}
+                disabled={true}
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
