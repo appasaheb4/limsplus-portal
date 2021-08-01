@@ -7,7 +7,7 @@ interface ModalProps {
   show?: boolean
   title?: string
   data?: any[]
-  onClick: (data: any,item: any,index: number) => void
+  onClick: (data: any, item: any, index: number) => void
   onClose: () => void
 }
 
@@ -46,6 +46,11 @@ const ModalSessionAllowed = (props: ModalProps) => {
                 {/*body*/}
                 <div className="relative p-2 flex-auto">
                   <div className="grid grid-flow-row grid-cols-3  gap-4">
+                    {props.data?.length === 0 && (
+                      <div className="flex flex-col p-2  items-center">
+                        <label>Session not found</label>
+                      </div>
+                    )}
                     {props.data?.map((item, index) => (
                       <>
                         <div className="flex-col flex p-2  items-center rounded-md bg-gray-400">
@@ -73,7 +78,7 @@ const ModalSessionAllowed = (props: ModalProps) => {
                             size="medium"
                             type="solid"
                             onClick={() => {
-                              props.onClick && props.onClick(props.data,item,index)
+                              props.onClick && props.onClick(props.data, item, index)
                             }}
                           >
                             Logout

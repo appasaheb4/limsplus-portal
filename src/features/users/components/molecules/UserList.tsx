@@ -1,8 +1,8 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import moment from "moment"
 import dayjs from "dayjs"
+import * as LibraryUtils from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
 
@@ -15,8 +15,9 @@ import { Stores as DeginisationStore } from "@lp/features/collection/deginisatio
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { toJS } from "mobx"
 
-interface UserListProps {
+interface UserListProps {  
   data: any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
@@ -254,8 +255,6 @@ export const UserList = observer((props: UserListProps) => {
                     value={dayjs.unix(row.exipreDate).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
-                      console.log({ unix: dayjs(new Date(date)).unix() })
-   
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           dayjs(new Date(date)).unix(),
@@ -273,25 +272,37 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              editor: {
-                type: LibraryComponents.Organisms.Utils.Type.SELECT,
-                getOptions: () => {
-                  return [
-                    {
-                      value: "Active",
-                      label: "Active",
-                    },
-                    {
-                      value: "Retired",
-                      label: "Retired",
-                    },
-                    {
-                      value: "Disable",
-                      label: "Disable",
-                    },
-                  ]
-                },
-              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                    <select
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const status = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(status, column.dataField, row._id)
+                      }}
+                    >   
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "opration",

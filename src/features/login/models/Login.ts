@@ -9,6 +9,7 @@ export class Login {
   password: string
   passChanged: boolean
   loginActivityId: string
+  loginActivityListByUserId: any
   exipreDate: number
   accessToken: string
   refreshToken: string
@@ -28,6 +29,7 @@ export class Login {
     this.password = rawData.password
     this.passChanged = rawData.passChanged
     this.loginActivityId = rawData.loginActivityId
+    this.loginActivityListByUserId = rawData.loginActivityListByUserId
     this.exipreDate = rawData.exipreDate
     this.accessToken = rawData.accessToken
     this.refreshToken = rawData.refreshToken

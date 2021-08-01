@@ -14,7 +14,9 @@ interface ButtonProps {
   children?: React.ReactNode
 }
 
-export const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps): JSX.Element => {
+export const Button: React.FunctionComponent<ButtonProps> = (
+  props: ButtonProps
+): JSX.Element => {
   const buttonSizeClass =
     props.size === "small"
       ? `px-2 py-1 text-xs`
@@ -35,7 +37,7 @@ export const Button: React.FunctionComponent<ButtonProps> = (props: ButtonProps)
     <button
       onClick={props.onClick}
       type="button"
-      disabled={!!props.disabled}
+      disabled={!!props.disabled}  
       title={props.disabled}
       className={`inline-flex items-center ${buttonSizeClass} ${roundedClass} shadow-sm   font-medium ${buttonColorClass} disabled:opacity-50 disabled:cursor-not-allowed text-center`}
     >

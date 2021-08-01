@@ -63,12 +63,14 @@ export const Login = observer(() => {
     if (loginFailedCount > 4) {
       Stores.loginStore.LoginService.accountStatusUpdate({
         userId: Stores.loginStore.inputLogin?.userId,
-        status: "Disable",
+        status: "I",
       }).then((res) => {
-        LibraryComponents.Atoms.Toast.error({
-          message: `😔 Your account is disable. Please contact admin`,
-        })
-        Stores.loginStore.updateLoginFailedCount(0)
+        if (res.success) {
+          LibraryComponents.Atoms.Toast.error({
+            message: `😔 ${res.message}`,
+          })
+          Stores.loginStore.updateLoginFailedCount(0)
+        }
       })
     } else {
       Stores.loginStore.LoginService.onLogin({
@@ -78,9 +80,8 @@ export const Login = observer(() => {
         },
       })
         .then((res) => {
-          if (res.success) {
-            console.log({ res })
-
+          console.log({ res })
+          if (res.success == 1) {
             Stores.loginStore.updateLoginFailedCount(0)
             if (res.data.user.passChanged !== true) {
               setModalChangePassword({ show: true })
@@ -102,21 +103,16 @@ export const Login = observer(() => {
                 }, 1000)
               }
             }
+          } else if (res.success == 2) {
+            setModalSessionAllowed({
+              show: true,
+              data: res.data.loginActivityListByUserId,
+            })
           } else {
             Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
             LibraryComponents.Atoms.Toast.error({
               message: `😔 ${res.message}`,
             })
-            // if (
-            //   res.message ===
-            //     "Your session allowed all used. Please logout other session" &&
-            //   res.data.user.loginActivityActiveUserByUserId
-            // ) {
-            //   setModalSessionAllowed({
-            //     show: true,
-            //     data: res.data.data.loginActivityActiveUserByUserId,
-            //   })
-            // }
           }
         })
         .catch((error) => {
@@ -422,21 +418,19 @@ export const Login = observer(() => {
         <FeatureComponents.Molecules.ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
-            Stores.loginStore.LoginService.forgotPassword(userInfo).then(
-              (res: any) => {
-                if (res.status == 200) {
-                  setModalForgotPassword({ show: false })
-                  Stores.loginStore.updateForgotPassword(undefined)
-                  LibraryComponents.Atoms.Toast.success({
-                    message: `😊 res.data.data`,
-                  })
-                } else {
-                  LibraryComponents.Atoms.Toast.error({
-                    message: `😔 ${res.data.data}`,
-                  })
-                }
+            Stores.loginStore.LoginService.forgotPassword(userInfo).then((res) => {
+              if (res.success) {
+                setModalForgotPassword({ show: false })
+                Stores.loginStore.updateForgotPassword(undefined)
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.message}`,
+                })   
+              } else {   
+                LibraryComponents.Atoms.Toast.error({
+                  message: `😔 ${res.message}`,
+                })
               }
-            )
+            })
           }}
           onClose={() => {
             setModalForgotPassword({ show: false })
@@ -451,7 +445,7 @@ export const Login = observer(() => {
             let body = Object.assign(
               Stores.loginStore.inputLogin,
               UserStores.userStore.changePassword
-            )  
+            )
             body = {
               ...body,
               exipreDate: LibraryUtils.moment(exipreDate).unix(),
@@ -504,13 +498,18 @@ export const Login = observer(() => {
               userId: Stores.loginStore.inputLogin?.userId,
               accessToken: item.user.accessToken,
             }).then(async (res) => {
-              const firstArr = data.slice(0, index) || []
-              const secondArr = data.slice(index + 1) || []
-              const finalArray = [...firstArr, ...secondArr]
-              setModalSessionAllowed({
-                show: finalArray.length > 0 ? true : false,
-                data: finalArray,
-              })
+              if (res.success) {
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.message}`,
+                })
+                const firstArr = data.slice(0, index) || []
+                const secondArr = data.slice(index + 1) || []
+                const finalArray = [...firstArr, ...secondArr]
+                setModalSessionAllowed({
+                  show: finalArray.length > 0 ? true : false,
+                  data: finalArray,
+                })
+              }
             })
           }}
           onClose={() => {}}

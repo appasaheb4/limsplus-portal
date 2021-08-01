@@ -156,18 +156,20 @@ const ModalAccount = observer((props: ModalAccountProps) => {
       <LibraryComponents.Molecules.ModalFileUpload
         {...modalFileUpload}
         onClick={(image: any) => {
-          console.log({ image, login: LoginStores.loginStore.login })
+          console.log({image});
+          
           UserStores.userStore.UsersService.uploadImage({
-            image,
+            image,    
             id: LoginStores.loginStore.login?._id,
             folder: "users",
-          }).then((res: any) => {
+          }).then((res: any) => {  
+            console.log({res});
             setModalFileUpload({ show: false })
             if (res.status === 200) {
               LoginStores.loginStore.updateLogin({
                 ...LoginStores.loginStore.login,
-                image: res.data.data.image,
-              })
+                picture: res.data.data.image,
+              })  
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 Image upload successfully!`,
               })

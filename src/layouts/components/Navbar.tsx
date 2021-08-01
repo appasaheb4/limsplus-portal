@@ -33,7 +33,9 @@ import {
 const NavbarComponent = observer(({ dispatch }) => {
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
+
   const [modalChangePassword, setModalChangePassword] = useState<any>()
+  const [modalSessionAllowed, setModalSessionAllowed] = useState<any>()
   return (
     <>
       <Navbar
@@ -161,9 +163,21 @@ const NavbarComponent = observer(({ dispatch }) => {
               </LibraryComponents.Atoms.Tooltip>
             </LibraryComponents.Atoms.Buttons.Button>
             <div className="ml-2" />
-            <Button color="primary" className="hidden shadow-sm h-10 sm:block" style={{width:'108px'}}>
-              <label>{LoginStores.loginStore.login?.sessionAllowed}</label>
-            </Button>
+            <LibraryComponents.Atoms.Buttons.Button
+              size="medium"
+              type="outline"
+              onClick={() => {
+                console.log({ LoginStores })
+                setModalSessionAllowed({
+                  show: true,
+                  data: LoginStores.loginStore.login.loginActivityListByUserId,
+                })
+              }}
+            >
+              <label className="inline w-8 text-center">
+                {LoginStores.loginStore.login?.sessionAllowed}
+              </label>
+            </LibraryComponents.Atoms.Buttons.Button>
             <UncontrolledDropdown nav inNavbar>
               <span className="d-none d-sm-inline-block">
                 <DropdownToggle nav>
@@ -195,8 +209,11 @@ const NavbarComponent = observer(({ dispatch }) => {
                   onClick={() => {
                     LoginStores.loginStore
                       .removeUser()
-                      .then(async (res) => {
-                        if (res) {
+                      .then((res) => {
+                        if (res.success) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 ${res.message}`,
+                          })
                           history.push("/")
                         }
                       })
@@ -226,7 +243,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             LoginStores.loginStore.login,
             UserStores.userStore.changePassword
           )
-          body = {  
+          body = {
             ...body,
             exipreDate: LibraryUtils.moment(exipreDate).unix(),
           }
@@ -235,7 +252,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             if (res.status === 200) {
               LoginStores.loginStore.updateLogin({
                 ...LoginStores.loginStore.login,
-                exipreDate,
+                exipreDate: LibraryUtils.moment(exipreDate).unix(),
                 passChanged: true,
               })
               UserStores.userStore.updateChangePassword({
@@ -268,6 +285,35 @@ const NavbarComponent = observer(({ dispatch }) => {
           })
           setModalChangePassword({ show: false })
         }}
+      />
+      <LibraryComponents.Molecules.ModalSessionAllowed
+        {...modalSessionAllowed}
+        onClick={(data: any, item: any, index: number) => {
+          LoginStores.loginStore.LoginService.sessionAllowedLogout({
+            id: item._id,  
+            userId: LoginStores.loginStore.login?.userId,
+            accessToken: item.user.accessToken,
+          }).then(async (res) => {
+            if (res.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.message}`,
+              })
+              const firstArr = data.slice(0, index) || []
+              const secondArr = data.slice(index + 1) || []
+              const finalArray = [...firstArr, ...secondArr]
+              setModalSessionAllowed({
+                show: finalArray.length > 0 ? true : false,
+                data: finalArray,
+              })
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
+                sessionAllowed: res.data.sessionAllowed,
+                loginActivityListByUserId: finalArray,
+              })
+            }
+          })
+        }}
+        onClose={() => {}}
       />
     </>
   )

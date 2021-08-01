@@ -32,7 +32,7 @@ class LoginStore {
     this.login = session
   }
 
-  @action removeUser = (): Promise<boolean> => {
+  @action removeUser = (): Promise<any> => {
     return new Promise<any>((resolve) => {
       if (Session.hasSession) {
         this.LoginService.logout({
@@ -40,7 +40,7 @@ class LoginStore {
           userId: this.login?._id,
           accessToken: this.login?.accessToken,
         }).then(async (res) => {
-          if (res.status === 200) {
+          if (res.success) {
             await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
             await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
             await Storage.removeItem(
@@ -50,8 +50,10 @@ class LoginStore {
             stores.routerStore.updateUserRouter(undefined)
             runInAction(() => {
               this.login = new Login({})
-            })
-            resolve(true)
+            })  
+            resolve(res)
+          } else {  
+            alert(res.message)
           }
         })
       }
@@ -82,7 +84,7 @@ class LoginStore {
     this.inputLogin = new Login({})
   }
 
-  @action updateLogin = (login: any) => {
+  @action updateLogin = (login: Login) => {
     this.login = login
   }
 
@@ -92,7 +94,7 @@ class LoginStore {
   @action updateForgotPassword(details?: ForgotPassword | undefined) {
     if (details) this.forgotPassword = details
     else this.forgotPassword = new ForgotPassword({})
-  }  
+  }
 }
 
 export default LoginStore

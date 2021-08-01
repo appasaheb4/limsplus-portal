@@ -30,9 +30,8 @@ const Default = observer(() => {
     if (LoginStores.loginStore.login) {
       const date1 = dayjs.unix(LoginStores.loginStore.login?.exipreDate)
       const date2 = dayjs.unix(dayjs(new Date()).unix())
-      console.log({ date1, date2 })
       let days = date1.diff(date2, "day")
-      if (   
+      if (
         days >= 0 &&
         days <= 5 &&
         UserStores.userStore.changePassword?.tempHide !== true
@@ -79,9 +78,10 @@ const Default = observer(() => {
         <LibraryComponents.Molecules.ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            const exipreDate = new Date(
+            let exipreDate: any = new Date(
               moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
             )
+            exipreDate = dayjs(exipreDate).unix()
             let body: any = Object.assign(
               LoginStores.loginStore.login,
               UserStores.userStore.changePassword
@@ -101,7 +101,7 @@ const Default = observer(() => {
                 UserStores.userStore.updateChangePassword({
                   ...UserStores.userStore.changePassword,
                   tempHide: true,
-                })
+                })  
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 Password changed!`,
                 })
@@ -136,21 +136,23 @@ const Default = observer(() => {
           if (type === "accountexpire") {
             LoginStore.loginStore.LoginService.accountStatusUpdate({
               userId: LoginStore.loginStore.inputLogin?.userId,
-              status: "Disable",
+              status: "I",
             }).then((res) => {
-              LibraryComponents.Atoms.Toast.error({
-                message: `😔 Your account is disable. Please contact admin`,
-              })
-              LoginStores.loginStore
-                .removeUser()
-                .then((res) => {
-                  if (res) {
-                    history.push("/")
-                  }
+              if (res.success) {
+                LibraryComponents.Atoms.Toast.error({
+                  message: `😔 ${res.message}`,
                 })
-                .catch(() => {
-                  alert("Please try again")
-                })
+                LoginStores.loginStore
+                  .removeUser()
+                  .then((res) => {
+                    if (res) {
+                      history.push("/")
+                    }
+                  })
+                  .catch(() => {
+                    alert("Please try again")
+                  })
+              }
             })
           }
         }}
