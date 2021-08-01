@@ -165,11 +165,11 @@ export class UserService {
       formData.append("id", deatils.id)
       formData.append("file", deatils.image)
       formData.append("folder", deatils.folder)
-      formData.append("name", deatils.image.name)
-      formData.append(
-        "picture",
+      formData.append("fileName", deatils.image.name)
+      formData.append(    
+        "image",      
         `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
-      )
+      )  
       http
         .post(`/auth/uploadImage`, formData, {
           headers: {

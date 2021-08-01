@@ -913,6 +913,7 @@ export const Users = observer(() => {
           >
             <UserList
               data={Stores.userStore.userList || []}
+              extraData={{ lookupItems }}
               isDelete={RouterFlow.checkPermission(
                 toJS(stores.routerStore.userPermission),
                 "Delete"

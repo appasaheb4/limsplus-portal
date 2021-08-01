@@ -16,7 +16,7 @@ export class LoginService {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
         })
-        .catch((error) => {  
+        .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
@@ -24,22 +24,24 @@ export class LoginService {
     new Promise<any>((resolve, reject) => {
       http
         .post(`auth/statusUpdate`, statusInfo)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   forgotPassword = (userInfo: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`auth/forgotPassword`, userInfo)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 
@@ -47,23 +49,27 @@ export class LoginService {
     new Promise<any>((resolve, reject) => {
       http
         .post(`/auth/logout`, details)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 
   sessionAllowedLogout = (details: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ details })
+  
       http
         .post(`/auth/sessionAllowedLogout`, details)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }

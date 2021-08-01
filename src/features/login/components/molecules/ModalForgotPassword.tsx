@@ -1,9 +1,9 @@
-import React, {  useEffect } from "react"
+import React, { useEffect } from "react"
 import { Container } from "reactstrap"
 import { observer } from "mobx-react"
 import * as Assets from "@lp/library/assets"
-
-import * as Utils from "../../utils"
+import { useForm, Controller } from "react-hook-form"
+import { FormHelper } from "@lp/helper"
 
 import * as LibraryComponents from "@lp/library/components"
 
@@ -17,12 +17,26 @@ interface ModalForgotPasswordProps {
 }
 
 const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
-  // const [errors, setErrors] = useState<Models.ForgotPassword>()
   const [showModal, setShowModal] = React.useState(props.show)
   useEffect(() => {
     setShowModal(props.show)
   }, [props])
-    
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const onForgotPassword = (data: any) => {
+    if (
+      Stores.loginStore.forgotPassword?.email !== undefined ||
+      Stores.loginStore.forgotPassword?.mobileNo !== undefined
+    ) {
+      props.onClick(Stores.loginStore.forgotPassword)
+    }
+  }
+
   return (
     <Container>
       {showModal && (
@@ -67,81 +81,72 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                     justify="stretch"
                     fill
                   >
-                    <LibraryComponents.Atoms.Form.Input
-                      label="User Id"
-                      id="userId"
-                      placeholder="User Id"
-                      value={Stores.loginStore.forgotPassword?.userId}
-                      onChange={(userId) => {
-                        // setErrors({
-                        //   ...errors,
-                        //   userId: Utils.validate.single(
-                        //     userId,
-                        //     Utils.constraintsForgotPassword.userId
-                        //   ),
-                        // })
-                        Stores.loginStore.updateForgotPassword({
-                          ...Stores.loginStore.forgotPassword,
-                          userId,
-                        })
-                      }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          label="User Id"
+                          placeholder="User Id"
+                          hasError={errors.userId}
+                          value={Stores.loginStore.forgotPassword?.userId}
+                          onChange={(userId) => {
+                            onChange(userId)
+                            Stores.loginStore.updateForgotPassword({
+                              ...Stores.loginStore.forgotPassword,
+                              userId,
+                            })
+                          }}
+                        />
+                      )}
+                      name="userId"
+                      rules={{ required: true }}
+                      defaultValue=""
                     />
-                    {/* {errors?.userId && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.userId}
-                      </span>
-                    )} */}
-                    <LibraryComponents.Atoms.Form.Input
-                      type="mail"
-                      label="Email"
-                      id="email"
-                      placeholder="Email"
-                      value={Stores.loginStore.forgotPassword?.email}
-                      onChange={(email) => {
-                        // setErrors({
-                        //   ...errors,
-                        //   email: Utils.validate.single(
-                        //     email,
-                        //     Utils.constraintsForgotPassword.email
-                        //   ),
-                        // })
-                        Stores.loginStore.updateForgotPassword({
-                          ...Stores.loginStore.forgotPassword,
-                          email,
-                        })
-                      }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          type="mail"
+                          label="Email"
+                          placeholder="Email"
+                          hasError={errors.email}
+                          value={Stores.loginStore.forgotPassword?.email}
+                          onChange={(email) => {
+                            onChange(email)
+                            Stores.loginStore.updateForgotPassword({
+                              ...Stores.loginStore.forgotPassword,
+                              email,
+                            })
+                          }}
+                        />
+                      )}
+                      name="email"
+                      rules={{ required: false, pattern: FormHelper.patterns.email }}
+                      defaultValue=""
                     />
-                    {/* {errors?.email && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.email}
-                      </span>
-                    )} */}
                     <span className="text-center">OR</span>
-                    <LibraryComponents.Atoms.Form.Input
-                      type="number"
-                      label="Mobile Number"
-                      id="moNumber"
-                      placeholder="Mobile Number"
-                      value={Stores.loginStore.forgotPassword?.mobileNo}
-                      onChange={(mobileNo) => {
-                        // setErrors({
-                        //   ...errors,
-                        //   mobileNo: Utils.validate.single(
-                        //     mobileNo,
-                        //     Utils.constraintsForgotPassword.mobileNo
-                        //   ),
-                        // })
-                        Stores.loginStore.updateForgotPassword({
-                          ...Stores.loginStore.forgotPassword,
-                          mobileNo,
-                        })
-                      }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          type="number"
+                          label="Mobile Number"
+                          placeholder="Mobile Number"
+                          hasError={errors.mobileNo}
+                          value={Stores.loginStore.forgotPassword?.mobileNo}
+                          onChange={(mobileNo) => {
+                            onChange(mobileNo)
+                            Stores.loginStore.updateForgotPassword({
+                              ...Stores.loginStore.forgotPassword,
+                              mobileNo,
+                            })
+                          }}
+                        />
+                      )}
+                      name="mobileNo"
+                      rules={{ required: false }}
+                      defaultValue=""
                     />
-                    {/* {errors?.mobileNo && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.mobileNo}
-                      </span>
-                    )} */}
                   </LibraryComponents.Atoms.List>
                 </div>
                 {/*footer*/}
@@ -150,22 +155,7 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                     className="bg-black text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                     style={{ transition: "all .15s ease" }}
-                    onClick={() => {
-                      if (
-                        Utils.validate(
-                          Stores.loginStore.forgotPassword,
-                          Utils.constraintsForgotPassword
-                        ) === undefined &&
-                        (Stores.loginStore.forgotPassword?.email !== undefined ||
-                          Stores.loginStore.forgotPassword?.mobileNo !== undefined)
-                      ) {
-                        props.onClick(Stores.loginStore.forgotPassword)
-                      } else {
-                        LibraryComponents.Atoms.Toast.warning({
-                          message: `😔 Please enter all information!`,
-                        })
-                      }
-                    }}
+                    onClick={handleSubmit(onForgotPassword)}
                   >
                     Send
                   </button>
