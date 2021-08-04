@@ -272,30 +272,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.method ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="method"
-                  id="modeMethod"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.method}
                   onChange={(method) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(method,column.dataField,row._id)       
+                    props.onUpdateItem(method,'method',row._id)       
                   }}
                 />
-                </>
-              ) 
+              </>
+              )
+              },
+             
           },
           
           {
@@ -349,30 +337,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.bill ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.bill}
                   onChange={(bill) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(bill,column.dataField,row._id)       
+                    props.onUpdateItem(bill,'bill',row._id)       
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
          
 
@@ -527,30 +503,17 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.autoRelease ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="autoRelease"
-                  id="modeAuto Release"
+               <LibraryComponents.Atoms.Form.Toggle
                   value={row.autoRelease}
                   onChange={(autoRelease) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(autoRelease,column.dataField,row._id)       
+                    props.onUpdateItem(autoRelease,'autoRelease',row._id)       
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "holdOOS",
@@ -561,30 +524,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.holdOOS ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="holdOOS"
-                  id="modeHoldOOS"
+             <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.holdOOS}
                   onChange={(holdOOS) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(holdOOS,column.dataField,row._id)       
+                    props.onUpdateItem(holdOOS,'holdOOS',row._id)       
                   }}
                 />
-                </>
-              )   
+              </>
+              )
+              },
+             
           },
 
           
@@ -597,30 +548,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.confidential ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="confidential"
-                  id="modeConfidential"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.confidential}
                   onChange={(confidential) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(confidential,column.dataField,row._id)       
+                    props.onUpdateItem(confidential,'confidential',row._id)       
                   }}
                 />
-                </>
-              )   
+              </>
+              )
+              },
+              
           },
 
           {
@@ -632,30 +571,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.urgent ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="urgent"
-                  id="modeUrgent"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.urgent}
                   onChange={(urgent) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(urgent,column.dataField,row._id)       
+                    props.onUpdateItem(urgent,'urgent',row._id)       
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "instantResult",
@@ -666,30 +593,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.instantResult ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="instantResult"
-                  id="modeInstantResult"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.instantResult}
                   onChange={(instantResult) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(instantResult,column.dataField,row._id)       
+                    props.onUpdateItem(instantResult,'instantResult',row._id)       
                   }}
                 />
-                </>
-              )   
+              </>
+              )
+              },
+             
           },
           {
             dataField: "repitation",
@@ -700,30 +615,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.repitation ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="repitation"
-                  id="modeRepitation"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.repitation}
                   onChange={(repitation) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(repitation,column.dataField,row._id)       
+                    props.onUpdateItem(repitation,'repitation',row._id)       
                   }}
                 />
-                </>
-              ) 
+              </>
+              )
+              },
+              
           },
           {
             dataField: "printLabel",
@@ -734,30 +637,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.printLabel ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="printLabel"
-                  id="modePrintLabel"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.printLabel}
                   onChange={(printLabel) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(printLabel,column.dataField,row._id)       
+                    props.onUpdateItem(printLabel,'printLabel',row._id)       
                   }}
                 />
-                </>
-              ) 
+              </>
+              )
+              },
+                
           },
           {
             dataField: "cumulative",
@@ -768,30 +659,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.cumulative ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="cumulative"
-                  id="modeCumulative"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.cumulative}
                   onChange={(cumulative) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(cumulative,column.dataField,row._id)       
+                    props.onUpdateItem(cumulative,'cumulative',row._id)       
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "reportGroup",
@@ -848,30 +727,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.sexAction ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="sexAction"
-                  id="modeSexAction"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.sexAction}
                   onChange={(sexAction) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(sexAction,column.dataField,row._id)       
+                    props.onUpdateItem(sexAction,'sexAction',row._id)       
                   }}
                 />
-                </>
-              ) 
+              </>
+              )
+              },
+             
           },
           {
             dataField: "hiAge",
@@ -921,30 +788,18 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.pageBreak ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="pageBreak"
-                  id="modePageBreak"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.pageBreak}
                   onChange={(pageBreak) => {
                     props.onUpdateItem &&
-                    props.onUpdateItem(pageBreak,column.dataField,row._id)       
+                    props.onUpdateItem(pageBreak,'pageBreak',row._id)       
                   }}
                 />
-                </>
-              ) 
+              </>
+              )
+              },
+              
           },
           
 
