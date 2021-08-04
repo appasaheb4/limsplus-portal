@@ -240,30 +240,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.method ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="method"
-                  id="modeMethod"
+               <LibraryComponents.Atoms.Form.Toggle
+              
                   value={row.method}
                   onChange={(method) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(method,column.dataField,row._id)                
+                      props.onUpdateItem(method,'method',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
 
           {
@@ -289,30 +277,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.bill ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.bill}
                   onChange={(bill) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(bill,column.dataField,row._id)                
+                      props.onUpdateItem(bill,'bill',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
          
           {
@@ -646,30 +622,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.autoFinish ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="autoFinish"
-                  id="modeAutoFinish"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.autoFinish}
                   onChange={(autoFinish) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(autoFinish,column.dataField,row._id)                
+                      props.onUpdateItem(autoFinish,'autoFinish',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "holdOOS",
@@ -680,30 +644,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.holdOOS ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="holdOOS"
-                  id="modeHoldOOS"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.holdOOS}
                   onChange={(holdOOS) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(holdOOS,column.dataField,row._id)                
+                      props.onUpdateItem(holdOOS,'holdOOS',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           
           {
@@ -715,30 +667,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.confidential ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="confidential"
-                  id="modeConfidential"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.confidential}
                   onChange={(confidential) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(confidential,column.dataField,row._id)                
+                      props.onUpdateItem(confidential,'confidential',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "urgent",
@@ -749,30 +689,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.urgent ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="urgent"
-                  id="modeUrgent"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.urgent}
                   onChange={(urgent) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(urgent,column.dataField,row._id)                
+                      props.onUpdateItem(urgent,'urgent',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
 
           {
@@ -784,30 +712,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.instantResult ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="instantResult"
-                  id="modeInstantResult"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.instantResult}
                   onChange={(instantResult) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(instantResult,column.dataField,row._id)                
+                      props.onUpdateItem(instantResult,'instantResult',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "reportGroup",
@@ -826,30 +742,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.accredited ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="accredited"
-                  id="modeAccredited"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.accredited}
                   onChange={(accredited) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(accredited,column.dataField,row._id)                
+                      props.onUpdateItem(accredited,'accredited',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
               
           },
           {
@@ -861,30 +765,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.cretical ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="cretical"
-                  id="modeCretical"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.cretical}
                   onChange={(cretical) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(cretical,column.dataField,row._id)                
+                      props.onUpdateItem(cretical,' cretical',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
 
          
@@ -897,30 +789,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.repitation ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="repitation"
-                  id="modeRepitation"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.repitation}
                   onChange={(repitation) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(repitation,column.dataField,row._id)                
+                      props.onUpdateItem(repitation,'repitation',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "printLabel",
@@ -931,30 +811,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.printLabel ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="printLabel"
-                  id="modePrintLabel"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.printLabel}
                   onChange={(printLabel) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(printLabel,column.dataField,row._id)                
+                      props.onUpdateItem(printLabel,'printLabel',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "cumulative",
@@ -965,30 +833,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.cumulative ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="cumulative "
-                  id="modeCumulative "
+               <LibraryComponents.Atoms.Form.Toggle
+                
                   value={row.cumulative }
                   onChange={(cumulative ) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(cumulative ,column.dataField,row._id)                
+                      props.onUpdateItem(cumulative ,'cumulative',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "tubeGroup",
@@ -1046,30 +902,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.qcHold ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="qcHold "
-                  id="modeQcHold "
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.qcHold }
                   onChange={(qcHold ) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(qcHold ,column.dataField,row._id)                
+                      props.onUpdateItem(qcHold ,'qcHold',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "oosHold",
@@ -1080,30 +924,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.oosHold ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="oosHold  "
-                  id="modeOOSHold "
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.oosHold  }
                   onChange={(oosHold ) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(oosHold  ,column.dataField,row._id)                
+                      props.onUpdateItem(oosHold  ,'oosHold',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "deltaHold",
@@ -1114,30 +946,19 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.deltaHold ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="deltaHold   "
-                  id="modeDeltaHold  "
+             
+             <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={row.deltaHold  }
                   onChange={(deltaHold  ) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(deltaHold,column.dataField,row._id)                
+                      props.onUpdateItem(deltaHold,'deltaHold',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+             
           },
           {
             dataField: "prefix",
@@ -1235,30 +1056,18 @@ const TestMasterList = observer((props: TestMasterProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.allowPartial ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="allowPartial"
-                  id="modeAllowPartial"
+              <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={row.allowPartial}
                   onChange={(allowPartial) => {
                     props.onUpdateItem &&
-                      props.onUpdateItem(allowPartial,column.dataField,row._id)                
+                      props.onUpdateItem(allowPartial,'allowPartial',row._id)                
                   }}
                 />
-                </>
+              </>
               )
+              },
+              
           },
           {
             dataField: "collectionContainer",
