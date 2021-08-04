@@ -67,6 +67,16 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "Sunday Processing",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return <> <LibraryComponents.Atoms.Form.Toggle
+               
+                value={row.sundayProcessing}
+                onChange={(sundayProcessing) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(sundayProcessing,'sundayProcessing',row._id)
+                }}
+              /></>
+              },
             },
             {
               dataField: "holidayProcessing",
@@ -87,6 +97,16 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "Holiday Reporting",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return <> <LibraryComponents.Atoms.Form.Toggle
+               
+                value={row.holidayReporting}
+                onChange={(holidayReporting) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(holidayReporting,'holidayReporting',row._id)
+                }}
+              /></>
+              },
             },
 
             {
@@ -157,6 +177,16 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "On Time",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              formatter: (cell, row) => {
+                return <> <LibraryComponents.Atoms.Form.Toggle
+               
+                value={row.onTime}
+                onChange={(onTime) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(onTime,'onTime',row._id)
+                }}
+              /></>
+              },
             },
             {
               dataField: "schForDept",
