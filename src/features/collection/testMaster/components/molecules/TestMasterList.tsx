@@ -232,8 +232,50 @@ const TestMasterList = observer((props: TestMasterProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
+            dataField: "method",
+            text: "Method",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cell, row) => {
+              return (
+              <>
+              {row.method ? 'Yes' :'No'}
+              </>
+              )
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex  
+              ) => (
+                <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                  label="method"
+                  id="modeMethod"
+                  value={row.method}
+                  onChange={(method) => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(method,column.dataField,row._id)                
+                  }}
+                />
+                </>
+              )
+          },
+
+          {
             dataField: "shortName",
             text: "Short Name",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+           {
+            dataField: "price",
+            text: "Price",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -272,13 +314,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                 </>
               )
           },
-          {
-            dataField: "price",
-            text: "Price",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
+         
           {
             dataField: "schedule",
             text: "Schedule",
@@ -293,6 +329,314 @@ const TestMasterList = observer((props: TestMasterProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
+          {
+            dataField: "validationLevel",
+            text: "Validation Level",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const validationLevel: any = e.target.value
+                    props.onUpdateItem &&
+                       props.onUpdateItem(validationLevel,column.dataField,row._id)
+
+                  }}
+                >
+                  <option selected>Select</option>
+                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+
+          },
+          {
+            dataField: "resultOrder",
+            text: "Result Order",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
+            dataField: "processing",
+            text: "Processing",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const processing = e.target.value as
+                      | "MANUAL"
+                      | "AEMI"
+                      | "AUTOMATIC"
+                      props.onUpdateItem &&
+                         props.onUpdateItem(processing,column.dataField,row._id)
+
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["MANUAL", "AEMI", "AUTOMATIC"].map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          {
+            dataField: "sampleRunOn",
+            text: "Sample Run On",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
+                    props.onUpdateItem &&
+                       props.onUpdateItem(sampleRunOn,column.dataField,row._id)
+
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["LABID", "SAMPLEID"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          {
+            dataField: "workflow",
+            text: "Workflow",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflow = e.target.value as string
+                    props.onUpdateItem &&
+                    props.onUpdateItem(workflow,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          
+          {
+            dataField: "disease",
+            text: "disease",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Disease">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const disease = e.target.value as string
+                    props.onUpdateItem &&
+                    props.onUpdateItem(disease,column.dataField,row._id)
+                   
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          {
+            dataField: "category",
+            text: "Category",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const category = e.target.value as string
+                    props.onUpdateItem &&
+                    props.onUpdateItem(category,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          {
+            dataField: "testType",
+            text: "Test Type",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const testType = e.target.value as string
+                    props.onUpdateItem &&
+                      props.onUpdateItem(testType,column.dataField,row._id)
+
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+
+          },
+          {
+            dataField: "workflowCode",
+            text: "Workflow Code",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex  
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const workflowCode = e.target.value as string
+                    props.onUpdateItem &&
+                      props.onUpdateItem(workflowCode,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Workflow Code 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            )
+          },
+          {
+            dataField: "cptCode",
+            text: "CPT Code",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+
           {
             dataField: "autoFinish",
             text: "Auto Finish",
@@ -361,43 +705,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                 </>
               )
           },
-          {
-            dataField: "validationLevel",
-            text: "Validation Level",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const validationLevel: any = e.target.value
-                    props.onUpdateItem &&
-                       props.onUpdateItem(validationLevel,column.dataField,row._id)
-
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-
-          },
+          
           {
             dataField: "confidential",
             text: "Confidential",
@@ -508,13 +816,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          {
-            dataField: "resultOrder",
-            text: "Result Order",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
+         
           {
             dataField: "accredited",
             text: "Accredited",
@@ -585,47 +887,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               )
           },
 
-          {
-            dataField: "processing",
-            text: "Processing",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const processing = e.target.value as
-                      | "MANUAL"
-                      | "AEMI"
-                      | "AUTOMATIC"
-                      props.onUpdateItem &&
-                         props.onUpdateItem(processing,column.dataField,row._id)
-
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["MANUAL", "AEMI", "AUTOMATIC"].map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
+         
           {
             dataField: "repitation",
             text: "Repitation",
@@ -659,13 +921,6 @@ const TestMasterList = observer((props: TestMasterProps) => {
                 />
                 </>
               )
-          },
-          {
-            dataField: "tubeGroup",
-            text: "Tube Group",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "printLabel",
@@ -702,126 +957,6 @@ const TestMasterList = observer((props: TestMasterProps) => {
               )
           },
           {
-            dataField: "labelInstruction",
-            text: "Label Instruction",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "method",
-            text: "Method",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            formatter: (cell, row) => {
-              return (
-              <>
-              {row.method ? 'Yes' :'No'}
-              </>
-              )
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex  
-              ) => (
-                <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                  label="method"
-                  id="modeMethod"
-                  value={row.method}
-                  onChange={(method) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(method,column.dataField,row._id)                
-                  }}
-                />
-                </>
-              )
-          },
-
-          {
-            dataField: "panelMethod",
-            text: "Panel Method",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "sampleRunOn",
-            text: "Sample Run On",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
-                    props.onUpdateItem &&
-                       props.onUpdateItem(sampleRunOn,column.dataField,row._id)
-
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["LABID", "SAMPLEID"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
-          {
-            dataField: "workflow",
-            text: "Workflow",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const workflow = e.target.value as string
-                    props.onUpdateItem &&
-                    props.onUpdateItem(workflow,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
-          {
             dataField: "cumulative",
             text: "Cumulative",
             sort: true,
@@ -855,6 +990,32 @@ const TestMasterList = observer((props: TestMasterProps) => {
                 </>
               )
           },
+          {
+            dataField: "tubeGroup",
+            text: "Tube Group",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          
+          {
+            dataField: "labelInstruction",
+            text: "Label Instruction",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          
+          {
+            dataField: "panelMethod",
+            text: "Panel Method",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          
+          
+         
 
           {
             dataField: "sampleType",
@@ -863,157 +1024,11 @@ const TestMasterList = observer((props: TestMasterProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          {
-            dataField: "speicalInstructions",
-            text: "Speical Instructions",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "disease",
-            text: "disease",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Disease">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const disease = e.target.value as string
-                    props.onUpdateItem &&
-                    props.onUpdateItem(disease,column.dataField,row._id)
-                   
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
-          {
-            dataField: "category",
-            text: "Category",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Category">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const category = e.target.value as string
-                    props.onUpdateItem &&
-                    props.onUpdateItem(category,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
-          {
-            dataField: "testType",
-            text: "Test Type",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const testType = e.target.value as string
-                    props.onUpdateItem &&
-                      props.onUpdateItem(testType,column.dataField,row._id)
-
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-
-          },
-
-          {
-            dataField: "workflowCode",
-            text: "Workflow Code",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex  
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const workflowCode = e.target.value as string
-                    props.onUpdateItem &&
-                      props.onUpdateItem(workflowCode,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Workflow Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            )
-          },
+         
+          
+          
+          
+          
           {
             dataField: "worklistCode",
             text: "Worklist Code",
@@ -1021,13 +1036,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
-          {
-            dataField: "cptCode",
-            text: "CPT Code",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
+          
           {
             dataField: "qcHold",
             text: "QC Hold",
@@ -1204,6 +1213,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             )
           },
           {
+            dataField: "speicalInstructions",
+            text: "Speical Instructions",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          },
+          {
             dataField: "deleverySchedule",
             text: "Delevery Schedule",
             sort: true,
@@ -1294,6 +1310,13 @@ const TestMasterList = observer((props: TestMasterProps) => {
             )
           },
           {
+            dataField: "enteredBy",
+            text: "Entered By",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
+          },
+          {
             dataField: "dateCreation",
             text: "Date Creation",
             sort: true,
@@ -1339,13 +1362,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
-          {
-            dataField: "enteredBy",
-            text: "Entered By",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false,
-          },
+          
           {
             dataField: "opration",
             text: "Action",
