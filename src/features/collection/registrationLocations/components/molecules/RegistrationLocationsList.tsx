@@ -203,26 +203,16 @@ const RegistrationLocationsList = observer(
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.confidential ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                
+                value={row.confidential}
+                onChange={(confidential) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(confidential,'confidential',row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => <>
-                     <LibraryComponents.Atoms.Form.Toggle
-                  label="Confidential"
-                  id="modeConfidential"
-                  value={row.confidential}
-                  onChange={(confidential) => {
-                      props.onUpdateItem &&
-                       props.onUpdateItem(confidential,column.dataField,row._id)
-                  }}
-                />
-              </>,
+             
             },
             {
               dataField: "telephone",
@@ -395,26 +385,16 @@ const RegistrationLocationsList = observer(
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.printLabel ? "Yes" : "No"}</>
+                return <> <LibraryComponents.Atoms.Form.Toggle
+              
+                value={row.printLabel}
+                onChange={(printLabel) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(printLabel,'printLabel',row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => <>
-                     <LibraryComponents.Atoms.Form.Toggle
-                  label="printLabel"
-                  id="modePrintLabel"
-                  value={row.printLabel}
-                  onChange={(printLabel) => {
-                      props.onUpdateItem &&
-                       props.onUpdateItem(printLabel,column.dataField,row._id)
-                  }}
-                />
-              </>,
+             
 
             },
             {
@@ -564,26 +544,16 @@ const RegistrationLocationsList = observer(
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.neverBill ? "Yes" : "No"}</>
+                return <> <LibraryComponents.Atoms.Form.Toggle
+              
+                value={row.neverBill}
+                onChange={(neverBill) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(neverBill,'neverBill',row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => <>
-                     <LibraryComponents.Atoms.Form.Toggle
-                  label="neverBill"
-                  id="modeNeverBill"
-                  value={row.neverBill}
-                  onChange={(neverBill) => {
-                      props.onUpdateItem &&
-                       props.onUpdateItem(neverBill,column.dataField,row._id)
-                  }}
-                />
-              </>,
+             
             },
             {
               dataField: "edi",
@@ -607,26 +577,16 @@ const RegistrationLocationsList = observer(
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.urgent ? "Yes" : "No"}</>
+                return <> <LibraryComponents.Atoms.Form.Toggle
+              
+                value={row.urgent}
+                onChange={(urgent) => {
+                    props.onUpdateItem &&
+                     props.onUpdateItem(urgent,'urgent',row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => <>
-                     <LibraryComponents.Atoms.Form.Toggle
-                  label="Urgent"
-                  id="modeUrgent"
-                  value={row.urgent}
-                  onChange={(urgent) => {
-                      props.onUpdateItem &&
-                       props.onUpdateItem(urgent,column.dataField,row._id)
-                  }}
-                />
-              </>,
+            
             },
             {
               dataField: "schedule",
