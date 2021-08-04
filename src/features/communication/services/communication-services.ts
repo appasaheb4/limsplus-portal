@@ -1,7 +1,7 @@
 /**
  * @fileoverview Use this file invoke LimsPlus API
  * implementation related to LimsPlus standards
- * @package Feed Service
+ 
  * @author limsplus
  */
 import { http } from "@lp/library/modules/http"

@@ -20,7 +20,7 @@ class UsersStore {
     this.user = {
       ...this.user,
       exipreDate: LibraryUtils.moment(date).unix(),
-      expireDays: 30,  
+      expireDays: 30,
       dateOfEntry: LibraryUtils.moment(new Date()).unix(),
       dateOfBirth: LibraryUtils.moment(
         new Date(moment(date).add(-30, "years").format("YYYY-MM-DD HH:mm:ss"))
@@ -38,9 +38,10 @@ class UsersStore {
   }
 
   @action loadUser() {
-    this.UsersService.userList().then((user) => {
-      this.userList = user
-    })
+    this.UsersService.userList().then((res) => {
+      if (res.success) this.userList = res.data.user
+      else alert(res.message)
+    })  
   }
 
   @action updateUser(user: Models.Users) {
