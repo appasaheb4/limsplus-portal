@@ -80,10 +80,10 @@ export const Users = observer(() => {
         if (res.success) {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.message}`,
-          })
+          })   
           Stores.userStore.loadUser()
         } else {
-          LibraryComponents.Atoms.Toast.warning({
+          LibraryComponents.Atoms.Toast.error({
             message: `😔 ${res.message}`,
           })
         }
