@@ -540,28 +540,15 @@ const LabList = observer((props: LabListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return <>{row.autoRelease ? "Yes" : "No"}</>
+              return <><LibraryComponents.Atoms.Form.Toggle
+              value={row.autoRelease}
+              onChange={(autoRelease) => {
+                props.onUpdateItem &&
+                  props.onUpdateItem(autoRelease, 'autoRelease', row._id)
+              }}
+            /></>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="AutoRelease"
-                  id="modeAutoRelease"
-                  value={row.autoRelease}
-                  onChange={(autoRelease) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(autoRelease, column.dataField, row._id)
-                  }}
-                />
-              </>
-            ),
+            
           },
           {
             dataField: "requireReceveInLab",
@@ -569,27 +556,15 @@ const LabList = observer((props: LabListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return <>{row.requireReceveInLab ? "Yes" : "No"}</>
+              return <><LibraryComponents.Atoms.Form.Toggle
+              value={row.requireReceveInLab}
+              onChange={(requireReceveInLab) => {
+                props.onUpdateItem &&
+                props.onUpdateItem(requireReceveInLab, 'requireReceveInLab', row._id)
+            }}
+            /></>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Require receve in lab"
-                  value={row.requireReceveInLab}
-                  onChange={(requireReceveInLab) => {
-                    props.onUpdateItem &&
-                    props.onUpdateItem(requireReceveInLab, column.dataField, row._id)
-                }}
-                />
-              </>
-            ),
+           
           },
           {
             dataField: "requireScainIn",
@@ -597,27 +572,15 @@ const LabList = observer((props: LabListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return <>{row.requireScainIn ? "Yes" : "No"}</>
+              return <><LibraryComponents.Atoms.Form.Toggle
+              value={row.requireScainIn}
+              onChange={(requireScainIn) => {
+                props.onUpdateItem &&
+                props.onUpdateItem(requireScainIn, 'requireScainIn', row._id)
+              }}
+            /></>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Require Scain In"
-                  value={row.requireScainIn}
-                  onChange={(requireScainIn) => {
-                    props.onUpdateItem &&
-                    props.onUpdateItem(requireScainIn, column.dataField, row._id)
-                  }}
-                />
-              </>
-            ),
+           
           },
 
           {
@@ -626,27 +589,15 @@ const LabList = observer((props: LabListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return <>{row.routingDept ? "Yes" : "No"}</>
+              return <><LibraryComponents.Atoms.Form.Toggle
+              value={row.routingDept}
+              onChange={(routingDept) => {
+                props.onUpdateItem &&
+                props.onUpdateItem(routingDept, 'routingDept', row._id)
+              }}
+            /></>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                 <LibraryComponents.Atoms.Form.Toggle
-                  label="Routing Dept"
-                  value={row.routingDept}
-                  onChange={(routingDept) => {
-                    props.onUpdateItem &&
-                    props.onUpdateItem(routingDept, column.dataField, row._id)
-                  }}
-                />
-              </>
-            ),
+           
           },
           {
             dataField: "fyiLine",
