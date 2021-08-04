@@ -48,8 +48,8 @@ const ModalSessionAllowed = (props: ModalProps) => {
                   <div className="grid grid-flow-row grid-cols-3  gap-4">
                     {props.data?.length === 0 && (
                       <div className="flex flex-col p-2  items-center">
-                        <label>Session not found</label>
-                      </div>
+                        <label>Extra session not found</label>
+                      </div>   
                     )}
                     {props.data?.map((item, index) => (
                       <>
