@@ -368,31 +368,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.primaryContainer ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="Primary Container"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={
                     row.primaryContainer
                   }
                   onChange={(primaryContainer) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(primaryContainer,column.dataField,row._id)
+                      props.onUpdateItem(primaryContainer,'primaryContainer',row._id)
                   }}
                 />
-                  </>
-                ),  
+              </>
+              )
+              },  
+                
           },
           {
             dataField: "uniqueContainer",
@@ -402,31 +391,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.uniqueContainer ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="Unique Container"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={
                     row.uniqueContainer
                   }
                   onChange={(uniqueContainer) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(uniqueContainer,column.dataField,row._id)
+                      props.onUpdateItem(uniqueContainer,'uniqueContainer',row._id)
                   }}
                 />
-                  </>
-                ),  
+              </>
+              )
+              },  
+               
           },
 
           {
@@ -437,31 +415,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.centerIfuge ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="CenterIfuge"
+               <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={
                     row.centerIfuge
                   }
                   onChange={(centerIfuge) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(centerIfuge,column.dataField,row._id)
+                      props.onUpdateItem(centerIfuge,'centerIfuge',row._id)
                   }}
                 />
-                  </>
-                ),
+              </>
+              )
+              },  
+                
           },
           {
             dataField: "aliquot",
@@ -470,32 +437,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
-              <>
-              {row.aliquot ? 'Yes' :'No'}
+              <> <LibraryComponents.Atoms.Form.Toggle
+             
+              value={
+                row.aliquot
+              }
+              onChange={(aliquot) => {
+                props.onUpdateItem && 
+                  props.onUpdateItem(aliquot,'aliquot',row._id)
+              }}
+            /> {row.aliquot ? 'Yes' :'No'}
               </>
               )
               },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="Aliquot"
-                  value={
-                    row.aliquot
-                  }
-                  onChange={(aliquot) => {
-                    props.onUpdateItem && 
-                      props.onUpdateItem(aliquot,column.dataField,row._id)
-                  }}
-                />
-                  </>
-                ),
+                
           },
           {
             dataField: "labSpecfic",
@@ -505,31 +460,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.labSpecfic ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="Lab Specfic"
+               <LibraryComponents.Atoms.Form.Toggle
+                  
                   value={
                     row.labSpecfic
                   }
                   onChange={(labSpecfic) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(labSpecfic,column.dataField,row._id)
+                      props.onUpdateItem(labSpecfic,'labSpecfic',row._id)
                   }}
                 />
-                  </>
-                ),
+              </>
+              )
+              },  
+               
           },
 
           {
@@ -540,31 +484,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.departmentSpecfic ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
+               <LibraryComponents.Atoms.Form.Toggle
                   label="Department Specfic"
                   value={
                     row.departmentSpecfic
                   }
                   onChange={(departmentSpecfic) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(departmentSpecfic,column.dataField,row._id)
+                      props.onUpdateItem(departmentSpecfic,'departmentSpecfic',row._id)
                   }}
                 />
-                  </>
-                ),
+              </>
+              )
+              },  
+               
           },
           {
             dataField: "sharedSample",
@@ -574,31 +507,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.sharedSample ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
+              <LibraryComponents.Atoms.Form.Toggle
                   label="Shared Sample"
                   value={
                     row.sharedSample
                   }
                   onChange={(sharedSample) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(sharedSample,column.dataField,row._id)
+                      props.onUpdateItem(sharedSample,'sharedSample',row._id)
                   }}
                 />
-                  </>
-                ),
+              </>
+              )
+              },  
+                
           },
           {
             dataField: "minDrawVol",
@@ -744,31 +666,20 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
             formatter: (cell, row) => {
               return (
               <>
-              {row.printLabels ? 'Yes' :'No'}
-              </>
-              )
-              },  
-                editorRenderer: (
-                  editorProps,
-                  value,
-                  row,
-                  column,
-                  rowIndex,
-                  columnIndex  
-                ) => (
-                  <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                  label="Print Labels"
+              <LibraryComponents.Atoms.Form.Toggle
+                 
                   value={
                     row.printLabels
                   }
                   onChange={(printLabels) => {
                     props.onUpdateItem && 
-                      props.onUpdateItem(printLabels,column.dataField,row._id)
+                      props.onUpdateItem(printLabels,'printLabels',row._id)
                   }}
                 />
-                  </>
-                ),
+              </>
+              )
+              },  
+               
           },
           {
             dataField: "info",
