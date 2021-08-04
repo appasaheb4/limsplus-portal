@@ -279,26 +279,16 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
-              return <>{row.confidential ? "Yes" : "No"}</>
+              return <> <LibraryComponents.Atoms.Form.Toggle
+             
+              value={row.confidential}
+              onChange={(confidential) => {
+                  props.onUpdateItem && 
+                    props.onUpdateItem(confidential,'confidential',row._id)
+              }}
+            />     </>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => 
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                  label="Confidential"
-                  value={row.confidential}
-                  onChange={(confidential) => {
-                      props.onUpdateItem && 
-                        props.onUpdateItem(confidential,column.dataField,row._id)
-                  }}
-                />       
-            </>,
+            
           },
           {
             dataField: "salesTerritoRy",
@@ -472,26 +462,16 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
-              return <>{row.urgent ? "Yes" : "No"}</>
+              return <><LibraryComponents.Atoms.Form.Toggle
+             
+              value={row.urgent}
+              onChange={(urgent) => {
+                  props.onUpdateItem && 
+                    props.onUpdateItem(urgent,'urgent',row._id)
+              }}
+            />   </>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => 
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                  label="Urgent"
-                  value={row.urgent}
-                  onChange={(urgent) => {
-                      props.onUpdateItem && 
-                        props.onUpdateItem(urgent,column.dataField,row._id)
-                  }}
-                />       
-            </>,
+           
           },
           {
             dataField: "registrationLocation",
