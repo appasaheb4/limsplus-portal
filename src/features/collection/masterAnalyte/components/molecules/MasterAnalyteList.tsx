@@ -133,11 +133,77 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
+              dataField: "method",
+              text: "Method",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.method ? "Yes" : "No"}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Toggle
+                    label="Method"
+                    id="modeMethod"
+                    value={row.method}
+                    onChange={(method) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(method, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "analyteMethod",
+              text: "Analyte Method",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
               dataField: "shortName",
               text: "Short Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "price",
+              text: "Price",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Price"
+                    name="txtPrice"
+                    placeholder="Price"
+                    type="number"
+                    value={row.price}
+                    onChange={(price) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(price, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "bill",
@@ -170,8 +236,52 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ),
             },
             {
-              dataField: "price",
-              text: "Price",
+              dataField: "high",
+              text: "High",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "low",
+              text: "Low",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            },
+            {
+              dataField: "display",
+              text: "Display",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.display ? "Yes" : "No"}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Toggle
+                    label="Display"
+                    id="modeDisplay"
+                    value={row.display}
+                    onChange={(display) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(display, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "resultType",
+              text: "Result Type",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -184,26 +294,237 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Price"
-                    name="txtPrice"
-                    placeholder="Price"
-                    type="number"
-                    value={row.price}
-                    onChange={(price) => {
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const resultType = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(price, column.dataField, row._id)
+                        props.onUpdateItem(resultType,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "RESULT_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "calculationFlag",
+              text: "Calculation Flag",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.calculationFlag ? "Yes" : "No"}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Toggle
+                    label="CalculationFlag"
+                    id="modeCalculationFlag"
+                    value={row.calculationFlag}
+                    onChange={(calculationFlag) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          calculationFlag,
+                          column.dataField,
+                          row._id
+                        )
                     }}
                   />
                 </>
               ),
             },
             {
-              dataField: "schedule",
-              text: "Schedule",
+              dataField: "analyteType",
+              text: "Analyte Type",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
+                <select
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const analyteType = e.target.value
+                      props.onUpdateItem && 
+                        props.onUpdateItem(analyteType,column.dataField,row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ANALYTE_TYPE").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "units",
+              text: "Units",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Units">
+                    <select
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const units = e.target.value as string
+                        props.onUpdateItem &&
+                          props.onUpdateItem(units, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(lookupItems, "UNITS").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "usage",
+              text: "Usage",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
+                    <select
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const usage = e.target.value as string
+                        props.onUpdateItem &&
+                          props.onUpdateItem(usage, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(lookupItems, "USAGE").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "picture",
+              text: "picture",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Picture">
+                    <select
+                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const picture = e.target.value as "0" | "1" | "2" | "3"
+                        props.onUpdateItem &&
+                          props.onUpdateItem(picture, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["0", "1", "2", "3"].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
+              dataField: "repetition",
+              text: "Repetition",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.repetition ? "Yes" : "No"}</>
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.Toggle
+                    label="Repetition"
+                    id="modeRepetition"
+                    value={row.repetition}
+                    onChange={(repetition) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(repetition, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "autoRelease",
@@ -295,13 +616,21 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 </>
               ),
             },
-            {
-              dataField: "tubeGroups",
-              text: "Tube Groups",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
+            // {
+            //   dataField: "schedule",
+            //   text: "Schedule",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            // },
+           
+            // {
+            //   dataField: "tubeGroups",
+            //   text: "Tube Groups",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            // },
             {
               dataField: "pageBreak",
               text: "Page Break",
@@ -332,423 +661,99 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 </>
               ),
             },
-            {
-              dataField: "method",
-              text: "Method",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <>{row.method ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Method"
-                    id="modeMethod"
-                    value={row.method}
-                    onChange={(method) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(method, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "analyteMethod",
-              text: "Analyte Method",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "workflow",
-              text: "Workflow",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
-                    <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const workflow = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(workflow, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
-            {
-              dataField: "sampleType",
-              text: "sampleType",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Sample Type"
-                    id="optionSampleType"
-                  >
-                    <select
-                      name="optionSampleTypes"
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sampleType = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sampleType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["sampleType1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
-            {
-              dataField: "display",
-              text: "Display",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <>{row.display ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Display"
-                    id="modeDisplay"
-                    value={row.display}
-                    onChange={(display) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(display, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "calculationFlag",
-              text: "Calculation Flag",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <>{row.calculationFlag ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="CalculationFlag"
-                    id="modeCalculationFlag"
-                    value={row.calculationFlag}
-                    onChange={(calculationFlag) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          calculationFlag,
-                          column.dataField,
-                          row._id
-                        )
-                    }}
-                  />
-                </>
-              ),
-            },
+            
+           
+            // {
+            //   dataField: "workflow",
+            //   text: "Workflow",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex
+            //   ) => (
+            //     <>
+            //       <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
+            //         <select
+            //           className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           onChange={(e) => {
+            //             const workflow = e.target.value as string
+            //             props.onUpdateItem &&
+            //               props.onUpdateItem(workflow, column.dataField, row._id)
+            //           }}
+            //         >
+            //           <option selected>Select</option>
+            //           {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map(
+            //             (item: any, index: number) => (
+            //               <option key={index} value={item.code}>
+            //                 {`${item.value} - ${item.code}`}
+            //               </option>
+            //             )
+            //           )}
+            //         </select>
+            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //     </>
+            //   ),
+            // },
+            // {
+            //   dataField: "sampleType",
+            //   text: "sampleType",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex
+            //   ) => (
+            //     <>
+            //       <LibraryComponents.Atoms.Form.InputWrapper
+            //         label="Sample Type"
+            //         id="optionSampleType"
+            //       >
+            //         <select
+            //           name="optionSampleTypes"
+            //           className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           onChange={(e) => {
+            //             const sampleType = e.target.value as string
+            //             props.onUpdateItem &&
+            //               props.onUpdateItem(sampleType, column.dataField, row._id)
+            //           }}
+            //         >
+            //           <option selected>Select</option>
+            //           {["sampleType1"].map((item: any, index: number) => (
+            //             <option key={index} value={item}>
+            //               {item}
+            //             </option>
+            //           ))}
+            //         </select>
+            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //     </>
+            //   ),
+            // },
+            
+           
             {
               dataField: "calcyName",
               text: "Calcy Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "high",
-              text: "High",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "low",
-              text: "Low",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "repetition",
-              text: "Repetition",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <>{row.repetition ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Repetition"
-                    id="modeRepetition"
-                    value={row.repetition}
-                    onChange={(repetition) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(repetition, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: "picture",
-              text: "picture",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Picture">
-                    <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const picture = e.target.value as "0" | "1" | "2" | "3"
-                        props.onUpdateItem &&
-                          props.onUpdateItem(picture, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["0", "1", "2", "3"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
-            {
-              dataField: "units",
-              text: "Units",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Units">
-                    <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const units = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(units, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "UNITS").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
-            {
-              dataField: "usage",
-              text: "Usage",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
-                    <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const usage = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(usage, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(lookupItems, "USAGE").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
+            },   
             {
               dataField: "cptCode",
               text: "CPT Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },
-            {
-              dataField: "resultType",
-              text: "Result Type",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const resultType = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(resultType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "RESULT_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
-            {
-              dataField: "analyteType",
-              text: "Analyte Type",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
-                <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const analyteType = e.target.value
-                      props.onUpdateItem && 
-                        props.onUpdateItem(analyteType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ANALYTE_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
             },
             {
               dataField: "status",
@@ -786,6 +791,13 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
+            },
+            {
+              dataField: "enteredBy",
+              editable: false,
+              text: "Entered By",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "dateCreation",
@@ -849,13 +861,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            {
-              dataField: "enteredBy",
-              editable: false,
-              text: "Entered By",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
+            
             {
               dataField: "opration",
               text: "Action",

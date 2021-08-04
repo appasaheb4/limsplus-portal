@@ -215,6 +215,13 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             ),
           },
           {
+            dataField: "enteredBy",
+            text: "Entered By",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
+          },
+          {
             dataField: "dateCreation",
             editable: false,
             text: "Date Creation",
@@ -251,13 +258,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
-          {
-            dataField: "enteredBy",
-            text: "Entered By",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false,
-          },
+          
           {
             dataField: "opration",
             text: "Action",
