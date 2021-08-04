@@ -1,23 +1,24 @@
 /**
  * @fileoverview Use this file invoke LimsPlus API
  * implementation related to LimsPlus standards
- * @package Feed Service
  * @author limsplus
  */
+
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { AssetsService } from "@lp/features/assets/services"
 
 export class UserService {
   userList = () =>
-    new Promise<Models.Users[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`/auth/listUser`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   reSendPassword = (userInfo: any) =>
@@ -29,7 +30,7 @@ export class UserService {
         })
         .catch((error) => {
           reject({ error })
-        })   
+        })
     })
 
   checkExitsUserId = (userId: string) =>
@@ -95,6 +96,7 @@ export class UserService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   deleteUser = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -118,6 +120,7 @@ export class UserService {
           reject({ error })
         })
     })
+
   changePassword = (body: any) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -129,6 +132,7 @@ export class UserService {
           reject({ error })
         })
     })
+
   switchAccess = (accessInfo: any) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -150,15 +154,10 @@ export class UserService {
           resolve(serviceResponse)
         })
         .catch((error) => {
-          reject(
-            new ServiceResponse<any>(
-              0, // 1= Success, 0= Failure,
-              error.message,
-              undefined
-            )
-          )
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   uploadImage = (deatils: any) =>
     new Promise<any>((resolve, reject) => {
       const formData = new FormData()
@@ -166,10 +165,10 @@ export class UserService {
       formData.append("file", deatils.image)
       formData.append("folder", deatils.folder)
       formData.append("fileName", deatils.image.name)
-      formData.append(    
-        "image",      
+      formData.append(
+        "image",
         `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
-      )  
+      )
       http
         .post(`/auth/uploadImage`, formData, {
           headers: {
@@ -182,6 +181,19 @@ export class UserService {
         })
         .catch((error) => {
           reject({ error })
+        })
+    })
+
+  loginActivityList = (details: any) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/auth/loginActivityList`, details)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }

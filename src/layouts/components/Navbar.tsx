@@ -167,10 +167,23 @@ const NavbarComponent = observer(({ dispatch }) => {
               size="medium"
               type="outline"
               onClick={() => {
-                console.log({ LoginStores })
-                setModalSessionAllowed({
-                  show: true,
-                  data: LoginStores.loginStore.login.loginActivityListByUserId,
+                UserStores.userStore.UsersService.loginActivityList({
+                  userId: LoginStores.loginStore.login.userId,
+                  loginActivityId: LoginStores.loginStore.login.loginActivityId,
+                }).then((res) => {
+                  console.log({ res })
+                  if (!res.success) alert(res.message)
+                  else {
+                    LoginStores.loginStore.updateLogin({
+                      ...LoginStores.loginStore.login,
+                      loginActivityList: res.data.loginActivityList,
+                      sessionAllowed: res.data.sessionAllowed,
+                    })
+                    setModalSessionAllowed({
+                      show: true,  
+                      data: res.data.loginActivityList,
+                    })
+                  }
                 })
               }}
             >
@@ -290,7 +303,7 @@ const NavbarComponent = observer(({ dispatch }) => {
         {...modalSessionAllowed}
         onClick={(data: any, item: any, index: number) => {
           LoginStores.loginStore.LoginService.sessionAllowedLogout({
-            id: item._id,  
+            id: item._id,
             userId: LoginStores.loginStore.login?.userId,
             accessToken: item.user.accessToken,
           }).then(async (res) => {
@@ -308,12 +321,14 @@ const NavbarComponent = observer(({ dispatch }) => {
               LoginStores.loginStore.updateLogin({
                 ...LoginStores.loginStore.login,
                 sessionAllowed: res.data.sessionAllowed,
-                loginActivityListByUserId: finalArray,
+                loginActivityList: finalArray,
               })
             }
           })
         }}
-        onClose={() => {}}
+        onClose={() => {   
+          setModalSessionAllowed({ show: false })
+        }}
       />
     </>
   )
