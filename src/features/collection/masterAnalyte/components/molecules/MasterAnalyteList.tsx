@@ -139,28 +139,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.method ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Method"
-                    id="modeMethod"
-                    value={row.method}
-                    onChange={(method) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(method, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.method}
+                onChange={(method) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(method, 'method', row._id)
+                }}
+              /></>
+              }
+              
             },
             {
               dataField: "analyteMethod",
@@ -212,28 +199,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.bill ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.bill}
+                onChange={(bill) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(bill, 'bill', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Bill"
-                    id="modeBill"
-                    value={row.bill}
-                    onChange={(bill) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(bill, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
+             
             },
             {
               dataField: "high",
@@ -256,28 +230,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.display ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.display}
+                onChange={(display) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(display, 'display', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Display"
-                    id="modeDisplay"
-                    value={row.display}
-                    onChange={(display) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(display, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
+              
             },
             {
               dataField: "resultType",
@@ -323,32 +284,19 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.calculationFlag ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.calculationFlag}
+                onChange={(calculationFlag) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(
+                      calculationFlag,
+                      'calculationFlag',
+                      row._id
+                    )
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="CalculationFlag"
-                    id="modeCalculationFlag"
-                    value={row.calculationFlag}
-                    onChange={(calculationFlag) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          calculationFlag,
-                          column.dataField,
-                          row._id
-                        )
-                    }}
-                  />
-                </>
-              ),
+             
             },
             {
               dataField: "analyteType",
@@ -503,28 +451,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.repetition ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.repetition}
+                onChange={(repetition) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(repetition, 'repetition', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Repetition"
-                    id="modeRepetition"
-                    value={row.repetition}
-                    onChange={(repetition) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(repetition, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
             },
             {
               dataField: "autoRelease",
@@ -533,28 +467,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.autoRelease ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.autoRelease}
+                onChange={(autoRelease) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(autoRelease, 'autoRelease', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="AutoRelease"
-                    id="modeAutoRelease"
-                    value={row.autoRelease}
-                    onChange={(autoRelease) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(autoRelease, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
             },
             {
               dataField: "holdOOS",
@@ -563,28 +483,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.holdOOS ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.holdOOS}
+                onChange={(holdOOS) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(holdOOS, 'holdOOS', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="Hold OOS"
-                    id="modeHoldOOS"
-                    value={row.holdOOS}
-                    onChange={(holdOOS) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(holdOOS, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
             },
             {
               dataField: "instantResult",
@@ -593,28 +499,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.instantResult ? "Yes" : "No"}</>
+                return <> <LibraryComponents.Atoms.Form.Toggle
+                value={row.instantResult}
+                onChange={(instantResult) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(instantResult, 'instantResult', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="InstantResult"
-                    id="modeInstantResult"
-                    value={row.instantResult}
-                    onChange={(instantResult) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(instantResult, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
+              
             },
             // {
             //   dataField: "schedule",
@@ -638,28 +531,15 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <>{row.pageBreak ? "Yes" : "No"}</>
+                return <><LibraryComponents.Atoms.Form.Toggle
+                value={row.pageBreak}
+                onChange={(pageBreak) => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(pageBreak,'pageBreak', row._id)
+                }}
+              /></>
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                    label="PageBreak"
-                    id="modePageBreak"
-                    value={row.pageBreak}
-                    onChange={(pageBreak) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(pageBreak, column.dataField, row._id)
-                    }}
-                  />
-                </>
-              ),
+              
             },
             
            

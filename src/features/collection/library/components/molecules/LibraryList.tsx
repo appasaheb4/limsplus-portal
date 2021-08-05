@@ -500,27 +500,16 @@ export const LibraryList = observer((props: LibraryListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return <>{row.abNormal ? "Yes" : "No"}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.Toggle
-                label="AB Normal"
+                return <>  <LibraryComponents.Atoms.Form.Toggle
+               
                 value={row.abNormal}
                 onChange={(abNormal) => {
                   props.onUpdateItem &&
-                    props.onUpdateItem(abNormal,column.dataField,row._id)
+                    props.onUpdateItem(abNormal,'abNormal',row._id)
                 }}
-              />
-                </>
-              ),
+              /></>
+              },
+             
             },
             {
               dataField: "status",

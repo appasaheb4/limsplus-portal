@@ -153,28 +153,15 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
-              return <>{row.bill ? "Yes" : "No"}</>
+              return <> <LibraryComponents.Atoms.Form.Toggle
+              value={row.bill}
+              onChange={(bill) => {
+                props.onUpdateItem &&
+                  props.onUpdateItem(bill,'bill', row._id)
+              }}
+            /></>
             },
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
-              <>
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  value={row.bill}
-                  onChange={(bill) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(bill, column.dataField, row._id)
-                  }}
-                />
-              </>
-            ),
+            
           },
           {
             dataField: "status",
