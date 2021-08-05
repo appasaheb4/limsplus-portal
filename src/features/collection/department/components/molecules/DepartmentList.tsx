@@ -182,28 +182,15 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
-            return <>{row.autoRelease ? "Yes" : "No"}</>
+            return <><LibraryComponents.Atoms.Form.Toggle
+            value={row.autoRelease}
+            onChange={(autoRelease) => {
+              props.onUpdateItem &&
+                props.onUpdateItem(autoRelease, 'autoRelease', row._id)
+            }}
+          /></>
           },
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex
-          ) => (
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                label="AutoRelease"
-                id="modeAutoRelease"
-                value={row.autoRelease}
-                onChange={(autoRelease) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(autoRelease, column.dataField, row._id)
-                }}
-              />
-            </>
-          ),
+        
         },
 
         {
@@ -213,28 +200,15 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
-            return <>{row.requireReceveInLab ? "Yes" : "No"}</>
+            return <><LibraryComponents.Atoms.Form.Toggle
+            value={row.requireReceveInLab}
+            onChange={(requireReceveInLab) => {
+              props.onUpdateItem &&
+                props.onUpdateItem(requireReceveInLab, 'requireReceveInLab', row._id)
+            }}
+          /></>
           },
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex
-          ) => (
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                label="RequireReceveInLab"
-                id="modeRequireReceveInLab"
-                value={row.requireReceveInLab}
-                onChange={(requireReceveInLab) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(requireReceveInLab, column.dataField, row._id)
-                }}
-              />
-            </>
-          ),
+          
         },
         {
           dataField: "requireScainIn",
@@ -243,28 +217,15 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
-            return <>{row.requireScainIn ? "Yes" : "No"}</>
+            return <><LibraryComponents.Atoms.Form.Toggle
+            value={row.requireScainIn}
+            onChange={(requireScainIn) => {
+              props.onUpdateItem &&
+                props.onUpdateItem(requireScainIn,'requireScainIn', row._id)
+            }}
+          /></>
           },
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex
-          ) => (
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                label="RequireScainIn"
-                id="modeRequireScainIn"
-                value={row.requireScainIn}
-                onChange={(requireScainIn) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(requireScainIn, column.dataField, row._id)
-                }}
-              />
-            </>
-          ),
+         
         },
         {
           dataField: "routingDept",
@@ -273,28 +234,14 @@ const DepartmentList = observer((props: DepartmentListProps) => {
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           formatter: (cell, row) => {
-            return <>{row.routingDept ? "Yes" : "No"}</>
+            return <><LibraryComponents.Atoms.Form.Toggle
+            value={row.routingDept}
+            onChange={(routingDept) => {
+              props.onUpdateItem &&
+                props.onUpdateItem(routingDept, 'routingDept', row._id)
+            }}
+          /></>
           },
-          editorRenderer: (
-            editorProps,
-            value,
-            row,
-            column,
-            rowIndex,
-            columnIndex
-          ) => (
-            <>
-              <LibraryComponents.Atoms.Form.Toggle
-                label="RoutingDept"
-                id="modeRoutingDept"
-                value={row.routingDept}
-                onChange={(routingDept) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(routingDept, column.dataField, row._id)
-                }}
-              />
-            </>
-          ),
         },
         {
           dataField: "openingTime",
