@@ -16,4 +16,5 @@ export interface TestAnalyteMapping {
   description?: string
   bill?: boolean
   status?: string
+  environment?: string
 }

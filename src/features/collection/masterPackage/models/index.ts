@@ -15,4 +15,5 @@ export interface MasterPackage {
   bill?: boolean
   status?: string
   serviceType?: string
+  environment?: string
 }
