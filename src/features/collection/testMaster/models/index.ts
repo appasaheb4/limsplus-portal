@@ -58,4 +58,5 @@ export interface TestMaster {
   collectionContainer?: string
   holdingDays?: string
   status?: string
+  environment?: string
 }
