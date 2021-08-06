@@ -854,6 +854,28 @@ const TestMater = observer(() => {
                 value={Stores.testMasterStore.testMaster?.keyNum}
                 disabled={true}
               />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.testMasterStore.testMaster?.environment}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    Stores.testMasterStore.updateTestMaster({
+                      ...Stores.testMasterStore.testMaster,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Grid cols={6}>
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
