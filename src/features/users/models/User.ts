@@ -30,6 +30,8 @@ export class Users {
   signature: any
   picture: any
   status: string
+  environment: string
+
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.userId = rawData.userId
@@ -59,5 +61,6 @@ export class Users {
     this.picture = rawData.picture
     this.marriageAnniversary = rawData.marriageAnniversary
     this.status = rawData.status
+    this.environment = rawData.environment
   }
 }

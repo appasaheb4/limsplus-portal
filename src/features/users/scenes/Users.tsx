@@ -80,7 +80,7 @@ export const Users = observer(() => {
         if (res.success) {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.message}`,
-          })   
+          })
           Stores.userStore.loadUser()
         } else {
           LibraryComponents.Atoms.Toast.error({
@@ -881,6 +881,28 @@ export const Users = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
+                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <select
+                    value={Stores.userStore.user?.environment}
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      Stores.userStore.updateUser({
+                        ...Stores.userStore.user,
+                        environment,
+                      })
+                    }}
+                  >   
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />

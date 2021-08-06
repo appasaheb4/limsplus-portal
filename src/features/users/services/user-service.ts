@@ -86,6 +86,7 @@ export class UserService {
       form.append("signature", signaturePath || "")
       form.append("picture", picturePath || "")
       form.append("status", user.status)
+      form.append("environment", user.environment)
       http
         .post(`/auth/addUser`, form)
         .then((response) => {
