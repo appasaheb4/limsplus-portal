@@ -38,4 +38,5 @@ export interface MasterAnalyte {
   resultType?: string
   analyteType?: string
   status?: string
+  environment?: string
 }

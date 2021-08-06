@@ -800,6 +800,28 @@ const MasterPanel = observer(() => {
                 //   })
                 // }}
               />
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.masterPanelStore.masterPanel?.environment}
+                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const environment = e.target.value as string
+                    Stores.masterPanelStore.updateMasterPanel({
+                      ...Stores.masterPanelStore.masterPanel,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.Toggle
                 label="Cumulative"
                 value={Stores.masterPanelStore.masterPanel?.cumulative}

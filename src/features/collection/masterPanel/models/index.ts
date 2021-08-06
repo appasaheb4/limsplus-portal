@@ -50,4 +50,5 @@ export interface MasterPanel {
   sampleType?: string
   specalInstructions?: string
   status?: string
+  environment?: string
 }

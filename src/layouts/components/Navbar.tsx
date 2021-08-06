@@ -187,7 +187,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                 })
               }}
             >
-              <label className="inline w-8 text-center">
+              <label className="inline w-8 text-center" style={{width:'40px'}}>
                 {LoginStores.loginStore.login?.sessionAllowed}
               </label>
             </LibraryComponents.Atoms.Buttons.Button>
