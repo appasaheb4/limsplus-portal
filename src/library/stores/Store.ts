@@ -4,9 +4,9 @@ import _ from "lodash"
 export class Store {
   private isLoading: boolean
 
-  constructor() {
+  constructor() {    
     this.isLoading = false
-
+   
     makeObservable<Store, any>(this, {
       isLoading: observable,
       loading: computed,

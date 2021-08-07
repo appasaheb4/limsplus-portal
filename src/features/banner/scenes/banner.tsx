@@ -17,10 +17,7 @@ const Banner = observer(() => {
   const {
 		loginStore,
 	} = useStores();
-
-  console.log({loginStore});
-    
-  
+     
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
@@ -30,7 +27,7 @@ const Banner = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />       
-        <LibraryComponents.Atoms.PageHeadingLabDetails store={stores.loginStore} />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove

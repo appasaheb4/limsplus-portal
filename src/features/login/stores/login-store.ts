@@ -32,6 +32,7 @@ class LoginStore {
   @action saveLogin = async (session) => {
     localStorage.setItem("accessToken", session.accessToken)
     Session.saveSession(session)
+    stores.updateLoginStore();  
     this.login = session
   }
 
