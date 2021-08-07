@@ -5,7 +5,7 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import * as Models from "../models"
 
 export class BannerService {
@@ -63,11 +63,12 @@ export class BannerService {
     new Promise<any>((resolve, reject) => {
       http
         .post(`/banner/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }

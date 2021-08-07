@@ -11,7 +11,8 @@ interface BannerListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-}
+  onUpdateImage?: (value: any, dataField: string, id: string) => void
+}   
 
 const BannerList = (props: BannerListProps) => {
   return (
@@ -42,42 +43,62 @@ const BannerList = (props: BannerListProps) => {
                 <img
                   src={row.image}
                   alt="banner"
-                  className='object-fill h-35 w-40 rounded-md'
+                  className="object-fill h-35 w-40 rounded-md"
                 />
               </>
             )
           },
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputFile
+                label="File"
+                placeholder="File"
+                onChange={(e) => {
+                  const image = e.target.files[0]
+                  props.onUpdateImage &&
+                    props.onUpdateImage(image, column.dataField, row._id)
+                }}
+              />
+            </>
+          ),
         },
         {
           dataField: "operation",
-          text: "Delete",
+          text: "Action",
           editable: false,
           csvExport: false,
           hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="20"
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: "Delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </div>
+                <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                  <LibraryComponents.Atoms.Icons.IconContext
+                    color="#000"
+                    size="20"
+                    onClick={() =>
+                      props.onDelete &&
+                      props.onDelete({
+                        type: "Delete",
+                        show: true,
+                        id: [row._id],
+                        title: "Are you sure?",
+                        body: `Delete item`,
+                      })
+                    }
+                  >
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Tooltip>
+              </div>
             </>
           ),
         },

@@ -10,13 +10,13 @@ class Session {
   saveSession = async (value) => {
     this.hasSession = true
     await SessionStore.saveSession(value)
-  }  
+  }
   getSession = async () => {
     const isSession = await SessionStore.getSession()
     if (isSession) {
       this.hasSession = true
       return isSession
-    }
+    }    
     return
   }
   deleteSession = async () => {

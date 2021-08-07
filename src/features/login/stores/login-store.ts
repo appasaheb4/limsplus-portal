@@ -13,12 +13,15 @@ class LoginStore {
   @observable loginFailedCount?: number
   @ignore @observable forgotPassword!: ForgotPassword
 
-  constructor() {
+  constructor() {   
     makeAutoObservable(this)
     Session.initialize({ name: "limsplus" })
     runInAction(async () => {
       const session = await Session.getSession()
-      stores.rootStore.updateSesssion(session)
+      if (session) {
+        stores.rootStore.updateSesssion(session)
+        this.login = session
+      }
     })
   }
 
@@ -50,9 +53,9 @@ class LoginStore {
             stores.routerStore.updateUserRouter(undefined)
             runInAction(() => {
               this.login = new Login({})
-            })  
+            })
             resolve(res)
-          } else {  
+          } else {
             alert(res.message)
           }
         })

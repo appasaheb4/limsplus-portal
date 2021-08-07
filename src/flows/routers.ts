@@ -1,10 +1,11 @@
 import { toJS } from "mobx"
 import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
-/* eslint-disable */   
+/* eslint-disable */
+
+    
 export const selectedComponents = (store, category, subCategory) => {
-  //console.log({category,subCategory});
-  if (store) {
+  if (store) {   
     let compInfo: any
     store?.filter((router) => {
       const isCategory = router.name === category
@@ -46,7 +47,6 @@ export const checkPermission = (permission: any[], title: string) => {
     const isItem = item.title === title
     return isItem
   })
-  //console.log({ isItem })
   return isItem.length > 0 ? isItem[0].checked : false
 }
 
@@ -60,8 +60,6 @@ export const updateSelectedCategory = async (
     category,
     item,
   })
-  //console.log({ category, item })
-
   await Storage.setItem(`__persist_mobx_stores_routerStore_SelectedCategory__`, {
     category,
     item,
@@ -75,7 +73,7 @@ export const updateSelectedCategory = async (
     toJS(stores.routerStore.userRouter),
     category,
     item
-  )   
+  )
   stores.routerStore.updateSelectedComponents(selectedComp)
   stores.routerStore.updateUserPermission(permission)
   await hydrateStore("routerStore", stores.routerStore)
