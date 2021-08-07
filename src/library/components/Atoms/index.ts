@@ -13,6 +13,7 @@ import Header from "./header"
 import PageHeading from "./page-heading"
 import CircleButton from "./circle-button"
 import Tooltip from "./tooltip"
+import {PageHeadingLabDetails} from './PageHeadingLabDetails'
 
 export {
   Loader,
@@ -30,6 +31,7 @@ export {
   CircleButton,
   Icon,
   Tooltip,
+  PageHeadingLabDetails
 }
 export { default as ModalImportFile } from "./ModalImportFile"
 export { default as ModalConfirm } from "./ModalConfirm"

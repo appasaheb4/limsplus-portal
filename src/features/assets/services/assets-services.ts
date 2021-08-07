@@ -1,16 +1,17 @@
 /**
  * @fileoverview Use this file invoke LimsPlus API
  * implementation related to LimsPlus standards
- 
  * @author limsplus
  */
-  
- import { http } from "@lp/library/modules/http"
-
+   
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+    
 export class AssetsService {
   uploadFile = (file: any, folder: string, name: string) =>
     new Promise<any>((resolve, reject) => {
       if (file) {
+        console.log({file,folder,name});
+        
         const form = new FormData()
         form.append("file", file)
         form.append("folder", folder)
@@ -21,12 +22,13 @@ export class AssetsService {
               Accept: "application/json",
               "Content-Type": "multipart/form-data",
             },
-          })  
-          .then((res) => {
-            resolve(res)
+          })
+          .then((response) => {
+            const serviceResponse = Http.handleResponse<any>(response)
+            resolve(serviceResponse)
           })
           .catch((error) => {
-            reject({ error })
+            reject(new ServiceResponse<any>(0, error.message, undefined))
           })
       }
     })

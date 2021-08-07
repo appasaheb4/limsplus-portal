@@ -18,6 +18,7 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+import { AssetsService } from "@lp/features/assets/services"
 
 const Lab = observer(() => {
   const [errors, setErrors] = useState<Models.Labs>()
@@ -581,18 +582,16 @@ const Lab = observer(() => {
                 const error = Utils.validate(Stores.labStore.labs, Utils.labs)
                 setErrorsMsg(error)
                 if (error === undefined) {
-                  
                   Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
                     () => {
-                      
                       LibraryComponents.Atoms.Toast.success({
                         message: `😊 Lab created.`,
                       })
                     }
-                  )  
+                  )
                   setTimeout(() => {
                     window.location.reload()
-                  }, 2000)  
+                  }, 2000)
                 } else {
                   LibraryComponents.Atoms.Toast.warning({
                     message: "😔 Please enter all information!",
@@ -653,16 +652,23 @@ const Lab = observer(() => {
                 body: `Update lab!`,
               })
             }}
+            onUpdateImage={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "UpdateImage",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
                 (res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Lab deleted.`,
@@ -673,20 +679,47 @@ const Lab = observer(() => {
                 }
               )
             } else if (type === "Update") {
-              
               Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
                 (res: any) => {
-                  
-                  if (res.status === 200) {
+                  if (res.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Lab updated.`,
+                      message: `😊 ${res.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.labStore.fetchListLab()
-                    window.location.reload()
+                    setTimeout(() => {   
+                      window.location.reload()
+                    }, 2000)
                   }
                 }
               )
+            } else {
+              const path = `https://limsplus.blob.core.windows.net/labs/${modalConfirm.data.value.name}`
+              new AssetsService()
+                .uploadFile(
+                  modalConfirm.data.value,
+                  "labs",
+                  modalConfirm.data.value.name
+                )
+                .then((res) => {
+                  if (res.success) {
+                    Stores.labStore.LabService.updateSingleFiled({
+                      ...modalConfirm.data,
+                      value: path,
+                    }).then((res: any) => {
+                      if (res.status === 200) {
+                        LibraryComponents.Atoms.Toast.success({
+                          message: `😊 ${res.message}`,
+                        })
+                        setModalConfirm({ show: false })
+                        setTimeout(() => {
+                          window.location.reload()
+                        }, 2000)
+                      }
+                    })
+                  } else {
+                    alert(res.message)
+                  }
+                })
             }
           }}
           onClose={() => {

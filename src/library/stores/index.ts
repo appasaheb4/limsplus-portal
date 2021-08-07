@@ -20,7 +20,7 @@ export class Stores extends Store {
 		this.appStore = new AppStore();
         this.routerStore = new RouterStore();
 		this.loginStore = new LoginStore();
-	}
+	}   
 }
 
 export const stores = new Stores();
