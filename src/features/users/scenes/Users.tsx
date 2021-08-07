@@ -11,7 +11,8 @@ import { FormHelper } from "@lp/helper"
 import { useForm, Controller } from "react-hook-form"
 
 import Storage from "@lp/library/modules/storage"
-
+  
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
@@ -25,6 +26,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Users = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
 
@@ -102,6 +106,7 @@ export const Users = observer(() => {
           <LibraryComponents.Atoms.PageHeading
             title={stores.routerStore.selectedComponents?.title || ""}
           />
+          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
           toJS(stores.routerStore.userPermission),

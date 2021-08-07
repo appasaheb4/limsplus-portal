@@ -10,6 +10,7 @@ import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
@@ -21,6 +22,7 @@ import { toJS } from "mobx"
 import { AssetsService } from "@lp/features/assets/services"
 
 const Lab = observer(() => {
+  const { loginStore } = useStores()
   const [errors, setErrors] = useState<Models.Labs>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -56,6 +58,7 @@ const Lab = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),
@@ -686,7 +689,7 @@ const Lab = observer(() => {
                       message: `😊 ${res.message}`,
                     })
                     setModalConfirm({ show: false })
-                    setTimeout(() => {   
+                    setTimeout(() => {
                       window.location.reload()
                     }, 2000)
                   }
