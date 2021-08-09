@@ -5,8 +5,8 @@ import * as Services from "../services"
 
 @version(0.1)
 class BannerStore {
-  @ignore @observable banner?: Models.IBanner
-  @observable listBanner: Models.IBanner[] = []
+  @ignore @observable banner?: Models.Banner
+  @observable listBanner: Models.Banner[] = []
   constructor() {
     makeAutoObservable(this)
   }
@@ -21,7 +21,7 @@ class BannerStore {
       this.listBanner = banner
     })
   }
-  @action updateBanner = (banner: Models.IBanner) => {
+  @action updateBanner = (banner: Models.Banner) => {
     this.banner = banner
   }
 }
