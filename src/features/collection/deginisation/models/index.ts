@@ -1,5 +1,1 @@
-export interface IDeginisation {
-  code?: string;
-  description?: string;
-}
-  
+export * from './Deginisation'
