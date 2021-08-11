@@ -11,7 +11,7 @@ import { FormHelper } from "@lp/helper"
 import { useForm, Controller } from "react-hook-form"
 
 import Storage from "@lp/library/modules/storage"
-  
+import { AssetsService } from "@lp/features/assets/services"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
@@ -940,7 +940,12 @@ export const Users = observer(() => {
           >
             <UserList
               data={Stores.userStore.userList || []}
-              extraData={{ lookupItems }}
+              extraData={{ lookupItems,
+                listLabs:LabStore.labStore.listLabs,
+                listDeginisation:DeginisationStore.deginisationStore.listDeginisation,
+                listDepartment:DepartmentStore.departmentStore.listDepartment,
+                listRole:RoleStore.roleStore.listRole,
+               }}
               isDelete={RouterFlow.checkPermission(
                 toJS(stores.routerStore.userPermission),
                 "Delete"
@@ -968,6 +973,15 @@ export const Users = observer(() => {
                   body: `Update user!`,
                 })
               }}
+              onUpdateImage={(value: any, dataField: string, id: string) => {
+                setModalConfirm({
+                  show: true,
+                  type: "UpdateImage",
+                  data: { value, dataField, id },
+                  title: "Are you sure?",
+                  body: `UpdateImage!`,
+                })
+              }}
             />
           </div>
           <LibraryComponents.Molecules.ModalConfirm
@@ -991,7 +1005,7 @@ export const Users = observer(() => {
                 ).then((res: any) => {
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 User updated.`,
+                      message: `😊 User Updated`,
                     })
                     setModalConfirm({ show: false })
                     setTimeout(() => {
@@ -999,6 +1013,35 @@ export const Users = observer(() => {
                     }, 1000)
                   }
                 })
+              }
+              else {
+                const path = `https://limsplus.blob.core.windows.net/users/${modalConfirm.data.value.name}`
+                new AssetsService()
+                  .uploadFile(
+                    modalConfirm.data.value,
+                    "users",
+                    modalConfirm.data.value.name
+                  )
+                  .then((res) => {
+                    if (res.success) {
+                      Stores.userStore.UsersService.updateSingleFiled({
+                        ...modalConfirm.data,
+                        value: path,
+                      }).then((res: any) => {
+                        if (res.success) {
+                          LibraryComponents.Atoms.Toast.success({
+                            message: `😊 ${res.message}`,
+                          })
+                          setModalConfirm({ show: false })
+                          setTimeout(() => {
+                            window.location.reload()
+                          }, 2000)
+                        }
+                      })
+                    } else {
+                      alert(res.message)
+                    }
+                  })
               }
             }}
             onClose={() => setModalConfirm({ show: false })}
