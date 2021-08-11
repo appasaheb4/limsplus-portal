@@ -24,7 +24,7 @@ const HostCommunication = observer(() => {
   const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.IHostCommunication>()
+  const [errors, setErrors] = useState<Models.HostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddHostCommunication, setHideAddHostCommunication] = useState<boolean>(
