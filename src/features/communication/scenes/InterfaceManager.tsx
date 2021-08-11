@@ -3,13 +3,16 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 const InterfaceManager = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddInterfaceManager, setHideAddInterfaceManager] = useState<boolean>(
     true
@@ -21,6 +24,7 @@ const InterfaceManager = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),

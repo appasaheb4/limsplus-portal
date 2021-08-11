@@ -6,13 +6,16 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Util from "../util"
 
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 const Role = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.IRole>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
@@ -23,6 +26,7 @@ const Role = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
