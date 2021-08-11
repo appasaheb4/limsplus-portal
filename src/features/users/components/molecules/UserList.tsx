@@ -59,7 +59,37 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              editable: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Default Lab"
+                    >
+                      <select
+                        onChange={(e) => {
+                          const defaultLab = e.target.value
+                          props.onUpdateItem &&
+                          props.onUpdateItem(defaultLab,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listLabs.map(
+                          (item: any, index: number) => (
+                            <option key={item.name} value={item.code}>
+                              {item.name}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "lab",
