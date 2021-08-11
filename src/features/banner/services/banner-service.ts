@@ -10,7 +10,7 @@ import * as Models from "../models"
 
 export class BannerService {
   listBanner = () =>
-    new Promise<Models.IBanner[]>((resolve, reject) => {
+    new Promise<Models.Banner[]>((resolve, reject) => {
       http
         .get(`/banner/listBanner`)
         .then((res: any) => {
@@ -40,7 +40,7 @@ export class BannerService {
           },
         })
         .then((res) => {
-          resolve(res as Models.IBanner)
+          resolve(res as Models.Banner)
         })
         .catch((error) => {
           reject({ error })

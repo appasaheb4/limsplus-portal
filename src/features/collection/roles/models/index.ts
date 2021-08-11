@@ -1,4 +1,1 @@
-export interface IRole {
-  code?: string;
-  description?: string;
-}
+export * from './Roles'
