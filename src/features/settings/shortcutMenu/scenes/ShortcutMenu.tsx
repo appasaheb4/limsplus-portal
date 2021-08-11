@@ -6,7 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-
+import {useStores} from '@lp/library/stores'
 import { stores } from "@lp/library/stores"
 
 const grid = 8
@@ -19,6 +19,9 @@ const getListStyle = (isDraggingOver) => ({
 })
 
 const ShortcutMenu = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   useEffect(() => {
     const list: any[] = []
     stores.routerStore.userRouter?.filter((item) => {
@@ -83,6 +86,7 @@ const ShortcutMenu = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {LoginStore.loginStore.login?.shortcutMenu &&
         LoginStore.loginStore.login?.shortcutMenu[

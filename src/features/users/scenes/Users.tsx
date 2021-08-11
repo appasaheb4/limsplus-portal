@@ -1028,7 +1028,7 @@ export const Users = observer(() => {
                         ...modalConfirm.data,
                         value: path,
                       }).then((res: any) => {
-                        if (res.success) {
+                        if (res.status === 200) {
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 ${res.message}`,
                           })

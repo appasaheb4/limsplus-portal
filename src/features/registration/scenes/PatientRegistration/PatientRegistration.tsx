@@ -14,12 +14,16 @@ import { Stores } from "../../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import {useStores} from '@lp/library/stores'
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const PatientRegistation = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   return (
     <>
@@ -27,6 +31,7 @@ const PatientRegistation = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <div>
         <Accordion allowMultiple>
