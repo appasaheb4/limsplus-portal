@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React, { useState ,useEffect} from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
@@ -7,12 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 
 import * as LibraryModels from "@lp/library/models"
-
 import { Stores } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { toJS } from "mobx"
 
 interface UserListProps {  
@@ -23,6 +18,7 @@ interface UserListProps {
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onUpdateImage?: (value: any, dataField: string, id: string) => void
 }
 
 export const UserList = observer((props: UserListProps) => {
@@ -49,6 +45,13 @@ export const UserList = observer((props: UserListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               editable: false,
+            },
+            {
+              dataField: "empCode",
+              text: "Emp Code",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
             },
             {
               dataField: "defaultLab",
@@ -84,7 +87,7 @@ export const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.lab),
-                      list: LabStore.labStore.listLabs,
+                      list: props.extraData.listLabs,
                       displayKey: "name",
                       findKey: "code",
                     }}
@@ -96,26 +99,43 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
+            
             {
-              dataField: "fullName",
-              text: "Full Name",
+              dataField: "deginisation",
+              text: "Deginisation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-            },
-            {
-              dataField: "mobileNo",
-              text: "Mobile No",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
-            },
-            {
-              dataField: "email",
-              text: "Email",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <select
+                    name="deginisation"
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const deginisation = e.target.value
+
+                      props.onUpdateItem &&
+                        props.onUpdateItem(deginisation, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>{row.deginisation}</option>
+                    {props.extraData.listDeginisation.map(
+                      (item: any, index: number) => (
+                        <option key={item.description} value={item.code}>
+                          {item.description}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: "department",
@@ -143,7 +163,7 @@ export const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
                     data={{
                       defulatValues: toJS(row.department),
-                      list: DepartmentStore.departmentStore.listDepartment,
+                      list: props.extraData.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
@@ -157,8 +177,8 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
-              dataField: "deginisation",
-              text: "Deginisation",
+              dataField: "validationLevel",
+              text: "Validation Level",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
@@ -171,42 +191,85 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <select
-                    name="deginisation"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const deginisation = e.target.value
-
-                      props.onUpdateItem &&
-                        props.onUpdateItem(deginisation, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>{row.deginisation}</option>
-                    {DeginisationStore.deginisationStore.listDeginisation.map(
-                      (item: any, index: number) => (
-                        <option key={item.description} value={item.code}>
-                          {item.description}
-                        </option>
-                      )
-                    )}
-                  </select>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Validation Level"
+                    >
+                      <select
+                        onChange={(e) => {
+                          const validationLevel = (e.target.value || 0) as number
+                          props.onUpdateItem &&
+                          props.onUpdateItem(validationLevel,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
+                          <option key={item.description} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
             {
-              dataField: "role",
-              text: "Role",
+              dataField: "workStation",
+              text: "Work Station",
               sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              formatter: (cellContent, row) => (
-                <>
-                  <ul style={{ listStyle: "inside" }}>
-                    {row.role.map((item, index) => (
-                      <li key={index}>{item.code}</li>
-                    ))}
-                  </ul>
-                </>
-              ),
+            },
+            {
+              dataField: "ipAddress",
+              text: "IP Address",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "fullName",
+              text: "Full Name",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "mobileNo",
+              text: "Mobile No",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "contactNo",
+              text: "Contact No",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "email",
+              text: "Email",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "userDegree",
+              text: "User Degree",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+            },
+            {
+              dataField: "birthDay",
+              text: "BirthDay",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              formatter: (cell, row) => {
+                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -216,21 +279,55 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteCheck
-                    data={{
-                      defulatValues: toJS(row.role),
-                      list: RoleStore.roleStore.listRole,
-                      displayKey: "description",
-                      findKey: "code",
-                    }}
-                    onUpdate={(items) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
-                    }}
-                  />
+                  <LibraryComponents.Atoms.Form.InputDate
+                      label="Birthday Date"
+                     
+                      value={dayjs
+                        .unix(row.dateOfBirth || 0)
+                        .format("YYYY-MM-DD")}
+                      onChange={(e: any) => {
+                        let date = new Date(e.target.value)
+                          props.onUpdateItem &&
+                          props.onUpdateItem(date,column.dataField,row._id)
+                      }}
+                    />
                 </>
               ),
             },
+            {
+              dataField: "marriageAnniversyDate",
+              text: "Marriage Anniversery Date",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              formatter: (cell, row) => {
+                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputDate
+                      label="Marriage Anniversary Date"
+                     
+                      value={dayjs
+                        .unix(row.dateOfBirth || 0)
+                        .format("YYYY-MM-DD")}
+                      onChange={(e: any) => {
+                        let date = new Date(e.target.value)
+                          props.onUpdateItem &&
+                          props.onUpdateItem(date,column.dataField,row._id)
+                      }}
+                    />
+                </>
+              ),
+            },
+           
             {
               text: "Exipre Date",
               dataField: "exipreDate",
@@ -261,6 +358,160 @@ export const UserList = observer((props: UserListProps) => {
                           column.dataField,
                           row._id
                         )
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "role",
+              text: "Role",
+              sort: true,
+              headerStyle: { minWidth: "200px" },
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{ listStyle: "inside" }}>
+                    {row.role.map((item, index) => (
+                      <li key={index}>{item.code}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Molecules.AutocompleteCheck
+                    data={{
+                      defulatValues: toJS(row.role),
+                      list: props.extraData.listRole,
+                      displayKey: "description",
+                      findKey: "code",
+                    }}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "confidential",
+              text: "Confidential",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              formatter: (cellContent, row) => (
+                <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                      label="Confidential"
+                      value={row.confidential}
+                      onChange={(confidential) => {
+                        props.onUpdateItem &&
+                        props.onUpdateItem(confidential,"confidential",row._id)
+                      }}
+                    />
+                </>
+              ),
+            },
+            {
+              dataField: "dateCreation",
+              text: "Date Creation",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              editable:false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                     {dayjs
+                      .unix(row.dateOfEntry || 0)
+                      .format("YYYY-MM-DD")}
+                  </>
+                )
+              },
+            },
+            {
+              dataField: "createdBy",
+              text: "Created  By",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              editable:false,
+              
+            },
+            {
+              dataField: "signature",
+              text: "Signature",
+              csvExport: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row.signature}
+                      alt="signature"
+                      className="object-fill h-35 w-40 rounded-md"
+                    />
+                  </>
+                )
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputFile
+                    label="File"
+                    placeholder="File"
+                    onChange={(e) => {
+                      const signature = e.target.files[0]
+                      props.onUpdateImage &&
+                        props.onUpdateImage(signature, column.dataField, row._id)
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: "picture",
+              text: "Picture",
+              csvExport: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row.picture}
+                      alt="picture"
+                      className="object-fill h-35 w-40 rounded-md"
+                    />
+                  </>
+                )
+              },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputFile
+                    label="Picture"
+                    onChange={(e) => {
+                      const picture = e.target.files[0]
+                      props.onUpdateImage &&
+                        props.onUpdateImage(picture, column.dataField, row._id)
                     }}
                   />
                 </>
@@ -305,6 +556,44 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
+              dataField: "environment",
+              text: "Environment",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <select
+                    value={row.environment}
+                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                        props.onUpdateItem &&
+                        props.onUpdateItem(environment,column.dataField,row._id)
+                    }}
+                  >   
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
               dataField: "opration",
               text: "Password Re-Send",
               headerStyle: { minWidth: "200px" },
@@ -338,6 +627,17 @@ export const UserList = observer((props: UserListProps) => {
                   >
                     Send
                   </LibraryComponents.Atoms.Buttons.Button>
+                </>
+              ),
+            },
+            {
+              dataField: "opration",
+              text: "Change Password",
+              headerStyle: { minWidth: "200px" },
+              editable: false,
+              csvExport: false,
+              formatter: (cellContent, row) => (
+                <>
                 </>
               ),
             },
