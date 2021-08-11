@@ -9,7 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -20,6 +20,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const MasterAnalyte = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.MasterAnalyte>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -66,6 +69,7 @@ const MasterAnalyte = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),

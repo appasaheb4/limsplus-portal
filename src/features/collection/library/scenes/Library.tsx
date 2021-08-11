@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form"
 import * as Models from "../models"
 //import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
-   
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -22,6 +22,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Library = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -87,6 +90,7 @@ export const Library = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),

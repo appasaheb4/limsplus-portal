@@ -11,7 +11,7 @@ import moment from "moment"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../../../stores"
 import { stores } from "@lp/library/stores"
 
@@ -19,6 +19,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const ConversationMapping = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [
     hideAddConversationMapping,
@@ -31,6 +34,7 @@ const ConversationMapping = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),

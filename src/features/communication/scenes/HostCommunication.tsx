@@ -5,6 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
@@ -20,6 +21,9 @@ import { toJS } from "mobx"
 import { io } from "socket.io-client"
 let socket
 const HostCommunication = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.IHostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
   const [modalImportFile, setModalImportFile] = useState({})
@@ -54,6 +58,7 @@ const HostCommunication = observer(() => {
           <LibraryComponents.Atoms.PageHeading
             title={stores.routerStore.selectedComponents?.title || ""}
           />
+          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(
           toJS(stores.routerStore.userPermission),

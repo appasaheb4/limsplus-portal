@@ -8,7 +8,7 @@ import { Container } from "reactstrap"
 import * as Models from "../models"
 import * as Util from "../util"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 //import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -18,6 +18,9 @@ import { RouterFlow } from "@lp/flows"
 let router = dashboardRoutes
 
 const Lookup = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.Lookup>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
@@ -44,6 +47,7 @@ const Lookup = observer(() => {
           <LibraryComponents.Atoms.PageHeading
             title={stores.routerStore.selectedComponents?.title || ""}
           />
+          <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove

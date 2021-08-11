@@ -9,7 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
@@ -21,6 +21,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const TestSampleMapping = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.TestSampleMapping>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -53,6 +56,7 @@ const TestSampleMapping = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),
