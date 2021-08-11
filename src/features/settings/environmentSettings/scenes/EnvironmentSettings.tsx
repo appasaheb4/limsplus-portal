@@ -9,7 +9,7 @@ import * as Utils from "../utils"
 import * as Models from "../models"
 
 import SessionManagement from "./SessionManagement"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
@@ -20,6 +20,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const EnvironmentSettings = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   return (
     <>
@@ -27,6 +30,7 @@ const EnvironmentSettings = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <Accordion allowMultiple>
         {[{ title: "Session" }].map((item) => {

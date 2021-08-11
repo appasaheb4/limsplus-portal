@@ -9,11 +9,14 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
 const LoginActivity = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   useEffect(() => {
     Stores.loginActivityStore.fetchLoginActivity()
   }, [])
@@ -23,6 +26,7 @@ const LoginActivity = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <div className=" mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">

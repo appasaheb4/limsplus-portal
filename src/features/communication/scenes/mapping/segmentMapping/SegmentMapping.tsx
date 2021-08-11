@@ -8,7 +8,7 @@ import * as Config from "@lp/config"
 import * as FeatureComponents from "../../../components"
 import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../../../stores"
 import { stores } from "@lp/library/stores"
 
@@ -16,6 +16,9 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const SegmentMapping = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)
@@ -163,6 +166,7 @@ const SegmentMapping = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),
