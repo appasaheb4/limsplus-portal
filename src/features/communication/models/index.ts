@@ -116,4 +116,5 @@ export interface EncodeCharacter {
   value?: string
   fileds?: { filed?: string | undefined; value?: string | undefined }[]
 }
+
 export * from "./constants"

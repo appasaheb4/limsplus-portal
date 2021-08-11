@@ -28,7 +28,7 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
     formState: { errors },
   } = useForm()
 
-  const onForgotPassword = (data: any) => {
+  const onForgotPassword = () => {
     if (
       Stores.loginStore.forgotPassword?.email !== undefined ||
       Stores.loginStore.forgotPassword?.mobileNo !== undefined
