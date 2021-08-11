@@ -12,7 +12,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import "react-dropdown-tree-select/dist/styles.css"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
-
+import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { stores } from "@lp/library/stores"
@@ -30,6 +30,10 @@ const getListStyle = (isDraggingOver) => ({
 })
 
 const RoleMapping = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
+     
   const [hideRole, setHideRole] = useState<boolean>(false)
   const [modalConfirm, setModalConfirm] = useState<any>()
   let roleList: any = RoleStore.roleStore.listRole || []
@@ -95,6 +99,7 @@ const RoleMapping = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),
