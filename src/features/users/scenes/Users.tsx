@@ -908,6 +908,25 @@ export const Users = observer(() => {
                     )}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Confirguration"
+                      value={Stores.userStore.user?.confirguration}
+                      onChange={(confirguration) => {
+                        onChange(confirguration)
+                        Stores.userStore.updateUser({
+                          ...Stores.userStore.user,
+                          confirguration,
+                        })
+                      }}
+                    />
+                  )}
+                  name="confirguration"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />
