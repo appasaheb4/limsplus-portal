@@ -9,7 +9,7 @@ import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
 
 class CommunicationService  {
-  adddepartment = (department?: Models.IHostCommunication) =>
+  adddepartment = (department?: Models.HostCommunication) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/communication/addDepartment`, department)
@@ -21,7 +21,7 @@ class CommunicationService  {
         })
     })
   listDepartment = () =>
-    new Promise<Models.IHostCommunication[]>((resolve, reject) => {
+    new Promise<Models.HostCommunication[]>((resolve, reject) => {
       http
         .get(`/communication/listDepartment`)
         .then((res: any) => {
@@ -32,7 +32,7 @@ class CommunicationService  {
         })
     })
   deletedepartment = (id: string) =>
-    new Promise<Models.IHostCommunication[]>((resolve, reject) => {
+    new Promise<Models.HostCommunication[]>((resolve, reject) => {
       http
         .delete(`/communication/deleteDepartment/${id}`)
         .then((res) => {

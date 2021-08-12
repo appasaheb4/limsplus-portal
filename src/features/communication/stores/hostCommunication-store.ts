@@ -5,7 +5,7 @@ import * as Models from "../models"
 
 @version(0.1)
 class HostCommunicationStore {
-  @observable hostCommuication?: Models.IHostCommunication
+  @observable hostCommuication?: Models.HostCommunication
   @ignore @observable convertTo?: Models.ConvertTo
   @ignore @observable selectedInterfaceManager?: Models.EncodeCharacter
   constructor() {
@@ -13,7 +13,7 @@ class HostCommunicationStore {
 }
 
   @action updateHostCommuication = (
-    hostCommunication: Models.IHostCommunication
+    hostCommunication: Models.HostCommunication
   ) => {
     this.hostCommuication = hostCommunication
   }
