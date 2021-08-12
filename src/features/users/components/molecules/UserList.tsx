@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
-
+import { useForm, Controller } from "react-hook-form"
 import * as LibraryModels from "@lp/library/models"
 import { Stores } from "@lp/features/users/stores"
 import { toJS } from "mobx"
@@ -22,6 +22,12 @@ interface UserListProps {
 }
 
 export const UserList = observer((props: UserListProps) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const [labs, setLabs] = useState<any>()
   let count = 0
 
@@ -72,6 +78,11 @@ export const UserList = observer((props: UserListProps) => {
                       label="Default Lab"
                     >
                       <select
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.defaultLab
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
                         onChange={(e) => {
                           const defaultLab = e.target.value
                           props.onUpdateItem &&
@@ -147,7 +158,11 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <select
                     name="deginisation"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      errors.deginisation
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-200"
+                    } rounded-md`}
                     onChange={(e) => {
                       const deginisation = e.target.value
 
@@ -225,6 +240,11 @@ export const UserList = observer((props: UserListProps) => {
                       label="Validation Level"
                     >
                       <select
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.validationLevel
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
                         onChange={(e) => {
                           const validationLevel = (e.target.value || 0) as number
                           props.onUpdateItem &&
@@ -311,7 +331,11 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
                       label="Birthday Date"
-                     
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.birthDay
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
                       value={dayjs
                         .unix(row.dateOfBirth || 0)
                         .format("YYYY-MM-DD")}
