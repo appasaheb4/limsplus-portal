@@ -202,13 +202,7 @@ const SegmentMapping = observer(() => {
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const equipmentType = e.target.value
-                    setErrors({
-                      ...errors,
-                      equipmentType: Utils.validate.single(
-                        equipmentType,
-                        Utils.constraintsSegmentMapping.equipmentType
-                      ),
-                    })
+                   
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       equipmentType,
