@@ -1,20 +1,20 @@
 export class PaientManger {
-    internalPid?: string
-    mobileNo?: string
-    title?: string
-    firstName?: string
-    middleName?: string
-    lastName?: string
-    sex?: string
-    address?: string
-    city?: string
-    state?: string
-    country?: string
-    postcode?: string
-    email?: string
-    species?: string  
-    permanent?: boolean
-    vip?: boolean
+    internalPid: string
+    mobileNo: string
+    title: string
+    firstName: string
+    middleName: string
+    lastName: string
+    sex: string
+    address: string
+    city: string
+    state: string
+    country: string
+    postcode: string
+    email: string
+    species: string  
+    permanent: boolean
+    vip: boolean
     constructor(rawData: {[key in string]: any}){
         this.internalPid = rawData.internalPid
         this.mobileNo = rawData.mobileNo
