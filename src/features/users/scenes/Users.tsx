@@ -21,6 +21,8 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { stores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -31,7 +33,7 @@ export const Users = observer(() => {
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
-
+  const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [lookupItems, setLookupItems] = useState<any[]>([])
 
   const {
@@ -1001,7 +1003,17 @@ export const Users = observer(() => {
                   body: `UpdateImage!`,
                 })
               }}
+              onChangePaaword={(id: string)=>{
+                setModalChangePassword({
+                  show: true,
+                  type: "ChangePassword",
+                  data: {id},
+                  title: "Are You Sure?",
+                  body: `UpdatePassword!`
+                })
+              }}
             />
+            
           </div>
           <LibraryComponents.Molecules.ModalConfirm
             {...modalConfirm}
@@ -1065,6 +1077,60 @@ export const Users = observer(() => {
             }}
             onClose={() => setModalConfirm({ show: false })}
           />
+          <LibraryComponents.Molecules.ModalChangePassword
+          {...modalChangePassword}
+        onClick={() => {
+          const exipreDate = new Date(
+            moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+          )
+          let body = Object.assign(
+            LoginStores.loginStore.login,
+            UserStores.userStore.changePassword
+          )
+          body = {
+            ...body,
+            exipreDate: LibraryUtils.moment(exipreDate).unix(),
+          }
+          UserStores.userStore.UsersService.changePassword(body).then((res) => {
+            console.log({ res })
+            if (res.status === 200) {
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
+                exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                passChanged: true,
+              })
+              UserStores.userStore.updateChangePassword({
+                ...UserStores.userStore.changePassword,
+                tempHide: true,
+              })
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Password changed!`,
+              })
+              setModalChangePassword({ show: false })
+            } else if (res.status === 203) {
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 ${res.data.data.message}`,
+              })
+            } else {
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 Please enter correct old password`,
+              })
+            }
+          })
+        }}
+        onClose={() => {
+          LoginStores.loginStore.updateLogin({
+            ...LoginStores.loginStore.login,
+            passChanged: true,
+          })
+          UserStores.userStore.updateChangePassword({
+            ...UserStores.userStore.changePassword,
+            tempHide: true,
+          })
+          setModalChangePassword({ show: false })
+        }}
+      />
+          
         </div>
       </Container>
     </>
