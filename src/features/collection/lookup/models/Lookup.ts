@@ -1,10 +1,10 @@
 export class Lookup {
-    documentName?: object;
-    fieldName?: string;
-    code?: string;
-    value?: string;
-    arrValue?: { value?: string | undefined; code?: string | undefined }[]
-    description?: string;
+    documentName: object;
+    fieldName: string;
+    code: string;
+    value: string;
+    arrValue: { value?: string | undefined; code?: string | undefined }[]
+    description: string;
     constructor(rawData: {[key in string]: any}){
         this.documentName = rawData.documentName
         this.fieldName = rawData.fieldName

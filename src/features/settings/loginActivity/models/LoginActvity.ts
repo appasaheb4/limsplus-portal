@@ -1,9 +1,9 @@
 export class ILoginActivity {
-    _id?: string
-    user?: {}
-    systemInfo?: {}
-    dateOfEntry?: string
-    lastUpdated?: string
+    _id: string
+    user: {}
+    systemInfo: {}
+    dateOfEntry: string
+    lastUpdated: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.user = rawData.user

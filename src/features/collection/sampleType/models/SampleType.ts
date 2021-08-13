@@ -1,9 +1,9 @@
 export class SampleType {
-    _id?: string
-    sampleCode?: string;
-    sampleType?: string;
-    descriptions?: string;
-    sampleGroup?: string;
+    _id: string
+    sampleCode: string;
+    sampleType: string;
+    descriptions: string;
+    sampleGroup: string;
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.sampleCode = rawData.sampleCode
