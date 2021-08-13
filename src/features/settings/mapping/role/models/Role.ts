@@ -1,7 +1,7 @@
 export class IRole {
-    _id?: string
-    role?: any
-    rolePermission?: any[]
+    _id: string
+    role: any
+    rolePermission: any[]
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.role = rawData.role
@@ -10,10 +10,10 @@ export class IRole {
   }
   
 export class RoleMapping {
-    code?: string
-    description?: string
-    dateOfEntry?: string
-    lastUpdated?: string
+    code: string
+    description: string
+    dateOfEntry: string
+    lastUpdated: string
     constructor(rawData: {[key in string]: any}){
         this.code = rawData.code
         this.description = rawData.description

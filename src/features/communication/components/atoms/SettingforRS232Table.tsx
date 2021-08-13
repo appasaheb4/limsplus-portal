@@ -175,8 +175,8 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                         ?.serialPortCommunication,
                       stopBits,
                     },
-                  })
-                }}
+                  })             
+                   }}
               >
                 <option selected>Select</option>
                 {stopBits.map((item: any) => (
