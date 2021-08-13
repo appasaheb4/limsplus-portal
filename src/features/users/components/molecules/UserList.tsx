@@ -2,11 +2,14 @@
 import React, { useState ,useEffect} from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
+import moment from "moment"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
 import { useForm, Controller } from "react-hook-form"
 import * as LibraryModels from "@lp/library/models"
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as UserStores } from "@lp/features/users/stores"
 import { Stores } from "@lp/features/users/stores"
 import { toJS } from "mobx"
 
@@ -29,6 +32,7 @@ export const UserList = observer((props: UserListProps) => {
     setValue,
   } = useForm()
   const [labs, setLabs] = useState<any>()
+  const [modalChangePassword, setModalChangePassword] = useState<any>()
   let count = 0
 
   return (
@@ -648,6 +652,25 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
+              dataField: "confirguration",
+              text: "Confirguration",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              formatter: (cellContent, row) => (
+                <>
+                   <LibraryComponents.Atoms.Form.Toggle
+                      label="Confirguration"
+                      value={row.confirguration}
+                      onChange={(confirguration) => {
+                        props.onUpdateItem &&
+                        props.onUpdateItem(confirguration,"confirguration",row._id)
+                      }}
+                    />
+                </>
+              ),
+            },
+            {
               dataField: "opration",
               text: "Password Re-Send",
               headerStyle: { minWidth: "200px" },
@@ -688,10 +711,20 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "opration",
               text: "Change Password",
               headerStyle: { minWidth: "200px" },
-              editable: false,
               csvExport: false,
+              editable: false,
               formatter: (cellContent, row) => (
                 <>
+                <LibraryComponents.Atoms.Buttons.Button
+                    size="small"
+                    type="outline"
+                    icon={LibraryComponents.Atoms.Icon.ReSendPassword}
+                    onClick={()=>{
+                      setModalChangePassword({show:true})
+                    }}
+                  >
+                    Change Password
+                  </LibraryComponents.Atoms.Buttons.Button>
                 </>
               ),
             },
@@ -725,11 +758,14 @@ export const UserList = observer((props: UserListProps) => {
                         )}
                       </LibraryComponents.Atoms.Icons.IconContext>
                     </LibraryComponents.Atoms.Tooltip>
+
                   </div>
                 </>
               ),
             },
+        
           ]}
+
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName="User"
@@ -741,6 +777,59 @@ export const UserList = observer((props: UserListProps) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
         />
+        <LibraryComponents.Molecules.ModalChangePassword
+        {...modalChangePassword}
+        onClick={() => {
+          const exipreDate = new Date(
+            moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+          )
+          let body = Object.assign(
+            LoginStores.loginStore.login,
+            UserStores.userStore.changePassword
+          )
+          body = {
+            ...body,
+            exipreDate: LibraryUtils.moment(exipreDate).unix(),
+          }
+          UserStores.userStore.UsersService.changePassword(body).then((res) => {
+            console.log({ res })
+            if (res.status === 200) {
+              LoginStores.loginStore.updateLogin({
+                ...LoginStores.loginStore.login,
+                exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                passChanged: true,
+              })
+              UserStores.userStore.updateChangePassword({
+                ...UserStores.userStore.changePassword,
+                tempHide: true,
+              })
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 User Password changed!`,
+              })
+              setModalChangePassword({ show: false })
+            } else if (res.status === 203) {
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 ${res.data.data.message}`,
+              })
+            } else {
+              LibraryComponents.Atoms.Toast.error({
+                message: `😔 Please enter correct old password`,
+              })
+            }
+          })
+        }}
+        onClose={() => {
+          LoginStores.loginStore.updateLogin({
+            ...LoginStores.loginStore.login,
+            passChanged: true,
+          })
+          UserStores.userStore.updateChangePassword({
+            ...UserStores.userStore.changePassword,
+            tempHide: true,
+          })
+          setModalChangePassword({ show: false })
+        }}
+      />
       </div>
     </>
   )

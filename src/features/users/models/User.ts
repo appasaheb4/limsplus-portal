@@ -31,6 +31,7 @@ export class Users {
   picture: any
   status: string
   environment: string
+  confirguration: boolean
 
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
@@ -62,5 +63,6 @@ export class Users {
     this.marriageAnniversary = rawData.marriageAnniversary
     this.status = rawData.status
     this.environment = rawData.environment
+    this.confirguration = rawData.confirguration
   }
 }
