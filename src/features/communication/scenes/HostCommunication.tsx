@@ -148,7 +148,7 @@ const HostCommunication = observer(() => {
                       )
                       Stores.hostCommunicationStore.updateHostCommuication({
                         ...Stores.hostCommunicationStore.hostCommuication,
-                        instrumentName: selectedInterfaceManager?.instrumentName,
+                        instrumentName: selectedInterfaceManager?.instrumentName as string,
                       })
                     }}
                   >
