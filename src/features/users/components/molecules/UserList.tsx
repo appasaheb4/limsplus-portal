@@ -21,7 +21,7 @@ interface UserListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
-  onChangePaaword?: (id: string)=> void
+  onChangePassword?: (id: string)=> void
 }
 
 export const UserList = observer((props: UserListProps) => {
@@ -720,7 +720,7 @@ export const UserList = observer((props: UserListProps) => {
                     type="outline"
                     icon={LibraryComponents.Atoms.Icon.ReSendPassword}
                     onClick={()=>{
-                      props.onChangePaaword && props.onChangePaaword(row._id)
+                      props.onChangePassword && props.onChangePassword(row._id)
                     }}
                   >
                     Change Password

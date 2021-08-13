@@ -1003,7 +1003,7 @@ export const Users = observer(() => {
                   body: `UpdateImage!`,
                 })
               }}
-              onChangePaaword={(id: string)=>{
+              onChangePassword={(id: string)=>{
                 setModalChangePassword({
                   show: true,
                   type: "ChangePassword",
