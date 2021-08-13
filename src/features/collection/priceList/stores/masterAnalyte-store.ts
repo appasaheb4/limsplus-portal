@@ -6,34 +6,33 @@ import * as Services from "../services"
 import { Stores } from "@lp/features/login/stores"
 @version(0.1)
 class MasterAnalyteStore {
-  @ignore @observable masterAnalyte?: Models.MasterAnalyte
-  @observable listMasterAnalyte?: Models.MasterAnalyte[] = []
+  @ignore @observable masterAnalyte?: Models.PriceList
+  @observable listMasterAnalyte?: Models.PriceList[] = []
 
   constructor() {
-    makeAutoObservable(this)
-    this.masterAnalyte = {
-      ...this.masterAnalyte,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
-      version: 1,
-      keyNum: "1",
-      enteredBy: Stores.loginStore.login?._id,
-      schedule: LibraryUtils.moment().unix(),
-      bill: false,
-      autoRelease: false,
-      holdOOS: false,
-      instantResult: false,
-      // pageBreak: false,
-      method: false,
-      display: true,
-      calculationFlag: false,
-      repetition: false,
-    }
+    makeAutoObservable(this)   
+    // this.masterAnalyte = {
+    //   ...this.masterAnalyte,
+    //   dateCreation: LibraryUtils.moment().unix(),
+    //   dateActiveFrom: LibraryUtils.moment().unix(),
+    //   dateActiveTo: LibraryUtils.moment().unix(),
+    //   version: 1,
+    //   keyNum: "1",
+    //   enteredBy: Stores.loginStore.login?._id,
+    //   schedule: LibraryUtils.moment().unix(),
+    //   bill: false,
+    //   autoRelease: false,
+    //   holdOOS: false,
+    //   instantResult: false,
+    //   // pageBreak: false,
+    //   method: false,
+    //   display: true,
+    //   calculationFlag: false,
+    //   repetition: false,
+    // }
   }
   @computed get masterAnalyteService() {
-    return new Services.MasterAnalyteService(
-    )
+    return new Services.MasterAnalyteService()
   }
 
   fetchAnalyteMaster() {
@@ -42,7 +41,7 @@ class MasterAnalyteStore {
     })
   }
 
-  @action updateMasterAnalyte(analyte: Models.MasterAnalyte) {
+  @action updateMasterAnalyte(analyte: Models.PriceList) {
     this.masterAnalyte = analyte
   }
 }

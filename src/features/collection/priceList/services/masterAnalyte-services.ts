@@ -9,7 +9,7 @@ import { http } from "@lp/library/modules/http"
 
 class MasterAnalyteService  {
   listAnalyteMaster = () =>
-    new Promise<Models.MasterAnalyte[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`master/analyteMaster/listAnalyteMaster`)
         .then((res: any) => {
@@ -19,7 +19,7 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-  addAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  addAnalyteMaster = (analyte?: Models.PriceList) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/analyteMaster/addAnalyteMaster`, analyte)
@@ -30,7 +30,7 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-  versionUpgradeAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  versionUpgradeAnalyteMaster = (analyte?: Models.PriceList) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/analyteMaster/versionUpgradeAnalyteMaster`, analyte)
@@ -41,7 +41,7 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-    duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+    duplicateAnalyteMaster = (analyte?: Models.PriceList) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
@@ -70,7 +70,7 @@ class MasterAnalyteService  {
         .post(`master/analyteMaster/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
-        })
+        })   
         .catch((error) => {
           reject({ error })
         })
