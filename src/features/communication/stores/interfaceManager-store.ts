@@ -5,9 +5,10 @@ import * as Services from "../services"
 
 @version(0.1)
 class InterfaceManagerStore {
-  @ignore @observable encodeCharacter?: Models.EncodeCharacter
+  @ignore @observable encodeCharacter!: Models.EncodeCharacter
   @observable listEncodeCharacter?: Models.EncodeCharacter[] = []
   @ignore @observable updateItem?: Models.UpdateItem
+  
   constructor() {
     makeAutoObservable(this)
   }
@@ -29,7 +30,7 @@ class InterfaceManagerStore {
   }
   @action changeUpdateItem = (item: Models.UpdateItem) => {
     this.updateItem = item
-  }
+  }    
 }
 
 export default InterfaceManagerStore
