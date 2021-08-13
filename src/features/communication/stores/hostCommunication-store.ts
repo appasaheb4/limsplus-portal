@@ -5,8 +5,8 @@ import * as Models from "../models"
 
 @version(0.1)
 class HostCommunicationStore {
-  @observable hostCommuication?: Models.HostCommunication
-  @ignore @observable convertTo?: Models.ConvertTo
+  @observable hostCommuication!: Models.HostCommunication
+  @ignore @observable convertTo!: Models.ConvertTo
   @ignore @observable selectedInterfaceManager?: Models.EncodeCharacter
   constructor() {
     makeAutoObservable(this)
@@ -16,7 +16,7 @@ class HostCommunicationStore {
     hostCommunication: Models.HostCommunication
   ) => {
     this.hostCommuication = hostCommunication
-  }
+  }  
   @action updateConvertTo(convertTo: Models.ConvertTo) {
     this.convertTo = convertTo
   }
