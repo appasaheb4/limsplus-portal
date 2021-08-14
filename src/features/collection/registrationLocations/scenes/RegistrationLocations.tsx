@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -20,9 +21,15 @@ import { RouterFlow } from "@lp/flows"
 
 const RegistrationLocation = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.RegistrationLocations>()
+  // const [errors, setErrors] = useState<Models.RegistrationLocations>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -150,49 +157,57 @@ const RegistrationLocation = observer(() => {
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
               />
-
+               <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Location Code"
-                placeholder="Location Code"
+                hasError={errors.locationCode}
+                placeholder={errors.locationCode ? "Please Enter Location Code" : "Loaction Code"}
                 value={
                   Stores.registrationLocationsStore.registrationLocations
                     ?.locationCode
                 }
                 onChange={(locationCode) => {
-                  setErrors({
-                    ...errors,
-                    locationCode: Utils.validate.single(
-                      locationCode,
-                      Utils.registrationLocations.locationCode
-                    ),
-                  })
+                  onChange(locationCode)
                   Stores.registrationLocationsStore.updateRegistrationLocations({
                     ...Stores.registrationLocationsStore.registrationLocations,
                     locationCode,
                   })
                 }}
               />
+              )}
+               name="Location Code"
+               rules={{ required: true }}
+              defaultValue=""
+              />
+
+             <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Location Name"
-                placeholder="Location Name"
+                hasError={errors.locationName}
+                placeholder={errors.locationName ? "Please Enter Loaction Name" : "Loaction Name"}
                 value={
                   Stores.registrationLocationsStore.registrationLocations
                     ?.locationName
                 }
                 onChange={(locationName) => {
-                  setErrors({
-                    ...errors,
-                    locationName: Utils.validate.single(
-                      locationName,
-                      Utils.registrationLocations.locationCode
-                    ),
-                  })
+                  onChange(locationName)
                   Stores.registrationLocationsStore.updateRegistrationLocations({
                     ...Stores.registrationLocationsStore.registrationLocations,
                     locationName,
                   })
                 }}
               />
+              )}
+               name="Location Name"
+               rules={{ required: true }}
+                defaultValue=""
+             />
+
+
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Address"
