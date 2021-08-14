@@ -10,6 +10,7 @@ import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
+import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -23,9 +24,15 @@ import { toJS } from "mobx"
 
 const TestAnalyteMapping = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.TestAnalyteMapping>()
+  // const [errors, setErrors] = useState<Models.TestAnalyteMapping>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -93,15 +100,22 @@ const TestAnalyteMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper
+               label="Lab"
+               hasError={errors.lab}
+               >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(lab, Utils.testAnalyteMapping.lab),
-                    })
+                    onChange(lab)
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       lab,
@@ -116,6 +130,12 @@ const TestAnalyteMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="Lab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+            
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
                 name="txtTestCode"
