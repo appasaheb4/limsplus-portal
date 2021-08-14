@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -22,9 +23,16 @@ import { toJS } from "mobx"
 
 const TestSampleMapping = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.TestSampleMapping>()
+  // const [errors, setErrors] = useState<Models.TestSampleMapping>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -78,18 +86,22 @@ const TestSampleMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Code">
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Test Code"
+              hasError={errors.testCode}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.testCode
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                   onChange={(e) => {
                     const testCode = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      testCode: Utils.validate.single(
-                        testCode,
-                        Utils.testSampleMapping.testCode
-                      ),
-                    })
+                    onChange(testCode)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       testCode,
@@ -107,18 +119,28 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Code">
+              )}
+              name="Test Code"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+          <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Sample Code"
+              hasError={errors.sampleCode}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sampleCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sampleCode = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      sampleCode: Utils.validate.single(
-                        sampleCode,
-                        Utils.testSampleMapping.sampleCode
-                      ),
-                    })
+                    onChange(sampleCode)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       sampleCode,
@@ -136,6 +158,12 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="Sample Code"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+            
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
