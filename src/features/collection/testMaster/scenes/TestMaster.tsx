@@ -148,7 +148,7 @@ const TestMater = observer(() => {
               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper 
               label="PLab"
-              hasError={errors..pLab}
+              hasError={errors.pLab}
               >
                 <select
                   className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
