@@ -1,42 +1,42 @@
 export class HostCommunication {
-    id: string
-    manualAutomaticMode: boolean
-    instrumentType: string
-    instrumentName: string
-    modeOfCommunication: string
-    typeOfQuery: string
-    applyFiltrOn: string
-    modeOfConnection: string
+    id?: string
+    manualAutomaticMode?: boolean
+    instrumentType?: string
+    instrumentName?: string
+    modeOfCommunication?: string
+    typeOfQuery?: string
+    applyFiltrOn?: string
+    modeOfConnection?: string
     serialPortCommunication?: {
-      comPort: string
-      baudRate: string
-      dataBits: string
-      stopBits: string
-      parity: string
-      flowControl: string
-      protocol: string
+      comPort?: string
+      baudRate?: string
+      dataBits?: string
+      stopBits?: string
+      parity?: string
+      flowControl?: string
+      protocol?: string
     }
-    tcpipCommunication: {
-      hostIpAddress: string
-      portNumber: string
-      timeout: string
-      responseTime: string
+    tcpipCommunication?: {
+      hostIpAddress?: string
+      portNumber?: string
+      timeout?: string
+      responseTime?: string
     }
-    hex: string
-    sourceFileDataReceivefromInstrument: string
-    logFileDataReceivefromInstrument: string
-    SourceRepositoryDataReceivefromInstrument: string
-    txtDataReceivefromInstrument: string
-    txtSendDatafromInstrument: string
-    convertTo: string
-    outputRepository: string
-    txtConvertedfile: string
-    outPutIn: string
-    txtOutputin: string
+    hex?: string
+    sourceFileDataReceivefromInstrument?: string
+    logFileDataReceivefromInstrument?: string
+    SourceRepositoryDataReceivefromInstrument?: string
+    txtDataReceivefromInstrument?: string
+    txtSendDatafromInstrument?: string
+    convertTo?: string
+    outputRepository?: string
+    txtConvertedfile?: string
+    outPutIn?: string
+    txtOutputin?: string
   
-    outputforThirdpartySoftware: string
-    logFileThiredPartySoftare: string
-    SourceRepositoryThiredPartySoftare: string
+    outputforThirdpartySoftware?: string
+    logFileThiredPartySoftare?: string
+    SourceRepositoryThiredPartySoftare?: string
     constructor(rawData: {[key in string]: any}){
         this.id = rawData.id
         this.manualAutomaticMode = rawData.manualAutomaticMode
@@ -66,9 +66,9 @@ export class HostCommunication {
   }
 
   export class ConvertTo {
-    hl7: any
-    hexDecimal: any
-    astom: any
+    hl7?: any
+    hexDecimal?: any
+    astom?: any
     constructor(rawData: {[key in string]: any}){
         this.hl7 = rawData.hl7
         this.hexDecimal = rawData.hexDecimal
@@ -79,31 +79,31 @@ export class HostCommunication {
   // segment
 
 export class SegmentMapping {
-    _id: string
-    dataFlowFrom: string
-    data_type: string
-    equipmentType: string
-    segments: string
-    segment_usage: string
-    field_no: string
-    item_no: string
-    field_required: boolean
-    element_name: string
-    transmitted_data: string
-    field_array: string
-    field_length: string
-    field_type: string
-    repeat_delimiter: boolean
-    mandatory: boolean
-    lims_descriptions: string
-    lims_tables: string
-    lims_fields: string
-    required_for_lims: boolean
-    notes: string
-    attachments: any
-    dateOfEntry: string
-    lastUpdated: string
-    __v: string
+    _id?: string
+    dataFlowFrom?: string
+    data_type?: string
+    equipmentType?: string
+    segments?: string
+    segment_usage?: string
+    field_no?: string
+    item_no?: string
+    field_required?: boolean
+    element_name?: string
+    transmitted_data?: string
+    field_array?: string
+    field_length?: string
+    field_type?: string
+    repeat_delimiter?: boolean
+    mandatory?: boolean
+    lims_descriptions?: string
+    lims_tables?: string
+    lims_fields?: string
+    required_for_lims?: boolean
+    notes?: string
+    attachments?: any
+    dateOfEntry?: string
+    lastUpdated?: string
+    __v?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.dataFlowFrom = rawData.dataFlowFrom
@@ -133,10 +133,10 @@ export class SegmentMapping {
     }
   }
   export class ConversationMapping {
-    _id: string
-    hexadecimal: string
-    binary: string
-    ascii: string
+    _id?: string
+    hexadecimal?: string
+    binary?: string
+    ascii?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.hexadecimal = rawData.hexadecimal
@@ -146,17 +146,17 @@ export class SegmentMapping {
   }
   
   export class EncodeCharacter {
-    _id: string
-    interfaceType: string
-    instrumentType: string
-    instrumentName: string
-    dataFlowFrom: string
-    communicationProtocol: string
-    blockStart: string
-    blockEnd: string
-    filed: string
-    value: string
-    fileds: { filed?: string | undefined; value?: string | undefined }[]
+    _id?: string
+    interfaceType?: string
+    instrumentType?: string
+    instrumentName?: string
+    dataFlowFrom?: string
+    communicationProtocol?: string
+    blockStart?: string
+    blockEnd?: string
+    filed?: string
+    value?: string
+    fileds?: { filed?: string | undefined; value?: string | undefined }[]
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.interfaceType = rawData.interfaceType
