@@ -9,7 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
-
+import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -22,8 +22,14 @@ import { toJS } from "mobx"
 import { AssetsService } from "@lp/features/assets/services"
 
 const Lab = observer(() => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
   const { loginStore } = useStores()
-  const [errors, setErrors] = useState<Models.Labs>()
+  // const [errors, setErrors] = useState<Models.Labs>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -80,16 +86,17 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
-                placeholder="Code"
+                hasError={errors.code}
+                placeholder={errors.code ? "Please Enter Code" : "Code"}
                 value={Stores.labStore.labs?.code}
                 onChange={(code) => {
-                  setErrors({
-                    ...errors,
-                    code: Utils.validate.single(code, Utils.labs.code),
-                  })
+                  onChange(code)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     code,
@@ -104,6 +111,11 @@ const Lab = observer(() => {
                   })
                 }}
               />
+              )}
+               name="Code"
+                 rules={{ required: true }}
+                 defaultValue=""
+               />
               {errors?.code && (
                 <span className="text-red-600 font-medium relative">
                   {errors.code}
@@ -114,23 +126,30 @@ const Lab = observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
+
+
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Name"
                 name="name"
-                placeholder="Name"
+                hasError={errors.name}
+                placeholder={errors.name ? "Please Enter Name" : "Name"}
                 value={Stores.labStore.labs?.name}
                 onChange={(name) => {
-                  setErrors({
-                    ...errors,
-                    name: Utils.validate.single(name, Utils.labs.name),
-                  })
+                 onChange(name)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     name,
                   })
                 }}
               />
-
+              )}
+              name="Name"
+              rules={{ required: true }}
+              defaultValue=""
+             />
               {errors?.name && (
                 <span className="text-red-600 font-medium relative">
                   {errors.name}
