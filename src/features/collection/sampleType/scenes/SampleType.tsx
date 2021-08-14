@@ -6,6 +6,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -15,9 +16,15 @@ import { toJS } from "mobx"
 
 const SampleType = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.SampleType>()
+  // const [errors, setErrors] = useState<Models.SampleType>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -50,42 +57,49 @@ const SampleType = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Sample Code"
-                placeholder="Sample Code"
+                hasError={errors.sampleCode}
+                placeholder={errors.sampleCode ? "Please Enter Sample Code" : "Sample Code"}
                 value={Stores.sampleTypeStore.sampleType?.sampleCode}
                 onChange={(sampleCode) => {
-                  setErrors({
-                    ...errors,
-                    sampleCode: Utils.validate.single(
-                      sampleCode,
-                      Utils.sampleType.sampleCode
-                    ),
-                  })
+                  onChange(sampleCode)
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
                     sampleCode:sampleCode.toUpperCase()
                   })
                 }}
               />
+              )}
+              name="Sample Code"
+              rules={{ required: true }}
+               defaultValue=""
+              />
+
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (  
               <LibraryComponents.Atoms.Form.Input
                 label="Sample Type"
-                placeholder="Sample Type"
+                hasError={errors.sampleType}
+                placeholder={errors.sampleType ? "Please Enter Sample Type" : "Sample Type"}
                 value={Stores.sampleTypeStore.sampleType?.sampleType}
                 onChange={(sampleType) => {
-                  setErrors({
-                    ...errors,
-                    sampleType: Utils.validate.single(
-                      sampleType,
-                      Utils.sampleType.sampleType
-                    ),
-                  })
+                 onChange(sampleType)
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
                     sampleType:sampleType.toUpperCase()
                   })
                 }}
               />
+              )}
+              name=""
+              rules={{ required: true }}
+               defaultValue=""
+             />
               <LibraryComponents.Atoms.Form.Input
                 label="Sample Group"
                 placeholder="Sample Group"
