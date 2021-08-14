@@ -16,7 +16,7 @@ const Deginisation = observer(() => {
   const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.IDeginisation>()
+  const [errors, setErrors] = useState<Models.Deginisation>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
 

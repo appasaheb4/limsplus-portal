@@ -16,7 +16,7 @@ const Role = observer(() => {
   const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.IRole>()
+  const [errors, setErrors] = useState<Models.Role>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
 

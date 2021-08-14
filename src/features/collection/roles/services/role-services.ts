@@ -9,7 +9,7 @@ import { http } from "@lp/library/modules/http"
 
 export class RoleService {  
   listRole = () =>  
-    new Promise<Models.IRole[]>((resolve, reject) => {
+    new Promise<Models.Role[]>((resolve, reject) => {
       http
         .get(`/role/listRole`)
         .then((res: any) => {
@@ -19,7 +19,7 @@ export class RoleService {
           reject({ error })
         })
     })
-  addrole = (lab?: Models.IRole) =>
+  addrole = (lab?: Models.Role) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/role/addRole`, lab)
