@@ -20,7 +20,7 @@ export class Users {
   department: ModelsDepartment.Department[]
   exipreDate: number
   expireDays: number
-  role: ModelsRole.IRole[]
+  role: ModelsRole.Role[]
   validationLevel: number
   workstation: string
   ipAddress: string
