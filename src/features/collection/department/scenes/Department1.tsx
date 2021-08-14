@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 import * as LibraryUtils from "@lp/library/utils"
-
+import { useForm, Controller } from "react-hook-form"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
@@ -21,9 +21,15 @@ import { RouterFlow } from "@lp/flows"
 
 export const Department = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.Department>()
+  // const [errors, setErrors] = useState<Models.Department>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
@@ -91,19 +97,24 @@ export const Department = observer(() => {
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
+                <Controller
+                   control={control}
+                    render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper 
+                label="Lab"
+                 id="lab"
+                 hasError={errors.lab}
+                 >
                   <select
                     name="lab"
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      errors.lab
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-200"
+                    } rounded-md`}
                     onChange={(e) => {
                       const lab = e.target.value
-                      setErrors({
-                        ...errors,
-                        lab: Utils.validate.single(
-                          lab,
-                          Utils.constraintsDepartment.lab
-                        ),
-                      })
+                      onChange(lab)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         lab,
@@ -118,20 +129,24 @@ export const Department = observer(() => {
                     ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="Lab"
+                rules={{ required: true }}
+                defaultValue=""
+               />
 
+
+                <Controller
+                   control={control}
+                     render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   label="Code"
                   id="code"
-                  placeholder="Code"
+                  hasError={errors.code}
+                  placeholder={errors.code ? "Please Enter Code" : "Code"}
                   value={Stores.departmentStore.department?.code}
                   onChange={(code) => {
-                    setErrors({
-                      ...errors,
-                      code: Utils.validate.single(
-                        code,
-                        Utils.constraintsDepartment.code
-                      ),
-                    })
+                    onChange(code)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       code,
@@ -148,6 +163,11 @@ export const Department = observer(() => {
                     })
                   }}
                 />
+                )}
+                 name="Code"
+                rules={{ required: true }}
+                defaultValue=""
+                 />
                 {errors?.code && (
                   <span className="text-red-600 font-medium relative">
                     {errors.code}
@@ -158,25 +178,28 @@ export const Department = observer(() => {
                     Code already exits. Please use other code.
                   </span>
                 )}
+
+                  <Controller
+                     control={control}
+                      render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   label="Name"
                   name="name"
-                  placeholder="Name"
+                  placeholder={errors.name ? "Please Enter Name" : "Name"}
                   value={Stores.departmentStore.department?.name}
                   onChange={(name) => {
-                    setErrors({
-                      ...errors,
-                      name: Utils.validate.single(
-                        name,
-                        Utils.constraintsDepartment.name
-                      ),
-                    })
+                    onChange(name)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       name,
                     })
                   }}
                 />
+                )}
+                 name="Name"
+                rules={{ required: true }}
+                 defaultValue=""
+                  />
                 {errors?.name && (
                   <span className="text-red-600 font-medium relative">
                     {errors.name}
