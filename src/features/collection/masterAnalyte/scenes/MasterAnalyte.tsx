@@ -9,6 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -21,9 +22,15 @@ import { toJS } from "mobx"
 
 const MasterAnalyte = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.MasterAnalyte>()
+  // const [errors, setErrors] = useState<Models.MasterAnalyte>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -91,16 +98,24 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
+
+                <LibraryComponents.Atoms.Form.InputWrapper 
+                label="Lab"
+                hasError={errors.lab}
+                >
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(lab, Utils.masterAnalyte.lab),
-                    })
+                   onChange(lab)
                     Stores.masterAnalyteStore.updateMasterAnalyte({
                       ...Stores.masterAnalyteStore.masterAnalyte,
                       lab,
@@ -115,29 +130,38 @@ const MasterAnalyte = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="Lab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
               {errors?.lab && (
                 <span className="text-red-600 font-medium relative">
                   {errors.lab}
                 </span>
               )}
+
+              <Controller
+                 control={control}
+                 render={({ field: { onChange } }) => (
              <LibraryComponents.Atoms.Form.Input
                 label="Analyte Code"
                 name="txtAnalyteCode"
-                placeholder="Analyte Code"
+                hasError={errors.analyteCode}
+                placeholder={errors.analyteCode ? "Please Enter Analyte Code" : "Analyte Code"}
                 value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
                 onChange={(analyteCode) => {
-                  setErrors({
-                    ...errors,
-                    analyteCode: Utils.validate.single(
-                      analyteCode,
-                      Utils.masterAnalyte.analyteCode
-                    ),
-                  })
+                 onChange(analyteCode)
                   Stores.masterAnalyteStore.updateMasterAnalyte({
                     ...Stores.masterAnalyteStore.masterAnalyte,
                     analyteCode: analyteCode.toUpperCase(),
                   })
                 }}
+              />
+              )}
+               name="Analyte Code"
+              rules={{ required: true }}
+              defaultValue=""
               />
               {errors?.analyteCode && (
                 <span className="text-red-600 font-medium relative">
