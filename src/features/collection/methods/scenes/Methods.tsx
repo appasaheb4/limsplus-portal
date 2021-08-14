@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -18,9 +19,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Methods = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.Methods>()
+  // const [errors, setErrors] = useState<Models.Methods>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -87,42 +94,48 @@ const Methods = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Method Code"
-                placeholder="Method Code"
+                hasError={errors.methodsCode}
+                placeholder={errors.methodsCode ? "Please Enter Method Code" : "Method Code"}
                 value={Stores.methodsStore.methods?.methodsCode}
                 onChange={(methodsCode) => {
-                  setErrors({
-                    ...errors,
-                    methodsCode: Utils.validate.single(
-                      methodsCode,
-                      Utils.methods.methodsCode
-                    ),
-                  })
+                 onChange(methodsCode)
                   Stores.methodsStore.updateMethods({
                     ...Stores.methodsStore.methods,
                     methodsCode,
                   })
                 }}
               />
+              )}
+               name="Method Code"
+                rules={{ required: true }}
+                defaultValue=""
+             />
+
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Method Name"
-                placeholder="Method Name"
+                placeholder={errors.methodsName ? "Please Enter Methods Name" : "Methods Name"}
                 value={Stores.methodsStore.methods?.methodsName}
                 onChange={(methodsName) => {
-                  setErrors({
-                    ...errors,
-                    methodsName: Utils.validate.single(
-                      methodsName,
-                      Utils.methods.methodsName
-                    ),
-                  })
+                  onChange(methodsName)
                   Stores.methodsStore.updateMethods({
                     ...Stores.methodsStore.methods,
                     methodsName,
                   })
                 }}
               />
+              )}
+              name="Method Name"
+            rules={{ required: true }}
+            defaultValue=""
+            />
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={4}
                 label="Description"
