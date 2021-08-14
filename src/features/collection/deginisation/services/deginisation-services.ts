@@ -9,7 +9,7 @@ import { http } from "@lp/library/modules/http"
 
 class DeginisationService  {
   listDeginisation = () =>
-    new Promise<Models.IDeginisation[]>((resolve, reject) => {
+    new Promise<Models.Deginisation[]>((resolve, reject) => {
       http
         .get(`/deginisation/listDeginisation`)
         .then((res: any) => {
@@ -19,7 +19,7 @@ class DeginisationService  {
           reject({ error })
         })
     })
-  addDeginisation = (deginisation?: Models.IDeginisation) =>
+  addDeginisation = (deginisation?: Models.Deginisation) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/deginisation/addDeginisation`, deginisation)

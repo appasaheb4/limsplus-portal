@@ -5,8 +5,8 @@ import * as Services from "../services"
 
 @version(0.1)
 class RoleStore {
-  @observable listRole: Models.IRole[] = []
-  @ignore @observable role?: Models.IRole
+  @observable listRole: Models.Role[] = []
+  @ignore @observable role?: Models.Role
   @ignore @observable checkExitsCode?: boolean = false
 
   constructor() {
@@ -32,7 +32,7 @@ class RoleStore {
     this.checkExitsCode = status
   }
 
-  @action updateRole = (role: Models.IRole) => {
+  @action updateRole = (role: Models.Role) => {
     this.role = role
   }
 
