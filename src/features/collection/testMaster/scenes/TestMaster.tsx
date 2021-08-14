@@ -9,6 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 //import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -24,10 +25,14 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const TestMater = observer(() => {
+  const {control,
+    handleSubmit,
+    formState: { errors },
+    setValue,} = useForm()
   const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.TestMaster>()
+  // const [errors, setErrors] = useState<Models.TestMaster>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -97,17 +102,23 @@ const TestMater = observer(() => {
               fill
             >
              
-              
-              <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
+             <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="RLab"
+              hasError={errors.rLab}
+              >
                 <select
                   value={LoginStores.loginStore.login?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.rLab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const rLab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      rLab: Utils.validate.single(rLab, Utils.testMaster.rLab),
-                    })
+                    onChange(rLab)
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
                       rLab,
@@ -125,15 +136,29 @@ const TestMater = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
+              )}
+              name="rLab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+            
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="PLab"
+              hasError={errors..pLab}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.pLab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const pLab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      pLab: Utils.validate.single(pLab, Utils.testMaster.pLab),
-                    })
+                    onChange(pLab)
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
                       pLab,
@@ -148,18 +173,30 @@ const TestMater = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Department">
+              )}
+              name="pLab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+
+            
+           <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Department"
+              hasError={errors.department}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.department
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const department = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      department: Utils.validate.single(
-                        department,
-                        Utils.testMaster.department
-                      ),
-                    })
+                    onChange(department)
                     Stores.testMasterStore.updateTestMaster({
                       ...Stores.testMasterStore.testMaster,
                       department,
@@ -176,6 +213,11 @@ const TestMater = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="Department"
+              rules={{ required: true }}
+              defaultValue=""
+             />
               <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
