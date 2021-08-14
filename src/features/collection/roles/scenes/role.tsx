@@ -5,7 +5,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Util from "../util"
-
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -14,9 +14,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Role = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.IRole>()
+  // const [errors, setErrors] = useState<Models.IRole>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
 
@@ -48,16 +54,18 @@ const Role = observer(() => {
               justify="stretch"
               fill
             >
+
+          <Controller
+            control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
-                placeholder="Code"
+                hasError={errors.code}
+                placeholder={errors.code ? "Please Enter Code " : "Code"}
                 value={Stores.roleStore.role?.code}
                 onChange={(code) => {
-                  setErrors({
-                    ...errors,
-                    code: Util.validate.single(code, Util.constraintsRole.code),
-                  })
+                  onChange(code)
                   Stores.roleStore.updateRole({
                     ...Stores.roleStore.role,
                     code,
@@ -72,6 +80,11 @@ const Role = observer(() => {
                   })
                 }}
               />
+              )}
+              name="Code"
+              rules={{ required: true }}
+              defaultValue=""
+            />
               {errors?.code && (
                 <span className="text-red-600 font-medium relative">
                   {errors.code}
@@ -82,24 +95,28 @@ const Role = observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
+
+            <Controller
+               control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Description"
                 name="description"
-                placeholder="Description"
+                hasError={errors.description}
+                placeholder={errors.description ? "Please Enter Description" : "Description"}
                 value={Stores.roleStore.role?.description}
                 onChange={(description) => {
-                  setErrors({
-                    ...errors,
-                    description: Util.validate.single(
-                      description,
-                      Util.constraintsRole.description
-                    ),
-                  })
+                  onChange(description)
                   Stores.roleStore.updateRole({
                     ...Stores.roleStore.role,
                     description,
                   })
                 }}
+              />
+              )}
+               name="Description"
+              rules={{ required: true }}
+              defaultValue=""
               />
 
               {errors?.description && (
