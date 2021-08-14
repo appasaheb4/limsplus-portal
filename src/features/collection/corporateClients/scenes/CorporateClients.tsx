@@ -7,6 +7,7 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as Models from "../models"
+import { useForm, Controller } from "react-hook-form"  
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
@@ -20,9 +21,15 @@ import { RouterFlow } from "@lp/flows"
 
 const CorporateClients = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.CorporateClients>()
+  // const [errors, setErrors] = useState<Models.CorporateClients>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -144,43 +151,49 @@ const CorporateClients = observer(() => {
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
               />
-
+             <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Corporate Code"
-                placeholder="Corporate Code"
+                placeholder={errors.corporateCode ? "Please Enter Coporate Code" : "Coporate Code"}
+                hasError={errors.corporateCode}
                 value={Stores.corporateClientsStore.corporateClients?.corporateCode}
                 onChange={(corporateCode) => {
-                  setErrors({
-                    ...errors,
-                    corporateCode: Utils.validate.single(
-                      corporateCode,
-                      Utils.corporateClients.corporateCode
-                    ),
-                  })
+                  onChange(corporateCode)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     corporateCode,
                   })
                 }}
               />
+              )}
+              name="Corporate Code"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Corporate Name"
-                placeholder="Corporate Name"
+                placeholder={errors.corporateName  ? "Please Enter Coporate Name" : "Coporate Name"}
+                hasError={errors.corporateName}
                 value={Stores.corporateClientsStore.corporateClients?.corporateName}
                 onChange={(corporateName) => {
-                  setErrors({
-                    ...errors,
-                    corporateName: Utils.validate.single(
-                      corporateName,
-                      Utils.corporateClients.corporateName
-                    ),
-                  })
+                 onChange(corporateName)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     corporateName,
                   })
                 }}
               />
+              )}
+              name="Corporate Name"
+              rules={{ required: true }}
+              defaultValue=""
+            />
               <LibraryComponents.Atoms.Form.Input
                 label="Invoice AC"
                 placeholder="Invoice AC"
