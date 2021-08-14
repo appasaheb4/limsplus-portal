@@ -75,11 +75,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const comPort = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      comPort,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   comPort,
+                    // },
                   })
                 }}
               >
@@ -108,11 +108,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const baudRate = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      baudRate,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   baudRate,
+                    // },
                   })
                 }}
               >
@@ -139,11 +139,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const dataBits = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      dataBits,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   dataBits,
+                    // },
                   })
                 }}
               >
@@ -170,11 +170,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const stopBits = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      stopBits,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   stopBits,
+                    // },
                   })             
                    }}
               >
@@ -202,11 +202,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const parity = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      parity,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   parity,
+                    // },
                   })
                 }}
               >
@@ -234,11 +234,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const flowControl = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      flowControl,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   flowControl,
+                    // },
                   })
                 }}
               >
@@ -266,11 +266,11 @@ const SettingForRS232Table: React.FunctionComponent = observer(() => {
                   const protocol = e.target.value
                   Stores.hostCommunicationStore.updateHostCommuication({
                     ...Stores.hostCommunicationStore.hostCommuication,
-                    serialPortCommunication: {
-                      ...Stores.hostCommunicationStore.hostCommuication
-                        ?.serialPortCommunication,
-                      protocol,
-                    },
+                    // serialPortCommunication: {
+                    //   ...Stores.hostCommunicationStore.hostCommuication
+                    //     ?.serialPortCommunication,
+                    //   protocol,
+                    // },
                   })
                 }}
               >
