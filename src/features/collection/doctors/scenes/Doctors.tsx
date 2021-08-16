@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -20,9 +21,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Doctors = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.Doctors>()
+  // const [errors, setErrors] = useState<Models.Doctors>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -137,44 +144,48 @@ const Doctors = observer(() => {
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
               />
-
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Code"
-                placeholder="Doctor Code"
+                hasError={errors.doctorCode}
+                placeholder={errors.doctorCode ? "Please Enter Code" : "Doctor Code"}
                 value={Stores.doctorsStore.doctors?.doctorCode}
                 onChange={(doctorCode) => {
-                  setErrors({
-                    ...errors,
-                    doctorCode: Utils.validate.single(
-                      doctorCode,
-                      Utils.doctors.doctorCode
-                    ),
-                  })
+                  onChange(doctorCode)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorCode,
                   })
                 }}
               />
+              )}
+                 name="DoctorCode"
+                 rules={{ required: true }}
+                 defaultValue=""
+               />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Name"
-                placeholder="Doctor Name"
+                placeholder={errors.doctorName ? "Please Enter Doctor Name" : "Doctor Name"}
                 value={Stores.doctorsStore.doctors?.doctorName}
                 onChange={(doctorName) => {
-                  setErrors({
-                    ...errors,
-                    doctorName: Utils.validate.single(
-                      doctorName,
-                      Utils.doctors.doctorName
-                    ),
-                  })
+                  onChange(doctorName)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorName,
                   })
                 }}
               />
-
+              )}
+            name="doctorName"
+            rules={{ required: true }}
+           defaultValue=""
+            />
               <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"

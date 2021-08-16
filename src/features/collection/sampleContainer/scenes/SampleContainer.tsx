@@ -7,6 +7,7 @@ import * as FeatureComponents from "../components"
 
 import * as Models from "../models"
 import * as Utils from "../util"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -15,9 +16,16 @@ import { RouterFlow } from "@lp/flows"
 
 const SampleContainer = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.SampleContainer>()
+  // const [errors, setErrors] = useState<Models.SampleContainer>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
@@ -49,42 +57,49 @@ const SampleContainer = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Container Code"
-                placeholder="Container Code"
+                hasError={errors.containerCode}
+                placeholder={errors.containerCode ? "Please Enter Container Code " : "Conatiner Code"}
                 value={Stores.sampleContainerStore.sampleContainer?.containerCode}
                 onChange={(containerCode) => {
-                  setErrors({
-                    ...errors,
-                    containerCode: Utils.validate.single(
-                      containerCode,
-                      Utils.sampleContainer.containerCode
-                    ),
-                  })
+                 onChange(containerCode)
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
                     containerCode:containerCode.toUpperCase()
                   })
                 }}
               />
+              )}
+                 name="containerCode"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+
+          <Controller
+             control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Container Name"
-                placeholder="Container Name"
+                hasError={errors.containerName}
+                placeholder={errors.containerName ? "Please Enter Container Name" : "Container Name"}
                 value={Stores.sampleContainerStore.sampleContainer?.containerName}
                 onChange={(containerName) => {
-                  setErrors({
-                    ...errors,
-                    containerName: Utils.validate.single(
-                      containerName,
-                      Utils.sampleContainer.containerName
-                    ),
-                  })
+                  onChange(containerName)
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
                     containerName:containerName.toUpperCase()
                   })
                 }}
               />
+              )}
+               name=""
+                rules={{ required: true }}
+                defaultValue=""
+             />
               <LibraryComponents.Atoms.Form.InputFile
                 label="Image"
                 placeholder="Image"

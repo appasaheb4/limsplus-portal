@@ -9,6 +9,7 @@ import { Container } from "reactstrap"
 import * as Models from "../models"
 import * as Utils from "../util"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
@@ -20,9 +21,16 @@ let router = dashboardRoutes
 
 export const PossibleResults = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.PossibleResults>()
+  // const [errors, setErrors] = useState<Models.PossibleResults>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
@@ -70,11 +78,22 @@ export const PossibleResults = observer(() => {
                 justify="stretch"
                 fill
               >
-                <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                 label="Analyte Code"
+                 hasError={errors.analyteCode}
+                 >
                   <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      errors.analyteCode
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-200"
+                    } rounded-md`}
                     onChange={(e) => {
                       const analyte = JSON.parse(e.target.value)
+                      onChange(analyte.analyteCode)
                       // setErrors({
                       //   ...errors,
                       //   analyteCode: Utils.validate.single(
@@ -100,6 +119,11 @@ export const PossibleResults = observer(() => {
                       )}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="analyteCode"
+                rules={{ required: true }}
+                defaultValue=""
+               />
                 <LibraryComponents.Atoms.Form.Input
                   disabled={true}
                   label="Analyte Name"
