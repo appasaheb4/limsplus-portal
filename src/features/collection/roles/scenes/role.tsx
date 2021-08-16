@@ -81,7 +81,7 @@ const Role = observer(() => {
                 }}
               />
               )}
-              name="Code"
+              name="code"
               rules={{ required: true }}
               defaultValue=""
             />
@@ -114,7 +114,7 @@ const Role = observer(() => {
                 }}
               />
               )}
-               name="Description"
+               name="description"
               rules={{ required: true }}
               defaultValue=""
               />

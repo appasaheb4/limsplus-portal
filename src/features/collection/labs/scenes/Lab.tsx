@@ -112,7 +112,7 @@ const Lab = observer(() => {
                 }}
               />
               )}
-               name="Code"
+               name="code"
                  rules={{ required: true }}
                  defaultValue=""
                />
@@ -146,7 +146,7 @@ const Lab = observer(() => {
                 }}
               />
               )}
-              name="Name"
+              name="name"
               rules={{ required: true }}
               defaultValue=""
              />

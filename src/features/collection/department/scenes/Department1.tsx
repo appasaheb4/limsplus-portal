@@ -130,7 +130,7 @@ export const Department = observer(() => {
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="Lab"
+                name="lab"
                 rules={{ required: true }}
                 defaultValue=""
                />
@@ -164,7 +164,7 @@ export const Department = observer(() => {
                   }}
                 />
                 )}
-                 name="Code"
+                 name="code"
                 rules={{ required: true }}
                 defaultValue=""
                  />
@@ -196,7 +196,7 @@ export const Department = observer(() => {
                   }}
                 />
                 )}
-                 name="Name"
+                 name="name"
                 rules={{ required: true }}
                  defaultValue=""
                   />

@@ -118,7 +118,7 @@ export const SalesTeam = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Sales Hierarchy"
+              name="salesHierarchy"
               rules={{ required: true }}
               defaultValue=""
              />

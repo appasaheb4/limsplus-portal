@@ -103,7 +103,7 @@ const DeliverySchedule = observer(() => {
                 }}
               />
               )}
-               name="Sch Code"
+               name="schCode"
                 rules={{ required: true }}
                  defaultValue=""
                />

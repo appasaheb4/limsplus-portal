@@ -120,7 +120,7 @@ export const PossibleResults = observer(() => {
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="Analyte Code"
+                name="analyteCode"
                 rules={{ required: true }}
                 defaultValue=""
                />

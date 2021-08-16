@@ -131,7 +131,7 @@ const TestAnalyteMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Lab"
+              name="lab"
               rules={{ required: true }}
               defaultValue=""
              />

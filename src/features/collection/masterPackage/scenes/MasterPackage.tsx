@@ -142,7 +142,7 @@ const MasterPackage = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Lab"
+              name="lab"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -207,7 +207,7 @@ const MasterPackage = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Service Type"
+              name="serviceType"
               rules={{ required: true }}
               defaultValue=""
             />
