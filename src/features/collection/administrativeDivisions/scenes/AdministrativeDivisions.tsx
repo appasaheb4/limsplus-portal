@@ -99,7 +99,7 @@ export const AdministrativeDivisions = observer(() => {
                 }}
               />
               )}
-              name="Country"
+              name="country"
               rules={{ required: true }}
               defaultValue=""
             />
@@ -122,7 +122,7 @@ export const AdministrativeDivisions = observer(() => {
                 }}
               />
               )}
-              name="State"
+              name="state"
               rules={{ required: true }}
               defaultValue=""
             />
@@ -145,7 +145,7 @@ export const AdministrativeDivisions = observer(() => {
                 }}
               />
               )}
-              name="District"
+              name="district"
               rules={{ required: true }}
               defaultValue=""
             />
