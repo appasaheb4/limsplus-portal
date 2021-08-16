@@ -132,7 +132,7 @@ const TestPanelMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Lab"
+              name="lab"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -171,7 +171,7 @@ const TestPanelMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Panel Code"
+              name="panelCode"
               rules={{ required: true }}
               defaultValue=""
              />

@@ -74,7 +74,7 @@ const SampleContainer = observer(() => {
                 }}
               />
               )}
-                 name="Container Code"
+                 name="containerCode"
                 rules={{ required: true }}
                 defaultValue=""
               />

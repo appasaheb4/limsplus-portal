@@ -214,7 +214,7 @@ const TestMater = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Department"
+              name="department"
               rules={{ required: true }}
               defaultValue=""
              />

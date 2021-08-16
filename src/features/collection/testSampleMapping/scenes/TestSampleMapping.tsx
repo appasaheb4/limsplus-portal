@@ -120,7 +120,7 @@ const TestSampleMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Test Code"
+              name="testCode"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -159,7 +159,7 @@ const TestSampleMapping = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Sample Code"
+              name="sampleCode"
               rules={{ required: true }}
               defaultValue=""
              />

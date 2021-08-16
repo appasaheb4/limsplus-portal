@@ -177,7 +177,7 @@ const RegistrationLocation = observer(() => {
                 }}
               />
               )}
-               name="Location Code"
+               name="locationCode"
                rules={{ required: true }}
               defaultValue=""
               />
@@ -202,7 +202,7 @@ const RegistrationLocation = observer(() => {
                 }}
               />
               )}
-               name="Location Name"
+               name="locationName"
                rules={{ required: true }}
                 defaultValue=""
              />

@@ -161,7 +161,7 @@ const Doctors = observer(() => {
                 }}
               />
               )}
-                 name="Doctor Code"
+                 name="DoctorCode"
                  rules={{ required: true }}
                  defaultValue=""
                />
@@ -182,7 +182,7 @@ const Doctors = observer(() => {
                 }}
               />
               )}
-            name="Doctor Name"
+            name="doctorName"
             rules={{ required: true }}
            defaultValue=""
             />

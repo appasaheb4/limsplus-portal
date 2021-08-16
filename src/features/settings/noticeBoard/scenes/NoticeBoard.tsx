@@ -9,6 +9,7 @@ import * as Utils from "../utils"
 import * as Models from "../models"
 
 import { Stores } from "../stores"
+import { useForm, Controller } from "react-hook-form"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -18,7 +19,13 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const NoticeBoard = observer(() => {
-  const [errors, setErrors] = useState<Models.NoticeBoard>()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  // const [errors, setErrors] = useState<Models.NoticeBoard>()
   const [modalConfirm, setModalConfirm] = useState<any>()
 
   useEffect(() => {
@@ -34,19 +41,20 @@ const NoticeBoard = observer(() => {
             justify="stretch"
             fill
           >
-            <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+            <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs" hasError={errors.lab}>
               <select
                 name="variable"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.lab
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                 onChange={(e) => {
                   const lab = e.target.value as string
-                  setErrors({
-                    ...errors,
-                    lab: Utils.validate.single(
-                      lab,
-                      Utils.constraintsNoticeBoard.lab
-                    ),
-                  })
+                  onChange(lab)
                   Stores.noticeBoardStore.updateNoticeBoard({
                     ...Stores.noticeBoardStore.noticeBoard,
                     lab,
@@ -61,39 +69,47 @@ const NoticeBoard = observer(() => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="lab"
+            rules={{ required: true }}
+            defaultValue=""
+           />
+
+        <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Header"
               name="lblHeader"
-              placeholder="Header"
+              placeholder={errors.header ? "Please Enter Header" : "Header"}
               //value={Stores.userStore.user.password}
               onChange={(header) => {
-                setErrors({
-                  ...errors,
-                  header: Utils.validate.single(
-                    header,
-                    Utils.constraintsNoticeBoard.header
-                  ),
-                })
+               onChange(header)
                 Stores.noticeBoardStore.updateNoticeBoard({
                   ...Stores.noticeBoardStore.noticeBoard,
                   header,
                 })
               }}
             />
-
-            <LibraryComponents.Atoms.Form.InputWrapper label="Action" id="lblAction">
+            )}
+          name="header"
+           rules={{ required: true }}
+           defaultValue=""
+          />
+            <Controller
+             control={control}
+            render={({ field: { onChange } }) => (
+            <LibraryComponents.Atoms.Form.InputWrapper label="Action" id="lblAction" hasError={errors.action}>
               <select
                 name="action"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.action
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                 onChange={(e) => {
                   const action = e.target.value as "login" | "logout"
-                  setErrors({
-                    ...errors,
-                    action: Utils.validate.single(
-                      action,
-                      Utils.constraintsNoticeBoard.action
-                    ),
-                  })
+                  onChange(action)
                   Stores.noticeBoardStore.updateNoticeBoard({
                     ...Stores.noticeBoardStore.noticeBoard,
                     action,
@@ -108,6 +124,11 @@ const NoticeBoard = observer(() => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="action"
+            rules={{ required: true }}
+            defaultValue=""
+           />
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -115,26 +136,29 @@ const NoticeBoard = observer(() => {
             justify="stretch"
             fill
           >
+            <Controller
+               control={control}
+              render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.MultilineInput
               rows={7}
               label="Message"
               name="lblMessage"
-              placeholder="Message"
+              hasError={errors.message}
+              placeholder={errors.message ? "Please Enter Message" : "Message"}
               //value={Stores.userStore.user.password}
               onChange={(message) => {
-                setErrors({
-                  ...errors,
-                  message: Utils.validate.single(
-                    message,
-                    Utils.constraintsNoticeBoard.message
-                  ),
-                })
+                onChange(message)
                 Stores.noticeBoardStore.updateNoticeBoard({
                   ...Stores.noticeBoardStore.noticeBoard,
                   message,
                 })
               }}
             />
+            )}
+           name="message"
+          rules={{ required: true }}
+          defaultValue=""
+          />
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>

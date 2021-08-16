@@ -131,7 +131,7 @@ const MasterAnalyte = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Lab"
+              name="lab"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -159,7 +159,7 @@ const MasterAnalyte = observer(() => {
                 }}
               />
               )}
-               name="Analyte Code"
+               name="analyte Code"
               rules={{ required: true }}
               defaultValue=""
               />

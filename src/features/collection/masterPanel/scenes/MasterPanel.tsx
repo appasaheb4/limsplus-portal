@@ -137,7 +137,7 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="RLab"
+              name="rLab"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -173,7 +173,7 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="PLab"
+              name="pLab"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -212,7 +212,7 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Department"
+              name="department"
               rules={{ required: true }}
               defaultValue=""
              />

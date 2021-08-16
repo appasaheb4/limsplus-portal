@@ -74,7 +74,7 @@ const SampleType = observer(() => {
                 }}
               />
               )}
-              name="Sample Code"
+              name="sampleCode"
               rules={{ required: true }}
                defaultValue=""
               />
@@ -96,7 +96,7 @@ const SampleType = observer(() => {
                 }}
               />
               )}
-              name=""
+              name="sampleType"
               rules={{ required: true }}
                defaultValue=""
              />

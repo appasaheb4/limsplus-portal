@@ -131,7 +131,7 @@ const Section = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Department Code"
+              name="departmentCode"
               rules={{ required: true }}
               defaultValue=""
              />
@@ -154,7 +154,7 @@ const Section = observer(() => {
                 }}
               />
               )}
-              name="Code"
+              name="code"
               rules={{ required: true }}
               defaultValue=""
               />
@@ -176,7 +176,7 @@ const Section = observer(() => {
                 }}
               />
               )}
-             name="Name"
+             name="name"
              rules={{ required: true }}
              defaultValue=""
              />

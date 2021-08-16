@@ -111,7 +111,7 @@ const Methods = observer(() => {
                 }}
               />
               )}
-               name="Method Code"
+               name="methodCode"
                 rules={{ required: true }}
                 defaultValue=""
              />
@@ -132,7 +132,7 @@ const Methods = observer(() => {
                 }}
               />
               )}
-              name="Method Name"
+              name="methodName"
             rules={{ required: true }}
             defaultValue=""
             />

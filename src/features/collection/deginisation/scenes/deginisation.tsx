@@ -81,7 +81,7 @@ const Deginisation = observer(() => {
                 }}
               />
               )}
-              name="Code"
+              name="code"
               rules={{ required: true }}
                defaultValue=""
              />
@@ -114,7 +114,7 @@ const Deginisation = observer(() => {
                 }}
               />
               )}
-                 name="Description"
+                 name="description"
                 rules={{ required: true }}
                 defaultValue=""
                />
