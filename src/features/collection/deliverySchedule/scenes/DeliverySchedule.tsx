@@ -5,7 +5,7 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
+import { useForm, Controller } from "react-hook-form"
 import { ScheduleFrequency } from "../components/molecules"
 
 import * as Models from "../models"
@@ -21,9 +21,15 @@ import { toJS } from "mobx"
 
 const DeliverySchedule = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.DeliverySchedule>()
+  // const [errors, setErrors] = useState<Models.DeliverySchedule>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -80,17 +86,27 @@ const DeliverySchedule = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Sch Code"
-                placeholder="Sch Code"
+                placeholder={errors.schCode ? "Please Enter Sch Code" : "Sch Code"}
+                hasError={errors.schCode}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.schCode}
                 onChange={(schCode) => {
+                  onChange(schCode)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     schCode,
                   })
                 }}
               />
+              )}
+               name="schCode"
+                rules={{ required: true }}
+                 defaultValue=""
+               />
               <LibraryComponents.Atoms.Form.Clock
                 label="P Start Time"
                 value={Stores.deliveryScheduleStore.deliverySchedule?.pStartTime}

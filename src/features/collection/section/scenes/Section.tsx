@@ -11,6 +11,7 @@ import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
+import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
@@ -20,9 +21,16 @@ import { RouterFlow } from "@lp/flows"
 
 const Section = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.Section>()
+  // const [errors, setErrors] = useState<Models.Section>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -89,18 +97,22 @@ const Section = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Department Code">
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Department Code"
+              hasError={errors.departmentCode}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.departmentCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const departmentCode = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      departmentCode: Utils.validate.single(
-                        departmentCode,
-                        Utils.section.departmentCode
-                      ),
-                    })
+                    onChange(departmentCode)
                     Stores.sectionStore.updateSection({
                       ...Stores.sectionStore.section,
                       departmentCode,
@@ -118,37 +130,58 @@ const Section = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="departmentCode"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+          <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
-                placeholder="Code"
+                hasError={errors.code}
+                placeholder={errors.code ? "Please Enter Code" : "Code"}
                 value={Stores.sectionStore.section?.code}
                 onChange={(code) => {
-                  setErrors({
-                    ...errors,
-                    code: Utils.validate.single(code, Utils.section.code),
-                  })
+                  onChange(code)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     code,
                   })
                 }}
               />
+              )}
+              name="code"
+              rules={{ required: true }}
+              defaultValue=""
+              />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Name"
-                placeholder="Name"
+                hasError={errors.name}
+                placeholder={errors.name ? "Please Enter Name" : "Name"}
                 value={Stores.sectionStore.section?.name}
                 onChange={(name) => {
-                  setErrors({
-                    ...errors,
-                    name: Utils.validate.single(name, Utils.section.name),
-                  })
+                  onChange(name)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     name,
                   })
                 }}
               />
+              )}
+             name="name"
+             rules={{ required: true }}
+             defaultValue=""
+             />
+
+
               <LibraryComponents.Atoms.Form.Input
                 label="Short Name"
                 placeholder="Short Name"

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-
+import { useForm, Controller } from "react-hook-form"
 import * as Models from "../models"
 import * as Util from "../util"
 
@@ -14,9 +14,15 @@ import { RouterFlow } from "@lp/flows"
 
 const Deginisation = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.IDeginisation>()
+  // const [errors, setErrors] = useState<Models.IDeginisation>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
 
@@ -47,19 +53,17 @@ const Deginisation = observer(() => {
               justify="stretch"
               fill
             >
+            <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Code"
                 id="code"
-                placeholder="Code"
+                placeholder={errors.code ? "Please Enter Code" : "Code"}
+                hasError={errors.code}
                 value={Stores.deginisationStore.deginisation?.code}
                 onChange={(code) => {
-                  setErrors({
-                    ...errors,
-                    code: Util.validate.single(
-                      code,
-                      Util.constraintsDeginisation.code
-                    ),
-                  })
+                 onChange(code)
                   Stores.deginisationStore.updateDescription({
                     ...Stores.deginisationStore.deginisation,
                     code,
@@ -76,6 +80,11 @@ const Deginisation = observer(() => {
                   })
                 }}
               />
+              )}
+              name="code"
+              rules={{ required: true }}
+               defaultValue=""
+             />
               {errors?.code && (
                 <span className="text-red-600 font-medium relative">
                   {errors.code}
@@ -86,25 +95,29 @@ const Deginisation = observer(() => {
                   Code already exits. Please use other code.
                 </span>
               )}
+
+                <Controller
+                 control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Description"
                 name="description"
-                placeholder="description"
+                placeholder={errors.description ? "Please Enter Description" : "Description"}
+                hasError={errors.description}
                 value={Stores.deginisationStore.deginisation?.description}
                 onChange={(description) => {
-                  setErrors({
-                    ...errors,
-                    description: Util.validate.single(
-                      description,
-                      Util.constraintsDeginisation.description
-                    ),
-                  })
+                  onChange(description)
                   Stores.deginisationStore.updateDescription({
                     ...Stores.deginisationStore.deginisation,
                     description,
                   })
                 }}
               />
+              )}
+                 name="description"
+                rules={{ required: true }}
+                defaultValue=""
+               />
               {errors?.description && (
                 <span className="text-red-600 font-medium relative">
                   {errors.description}

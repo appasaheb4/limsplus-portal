@@ -9,6 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -23,9 +24,16 @@ import { toJS } from "mobx"
 
 const MasterPanel = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.MasterPanel>()
+  // const [errors, setErrors] = useState<Models.MasterPanel>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -94,17 +102,23 @@ const MasterPanel = observer(() => {
               fill
             >
               
-              
-              <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper
+               label="RLab"
+               hasError={errors.rLab}
+               >
                 <select
                   value={LoginStore.loginStore.login?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.rLab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const rLab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      rLab: Utils.validate.single(rLab, Utils.masterPanel.rLab),
-                    })
+                   onChange(rLab)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       rLab,
@@ -122,15 +136,28 @@ const MasterPanel = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
+              )}
+              name="rLab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+              <Controller
+               control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="PLab"
+              hasError={errors.pLab}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.pLab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const pLab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      pLab: Utils.validate.single(pLab, Utils.masterPanel.pLab),
-                    })
+                    onChange(pLab)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       pLab,
@@ -145,18 +172,29 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Department">
+              )}
+              name="pLab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+
+              <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Department"
+              hasError={errors.department}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.department
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const department = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      department: Utils.validate.single(
-                        department,
-                        Utils.masterPanel.department
-                      ),
-                    })
+                    onChange(department)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       department,
@@ -173,6 +211,11 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="department"
+              rules={{ required: true }}
+              defaultValue=""
+             />
               <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -192,18 +235,24 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
+
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Service Type"
+              hasError={errors.serviceType}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.serviceType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const serviceType = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      serviceType: Utils.validate.single(
-                        serviceType,
-                        Utils.masterPanel.serviceType
-                      ),
-                    })
+                   onChange(serviceType)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       serviceType,
@@ -220,41 +269,53 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="Service Type"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+
+                <Controller
+                  control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Panel Code"
-                placeholder="Panel Code"
+                placeholder={errors.panelCode ? "Please Enter PanelCode" : "Panel Code"}
                 value={Stores.masterPanelStore.masterPanel?.panelCode}
                 onChange={(panelCode) => {
-                  setErrors({
-                    ...errors,
-                    panelCode: Utils.validate.single(
-                      panelCode,
-                      Utils.masterPanel.panelCode
-                    ),
-                  })
+                 onChange(panelCode)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     panelCode: panelCode.toUpperCase(),
                   })
                 }}
               />
+              )}
+             name="Panel Code"
+               rules={{ required: true }}
+             defaultValue=""
+                   />
+
+              <Controller
+                 control={control}
+                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Panel Name"
-                placeholder="Panel Name"
+                placeholder={errors.panelName ? "Please Enter Panel Name" : "Panel Name"}
                 value={Stores.masterPanelStore.masterPanel?.panelName}
                 onChange={(panelName) => {
-                  setErrors({
-                    ...errors,
-                    panelName: Utils.validate.single(
-                      panelName,
-                      Utils.masterPanel.panelName
-                    ),
-                  })
+                  onChange(panelName)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     panelName: panelName.toUpperCase(),
                   })
                 }}
+              />
+              )}
+            name="Panel Name"
+             rules={{ required: true }}
+             defaultValue=""
               />
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}

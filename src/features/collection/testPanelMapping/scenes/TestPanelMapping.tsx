@@ -9,6 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -23,9 +24,15 @@ import { toJS } from "mobx"
 
 const TestPanelMapping = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.TestPanelMapping>()
+  // const [errors, setErrors] = useState<Models.TestPanelMapping>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -94,16 +101,22 @@ const TestPanelMapping = observer(() => {
               fill
             >
              
-              
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+             <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+             <LibraryComponents.Atoms.Form.InputWrapper 
+             label="Lab"
+             hasError={errors.lab}
+             >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(lab, Utils.testPanelMapping.lab),
-                    })
+                   onChange(lab)
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       lab,
@@ -118,18 +131,28 @@ const TestPanelMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
+              )}
+              name="lab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+
+          <Controller
+            control={control}
+             render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper
+               label="Panel Code"
+               hasError-={errors.panelCode}
+               >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.panelCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const panelCode = e.target.value
-                    setErrors({
-                      ...errors,
-                      panelCode: Utils.validate.single(
-                        panelCode,
-                        Utils.testPanelMapping.panelCode
-                      ),
-                    })
+                   onChange(panelCode)
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       panelCode: panelCode,
@@ -147,6 +170,11 @@ const TestPanelMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="panelCode"
+              rules={{ required: true }}
+              defaultValue=""
+             />
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
                 placeholder="Test Code"

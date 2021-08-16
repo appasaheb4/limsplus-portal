@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -20,9 +21,15 @@ import { RouterFlow } from "@lp/flows"
 
 export const SalesTeam = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.SalesTeam>()
+  // const [errors, setErrors] = useState<Models.SalesTeam>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -78,18 +85,22 @@ export const SalesTeam = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Hierarchy">
+              <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Sales Hierarchy"
+              hasError={errors.salesHierarchy}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.salesHierarchy
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                   onChange={(e) => {
                     const salesHierarchy = e.target.value
-                    setErrors({
-                      ...errors,
-                      salesHierarchy: Utils.validate.single(
-                        salesHierarchy,
-                        Utils.salesTeam.salesHierarchy
-                      ),
-                    })
+                    onChange(salesHierarchy)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       salesHierarchy,
@@ -106,6 +117,12 @@ export const SalesTeam = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="salesHierarchy"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+            
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"

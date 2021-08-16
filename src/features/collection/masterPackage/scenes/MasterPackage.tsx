@@ -9,6 +9,7 @@ import * as FeatureComponents from "../components"
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
@@ -22,9 +23,16 @@ import { toJS } from "mobx"
 
 const MasterPackage = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.MasterPackage>()
+  // const [errors, setErrors] = useState<Models.MasterPackage>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -103,16 +111,22 @@ const MasterPackage = observer(() => {
             >
              
               
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Lab"
+              hasError={errors.lab}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
-                    setErrors({
-                      ...errors,
-                      lab: Utils.validate.single(lab, Utils.masterPackage.lab),
-                    })
+                   onChange(lab)
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       lab,
@@ -127,11 +141,29 @@ const MasterPackage = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
+              )}
+              name="lab"
+              rules={{ required: true }}
+              defaultValue=""
+             />
+            
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper 
+              label="Service Type"
+              hasError={errors.serviceType}
+              >
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.serviceType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const serviceItem = JSON.parse(e.target.value)
+                    onChange(serviceItem)
                     if (PanelMasterStore.masterPanelStore.listMasterPanel) {
                       console.log({
                         items: PanelMasterStore.masterPanelStore.listMasterPanel,
@@ -152,20 +184,7 @@ const MasterPackage = observer(() => {
                       )
                       setArrPanelItems(listPanelItems)
                     }
-                    setErrors({
-                      ...errors,
-                      panelCode: Utils.validate.single(
-                        undefined,
-                        Utils.masterPackage.panelCode
-                      ),
-                    })
-                    setErrors({
-                      ...errors,
-                      panelName: Utils.validate.single(
-                        undefined,
-                        Utils.masterPackage.panelName
-                      ),
-                    })
+                    
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       serviceType: serviceItem.code,
@@ -187,6 +206,11 @@ const MasterPackage = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="serviceType"
+              rules={{ required: true }}
+              defaultValue=""
+            />
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
                 <select
                   className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"

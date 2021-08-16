@@ -5,8 +5,8 @@ import * as Services from "../services"
 
 @version(0.1)
 class DeginisationStore {
-  @observable listDeginisation: Models.IDeginisation[] = []
-  @ignore @observable deginisation?: Models.IDeginisation
+  @observable listDeginisation: Models.Deginisation[] = []
+  @ignore @observable deginisation?: Models.Deginisation
   @ignore @observable checkExitsCode?: boolean = false
 
   constructor() {
@@ -36,7 +36,7 @@ class DeginisationStore {
     this.checkExitsCode = status
   }
 
-  @action updateDescription = (deginisation: Models.IDeginisation) => {
+  @action updateDescription = (deginisation: Models.Deginisation) => {
     this.deginisation = deginisation
   }
 

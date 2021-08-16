@@ -5,7 +5,7 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
-   
+import { useForm, Controller } from "react-hook-form"  
 import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
@@ -18,9 +18,15 @@ import { RouterFlow } from "@lp/flows"
 
 export const AdministrativeDivisions = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.AdministrativeDivisions>()
+  // const [errors, setErrors] = useState<Models.AdministrativeDivisions>()
   const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
@@ -76,60 +82,73 @@ export const AdministrativeDivisions = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Country"
-                placeholder="Country"
+                placeholder={errors.country ? "Please Enter Country " : "Country"}
+                hasError={errors.country}
                 value={Stores.administrativeDivStore.administrativeDiv?.country}
                 onChange={(country) => {
-                  setErrors({
-                    ...errors,
-                    country: Utils.validate.single(
-                      country,
-                      Utils.administrativeDiv.country
-                    ),
-                  })
+                  onChange(country)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     country,
                   })
                 }}
               />
+              )}
+              name="country"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="State"
-                placeholder="State"
+                placeholder={errors.state ? "Please Enter state" : "State"}
+                hasError={errors.state}
                 value={Stores.administrativeDivStore.administrativeDiv?.state}
                 onChange={(state) => {
-                  setErrors({
-                    ...errors,
-                    state: Utils.validate.single(
-                      state,
-                      Utils.administrativeDiv.state
-                    ),
-                  })
+                  onChange(state)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     state:[state],
                   })
                 }}
               />
+              )}
+              name="state"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="District"
-                placeholder="District"
+                placeholder={errors.district ? "Please Enter District" : "District"}
+                hasError={errors.district}
                 value={Stores.administrativeDivStore.administrativeDiv?.district}
                 onChange={(district) => {
-                  setErrors({
-                    ...errors,
-                    district: Utils.validate.single(
-                      district,
-                      Utils.administrativeDiv.district
-                    ),
-                  })
+                  onChange(district)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     district:[district],
                   })
                 }}
               />
+              )}
+              name="district"
+              rules={{ required: true }}
+              defaultValue=""
+            />
               <LibraryComponents.Atoms.Form.Input
                 label="City"
                 placeholder="City"
