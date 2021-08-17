@@ -19,9 +19,7 @@ import { RouterFlow } from "@lp/flows"
 export const AdministrativeDivisions = observer(() => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
@@ -149,28 +147,51 @@ export const AdministrativeDivisions = observer(() => {
               rules={{ required: true }}
               defaultValue=""
             />
+
+          <Controller
+            control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="City"
-                placeholder="City"
+                hasError={errors.city}
+                placeholder={errors.city ? "Please Enter City" : "City"}
                 value={Stores.administrativeDivStore.administrativeDiv?.city}
                 onChange={(city) => {
+                  onChange(city)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     city:[city],
                   })
                 }}
               />
+              )}
+              name="city"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+
+
+           <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Area"
-                placeholder="Area"
+                placeholder={errors.area ? "Please Enter Area" : "Area"}
+                hasError={errors.area}
                 value={Stores.administrativeDivStore.administrativeDiv?.area}
                 onChange={(area) => {
+                  onChange(area)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     area:[area],
                   })
                 }}
               />
+              )}
+              name="area"
+               rules={{ required: false }}
+               defaultValue=""
+           />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -178,23 +199,42 @@ export const AdministrativeDivisions = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Postcode"
-                placeholder="Postcode"
+                placeholder={errors.postalCode ? "Please Enter PostalCode" : "PostalCode"}
+                hasError={errors.postalCode}
                 value={Stores.administrativeDivStore.administrativeDiv?.postalCode}
                 onChange={(postalCode) => {
+                  onChange(postalCode)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     postalCode:[postalCode],
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="SBU">
+              )}
+             name="postalCode"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="SBU" hasError={errors.sbu}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sbu
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sbu = e.target.value
+                    onChange(sbu)
                     Stores.administrativeDivStore.updateAdministrativeDiv({
                       ...Stores.administrativeDivStore.administrativeDiv,
                       sbu,
@@ -211,11 +251,25 @@ export const AdministrativeDivisions = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="ZONE">
+              )}
+              name="sbu"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+
+            <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="ZONE" hasError={errors.zone}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.zone
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const zone = e.target.value
+                    onChange(zone)
                     Stores.administrativeDivStore.updateAdministrativeDiv({
                       ...Stores.administrativeDivStore.administrativeDiv,
                       zone,
@@ -232,6 +286,11 @@ export const AdministrativeDivisions = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="zone"
+              rules={{ required: false }}
+              defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
