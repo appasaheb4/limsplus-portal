@@ -8,7 +8,7 @@ import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { ScheduleFrequency } from "../components/molecules"
 
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
@@ -22,9 +22,9 @@ import { toJS } from "mobx"
 const DeliverySchedule = observer(() => {
   const {
     control,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm()
   const {
 		loginStore,
@@ -107,53 +107,101 @@ const DeliverySchedule = observer(() => {
                 rules={{ required: true }}
                  defaultValue=""
                />
+               <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="P Start Time"
+                hasError={errors.pStartTime}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.pStartTime}
                 onChange={(pStartTime) => {
+                  onChange(pStartTime)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     pStartTime,
                   })
                 }}
               />
+              )}
+              name="pStartTime"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="P End Time"
+                hasError={errors.pEndTime}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.pEndTime}
                 onChange={(pEndTime) => {
+                  onChange(pEndTime)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     pEndTime,
                   })
                 }}
               />
+              )}
+              name="pEndTime"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="Cutof Time"
+                hasError={errors.cutofTime}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.cutofTime}
                 onChange={(cutofTime) => {
+                  onChange(cutofTime)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     cutofTime,
                   })
                 }}
               />
+              )}
+              name="cutofTime"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="Secound Cutof Time"
+                hasError={errors.secoundCutofTime}
                 value={
                   Stores.deliveryScheduleStore.deliverySchedule?.secoundCutofTime
                 }
                 onChange={(secoundCutofTime) => {
+                  onChange(secoundCutofTime)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     secoundCutofTime,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Processing Type">
+              )}
+              name="secoundCutofTime"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Processing Type" hasError={errors.processingType}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.processingType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const processingType = e.target.value as string
+                    onChange(processingType)
                     console.log({processingType});
                     
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
@@ -172,17 +220,31 @@ const DeliverySchedule = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name="processingType"
+                rules={{ required: false }}
+                 defaultValue=""
+               />
 
+
+            <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
               <ScheduleFrequency
                 type={Stores.deliveryScheduleStore.deliverySchedule?.processingType ||''}
                 onChnage={(schFrequency)=>{
                   console.log({schFrequency});
-                  
+                  onChange(schFrequency)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     schFrequency,
                   })
                 }}
+              />
+              )}
+              name="schFrequency"
+               rules={{ required: false }}
+                defaultValue=""
               />
             </LibraryComponents.Atoms.List>
 
@@ -192,35 +254,62 @@ const DeliverySchedule = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report on"
-                placeholder="Report on"
+                placeholder={errors.reportOn ? "Please Enter ReportOn" : "ReportOn"}
+                hasError={errors.reportOn}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.reportOn}
                 onChange={(reportOn) => {
+                  onChange(reportOn)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     reportOn,
                   })
                 }}
               />
+              )}
+              name="reportOn"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Dynamic RT"
-                placeholder="Dynamic RT"
+                placeholder={errors.dynamicRT ? "Please Enter DynamicRT " : "DynamicRT"}
+                hasError={errors.dynamicRT}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.dynamicRT}
                 onChange={(dynamicRT) => {
+                  onChange(dynamicRT)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     dynamicRT,
                   })
                 }}
               />
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Dynamic TU">
+              )}
+              name="dynamicRT"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Dynamic TU" hasError={errors.dynamicTU}>
                 <select
                   value={Stores.deliveryScheduleStore.deliverySchedule?.dynamicTU}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.dynamicTU 
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const dynamicTU = e.target.value
+                    onChange(dynamicTU)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       dynamicTU,
@@ -237,99 +326,184 @@ const DeliverySchedule = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name="dynamicTU"
+                rules={{ required: false }}
+                 defaultValue=""
+               />
 
+              <Controller
+              control={control}
+             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Fixed RT"
-                placeholder="Fixed RT"
+                placeholder={errors.fixedRT ? "Please Enter fixedRT" : "fixedRT"}
+                hasError={errors.fixedRT}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.fixedRT}
                 onChange={(fixedRT) => {
+                  onChange(fixedRT)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     fixedRT,
                   })
                 }}
               />
+              )}
+              name="fixedRT"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Sch For DEPT"
-                placeholder="Sch For DEPT"
+                placeholder={errors.schForDept ? "Please Enter schForDept" : "schForDept"}
+                hasError={errors.schForDept}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.schForDept}
                 onChange={(schForDept) => {
+                  onChange(schForDept)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     schForDept,
                   })
                 }}
               />
+              )}
+              name="schForDept"
+               rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Sch For PAT"
-                placeholder="Sch For PAT"
+                placeholder={errors.schForPat ? "Please Enter schForPat" : "schForPat"}
+                hasError={errors.schForPat}
                 value={Stores.deliveryScheduleStore.deliverySchedule?.schForPat}
                 onChange={(schForPat) => {
+                  onChange(schForPat)
                   Stores.deliveryScheduleStore.updateDeliverySchedule({
                     ...Stores.deliveryScheduleStore.deliverySchedule,
                     schForPat,
                   })
                 }}
               />
+              )}
+              name="schForPat"
+               rules={{ required: false }}
+                defaultValue=""
+              />
 
               <LibraryComponents.Atoms.Grid cols={5}>
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Sunday Processing"
+                  hasError={errors.sundayProcessing}
                   value={
                     Stores.deliveryScheduleStore.deliverySchedule?.sundayProcessing
                   }
                   onChange={(sundayProcessing) => {
+                    onChange(sundayProcessing)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       sundayProcessing,
                     })
                   }}
                 />
+                )}
+                name="sundayProcessing"
+                 rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Holiday Processing"
+                  hasError={errors.holidayProcessing}
                   value={
                     Stores.deliveryScheduleStore.deliverySchedule?.holidayProcessing
                   }
                   onChange={(holidayProcessing) => {
+                    onChange(holidayProcessing)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       holidayProcessing,
                     })
                   }}
                 />
+                )}
+                name="holidayProcessing"
+                 rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
+                hasError={errors.sundayReporting}
                   label="Sunday Reporting"
                   value={
                     Stores.deliveryScheduleStore.deliverySchedule?.sundayReporting
                   }
                   onChange={(sundayReporting) => {
+                    onChange(sundayReporting)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       sundayReporting,
                     })
                   }}
                 />
+                )}
+                name="sundayReporting"
+                 rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Holiday Reporting"
+                  hasError={errors.holidayReporting}
                   value={
                     Stores.deliveryScheduleStore.deliverySchedule?.holidayReporting
                   }
                   onChange={(holidayReporting) => {
+                    onChange(holidayReporting)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       holidayReporting,
                     })
                   }}
                 />
+                )}
+                name="holidayReporting"
+                 rules={{ required: false}}
+                  defaultValue=""
+                />
+                <Controller
+                 control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="On Time"
+                  hasError={errors.onTime}
                   value={Stores.deliveryScheduleStore.deliverySchedule?.onTime}
                   onChange={(onTime) => {
+                    onChange(onTime)
                     Stores.deliveryScheduleStore.updateDeliverySchedule({
                       ...Stores.deliveryScheduleStore.deliverySchedule,
                       onTime,
                     })
                   }}
+                />
+                )}
+                name="onTime"
+                 rules={{ required: false }}
+                  defaultValue=""
                 />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
