@@ -22,9 +22,9 @@ import { RouterFlow } from "@lp/flows"
 export const Department = observer(() => {
   const {
     control,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm()
   const {
 		loginStore,
@@ -205,22 +205,41 @@ export const Department = observer(() => {
                     {errors.name}
                   </span>
                 )}
+
+            <Controller
+               control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   label="Short Name"
-                  placeholder="Short Name"
+                  placeholder={errors.shortName ? "Please Enter Short Name" : "Short Name"}
+                  hasError={errors.shortName}
                   value={Stores.departmentStore.department?.shortName}
                   onChange={(shortName) => {
+                    onChange(shortName)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       shortName,
                     })
                   }}
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="HOD">
+                )}
+                 name="shortName"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                <Controller
+               control={control}
+                   render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper label="HOD"  hasError={errors.hod}>
                   <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                   className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.hod
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                     onChange={(e) => {
                       const hod = e.target.value
+                      onChange(hod)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         hod,
@@ -236,6 +255,11 @@ export const Department = observer(() => {
                       ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="hod"
+                rules={{ required: false }}
+                defaultValue=""
+                />
               </LibraryComponents.Atoms.List>
 
               <LibraryComponents.Atoms.List
@@ -244,89 +268,170 @@ export const Department = observer(() => {
                 justify="stretch"
                 fill
               >
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   label="Mobile No"
-                  placeholder="Mobile No"
+                  placeholder={errors.mobileNo ? "Please Enter MobileNo" : "MobileNo"}
+                  hasError={errors.mobileNo}
                   value={Stores.departmentStore.department?.mobileNo}
                   onChange={(mobileNo) => {
+                    onChange(mobileNo)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       mobileNo,
                     })
                   }}
                 />
+                )}
+                 name="mobileNo"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   label="Contact No"
-                  placeholder="Contact No"
+                  placeholder={errors.contactNo ? "Please Enter contactNo" : "contactNo"}
+                  hasError={errors.contactNo}
                   value={Stores.departmentStore.department?.contactNo}
                   onChange={(contactNo) => {
+                    onChange(contactNo)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       contactNo,
                     })
                   }}
                 />
+                )}
+                 name="contactNo"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Clock
                   label="Opening Time"
+                  hasError={errors.openingTime}
                   value={Stores.departmentStore.department?.openingTime}
                   onChange={(openingTime) => {
+                    onChange(openingTime)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       openingTime,
                     })
                   }}
                 />
+                )}
+                 name="openingTime"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Clock
                   label="Closing Time"
+                  hasError={errors.closingTime}
                   value={Stores.departmentStore.department?.closingTime}
                   onChange={(closingTime) => {
+                    onChange(closingTime)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       closingTime,
                     })
                   }}
                 />
+                )}
+                 name="closingTime"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
                 <LibraryComponents.Atoms.Grid cols={4}>
+                  <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Auto Release"
+                    hasError={errors.autoRelease}
                     value={Stores.departmentStore.department?.autoRelease}
                     onChange={(autoRelease) => {
+                      onChange(autoRelease)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         autoRelease,
                       })
                     }}
                   />
+                  )}
+                 name="autoRelease"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+
+                  <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Require receve in lab"
+                    hasError={errors.requireReceveInLab}
                     value={Stores.departmentStore.department?.requireReceveInLab}
                     onChange={(requireReceveInLab) => {
+                      onChange(requireReceveInLab)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         requireReceveInLab,
                       })
                     }}
                   />
+                  )}
+                 name="requireReceveInLab"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                  <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Require Scain In"
+                    hasError={errors.requireScainIn}
                     value={Stores.departmentStore.department?.requireScainIn}
                     onChange={(requireScainIn) => {
+                      onChange(requireScainIn)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         requireScainIn,
                       })
                     }}
                   />
+                  )}
+                 name="requireScainIn"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                  <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Routing Dept"
+                    hasError={errors.routingDept}
                     value={Stores.departmentStore.department?.routingDept}
                     onChange={(routingDept) => {
+                      onChange(routingDept)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         routingDept,
                       })
                     }}
                   />
+                  )}
+                 name="routingDept"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
                 </LibraryComponents.Atoms.Grid>
               </LibraryComponents.Atoms.List>
               <LibraryComponents.Atoms.List
@@ -335,36 +440,64 @@ export const Department = observer(() => {
                 justify="stretch"
                 fill
               >
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.MultilineInput
                   rows={2}
                   label="FYI line"
-                  placeholder="FYI line"
+                  placeholder={errors.fyiLine ? "Please Enter fyiLine" : "fyiLine"}
+                  hasError={errors.fyiLine}
                   value={Stores.departmentStore.department?.fyiLine}
                   onChange={(fyiLine) => {
+                    onChange(fyiLine)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       fyiLine,
                     })
                   }}
                 />
+                )}
+                 name="fyiLine"
+                 rules={{ required: false }}
+                 defaultValue=""
+                 />
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.MultilineInput
                   rows={2}
                   label="Work line"
-                  placeholder="Work line"
+                  placeholder={errors.workLine ? "Please Enter workLine" : "workLine"}
+                  hasError={errors.workLine}
                   value={Stores.departmentStore.department?.workLine}
                   onChange={(workLine) => {
+                    onChange(workLine)
                     Stores.departmentStore.updateDepartment({
                       ...Stores.departmentStore.department,
                       workLine,
                     })
                   }}
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                )}
+               name="workLine"
+                rules={{ required: false }}
+              defaultValue=""
+                  />
+                <Controller
+                   control={control}
+                   render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                   <select
                     value={Stores.departmentStore.department?.status}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      errors.status
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-200"
+                    } rounded-md`}
                     onChange={(e) => {
                       const status = e.target.value
+                      onChange(status)
                       Stores.departmentStore.updateDepartment({
                         ...Stores.departmentStore.department,
                         status,
@@ -381,6 +514,11 @@ export const Department = observer(() => {
                     )}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: false }}
+                defaultValue=""
+               />
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />
