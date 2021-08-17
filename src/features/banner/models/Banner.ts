@@ -1,7 +1,7 @@
 export class Banner {
-    _id?: string;
-    title?: string;
-    image?: any;
+    _id: string;
+    title: string;
+    image: any;
 
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
