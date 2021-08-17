@@ -468,7 +468,6 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Confidential"
                       value={row.confidential}
                       onChange={(confidential) => {
                         props.onUpdateItem &&
@@ -660,7 +659,6 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Confirguration"
                       value={row.confirguration}
                       onChange={(confirguration) => {
                         props.onUpdateItem &&
