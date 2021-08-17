@@ -15,9 +15,9 @@ import { RouterFlow } from "@lp/flows"
 const Deginisation = observer(() => {
   const {
     control,
-    handleSubmit,
+    // handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm()
   const {
 		loginStore,
