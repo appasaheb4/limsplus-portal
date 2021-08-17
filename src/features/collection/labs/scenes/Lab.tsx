@@ -155,11 +155,19 @@ const Lab = observer(() => {
                   {errors.name}
                 </span>
               )}
-              <LibraryComponents.Atoms.Form.InputWrapper label="Country">
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Country" hasError={errors.country}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.country
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const country = e.target.value
+                    onChange(country)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       country,
@@ -178,11 +186,24 @@ const Lab = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="State">
+              )}
+              name="country"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="State" hasError={errors.state}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.state
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const state = e.target.value
+                    onChange(state)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       state,
@@ -206,11 +227,24 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="District">
+              )}
+              name="state"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="District" hasError={errors.district}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.district
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const district = e.target.value
+                    onChange(district)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       district,
@@ -236,11 +270,24 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="City">
+              )}
+              name="district"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="City" hasError={errors.city}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.city
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const city = e.target.value
+                    onChange(city)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       city,
@@ -268,11 +315,24 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Area">
+              )}
+              name="city"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Area" hasError={errors.area }>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.area
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const area = e.target.value
+                    onChange(area)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       area,
@@ -302,11 +362,24 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code">
+              )}
+              name="area "
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code" hasError={errors.postalCode}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.postalCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const postalCode = e.target.value
+                    onChange(postalCode)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       postalCode,
@@ -336,11 +409,24 @@ const Lab = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+              )}
+              name="postalCode "
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type" hasError={errors.deliveryType}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.deliveryType
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                   onChange={(e) => {
                     const deliveryType = e.target.value
+                    onChange(deliveryType)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       deliveryType,
@@ -357,6 +443,11 @@ const Lab = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="deliveryType"
+              rules={{ required: false }}
+              defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -364,11 +455,19 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory" hasError={errors.salesTerritory}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.salesTerritory
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const salesTerritory = e.target.value
+                    onChange(salesTerritory)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       salesTerritory,
@@ -386,80 +485,153 @@ const Lab = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="salesTerritory"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Lab Licence"
-                placeholder="Lab Licence"
+                placeholder={errors.labLicence ? "Please Enter labLicence" : "Lab Licence"}
+                hasError={errors.labLicence}
                 value={Stores.labStore.labs?.labLicence}
                 onChange={(labLicence) => {
+                  onChange(labLicence)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     labLicence,
                   })
                 }}
               />
+              )}
+             name="labLicence"
+            rules={{ required: false }}
+           defaultValue=""
+            />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Director"
-                placeholder="Director"
+                placeholder={errors.director ? "Please Enter director" : "Director"}
+                hasError={errors.director}
                 value={Stores.labStore.labs?.director}
                 onChange={(director) => {
+                  onChange(director)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     director,
                   })
                 }}
               />
+              )}
+             name="director"
+            rules={{ required: false }}
+           defaultValue=""
+            />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Physician"
-                placeholder="Physician"
+                placeholder={errors.physician ? "Please Enter physician"  : "Physician"}
+                hasError={errors.physician}
                 value={Stores.labStore.labs?.physician}
                 onChange={(physician) => {
+                  onChange(physician)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     physician,
                   })
                 }}
               />
+              )}
+             name="physician"
+            rules={{ required: false }}
+           defaultValue=""
+            />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Mobile Number"
-                placeholder="Mobile Number"
+                placeholder={errors.mobileNo ? "Please Enter mobileNo" : "Mobile Number"}
+                hasError={errors.mobileNo}
                 value={Stores.labStore.labs?.mobileNo}
                 onChange={(mobileNo) => {
+                  onChange(mobileNo)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     mobileNo,
                   })
                 }}
               />
+              )}
+             name="mobileNo"
+            rules={{ required: false }}
+           defaultValue=""
+            />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Contact Number"
-                placeholder="Contact Number"
+                placeholder={errors.contactNo ? "Please Enter contactNo" : "Contact Number"}
+                hasError={errors.contactNo}
                 value={Stores.labStore.labs?.contactNo}
                 onChange={(contactNo) => {
+                  onChange(contactNo)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     contactNo,
                   })
                 }}
               />
+              )}
+              name="contactNo"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Speciality"
-                placeholder="Speciality"
+                placeholder={errors.speciality ? "Please Enter speciality" : "Speciality"}
+                hasError={errors.speciality}
                 value={Stores.labStore.labs?.speciality}
                 onChange={(speciality) => {
+                  onChange(speciality)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     speciality,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab type">
+              )}
+              name="speciality"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab type" hasError={errors.labType}>
                 <select
                   value={Stores.labStore.labs?.labType}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.labType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const labType = e.target.value
+                    onChange(labType)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       labType,
@@ -476,6 +648,11 @@ const Lab = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name="labType"
+              rules={{ required: false }}
+             defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -484,113 +661,215 @@ const Lab = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="Opening Time"
+                hasError={errors.openingTime}
                 value={Stores.labStore.labs?.openingTime}
                 onChange={(openingTime) => {
+                  onChange(openingTime)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     openingTime,
                   })
                 }}
               />
+              )}
+              name="openingTime"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Clock
                 label="Closing Time"
+                hasError={errors.closingTime}
                 value={Stores.labStore.labs?.closingTime}
                 onChange={(closingTime) => {
+                  onChange(closingTime)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     closingTime,
                   })
                 }}
               />
+              )}
+              name="closingTime"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Email"
-                placeholder="Email"
+                placeholder={errors.email ? "Please Enter Email" : "Email"}
+                hasError={errors.email}
                 value={Stores.labStore.labs?.email}
                 onChange={(email) => {
+                  onChange(email)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     email,
                   })
                 }}
               />
+              )}
+              name="email"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputFile
                 label="Lab logo"
-                placeholder="Lab logo"
+                placeholder={errors.labLog ? "Please Enter labLog" : "LabLog"}
+                hasError={errors.labLog}
                 onChange={(e) => {
                   const labLog = e.target.files[0]
+                  onChange(labLog)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     labLog,
                   })
                 }}
               />
+              )}
+              name="labLog"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={2}
                 label="FYI line"
-                placeholder="FYI line"
+                placeholder={errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"}
+                hasError={errors.fyiLine}
                 value={Stores.labStore.labs?.fyiLine}
                 onChange={(fyiLine) => {
+                  onChange(fyiLine)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     fyiLine,
                   })
                 }}
               />
+              )}
+              name="fyiLine"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={2}
                 label="Work line"
-                placeholder="Work line"
+                placeholder={errors.workLine ? "Please Enter workLine" : "WorkLine"}
+                hasError={errors.workLine}
                 value={Stores.labStore.labs?.workLine}
                 onChange={(workLine) => {
+                  onChange(workLine)
                   Stores.labStore.updateLabs({
                     ...Stores.labStore.labs,
                     workLine,
                   })
                 }}
               />
+              )}
+              name="workLine"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+              
               <LibraryComponents.Atoms.Grid cols={4}>
+              <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Auto Release"
+                  hasError={errors.autoRelease}
                   value={Stores.labStore.labs?.autoRelease}
                   onChange={(autoRelease) => {
+                    onChange(autoRelease)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       autoRelease,
                     })
                   }}
                 />
+                )}
+              name="autoRelease"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+                
+                <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Require receve in lab"
+                  hasError={errors.requireReceveInLab}
                   value={Stores.labStore.labs?.requireReceveInLab}
                   onChange={(requireReceveInLab) => {
+                    onChange(requireReceveInLab)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       requireReceveInLab,
                     })
                   }}
                 />
+                )}
+              name="requireReceveInLab"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+                <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Require Scain In"
+                  hasError={errors.requireScainIn}
                   value={Stores.labStore.labs?.requireScainIn}
                   onChange={(requireScainIn) => {
+                    onChange(requireScainIn)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       requireScainIn,
                     })
                   }}
                 />
+                )}
+              name="requireScainIn"
+             rules={{ required: false }}
+            defaultValue=""
+             />
+                <Controller
+                control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Routing Dept"
+                  hasError={errors.routingDept}
                   value={Stores.labStore.labs?.routingDept}
                   onChange={(routingDept) => {
+                    onChange(routingDept)
                     Stores.labStore.updateLabs({
                       ...Stores.labStore.labs,
                       routingDept,
                     })
                   }}
                 />
+                )}
+              name="routingDept"
+             rules={{ required: false }}
+            defaultValue=""
+             />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
