@@ -96,54 +96,110 @@ const Doctors = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation ? "Please Enter dateCreation": "DateCreation"}
+                hasError={errors.dateCreation}
                 value={LibraryUtils.moment
                   .unix(Stores.doctorsStore.doctors?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+              name="dateCreation"
+             rules={{ required: false }}
+               defaultValue=""
+             />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                placeholder={errors.dateActiveFrom ? "Please Enter DateActiveFrom" : "DateActiveFrom"}
+                hasError={errors.dateActiveFrom}
                 value={LibraryUtils.moment
                   .unix(Stores.doctorsStore.doctors?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+              name="dateActiveFrom"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                placeholder={errors.dateActiveTo ?  "Please Enter DateActiveTo" : "DateActiveTo"}
+                hasError={errors.dateActiveTo}
                 value={LibraryUtils.moment
                   .unix(Stores.doctorsStore.doctors?.dateActiveTo || 0)
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
+                  onChange(schedule)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
               />
+              )}
+              name="dateActiveTo"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                placeholder={errors.version ? "Please Enter Version" :"Version"}
+                hasError={errors.version}
                 value={Stores.doctorsStore.doctors?.version}
                 disabled={true}
               />
+              )}
+              name="version"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                placeholder={errors.keyNum ? "Please Enter KeyNum" : "KeyNum"}
+                hasError={errors.keyNum}
                 value={Stores.doctorsStore.doctors?.keyNum}
                 disabled={true}
               />
+              )}
+              name="keyNum"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
+                placeholder={errors.userId ? "Please Enter userId" : "EnterEd By"}
+                hasError={errors.userId }
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
               />
+              )}
+              name="userId"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+
               <Controller
               control={control}
               render={({ field: { onChange } }) => (
@@ -186,11 +242,19 @@ const Doctors = observer(() => {
             rules={{ required: true }}
            defaultValue=""
             />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+            <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex" hasError={errors.sex}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.sex
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                   onChange={(e) => {
                     const sex = e.target.value
+                    onChange(sex)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       sex,
@@ -205,11 +269,24 @@ const Doctors = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Title">
+              )}
+               name="sex"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Title" hasError={errors.title}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.title
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const title = e.target.value
+                    onChange( title)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       title,
@@ -226,62 +303,117 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name=" title"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="First Name"
-                placeholder="First Name"
+                placeholder={errors.firstName ? "Please Enter firstName" : "First Name"}
+                hasError={errors.firstName}
                 value={Stores.doctorsStore.doctors?.firstName}
                 onChange={(firstName) => {
+                  onChange(firstName)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     firstName,
                   })
                 }}
               />
+              )}
+               name="firstName"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Middle Name"
-                placeholder="Middle Name"
+                placeholder={errors.middleName ? "Please Enter" : "Middle Name"}
+                hasError={errors.middleName}
                 value={Stores.doctorsStore.doctors?.middleName}
                 onChange={(middleName) => {
+                  onChange(middleName)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     middleName,
                   })
                 }}
               />
+              )}
+               name="middleName"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Last Name"
-                placeholder="Last Name"
+                placeholder={errors.lastName ? "Please Enter lastName" : "Last Name"}
+                hasError={errors.lastName}
                 value={Stores.doctorsStore.doctors?.lastName}
                 onChange={(lastName) => {
+                  onChange(lastName)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     lastName,
                   })
                 }}
               />
+              )}
+               name="lastName"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Name"
-                placeholder="Report Name"
+                placeholder={errors.reportName ? "Please Enter reportName" :"Report Name"}
+                hasError={errors.reportName}
                 value={Stores.doctorsStore.doctors?.reportName}
                 onChange={(reportName) => {
+                  onChange(reportName)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     reportName,
                   })
                 }}
               />
+              )}
+               name="reportName"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Address"
-                placeholder="Address"
+                placeholder={errors.address ? "Please Enter address" : "Address"}
+                hasError={errors.address}
                 value={Stores.doctorsStore.doctors?.address}
                 onChange={(address) => {
+                  onChange(address)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     address,
                   })
                 }}
               />
+              )}
+               name="address"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -289,67 +421,125 @@ const Doctors = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="City"
-                placeholder="City"
+                placeholder={errors.city ? "Please Enter city" : "City"}
+                hasError={errors.city}
                 value={Stores.doctorsStore.doctors?.city}
                 onChange={(city) => {
+                  onChange(city)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     city,
                   })
                 }}
               />
+              )}
+               name="city"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="State"
-                placeholder="State"
+                placeholder={errors.state ? "Please Enter state" : "State"}
                 value={Stores.doctorsStore.doctors?.state}
+                hasError={errors.state}
                 onChange={(state) => {
+                  onChange(state)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     state,
                   })
                 }}
               />
+              )}
+               name="state"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Country"
-                placeholder="Country"
+                placeholder={errors.country ? "Please Enter country" : "Country"}
+                hasError={errors.country}
                 value={Stores.doctorsStore.doctors?.country}
                 onChange={(country) => {
+                  onChange(country)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     country,
                   })
                 }}
               />
+              )}
+               name="country"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Postcode"
-                placeholder="Postcode"
+                placeholder={errors.postcode ? "Please Enter postcode" : "Postcode"}
                 type="number"
+                hasError={errors.postcode}
                 value={Stores.doctorsStore.doctors?.postcode}
                 onChange={(postcode) => {
+                  onChange(postcode)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     postcode,
                   })
                 }}
               />
+              )}
+               name="postcode"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Type"
-                placeholder="Doctor Type"
+                placeholder={errors.doctorType ? "Please Enter doctorType" : "Doctor Type"}
+                hasError={errors.doctorType}
                 value={Stores.doctorsStore.doctors?.doctorType}
                 onChange={(doctorType) => {
+                  onChange(doctorType)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     doctorType,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Speciality">
+              )}
+               name="doctorType"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Speciality" hasError={errors.speciality}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.speciality
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const speciality = e.target.value
+                    onChange(speciality)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       speciality,
@@ -366,11 +556,24 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+              )}
+              name="speciality"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy" hasError={errors.salesTerritoRy}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.salesTerritoRy
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
+                    onChange(salesTerritoRy)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       salesTerritoRy,
@@ -387,94 +590,180 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="salesTerritoRy"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Area"
-                placeholder="Area"
+                placeholder={errors.area ? "Please Enter Area" : "Area"}
+                hasError={errors.area}
                 value={Stores.doctorsStore.doctors?.area}
                 onChange={(area) => {
+                  onChange(area)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     area,
                   })
                 }}
               />
+              )}
+               name="area"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Zone"
-                placeholder="Zone"
+                placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
+                hasError={errors.zone}
                 value={Stores.doctorsStore.doctors?.zone}
                 onChange={(zone) => {
+                  onChange(zone)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     zone,
                   })
                 }}
               />
+              )}
+               name="zone"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Telephone"
-                placeholder="Telephone"
+                placeholder={errors.telephone ? "Please Enter telephone" : "Telephone"}
+                hasError={errors.telephone}
                 value={Stores.doctorsStore.doctors?.telephone}
                 onChange={(telephone) => {
+                  onChange(telephone)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     telephone,
                   })
                 }}
               />
+              )}
+               name="telephone"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Mobile No"
-                placeholder="Mobile No"
+                placeholder={errors.mobileNo ? "Please Enter mobileNo" : "Mobile No"}
+                hasError={errors.mobileNo}
                 value={Stores.doctorsStore.doctors?.mobileNo}
                 onChange={(mobileNo) => {
+                  onChange(mobileNo)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     mobileNo,
                   })
                 }}
               />
+              )}
+               name="mobileNo"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Email"
-                placeholder="Email"
+                placeholder={errors.email ? "Please Enter Email" : "Email"}
+                hasError={errors.email}
                 value={Stores.doctorsStore.doctors?.email}
                 onChange={(email) => {
+                  onChange(email)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     email,
                   })
                 }}
               />
+              )}
+               name="email"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Work Hours"
-                placeholder="Work Hours"
+                placeholder={errors.workHours ? "Please Enter workHours" : "Work Hours"}
                 type="number"
+                hasError={errors.workHours}
                 value={Stores.doctorsStore.doctors?.workHours}
                 onChange={(workHours) => {
+                  onChange(workHours)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     workHours,
                   })
                 }}
               />
+              )}
+               name="workHours"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+
               <LibraryComponents.Atoms.Grid cols={5}>
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Confidential"
+                  hasError={errors.confidential}
                   value={Stores.doctorsStore.doctors?.confidential}
                   onChange={(confidential) => {
+                    onChange(confidential)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       confidential,
                     })
                   }}
                 />
+                )}
+               name="confidential"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Urgent"
+                  hasError={errors.urgent}
                   value={Stores.doctorsStore.doctors?.urgent}
                   onChange={(urgent) => {
+                    onChange(urgent)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       urgent,
                     })
                   }}
                 />
+                )}
+               name="urgent"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -483,11 +772,19 @@ const Doctors = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type" hasError={errors.deliveryType}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.deliveryType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const deliveryType = e.target.value
+                    onChange(deliveryType)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       deliveryType,
@@ -504,11 +801,24 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+              )}
+              name="deliveryType"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method" hasError={errors.deliveryMethod}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.deliveryMethod
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
+                    onChange(deliveryMethod)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       deliveryMethod,
@@ -525,33 +835,66 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="deliveryMethod"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="EDI"
-                placeholder="EDI"
+                placeholder={errors.edi ? "Please Enter edi" : "EDI"}
+                hasError={errors.edi}
                 value={Stores.doctorsStore.doctors?.edi}
                 onChange={(edi) => {
+                  onChange(edi)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     edi,
                   })
                 }}
               />
+              )}
+               name="edi"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="EDI Address"
-                placeholder="EDI Address"
+                placeholder={errors.ediAddress ? "Please Enter Edi Address" : "EDI Address"}
+                hasError={errors.ediAddress}
                 value={Stores.doctorsStore.doctors?.ediAddress}
                 onChange={(ediAddress) => {
+                  onChange(ediAddress)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     ediAddress,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Registartion Location">
+              )}
+               name="ediAddress"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Registartion Location" hasError={errors.registrationLocation}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.registrationLocation
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const registrationLocation = e.target.value
+                    onChange(registrationLocation)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       registrationLocation,
@@ -568,12 +911,25 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+              )}
+              name="registrationLocation"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" hasError={errors.lab}>
                 <select
                   value={Stores.doctorsStore.doctors?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
+                    onChange(lab)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       lab,
@@ -588,12 +944,25 @@ const Doctors = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Location">
+              )}
+              name="lab"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Location" hasError={errors.location}>
                 <select
                   value={Stores.doctorsStore.doctors?.location}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.location
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const location = e.target.value as string
+                    onChange(location)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       location,
@@ -608,12 +977,25 @@ const Doctors = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+              )}
+              name="location"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule" hasError={errors.schedule}>
                 <select
                   value={Stores.doctorsStore.doctors?.schedule}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.schedule
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const schedule = e.target.value as string
+                    onChange(schedule)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       schedule,
@@ -628,55 +1010,108 @@ const Doctors = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="schedule"
+              rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Format"
-                placeholder="Report Format"
+                placeholder={errors.reportFormat ? "Please Enter reportFormat" : "Report Format"}
+                hasError={errors.reportFormat}
                 value={Stores.doctorsStore.doctors?.reportFormat}
                 onChange={(reportFormat) => {
+                  onChange(reportFormat)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     reportFormat,
                   })
                 }}
               />
+              )}
+               name="reportFormat"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Info"
-                placeholder="Info"
+                placeholder={errors.info ? "Please Enter info" : "Info"}
+                hasError={errors.info}
                 value={Stores.doctorsStore.doctors?.info}
                 onChange={(info) => {
+                  onChange(info)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     info,
                   })
                 }}
               />
+              )}
+               name="info"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="FYI Line"
-                placeholder="FYI Line"
+                placeholder={errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"}
+                hasError={errors.fyiLine}
                 value={Stores.doctorsStore.doctors?.fyiLine}
                 onChange={(fyiLine) => {
+                  onChange(fyiLine)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     fyiLine,
                   })
                 }}
               />
+              )}
+               name="fyiLine"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Work Line"
-                placeholder="Work Line"
+                placeholder={errors.workLine ? "Please Enter workLine"  : "Work Line"}
+                hasError={errors.workLine}
                 value={Stores.doctorsStore.doctors?.workLine}
                 onChange={(workLine) => {
+                  onChange(workLine)
                   Stores.doctorsStore.updateDoctors({
                     ...Stores.doctorsStore.doctors,
                     workLine,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+               name="workLine"
+               rules={{ required: false }}
+                 defaultValue=""
+               />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.doctorsStore.updateDoctors({
                       ...Stores.doctorsStore.doctors,
                       status,
@@ -693,6 +1128,11 @@ const Doctors = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
