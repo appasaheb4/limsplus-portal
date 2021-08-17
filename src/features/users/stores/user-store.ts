@@ -29,6 +29,7 @@ class UsersStore {
         new Date(moment(date).add(-5, "years").format("YYYY-MM-DD HH:mm:ss"))
       ).unix(),
       confidential: false,
+      confirguration:false
     }
     makeAutoObservable(this)
   }

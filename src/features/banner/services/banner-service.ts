@@ -40,7 +40,7 @@ export class BannerService {
           },
         })
         .then((res) => {
-          resolve(res as Models.Banner)
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })
