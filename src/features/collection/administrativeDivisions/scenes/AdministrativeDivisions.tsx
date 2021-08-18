@@ -6,7 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"  
-import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
@@ -19,13 +18,12 @@ import { RouterFlow } from "@lp/flows"
 export const AdministrativeDivisions = observer(() => {
   const {
     control,
+    handleSubmit,
     formState: { errors },
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.AdministrativeDivisions>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -52,6 +50,37 @@ export const AdministrativeDivisions = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitAdministrativeDivision = () =>{
+    const error = Utils.validate(
+      Stores.administrativeDivStore.administrativeDiv,
+      Utils.administrativeDiv
+    )
+    
+    if (error === undefined) {
+      
+      Stores.administrativeDivStore.administrativeDivisionsService
+        .addAdministrativeDivisions(
+          Stores.administrativeDivStore.administrativeDiv
+        )
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Administrative divisions created.`,
+            })
+          }
+        })
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+
+  }
 
   return (
     <>
@@ -299,35 +328,7 @@ export const AdministrativeDivisions = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.administrativeDivStore.administrativeDiv,
-                  Utils.administrativeDiv
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.administrativeDivStore.administrativeDivisionsService
-                    .addAdministrativeDivisions(
-                      Stores.administrativeDivStore.administrativeDiv
-                    )
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Administrative divisions created.`,
-                        })
-                      }
-                    })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={ handleSubmit(onSubmitAdministrativeDivision)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -342,14 +343,7 @@ export const AdministrativeDivisions = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
+          
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
