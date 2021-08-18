@@ -10,6 +10,7 @@ class RouterStore {
   @ignore @observable selectedCategory?: LibraryModels.SelectedCategory
   @ignore @observable router?: any
   @ignore @observable selectedComponents?: LibraryModels.SelectedComponent
+  @observable lookupItems: Array<any> = []
 
   constructor() {
     makeAutoObservable(this)
@@ -33,6 +34,9 @@ class RouterStore {
   }
   @action updateSelectedComponents(comp?: LibraryModels.SelectedComponent) {
     this.selectedComponents = comp
+  }
+  @action updateLookupItems(items: any){
+    this.lookupItems = items;
   }
 }
 export default RouterStore

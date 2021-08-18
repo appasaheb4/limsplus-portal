@@ -10,16 +10,17 @@ import { FormHelper } from "@lp/helper"
 
 import { useForm, Controller } from "react-hook-form"
 
-import Storage from "@lp/library/modules/storage"
 import { AssetsService } from "@lp/features/assets/services"
-import {useStores} from '@lp/library/stores'
+
 import { Stores } from "../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+
 import { stores } from "@lp/library/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import { useStores } from "@lp/library/stores"
+
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
@@ -28,13 +29,11 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Users = observer(() => {
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
   const [modalChangePassword, setModalChangePassword] = useState<any>()
-  const [lookupItems, setLookupItems] = useState<any[]>([])
+  // const [lookupItems, setLookupItems] = useState<any[]>([])
 
   const {
     control,
@@ -43,39 +42,20 @@ export const Users = observer(() => {
     setValue,
   } = useForm()
 
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      if (items) {
-        const status = items
-          .find((fileds) => {
-            return fileds.fieldName === "STATUS"
-          })
-          ?.arrValue?.find((statusItem) => statusItem.code === "A")
-        if (status) {
-          Stores.userStore.updateUser({
-            ...Stores.userStore.user,
-            status: status.code as string,
-          })
-        }
-        setLookupItems(items)
-      }
-    }
-  }
 
   useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
+    const status = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
+      })
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      Stores.userStore.updateUser({
+        ...Stores.userStore.user,
+        status: status.code as string,
+      })
+    }
+  }, [routerStore.lookupItems])
 
   const onSubmitUser = (data: any) => {
     if (!Stores.userStore.checkExitsUserId && !Stores.userStore.checkExistsEmpCode) {
@@ -208,7 +188,7 @@ export const Users = observer(() => {
                   <span className="text-red-600 font-medium relative">
                     Emp code already exits. Please use other emp code.
                   </span>
-                )}  
+                )}
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -218,9 +198,7 @@ export const Users = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.defaultLab
-                            ? "border-red-500"
-                            : "border-gray-200"
+                          errors.defaultLab ? "border-red-500" : "border-gray-200"
                         } rounded-md`}
                         onChange={(e) => {
                           const defaultLab = e.target.value
@@ -320,9 +298,7 @@ export const Users = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deginisation
-                            ? "border-red-500"
-                            : "border-gray-200"
+                          errors.deginisation ? "border-red-500" : "border-gray-200"
                         } rounded-md`}
                         onChange={(e) => {
                           const deginisation = e.target.value
@@ -874,13 +850,14 @@ export const Users = observer(() => {
                         }}
                       >
                         <option selected>Select</option>
-                        {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          )
-                        )}
+                        {LibraryUtils.lookupItems(
+                          routerStore.lookupItems,
+                          "STATUS"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        ))}
                       </select>
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
@@ -899,15 +876,16 @@ export const Users = observer(() => {
                         environment,
                       })
                     }}
-                  >   
+                  >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
+                    {LibraryUtils.lookupItems(
+                      routerStore.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 <Controller
@@ -961,12 +939,14 @@ export const Users = observer(() => {
           >
             <UserList
               data={Stores.userStore.userList || []}
-              extraData={{ lookupItems,
-                listLabs:LabStore.labStore.listLabs,
-                listDeginisation:DeginisationStore.deginisationStore.listDeginisation,
-                listDepartment:DepartmentStore.departmentStore.listDepartment,
-                listRole:RoleStore.roleStore.listRole,
-               }}
+              extraData={{
+                lookupItems: routerStore.lookupItems,
+                listLabs: LabStore.labStore.listLabs,
+                listDeginisation:
+                  DeginisationStore.deginisationStore.listDeginisation,
+                listDepartment: DepartmentStore.departmentStore.listDepartment,
+                listRole: RoleStore.roleStore.listRole,
+              }}
               isDelete={RouterFlow.checkPermission(
                 toJS(stores.routerStore.userPermission),
                 "Delete"
@@ -1003,17 +983,16 @@ export const Users = observer(() => {
                   body: `UpdateImage!`,
                 })
               }}
-              onChangePassword={(id: string)=>{
+              onChangePassword={(id: string) => {
                 setModalChangePassword({
                   show: true,
                   type: "ChangePassword",
-                  data: {id},
+                  data: { id },
                   title: "Are You Sure?",
-                  body: `UpdatePassword!`
+                  body: `UpdatePassword!`,
                 })
               }}
             />
-            
           </div>
           <LibraryComponents.Molecules.ModalConfirm
             {...modalConfirm}
@@ -1044,8 +1023,7 @@ export const Users = observer(() => {
                     }, 1000)
                   }
                 })
-              }
-              else {
+              } else {
                 const path = `https://limsplus.blob.core.windows.net/users/${modalConfirm.data.value.name}`
                 new AssetsService()
                   .uploadFile(
@@ -1078,59 +1056,58 @@ export const Users = observer(() => {
             onClose={() => setModalConfirm({ show: false })}
           />
           <LibraryComponents.Molecules.ModalChangePassword
-          {...modalChangePassword}
-        onClick={() => {
-          const exipreDate = new Date(
-            moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
-          )
-          let body = Object.assign(
-            LoginStores.loginStore.login,
-            UserStores.userStore.changePassword
-          )
-          body = {
-            ...body,
-            exipreDate: LibraryUtils.moment(exipreDate).unix(),
-          }
-          UserStores.userStore.UsersService.changePassword(body).then((res) => {
-            console.log({ res })
-            if (res.status === 200) {
+            {...modalChangePassword}
+            onClick={() => {
+              const exipreDate = new Date(
+                moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+              )
+              let body = Object.assign(
+                LoginStores.loginStore.login,
+                UserStores.userStore.changePassword
+              )
+              body = {
+                ...body,
+                exipreDate: LibraryUtils.moment(exipreDate).unix(),
+              }
+              UserStores.userStore.UsersService.changePassword(body).then((res) => {
+                console.log({ res })
+                if (res.status === 200) {
+                  LoginStores.loginStore.updateLogin({
+                    ...LoginStores.loginStore.login,
+                    exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                    passChanged: true,
+                  })
+                  UserStores.userStore.updateChangePassword({
+                    ...UserStores.userStore.changePassword,
+                    tempHide: true,
+                  })
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 Password changed!`,
+                  })
+                  setModalChangePassword({ show: false })
+                } else if (res.status === 203) {
+                  LibraryComponents.Atoms.Toast.error({
+                    message: `😔 ${res.data.data.message}`,
+                  })
+                } else {
+                  LibraryComponents.Atoms.Toast.error({
+                    message: `😔 Please enter correct old password`,
+                  })
+                }
+              })
+            }}
+            onClose={() => {
               LoginStores.loginStore.updateLogin({
                 ...LoginStores.loginStore.login,
-                exipreDate: LibraryUtils.moment(exipreDate).unix(),
                 passChanged: true,
               })
               UserStores.userStore.updateChangePassword({
                 ...UserStores.userStore.changePassword,
                 tempHide: true,
               })
-              LibraryComponents.Atoms.Toast.success({
-                message: `😊 Password changed!`,
-              })
               setModalChangePassword({ show: false })
-            } else if (res.status === 203) {
-              LibraryComponents.Atoms.Toast.error({
-                message: `😔 ${res.data.data.message}`,
-              })
-            } else {
-              LibraryComponents.Atoms.Toast.error({
-                message: `😔 Please enter correct old password`,
-              })
-            }
-          })
-        }}
-        onClose={() => {
-          LoginStores.loginStore.updateLogin({
-            ...LoginStores.loginStore.login,
-            passChanged: true,
-          })
-          UserStores.userStore.updateChangePassword({
-            ...UserStores.userStore.changePassword,
-            tempHide: true,
-          })
-          setModalChangePassword({ show: false })
-        }}
-      />
-          
+            }}
+          />
         </div>
       </Container>
     </>
