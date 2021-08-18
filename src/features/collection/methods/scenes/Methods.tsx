@@ -6,7 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
-import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
@@ -22,13 +21,10 @@ const Methods = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.Methods>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -67,6 +63,32 @@ const Methods = observer(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
 
+  const onSubmitMethods = () =>{
+    const error = Utils.validate(
+      Stores.methodsStore.methods,
+      Utils.methods
+    )   
+    
+    if (error === undefined) {
+      
+      Stores.methodsStore.methodsService
+        .addMethods(Stores.methodsStore.methods)
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Methods created.`,
+            })
+            Stores.methodsStore.fetchMethods()
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -99,8 +121,8 @@ const Methods = observer(() => {
                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Method Code"
-                hasError={errors.methodsCode}
                 placeholder={errors.methodsCode ? "Please Enter Method Code" : "Method Code"}
+                hasError={errors.methodsCode}
                 value={Stores.methodsStore.methods?.methodsCode}
                 onChange={(methodsCode) => {
                  onChange(methodsCode)
@@ -136,18 +158,28 @@ const Methods = observer(() => {
             rules={{ required: true }}
             defaultValue=""
             />
+            <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={4}
                 label="Description"
-                placeholder="Description"
+                placeholder={errors.description?"Please Enter  Description":"Description"}
+                hasError={errors.description}
                 value={Stores.methodsStore.methods?.description}
                 onChange={(description) => {
+                  onChange( description)
                   Stores.methodsStore.updateMethods({
                     ...Stores.methodsStore.methods,
                     description,
                   })
                 }}
               />
+              )}
+               name=" description"
+                rules={{ required: false }}
+                defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -155,11 +187,19 @@ const Methods = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.methodsStore.updateMethods({
                       ...Stores.methodsStore.methods,
                       status,
@@ -176,6 +216,11 @@ const Methods = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+               rules={{ required: false }}
+               defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -184,31 +229,7 @@ const Methods = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.methodsStore.methods,
-                  Utils.methods
-                )   
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.methodsStore.methodsService
-                    .addMethods(Stores.methodsStore.methods)
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Methods created.`,
-                        })
-                        Stores.methodsStore.fetchMethods()
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitMethods)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -223,14 +244,6 @@ const Methods = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
