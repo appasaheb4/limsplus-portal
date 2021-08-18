@@ -11,14 +11,13 @@ let router = dashboardRoutes
 
 import { Stores } from "../stores"
 
-import { useStores } from "@lp/library/stores"
+import { stores, useStores } from "@lp/library/stores"
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void
 }
 
 export const NewField = observer((props: NewFieldProps) => {
-  const { loginStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -31,19 +30,20 @@ export const NewField = observer((props: NewFieldProps) => {
       Stores.lookupStore.lookup.value === ""
     ) {
       Stores.lookupStore.LookupService.addLookup(Stores.lookupStore.lookup).then(
-        () => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Lookup created.`,
-          })
-          Stores.lookupStore.fetchListLookup()
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+        (res) => {
+          if(res.success){
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.message}`,
+            })
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
+          }
         }
       )
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please add code and value`,
+        message: `😔 Please add code and value then submit.`,
       })
     }
   }
@@ -189,7 +189,9 @@ export const NewField = observer((props: NewFieldProps) => {
                 </LibraryComponents.Atoms.Buttons.Button>
               </div>
               <div className="clearfix"></div>
+            
             </LibraryComponents.Atoms.Grid>
+           
             <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
               <div>
                 {Stores.lookupStore.lookup?.arrValue?.map((item, index) => (
@@ -217,6 +219,42 @@ export const NewField = observer((props: NewFieldProps) => {
               </div>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Form.InputWrapper>
+          <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      hasError={errors.defaulItem}
+                      label="Default Item"
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.defaultLab ? "border-red-500" : "border-gray-200"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          let defaultItem = JSON.parse(e.target.value)
+                          defaultItem = {code:defaultItem.code,value:defaultItem.value}
+                          onChange(defaultItem)
+                          Stores.lookupStore.updateLookup({
+                            ...Stores.lookupStore.lookup,
+                            defaultItem,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {Stores.lookupStore.lookup && Stores.lookupStore.lookup.arrValue && Stores.lookupStore.lookup.arrValue.map(
+                          (item: any, index: number) => (
+                            <option key={item.name} value={JSON.stringify(item)}>
+                              {`${item.value} - ${item.code}`}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="defaulItem"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
         </LibraryComponents.Atoms.List>
 
         <LibraryComponents.Atoms.List
@@ -265,13 +303,13 @@ export const NewField = observer((props: NewFieldProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {/* {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
                       </option>
                     )
-                  )} */}
+                  )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             )}
@@ -296,7 +334,6 @@ export const NewField = observer((props: NewFieldProps) => {
           type="outline"
           icon={LibraryComponents.Atoms.Icon.Remove}
           onClick={() => {
-            //rootStore.LookupStore.clear();
             window.location.reload()
           }}
         >

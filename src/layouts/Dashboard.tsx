@@ -56,7 +56,7 @@ import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 
 const Dashboard = observer(({ children }) => {
-  const { lookupStore } = useStores()
+  const { loginStore } = useStores()
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
