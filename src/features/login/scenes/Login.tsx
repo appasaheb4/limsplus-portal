@@ -37,6 +37,7 @@ export const Login = observer(() => {
     handleSubmit,
     formState: { errors },
     setValue,
+    clearErrors
   } = useForm()
 
   const handleWindowSizeChange = () => {
@@ -186,8 +187,10 @@ export const Login = observer(() => {
                                   data: { user },
                                 } = res
                                 setValue("lab", user.defaultLab)
+                                clearErrors('lab')
                                 if (user.role.length == 1)
                                   setValue("role", user.role[0].code)
+                                  clearErrors('role')
                                 Stores.loginStore.updateInputUser({
                                   ...Stores.loginStore.inputLogin,
                                   lab: user.defaultLab,
@@ -212,7 +215,7 @@ export const Login = observer(() => {
                     )}
                     name="userId"
                     rules={{ required: true }}
-                    defaultValue=""
+                    defaultValue={Stores.loginStore.inputLogin?.userId}
                   />
 
                   <Controller
@@ -237,7 +240,7 @@ export const Login = observer(() => {
                     )}
                     name="password"
                     rules={{ required: true, pattern: FormHelper.patterns.password }}
-                    defaultValue=""
+                    defaultValue={Stores.loginStore.inputLogin?.password}
                   />
 
                   <Controller
@@ -249,8 +252,8 @@ export const Login = observer(() => {
                       >
                         <select
                           value={Stores.loginStore.inputLogin?.lab}
-                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                            errors.lab ? "border-red-500" : "border-gray-200"
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.lab ? "border-red-500" : "border-gray-300"
                           } rounded-md`}
                           onChange={(e) => {
                             const lab = e.target.value
@@ -270,7 +273,7 @@ export const Login = observer(() => {
                         </select>
                       </LibraryComponents.Atoms.Form.InputWrapper>
                     )}
-                    name="lab"
+                    name="lab"  
                     rules={{ required: true }}
                     defaultValue={Stores.loginStore.inputLogin?.lab}
                   />
@@ -284,8 +287,8 @@ export const Login = observer(() => {
                       >
                         <select
                           value={Stores.loginStore.inputLogin?.role}
-                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                            errors.role ? "border-red-500" : "border-gray-200"
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.role ? "border-red-500" : "border-gray-300"
                           } rounded-md`}
                           onChange={(e) => {
                             const role = e.target.value

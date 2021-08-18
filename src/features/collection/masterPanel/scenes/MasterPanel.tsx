@@ -111,9 +111,9 @@ const MasterPanel = observer(() => {
                >
                 <select
                   value={LoginStore.loginStore.login?.lab}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.rLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -150,9 +150,9 @@ const MasterPanel = observer(() => {
               hasError={errors.pLab}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.pLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -187,9 +187,9 @@ const MasterPanel = observer(() => {
               hasError={errors.department}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.department
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -218,7 +218,7 @@ const MasterPanel = observer(() => {
              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const section = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -245,9 +245,9 @@ const MasterPanel = observer(() => {
               hasError={errors.serviceType}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.serviceType
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -453,7 +453,7 @@ const MasterPanel = observer(() => {
               
               <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const validationLevel: any = e.target.value
                     Stores.masterPanelStore.updateMasterPanel({
@@ -495,7 +495,7 @@ const MasterPanel = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const processing = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -527,7 +527,7 @@ const MasterPanel = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -548,7 +548,7 @@ const MasterPanel = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const panelType = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -569,7 +569,7 @@ const MasterPanel = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sex = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -615,7 +615,7 @@ const MasterPanel = observer(() => {
               
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const suffix = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -738,7 +738,7 @@ const MasterPanel = observer(() => {
              
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -780,7 +780,7 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   value={Stores.masterPanelStore.masterPanel?.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({
@@ -868,7 +868,7 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.masterPanelStore.masterPanel?.environment}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value as string
                     Stores.masterPanelStore.updateMasterPanel({

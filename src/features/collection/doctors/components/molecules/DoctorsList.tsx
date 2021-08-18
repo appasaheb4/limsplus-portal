@@ -112,7 +112,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
              <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sex = e.target.value
                       props.onUpdateItem && 
@@ -146,7 +146,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Title">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const title = e.target.value
                     props.onUpdateItem && 
@@ -253,7 +253,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
               <LibraryComponents.Atoms.Form.InputWrapper label="Speciality">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const speciality = e.target.value
                       props.onUpdateItem && 
@@ -307,7 +307,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
                <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
                       props.onUpdateItem &&
@@ -385,7 +385,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryType = e.target.value
                       props.onUpdateItem &&
@@ -421,7 +421,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
              <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
                       props.onUpdateItem &&
@@ -490,7 +490,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
                <LibraryComponents.Atoms.Form.InputWrapper label="Registartion Location">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const registrationLocation = e.target.value
                       props.onUpdateItem &&
@@ -527,7 +527,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                 <select
                   value={Stores.doctorsStore.doctors?.lab}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
                       props.onUpdateItem &&
@@ -562,7 +562,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Location">
                 <select
                   value={Stores.doctorsStore.doctors?.location}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const location = e.target.value as string
                     props.onUpdateItem &&
@@ -597,7 +597,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
                   value={Stores.doctorsStore.doctors?.schedule}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const schedule = e.target.value as string
                       props.onUpdateItem &&
@@ -659,7 +659,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
             <>
                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                         props.onUpdateItem &&

@@ -14,11 +14,15 @@ import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores } from "@lp/library/stores"
+import {useStores} from '@lp/library/stores'
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const NoticeBoard = observer(() => {
+  const {
+		loginStore,
+	} = useStores();
   const {
     control,
     handleSubmit,
@@ -33,6 +37,12 @@ const NoticeBoard = observer(() => {
   }, [])
   return (
     <>
+    <LibraryComponents.Atoms.Header>
+        <LibraryComponents.Atoms.PageHeading
+          title={stores.routerStore.selectedComponents?.title || ""}
+        />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
+      </LibraryComponents.Atoms.Header>
       <div className="p-2 rounded-lg shadow-xl">
         <LibraryComponents.Atoms.Grid cols={2}>
           <LibraryComponents.Atoms.List
@@ -47,9 +57,9 @@ const NoticeBoard = observer(() => {
             <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs" hasError={errors.lab}>
               <select
                 name="variable"
-                className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.lab
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                 onChange={(e) => {
@@ -102,9 +112,9 @@ const NoticeBoard = observer(() => {
             <LibraryComponents.Atoms.Form.InputWrapper label="Action" id="lblAction" hasError={errors.action}>
               <select
                 name="action"
-                className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.action
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                 onChange={(e) => {

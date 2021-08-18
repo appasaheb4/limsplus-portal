@@ -119,9 +119,9 @@ const MasterPackage = observer(() => {
               hasError={errors.lab}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.lab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -156,9 +156,9 @@ const MasterPackage = observer(() => {
               hasError={errors.serviceType}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.serviceType
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -213,7 +213,7 @@ const MasterPackage = observer(() => {
             />
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const packageItem = JSON.parse(e.target.value)
 
@@ -236,7 +236,7 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Package Name">
                 <select
                   disabled={true}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 >
                   <option selected>
                     {Stores.masterPackageStore.masterPackage?.packageName ||
@@ -274,7 +274,7 @@ const MasterPackage = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
                     <select
                       disabled={true}
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     >
                       <option selected>
                         {Stores.masterPackageStore.masterPackage?.panelName?.join(
@@ -288,7 +288,7 @@ const MasterPackage = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   value={Stores.masterPackageStore.masterPackage?.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     Stores.masterPackageStore.updateMasterPackage({
@@ -382,7 +382,7 @@ const MasterPackage = observer(() => {
                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.masterPackageStore.masterPackage?.environment}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
                     Stores.masterPackageStore.updateMasterPackage({

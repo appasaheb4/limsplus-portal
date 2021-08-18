@@ -121,7 +121,7 @@ const RoleMapping = observer(() => {
               name="defualtLab"
               disabled={hideRole}
               value={Stores.roleMappingStore.selectedRole as any}
-              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
                 const role = roleList[e.target.value]
                 Stores.roleMappingStore.updateSelectedRole(toJS(role))
@@ -175,7 +175,7 @@ const RoleMapping = observer(() => {
                               {item.toggle ? (
                                 <input
                                   type="text"
-                                  className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                  className="leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm"
                                   value={item.title}
                                   onChange={(e) => {
                                     const title = e.target.value
@@ -254,7 +254,7 @@ const RoleMapping = observer(() => {
                                                   {children.toggle ? (
                                                     <input
                                                       type="text"
-                                                      className="leading-4 p-2 m-2 focus:ring-indigo-500 focus:border-indigo-500 block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
+                                                      className="leading-4 p-2 m-2 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm"
                                                       value={children.title}
                                                       onChange={(e) => {
                                                         const title = e.target.value

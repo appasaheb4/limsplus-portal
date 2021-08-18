@@ -93,7 +93,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                   <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const lab = e.target.value as string
                       props.onUpdateItem &&
@@ -181,7 +181,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
                 <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                   <select
                     value={row.status}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const status = e.target.value
                       props.onUpdateItem &&
@@ -261,7 +261,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
                     props.onUpdateItem &&

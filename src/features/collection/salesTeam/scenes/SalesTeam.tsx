@@ -93,9 +93,9 @@ export const SalesTeam = observer(() => {
               hasError={errors.salesHierarchy}
               >
                 <select
-                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.salesHierarchy
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                   onChange={(e) => {
@@ -125,7 +125,7 @@ export const SalesTeam = observer(() => {
             
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const salesTerritory = JSON.parse(e.target.value)
                     Stores.salesTeamStore.updateSalesTeam({
@@ -149,7 +149,7 @@ export const SalesTeam = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Employee code">
                 <select
                   //value={Stores.salesTeamStore.salesTeam?.empCode}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({
@@ -183,7 +183,7 @@ export const SalesTeam = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Employee Name">
                 <select
                   //value={Stores.salesTeamStore.salesTeam?.empName}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({
@@ -209,7 +209,7 @@ export const SalesTeam = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
                     Stores.salesTeamStore.updateSalesTeam({

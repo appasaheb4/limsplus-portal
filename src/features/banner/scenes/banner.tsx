@@ -72,6 +72,18 @@ const Banner = observer(() => {
                   })
                 }}
               />
+
+              
+   
+
+
+
+
+
+
+
+
+
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />

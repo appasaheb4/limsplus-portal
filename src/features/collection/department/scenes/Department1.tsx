@@ -107,9 +107,9 @@ export const Department = observer(() => {
                  >
                   <select
                     name="lab"
-                    className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.lab
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500"
                         : "border-gray-200"
                     } rounded-md`}
                     onChange={(e) => {
@@ -218,7 +218,7 @@ export const Department = observer(() => {
                 />
                 <LibraryComponents.Atoms.Form.InputWrapper label="HOD">
                   <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const hod = e.target.value
                       Stores.departmentStore.updateDepartment({
@@ -362,7 +362,7 @@ export const Department = observer(() => {
                 <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                   <select
                     value={Stores.departmentStore.department?.status}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const status = e.target.value
                       Stores.departmentStore.updateDepartment({

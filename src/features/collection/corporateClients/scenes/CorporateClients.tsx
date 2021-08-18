@@ -207,7 +207,7 @@ const CorporateClients = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const priceList = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -312,7 +312,7 @@ const CorporateClients = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const customerGroup = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -333,7 +333,7 @@ const CorporateClients = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -387,7 +387,7 @@ const CorporateClients = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryType = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -408,7 +408,7 @@ const CorporateClients = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -429,7 +429,7 @@ const CorporateClients = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -526,7 +526,7 @@ const CorporateClients = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
                   value={Stores.corporateClientsStore.corporateClients?.schedule}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const schedule = e.target.value as string
                     Stores.corporateClientsStore.updateCorporateClients({
@@ -589,7 +589,7 @@ const CorporateClients = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     Stores.corporateClientsStore.updateCorporateClients({

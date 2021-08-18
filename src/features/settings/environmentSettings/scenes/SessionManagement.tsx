@@ -143,9 +143,9 @@ const SessionManagement = observer((props: SessionManagementProps) => {
             >
               <select
                 name="variable"
-                className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.variable
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                 onChange={(e) => {

@@ -133,7 +133,7 @@ const HostCommunication = observer(() => {
                     value={
                       Stores.hostCommunicationStore.hostCommuication?.instrumentType
                     }
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const instrumentType = e.target.value
                       Stores.hostCommunicationStore.updateHostCommuication({
@@ -207,7 +207,7 @@ const HostCommunication = observer(() => {
                       Stores.hostCommunicationStore.hostCommuication
                         ?.modeOfCommunication
                     }
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfCommunication = e.target.value
                       Stores.hostCommunicationStore.updateHostCommuication({
@@ -237,7 +237,7 @@ const HostCommunication = observer(() => {
                     value={
                       Stores.hostCommunicationStore.hostCommuication?.typeOfQuery
                     }
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const typeOfQuery = e.target.value
                       Stores.hostCommunicationStore.updateHostCommuication({
@@ -276,7 +276,7 @@ const HostCommunication = observer(() => {
                       Stores.hostCommunicationStore.hostCommuication
                         ?.modeOfConnection
                     }
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const modeOfConnection = e.target.value
                       Stores.hostCommunicationStore.updateHostCommuication({
@@ -347,7 +347,7 @@ const HostCommunication = observer(() => {
                   value={
                     Stores.hostCommunicationStore.hostCommuication?.applyFiltrOn
                   }
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const applyFiltrOn = e.target.value
                     Stores.hostCommunicationStore.updateHostCommuication({
@@ -451,7 +451,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.sourceFileDataReceivefromInstrument
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const sourceFileDataReceivefromInstrument =
                                   e.target.value
@@ -498,7 +498,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.SourceRepositoryDataReceivefromInstrument
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const SourceRepositoryDataReceivefromInstrument =
                                   e.target.value
@@ -656,7 +656,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.convertTo
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={async (e) => {
                                 const convertTo = e.target.value
                                 Stores.hostCommunicationStore.updateHostCommuication(
@@ -699,7 +699,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.outputRepository
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outputRepository = e.target.value
                                 Stores.hostCommunicationStore.updateHostCommuication(
@@ -775,7 +775,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.outPutIn
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outPutIn = e.target.value
                                 Stores.hostCommunicationStore.updateHostCommuication(
@@ -856,7 +856,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.outputforThirdpartySoftware
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const outputforThirdpartySoftware = e.target.value
                                 Stores.hostCommunicationStore.updateHostCommuication(
@@ -905,7 +905,7 @@ const HostCommunication = observer(() => {
                                 Stores.hostCommunicationStore.hostCommuication
                                   ?.SourceRepositoryThiredPartySoftare
                               }
-                              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                               onChange={(e) => {
                                 const SourceRepositoryThiredPartySoftare =
                                   e.target.value
