@@ -118,9 +118,9 @@ export const AutoCompleteCheckTwoTitleKeys = observer(
       <>
         <div ref={wrapperRef}>
           <div
-            className={`flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border-2 ${
+            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
               props.hasError
-                ? "border-red-500  focus:border-red-500"
+                ? "border-red-500"
                 : "border-gray-300"
             } rounded-md`}
           >

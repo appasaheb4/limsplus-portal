@@ -90,7 +90,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
             onSizePerPageChange(e.target.value)
           }
         }}
-        className="mr-2 ml-2 leading-4 p-2 w-14 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+        className="mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
       />
       {options.map((option) => (
         <button

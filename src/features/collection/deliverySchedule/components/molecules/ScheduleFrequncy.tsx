@@ -179,10 +179,10 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                     weekly[index].value = value
                     setWeekly(weekly)
                   }}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md mr-1"
+                  className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md mr-1"
                 />
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const units = e.target.value as string
                     weekly[index].units = units
@@ -259,11 +259,11 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                               monthly[index].days[i].value = value
                               setMonthly(monthly)
                             }}
-                            className="leading-4 p-1  focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md w-full"
+                            className="leading-4 p-1  focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md w-full"
                           />
                           <div className="mb-2" />
                           <select
-                            className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                            className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                             onChange={(e) => {
                               const units = e.target.value as string
                               monthly[index].days[i].units = units
@@ -317,7 +317,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                 />
                 <div className="mb-2" />
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const units = e.target.value as string
                     setMonthlyUnits(units)
@@ -366,11 +366,11 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
                     result[index].value = value
                     setResult(result)
                   }}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md mr-1"
+                  className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md mr-1"
                 />
                 <div className="mb-2" />
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const units = e.target.value as string
                     result[index].units = units
@@ -449,7 +449,7 @@ export const ScheduleFrequency = ({ type, onChnage }: ScheduleFrequencyProps) =>
              <div className="mb-2" />
           <LibraryComponents.Atoms.Form.InputWrapper label="Units">
             <select
-              className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+              className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
                 const units = e.target.value as string
                 setBatch2Units(units)

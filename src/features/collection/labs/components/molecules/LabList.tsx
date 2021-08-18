@@ -87,7 +87,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Country">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const country = e.target.value
                         props.onUpdateItem &&
@@ -125,7 +125,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="State">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const state = e.target.value
                         props.onUpdateItem &&
@@ -168,7 +168,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="District">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const district = e.target.value
                         props.onUpdateItem &&
@@ -213,7 +213,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="City">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const city = e.target.value
                         props.onUpdateItem &&
@@ -260,7 +260,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Area">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const area = e.target.value
                         props.onUpdateItem &&
@@ -309,7 +309,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const postalCode = e.target.value
                         props.onUpdateItem &&
@@ -365,7 +365,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const deliveryType = e.target.value
                         props.onUpdateItem &&
@@ -401,7 +401,7 @@ const LabList = observer((props: LabListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const salesTerritory = e.target.value
                         props.onUpdateItem &&
@@ -481,7 +481,7 @@ const LabList = observer((props: LabListProps) => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Lab type">
                     <select
                       value={Stores.labStore.labs?.labType}
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const labType = e.target.value
                         props.onUpdateItem &&

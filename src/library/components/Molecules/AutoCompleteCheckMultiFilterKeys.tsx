@@ -141,7 +141,7 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
     return (
       <>
         <div ref={wrapperRef}>
-          <div className="flex items-center leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+          <div className="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
             <input
               placeholder={props.placeholder || "Search ..."}
               value={

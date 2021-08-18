@@ -94,9 +94,9 @@ const TestSampleMapping = observer(() => {
               hasError={errors.testCode}
               >
                 <select
-                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.testCode
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                   onChange={(e) => {
@@ -133,9 +133,9 @@ const TestSampleMapping = observer(() => {
               hasError={errors.sampleCode}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.sampleCode
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -166,7 +166,7 @@ const TestSampleMapping = observer(() => {
             
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -188,7 +188,7 @@ const TestSampleMapping = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Group">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleGroup = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -210,7 +210,7 @@ const TestSampleMapping = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collContainerCode = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -232,7 +232,7 @@ const TestSampleMapping = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Name">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collContainerName = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -255,7 +255,7 @@ const TestSampleMapping = observer(() => {
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testContainerCode = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -277,7 +277,7 @@ const TestSampleMapping = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Name">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testContainerName = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -365,7 +365,7 @@ const TestSampleMapping = observer(() => {
             >
               <LibraryComponents.Atoms.Form.InputWrapper label="Min Draw Vol Unit">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const minDrawVolUnit = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -397,7 +397,7 @@ const TestSampleMapping = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Min Test Vol Unit">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const minTestVolUnit = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({
@@ -442,7 +442,7 @@ const TestSampleMapping = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Repention Units">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const repentionUnits = e.target.value as string
                     Stores.testSampleMappingStore.updateSampleType({

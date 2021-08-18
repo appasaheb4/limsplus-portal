@@ -111,9 +111,9 @@ const TestMater = observer(() => {
               >
                 <select
                   value={LoginStores.loginStore.login?.lab}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.rLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -151,9 +151,9 @@ const TestMater = observer(() => {
               hasError={errors.pLab}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.pLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -189,9 +189,9 @@ const TestMater = observer(() => {
               hasError={errors.department}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.department
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -220,7 +220,7 @@ const TestMater = observer(() => {
              />
               <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const section = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -297,7 +297,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const schedule = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -334,7 +334,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const validationLevel: any = e.target.value
                     Stores.testMasterStore.updateTestMaster({
@@ -364,7 +364,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const processing = e.target.value as
                       | "MANUAL"
@@ -499,7 +499,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
                     Stores.testMasterStore.updateTestMaster({
@@ -518,7 +518,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflow = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -572,7 +572,7 @@ const TestMater = observer(() => {
               /> */}
               <LibraryComponents.Atoms.Form.InputWrapper label="Disease">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const disease = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -593,7 +593,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -614,7 +614,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testType = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -635,7 +635,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflowCode = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -654,7 +654,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const worklistCode = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -685,7 +685,7 @@ const TestMater = observer(() => {
               />
               <LibraryComponents.Atoms.Form.InputWrapper label="Prefix">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const prefix = e.target.value
                     Stores.testMasterStore.updateTestMaster({
@@ -707,7 +707,7 @@ const TestMater = observer(() => {
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Sufix">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sufix = e.target.value
                     Stores.testMasterStore.updateTestMaster({
@@ -802,7 +802,7 @@ const TestMater = observer(() => {
               
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collectionContainer = e.target.value
                     Stores.testMasterStore.updateTestMaster({
@@ -833,7 +833,7 @@ const TestMater = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
                   value={Stores.testMasterStore.testMaster?.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     Stores.testMasterStore.updateTestMaster({
@@ -903,7 +903,7 @@ const TestMater = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.testMasterStore.testMaster?.environment}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
                     Stores.testMasterStore.updateTestMaster({
