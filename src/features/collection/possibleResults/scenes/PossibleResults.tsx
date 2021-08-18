@@ -6,7 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 
-import * as Models from "../models"
 import * as Utils from "../util"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
@@ -24,14 +23,11 @@ export const PossibleResults = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.PossibleResults>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
@@ -49,6 +45,32 @@ export const PossibleResults = observer(() => {
       }
     })
   }, [])
+
+  const onSubmitPossibleResult = () =>{
+    const error = Utils.validate(
+      Stores.possibleResultsStore.possibleResults,
+      Utils.possibleResults
+    )
+    
+    if (error === undefined) {
+      Stores.possibleResultsStore.possibleResultsService
+        .addPossibleResults(
+          Stores.possibleResultsStore.possibleResults
+        )
+        .then(() => {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Possible results created.`,
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -83,24 +105,17 @@ export const PossibleResults = observer(() => {
                   render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.InputWrapper
                  label="Analyte Code"
-                 hasError={errors.analyteCode}
+                 hasError={errors.analyte}
                  >
                   <select
                     className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                      errors.analyteCode
+                      errors.analyte
                         ? "border-red-500  focus:border-red-500"
                         : "border-gray-200"
                     } rounded-md`}
                     onChange={(e) => {
                       const analyte = JSON.parse(e.target.value)
-                      onChange(analyte.analyteCode)
-                      // setErrors({
-                      //   ...errors,
-                      //   analyteCode: Utils.validate.single(
-                      //     analyteCode,
-                      //     Utils.possibleResults.analyteCode
-                      //   ),
-                      // })
+                      onChange(analyte)
                       Stores.possibleResultsStore.updatePossibleResults({
                         ...Stores.possibleResultsStore.possibleResults,
                         analyteCode: analyte.analyteCode,
@@ -120,60 +135,109 @@ export const PossibleResults = observer(() => {
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="analyteCode"
+                name="analyte"
                 rules={{ required: true }}
                 defaultValue=""
                />
+               <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Input
                   disabled={true}
                   label="Analyte Name"
-                  placeholder="Analyte Name"
+                  placeholder={errors.analyteName?"Please Enter Analyte Name":"Analyte Name"}
+                  hasError={errors.analyteName}
                   value={Stores.possibleResultsStore.possibleResults?.analyteName}
                 />
+                )}
+                name="analyteCode"
+                rules={{ required: false }}
+                defaultValue=""
+               />
                 <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
                   <LibraryComponents.Atoms.Grid cols={5}>
+                  <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
-                      placeholder="Result"
+                      placeholder={errors.result?"Please Enter Result":"Result"}
+                      hasError={errors.result}
                       value={Stores.possibleResultsStore.possibleResults?.result}
                       onChange={(result) => {
+                        onChange(result)
                         Stores.possibleResultsStore.updatePossibleResults({
                           ...Stores.possibleResultsStore.possibleResults,
                           result,
                         })
                       }}
                     />
+                    )}
+                    name="result"
+                    rules={{ required: false }}
+                    defaultValue=""
+                   />
+                   <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
-                      placeholder="Possible Value"
+                      placeholder={errors.possibleValue?"Please Enter Possible Value":"Possible Value"}
+                      hasError={errors.possibleValue}
                       value={
                         Stores.possibleResultsStore.possibleResults?.possibleValue
                       }
                       onChange={(possibleValue) => {
+                        onChange(possibleValue)
                         Stores.possibleResultsStore.updatePossibleResults({
                           ...Stores.possibleResultsStore.possibleResults,
                           possibleValue,
                         })
                       }}
                     />
+                    )}
+                    name="possibleValue"
+                    rules={{ required: false }}
+                    defaultValue=""
+                   />
+                    <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
                       label="AbNormal"
+                      hasError={errors.abNormal}
                       value={Stores.possibleResultsStore.possibleResults?.abNormal}
                       onChange={(abNormal) => {
+                        onChange(abNormal)
                         Stores.possibleResultsStore.updatePossibleResults({
                           ...Stores.possibleResultsStore.possibleResults,
                           abNormal,
                         })
                       }}
                     />
+                    )}
+                    name="abNormal"
+                    rules={{ required: false }}
+                    defaultValue=""
+                   />
+                   <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
+                    hasError={errors.critical}
                       label="Critical"
                       value={Stores.possibleResultsStore.possibleResults?.critical}
                       onChange={(critical) => {
+                        onChange(critical)
                         Stores.possibleResultsStore.updatePossibleResults({
                           ...Stores.possibleResultsStore.possibleResults,
                           critical,
                         })
                       }}
                     />
+                    )}
+                    name="critical"
+                    rules={{ required: false }}
+                    defaultValue=""
+                   />
                     <div className="mt-2">
                       <LibraryComponents.Atoms.Buttons.Button
                         size="medium"
@@ -278,31 +342,7 @@ export const PossibleResults = observer(() => {
                 size="medium"
                 type="solid"
                 icon={LibraryComponents.Atoms.Icon.Save}
-                onClick={() => {
-                  const error = Utils.validate(
-                    Stores.possibleResultsStore.possibleResults,
-                    Utils.possibleResults
-                  )
-                  setErrorsMsg(error)
-                  if (error === undefined) {
-                    Stores.possibleResultsStore.possibleResultsService
-                      .addPossibleResults(
-                        Stores.possibleResultsStore.possibleResults
-                      )
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Possible results created.`,
-                        })
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 2000)
-                      })
-                  } else {
-                    LibraryComponents.Atoms.Toast.warning({
-                      message: `😔 Please enter all information!`,
-                    })
-                  }
-                }}
+                onClick={handleSubmit(onSubmitPossibleResult)}
               >
                 Save
               </LibraryComponents.Atoms.Buttons.Button>
@@ -318,14 +358,7 @@ export const PossibleResults = observer(() => {
                 Clear
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
-            <div>
-              {errorsMsg &&
-                Object.entries(errorsMsg).map((item, index) => (
-                  <h6 className="text-red-700" key={index}>
-                    {_.upperFirst(item.join(" : "))}
-                  </h6>
-                ))}
-            </div>
+           
           </div>
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
