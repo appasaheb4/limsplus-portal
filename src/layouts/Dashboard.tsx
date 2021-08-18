@@ -13,12 +13,15 @@ import { useHistory } from "react-router-dom"
 import { useIdleTimer } from "react-idle-timer"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { toJS } from "mobx"
 
 import Storage from "@lp/library/modules/storage"
+
+import { stores } from "@lp/library/stores"
+import { useStores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -52,8 +55,8 @@ import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 
-
 const Dashboard = observer(({ children }) => {
+  const { lookupStore } = useStores()
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
@@ -175,15 +178,10 @@ const Dashboard = observer(({ children }) => {
     }
   }
 
-
-  const layout=()=>{
-
-  }
   useEffect(() => {
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
-        layout()
         loadApi()
         history.listen((location, action) => {
           let pathname = location.pathname

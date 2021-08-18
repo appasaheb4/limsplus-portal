@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import { useForm, Controller } from "react-hook-form"
 
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
@@ -92,6 +93,7 @@ export const NewField = observer((props: NewFieldProps) => {
               <LibraryComponents.Atoms.Form.Input
                 label="Field Name"
                 placeholder="Field Name"
+                hasError={errors.fieldName}
                 value={Stores.lookupStore.lookup?.fieldName}
                 onChange={(fieldName) => {
                   onChange(fieldName.toUpperCase())
@@ -242,6 +244,38 @@ export const NewField = observer((props: NewFieldProps) => {
               />
             )}
             name="description"
+            rules={{ required: false }}
+            defaultValue=""
+          />
+
+          <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.lookupStore.lookup?.environment}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.lookupStore.updateLookup({
+                      ...Stores.lookupStore.lookup,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {/* {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )} */}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
             rules={{ required: false }}
             defaultValue=""
           />

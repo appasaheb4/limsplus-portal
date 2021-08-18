@@ -2,11 +2,14 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
+import { RouterFlow } from "@lp/flows"
+
+import { stores } from "@lp/library/stores"
 
 @version(0.1)
 class LookupStore {
   @observable listLookup: Models.Lookup[] = []
-  @ignore @observable lookup?: Models.Lookup
+  @ignore @observable lookup!: Models.Lookup
 
   constructor() {
     makeAutoObservable(this)
@@ -18,11 +21,14 @@ class LookupStore {
 
   @action fetchListLookup() {
     this.LookupService.listLookup().then((res) => {
-      //console.log({ Lookup: res });
+        RouterFlow.getLookupValues(res).then((items) => {
+          //console.log({ items })
+          stores.routerStore.updateLookupItems(items);
+        })
       this.listLookup = res
     })
   }
-
+  
   @action updateLookup = (Lookup: Models.Lookup) => {
     this.lookup = Lookup
   }
