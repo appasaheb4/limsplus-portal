@@ -29,6 +29,8 @@ const Lookup = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
+
+
   useEffect(() => {
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
@@ -65,7 +67,7 @@ const Lookup = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "NEW FIELD"}
+                expanded={item.title === "GENERAL FIELD"}
               >
                 {item.title === "NEW FIELD" && (
                   <>

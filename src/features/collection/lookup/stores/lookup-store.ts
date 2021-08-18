@@ -21,11 +21,11 @@ class LookupStore {
 
   @action fetchListLookup() {
     this.LookupService.listLookup().then((res) => {
-        RouterFlow.getLookupValues(res).then((items) => {
+        RouterFlow.getLookupValues(res.data.lookup).then((items) => {
           //console.log({ items })
           stores.routerStore.updateLookupItems(items);
         })
-      this.listLookup = res
+      this.listLookup = res.data.lookup
     })
   }
   
