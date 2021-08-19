@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
+
 import * as Util from "../util"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -17,14 +17,33 @@ const Role = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.IRole>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
+  const onSubmitRoles = () =>{
+    if (
+      Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
+        undefined &&
+      !Stores.roleStore.checkExitsCode
+    ) {
+      
+      Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(
+        () => {
+          
+          LibraryComponents.Atoms.Toast.success({message:`😊 Role created.`})
+          Stores.roleStore.fetchListRole()
+          Stores.roleStore.clear()
+        }
+      )
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message:"😔 Please enter all information!"
+    })
+    }
+  }
 
   return (
     <>
@@ -85,17 +104,6 @@ const Role = observer(() => {
               rules={{ required: true }}
               defaultValue=""
             />
-              {errors?.code && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.code}
-                </span>
-              )}
-              {Stores.roleStore.checkExitsCode && (
-                <span className="text-red-600 font-medium relative">
-                  Code already exits. Please use other code.
-                </span>
-              )}
-
             <Controller
                control={control}
                render={({ field: { onChange } }) => (
@@ -118,12 +126,6 @@ const Role = observer(() => {
               rules={{ required: true }}
               defaultValue=""
               />
-
-              {errors?.description && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.description}
-                </span>
-              )}
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -133,27 +135,7 @@ const Role = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (
-                  Util.validate(Stores.roleStore.role, Util.constraintsRole) ===
-                    undefined &&
-                  !Stores.roleStore.checkExitsCode
-                ) {
-                  
-                  Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(
-                    () => {
-                      
-                      LibraryComponents.Atoms.Toast.success({message:`😊Role created.`})
-                      Stores.roleStore.fetchListRole()
-                      Stores.roleStore.clear()
-                    }
-                  )
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message:"😔Please enter all information!"
-                })
-                }
-              }}
+              onClick={handleSubmit(onSubmitRoles)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
