@@ -27,13 +27,10 @@ const TestAnalyteMapping = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.TestAnalyteMapping>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -71,6 +68,75 @@ const TestAnalyteMapping = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitTestAnalyteMapping = () =>{
+    const error = Utils.validate(
+      Stores.testAnalyteMappingStore.testAnalyteMapping,
+      Utils.testAnalyteMapping
+    )
+    
+    if (error === undefined) {
+      
+      if (
+        !Stores.testAnalyteMappingStore.testAnalyteMapping
+          ?.existsVersionId &&
+        !Stores.testAnalyteMappingStore.testAnalyteMapping
+          ?.existsRecordId
+      ) {
+        Stores.testAnalyteMappingStore.testAnalyteMappingService
+          .addTestAnalyteMapping({
+            ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test analyte mapping created.`,
+            })
+          })
+      } else if (
+        Stores.testAnalyteMappingStore.testAnalyteMapping
+          ?.existsVersionId &&
+        !Stores.testAnalyteMappingStore.testAnalyteMapping
+          ?.existsRecordId
+      ) {
+        Stores.testAnalyteMappingStore.testAnalyteMappingService
+          .versionUpgradeTestAnalyteMapping({
+            ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test analyte version upgrade.`,
+            })
+          })
+      } else if (
+        !Stores.testAnalyteMappingStore.testAnalyteMapping
+          ?.existsVersionId &&
+        Stores.testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
+      ) {
+        Stores.testAnalyteMappingStore.testAnalyteMappingService
+          .duplicateTestAnalyteMapping({
+            ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test analyte duplicate created.`,
+            })
+          })
+      }
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -135,19 +201,34 @@ const TestAnalyteMapping = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
-            
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
                 name="txtTestCode"
-                placeholder="Test Code"
+                placeholder={errors.testCode?"Please Enter TestCode":"Test Code"}
                 disabled={true}
                 value={Stores.testAnalyteMappingStore.testAnalyteMapping?.testCode}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
+              )}
+              name="testCode"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Test Name" hasError={errors.testMasteritem}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.testMasteritem
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const testMasteritem = JSON.parse(e.target.value)
+                    onChange(testMasteritem)
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       testName: testMasteritem.testName,
@@ -166,9 +247,17 @@ const TestAnalyteMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
+              )}
+              name="testMasteritem"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code" hasError={errors.analyte}>
                 <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
-                  placeholder="Search by analyte name or analyte code"
+                  placeholder={errors.analyte?"Please Enter Analyte Code And Analyte Name":"Search by analyte name or analyte code"}
                   data={{
                     defulatValues: [],
                     list:
@@ -177,6 +266,7 @@ const TestAnalyteMapping = observer(() => {
                     findKey: ["analyteName", "analyteCode"],
                   }}
                   onUpdate={(items) => {
+                    onChange(items)
                     const analyteCode: string[] = []
                     const analyteName: string[] = []
                     items.filter((item: any) => {
@@ -192,9 +282,18 @@ const TestAnalyteMapping = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="analyte"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte Name"
-                placeholder="Analyte Name"
+                placeholder={errors.analyteName?"Please Enter AnalyteName":"Analyte Name"}
+                hasError={errors.analyteName}
                 disabled={true}
                 value={
                   typeof Stores.testAnalyteMappingStore.testAnalyteMapping
@@ -205,27 +304,50 @@ const TestAnalyteMapping = observer(() => {
                     : Stores.testAnalyteMappingStore.testAnalyteMapping?.analyteName
                 }
               />
+              )}
+              name="analyteName"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
                 name="txtDescription"
-                placeholder="Description"
+                placeholder={errors.description?"Please Enter description":"Description"}
+                hasError={errors.description}
                 value={
                   Stores.testAnalyteMappingStore.testAnalyteMapping?.description
                 }
                 onChange={(description) => {
+                  onChange(description)
                   Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                     description,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+              name="description"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.testAnalyteMappingStore.testAnalyteMapping?.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       status,
@@ -242,17 +364,32 @@ const TestAnalyteMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="Bill"
                 id="modeBill"
+                hasError={errors.bill}
                 value={Stores.testAnalyteMappingStore.testAnalyteMapping?.bill}
                 onChange={(bill) => {
+                  onChange(bill)
                   Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                     bill,
                   })
                 }}
               />
+              )}
+              name="bill"
+              rules={{ required: false }}
+              defaultValue=""
+             />
              
              
             </LibraryComponents.Atoms.List>
@@ -262,10 +399,13 @@ const TestAnalyteMapping = observer(() => {
               justify="stretch"
               fill
             >
-             
+             <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
              <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
+                placeholder={errors.userId?"Please Enter UserID":"Entered By"}
+                hasError={errors.userId}
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -275,9 +415,17 @@ const TestAnalyteMapping = observer(() => {
                 //   })
                 // }}
               />
+              )}
+                name="userId"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation?"Please Enter DateCreation":"Date Creation"}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testAnalyteMappingStore.testAnalyteMapping
@@ -296,9 +444,18 @@ const TestAnalyteMapping = observer(() => {
                 //   })
                 // }}
               />
+              )}
+              name="dateCreation"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
              <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                hasError={errors.dateActiveFrom}
+                placeholder={errors.dateActiveFrom?"Please Enter dateActiveFrom":"Date Active"}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testAnalyteMappingStore.testAnalyteMapping
@@ -307,9 +464,17 @@ const TestAnalyteMapping = observer(() => {
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+                name="dateActiveFrom"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                 <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                placeholder={errors.dateActiveTo?"Please Enter dateActiveTo":"Date Expire"}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testAnalyteMappingStore.testAnalyteMapping
@@ -318,16 +483,25 @@ const TestAnalyteMapping = observer(() => {
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
+                  onChange(schedule)
                   Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                     ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                     dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
               />
-              
+              )}
+                name="schedule"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                hasError={errors.version}
+                placeholder={errors.version?"Please Enter Version":"Version"}
                 value={Stores.testAnalyteMappingStore.testAnalyteMapping?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -337,9 +511,18 @@ const TestAnalyteMapping = observer(() => {
                 //   })
                 // }}
               />
+              )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                hasError={errors.keyNum}
+                placeholder={errors.keyNum?"Please Enter keyNum":"Key Num"}
                 value={Stores.testAnalyteMappingStore.testAnalyteMapping?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -349,12 +532,25 @@ const TestAnalyteMapping = observer(() => {
                 //   })
                 // }}
               />
+              )}
+                name="keyNum"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.testAnalyteMappingStore.testAnalyteMapping?.environment}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
+                    onChange(environment)
                     Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                       ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                       environment,
@@ -371,6 +567,11 @@ const TestAnalyteMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="environment"
+              rules={{ required: false }}
+              defaultValue=""
+              />
              
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
              
@@ -383,74 +584,7 @@ const TestAnalyteMapping = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.testAnalyteMappingStore.testAnalyteMapping,
-                  Utils.testAnalyteMapping
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  if (
-                    !Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.existsVersionId &&
-                    !Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.existsRecordId
-                  ) {
-                    Stores.testAnalyteMappingStore.testAnalyteMappingService
-                      .addTestAnalyteMapping({
-                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test analyte mapping created.`,
-                        })
-                      })
-                  } else if (
-                    Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.existsVersionId &&
-                    !Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.existsRecordId
-                  ) {
-                    Stores.testAnalyteMappingStore.testAnalyteMappingService
-                      .versionUpgradeTestAnalyteMapping({
-                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test analyte version upgrade.`,
-                        })
-                      })
-                  } else if (
-                    !Stores.testAnalyteMappingStore.testAnalyteMapping
-                      ?.existsVersionId &&
-                    Stores.testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
-                  ) {
-                    Stores.testAnalyteMappingStore.testAnalyteMappingService
-                      .duplicateTestAnalyteMapping({
-                        ...Stores.testAnalyteMappingStore.testAnalyteMapping,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test analyte duplicate created.`,
-                        })
-                      })
-                  }
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitTestAnalyteMapping)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -465,14 +599,6 @@ const TestAnalyteMapping = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
