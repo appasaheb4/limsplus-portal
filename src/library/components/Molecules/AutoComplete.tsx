@@ -12,6 +12,7 @@ interface AutoCompleteProps {
     findKey?: string[]
   }
   onUpdate?: (item: any) => void
+  onChange: (item: any) => void
 }
 
 export const AutoComplete = (props: AutoCompleteProps) => {
@@ -31,7 +32,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
             }
           }
           setIsListOpen(false)
-          setValue("")
+          props.onChange(value)
         }
       }
       document.addEventListener("mousedown", handleClickOutside)
@@ -43,28 +44,8 @@ export const AutoComplete = (props: AutoCompleteProps) => {
 
   const wrapperRef = useRef(null)
   useOutsideAlerter(wrapperRef)
-  let count = 0
-
-  const getSelectedItem = (list?: any[], findKey?: string[]) => {
-    if (count === 0 && list && findKey) {
-      const finalList = list.filter((item, index) => {
-        findKey.filter((findItem) => {
-          if (item[findItem] === findItem) {
-            return item
-          }
-        })
-        count++
-        return item
-      })
-      console.log({ finalList })
-      list = finalList
-    }
-    return list
-  }
 
   useEffect(() => {
-    console.log({ props })
-
     if (props) {
       setOriginalOptions(props.data && props.data.list)
       setOptions(props.data && props.data.list)
@@ -85,9 +66,8 @@ export const AutoComplete = (props: AutoCompleteProps) => {
         } else {
           return
         }
-      })
-
-      console.log({ filterArray })
+      })  
+      //console.log({ filterArray })
       setOptions(filterArray)
     } else {
       setOptions(originalOptions)
@@ -96,8 +76,9 @@ export const AutoComplete = (props: AutoCompleteProps) => {
 
   const onChange = (e) => {
     const search = e.target.value
-    setValue(search)
     filter(search, options)
+    setValue(search)
+    
   }
 
   const onKeyUp = (e) => {
@@ -108,10 +89,23 @@ export const AutoComplete = (props: AutoCompleteProps) => {
     }
   }
 
+  const onChangeItem = (item: any) => {
+    if (props.data && props.data.displayKey) {
+      setValue(item[props.data.displayKey && props.data?.displayKey[0]])
+      props.onChange(item[props.data.displayKey && props.data?.displayKey[0]])
+    }
+    setIsListOpen(false)
+    setOptions(options)
+  }
+
   return (
     <>
       <div ref={wrapperRef}>
-        <div className="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+        <div
+          className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
+            props.hasError ? "border-red-500" : "border-gray-300"
+          } rounded-md`}
+        >
           <input
             placeholder={props.placeholder || "Search ..."}
             value={value}
@@ -133,7 +127,11 @@ export const AutoComplete = (props: AutoCompleteProps) => {
                 <ul>
                   {options?.map((item, index) => (
                     <>
-                      <li key={index} className="text-gray-400 flex items-center">
+                      <li
+                        key={index}
+                        className="text-gray-400 flex items-center"
+                        onClick={() => onChangeItem(item)}
+                      >
                         <label className="ml-2 mt-1 text-black">
                           {props.data?.displayKey
                             ?.map((findKey) => item[findKey])

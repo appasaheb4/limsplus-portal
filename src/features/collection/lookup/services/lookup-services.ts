@@ -56,6 +56,18 @@ class LookupService {
           reject({ error })
         })
     })
+    generalFiledUpdate = (lookup?: Partial<Models.Lookup>) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/lookup/generalFiledUpdate`, lookup)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
 }
 
 export default LookupService
