@@ -6,6 +6,10 @@ import _ from "lodash"
 
 import * as LibraryComponents from "@lp/library/components"
 
+import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+let router = dashboardRoutes
+
+import { Stores } from "../stores"
 import { useStores } from "@lp/library/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { toJS } from "mobx"
@@ -26,6 +30,24 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     console.log({ store: LookupStore.lookupStore.listLookup })
   }, [LookupStore.lookupStore.listLookup])
 
+  const onSubmitGeneralFiled = (data: any) => {
+    Stores.lookupStore.LookupService.generalFiledUpdate({
+      router,
+      fieldName: Stores.lookupStore.lookup.fieldName,
+      code: Stores.lookupStore.lookup.code,
+      value: Stores.lookupStore.lookup.value,
+    }).then((res) => {
+      if (res.success) {
+        LibraryComponents.Atoms.Toast.success({
+          message: `😊 ${res.message}`,
+        })
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      }
+    })
+  }
+
   return (
     <>
       <Controller
@@ -38,23 +60,24 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
             <LibraryComponents.Molecules.AutoComplete
               hasError={errors.filedName}
               data={{
-                list:  toJS(LookupStore.lookupStore.listLookup).filter((a, i) => toJS(LookupStore.lookupStore.listLookup).findIndex((s) => a.fieldName === s.fieldName) === i),
+                list: toJS(LookupStore.lookupStore.listLookup).filter(
+                  (a, i) =>
+                    toJS(LookupStore.lookupStore.listLookup).findIndex(
+                      (s) => a.fieldName === s.fieldName
+                    ) === i
+                ),
                 displayKey: ["fieldName"],
                 findKey: ["fieldName"],
               }}
-              // onChange={async (item: any, children: any) => {
-              //   // const documentName = {
-              //   //   name: item.name,
-              //   //   title: item.title,
-              //   //   path: item.path,
-              //   //   children,
-              //   // }
-              //   // onChange(documentName)
-              //   // Stores.lookupStore.updateLookup({
-              //   //   ...Stores.lookupStore.lookup,
-              //   //   documentName,
-              //   // })
-              // }}
+              onChange={(item: any) => {
+                console.log({item});
+                
+                onChange(item.toUpperCase())
+                Stores.lookupStore.updateLookup({
+                  ...Stores.lookupStore.lookup,
+                  fieldName: item.toUpperCase(),
+                })
+              }}
             />
           </LibraryComponents.Atoms.Form.InputWrapper>
         )}
@@ -62,6 +85,73 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
         rules={{ required: true }}
         defaultValue=""
       />
+      <br />
+      <LibraryComponents.Atoms.Form.InputWrapper label="Code & Value">
+        <LibraryComponents.Atoms.Grid cols={3}>
+          <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.Input
+                placeholder="Code"
+                hasError={errors.code}
+                value={Stores.lookupStore.lookup?.code}
+                onChange={(code) => {
+                  onChange(code.toUpperCase())
+                  Stores.lookupStore.updateLookup({
+                    ...Stores.lookupStore.lookup,
+                    code: code.toUpperCase(),
+                  })
+                }}
+              />
+            )}
+            name="code"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+
+          <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.Input
+                placeholder="Value"
+                hasError={errors.value}
+                value={Stores.lookupStore.lookup?.value}
+                onChange={(value) => {
+                  onChange(value)
+                  Stores.lookupStore.updateLookup({
+                    ...Stores.lookupStore.lookup,
+                    value,
+                  })
+                }}
+              />
+            )}
+            name="value"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+        </LibraryComponents.Atoms.Grid>
+      </LibraryComponents.Atoms.Form.InputWrapper>
+      <br />
+      <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+        <LibraryComponents.Atoms.Buttons.Button
+          size="medium"
+          type="solid"
+          icon={LibraryComponents.Atoms.Icon.Save}
+          onClick={handleSubmit(onSubmitGeneralFiled)}
+        >
+          Update
+        </LibraryComponents.Atoms.Buttons.Button>
+        <LibraryComponents.Atoms.Buttons.Button
+          size="medium"
+          type="outline"
+          icon={LibraryComponents.Atoms.Icon.Remove}
+          onClick={() => {
+            window.location.reload()
+          }}
+        >
+          Clear
+        </LibraryComponents.Atoms.Buttons.Button>
+      </LibraryComponents.Atoms.List>
     </>
   )
 })
