@@ -5,7 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -14,21 +14,47 @@ import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
+
 const SampleContainer = observer(() => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.SampleContainer>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
+  
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+
+  const onSubmitSampleContainer = () =>{
+    const error = Utils.validate(
+      Stores.sampleContainerStore.sampleContainer,
+      Utils.sampleContainer
+    )  
+    if (error === undefined) {
+      
+      Stores.sampleContainerStore.sampleContainerService
+        .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
+        .then((res) => {
+          
+          if (res.status === LibraryModels.StatusCode.CREATED) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Sample container created.`,
+            })
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -96,21 +122,31 @@ const SampleContainer = observer(() => {
                 }}
               />
               )}
-               name=""
+               name="containerName"
                 rules={{ required: true }}
                 defaultValue=""
              />
+             <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputFile
                 label="Image"
-                placeholder="Image"
+                placeholder={errors.image?"Please Insert Image":"Image"}
+                hasError={errors.image}
                 onChange={(e) => {
                   const image = e.target.files[0]
+                  onChange(image)
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
                     image,
                   })
                 }}
               />
+              )}
+               name="image"
+                rules={{ required: false }}
+                defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -119,18 +155,28 @@ const SampleContainer = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={5}
                 label="Description"
-                placeholder="Description"
+                hasError={errors.description}
+                placeholder={errors.description?"Please Enter Description":"Description"}
                 value={Stores.sampleContainerStore.sampleContainer?.description}
                 onChange={(description) => {
+                  onChange(description)
                   Stores.sampleContainerStore.updateSampleContainer({
                     ...Stores.sampleContainerStore.sampleContainer,
                     description,
                   })
                 }}
               />
+              )}
+               name="description"
+                rules={{ required: false }}
+                defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -140,33 +186,7 @@ const SampleContainer = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.sampleContainerStore.sampleContainer,
-                  Utils.sampleContainer
-                )  
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.sampleContainerStore.sampleContainerService
-                    .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
-                    .then((res) => {
-                      
-                      if (res.status === LibraryModels.StatusCode.CREATED) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Sample container created.`,
-                        })
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 2000)
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitSampleContainer)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -181,12 +201,6 @@ const SampleContainer = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>{_.upperFirst(item.join(" : "))}</h6>
-              ))}
-          </div>
         </div>
         <br />  
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
