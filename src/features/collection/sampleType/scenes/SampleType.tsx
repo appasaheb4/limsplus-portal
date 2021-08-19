@@ -4,7 +4,7 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -19,15 +19,35 @@ const SampleType = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.SampleType>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
+  const onSubmitSampleType = () =>{
+    const error = Utils.validate(
+      Stores.sampleTypeStore.sampleType,
+      Utils.sampleType
+    )
+    if (!error) {
+      
+      Stores.sampleTypeStore.sampleTypeService
+        .addSampleType(Stores.sampleTypeStore.sampleType)
+        .then(() => {
+          
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Sample type created.`,
+          })
+          Stores.sampleTypeStore.fetchSampleTypeList()
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: "😔Please enter all information!",
+      })
+    }
+  }
 
   return (
     <>
@@ -100,17 +120,27 @@ const SampleType = observer(() => {
               rules={{ required: true }}
                defaultValue=""
              />
+             <Controller
+                 control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Sample Group"
-                placeholder="Sample Group"
+                placeholder={errors.sampleGroup?"Please Enter sampleGroup":"Sample Group"}
+                hasError={errors.sampleGroup}
                 value={Stores.sampleTypeStore.sampleType?.sampleGroup}
                 onChange={(sampleGroup) => {
+                  onChange(sampleGroup)
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
                     sampleGroup:sampleGroup.toUpperCase()
                   })
                 }}
               />
+              )}
+              name="sampleGroup"
+              rules={{ required: false }}
+               defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -118,18 +148,28 @@ const SampleType = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                 control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={5}
                 label="Descriptions"
-                placeholder="Descriptions"
+                placeholder={errors.descriptions?"Please Enter descriptions":"Descriptions"}
+                hasError={errors.descriptions}
                 value={Stores.sampleTypeStore.sampleType?.descriptions}
                 onChange={(descriptions) => {
+                  onChange(descriptions)
                   Stores.sampleTypeStore.updateSampleType({
                     ...Stores.sampleTypeStore.sampleType,
                     descriptions,
                   })
                 }}
               />
+              )}
+              name="descriptions"
+              rules={{ required: false }}
+               defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -138,29 +178,7 @@ const SampleType = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.sampleTypeStore.sampleType,
-                  Utils.sampleType
-                )
-                setErrorsMsg(error)
-                if (!error) {
-                  
-                  Stores.sampleTypeStore.sampleTypeService
-                    .addSampleType(Stores.sampleTypeStore.sampleType)
-                    .then(() => {
-                      
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Sample type created.`,
-                      })
-                      Stores.sampleTypeStore.fetchSampleTypeList()
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: "😔Please enter all information!",
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitSampleType)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -175,14 +193,6 @@ const SampleType = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
