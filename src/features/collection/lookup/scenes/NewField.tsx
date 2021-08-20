@@ -314,7 +314,7 @@ export const NewField = observer((props: NewFieldProps) => {
               </LibraryComponents.Atoms.Form.InputWrapper>
             )}
             name="environment"
-            rules={{ required: false }}
+            rules={{ required: true }}
             defaultValue=""
           />
         </LibraryComponents.Atoms.List>
