@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"

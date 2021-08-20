@@ -11,7 +11,7 @@ import { stores } from "@lp/library/stores"
 import { RouterFlow } from "@lp/flows"
 import { AssetsService } from "@lp/features/assets/services"
 
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 
 const Banner = observer(() => {
   const {
@@ -19,18 +19,14 @@ const Banner = observer(() => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
-     
+  const { loginStore } = useStores()
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
-  const onSubmitBanner = () =>{
-    if (Stores.bannerStore.banner !== undefined) {
-      Stores.bannerStore.BannerService.addBanner(
-        Stores.bannerStore.banner
-      ).then((res) => {
+  const onSubmitBanner = () => {
+    Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
+      (res) => {
         if (res.status === LibraryModels.StatusCode.CREATED) {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 Banner created.`,
@@ -39,18 +35,16 @@ const Banner = observer(() => {
             window.location.reload()
           }, 2000)
         }
-      })
-    } else {
-      alert("Please select image.")
-    }
+      }
+    )
   }
-
+  
   return (
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
-        />       
+        />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
@@ -75,48 +69,45 @@ const Banner = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Title"
-                id="title"
-                placeholder={errors.title?"Please Enter Title":"Title"}
-                hasError={errors.title}
-                value={Stores.bannerStore.banner?.title}
-                onChange={(title) => {
-                  onChange(title)
-                  Stores.bannerStore.updateBanner({
-                    ...Stores.bannerStore.banner,
-                    title,
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Title"
+                    placeholder={errors.title ? "Please Enter Title" : "Title"}
+                    hasError={errors.title}
+                    value={Stores.bannerStore.banner?.title}
+                    onChange={(title) => {
+                      onChange(title)
+                      Stores.bannerStore.updateBanner({
+                        ...Stores.bannerStore.banner,
+                        title,
+                      })
+                    }}
+                  />
+                )}
+                name="title"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="title"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputFile
-                label="File"
-                id="file"
-                placeholder={errors.image?"Please Insert Image":"File"}
-                hasError={errors.image}
-                onChange={(e) => {
-                  const image = e.target.files[0]
-                  onChange(image)
-                  Stores.bannerStore.updateBanner({
-                    ...Stores.bannerStore.banner,
-                    image,
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.InputFile
+                    label="File"
+                    placeholder={errors.image ? "Please insert image" : "File"}
+                    hasError={errors.image}
+                    onChange={(e) => {
+                      const image = e.target.files[0]
+                      onChange(image)
+                      Stores.bannerStore.updateBanner({
+                        ...Stores.bannerStore.banner,
+                        image,
+                      })
+                    }}
+                  />
+                )}
+                name="image"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="image"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
