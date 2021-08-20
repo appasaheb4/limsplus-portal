@@ -22,15 +22,13 @@ import { toJS } from "mobx"
 const DeliverySchedule = observer(() => {
   const {
     control,
-    // handleSubmit,
+    handleSubmit,
     formState: { errors },
     // setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.DeliverySchedule>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -57,6 +55,34 @@ const DeliverySchedule = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitDeliverySchedule = () =>{
+    const error = Utils.validate(
+      Stores.deliveryScheduleStore.deliverySchedule,
+      Utils.deliverySchedule
+    )
+    
+    if (!error) {
+      
+      Stores.deliveryScheduleStore.deliveryScheduleService
+        .addDeliverySchdule(
+          Stores.deliveryScheduleStore.deliverySchedule
+        )
+        .then(() => {
+          
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Delivery Schdule record created.`,
+          })
+         setTimeout(() => {
+          window.location.reload()
+         }, 2000);
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -514,33 +540,7 @@ const DeliverySchedule = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.deliveryScheduleStore.deliverySchedule,
-                  Utils.deliverySchedule
-                )
-                setErrorsMsg(error)
-                if (!error) {
-                  
-                  Stores.deliveryScheduleStore.deliveryScheduleService
-                    .addDeliverySchdule(
-                      Stores.deliveryScheduleStore.deliverySchedule
-                    )
-                    .then(() => {
-                      
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Delivery Schdule record created.`,
-                      })
-                     setTimeout(() => {
-                      window.location.reload()
-                     }, 2000);
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitDeliverySchedule)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -555,14 +555,6 @@ const DeliverySchedule = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
