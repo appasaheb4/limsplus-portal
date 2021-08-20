@@ -133,24 +133,41 @@ export const Library = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
-                placeholder="Description"
+                placeholder={errors.description?"Please Enter description":"Description"}
+                hasError={errors.description}
                 value={Stores.libraryStore.library?.description}
                 onChange={(description) => {
+                  onChange(description)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     description,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Usage Type">
+              )}
+              name="description"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Usage Type" hasError={errors.usageType}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.usageType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const usageType = e.target.value
+                    onChange(usageType)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       usageType,
@@ -167,11 +184,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Library Type">
+               )}
+               name="usageType"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Library Type" hasError={errors.libraryType}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.libraryType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const libraryType = e.target.value
+                    onChange(libraryType)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       libraryType,
@@ -188,11 +218,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Comment Type">
+              )}
+              name="libraryType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Comment Type" hasError={errors.commentType}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.commentType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const commentType = e.target.value
+                    onChange(commentType)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       commentType,
@@ -209,11 +252,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
+               )}
+               name="commentType"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Lab" hasError={errors.lab}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.lab
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value
+                    onChange(lab)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       lab,
@@ -229,11 +285,24 @@ export const Library = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Department">
+              )}
+              name="lab"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Department" hasError={errors.department}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.department
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const department = e.target.value
+                    onChange(department)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       department,
@@ -251,11 +320,24 @@ export const Library = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Comments Target">
+               )}
+               name="department"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Comments Target" hasError={errors.commentsTarget}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.commentsTarget
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const commentsTarget = e.target.value
+                    onChange(commentsTarget)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       commentsTarget,
@@ -272,18 +354,33 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="commentsTarget"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Details"
-                placeholder="Detials"
+                placeholder={errors.details?"Please Enter Details":"Detials"}
+                hasError={errors.details}
                 value={Stores.libraryStore.library?.details}
                 onChange={(details) => {
+                  onChange(details)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     details,
                   })
                 }}
               />
+              )}
+              name="details"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -291,11 +388,19 @@ export const Library = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Parameter">
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Parameter" hasError={errors.parameter}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.parameter
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const parameter = e.target.value
+                    onChange(parameter)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       parameter,
@@ -312,11 +417,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Action">
+              )}
+              name="parameter"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Action" hasError={errors.action}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.action
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const action = e.target.value
+                    onChange(action)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       action,
@@ -333,11 +451,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Results">
+              )}
+              name="action"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Results" hasError={errors.results}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.results
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const results = e.target.value
+                    onChange(results)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       results,
@@ -354,18 +485,36 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="results"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Value"
-                placeholder="Value"
+                placeholder={errors.value?"Please Enter value":"Value"}
+                hasError={errors.value}
                 value={Stores.libraryStore.library?.value}
                 onChange={(value) => {
+                  onChange(value)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     value,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Reflex">
+              )}
+              name="value"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Reflex" hasError={errors.reflex}>
                 <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                   placeholder="Search by panel name or panel code"
                   data={{
@@ -382,34 +531,67 @@ export const Library = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="reflex"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Analyte"
-                placeholder="Analyte"
+                placeholder={errors.analyte?"Please Enter analyte":"Analyte"}
+                hasError={errors.analyte}
                 value={Stores.libraryStore.library?.analyte}
                 onChange={(analyte) => {
+                  onChange(analyte)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     analyte,
                   })
                 }}
               />
+              )}
+              name="analyte"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Rule"
-                placeholder="Rule"
+                placeholder={errors.rule?"Please Enter rule":"Rule"}
+                hasError={errors.rule}
                 value={Stores.libraryStore.library?.rule}
                 onChange={(rule) => {
+                  onChange(rule)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     rule,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+              name="rule"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       status,
@@ -426,16 +608,31 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="AbNormal"
+                hasError={errors.abNormal}
                 value={Stores.libraryStore.library?.abNormal}
                 onChange={(abNormal) => {
+                  onChange(abNormal)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     abNormal,
                   })
                 }}
               />
+              )}
+              name="abNormal"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -443,55 +640,103 @@ export const Library = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Organism Group"
-                placeholder="Organism Group"
+                placeholder={errors.organismGroup?"Please Enter organismGroup":"Organism Group"}
+                hasError={errors.organismGroup}
                 value={Stores.libraryStore.library?.organismGroup}
                 onChange={(organismGroup) => {
+                  onChange(organismGroup)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     organismGroup,
                   })
                 }}
               />
+              )}
+              name="organismGroup"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+             <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Organism Class"
-                placeholder="Organism Class"
+                placeholder={errors.organismClass?"Please Enter organismClass":"Organism Class"}
+                hasError={errors.organismClass}
                 value={Stores.libraryStore.library?.organismClass}
                 onChange={(organismClass) => {
+                  onChange(organismClass)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     organismClass,
                   })
                 }}
               />
+              )}
+              name="organismClass"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="LO Age"
-                placeholder="LO Age"
+                placeholder={errors.loAge?"Please Enter loAge":"LO Age"}
+                hasError={errors.loAge}
                 value={Stores.libraryStore.library?.loAge}
                 onChange={(loAge) => {
+                  onChange(loAge)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     loAge,
                   })
                 }}
               />
+              )}
+              name="loAge"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="HI Age"
-                placeholder="HI Age"
+                placeholder={errors.hiAge?"Please Enter hiAge":"HI Age"}
+                hasError={errors.hiAge}
                 value={Stores.libraryStore.library?.hiAge}
                 onChange={(hiAge) => {
+                  onChange(hiAge)
                   Stores.libraryStore.updateLibrary({
                     ...Stores.libraryStore.library,
                     hiAge,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+              )}
+              name="hiAge"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex" hasError={errors.sex}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sex
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sex = e.target.value
+                    onChange(sex)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       sex,
@@ -508,11 +753,24 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sex Action">
+              )}
+              name="sex"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex Action" hasError={errors.sexAction}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sexAction
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sexAction = e.target.value
+                    onChange(sexAction)
                     Stores.libraryStore.updateLibrary({
                       ...Stores.libraryStore.library,
                       sexAction,
@@ -529,6 +787,11 @@ export const Library = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="sexAction"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
