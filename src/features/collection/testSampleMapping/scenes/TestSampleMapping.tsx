@@ -26,14 +26,11 @@ const TestSampleMapping = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.TestSampleMapping>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -57,6 +54,32 @@ const TestSampleMapping = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+
+  const onSubmitTestSampleMapping = () =>{
+    const error = Utils.validate(
+      Stores.testSampleMappingStore.testSampleMapping,
+      Utils.testSampleMapping
+    )
+    if (!error) {
+      
+      Stores.testSampleMappingStore.testSampleMappingService
+        .addTestSampleMapping(
+          Stores.testSampleMappingStore.testSampleMapping
+        )
+        .then(() => {
+          
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Test sample mapping created.`,
+          })
+          Stores.testSampleMappingStore.fetchSampleTypeList()
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: "😔 Please enter all information!",
+      })
+    }
+  }
 
   return (
     <>
@@ -163,12 +186,19 @@ const TestSampleMapping = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
-            
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
+            <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type" hasError={errors.sampleType}> 
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sampleType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sampleType = e.target.value as string
+                    onChange(sampleType)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       sampleType,
@@ -186,11 +216,24 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Group">
+              )}
+              name="sampleType"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Group" hasError={errors.sampleGroup}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sampleGroup
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sampleGroup = e.target.value as string
+                    onChange(sampleGroup)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       sampleGroup,
@@ -208,11 +251,24 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Code">
+              )}
+              name="sampleGroup"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Code" hasError={errors.collContainerCode}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.collContainerCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const collContainerCode = e.target.value as string
+                    onChange(collContainerCode)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       collContainerCode,
@@ -230,11 +286,24 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Name">
+              )}
+              name="collContainerCode"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Name" hasError={errors.collContainerName}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.collContainerName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const collContainerName = e.target.value as string
+                    onChange(collContainerName)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       collContainerName,
@@ -252,12 +321,24 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Code">
+              )}
+              name="collContainerName"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Code" hasError={errors.testContainerCode}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.testContainerCode
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const testContainerCode = e.target.value as string
+                    onChange(testContainerCode)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       testContainerCode,
@@ -275,11 +356,24 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Name">
+              )}
+              name="testContainerCode"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Name" hasError={errors.testContainerName}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.testContainerName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const testContainerName = e.target.value as string
+                    onChange(testContainerName)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       testContainerName,
@@ -297,64 +391,119 @@ const TestSampleMapping = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="testContainerName"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Min Draw Vol"
-                placeholder="Min Draw Vol"
+                placeholder={errors.minDrawVol?"Please Enter minDrawVol":"Min Draw Vol"}
+                hasError={errors.minDrawVol}
                 value={Stores.testSampleMappingStore.testSampleMapping?.minDrawVol}
                 onChange={(minDrawVol) => {
+                  onChange(minDrawVol)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     minDrawVol,
                   })
                 }}
               />
+              )}
+              name="minDrawVol"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               <LibraryComponents.Atoms.Grid cols={4}>
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Primary Container"
+                  hasError={errors.primaryContainer}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping?.primaryContainer
                   }
                   onChange={(primaryContainer) => {
+                    onChange(primaryContainer)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       primaryContainer,
                     })
                   }}
                 />
+                )}
+              name="primaryContainer"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Unique Container"
+                  hasError={errors.uniqueContainer}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping?.uniqueContainer
                   }
                   onChange={(uniqueContainer) => {
+                    onChange(uniqueContainer)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       uniqueContainer,
                     })
                   }}
                 />
+                )}
+              name="uniqueContainer"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Centrifue"
+                  hasError={errors.centerIfuge}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping?.centerIfuge
                   }
                   onChange={(centerIfuge) => {
+                    onChange(centerIfuge)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       centerIfuge,
                     })
                   }}
                 />
+                )}
+              name="centerIfuge"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Aliquot"
+                  hasError={errors.aliquot}
                   value={Stores.testSampleMappingStore.testSampleMapping?.aliquot}
                   onChange={(aliquot) => {
+                    onChange(aliquot)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       aliquot,
                     })
                   }}
                 />
+                )}
+              name="aliquot"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -363,11 +512,19 @@ const TestSampleMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Min Draw Vol Unit">
+              <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Min Draw Vol Unit" hasError={errors.minDrawVolUnit}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.minDrawVolUnit
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const minDrawVolUnit = e.target.value as string
+                    onChange(minDrawVolUnit)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       minDrawVolUnit,
@@ -384,22 +541,45 @@ const TestSampleMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="minDrawVolUnit"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Min Test Vol"
-                placeholder="Min Test Vol"
+                placeholder={errors.minTestVol?"Please Enter minTestVol":"Min Test Vol"}
+                hasError={errors.minTestVol}
                 value={Stores.testSampleMappingStore.testSampleMapping?.minTestVol}
                 onChange={(minTestVol) => {
+                  onChange(minTestVol)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     minTestVol,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Min Test Vol Unit">
+              )}
+              name="minTestVol"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Min Test Vol Unit" hasError={errors.minTestVolUnit}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.minTestVolUnit
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const minTestVolUnit = e.target.value as string
+                    onChange(minTestVolUnit)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       minTestVolUnit,
@@ -416,35 +596,68 @@ const TestSampleMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="minTestVolUnit"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Condition"
-                placeholder="Condition"
+                placeholder={errors.condition?"Please Enter condition":"Condition"}
+                hasError={errors.condition}
                 value={Stores.testSampleMappingStore.testSampleMapping?.condition}
                 onChange={(condition) => {
+                  onChange(condition)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     condition,
                   })
                 }}
               />
+              )}
+              name="condition"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Retention Period"
-                placeholder="Retention Period"
+                placeholder={errors.repentionPeriod?"Please Enter repentionPeriod":"Retention Period"}
+                hasError={errors.repentionPeriod}
                 value={
                   Stores.testSampleMappingStore.testSampleMapping?.repentionPeriod
                 }
                 onChange={(repentionPeriod) => {
+                  onChange(repentionPeriod)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     repentionPeriod,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Repention Units">
+              )}
+              name="repentionPeriod"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Repention Units" hasError={errors.repentionUnits}>
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.repentionUnits
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const repentionUnits = e.target.value as string
+                    onChange(repentionUnits)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       repentionUnits,
@@ -459,76 +672,141 @@ const TestSampleMapping = observer(() => {
                       ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="repentionUnits"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Label Inst"
-                placeholder="Label Inst"
+                placeholder={errors.labelInst?"Please Enter labelInst":"Label Inst"}
+                hasError={errors.labelInst}
                 value={Stores.testSampleMappingStore.testSampleMapping?.labelInst}
                 onChange={(labelInst) => {
+                  onChange(labelInst)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     labelInst,
                   })
                 }}
               />
+              )}
+              name="labelInst"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Info"
-                placeholder="Info"
+                placeholder={errors.info?"Please Enter info":"Info"}
+                hasError={errors.info}
                 value={Stores.testSampleMappingStore.testSampleMapping?.info}
                 onChange={(info) => {
+                  onChange(info)
                   Stores.testSampleMappingStore.updateSampleType({
                     ...Stores.testSampleMappingStore.testSampleMapping,
                     info,
                   })
                 }}
               />
+              )}
+              name="info"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               <LibraryComponents.Atoms.Grid cols={4}>
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Lab Specfic"
+                  hasError={errors.labSpecfic}
                   value={Stores.testSampleMappingStore.testSampleMapping?.labSpecfic}
                   onChange={(labSpecfic) => {
+                    onChange(labSpecfic)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       labSpecfic,
                     })
                   }}
                 />
+                )}
+              name="labSpecfic"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Department Specfic"
+                  hasError={errors.departmentSpecfic}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping
                       ?.departmentSpecfic
                   }
                   onChange={(departmentSpecfic) => {
+                    onChange(departmentSpecfic)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       departmentSpecfic,
                     })
                   }}
                 />
+                )}
+              name="departmentSpecfic"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Shared Sample"
+                  hasError={errors.sharedSample}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping?.sharedSample
                   }
                   onChange={(sharedSample) => {
+                    onChange(sharedSample)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       sharedSample,
                     })
                   }}
                 />
+                )}
+              name="sharedSample"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+                <Controller
+           control={control}
+            render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Print Label"
+                  hasError={errors.printLabels}
                   value={
                     Stores.testSampleMappingStore.testSampleMapping?.printLabels
                   }
                   onChange={(printLabels) => {
+                    onChange(printLabels)
                     Stores.testSampleMappingStore.updateSampleType({
                       ...Stores.testSampleMappingStore.testSampleMapping,
                       printLabels,
                     })
                   }}
                 />
+                )}
+              name="printLabels"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -538,31 +816,7 @@ const TestSampleMapping = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.testSampleMappingStore.testSampleMapping,
-                  Utils.testSampleMapping
-                )
-                setErrorsMsg(error)
-                if (!error) {
-                  
-                  Stores.testSampleMappingStore.testSampleMappingService
-                    .addTestSampleMapping(
-                      Stores.testSampleMappingStore.testSampleMapping
-                    )
-                    .then(() => {
-                      
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Test sample mapping created.`,
-                      })
-                      Stores.testSampleMappingStore.fetchSampleTypeList()
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: "😔 Please enter all information!",
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitTestSampleMapping)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -577,14 +831,6 @@ const TestSampleMapping = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
