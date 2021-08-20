@@ -67,7 +67,7 @@ const Lookup = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "GENERAL FIELD"}
+                expanded={item.title === "NEW FIELD"}
               >
                 {item.title === "NEW FIELD" && (
                   <>
