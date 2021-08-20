@@ -22,15 +22,12 @@ import { RouterFlow } from "@lp/flows"
 const CorporateClients = observer(() => {
   const {
     control,
-    // handleSubmit,
+    handleSubmit,
     formState: { errors },
-    // setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.CorporateClients>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -68,6 +65,32 @@ const CorporateClients = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitCoporateClients = () =>{
+    const error = Utils.validate(
+      Stores.corporateClientsStore.corporateClients,
+      Utils.corporateClients
+    )
+    
+    if (error === undefined) {
+      Stores.corporateClientsStore.corporateClientsService
+        .addCorporateClients(
+          Stores.corporateClientsStore.corporateClients
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Corporate Client record created.`,
+            })
+            Stores.corporateClientsStore.fetchCorporateClients()
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -990,31 +1013,7 @@ const CorporateClients = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.corporateClientsStore.corporateClients,
-                  Utils.corporateClients
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  Stores.corporateClientsStore.corporateClientsService
-                    .addCorporateClients(
-                      Stores.corporateClientsStore.corporateClients
-                    )
-                    .then((res) => {
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Corporate Client record created.`,
-                        })
-                        Stores.corporateClientsStore.fetchCorporateClients()
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitCoporateClients)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -1029,14 +1028,6 @@ const CorporateClients = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
