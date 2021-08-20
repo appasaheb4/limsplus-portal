@@ -4,7 +4,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -17,9 +16,7 @@ import { toJS } from "mobx"
 const SampleType = observer(() => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
