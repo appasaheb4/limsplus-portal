@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
-
+import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
@@ -15,11 +15,35 @@ import {useStores} from '@lp/library/stores'
 
 const Banner = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
      
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+
+  const onSubmitBanner = () =>{
+    if (Stores.bannerStore.banner !== undefined) {
+      Stores.bannerStore.BannerService.addBanner(
+        Stores.bannerStore.banner
+      ).then((res) => {
+        if (res.status === LibraryModels.StatusCode.CREATED) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Banner created.`,
+          })
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        }
+      })
+    } else {
+      alert("Please select image.")
+    }
+  }
 
   return (
     <>
@@ -48,30 +72,51 @@ const Banner = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Title"
                 id="title"
-                placeholder="Title"
+                placeholder={errors.title?"Please Enter Title":"Title"}
+                hasError={errors.title}
                 value={Stores.bannerStore.banner?.title}
                 onChange={(title) => {
+                  onChange(title)
                   Stores.bannerStore.updateBanner({
                     ...Stores.bannerStore.banner,
                     title,
                   })
                 }}
               />
+              )}
+              name="title"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputFile
                 label="File"
                 id="file"
-                placeholder="File"
+                placeholder={errors.image?"Please Insert Image":"File"}
+                hasError={errors.image}
                 onChange={(e) => {
                   const image = e.target.files[0]
+                  onChange(image)
                   Stores.bannerStore.updateBanner({
                     ...Stores.bannerStore.banner,
                     image,
                   })
                 }}
               />
+              )}
+              name="image"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -80,24 +125,7 @@ const Banner = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (Stores.bannerStore.banner !== undefined) {
-                  Stores.bannerStore.BannerService.addBanner(
-                    Stores.bannerStore.banner
-                  ).then((res) => {
-                    if (res.status === LibraryModels.StatusCode.CREATED) {
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Banner created.`,
-                      })
-                      setTimeout(() => {
-                        window.location.reload()
-                      }, 2000)
-                    }
-                  })
-                } else {
-                  alert("Please select image.")
-                }
-              }}
+              onClick={handleSubmit(onSubmitBanner)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
