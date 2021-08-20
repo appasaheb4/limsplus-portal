@@ -67,7 +67,7 @@ export const Input = (props: InputProps) => (
       autoComplete="given-name"
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
-      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500  block w-full shadow-sm sm:text-base border-2 ${
+      className={`leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
         props.hasError ? "border-red-500 " : "border-gray-300"
       } rounded-md`}
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
@@ -87,7 +87,7 @@ export const MultilineInput = (props: InputProps) => (
       placeholder={props.placeholder}
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
       onBlur={(e) => props.onBlur && props.onBlur(e.target.value)}
-      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
     />
   </InputWrapper>
 )
@@ -114,7 +114,7 @@ export const InputRadio = (props: InputRadioProps) => (
             value={props.value}
             checked={item === props.value ? true : false}
             onChange={() => props.onChange && props.onChange(item)}
-            className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block  shadow-sm sm:text-base border border-gray-300 rounded-md"
+            className="leading-4 p-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md"
           />
           <Label htmlFor={props.id || ""}>{item}</Label>
         </LibraryComponents.Atoms.List>
@@ -141,7 +141,7 @@ export const InputDate = (props: InputDateProps) => (
       disabled={props.disabled || false}
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e)}
-      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
         props.hasError ? "border-red-500 " : "border-gray-300"
       } rounded-md`}   
     />
@@ -176,7 +176,7 @@ export const SelectOption = (props: SelectOptionProps) => (
   <InputWrapper label={props.label} id={props.id}>
     <select
       name={props.name}
-      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
       onChange={(e) => props.onChange && props.onChange(e.target.value)}
     >
       <option selected>Select</option>
@@ -209,7 +209,7 @@ export const InputFile = (props: InputFileProps) => (
       accept={props.accept}
       value={props.value}
       onChange={(e) => props.onChange && props.onChange(e)}
-      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
       multiple={props.multiple}
     />
   </InputWrapper>
@@ -320,7 +320,7 @@ export const Clock = (props: ClockProps) => {
         )}
         <input
           value={time}
-          className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+          className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
           onClick={() => setShowTime(true)}
         />
       </div>

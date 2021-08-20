@@ -67,7 +67,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                   <select
                     name="defualtLab"
                     value={LoginStores.loginStore.login?.lab}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const lab = e.target.value
                       LoginStores.loginStore.updateLogin({
@@ -109,7 +109,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                   <select
                     name="roleChange"
                     value={LoginStores.loginStore.login?.role}
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const role = e.target.value
                       

@@ -199,7 +199,7 @@ const SegmentMapping = observer(() => {
                 <select
                   name="equipment_type"
                   value={Stores.segmentMappingStore.segmentMapping?.equipmentType}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const equipmentType = e.target.value
                    
@@ -231,7 +231,7 @@ const SegmentMapping = observer(() => {
                 <select
                   name="dataFlowFrom"
                   value={Stores.segmentMappingStore.segmentMapping?.dataFlowFrom}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const dataFlowFrom = e.target.value
                     setErrors({
@@ -267,7 +267,7 @@ const SegmentMapping = observer(() => {
                 <select
                   name="data_type"
                   value={Stores.segmentMappingStore.segmentMapping?.data_type}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const data_type = e.target.value
                     setErrors({
@@ -303,7 +303,7 @@ const SegmentMapping = observer(() => {
                 <select
                   name="segments"
                   value={Stores.segmentMappingStore.segmentMapping?.segments}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const segments = e.target.value
                     Stores.segmentMappingStore.updateSegmentMapping({
@@ -328,7 +328,7 @@ const SegmentMapping = observer(() => {
                 <select
                   name="segment_usage"
                   value={Stores.segmentMappingStore.segmentMapping?.segment_usage}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const segment_usage = e.target.value
                     Stores.segmentMappingStore.updateSegmentMapping({

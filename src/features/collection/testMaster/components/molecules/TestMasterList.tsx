@@ -82,7 +82,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
                     props.onUpdateItem &&
@@ -117,7 +117,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const pLab = e.target.value as string
                     props.onUpdateItem &&
@@ -154,7 +154,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Department">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const department = e.target.value as string
                     props.onUpdateItem &&
@@ -191,7 +191,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const section = e.target.value as string
                     props.onUpdateItem &&
@@ -322,7 +322,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const validationLevel: any = e.target.value
                     props.onUpdateItem &&
@@ -366,7 +366,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const processing = e.target.value as
                       | "MANUAL"
@@ -407,7 +407,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
                     props.onUpdateItem &&
@@ -443,7 +443,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflow = e.target.value as string
                     props.onUpdateItem &&
@@ -479,7 +479,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Disease">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const disease = e.target.value as string
                     props.onUpdateItem &&
@@ -515,7 +515,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value as string
                     props.onUpdateItem &&
@@ -550,7 +550,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Test Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testType = e.target.value as string
                     props.onUpdateItem &&
@@ -587,7 +587,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflowCode = e.target.value as string
                     props.onUpdateItem &&
@@ -977,7 +977,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Prefix">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const prefix = e.target.value
                     props.onUpdateItem &&
@@ -1014,7 +1014,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Sufix">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sufix = e.target.value
                     props.onUpdateItem &&
@@ -1100,7 +1100,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     props.onUpdateItem &&
@@ -1188,7 +1188,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
                     props.onUpdateItem &&

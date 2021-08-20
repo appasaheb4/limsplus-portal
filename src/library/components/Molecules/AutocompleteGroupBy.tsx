@@ -9,9 +9,10 @@ import { RouterFlow } from "@lp/flows"
 interface AutocompleteGroupByProps {
   data?: any[]
   onChange?: (item: any, children: any) => void
+  hasError?: boolean
   onClose?: () => void
 }
-   
+
 export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) => {
   //const [userRouter, setUserRouter] = useState<any>()
   const [value, setValue] = useState<string>("")
@@ -110,7 +111,11 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
   return (
     <>
       <div ref={wrapperRef}>
-        <div className="flex items-center leading-4 p-2 bg-white focus:ring-indigo-500 focus:border-indigo-500  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+        <div
+          className={`flex items-center leading-4 p-2 bg-white focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  ${
+            props.hasError ? "border-red-500 " : "border-gray-300"
+          } rounded-md`}
+        >
           <input
             placeholder="Search..."
             value={value}

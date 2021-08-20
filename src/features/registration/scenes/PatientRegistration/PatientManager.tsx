@@ -103,7 +103,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             )}
             <LibraryComponents.Atoms.Form.InputWrapper label="Title">
               <select
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const title = e.target.value
                   setErrors({
@@ -208,7 +208,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
           >
             <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
               <select
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const sex = e.target.value
                   setErrors({
@@ -382,7 +382,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             )}
             <LibraryComponents.Atoms.Form.InputWrapper label="Species">
               <select
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const species = e.target.value as string
                   Stores.patientRegistationStore.updatePatientManager({

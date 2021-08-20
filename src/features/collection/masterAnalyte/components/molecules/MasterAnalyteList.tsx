@@ -91,7 +91,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const lab = e.target.value as string
                         props.onUpdateItem &&
@@ -257,7 +257,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const resultType = e.target.value
                       props.onUpdateItem &&
@@ -315,7 +315,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const analyteType = e.target.value
                       props.onUpdateItem && 
@@ -352,7 +352,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Units">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const units = e.target.value as string
                         props.onUpdateItem &&
@@ -389,7 +389,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const usage = e.target.value as string
                         props.onUpdateItem &&
@@ -426,7 +426,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Picture">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const picture = e.target.value as "0" | "1" | "2" | "3"
                         props.onUpdateItem &&
@@ -560,7 +560,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             //     <>
             //       <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
             //         <select
-            //           className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const workflow = e.target.value as string
             //             props.onUpdateItem &&
@@ -601,7 +601,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             //       >
             //         <select
             //           name="optionSampleTypes"
-            //           className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const sampleType = e.target.value as string
             //             props.onUpdateItem &&
@@ -652,7 +652,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                     <select
-                      className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value
                         props.onUpdateItem &&
@@ -757,7 +757,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                   <select
-                    className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const environment = e.target.value
                       props.onUpdateItem &&

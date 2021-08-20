@@ -173,9 +173,9 @@ const TestMater = observer(() => {
               >
                 <select
                   value={LoginStores.loginStore.login?.lab}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.rLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -213,9 +213,9 @@ const TestMater = observer(() => {
               hasError={errors.pLab}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.pLab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -251,9 +251,9 @@ const TestMater = observer(() => {
               hasError={errors.department}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.department
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -851,11 +851,7 @@ const TestMater = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Disease" hasError={errors.disease}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.disease
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const disease = e.target.value as string
                     onChange(disease)
@@ -885,11 +881,7 @@ const TestMater = observer(() => {
               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Category" hasError={errors.category}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.category
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value as string
                     onChange(category)
@@ -982,7 +974,7 @@ const TestMater = observer(() => {
              />
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const worklistCode = e.target.value as string
                     Stores.testMasterStore.updateTestMaster({
@@ -1223,7 +1215,7 @@ const TestMater = observer(() => {
               
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collectionContainer = e.target.value
                     Stores.testMasterStore.updateTestMaster({

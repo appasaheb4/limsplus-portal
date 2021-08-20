@@ -5,7 +5,6 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as FeatureComponents from "../components"
 
-// import * as Models from "../models"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -18,8 +17,8 @@ import { RouterFlow } from "@lp/flows"
 const SampleContainer = observer(() => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit
   } = useForm()
 
   const {
