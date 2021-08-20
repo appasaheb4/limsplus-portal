@@ -26,11 +26,9 @@ const Lab = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm()
   const { loginStore } = useStores()
-  // const [errors, setErrors] = useState<Models.Labs>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -57,6 +55,26 @@ const Lab = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitLab = () =>{
+    const error = Utils.validate(Stores.labStore.labs, Utils.labs)
+    if (error === undefined) {
+      Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
+        () => {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Lab created.`,
+          })
+        }
+      )
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: "😔 Please enter all information!",
+      })
+    }
+  }
 
   return (
     <>
@@ -879,26 +897,7 @@ const Lab = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(Stores.labStore.labs, Utils.labs)
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
-                    () => {
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Lab created.`,
-                      })
-                    }
-                  )
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: "😔 Please enter all information!",
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitLab)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -913,14 +912,6 @@ const Lab = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
