@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
@@ -27,13 +27,10 @@ const TestPanelMapping = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.TestPanelMapping>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -71,6 +68,68 @@ const TestPanelMapping = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitTestPanelMapping = () =>{
+    const error = Utils.validate(
+      Stores.testPanelMappingStore.testPanelMapping,
+      Utils.testPanelMapping
+    )
+    if (!error) {
+      
+      if (
+        !Stores.testPanelMappingStore.testPanelMapping
+          ?.existsVersionId &&
+        !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+      ) {
+        Stores.testPanelMappingStore.testPanelMappingService
+          .addTestPanelMapping(
+            Stores.testPanelMappingStore.testPanelMapping
+          )
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test panel mapping created.`,
+            })
+          })
+      } else if (
+        Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
+        !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+      ) {
+        Stores.testPanelMappingStore.testPanelMappingService
+          .versionUpgradeTestPanelMapping(
+            Stores.testPanelMappingStore.testPanelMapping
+          )
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test panel version upgrade.`,
+            })
+          })
+      } else if (
+        !Stores.testPanelMappingStore.testPanelMapping
+          ?.existsVersionId &&
+        Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+      ) {
+        Stores.testPanelMappingStore.testPanelMappingService
+          .duplicateTestPanelMapping(
+            Stores.testPanelMappingStore.testPanelMapping
+          )
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test panel duplicate created.`,
+            })
+          })
+      }   
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -175,19 +234,32 @@ const TestPanelMapping = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Test Code"
-                placeholder="Test Code"
+                placeholder={errors.testCode?"Please Enter testCode":"Test Code"}
+                hasError={errors.testCode}
                 disabled={true}
                 value={Stores.testPanelMappingStore.testPanelMapping?.testCode}
                 onChange={(testCode) => {
+                  onChange(testCode)
                   Stores.testPanelMappingStore.updateTestPanelMapping({
                     ...Stores.testPanelMappingStore.testPanelMapping,
                     testCode,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Name">
+              )}
+            name="testCode"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Test Name" hasError={errors.testName}>
                 <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
                   placeholder="Search by test name or test code"
                   data={{
@@ -197,6 +269,7 @@ const TestPanelMapping = observer(() => {
                     findKey: ["testName", "testCode"],
                   }}
                   onUpdate={(items) => {
+                    onChange(items)
                     const testCode: string[] = []
                     const testName: string[] = []
                     items.filter((item: any) => {
@@ -211,26 +284,48 @@ const TestPanelMapping = observer(() => {
                   }}
                 />
               </LibraryComponents.Atoms.Form.InputWrapper>
-
+              )}
+              name="Test Name"
+               rules={{ required: false }}
+               defaultValue=""
+               />
+               <Controller
+               control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
                 name="txtDescription"
-                placeholder="Description"
+                placeholder={errors.description?"Please Enter Description":"Description"}
+                hasError={errors.description}
                 value={Stores.testPanelMappingStore.testPanelMapping?.description}
                 onChange={(description) => {
+                  onChange(description)
                   Stores.testPanelMappingStore.updateTestPanelMapping({
                     ...Stores.testPanelMappingStore.testPanelMapping,
                     description,
                   })
                 }}
               />
-               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+            name="description"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+               <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.testPanelMappingStore.testPanelMapping?.status}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       status,
@@ -247,10 +342,19 @@ const TestPanelMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+               rules={{ required: false }}
+               defaultValue=""
+               />
+               <Controller
+               control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
+                placeholder={errors.userId?"Please Enter userId":"Entered By"}
                 value={LoginStore.loginStore.login?.userId}
+                hasError={errors.userId}
                 disabled={true}
                 // onChange={(analyteCode) => {
                 //   Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -259,9 +363,18 @@ const TestPanelMapping = observer(() => {
                 //   })
                 // }}
               />
+              )}
+            name="userId"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation?"Please Enter DateCreation":"Date Creation"}
+                hasError={errors.dateCreation}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testPanelMappingStore.testPanelMapping?.dateCreation || 0
@@ -269,17 +382,32 @@ const TestPanelMapping = observer(() => {
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+            name="dateCreation"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="Bill"
                 id="modeBill"
+                hasError={errors.bill}
                 value={Stores.testPanelMappingStore.testPanelMapping?.bill}
                 onChange={(bill) => {
+                  onChange(bill)
                   Stores.testPanelMappingStore.updateTestPanelMapping({
                     ...Stores.testPanelMappingStore.testPanelMapping,
                     bill,
                   })
                 }}
               />
+              )}
+            name="bill"
+             rules={{ required: false }}
+             defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -290,10 +418,13 @@ const TestPanelMapping = observer(() => {
             >
              
              
-              
+             <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                placeholder={errors.dateActiveFrom?"Please Enter DateActiveFrom":"Date Active"}
+                hasError={errors.dateActiveFrom}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testPanelMappingStore.testPanelMapping?.dateActiveFrom ||
@@ -302,9 +433,18 @@ const TestPanelMapping = observer(() => {
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+            name="dateActiveFrom"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                placeholder={errors.dateActiveTo?"Please Enter dateActiveTo":"Date Expire"}
+                hasError={errors.dateActiveTo}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.testPanelMappingStore.testPanelMapping?.dateActiveTo || 0
@@ -318,24 +458,55 @@ const TestPanelMapping = observer(() => {
                   })
                 }}
               />
+              )}
+            name="dateActiveTo"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                placeholder={errors.version?"Please Enter version":"Version"}
+                hasError={errors.version}
                 value={Stores.testPanelMappingStore.testPanelMapping?.version}
                 disabled={true}
               />
+              )}
+            name="version"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                placeholder={errors.keyNum?"Please Enter keyNum":"Key Num"}
+                hasError={errors.keyNum}
                 value={Stores.testPanelMappingStore.testPanelMapping?.keyNum}
                 disabled={true}
               />
-               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              )}
+            name="keyNum"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+               <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.testPanelMappingStore.testPanelMapping?.environment}
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
+                    onChange(environment)
                     Stores.testPanelMappingStore.updateTestPanelMapping({
                       ...Stores.testPanelMappingStore.testPanelMapping,
                       environment,
@@ -352,6 +523,11 @@ const TestPanelMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="environment"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
              
               {/* </LibraryComponents.Atoms.Grid> */}
@@ -363,68 +539,7 @@ const TestPanelMapping = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.testPanelMappingStore.testPanelMapping,
-                  Utils.testPanelMapping
-                )
-                setErrorsMsg(error)
-                if (!error) {
-                  
-                  if (
-                    !Stores.testPanelMappingStore.testPanelMapping
-                      ?.existsVersionId &&
-                    !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
-                  ) {
-                    Stores.testPanelMappingStore.testPanelMappingService
-                      .addTestPanelMapping(
-                        Stores.testPanelMappingStore.testPanelMapping
-                      )
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test panel mapping created.`,
-                        })
-                      })
-                  } else if (
-                    Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
-                    !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
-                  ) {
-                    Stores.testPanelMappingStore.testPanelMappingService
-                      .versionUpgradeTestPanelMapping(
-                        Stores.testPanelMappingStore.testPanelMapping
-                      )
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test panel version upgrade.`,
-                        })
-                      })
-                  } else if (
-                    !Stores.testPanelMappingStore.testPanelMapping
-                      ?.existsVersionId &&
-                    Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
-                  ) {
-                    Stores.testPanelMappingStore.testPanelMappingService
-                      .duplicateTestPanelMapping(
-                        Stores.testPanelMappingStore.testPanelMapping
-                      )
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Test panel duplicate created.`,
-                        })
-                      })
-                  }   
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitTestPanelMapping)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -439,14 +554,6 @@ const TestPanelMapping = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
