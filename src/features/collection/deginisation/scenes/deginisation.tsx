@@ -3,7 +3,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Util from "../util"
 
 import {useStores} from '@lp/library/stores'
@@ -15,16 +15,46 @@ import { RouterFlow } from "@lp/flows"
 const Deginisation = observer(() => {
   const {
     control,
-    // handleSubmit,
+    handleSubmit,
     formState: { errors },
     // setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.IDeginisation>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
+
+
+  const onSubmitDesginiation = () => {
+    if (
+      Util.validate(
+        Stores.deginisationStore.deginisation,
+        Util.constraintsDeginisation
+      ) === undefined &&
+      !Stores.deginisationStore.checkExitsCode
+    ) {
+      
+      Stores.deginisationStore.DeginisationService.addDeginisation(
+        Stores.deginisationStore.deginisation
+      ).then((res) => {
+        
+        if (res.status === 200) {
+          LibraryComponents.Atoms.Toast.success({
+           message: `😊Deginisation created.`
+          })
+          Stores.deginisationStore.fetchListDeginisation()
+          Stores.deginisationStore.clear()
+        } else {
+          LibraryComponents.Atoms.Toast.error({message:"😔Please try again"})
+        }
+      })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+       message: "😔Please enter all information!"
+      })
+    }
+  }
 
   return (
     <>
@@ -132,35 +162,7 @@ const Deginisation = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (
-                  Util.validate(
-                    Stores.deginisationStore.deginisation,
-                    Util.constraintsDeginisation
-                  ) === undefined &&
-                  !Stores.deginisationStore.checkExitsCode
-                ) {
-                  
-                  Stores.deginisationStore.DeginisationService.addDeginisation(
-                    Stores.deginisationStore.deginisation
-                  ).then((res) => {
-                    
-                    if (res.status === 200) {
-                      LibraryComponents.Atoms.Toast.success({
-                       message: `😊Deginisation created.`
-                      })
-                      Stores.deginisationStore.fetchListDeginisation()
-                      Stores.deginisationStore.clear()
-                    } else {
-                      LibraryComponents.Atoms.Toast.error({message:"😔Please try again"})
-                    }
-                  })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                   message: "😔Please enter all information!"
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitDesginiation)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
