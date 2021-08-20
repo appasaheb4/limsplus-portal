@@ -111,25 +111,11 @@ const Banner = observer(() => {
                   })
                 }}
               />
-<<<<<<< HEAD
               )}
               name="image"
               rules={{ required: false }}
               defaultValue=""
             />
-=======
-
-              
-   
-
-
-
-
-
-
-
-
->>>>>>> dev
 
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
