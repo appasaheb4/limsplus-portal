@@ -81,7 +81,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="RLab">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const rLab = e.target.value as string
                       props.onUpdateItem &&
@@ -116,7 +116,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const pLab = e.target.value as string
                     props.onUpdateItem &&
@@ -152,7 +152,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Department">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const department = e.target.value as string
                     props.onUpdateItem &&
@@ -189,7 +189,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Section">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const section = e.target.value as string
                     props.onUpdateItem &&
@@ -224,7 +224,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                    <LibraryComponents.Atoms.Form.InputWrapper label="Service Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const serviceType = e.target.value as string
                     props.onUpdateItem &&
@@ -397,7 +397,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                    <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const processing = e.target.value as string
                     props.onUpdateItem &&
@@ -439,7 +439,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                     <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value as string
                     props.onUpdateItem &&
@@ -474,7 +474,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const panelType = e.target.value as string
                     props.onUpdateItem &&
@@ -698,7 +698,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sex = e.target.value as string
                     props.onUpdateItem && 
@@ -852,7 +852,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value as string
                     props.onUpdateItem &&
@@ -939,7 +939,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
                     props.onUpdateItem &&

@@ -49,7 +49,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             <>
               <select
                 name="equipmentType"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const equipmentType = e.target.value
                   if (row.equipmentType !== equipmentType) {
@@ -100,7 +100,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             <>
               <select
                 name="dataFlowFrom"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const dataFlowFrom = e.target.value
                   if (row.dataFlowFrom !== dataFlowFrom) {
@@ -140,7 +140,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             <>
               <select
                 name="data_type"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const data_type = e.target.value
                   if (row.dataFlowFrom !== data_type) {
@@ -177,7 +177,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             <>
               <select
                 name="segments"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const segments = e.target.value
                   if (row.segments !== segments) {
@@ -210,7 +210,7 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
             <>
               <select
                 name="segments"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const segment_usage = e.target.value
                   if (row.segment_usage !== segment_usage) {

@@ -145,7 +145,7 @@ const RegistrationLocationsList = observer(
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const customerGroup = e.target.value
                       props.onUpdateItem &&
@@ -179,7 +179,7 @@ const RegistrationLocationsList = observer(
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Category">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const category = e.target.value
                     props.onUpdateItem &&
@@ -252,7 +252,7 @@ const RegistrationLocationsList = observer(
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryType = e.target.value
                       props.onUpdateItem &&
@@ -286,7 +286,7 @@ const RegistrationLocationsList = observer(
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
                       props.onUpdateItem &&
@@ -320,7 +320,7 @@ const RegistrationLocationsList = observer(
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Corporate Code">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const corporateCode = e.target.value
                     props.onUpdateItem &&
@@ -354,7 +354,7 @@ const RegistrationLocationsList = observer(
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Invoice AC">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const invoiceAc = e.target.value
                     props.onUpdateItem &&
@@ -414,7 +414,7 @@ const RegistrationLocationsList = observer(
               <>
                  <LibraryComponents.Atoms.Form.InputWrapper label="Method Coln">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const methodColn = e.target.value
                     props.onUpdateItem &&
@@ -455,7 +455,7 @@ const RegistrationLocationsList = observer(
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
                     props.onUpdateItem &&
@@ -513,7 +513,7 @@ const RegistrationLocationsList = observer(
                   value={
                     Stores.registrationLocationsStore.registrationLocations?.lab
                   }
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const lab = e.target.value as string
                     props.onUpdateItem &&
@@ -608,7 +608,7 @@ const RegistrationLocationsList = observer(
                   value={
                     Stores.registrationLocationsStore.registrationLocations?.schedule
                   }
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const schedule = e.target.value as string
                     props.onUpdateItem &&
@@ -670,7 +670,7 @@ const RegistrationLocationsList = observer(
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const status = e.target.value
                     props.onUpdateItem &&

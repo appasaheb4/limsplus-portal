@@ -17,8 +17,8 @@ import { toJS } from "mobx"
 const SampleType = observer(() => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit
   } = useForm()
   const {
 		loginStore,

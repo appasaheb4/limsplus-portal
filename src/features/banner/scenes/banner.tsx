@@ -62,7 +62,7 @@ const Banner = observer(() => {
       <div className="mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "shown" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -111,11 +111,25 @@ const Banner = observer(() => {
                   })
                 }}
               />
+<<<<<<< HEAD
               )}
               name="image"
               rules={{ required: false }}
               defaultValue=""
             />
+=======
+
+              
+   
+
+
+
+
+
+
+
+
+>>>>>>> dev
 
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>

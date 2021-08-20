@@ -117,9 +117,9 @@ const TestSampleMapping = observer(() => {
               hasError={errors.testCode}
               >
                 <select
-                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                   errors.testCode
-                    ? "border-red-500  focus:border-red-500"
+                    ? "border-red-500"
                     : "border-gray-200"
                 } rounded-md`}
                   onChange={(e) => {
@@ -156,9 +156,9 @@ const TestSampleMapping = observer(() => {
               hasError={errors.sampleCode}
               >
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.sampleCode
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -191,11 +191,7 @@ const TestSampleMapping = observer(() => {
             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type" hasError={errors.sampleType}> 
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.sampleType
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
                     onChange(sampleType)
@@ -226,11 +222,7 @@ const TestSampleMapping = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Sample Group" hasError={errors.sampleGroup}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.sampleGroup
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleGroup = e.target.value as string
                     onChange(sampleGroup)
@@ -261,11 +253,7 @@ const TestSampleMapping = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Code" hasError={errors.collContainerCode}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.collContainerCode
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collContainerCode = e.target.value as string
                     onChange(collContainerCode)
@@ -296,11 +284,7 @@ const TestSampleMapping = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Name" hasError={errors.collContainerName}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.collContainerName
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collContainerName = e.target.value as string
                     onChange(collContainerName)
@@ -331,11 +315,7 @@ const TestSampleMapping = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Code" hasError={errors.testContainerCode}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.testContainerCode
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testContainerCode = e.target.value as string
                     onChange(testContainerCode)
@@ -366,11 +346,7 @@ const TestSampleMapping = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Name" hasError={errors.testContainerName}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.testContainerName
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const testContainerName = e.target.value as string
                     onChange(testContainerName)
@@ -517,11 +493,7 @@ const TestSampleMapping = observer(() => {
             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Min Draw Vol Unit" hasError={errors.minDrawVolUnit}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.minDrawVolUnit
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const minDrawVolUnit = e.target.value as string
                     onChange(minDrawVolUnit)
@@ -572,11 +544,7 @@ const TestSampleMapping = observer(() => {
             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Min Test Vol Unit" hasError={errors.minTestVolUnit}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.minTestVolUnit
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const minTestVolUnit = e.target.value as string
                     onChange(minTestVolUnit)
@@ -650,11 +618,7 @@ const TestSampleMapping = observer(() => {
             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Repention Units" hasError={errors.repentionUnits}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.repentionUnits
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const repentionUnits = e.target.value as string
                     onChange(repentionUnits)

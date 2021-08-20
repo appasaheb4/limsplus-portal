@@ -15,8 +15,8 @@ import { RouterFlow } from "@lp/flows"
 const Role = observer(() => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit
   } = useForm()
   const {
 		loginStore,

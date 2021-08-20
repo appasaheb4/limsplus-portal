@@ -266,7 +266,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             >
               <select
                 name="optionMethodCollections"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const methodCollection = e.target.value as string
                   setErrors({
@@ -331,7 +331,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             >
               <select
                 name="optionCollectionCenters"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const collectionCenter = e.target.value as string
                   // setErrors({
@@ -361,7 +361,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             >
               <select
                 name="optionReportCenters"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const reportCenter = e.target.value as string
                   // setErrors({
@@ -391,7 +391,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             >
               <select
                 name="optionsDoctorIds"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const doctorId = e.target.value as string
                   // setErrors({
@@ -421,7 +421,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             >
               <select
                 name="optionsDoctorNames"
-                className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                 onChange={(e) => {
                   const doctorName = e.target.value as string
                   // setErrors({

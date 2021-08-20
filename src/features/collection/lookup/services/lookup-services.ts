@@ -5,31 +5,35 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
-class LookupService  {
+class LookupService {
   listLookup = () =>
-    new Promise<Models.Lookup[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`/master/lookup/listLookup`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   addLookup = (lookup?: Models.Lookup) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/lookup/addLookup`, lookup)
-        .then((res) => {
-          resolve(res.data)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   deleteLookup = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -50,6 +54,18 @@ class LookupService  {
         })
         .catch((error) => {
           reject({ error })
+        })
+    })
+    generalFiledUpdate = (lookup?: Partial<Models.Lookup>) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/lookup/generalFiledUpdate`, lookup)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }

@@ -168,9 +168,9 @@ const MasterAnalyte = observer(() => {
                 >
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.lab}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.lab
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500"
                       : "border-gray-200"
                   } rounded-md`}
                   onChange={(e) => {
@@ -680,7 +680,7 @@ const MasterAnalyte = observer(() => {
               
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflow = e.target.value as string
                     Stores.masterAnalyteStore.updateMasterAnalyte({
@@ -708,7 +708,7 @@ const MasterAnalyte = observer(() => {
               >
                 <select
                   name="optionSampleTypes"
-                  className="leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
                     Stores.masterAnalyteStore.updateMasterAnalyte({

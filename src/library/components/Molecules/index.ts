@@ -12,5 +12,6 @@ export * from "./AutocompleteGroupBy"
 export * from "./AutocompleteCheck"
 export * from "./AutoCompleteCheckTwoTitleKeys"
 export * from "./AutoCompleteCheckMultiFilterKeys"  
+export * from './AutoComplete';
     
 export { Modals }
