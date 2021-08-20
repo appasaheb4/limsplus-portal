@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
-import * as Models from "../models"
+// import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
@@ -24,13 +24,11 @@ const Doctors = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.Doctors>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -68,6 +66,66 @@ const Doctors = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitDoctors = () =>{
+    const error = Utils.validate(
+      Stores.doctorsStore.doctors,
+      Utils.doctors
+    )
+    if (error === undefined) {
+      
+      if (
+        !Stores.doctorsStore.doctors?.existsVersionId &&
+        !Stores.doctorsStore.doctors?.existsRecordId
+      ) {
+        Stores.doctorsStore.doctorsService
+          .addDoctors(Stores.doctorsStore.doctors)
+          .then((res) => {
+            
+            if (res.status === 200) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Doctor record created.`,
+              })
+            }
+          })
+      } else if (
+        Stores.doctorsStore.doctors?.existsVersionId &&
+        !Stores.doctorsStore.doctors?.existsRecordId
+      ) {
+        Stores.doctorsStore.doctorsService
+          .versionUpgradeDoctors(Stores.doctorsStore.doctors)
+          .then((res) => {
+            
+            if (res.status === 200) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Doctor record version upgrade.`,
+              })
+            }
+          })
+      } else if (
+        !Stores.doctorsStore.doctors?.existsVersionId &&
+        Stores.doctorsStore.doctors?.existsRecordId
+      ) {
+        Stores.doctorsStore.doctorsService
+          .duplicateDoctors(Stores.doctorsStore.doctors)
+          .then((res) => {
+            
+            if (res.status === 200) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Doctor record duplicate created.`,
+              })
+            }
+          })
+      }
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -1141,66 +1199,7 @@ const Doctors = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.doctorsStore.doctors,
-                  Utils.doctors
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  if (
-                    !Stores.doctorsStore.doctors?.existsVersionId &&
-                    !Stores.doctorsStore.doctors?.existsRecordId
-                  ) {
-                    Stores.doctorsStore.doctorsService
-                      .addDoctors(Stores.doctorsStore.doctors)
-                      .then((res) => {
-                        
-                        if (res.status === 200) {
-                          LibraryComponents.Atoms.Toast.success({
-                            message: `😊 Doctor record created.`,
-                          })
-                        }
-                      })
-                  } else if (
-                    Stores.doctorsStore.doctors?.existsVersionId &&
-                    !Stores.doctorsStore.doctors?.existsRecordId
-                  ) {
-                    Stores.doctorsStore.doctorsService
-                      .versionUpgradeDoctors(Stores.doctorsStore.doctors)
-                      .then((res) => {
-                        
-                        if (res.status === 200) {
-                          LibraryComponents.Atoms.Toast.success({
-                            message: `😊 Doctor record version upgrade.`,
-                          })
-                        }
-                      })
-                  } else if (
-                    !Stores.doctorsStore.doctors?.existsVersionId &&
-                    Stores.doctorsStore.doctors?.existsRecordId
-                  ) {
-                    Stores.doctorsStore.doctorsService
-                      .duplicateDoctors(Stores.doctorsStore.doctors)
-                      .then((res) => {
-                        
-                        if (res.status === 200) {
-                          LibraryComponents.Atoms.Toast.success({
-                            message: `😊 Doctor record duplicate created.`,
-                          })
-                        }
-                      })
-                  }
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitDoctors)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -1215,14 +1214,6 @@ const Doctors = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
