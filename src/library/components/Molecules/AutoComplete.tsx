@@ -21,6 +21,8 @@ export const AutoComplete = (props: AutoCompleteProps) => {
   const [originalOptions, setOriginalOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
 
+  const valueRef = useRef('')
+
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
       function handleClickOutside(event) {
@@ -32,7 +34,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
             }
           }
           setIsListOpen(false)
-          props.onChange(value)
+          props.onChange(valueRef.current)
         }
       }
       document.addEventListener("mousedown", handleClickOutside)
@@ -78,7 +80,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
     const search = e.target.value
     filter(search, options)
     setValue(search)
-    
+    valueRef.current = search;
   }
 
   const onKeyUp = (e) => {

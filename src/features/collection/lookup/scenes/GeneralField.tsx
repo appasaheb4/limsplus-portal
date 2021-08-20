@@ -55,7 +55,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
         render={({ field: { onChange } }) => (
           <LibraryComponents.Atoms.Form.InputWrapper
             hasError={errors.filedName}
-            label="Filed Name"
+            label="Global Filed"
           >
             <LibraryComponents.Molecules.AutoComplete
               hasError={errors.filedName}
