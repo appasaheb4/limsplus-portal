@@ -6,7 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import { SalesTeamList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 
-import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
@@ -24,13 +23,10 @@ export const SalesTeam = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.SalesTeam>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -57,6 +53,34 @@ export const SalesTeam = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitSalesTeam = () =>{
+    const error = Utils.validate(
+      Stores.salesTeamStore.salesTeam,
+      Utils.salesTeam
+    )
+    
+    if (error === undefined) {
+      
+      Stores.salesTeamStore.salesTeamService
+        .addSalesTeam(Stores.salesTeamStore.salesTeam)
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Sales team created.`,
+            })
+          }
+        })
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -122,12 +146,19 @@ export const SalesTeam = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
-            
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
+             <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory" hasError={errors.salesTerritory}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.salesTerritory
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const salesTerritory = JSON.parse(e.target.value)
+                    onChange(salesTerritory)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       salesTerritory,
@@ -146,12 +177,25 @@ export const SalesTeam = observer(() => {
                     )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Employee code">
+              )}
+              name="salesTerritory"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Employee code" hasError={errors.userDetials}>
                 <select
                   //value={Stores.salesTeamStore.salesTeam?.empCode}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.userDetials
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
+                    onChange(userDetials)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       empCode: userDetials.empCode,
@@ -173,6 +217,11 @@ export const SalesTeam = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="userDetials"
+              rules={{ required: false }}
+              defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -180,12 +229,20 @@ export const SalesTeam = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label="Employee Name">
+              <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Employee Name" hasError={errors.userDetials}>
                 <select
                   //value={Stores.salesTeamStore.salesTeam?.empName}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.userDetials
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
+                    onChange(userDetials)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       empCode: userDetials.empCode,
@@ -207,11 +264,24 @@ export const SalesTeam = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To">
+              )}
+              name="userDetials"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+             <Controller
+                  control={control}
+                   render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To" hasError={errors.userDetials}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.userDetials
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const userDetials = JSON.parse(e.target.value) as any
+                    onChange(userDetials)
                     Stores.salesTeamStore.updateSalesTeam({
                       ...Stores.salesTeamStore.salesTeam,
                       reportingTo: userDetials.empCode,
@@ -232,6 +302,11 @@ export const SalesTeam = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="userDetials"
+              rules={{ required: false }}
+              defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -240,33 +315,7 @@ export const SalesTeam = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.salesTeamStore.salesTeam,
-                  Utils.salesTeam
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.salesTeamStore.salesTeamService
-                    .addSalesTeam(Stores.salesTeamStore.salesTeam)
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Sales team created.`,
-                        })
-                      }
-                    })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitSalesTeam)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -281,14 +330,6 @@ export const SalesTeam = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">

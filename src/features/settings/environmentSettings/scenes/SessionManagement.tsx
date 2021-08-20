@@ -26,10 +26,41 @@ const SessionManagement = observer((props: SessionManagementProps) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
+    
   } = useForm()
 
-  // const [errors, setErrors] = useState<Models.SessionManagement>()
+  const onSubmitSessionManagement = () =>{
+    if (
+      Utils.validate(
+        Stores.enviromentSettingsStore.sessionManagement,
+        Utils.constraintsSessionManagement
+      ) === undefined
+    ) {
+      
+      Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
+        Stores.enviromentSettingsStore
+          .sessionManagement as Models.SessionManagement
+      ).then((res) => {
+        
+        if (res.status === 201) {
+          LibraryComponents.Atoms.Toast.success({message:`😊 Session created.`})
+          // Stores.userStore.clear()
+          // Stores.userStore.loadUser()
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+        } else {
+          LibraryComponents.Atoms.Toast.warning({
+           message: "😔 Session not create.Please try again"
+          })
+        }
+      })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+       message: "😔 Please enter all information!"
+      })
+    }
+  }
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -202,20 +233,29 @@ const SessionManagement = observer((props: SessionManagementProps) => {
             rules={{ required: true }}
              defaultValue=""
            />
-
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.MultilineInput
               rows={7}
               label="Description"
               name="lblDescription"
-              placeholder="Description"
+              placeholder={errors.descriptions?"Please Enter descriptions":"Description"}
+              hasError={errors.descriptions}
               //value={Stores.userStore.user.password}
               onChange={(descriptions) => {
+                onChange(descriptions)
                 Stores.enviromentSettingsStore.updateSessionManagement({
                   ...Stores.enviromentSettingsStore.sessionManagement,
                   descriptions,
                 })
               }}
             />
+            )}
+             name="descriptions"
+            rules={{ required: false }}
+             defaultValue=""
+           />
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
@@ -226,38 +266,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
           size="medium"
           type="solid"
           icon={LibraryComponents.Atoms.Icon.Save}
-          onClick={() => {
-            if (
-              Utils.validate(
-                Stores.enviromentSettingsStore.sessionManagement,
-                Utils.constraintsSessionManagement
-              ) === undefined
-            ) {
-              
-              Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
-                Stores.enviromentSettingsStore
-                  .sessionManagement as Models.SessionManagement
-              ).then((res) => {
-                
-                if (res.status === 201) {
-                  LibraryComponents.Atoms.Toast.success({message:`😊 Session created.`})
-                  // Stores.userStore.clear()
-                  // Stores.userStore.loadUser()
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                   message: "😔 Session not create.Please try again"
-                  })
-                }
-              })
-            } else {
-              LibraryComponents.Atoms.Toast.warning({
-               message: "😔 Please enter all information!"
-              })
-            }
-          }}
+          onClick={handleSubmit(onSubmitSessionManagement)}
         >
           Save
         </LibraryComponents.Atoms.Buttons.Button>

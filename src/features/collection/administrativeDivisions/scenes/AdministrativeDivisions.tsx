@@ -6,7 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"  
-import * as Models from "../models"
 import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
@@ -21,13 +20,10 @@ export const AdministrativeDivisions = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.AdministrativeDivisions>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -54,6 +50,37 @@ export const AdministrativeDivisions = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitAdministrativeDivision = () =>{
+    const error = Utils.validate(
+      Stores.administrativeDivStore.administrativeDiv,
+      Utils.administrativeDiv
+    )
+    
+    if (error === undefined) {
+      
+      Stores.administrativeDivStore.administrativeDivisionsService
+        .addAdministrativeDivisions(
+          Stores.administrativeDivStore.administrativeDiv
+        )
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Administrative divisions created.`,
+            })
+          }
+        })
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+
+  }
 
   return (
     <>
@@ -149,28 +176,51 @@ export const AdministrativeDivisions = observer(() => {
               rules={{ required: true }}
               defaultValue=""
             />
+
+          <Controller
+            control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="City"
-                placeholder="City"
+                hasError={errors.city}
+                placeholder={errors.city ? "Please Enter City" : "City"}
                 value={Stores.administrativeDivStore.administrativeDiv?.city}
                 onChange={(city) => {
+                  onChange(city)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     city:[city],
                   })
                 }}
               />
+              )}
+              name="city"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+
+
+           <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Area"
-                placeholder="Area"
+                placeholder={errors.area ? "Please Enter Area" : "Area"}
+                hasError={errors.area}
                 value={Stores.administrativeDivStore.administrativeDiv?.area}
                 onChange={(area) => {
+                  onChange(area)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     area:[area],
                   })
                 }}
               />
+              )}
+              name="area"
+               rules={{ required: false }}
+               defaultValue=""
+           />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -178,23 +228,42 @@ export const AdministrativeDivisions = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                control={control}
+                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Postcode"
-                placeholder="Postcode"
+                placeholder={errors.postalCode ? "Please Enter PostalCode" : "PostalCode"}
+                hasError={errors.postalCode}
                 value={Stores.administrativeDivStore.administrativeDiv?.postalCode}
                 onChange={(postalCode) => {
+                  onChange(postalCode)
                   Stores.administrativeDivStore.updateAdministrativeDiv({
                     ...Stores.administrativeDivStore.administrativeDiv,
                     postalCode:[postalCode],
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="SBU">
+              )}
+             name="postalCode"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="SBU" hasError={errors.sbu}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sbu
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sbu = e.target.value
+                    onChange(sbu)
                     Stores.administrativeDivStore.updateAdministrativeDiv({
                       ...Stores.administrativeDivStore.administrativeDiv,
                       sbu,
@@ -211,11 +280,25 @@ export const AdministrativeDivisions = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="ZONE">
+              )}
+              name="sbu"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+
+            <Controller
+               control={control}
+                 render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="ZONE" hasError={errors.zone}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.zone
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const zone = e.target.value
+                    onChange(zone)
                     Stores.administrativeDivStore.updateAdministrativeDiv({
                       ...Stores.administrativeDivStore.administrativeDiv,
                       zone,
@@ -232,6 +315,11 @@ export const AdministrativeDivisions = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="zone"
+              rules={{ required: false }}
+              defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -240,35 +328,7 @@ export const AdministrativeDivisions = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.administrativeDivStore.administrativeDiv,
-                  Utils.administrativeDiv
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.administrativeDivStore.administrativeDivisionsService
-                    .addAdministrativeDivisions(
-                      Stores.administrativeDivStore.administrativeDiv
-                    )
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Administrative divisions created.`,
-                        })
-                      }
-                    })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={ handleSubmit(onSubmitAdministrativeDivision)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -283,14 +343,7 @@ export const AdministrativeDivisions = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
+          
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">

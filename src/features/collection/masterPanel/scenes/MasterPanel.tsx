@@ -27,14 +27,11 @@ const MasterPanel = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.MasterPanel>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -72,6 +69,69 @@ const MasterPanel = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitMasterPanel = () =>{
+    const error = Utils.validate(
+      Stores.masterPanelStore.masterPanel,
+      Utils.masterPanel
+    )
+    if (error === undefined) {
+      
+      if (
+        !Stores.masterPanelStore.masterPanel?.existsVersionId &&
+        !Stores.masterPanelStore.masterPanel?.existsRecordId
+      ) {
+        Stores.masterPanelStore.masterPanelService
+          .addPanelMaster({
+            ...Stores.masterPanelStore.masterPanel,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Panel master created.`,
+            })
+          })
+      } else if (
+        Stores.masterPanelStore.masterPanel?.existsVersionId &&
+        !Stores.masterPanelStore.masterPanel?.existsRecordId
+      ) {
+        Stores.masterPanelStore.masterPanelService
+          .versionUpgradePanelMaster({
+            ...Stores.masterPanelStore.masterPanel,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Panel master version upgrade.`,
+            })
+          })
+      } else if (
+        !Stores.masterPanelStore.masterPanel?.existsVersionId &&
+        Stores.masterPanelStore.masterPanel?.existsRecordId
+      ) {
+        Stores.masterPanelStore.masterPanelService
+          .duplicatePanelMaster({
+            ...Stores.masterPanelStore.masterPanel,
+            enteredBy: LoginStore.loginStore.login?._id,
+          })
+          .then(() => {
+            
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Panel master duplicate created.`,
+            })
+          })
+      }
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -216,11 +276,19 @@ const MasterPanel = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Section">
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Section" hasError={errors.section}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.section
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const section = e.target.value as string
+                    onChange(section)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       section,
@@ -235,6 +303,11 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name="section"
+               rules={{ required: true }}
+               defaultValue=""
+              />
 
 
               <Controller
@@ -317,129 +390,241 @@ const MasterPanel = observer(() => {
              rules={{ required: true }}
              defaultValue=""
               />
+
+          <Controller
+             control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Description"
-                placeholder="Description"
+                placeholder={errors.description? "Please Enter Description":"Description"}
+                hasError={errors.description}
                 value={Stores.masterPanelStore.masterPanel?.description}
                 onChange={(description) => {
+                  onChange(description)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     description,
                   })
                 }}
               />
+              )}
+              name="description"
+              rules={{ required: false }}
+             defaultValue=""
+             />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Panel Method"
-                placeholder="Panel Method"
+                placeholder={errors.panelMethod ? "Please Enter PanelMethod": "Panel Method"}
+                hasError={errors. panelMethod}
                 value={Stores.masterPanelStore.masterPanel?.panelMethod}
                 onChange={(panelMethod) => {
+                  onChange(panelMethod)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     panelMethod,
                   })
                 }}
               />
+              )}
+              name="panelMethod"
+              rules={{ required: false }}
+            defaultValue=""
+          />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Short Name"
-                placeholder="Short Name"
+                placeholder={errors.shortName ? "Please Enter ShortName":"Short Name"}
+                hasError={errors.shortName}
                 value={Stores.masterPanelStore.masterPanel?.shortName}
                 onChange={(shortName) => {
+                  onChange(shortName)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     shortName: shortName.toUpperCase(),
                   })
                 }}
               />
+              )}
+              name="shortName"
+              rules={{ required: false }}
+            defaultValue=""
+          />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                <LibraryComponents.Atoms.Form.Input
                 label="Price"
-                placeholder="Price"
+                placeholder={errors.price? "Please Enter Price":"Price"}
                 type="number"
+                hasError={errors.price}
                 value={Stores.masterPanelStore.masterPanel?.price}
                 onChange={(price) => {
+                  onChange(price)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     price,
                   })
                 }}
               />
+              )}
+              name="price"
+              rules={{ required: false }}
+            defaultValue=""
+          />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Schedule"
-                placeholder="Schedule"
+                placeholder={errors.schedule ? "Please Enter Schedule":"Schedule"}
+                hasError={errors.schedule}
                 value={Stores.masterPanelStore.masterPanel?.schedule}
                 onChange={(schedule) => {
+                  onChange(schedule)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     schedule: schedule.toUpperCase(),
                   })
                 }}
               />
+              )}
+              name="schedule"
+              rules={{ required: false }}
+            defaultValue=""
+          />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="TAT"
-                placeholder="TAT"
+                placeholder={errors.tat? "Please Enter TAT":"TAT"}
+                hasError={errors.tat}
                 value={Stores.masterPanelStore.masterPanel?.tat}
                 onChange={(tat) => {
+                  onChange(tat)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     tat: tat.toUpperCase(),
                   })
                 }}
               />
+              )}
+              name="tat"
+              rules={{ required: false }}
+            defaultValue=""
+          />
 
               <LibraryComponents.Atoms.Grid cols={5}>
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Bill"
                   id="modeBill"
+                  hasError={errors.bill}
                   value={Stores.masterPanelStore.masterPanel?.bill}
                   onChange={(bill) => {
+                    onChange(bill)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       bill,
                     })
                   }}
                 />
+                )}
+              name="bill"
+              rules={{ required: false }}
+            defaultValue=""
+          />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="AutoRelease"
                   id="modeAutoRelease"
+                  hasError={errors.autoRelease}
                   value={Stores.masterPanelStore.masterPanel?.autoRelease}
                   onChange={(autoRelease) => {
+                    onChange(autoRelease)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       autoRelease,
                     })
                   }}
                 />
+                )}
+              name="autoRelease"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Hold OOS"
                   id="modeHoldOOS"
+                  hasError={errors.holdOOS}
                   value={Stores.masterPanelStore.masterPanel?.holdOOS}
                   onChange={(holdOOS) => {
+                    onChange(holdOOS)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       holdOOS,
                     })
                   }}
                 />
+                )}
+                name="holdOOS"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Confidential"
+                  hasError={errors.confidential}
                   value={Stores.masterPanelStore.masterPanel?.confidential}
                   onChange={(confidential) => {
+                    onChange(confidential)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       confidential,
                     })
                   }}
                 />
+                )}
+                name="confidential"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Urgent"
+                  hasError={errors.urgent}
                   value={Stores.masterPanelStore.masterPanel?.urgent}
                   onChange={(urgent) => {
+                    onChange(urgent)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       urgent,
                     })
                   }}
                 />
+                )}
+                name="urgent"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
 
@@ -450,12 +635,19 @@ const MasterPanel = observer(() => {
               fill
             >
              
-              
-              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+             <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level" hasError={errors.validationLevel}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.validationLevel
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const validationLevel: any = e.target.value
+                    onChange(validationLevel)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       validationLevel,
@@ -470,34 +662,66 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
+              )}
+              name="validationLevel"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Groups"
-                placeholder="Report Groups"
+                placeholder={errors.reportGroup? "Please Enter ReportGroup":"Report Groups"}
+                hasError={errors.reportGroup}
                 value={Stores.masterPanelStore.masterPanel?.reportGroup}
                 onChange={(reportGroup) => {
+                  onChange(reportGroup)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     reportGroup: reportGroup.toUpperCase(),
                   })
                 }}
               />
+              )}
+                name="reportGroup"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Order"
-                placeholder="Report Order"
+                placeholder={errors.reportOrder? "Please Enter ReportOrder":"Report Order"}
+                hasError={errors.reportOrder}
                 value={Stores.masterPanelStore.masterPanel?.reportOrder}
                 onChange={(reportOrder) => {
+                  onChange(reportOrder)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     reportOrder: reportOrder.toUpperCase(),
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Processing">
+              )}
+                name="reportOrder"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Processing" hasError={errors.processing}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.processing
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const processing = e.target.value as string
+                    onChange(processing)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       processing,
@@ -514,22 +738,45 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="processing"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Workflow"
-                placeholder="Workflow"
+                placeholder={errors.workflow?"Please Enter Workflow":"Workflow"}
+                hasError={errors.workflow}
                 value={Stores.masterPanelStore.masterPanel?.workflow}
                 onChange={(workflow) => {
+                  onChange(workflow)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     workflow,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+              )}
+                name="workflow"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Category" hasError={errors.category}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                 className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  errors.category
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-200"
+                } rounded-md`}
                   onChange={(e) => {
                     const category = e.target.value as string
+                    onChange(category)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       category,
@@ -546,11 +793,24 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type">
+              )}
+              name="category"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Panel Type" hasError={errors.panelType}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.panelType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const panelType = e.target.value as string
+                    onChange(panelType)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       panelType,
@@ -567,11 +827,24 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
+              )}
+              name="panelType"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sex" hasError={errors.sex}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.sex
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const sex = e.target.value as string
+                    onChange(sex)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       sex,
@@ -588,28 +861,53 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="sex"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Hi Age"
-                placeholder="Hi Age"
+                placeholder={errors.hiAge?"Please Enter HiAge":"Hi Age"}
+                hasError={errors.hiAge}
                 value={Stores.masterPanelStore.masterPanel?.hiAge}
                 onChange={(hiAge) => {
+                  onChange(hiAge)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     hiAge: hiAge.toUpperCase(),
                   })
                 }}
               />
+              )}
+                name="hiAge"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Lo Age"
-                placeholder="Lo Age"
+                placeholder={errors.loAge? "Please Enter LoAge":"Lo Age"}
+                hasError={errors.loAge}
                 value={Stores.masterPanelStore.masterPanel?.loAge}
                 onChange={(loAge) => {
+                  onChange(loAge)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     loAge: loAge.toUpperCase(),
                   })
                 }}
               />
+              )}
+                name="loAge"
+                rules={{ required: false }}
+                defaultValue=""
+                />
 
               
               
@@ -638,82 +936,150 @@ const MasterPanel = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper> */}
               
-             
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Page Break"
-                placeholder="Page Break"
+                placeholder={errors.pageBreak?"Please Enter PageBreak":"Page Break"}
+                hasError={errors.pageBreak}
                 value={Stores.masterPanelStore.masterPanel?.pageBreak}
                 onChange={(pageBreak) => {
+                  onChange(pageBreak)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     pageBreak,
                   })
                 }}
               />
+              )}
+                name="pageBreak"
+                rules={{ required: false }}
+                defaultValue=""
+                />
               
-              
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Template"
-                placeholder="Report Template"
+                placeholder={errors.reportTemplate?"Please Enter ReportTemplate":"Report Template"}
+                hasError={errors.reportTemplate}
                 value={Stores.masterPanelStore.masterPanel?.reportTemplate}
                 onChange={(reportTemplate) => {
+                  onChange(reportTemplate)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     reportTemplate,
                   })
                 }}
               />
+              )}
+                name="reportTemplate"
+                rules={{ required: false }}
+                defaultValue=""
+                />
 
               <LibraryComponents.Atoms.Grid cols={5}>
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Instant Result"
+                  hasError={errors.instantResult}
                   value={Stores.masterPanelStore.masterPanel?.instantResult}
                   onChange={(instantResult) => {
+                    onChange(instantResult)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       instantResult,
                     })
                   }}
                 />
+                )}
+                name="instantResult"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Sex Action"
+                  hasError={errors.sexAction}
                   value={Stores.masterPanelStore.masterPanel?.sexAction}
                   onChange={(sexAction) => {
+                    onChange(sexAction)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       sexAction,
                     })
                   }}
                 />
+                )}
+                name="sexAction"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Repetition"
+                  hasError={errors.repitation}
                   value={Stores.masterPanelStore.masterPanel?.repitation}
                   onChange={(repitation) => {
+                    onChange(repitation)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       repitation,
                     })
                   }}
                 />
+                )}
+                name="repitation"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Print Label"
+                  hasError={errors.printLabel}
                   value={Stores.masterPanelStore.masterPanel?.printLabel}
                   onChange={(printLabel) => {
+                    onChange( printLabel)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       printLabel,
                     })
                   }}
                 />
+                )}
+                name=" printLabel"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+                <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Method"
+                  hasError={errors.method}
                   value={Stores.masterPanelStore.masterPanel?.method}
                   onChange={(method) => {
+                    onChange(method)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       method,
                     })
                   }}
+                />
+                )}
+                name="method"
+                rules={{ required: false }}
+                defaultValue=""
                 />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
@@ -755,9 +1121,13 @@ const MasterPanel = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper> */}
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Label Instruction"
-                placeholder="Label Instruction"
+                placeholder={errors.labelInstruction?"Please Enter LabelInstruction":"Label Instruction"}
+                hasError={errors.labelInstruction}
                 value={Stores.masterPanelStore.masterPanel?.labelInstruction}
                 onChange={(labelInstruction) => {
                   Stores.masterPanelStore.updateMasterPanel({
@@ -766,23 +1136,46 @@ const MasterPanel = observer(() => {
                   })
                 }}
               />
+              )}
+                name="labelInstruction"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Special Instructions"
-                placeholder="Special Instruction"
+                placeholder={errors.specalInstructions?"Please Enter SpecalInstructions":"Special Instruction"}
+                hasError={errors.specalInstructions}
                 value={Stores.masterPanelStore.masterPanel?.specalInstructions}
                 onChange={(specalInstructions) => {
+                  onChange(specalInstructions)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     specalInstructions: specalInstructions.toUpperCase(),
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+                name="specalInstructions"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.masterPanelStore.masterPanel?.status}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value as string
+                    onChange(status)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       status,
@@ -799,9 +1192,18 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
+                placeholder={errors.userId?"Please Enter UserID":"Entered By"}
+                hasError={errors.userId}
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -811,39 +1213,74 @@ const MasterPanel = observer(() => {
                 //   })
                 // }}
               />
+              )}
+                name="userId"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation?"Please Enter DateCreation":"Date Creation"}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+                name="dateCreation"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                hasError={errors.dateActiveFrom}
+                placeholder={errors.dateActiveFrom?"Please Enter dateActiveFrom":"Date Active"}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPanelStore.masterPanel?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+                name="dateActiveFrom"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                placeholder={errors.dateActiveTo?"Please Enter dateActiveTo":"Date Expire"}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPanelStore.masterPanel?.dateActiveTo || 0)
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
+                  onChange(schedule)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
               />
+              )}
+                name="schedule"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                hasError={errors.version}
+                placeholder={errors.version?"Please Enter Version":"Version"}
                 value={Stores.masterPanelStore.masterPanel?.version}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -853,9 +1290,18 @@ const MasterPanel = observer(() => {
                 //   })
                 // }}
               />
+              )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                hasError={errors.keyNum}
+                placeholder={errors.keyNum?"Please Enter keyNum":"Key Num"}
                 value={Stores.masterPanelStore.masterPanel?.keyNum}
                 disabled={true}
                 // onChange={(analyteCode) => {
@@ -865,12 +1311,25 @@ const MasterPanel = observer(() => {
                 //   })
                 // }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              )}
+                name="keyNum"
+                rules={{ required: false }}
+                defaultValue=""
+                />
+              <Controller
+                 control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.masterPanelStore.masterPanel?.environment}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value as string
+                    onChange(environment)
                     Stores.masterPanelStore.updateMasterPanel({
                       ...Stores.masterPanelStore.masterPanel,
                       environment,
@@ -887,16 +1346,31 @@ const MasterPanel = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="environment"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+               render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="Cumulative"
+                hasError={errors.cumulative}
                 value={Stores.masterPanelStore.masterPanel?.cumulative}
                 onChange={(cumulative) => {
+                  onChange(cumulative)
                   Stores.masterPanelStore.updateMasterPanel({
                     ...Stores.masterPanelStore.masterPanel,
                     cumulative,
                   })
                 }}
               />
+              )}
+                name="cumulative"
+                rules={{ required: false }}
+                defaultValue=""
+                />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -905,69 +1379,7 @@ const MasterPanel = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.masterPanelStore.masterPanel,
-                  Utils.masterPanel
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  if (
-                    !Stores.masterPanelStore.masterPanel?.existsVersionId &&
-                    !Stores.masterPanelStore.masterPanel?.existsRecordId
-                  ) {
-                    Stores.masterPanelStore.masterPanelService
-                      .addPanelMaster({
-                        ...Stores.masterPanelStore.masterPanel,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Panel master created.`,
-                        })
-                      })
-                  } else if (
-                    Stores.masterPanelStore.masterPanel?.existsVersionId &&
-                    !Stores.masterPanelStore.masterPanel?.existsRecordId
-                  ) {
-                    Stores.masterPanelStore.masterPanelService
-                      .versionUpgradePanelMaster({
-                        ...Stores.masterPanelStore.masterPanel,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Panel master version upgrade.`,
-                        })
-                      })
-                  } else if (
-                    !Stores.masterPanelStore.masterPanel?.existsVersionId &&
-                    Stores.masterPanelStore.masterPanel?.existsRecordId
-                  ) {
-                    Stores.masterPanelStore.masterPanelService
-                      .duplicatePanelMaster({
-                        ...Stores.masterPanelStore.masterPanel,
-                        enteredBy: LoginStore.loginStore.login?._id,
-                      })
-                      .then(() => {
-                        
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Panel master duplicate created.`,
-                        })
-                      })
-                  }
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitMasterPanel)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -982,12 +1394,6 @@ const MasterPanel = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">

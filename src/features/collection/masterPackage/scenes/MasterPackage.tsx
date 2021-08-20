@@ -32,8 +32,6 @@ const MasterPackage = observer(() => {
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.MasterPackage>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -79,6 +77,61 @@ const MasterPackage = observer(() => {
       if (fileds.code === "K" || fileds.code === "M") return fileds
     })
     return finalArray
+  }
+
+  const onSubmitMasterPackage = () =>{
+    const error = Utils.validate(
+      Stores.masterPackageStore.masterPackage,
+      Utils.masterPackage
+    )
+    if (!error) {
+      if (
+        !Stores.masterPackageStore.masterPackage?.existsVersionId &&
+        !Stores.masterPackageStore.masterPackage?.existsRecordId
+      ) {
+        Stores.masterPackageStore.masterPackageService
+          .addPackageMaster(Stores.masterPackageStore.masterPackage)
+          .then(() => {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Package master created.`,
+            })
+          })
+      } else if (
+        Stores.masterPackageStore.masterPackage?.existsVersionId &&
+        !Stores.masterPackageStore.masterPackage?.existsRecordId
+      ) {
+        Stores.masterPackageStore.masterPackageService
+          .versionUpgradePackageMaster(
+            Stores.masterPackageStore.masterPackage
+          )
+          .then(() => {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Package master version upgrade.`,
+            })
+          })
+      } else if (
+        !Stores.masterPackageStore.masterPackage?.existsVersionId &&
+        Stores.masterPackageStore.masterPackage?.existsRecordId
+      ) {
+        Stores.masterPackageStore.masterPackageService
+          .duplicatePackageMaster(
+            Stores.masterPackageStore.masterPackage
+          )
+          .then(() => {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Package master duplicate created.`,
+            })
+          })
+      }
+
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
   }
 
   return (
@@ -211,12 +264,15 @@ const MasterPackage = observer(() => {
               rules={{ required: true }}
               defaultValue=""
             />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Package Code">
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Package Code" hasError={errors.packageCode}>
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const packageItem = JSON.parse(e.target.value)
-
+                    onChange(packageItem)
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       packageCode: packageItem.panelCode,
@@ -233,10 +289,22 @@ const MasterPackage = observer(() => {
                     ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Package Name">
+              )}
+              name="packageItem"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Package Name" hasError={errors.packageName}>
                 <select
                   disabled={true}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.packageName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                 >
                   <option selected>
                     {Stores.masterPackageStore.masterPackage?.packageName ||
@@ -244,12 +312,20 @@ const MasterPackage = observer(() => {
                   </option>
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="packageName"
+              rules={{ required: false }}
+              defaultValue=""
+             />
               {arrPanelItems && (
                 <>
                   {" "}
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
+                  <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code" hasError={errors.panelCode}>
                     <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
-                      placeholder="Search by panel name or panel code"
+                      placeholder={errors.panelCode?"Please Search Panel Name Or Panel Code":"Search by panel name or panel code"}
                       data={{
                         defulatValues: [],
                         list: arrPanelItems,
@@ -257,6 +333,7 @@ const MasterPackage = observer(() => {
                         findKey: ["panelName", "panelCode"],
                       }}
                       onUpdate={(items) => {
+                        onChange(items)
                         const panelCode: string[] = []
                         const panelName: string[] = []
                         items.filter((item: any) => {
@@ -271,10 +348,22 @@ const MasterPackage = observer(() => {
                       }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name">
+                  )}
+                  name="panelCode"
+                  rules={{ required: false }}
+                  defaultValue=""
+                 />
+                  <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name" hasError={errors.panelName}>
                     <select
                       disabled={true}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.panelName
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
                     >
                       <option selected>
                         {Stores.masterPackageStore.masterPackage?.panelName?.join(
@@ -283,14 +372,27 @@ const MasterPackage = observer(() => {
                       </option>
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="panelName"
+                  rules={{ required: false }}
+                  defaultValue=""
+                 />
                 </>
               )}
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.masterPackageStore.masterPackage?.status}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       status,
@@ -307,24 +409,50 @@ const MasterPackage = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
+                placeholder={errors.userId ? "Please Enter Entered By " : "Entered By"}
+                hasError={errors.userId}
                 value={LoginStore.loginStore.login?.userId}
                 disabled={true}
               />
+              )}
+               name="userId"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation ? "Please Enter DateCreation" : "Date Creation"}
+                hasError={errors.dateCreation}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
-              
+              )}
+               name="dateCreation"
+               rules={{ required: false }}
+             defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (    
               <LibraryComponents.Atoms.Form.Toggle
                 label="Bill"
                 id="modeBill"
+                hasError={errors.bill}
                 value={Stores.masterPackageStore.masterPackage?.bill}
                 onChange={(bill) => {
                   Stores.masterPackageStore.updateMasterPackage({
@@ -333,6 +461,11 @@ const MasterPackage = observer(() => {
                   })
                 }}
               />
+              )}
+               name="bill"
+               rules={{ required: false }}
+             defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -341,50 +474,93 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
-              
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                placeholder={errors.dateActiveFrom ? "Please Enter DateActiveFrom" : "Date Active"}
+                hasError={errors.dateActiveFrom}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0)
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+               name="dateActiveFrom"
+               rules={{ required: false }}
+             defaultValue=""
+            />
               
               
-              
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                placeholder={errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"}
+                hasError={errors.dateExpire}
                 value={LibraryUtils.moment
                   .unix(Stores.masterPackageStore.masterPackage?.dateActiveTo || 0)
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
+                  onChange(schedule)
                   Stores.masterPackageStore.updateMasterPackage({
                     ...Stores.masterPackageStore.masterPackage,
                     dateActiveTo: LibraryUtils.moment(schedule).unix(),
                   })
                 }}
               />
+              )}
+               name="dateActiveTo"
+               rules={{ required: false }}
+             defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                placeholder={errors.version ? "Please Enter Version " : "Version"}
+                hasError={errors.version}
                 value={Stores.masterPackageStore.masterPackage?.version}
                 disabled={true}
               />
+              )}
+               name="version"
+               rules={{ required: false }}
+             defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
+                hasError={errors.keyNum}
                 value={Stores.masterPackageStore.masterPackage?.keyNum}
                 disabled={true}
               />
-               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+              )}
+               name="keyNum"
+               rules={{ required: false }}
+             defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+               <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.masterPackageStore.masterPackage?.environment}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
+                    onChange(environment)
                     Stores.masterPackageStore.updateMasterPackage({
                       ...Stores.masterPackageStore.masterPackage,
                       environment,
@@ -401,6 +577,11 @@ const MasterPackage = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="environment"
+              rules={{ required: false }}
+            defaultValue=""
+           />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -409,61 +590,7 @@ const MasterPackage = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.masterPackageStore.masterPackage,
-                  Utils.masterPackage
-                )
-                setErrorsMsg(error)
-                if (!error) {
-                  if (
-                    !Stores.masterPackageStore.masterPackage?.existsVersionId &&
-                    !Stores.masterPackageStore.masterPackage?.existsRecordId
-                  ) {
-                    Stores.masterPackageStore.masterPackageService
-                      .addPackageMaster(Stores.masterPackageStore.masterPackage)
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Package master created.`,
-                        })
-                      })
-                  } else if (
-                    Stores.masterPackageStore.masterPackage?.existsVersionId &&
-                    !Stores.masterPackageStore.masterPackage?.existsRecordId
-                  ) {
-                    Stores.masterPackageStore.masterPackageService
-                      .versionUpgradePackageMaster(
-                        Stores.masterPackageStore.masterPackage
-                      )
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Package master version upgrade.`,
-                        })
-                      })
-                  } else if (
-                    !Stores.masterPackageStore.masterPackage?.existsVersionId &&
-                    Stores.masterPackageStore.masterPackage?.existsRecordId
-                  ) {
-                    Stores.masterPackageStore.masterPackageService
-                      .duplicatePackageMaster(
-                        Stores.masterPackageStore.masterPackage
-                      )
-                      .then(() => {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Package master duplicate created.`,
-                        })
-                      })
-                  }
-
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitMasterPackage)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -478,12 +605,6 @@ const MasterPackage = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700">{_.upperFirst(item.join(" : "))}</h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">

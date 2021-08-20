@@ -24,14 +24,11 @@ const Section = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.Section>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -69,6 +66,38 @@ const Section = observer(() => {
   useEffect(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
+
+  const onSubmitSection = () =>{
+    const error = Utils.validate(
+      Stores.sectionStore.section,
+      Utils.section
+    )
+    
+    if (error === undefined) {
+      
+      Stores.sectionStore.sectionService
+        .addSection(Stores.sectionStore.section)
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Section created.`,
+            })
+          } else {
+            LibraryComponents.Atoms.Toast.error({
+              message: `😔 Please try again`,
+            })
+          }
+        })
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.error({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
 
   return (
     <>
@@ -181,52 +210,91 @@ const Section = observer(() => {
              defaultValue=""
              />
 
-
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Short Name"
-                placeholder="Short Name"
+                placeholder={errors.shortName?"Please Enter shortName":"Short Name"}
+                hasError={errors.shortName}
                 value={Stores.sectionStore.section?.shortName}
                 onChange={(shortName) => {
+                  onChange(shortName)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     shortName,
                   })
                 }}
               />
+              )}
+             name="shortName"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+             <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Section In Charge"
-                placeholder="Section In Charge"
+                placeholder={errors.sectionInCharge?"Please Enter sectionInCharge":"Section In Charge"}
+                hasError={errors.sectionInCharge}
                 value={Stores.sectionStore.section?.sectionInCharge}
                 onChange={(sectionInCharge) => {
+                  onChange(sectionInCharge)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     sectionInCharge,
                   })
                 }}
               />
+              )}
+             name="sectionInCharge"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+             <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Mobile No"
-                placeholder="Mobile No"
+                placeholder={errors.mobieNo?"Please Enter mobieNo":"Mobile No"}
                 value={Stores.sectionStore.section?.mobieNo}
+                hasError={errors.mobieNo}
                 onChange={(mobieNo) => {
+                  onChange(mobieNo)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     mobieNo,
                   })
                 }}
               />
+              )}
+             name="mobieNo"
+             rules={{ required: false }}
+             defaultValue=""
+             />
+             <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Contact No"
-                placeholder="Contact No"
+                placeholder={errors.contactNo?"Please Enter contactNo":"Contact No"}
+                hasError={errors.contactNo}
                 value={Stores.sectionStore.section?.contactNo}
                 onChange={(contactNo) => {
+                  onChange(contactNo)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     contactNo,
                   })
                 }}
+              />
+              )}
+              name="contactNo"
+              rules={{ required: false }}
+              defaultValue=""
               />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -235,36 +303,63 @@ const Section = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="FYI line"
-                placeholder="FYI line"
+                placeholder={errors.fyiLine?"Please Enter fyiLine":"FYI line"}
                 value={Stores.sectionStore.section?.fyiLine}
                 onChange={(fyiLine) => {
+                  onChange(fyiLine)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     fyiLine,
                   })
                 }}
               />
+              )}
+              name="fyiLine"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+               <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Work line"
-                placeholder="Work line"
+                placeholder={errors.workLine?"Please Enter workLine":"Work line"}
+                hasError={errors.workLine}
                 value={Stores.sectionStore.section?.workLine}
                 onChange={(workLine) => {
+                  onChange(workLine)
                   Stores.sectionStore.updateSection({
                     ...Stores.sectionStore.section,
                     workLine,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+              name="workLine"
+              rules={{ required: false }}
+              defaultValue=""
+              />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.sectionStore.section?.status}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.sectionStore.updateSection({
                       ...Stores.sectionStore.section,
                       status,
@@ -281,6 +376,11 @@ const Section = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -290,37 +390,7 @@ const Section = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.sectionStore.section,
-                  Utils.section
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  
-                  Stores.sectionStore.sectionService
-                    .addSection(Stores.sectionStore.section)
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Section created.`,
-                        })
-                      } else {
-                        LibraryComponents.Atoms.Toast.error({
-                          message: `😔 Please try again`,
-                        })
-                      }
-                    })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.error({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitSection)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -335,14 +405,6 @@ const Section = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">

@@ -24,13 +24,10 @@ const CorporateClients = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
-  // const [errors, setErrors] = useState<Models.CorporateClients>()
-  const [errorsMsg, setErrorsMsg] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   const [lookupItems, setLookupItems] = useState<any[]>([])
@@ -69,6 +66,32 @@ const CorporateClients = observer(() => {
     getLookupValues()
   }, [LookupStore.lookupStore.listLookup])
 
+  const onSubmitCoporateClients = () =>{
+    const error = Utils.validate(
+      Stores.corporateClientsStore.corporateClients,
+      Utils.corporateClients
+    )
+    
+    if (error === undefined) {
+      Stores.corporateClientsStore.corporateClientsService
+        .addCorporateClients(
+          Stores.corporateClientsStore.corporateClients
+        )
+        .then((res) => {
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Corporate Client record created.`,
+            })
+            Stores.corporateClientsStore.fetchCorporateClients()
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -96,9 +119,13 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+               control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Creation"
-                placeholder="Date Creation"
+                placeholder={errors.dateCreation ? "Please Enter Date Creation " : "Created By"}
+                hasError={errors.dateCreation}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.corporateClientsStore.corporateClients?.dateCreation || 0
@@ -106,9 +133,19 @@ const CorporateClients = observer(() => {
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+              name="dateCreation"
+               rules={{ required: false }}
+               defaultValue=""
+              />
+
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Active"
-                placeholder="Date Active"
+                hasError={errors.dateActive}
+                placeholder={errors.dateActive ? "Please Enter Date Active" : "Date Active"}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.corporateClientsStore.corporateClients?.dateActiveFrom ||
@@ -117,9 +154,19 @@ const CorporateClients = observer(() => {
                   .format("YYYY-MM-DD")}
                 disabled={true}
               />
+              )}
+               name="dateActive"
+               rules={{ required: false }}
+              defaultValue=""
+             />
+
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputDate
                 label="Date Expire"
-                placeholder="Date Expire"
+                hasError={errors.dateExpire}
+                placeholder={errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"}
                 value={LibraryUtils.moment
                   .unix(
                     Stores.corporateClientsStore.corporateClients?.dateActiveTo || 0
@@ -133,24 +180,58 @@ const CorporateClients = observer(() => {
                   })
                 }}
               />
+              )}
+               name="dateExpire"
+               rules={{ required: false }}
+              defaultValue=""
+             />
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Version"
-                placeholder="Version"
+                placeholder={errors.version ? "Please Enter Version" : "Version"}
+                hasError={errors.version}
                 value={Stores.corporateClientsStore.corporateClients?.version}
                 disabled={true}
               />
+              )}
+              name="version"
+              rules={{ required: false }}
+             defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Key Num"
-                placeholder="Key Num"
+                placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
+                hasError={errors.keyNum}
                 value={Stores.corporateClientsStore.corporateClients?.keyNum}
                 disabled={true}
               />
+              )}
+              name="keyNum"
+              rules={{ required: false }}
+             defaultValue=""
+            />
+
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Entered By"
-                placeholder="Entered By"
-                value={LoginStore.loginStore.login?.userId}
+                hasError={errors.enteredBy}
+                placeholder={errors.enteredBy ? "Please Enter Entered By" : "Entered By"}
+                value={LoginStore.loginStore.login?.userId} 
                 disabled={true}
               />
+              )}
+              name="enteredBy"
+              rules={{ required: false }}
+             defaultValue=""
+            />
+
              <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -194,22 +275,41 @@ const CorporateClients = observer(() => {
               rules={{ required: true }}
               defaultValue=""
             />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Invoice AC"
-                placeholder="Invoice AC"
+                placeholder={errors.invoiceAc ? "Please Enter Invoice AC" : "Invoice AC"}
+                hasError={errors.invoiceAc}
                 value={Stores.corporateClientsStore.corporateClients?.invoiceAc}
                 onChange={(invoiceAc) => {
+                  onChange(invoiceAc)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     invoiceAc,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
+              )}
+              name="invoiceAc"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Price List" hasError={errors.priceList}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.priceList
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const priceList = e.target.value
+                    onChange(priceList)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       priceList,
@@ -224,40 +324,77 @@ const CorporateClients = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+               )}
+               name="priceList"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Price Group"
-                placeholder="Price Group"
+                placeholder={errors.priceGroup ? "Please Enter Price Group" : "Price Group"}
                 value={Stores.corporateClientsStore.corporateClients?.priceGroup}
+                hasError={errors.priceGroup}
                 onChange={(priceGroup) => {
+                  onChange(priceGroup)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     priceGroup,
                   })
                 }}
               />
+              )}
+               name="priceGroup"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Billing on"
-                placeholder="Billing on"
+                placeholder={errors.billingOn ? "Please Enter Biling On" : "Billing On"}
+                hasError={errors.billingOn}
                 value={Stores.corporateClientsStore.corporateClients?.billingOn}
                 onChange={(billingOn) => {
+                  onChange(billingOn)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     billingOn,
                   })
                 }}
               />
+              )}
+               name="billingOn"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Address"
-                placeholder="Address"
+                placeholder={errors.address ? "Please Enter Address" : "Address"}
+                hasError={errors.address}
                 value={Stores.corporateClientsStore.corporateClients?.address}
                 onChange={(address) => {
+                  onChange(address)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     address,
                   })
                 }}
               />
+              )}
+               name="address"
+               rules={{ required: false }}
+               defaultValue=""
+             />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -265,56 +402,104 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="City"
-                placeholder="City"
+                placeholder={errors.city ? "Please Enter City" : "City"}
+                hasError={errors.city}
                 value={Stores.corporateClientsStore.corporateClients?.city}
                 onChange={(city) => {
+                  onChange(city)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     city,
                   })
                 }}
               />
+              )}
+               name="city"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="State"
-                placeholder="State"
+                placeholder={errors.state ? "Please Enter State" : "State"} 
+                hasError={errors.state}
                 value={Stores.corporateClientsStore.corporateClients?.state}
                 onChange={(state) => {
+                  onChange(state)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     state,
                   })
                 }}
               />
+              )}
+               name="state"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Country"
-                placeholder="Country"
+                placeholder={errors.country ? "Please Enter Country" : "Country"}
+                hasError={errors.country}
                 value={Stores.corporateClientsStore.corporateClients?.country}
                 onChange={(country) => {
+                  onChange(country)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     country,
                   })
                 }}
               />
+              )}
+              name="country"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Postcode"
-                placeholder="Postcode"
+                placeholder={errors.postCode ? "Please Enter PostCode" : "Post Code"}
+                hasError={errors.postCode}
                 type="number"
                 value={Stores.corporateClientsStore.corporateClients?.postcode}
                 onChange={(postcode) => {
+                  onChange(postcode)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     postcode,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
+              )}
+              name="postCode"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group" hasError={errors.customerGroup}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.customerGroup
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const customerGroup = e.target.value
+                    onChange(customerGroup)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       customerGroup,
@@ -331,11 +516,25 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+               )}
+               name="customerGroup"
+               rules={{ required: false }}
+               defaultValue=""
+             />
+
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Category" hasError={errors.category}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.category
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const category = e.target.value
+                    onChange(category)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       category,
@@ -352,44 +551,87 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="category"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Telephone"
-                placeholder="Telephone"
+                placeholder={errors.telephone ? "Please Enter Telephone" : "Telephone"}
+                hasError={errors.telephone}
                 value={Stores.corporateClientsStore.corporateClients?.telephone}
                 onChange={(telephone) => {
+                  onChange(telephone)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     telephone,
                   })
                 }}
               />
+              )}
+              name="telephone"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Mobile No"
-                placeholder="Mobile No"
+                placeholder={errors.mobileNo ? "Please Enter Mobile No" : "Mobile No"}
+                hasError={errors.mobileNo}
                 value={Stores.corporateClientsStore.corporateClients?.mobileNo}
                 onChange={(mobileNo) => {
+                  onChange(mobileNo)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     mobileNo,
                   })
                 }}
               />
+              )}
+              name="mobileNo"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+             <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Email"
-                placeholder="Email"
+                placeholder={errors.email ? "Please Enter Email" : "Email"}
+                hasError={errors.email}
                 value={Stores.corporateClientsStore.corporateClients?.email}
                 onChange={(email) => {
+                  onChange(email)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     email,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+              )}
+              name="email"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type" hasError={errors.deliveryType}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.deliveryType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const deliveryType = e.target.value
+                    onChange(deliveryType)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       deliveryType,
@@ -406,11 +648,24 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+              )}
+              name="deliveryType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method" hasError={errors.deliveryMethod}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.deliveryMethod
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
+                    onChange(deliveryMethod)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       deliveryMethod,
@@ -427,11 +682,24 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
+              )}
+              name="deliveryMethod"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy" hasError={errors.salesTerritoRy}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.salesTerritoRy
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
+                    onChange(salesTerritoRy)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       salesTerritoRy,
@@ -448,27 +716,52 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="salesTerritoRy"
+              rules={{ required: false }}
+              defaultValue=""
+            />
               <LibraryComponents.Atoms.Grid cols={5}>
+              <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Confidential"
+                  hasError={errors.confidential}
                   value={Stores.corporateClientsStore.corporateClients?.confidential}
                   onChange={(confidential) => {
+                    onChange(confidential)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       confidential,
                     })
                   }}
                 />
+                )}
+              name="confidential"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.Toggle
                   label="Urgent"
+                  hasError={errors.urgent}
                   value={Stores.corporateClientsStore.corporateClients?.urgent}
                   onChange={(urgent) => {
+                    onChange(urgent)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       urgent,
                     })
                   }}
                 />
+                )}
+                name="urgent"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -477,58 +770,104 @@ const CorporateClients = observer(() => {
               justify="stretch"
               fill
             >
+               <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Area"
-                placeholder="Area"
+                placeholder={errors.area ? "Please Enter Area" : "Area"}
+                hasError={errors.area}
                 value={Stores.corporateClientsStore.corporateClients?.area}
                 onChange={(area) => {
+                  onChange(area)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     area,
                   })
                 }}
               />
+              )}
+              name="area"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Zone"
-                placeholder="Zone"
+                placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
+                hasError={errors.zone}
                 value={Stores.corporateClientsStore.corporateClients?.zone}
                 onChange={(zone) => {
+                  onChange(zone)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     zone,
                   })
                 }}
               />
-
+              )}
+              name="zone"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="EDI"
-                placeholder="EDI"
+                placeholder={errors.edi ? "Please Enter EDI" : "EDI"}
+                hasError={errors.edi}
                 value={Stores.corporateClientsStore.corporateClients?.edi}
                 onChange={(edi) => {
+                  onChange(edi)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     edi,
                   })
                 }}
               />
+              )}
+              name="edi"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="EDI Address"
-                placeholder="EDI Address"
+                placeholder={errors.ediAddress ? "Please Enter EDI Address" : "EDI Address"}
+                hasError={errors.ediAddress}
                 value={Stores.corporateClientsStore.corporateClients?.ediAddress}
                 onChange={(ediAddress) => {
+                  onChange(ediAddress)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     ediAddress,
                   })
                 }}
               />
-
-              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+              )}
+              name="ediAddress"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule" hasError={errors.schedule}>
                 <select
                   value={Stores.corporateClientsStore.corporateClients?.schedule}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.schedule
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const schedule = e.target.value as string
+                    onChange(schedule)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       schedule,
@@ -543,55 +882,108 @@ const CorporateClients = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="schedule"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Format"
-                placeholder="Report Format"
+                placeholder={errors.reportFormat ? "Please Enter Report Format" : "ReportFormat"}
+                hasError={errors.reportFormat}
                 value={Stores.corporateClientsStore.corporateClients?.reportFormat}
                 onChange={(reportFormat) => {
+                  onChange(reportFormat)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     reportFormat,
                   })
                 }}
               />
+              )}
+              name="reportFormat"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Info"
-                placeholder="Info"
+                placeholder={errors.info ?"Please Enter INFO" : "INFO"}
+                hasError={errors.info}
                 value={Stores.corporateClientsStore.corporateClients?.info}
                 onChange={(info) => {
+                  onChange(info)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     info,
                   })
                 }}
               />
+              )}
+              name="info"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="FYI Line"
-                placeholder="FYI Line"
+                placeholder={errors.fyiLine ? "Please Enter FyiLine" : "FyiLine"}
+                hasError={errors.fyiLine}
                 value={Stores.corporateClientsStore.corporateClients?.fyiLine}
                 onChange={(fyiLine) => {
+                  onChange(fyiLine)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     fyiLine,
                   })
                 }}
               />
+              )}
+              name="fyiLine"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Work Line"
-                placeholder="Work Line"
+                placeholder={errors.workLine ? "Plese Enter WorkLine" : "WorkLine"}
+                hasError={errors.workLine}
                 value={Stores.corporateClientsStore.corporateClients?.workLine}
                 onChange={(workLine) => {
+                  onChange(workLine)
                   Stores.corporateClientsStore.updateCorporateClients({
                     ...Stores.corporateClientsStore.corporateClients,
                     workLine,
                   })
                 }}
               />
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+              )}
+              name="workLine"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+               control={control}
+                render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.status
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
+                    onChange(status)
                     Stores.corporateClientsStore.updateCorporateClients({
                       ...Stores.corporateClientsStore.corporateClients,
                       status,
@@ -608,6 +1000,11 @@ const CorporateClients = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -616,31 +1013,7 @@ const CorporateClients = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                const error = Utils.validate(
-                  Stores.corporateClientsStore.corporateClients,
-                  Utils.corporateClients
-                )
-                setErrorsMsg(error)
-                if (error === undefined) {
-                  Stores.corporateClientsStore.corporateClientsService
-                    .addCorporateClients(
-                      Stores.corporateClientsStore.corporateClients
-                    )
-                    .then((res) => {
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 Corporate Client record created.`,
-                        })
-                        Stores.corporateClientsStore.fetchCorporateClients()
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😔 Please enter all information!`,
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitCoporateClients)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -655,14 +1028,6 @@ const CorporateClients = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          <div>
-            {errorsMsg &&
-              Object.entries(errorsMsg).map((item, index) => (
-                <h6 className="text-red-700" key={index}>
-                  {_.upperFirst(item.join(" : "))}
-                </h6>
-              ))}
-          </div>
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
