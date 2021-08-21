@@ -5,8 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -64,12 +62,7 @@ const Methods = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitMethods = () =>{
-    const error = Utils.validate(
-      Stores.methodsStore.methods,
-      Utils.methods
-    )   
-    
-    if (error === undefined) {
+    if (Stores.methodsStore.methods) {
       
       Stores.methodsStore.methodsService
         .addMethods(Stores.methodsStore.methods)
@@ -221,6 +214,41 @@ const Methods = observer(() => {
                rules={{ required: false }}
                defaultValue=""
             />
+             <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.methodsStore.methods?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.methodsStore.updateMethods({
+                      ...Stores.methodsStore.methods,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -249,6 +277,9 @@ const Methods = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.MethodsList
             data={Stores.methodsStore.listMethods || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
               "Delete"

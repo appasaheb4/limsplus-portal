@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { useStores } from "@lp/library/stores"
@@ -28,12 +29,12 @@ const Deginisation = observer(() => {
       ).then((res) => {
         if (res.status === 200) {
           LibraryComponents.Atoms.Toast.success({
-            message: `😊Deginisation created.`,
+            message: `😊 Deginisation created.`,
           })
           Stores.deginisationStore.fetchListDeginisation()
           Stores.deginisationStore.clear()
         } else {
-          LibraryComponents.Atoms.Toast.error({ message: "😔Please try again" })
+          LibraryComponents.Atoms.Toast.error({ message: "😔 Please try again" })
         }
       })
     } else {
@@ -134,6 +135,41 @@ const Deginisation = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+               <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.deginisationStore.deginisation?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.deginisationStore.updateDescription({
+                      ...Stores.deginisationStore.deginisation,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -163,6 +199,9 @@ const Deginisation = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.DeginisationList
             data={Stores.deginisationStore.listDeginisation || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
               "Delete"
@@ -201,7 +240,7 @@ const Deginisation = observer(() => {
               ).then((res: any) => {
                 if (res.status === 200) {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊Deginisation deleted.`,
+                    message: `😊 Deginisation deleted.`,
                   })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()
@@ -213,7 +252,7 @@ const Deginisation = observer(() => {
               ).then((res: any) => {
                 if (res.status === 200) {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊Deginisation updated.`,
+                    message: `😊 Deginisation updated.`,
                   })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()

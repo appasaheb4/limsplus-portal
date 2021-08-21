@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-// import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -70,11 +67,7 @@ const TestPanelMapping = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitTestPanelMapping = () =>{
-    const error = Utils.validate(
-      Stores.testPanelMappingStore.testPanelMapping,
-      Utils.testPanelMapping
-    )
-    if (!error) {
+    if (Stores.testPanelMappingStore.testPanelMapping) {
       
       if (
         !Stores.testPanelMappingStore.testPanelMapping
@@ -495,7 +488,11 @@ const TestPanelMapping = observer(() => {
                <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.testPanelMappingStore.testPanelMapping?.environment}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -506,7 +503,7 @@ const TestPanelMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -517,7 +514,7 @@ const TestPanelMapping = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="environment"
-              rules={{ required: false }}
+              rules={{ required: true }}
               defaultValue=""
              />
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
@@ -551,6 +548,9 @@ const TestPanelMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestPanelMappingList
             data={Stores.testPanelMappingStore.listTestPanelMapping || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

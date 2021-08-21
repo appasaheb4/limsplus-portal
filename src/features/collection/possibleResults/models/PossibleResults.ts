@@ -11,6 +11,7 @@ export class PossibleResults {
     abNormal: boolean
     critical: boolean
   }[]
+  environment?: string
   constructor(rawData: { [key in string]: any }) {
     this.analyteCode = rawData.anlyteCode
     this.analyteName = rawData.analyteName
@@ -19,5 +20,6 @@ export class PossibleResults {
     this.abNormal = rawData.abNormal
     this.critical = rawData.critical
     this.conclusionResult = rawData.conclusionResult
+    this.environment = rawData.environment
   }
 }

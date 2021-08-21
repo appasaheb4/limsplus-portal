@@ -23,6 +23,7 @@ export class Library {
   hiAge: number
   sex: string
   sexAction: string
+  environment?: string
 
   constructor(rawData: { [key in string]: any }) {
     this.code = rawData.code
@@ -49,5 +50,6 @@ export class Library {
     this.hiAge = rawData.hiAge
     this.sex = rawData.sex
     this.sexAction = rawData.sexAction
+    this.environment = rawData.environment
   }
 }
