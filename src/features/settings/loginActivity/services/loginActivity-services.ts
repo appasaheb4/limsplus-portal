@@ -10,9 +10,11 @@ import { http } from "@lp/library/modules/http"
 class LoginActivityService  {
   listLoginActivity = () =>
     new Promise<Models.LoginActivity[]>((resolve, reject) => {
-      http
-        .get(`auth/listLoginActivity`)
+      http  
+        .get(`/auth/listLoginActivity`)
         .then((res: any) => {
+          console.log({res});
+          
           resolve(res.data.data)
         })
         .catch((error) => {

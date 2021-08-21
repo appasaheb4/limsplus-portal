@@ -1,5 +1,4 @@
 export class Lookup {
-  router: Array<any>
   documentName: object
   fieldName: string
   code: string
@@ -10,7 +9,6 @@ export class Lookup {
   environment: string
 
   constructor(rawData: { [key in string]: any }) {
-    this.router = rawData.router
     this.documentName = rawData.documentName
     this.fieldName = rawData.fieldName
     this.code = rawData.code
