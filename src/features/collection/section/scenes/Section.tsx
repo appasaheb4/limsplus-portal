@@ -6,9 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import {SectionList} from '../components/molecules'
-
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
 import { useForm, Controller } from "react-hook-form"
@@ -68,12 +65,7 @@ const Section = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitSection = () =>{
-    const error = Utils.validate(
-      Stores.sectionStore.section,
-      Utils.section
-    )
-    
-    if (error === undefined) {
+    if (Stores.sectionStore.section) {
       
       Stores.sectionStore.sectionService
         .addSection(Stores.sectionStore.section)
@@ -381,6 +373,41 @@ const Section = observer(() => {
               rules={{ required: false }}
               defaultValue=""
               />
+               <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.sectionStore.section?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.sectionStore.updateSection({
+                      ...Stores.sectionStore.section,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -410,6 +437,9 @@ const Section = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <SectionList
             data={Stores.sectionStore.listSection || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
               "Delete"

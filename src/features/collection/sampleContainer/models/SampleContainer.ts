@@ -4,12 +4,14 @@ export class SampleContainer {
     containerName?: string
     description?: string
     image?: any
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.containerCode = rawData.containerCode
         this.containerName = rawData.containerName
         this.description = rawData.description
         this.image = rawData.image
+        this.environment = rawData.environment
     }
   }
   

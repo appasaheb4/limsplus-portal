@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -71,11 +68,7 @@ const MasterPanel = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitMasterPanel = () =>{
-    const error = Utils.validate(
-      Stores.masterPanelStore.masterPanel,
-      Utils.masterPanel
-    )
-    if (error === undefined) {
+    if (Stores.masterPanelStore.masterPanel) {
       
       if (
         !Stores.masterPanelStore.masterPanel?.existsVersionId &&
@@ -1337,7 +1330,7 @@ const MasterPanel = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -1348,7 +1341,7 @@ const MasterPanel = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="environment"
-              rules={{ required: false }}
+              rules={{ required: true }}
               defaultValue=""
               />
               <Controller
@@ -1399,6 +1392,9 @@ const MasterPanel = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PanelMasterList
             data={Stores.masterPanelStore.listMasterPanel || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

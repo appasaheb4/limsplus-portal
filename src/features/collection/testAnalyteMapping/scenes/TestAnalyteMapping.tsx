@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
 import { useForm, Controller } from "react-hook-form"
@@ -70,12 +67,7 @@ const TestAnalyteMapping = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitTestAnalyteMapping = () =>{
-    const error = Utils.validate(
-      Stores.testAnalyteMappingStore.testAnalyteMapping,
-      Utils.testAnalyteMapping
-    )
-    
-    if (error === undefined) {
+    if (Stores.testAnalyteMappingStore.testAnalyteMapping) {
       
       if (
         !Stores.testAnalyteMappingStore.testAnalyteMapping
@@ -538,8 +530,8 @@ const TestAnalyteMapping = observer(() => {
                 defaultValue=""
                 />
                 <Controller
-                 control={control}
-                  render={({ field: { onChange } }) => (
+            control={control}
+            render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.testAnalyteMappingStore.testAnalyteMapping?.environment}
@@ -558,7 +550,7 @@ const TestAnalyteMapping = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -567,11 +559,11 @@ const TestAnalyteMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="environment"
-              rules={{ required: false }}
-              defaultValue=""
-              />
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
              
               {/* <LibraryComponents.Atoms.Grid cols={5}> */}
              
@@ -604,6 +596,9 @@ const TestAnalyteMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestAnalyteMappingList
             data={Stores.testAnalyteMappingStore.listTestAnalyteMapping || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

@@ -5,6 +5,7 @@ export class SalesTeam {
     empCode?: string
     empName?: string
     reportingTo?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.salesHierarchy = rawData.salesHierarchy
@@ -12,6 +13,7 @@ export class SalesTeam {
         this.empCode = rawData.empCode
         this.empName = rawData.empName
         this.reportingTo = rawData.reportingTo
+        this.environment = rawData.environment
     }
   }
 

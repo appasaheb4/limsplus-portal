@@ -8,8 +8,6 @@ import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { ScheduleFrequency } from "../components/molecules"
 
-// import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
@@ -57,13 +55,7 @@ const DeliverySchedule = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitDeliverySchedule = () =>{
-    const error = Utils.validate(
-      Stores.deliveryScheduleStore.deliverySchedule,
-      Utils.deliverySchedule
-    )
-    
-    if (!error) {
-      
+    if (Stores.deliveryScheduleStore.deliverySchedule) {
       Stores.deliveryScheduleStore.deliveryScheduleService
         .addDeliverySchdule(
           Stores.deliveryScheduleStore.deliverySchedule
@@ -272,14 +264,6 @@ const DeliverySchedule = observer(() => {
                rules={{ required: false }}
                 defaultValue=""
               />
-            </LibraryComponents.Atoms.List>
-
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
               <Controller
                  control={control}
                 render={({ field: { onChange } }) => (
@@ -322,6 +306,15 @@ const DeliverySchedule = observer(() => {
                rules={{ required: false }}
                 defaultValue=""
               />
+            </LibraryComponents.Atoms.List>
+
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              
               <Controller
                  control={control}
                 render={({ field: { onChange } }) => (
@@ -421,7 +414,41 @@ const DeliverySchedule = observer(() => {
                rules={{ required: false }}
                 defaultValue=""
               />
-
+                <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.deliveryScheduleStore.deliverySchedule?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment 
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.deliveryScheduleStore.updateDeliverySchedule({
+                      ...Stores.deliveryScheduleStore.deliverySchedule,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
               <LibraryComponents.Atoms.Grid cols={5}>
                 <Controller
                  control={control}
@@ -531,6 +558,7 @@ const DeliverySchedule = observer(() => {
                  rules={{ required: false }}
                   defaultValue=""
                 />
+                 
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -560,6 +588,9 @@ const DeliverySchedule = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.DeliverySchduleList
             data={Stores.deliveryScheduleStore.listDeliverySchedule || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

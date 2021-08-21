@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-// import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -73,11 +70,7 @@ const TestMater = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitTestMaster = () =>{
-    const error = Utils.validate(
-      Stores.testMasterStore.testMaster,
-      Utils.testMaster
-    )
-    if (error === undefined) {
+    if (Stores.testMasterStore.testMaster) {
       
       if (
         !Stores.testMasterStore.testMaster?.existsVersionId &&
@@ -1412,7 +1405,7 @@ const TestMater = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -1423,7 +1416,7 @@ const TestMater = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="environment"
-              rules={{ required: false }}
+              rules={{ required: true }}
               defaultValue=""
              />
               <LibraryComponents.Atoms.Grid cols={6}>
@@ -1576,6 +1569,9 @@ const TestMater = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestMasterList
             data={Stores.testMasterStore.listTestMaster || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

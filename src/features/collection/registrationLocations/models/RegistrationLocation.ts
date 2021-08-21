@@ -45,6 +45,7 @@ export class RegistrationLocations {
     fyiLine?: string
     workLine?: string
     status?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
       this._id = rawData._id
       this.existsVersionId = rawData.existsVersionId
@@ -94,6 +95,7 @@ export class RegistrationLocations {
       this.fyiLine = rawData.fyiLine
       this.workLine = rawData.workLine
       this.status = rawData.status
+      this.environment = rawData.environment
     }
   }
   

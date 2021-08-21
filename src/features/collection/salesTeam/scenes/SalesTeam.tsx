@@ -55,12 +55,7 @@ export const SalesTeam = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitSalesTeam = () =>{
-    const error = Utils.validate(
-      Stores.salesTeamStore.salesTeam,
-      Utils.salesTeam
-    )
-    
-    if (error === undefined) {
+    if (Stores.salesTeamStore.salesTeam) {
       
       Stores.salesTeamStore.salesTeamService
         .addSalesTeam(Stores.salesTeamStore.salesTeam)
@@ -307,6 +302,41 @@ export const SalesTeam = observer(() => {
               rules={{ required: false }}
               defaultValue=""
              />
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.salesTeamStore.salesTeam?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.salesTeamStore.updateSalesTeam({
+                      ...Stores.salesTeamStore.salesTeam,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -335,6 +365,9 @@ export const SalesTeam = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <SalesTeamList
             data={Stores.salesTeamStore.listSalesTeam || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
               "Delete"

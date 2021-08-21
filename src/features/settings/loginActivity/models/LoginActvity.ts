@@ -1,4 +1,4 @@
-export class ILoginActivity {
+export class LoginActivity {
     _id: string
     user: {}
     systemInfo: {}

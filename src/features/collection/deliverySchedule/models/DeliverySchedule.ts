@@ -18,6 +18,7 @@ export class DeliverySchedule {
     onTime?: boolean
     schForDept?: string
     schForPat?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this.id = rawData.id
         this.schCode = rawData.schCode
@@ -38,6 +39,7 @@ export class DeliverySchedule {
         this.onTime = rawData.onTime
         this.schForDept = rawData.schForDept
         this.schForPat = rawData.schForPat
+        this.environment  = rawData.environment
     }
   }
   
