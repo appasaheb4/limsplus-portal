@@ -9,6 +9,7 @@ export class Section {
     fyiLine?: string
     workLine?: string
     status?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this.departmentCode = rawData.departmentCode
         this.code = rawData.code
@@ -20,6 +21,7 @@ export class Section {
         this.fyiLine = rawData.fyiLine
         this.workLine = rawData.workLine
         this.status = rawData.status
+        this.environment = rawData.environment
     }
   }
   

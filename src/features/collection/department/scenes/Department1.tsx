@@ -7,8 +7,6 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
@@ -68,12 +66,7 @@ export const Department = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitDepartment = ()=>{
-    const error = Utils.validate(
-      Stores.departmentStore.department,
-      Utils.constraintsDepartment
-    )
-    if (error === undefined) {
-      
+    if (Stores.departmentStore.checkExitsCode) {
       Stores.departmentStore.DepartmentService.adddepartment(
         Stores.departmentStore.department
       ).then(() => {
@@ -191,11 +184,6 @@ export const Department = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
                  />
-                {errors?.code && (
-                  <span className="text-red-600 font-medium relative">
-                    {errors.code}
-                  </span>
-                )}
                 {Stores.departmentStore.checkExitsCode && (
                   <span className="text-red-600 font-medium relative">
                     Code already exits. Please use other code.
@@ -223,12 +211,7 @@ export const Department = observer(() => {
                 rules={{ required: true }}
                  defaultValue=""
                   />
-                {errors?.name && (
-                  <span className="text-red-600 font-medium relative">
-                    {errors.name}
-                  </span>
-                )}
-
+                
             <Controller
                control={control}
                    render={({ field: { onChange } }) => (
@@ -542,6 +525,41 @@ export const Department = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
                />
+                <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.departmentStore.department?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.departmentStore.updateDepartment({
+                      ...Stores.departmentStore.department,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />
@@ -573,6 +591,9 @@ export const Department = observer(() => {
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
             <FeatureComponents.Molecules.DepartmentList
               data={Stores.departmentStore.listDepartment || []}
+              extraData={{
+                lookupItems: stores.routerStore.lookupItems
+              }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
                 "Delete"

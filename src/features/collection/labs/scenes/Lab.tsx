@@ -57,8 +57,7 @@ const Lab = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitLab = () =>{
-    const error = Utils.validate(Stores.labStore.labs, Utils.labs)
-    if (error === undefined) {
+    if (Stores.labStore.checkExitsCode) {
       Stores.labStore.LabService.addLab(Stores.labStore.labs).then(
         () => {
           LibraryComponents.Atoms.Toast.success({
@@ -134,11 +133,7 @@ const Lab = observer(() => {
                  rules={{ required: true }}
                  defaultValue=""
                />
-              {errors?.code && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.code}
-                </span>
-              )}
+              
               {Stores.labStore.checkExitsCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
@@ -168,11 +163,7 @@ const Lab = observer(() => {
               rules={{ required: true }}
               defaultValue=""
              />
-              {errors?.name && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.name}
-                </span>
-              )}
+              
               <Controller
                 control={control}
                   render={({ field: { onChange } }) => (
@@ -805,6 +796,41 @@ const Lab = observer(() => {
              rules={{ required: false }}
             defaultValue=""
              />
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
+                <select
+                  value={Stores.labStore.labs?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.labStore.updateLabs({
+                      ...Stores.labStore.labs,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
               
               <LibraryComponents.Atoms.Grid cols={4}>
               <Controller
@@ -917,6 +943,9 @@ const Lab = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.LabList
             data={Stores.labStore.listLabs || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

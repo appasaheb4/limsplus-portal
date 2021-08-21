@@ -5,8 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -66,12 +64,7 @@ const RegistrationLocation = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
 
   const onSubmitRegistrationLocation = () =>{
-    const error = Utils.validate(
-      Stores.registrationLocationsStore.registrationLocations,
-      Utils.registrationLocations
-    )
-    
-    if (error === undefined) {
+    if (Stores.registrationLocationsStore.registrationLocations) {
       
       if (
         !Stores.registrationLocationsStore.registrationLocations
@@ -1266,6 +1259,41 @@ const RegistrationLocation = observer(() => {
               rules={{ required: false }}
               defaultValue=""
              />
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
+                <select
+                  value={Stores.registrationLocationsStore.registrationLocations?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.registrationLocationsStore.updateRegistrationLocations({
+                      ...Stores.registrationLocationsStore.registrationLocations,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -1295,6 +1323,9 @@ const RegistrationLocation = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.RegistrationLocationsList
             data={Stores.registrationLocationsStore.listRegistrationLocations || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
               "Delete"

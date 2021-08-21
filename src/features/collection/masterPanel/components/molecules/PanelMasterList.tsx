@@ -14,6 +14,7 @@ import * as LibraryModels from "@lp/library/models"
 
 interface PanelMasterListProps {
   data: any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -939,6 +940,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
+                value={row.environment}
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
@@ -947,7 +949,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}

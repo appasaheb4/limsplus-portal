@@ -6,8 +6,6 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -26,7 +24,6 @@ const MasterPackage = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
 
   const {
@@ -80,11 +77,7 @@ const MasterPackage = observer(() => {
   }
 
   const onSubmitMasterPackage = () =>{
-    const error = Utils.validate(
-      Stores.masterPackageStore.masterPackage,
-      Utils.masterPackage
-    )
-    if (!error) {
+    if (Stores.masterPackageStore.masterPackage) {
       if (
         !Stores.masterPackageStore.masterPackage?.existsVersionId &&
         !Stores.masterPackageStore.masterPackage?.existsRecordId
@@ -568,7 +561,7 @@ const MasterPackage = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -579,7 +572,7 @@ const MasterPackage = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="environment"
-              rules={{ required: false }}
+              rules={{ required: true }}
             defaultValue=""
            />
             </LibraryComponents.Atoms.List>
@@ -610,6 +603,9 @@ const MasterPackage = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PackageMasterList
             data={Stores.masterPackageStore.listMasterPackage || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -57,12 +54,7 @@ const TestSampleMapping = observer(() => {
 
 
   const onSubmitTestSampleMapping = () =>{
-    const error = Utils.validate(
-      Stores.testSampleMappingStore.testSampleMapping,
-      Utils.testSampleMapping
-    )
-    if (!error) {
-      
+    if (Stores.testSampleMappingStore.testSampleMapping) {
       Stores.testSampleMappingStore.testSampleMappingService
         .addTestSampleMapping(
           Stores.testSampleMappingStore.testSampleMapping
@@ -683,6 +675,41 @@ const TestSampleMapping = observer(() => {
               rules={{ required: false }}
               defaultValue=""
              />
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.testSampleMappingStore.testSampleMapping?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.testSampleMappingStore.updateSampleType({
+                      ...Stores.testSampleMappingStore.testSampleMapping,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
               <LibraryComponents.Atoms.Grid cols={4}>
                 <Controller
            control={control}
@@ -800,6 +827,9 @@ const TestSampleMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestSampleMappingList
             data={Stores.testSampleMappingStore.listTestSampleMapping || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

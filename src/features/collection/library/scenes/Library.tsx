@@ -792,6 +792,41 @@ export const Library = observer(() => {
               rules={{ required: false }}
               defaultValue=""
             />
+             <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
+                <select
+                  value={Stores.libraryStore.library?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.libraryStore.updateLibrary({
+                      ...Stores.libraryStore.library,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -827,6 +862,7 @@ export const Library = observer(() => {
               listDepartment:DepartmentStore.departmentStore.listDepartment,
               listMasterPanel:PanelMasterStore.masterPanelStore.listMasterPanel,
               updateLibraryStore: Stores.libraryStore.updateLibrary,
+              lookupItems: stores.routerStore.lookupItems
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),

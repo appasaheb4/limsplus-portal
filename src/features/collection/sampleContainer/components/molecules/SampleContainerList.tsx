@@ -1,11 +1,12 @@
 /* eslint-disable */
 import React, { useState } from "react"
-
+import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 interface SampleContainerListProps {
   data: any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -79,6 +80,43 @@ const SampleContainerList = (props: SampleContainerListProps) => {
               />
             </>
           ), 
+        },
+        {
+          dataField: "environment",
+          text: "Environment",
+          sort: true,
+          filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={row.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
+                    
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            </>
+          ),
         },
         {
           dataField: "operation",
