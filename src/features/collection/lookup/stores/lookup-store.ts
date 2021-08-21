@@ -10,7 +10,8 @@ import { stores } from "@lp/library/stores"
 class LookupStore {
   @observable listLookup: Models.Lookup[] = []
   @ignore @observable lookup!: Models.Lookup
-
+  @ignore @observable globalSettings!: Models.GlobalSettings
+    
   constructor() {
     makeAutoObservable(this)
   }
@@ -32,6 +33,10 @@ class LookupStore {
   @action updateLookup = (Lookup: Models.Lookup) => {
     this.lookup = Lookup
   }
+
+  @action updateGlobalSettings =(values: Models.GlobalSettings)=>{
+    this.globalSettings = values;
+  }  
 }
 
 export default LookupStore

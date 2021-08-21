@@ -56,10 +56,10 @@ class LookupService {
           reject({ error })
         })
     })
-    generalFiledUpdate = (lookup?: Partial<Models.Lookup>) =>
+    generalSettingsUpdate = (lookup?: Partial<Models.GlobalSettings>) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/lookup/generalFiledUpdate`, lookup)
+        .post(`/master/lookup/generalSettingsUpdate`, lookup)
         .then((response) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

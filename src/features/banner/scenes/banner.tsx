@@ -27,9 +27,9 @@ const Banner = observer(() => {
   const onSubmitBanner = () => {
     Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
       (res) => {
-        if (res.status === LibraryModels.StatusCode.CREATED) {
+        if (res.success) {
           LibraryComponents.Atoms.Toast.success({
-            message: `😊 Banner created.`,
+            message: `😊 ${res.message}`,
           })
           setTimeout(() => {
             window.location.reload()
@@ -38,7 +38,7 @@ const Banner = observer(() => {
       }
     )
   }
-  
+
   return (
     <>
       <LibraryComponents.Atoms.Header>

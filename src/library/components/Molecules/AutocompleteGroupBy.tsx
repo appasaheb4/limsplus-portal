@@ -48,9 +48,6 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
     setOptions(props.data)
   }, [props])
 
-  // useEffect(() => {
-  //   setUserRouter(stores.routerStore.userRouter)
-  // }, [])
 
   const uniqByKeepFirst = (a, key) => {
     const seen = new Set()
@@ -61,15 +58,12 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
   }
 
   const filter = (search, data) => {
-    console.log({ search })
     if (search !== "") {
-      // const filteredOptions = options?.filter(
-      //   (option) => option.title.toLowerCase().indexOf(search.toLowerCase()) > -1
-      // )
       let filterArray: any[] = []
       data.filter((item) => {
         item.children.filter((children) => {
           const childrenItem =
+            children.title &&
             children.title.toLowerCase().indexOf(search.toLowerCase()) > -1
           if (childrenItem) {
             const isSameArray = filterArray.filter((filterItem, index) => {
@@ -87,10 +81,8 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
         })
       })
       setOptions(filterArray)
-      //stores.routerStore.updateUserRouter(filterArray)
     } else {
       setOptions(data)
-      //stores.routerStore.updateUserRouter(userRouter)
     }
   }
 
@@ -146,7 +138,6 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
                             className="hover:bg-gray-200 focus:outline-none cursor-pointer"
                             onClick={async () => {
                               props.onChange && props.onChange(item, children)
-                              //stores.routerStore.updateUserRouter(userRouter)
                               setIsListOpen(false)
                               setValue(children.title)
                               setOptions([])

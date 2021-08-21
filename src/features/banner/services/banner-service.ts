@@ -9,6 +9,7 @@ import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import * as Models from "../models"
 
 export class BannerService {
+
   listBanner = () =>
     new Promise<Models.Banner[]>((resolve, reject) => {
       http
@@ -19,7 +20,8 @@ export class BannerService {
         .catch((error) => {
           reject({ error })
         })
-    }) 
+    })
+    
   addBanner = (banner: any) =>
     new Promise<any>((resolve, reject) => {
       const form = new FormData()
@@ -39,11 +41,12 @@ export class BannerService {
             "content-type": "application/json; charset=utf-8",
           },
         })
-        .then((res) => {
-          resolve(res)
-        })
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })  
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 
