@@ -29,8 +29,6 @@ const Lookup = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
-
-
   useEffect(() => {
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
@@ -60,14 +58,14 @@ const Lookup = observer(() => {
             show={hideAddLookup}
             onClick={() => setHideAddLookup(!hideAddLookup)}
           />
-        )}
-
-        <Accordion>
+        )}  
+   
+        <Accordion>  
           {[{ title: "NEW FIELD" }, { title: "GENERAL SETTING" }].map((item) => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "GENERAL SETTING"}
+                expanded={item.title === "NEW FIELD"}
               >
                 {item.title === "NEW FIELD" && (
                   <>
@@ -78,9 +76,9 @@ const Lookup = observer(() => {
                   <>
                     <GeneralField />
                   </>
-                )}  
+                )}
               </AccordionItem>
-            )   
+            )
           })}
         </Accordion>
 
