@@ -19,6 +19,8 @@ export class Login {
   shortcutMenu: any
   sessionTimeoutCount: number
   sessionAllowed: string
+  environment: string
+  
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.lab = rawData.lab
@@ -40,5 +42,6 @@ export class Login {
     this.shortcutMenu = rawData.shortcutMenu
     this.sessionTimeoutCount = rawData.sessionTimeoutCount
     this.sessionAllowed = rawData.sessionAllowed
+    this.environment = rawData.environment
   }
 }
