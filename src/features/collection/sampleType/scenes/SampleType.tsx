@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-
-import * as Utils from "../util"
+import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
@@ -25,11 +24,7 @@ const SampleType = observer(() => {
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
   const onSubmitSampleType = () =>{
-    const error = Utils.validate(
-      Stores.sampleTypeStore.sampleType,
-      Utils.sampleType
-    )
-    if (!error) {
+    if (Stores.sampleTypeStore.sampleType) {
       
       Stores.sampleTypeStore.sampleTypeService
         .addSampleType(Stores.sampleTypeStore.sampleType)
@@ -168,6 +163,41 @@ const SampleType = observer(() => {
               rules={{ required: false }}
                defaultValue=""
              />
+              <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.sampleTypeStore.sampleType?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.sampleTypeStore.updateSampleType({
+                      ...Stores.sampleTypeStore.sampleType,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -196,6 +226,9 @@ const SampleType = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleTypeList
             data={Stores.sampleTypeStore.listSampleType || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

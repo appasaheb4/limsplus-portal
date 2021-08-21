@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
 import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
-
-import * as Utils from "../util"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -47,12 +46,7 @@ export const PossibleResults = observer(() => {
   }, [])
 
   const onSubmitPossibleResult = () =>{
-    const error = Utils.validate(
-      Stores.possibleResultsStore.possibleResults,
-      Utils.possibleResults
-    )
-    
-    if (error === undefined) {
+    if (Stores.possibleResultsStore.possibleResults) {
       Stores.possibleResultsStore.possibleResultsService
         .addPossibleResults(
           Stores.possibleResultsStore.possibleResults
@@ -150,10 +144,45 @@ export const PossibleResults = observer(() => {
                   value={Stores.possibleResultsStore.possibleResults?.analyteName}
                 />
                 )}
-                name="analyteCode"
+                name="analyteName"
                 rules={{ required: false }}
                 defaultValue=""
                />
+                <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.possibleResultsStore.possibleResults?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.possibleResultsStore.updatePossibleResults({
+                      ...Stores.possibleResultsStore.possibleResults,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
                 <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
                   <LibraryComponents.Atoms.Grid cols={5}>
                   <Controller
@@ -367,7 +396,8 @@ export const PossibleResults = observer(() => {
               extraData={{
                 listMasterAnalyte: AnalyteStore.masterAnalyteStore.listMasterAnalyte,
                 possibleResults: Stores.possibleResultsStore.possibleResults,
-                updatePossibleResults:Stores.possibleResultsStore.updatePossibleResults
+                updatePossibleResults:Stores.possibleResultsStore.updatePossibleResults,
+                lookupItems: stores.routerStore.lookupItems
               }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,

@@ -25,6 +25,7 @@ export class TestSampleMapping {
     labelInst?: string
     printLabels?: boolean
     info?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.testCode = rawData.testCode
@@ -52,6 +53,7 @@ export class TestSampleMapping {
         this.labelInst = rawData.labelInst
         this.printLabels = rawData.printLabels
         this.info = rawData.info
+        this.environment = rawData.environment
         
     }
   }

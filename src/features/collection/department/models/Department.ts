@@ -16,6 +16,7 @@ export class Department {
     fyiLine?: string
     workLine?: string
     status?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.lab = rawData.lab
@@ -34,6 +35,7 @@ export class Department {
         this.fyiLine = rawData.fyiLine
         this.workLine = rawData.workLine
         this.status = rawData.status
+        this.environment = rawData.environment
     }
   }
   

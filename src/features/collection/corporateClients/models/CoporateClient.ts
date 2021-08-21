@@ -38,6 +38,7 @@ export class CorporateClients {
     fyiLine?: string
     workLine?: string
     status?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.duplicateId = rawData.duplicateId
@@ -78,6 +79,7 @@ export class CorporateClients {
         this.fyiLine = rawData.fyiLine
         this.workLine = rawData.workLine
         this.status = rawData.status
+        this.environment = rawData.environment
         
     }
   }

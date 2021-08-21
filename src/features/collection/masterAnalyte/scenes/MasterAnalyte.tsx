@@ -5,9 +5,6 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-import * as Models from "../models"
-import * as Utils from "../util"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
@@ -25,7 +22,6 @@ const MasterAnalyte = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm()
   const {
 		loginStore,
@@ -69,11 +65,7 @@ const MasterAnalyte = observer(() => {
   }, [LookupStore.lookupStore.listLookup])
   
   const onSubmitMasterAnalyte = () =>{
-    const error = Utils.validate(
-      Stores.masterAnalyteStore.masterAnalyte,
-      Utils.masterAnalyte
-    )
-    if (error === undefined) {
+    if (Stores.masterAnalyteStore.masterAnalyte) {
       if (
         !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
         !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
@@ -1023,7 +1015,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ENVIRONMENT").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -1034,7 +1026,7 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper>
                )}
                name="environment"
-               rules={{ required: false }}
+               rules={{ required: true }}
                defaultValue=""
               />
             </LibraryComponents.Atoms.List>
@@ -1066,6 +1058,9 @@ const MasterAnalyte = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.MasterAnalyteList
             data={Stores.masterAnalyteStore.listMasterAnalyte || []}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

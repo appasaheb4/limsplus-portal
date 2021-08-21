@@ -8,6 +8,7 @@ export class AdministrativeDivisions {
     postalCode?: Array<string>
     sbu?: string
     zone?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.country = rawData.country
@@ -18,6 +19,7 @@ export class AdministrativeDivisions {
         this.postalCode = rawData.postalCode
         this.sbu = rawData.sbu
         this.zone = rawData.zone
+        this.environment = rawData.environment
     }
   }
   

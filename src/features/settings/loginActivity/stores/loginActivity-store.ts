@@ -4,7 +4,7 @@ import * as Models from "../models"
 import * as Services from "../services"
 @version(0.1)
 class LoginActivityStore {
-  @observable listLoginActivity?: Models.ILoginActivity[] = []
+  @observable listLoginActivity?: Models.LoginActivity[] = []
   constructor() {
     makeAutoObservable(this)
   }
