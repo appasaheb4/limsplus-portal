@@ -5,10 +5,12 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
+import { Stores } from "@lp/features/login/stores"
 let router = dashboardRoutes
 
 interface LookupListProps {
   data: any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -74,6 +76,7 @@ const LookupList = observer((props: LookupListProps) => {
                     }}
                   />
                 </LibraryComponents.Atoms.Form.InputWrapper>
+
               </>
             ),
           },
@@ -87,7 +90,6 @@ const LookupList = observer((props: LookupListProps) => {
             dataField: "arrValue",
             text: "Value & code",
             sort: true,
-            editable: false,
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -109,12 +111,125 @@ const LookupList = observer((props: LookupListProps) => {
                 </LibraryComponents.Atoms.List>
               </>
             ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex
+            ) => (
+              <>
+                 <LibraryComponents.Atoms.Grid cols={3}>
+                  <LibraryComponents.Atoms.Form.Input
+                    placeholder="Code"
+                    value={row.code}
+                    onChange={(code) => {
+                     props.extraData.updateLookup({
+                        ...props.extraData.lookup,
+                        code: code.toUpperCase(),
+                      })
+                    }}
+                  />
+              
+                  <LibraryComponents.Atoms.Form.Input
+                    placeholder="Value"
+                    value={row.value}
+                    onChange={(value) => {
+                      props.extraData.updateLookup({
+                        ...props.extraData.lookup,
+                        value,
+                      })
+                    }}
+                  />
+               
+              <div className="mt-2">
+                <LibraryComponents.Atoms.Buttons.Button
+                  size="medium"
+                  type="solid"
+                  onClick={() => {
+                    const value = props.extraData.lookup?.value
+                    const code = props.extraData.lookup?.code
+                    let arrValue = row.arrValue || []
+                    if (value === undefined || code === undefined)
+                      return alert("Please enter value and code.")
+                    if (value !== undefined) {
+                      console.log({ len: arrValue.length })
+                      arrValue !== undefined
+                        ? arrValue.push({
+                            value,
+                            code,
+                          })
+                        : (arrValue = [
+                            {
+                              value,
+                              code,
+                            },
+                          ])
+                      props.onUpdateItem && props.onUpdateItem(arrValue,"arrValue",row._id)
+                      props.extraData.updateLookup({
+                        ...props.extraData.lookup,
+                        value: "",
+                        code: "",
+                      })
+                    }
+                  }}
+                >
+                  <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                  {`Add`}
+                </LibraryComponents.Atoms.Buttons.Button>
+              </div>
+              <div className="clearfix"></div>
+            
+            </LibraryComponents.Atoms.Grid>
+            <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
+              <div>
+                {row.arrValue?.map((item, index) => (
+                  <div className="mb-2" key={index}>
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="medium"
+                      type="solid"
+                      icon={LibraryComponents.Atoms.Icon.Remove}
+                      onClick={() => {
+                        const firstArr =
+                          row?.arrValue?.slice(0, index) || []
+                        const secondArr =
+                          row.arrValue?.slice(index + 1) || []
+                        const finalArray = [...firstArr, ...secondArr]
+                        props.extraData.updateLookup({
+                          ...props.extraData.lookup,
+                          arrValue: finalArray,
+                        })
+                        props.onUpdateItem && props.onUpdateItem(finalArray,"arrValue",row._id)
+                      }}
+                    >
+                      {`${item.value} - ${item.code}`}
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  </div>
+                ))}
+              </div>
+            </LibraryComponents.Atoms.List>
+              </>
+            ),
           },
           {
             dataField: "description",
             text: "Description",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+          },
+          // {
+          //   dataField: "defaultItem",
+          //   text: "Default Item",
+          //   sort: true,
+          //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+          // },
+          {
+            dataField: "environment",
+            text: "Environment",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "opration",
