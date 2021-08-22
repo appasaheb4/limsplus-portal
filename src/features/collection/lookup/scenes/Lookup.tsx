@@ -87,6 +87,10 @@ const Lookup = observer(() => {
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <FeatureComponents.Molecules.LookupList
               data={Stores.lookupStore.listLookup || []}
+              extraData={{
+                lookup: Stores.lookupStore.lookup,
+                updateLookup: Stores.lookupStore.updateLookup
+              }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
                 "Delete"
