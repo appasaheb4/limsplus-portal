@@ -9,14 +9,12 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
 const LoginActivity = observer(() => {
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   useEffect(() => {
     Stores.loginActivityStore.fetchLoginActivity()
   }, [])
@@ -28,13 +26,14 @@ const LoginActivity = observer(() => {
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      <div className=" mx-auto  flex-wrap">
+      <div className="mx-auto  flex-wrap">
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <div style={{ position: "relative" }}>
             <LibraryComponents.Organisms.TableBootstrap
               id="_id"
               data={Stores.loginActivityStore.listLoginActivity || []}
-              columns={[
+              totalSize={Stores.loginActivityStore.listLoginActivityCount}
+              columns={[  
                 {
                   dataField: "_id",
                   text: "Id",
@@ -112,7 +111,6 @@ const LoginActivity = observer(() => {
                     )
                   },
                 },
-
                 {
                   dataField: "dateOfEntry",
                   text: "In",
@@ -134,18 +132,14 @@ const LoginActivity = observer(() => {
                   },
                 },
               ]}
-              isEditModify={false}
+              onPageSizeChange={(size)=>{
+                Stores.loginActivityStore.fetchLoginActivity(size);
+              }}
+              isEditModify={false}  
               isSelectRow={false}
               fileName="Login Activity"
-              // onSelectedRow={(rows) => {
-              //   props.onSelectedRow &&
-              //     props.onSelectedRow(rows.map((item: any) => item._id))
-              // }}
-              // onUpdateItem={(value: any, dataField: string, id: string) => {
-              //   props.onUpdateItem && props.onUpdateItem(value, dataField, id)
-              // }}
             />
-          </div>
+          </div>  
         </div>
       </div>
     </>

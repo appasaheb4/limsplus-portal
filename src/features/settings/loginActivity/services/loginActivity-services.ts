@@ -4,23 +4,22 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
 
-class LoginActivityService  {
-  listLoginActivity = () =>
-    new Promise<Models.LoginActivity[]>((resolve, reject) => {
-      http  
-        .get(`/auth/listLoginActivity`)
-        .then((res: any) => {
-          console.log({res});
-          
-          resolve(res.data.data)
-        })
+import { http, Http, ServiceResponse } from "@lp/library/modules/http"
+
+class LoginActivityService {
+  listLoginActivity = (limit=10) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .get(`/auth/listLoginActivity/${limit}`)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })  
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
-    })
+    })   
 }
 
 export default LoginActivityService

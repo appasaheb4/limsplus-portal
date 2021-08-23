@@ -87,6 +87,7 @@ const Lookup = observer(() => {
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <FeatureComponents.Molecules.LookupList
               data={Stores.lookupStore.listLookup || []}
+              totalSize={Stores.lookupStore.listLookupCount}
               extraData={{
                 lookup: Stores.lookupStore.lookup,
                 updateLookup: Stores.lookupStore.updateLookup,
@@ -118,6 +119,9 @@ const Lookup = observer(() => {
                   title: "Are you sure?",
                   body: `Update Lookup!`,
                 })
+              }}  
+              onPageSizeChange={(page,size)=>{
+                Stores.lookupStore.fetchListLookup(page,size);
               }}
             />
           </div>
