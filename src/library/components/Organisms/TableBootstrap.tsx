@@ -63,6 +63,7 @@ const TableBootstrap = ({
   // }, [props])
 
   const sizePerPageRef = useRef(10)
+  const pageStartIndexRef = useRef(0);
 
   const customTotal = (from, to, size) => {
     return (
@@ -156,6 +157,9 @@ const TableBootstrap = ({
 
   const onPageChangeHandler = (page, sizePerPage) => {
     if (page !== 0) onPageSizeChange && onPageSizeChange(page, sizePerPage)
+    setTimeout(() => {
+      pageStartIndexRef.current = page
+    }, 2000);
   }
 
   const options = {
@@ -164,6 +168,7 @@ const TableBootstrap = ({
     totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
+    currPage:pageStartIndexRef.current,
     firstPageText: "<<",
     prePageText: "<",
     nextPageText: ">",
