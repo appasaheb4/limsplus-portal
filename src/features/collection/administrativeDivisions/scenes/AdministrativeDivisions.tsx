@@ -379,6 +379,7 @@ export const AdministrativeDivisions = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <AdminstrativeDivList
             data={Stores.administrativeDivStore.listAdministrativeDiv || []}
+            totalSize={Stores.administrativeDivStore.listAdministrativeDivCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -409,6 +410,9 @@ export const AdministrativeDivisions = observer(() => {
                 title: "Are you sure?",
                 body: `Update Section!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.administrativeDivStore.fetchAdministrativeDiv(page,limit)
             }}
           />
         </div>
