@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
 class LookupService {
-  listLookup = () =>
+  listLookup = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/master/lookup/listLookup`)
+        .get(`/master/lookup/listLookup/${page}/${limit}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -56,7 +56,7 @@ class LookupService {
           reject({ error })
         })
     })
-    generalSettingsUpdate = (lookup?: Partial<Models.GlobalSettings>) =>
+  generalSettingsUpdate = (lookup?: Partial<Models.GlobalSettings>) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/lookup/generalSettingsUpdate`, lookup)

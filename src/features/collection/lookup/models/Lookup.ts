@@ -5,7 +5,7 @@ export class Lookup {
   value: string
   arrValue: { value?: string | undefined; code?: string | undefined }[]
   description: string
-  defaultItem: { value?: string; code?: string }
+  defaultItem: Array<{ value?: string; code?: string }>
   environment: string
 
   constructor(rawData: { [key in string]: any }) {

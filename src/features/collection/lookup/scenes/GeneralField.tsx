@@ -41,7 +41,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
           message: `😊 ${res.message}`,
         })
         setTimeout(() => {
-          // window.location.reload()
+          window.location.reload()
         }, 2000)
       }
     })
@@ -247,10 +247,10 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   } rounded-md`}
                   onChange={(e) => {
                     let defaultItem = JSON.parse(e.target.value)
-                    defaultItem = {
+                    defaultItem = [{
                       code: defaultItem.code,
                       value: defaultItem.value,
-                    }
+                    }]
                     onChange(defaultItem)
                     Stores.lookupStore.updateGlobalSettings({
                       ...Stores.lookupStore.globalSettings,

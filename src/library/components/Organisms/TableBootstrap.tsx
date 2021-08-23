@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useRef } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import cellEditFactory from "react-bootstrap-table2-editor"
@@ -18,6 +18,7 @@ const { ExportCSVButton } = CSVExport
 interface TableBootstrapProps {
   id: string
   data: any
+  totalSize?: number
   columns: any
   fileName: string
   isDelete?: boolean
@@ -26,22 +27,38 @@ interface TableBootstrapProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const TableBootstrap = (props: TableBootstrapProps) => {
+const TableBootstrap = ({
+  id,
+  data,
+  totalSize,
+  columns,
+  fileName,
+  isDelete,
+  isEditModify,
+  isSelectRow,
+  onDelete,
+  onSelectedRow,
+  onUpdateItem,
+  onPageSizeChange,
+}: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
-  const [isEditModify, setIsEditModify] = useState<boolean>(
-    props.isEditModify || false
-  )
-  const [isSelectRow, setIsSelectRow] = useState<boolean>(props.isSelectRow || false)
+  // const [isEditModify, setIsEditModify] = useState<boolean>(
+  //   isEditModify || false
+  // )
+  // const [isSelectRow, setIsSelectRow] = useState<boolean>(isSelectRow || false)
 
-  useEffect(() => {
-    if (props.isEditModify) {
-      setIsEditModify(props.isEditModify)
-    } else if (props.isSelectRow) {
-      setIsSelectRow(props.isSelectRow)
-    }
-  }, [props])
+  // useEffect(() => {
+  //   if (isEditModify) {
+  //     setIsEditModify(isEditModify)
+  //   } else if (isSelectRow) {
+  //     setIsSelectRow(isSelectRow)
+  //   }
+  // }, [props])
+
+  const sizePerPageRef = useRef(10);
 
   const customTotal = (from, to, size) => {
     return (
@@ -67,7 +84,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
           type="solid"
           onClick={() => {
             if (selectedRow) {
-              props.onSelectedRow && props.onSelectedRow(selectedRow)
+              onSelectedRow && onSelectedRow(selectedRow)
             } else {
               alert("Please select any item.")
             }
@@ -107,7 +124,42 @@ const TableBootstrap = (props: TableBootstrapProps) => {
     </div>
   )
 
+
+  const pageButtonRenderer = ({
+    page,
+    active,
+    disable,
+    title,
+    onPageChange
+  }) => {
+    const handleClick = (e) => {
+      e.preventDefault();
+      //onPageChange(page);
+      onPageSizeChange && onPageSizeChange(page,sizePerPageRef.current)
+    };
+    const activeStyle:any = {};
+    if (active) {
+      activeStyle.backgroundColor = 'black';
+      activeStyle.color = 'white';
+    } else {
+      activeStyle.backgroundColor = 'gray';
+      activeStyle.color = 'black';
+    }
+    if (typeof page === 'string') {
+      activeStyle.backgroundColor = 'white';
+      activeStyle.color = 'black';
+    }
+    return (
+      <li className="page-item">
+        <a href="#" onClick={ handleClick } style={ activeStyle }>{ page }</a>
+      </li>
+    );
+  };
+
   const options = {
+    cutome:true,
+    //pageButtonRenderer,
+    totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
     firstPageText: "First",
@@ -141,18 +193,16 @@ const TableBootstrap = (props: TableBootstrapProps) => {
       {
         text: "50",
         value: 50,
-      },
-      {
-        text: "All",
-        value: props.data.length,
-      },
+      }
     ], // A numeric array is also available. the purpose of above example is custom the text
     onPageChange: (page, sizePerPage) => {
-      // console.log(page, sizePerPage)
+      console.log({ old: page, sizePerPage })
+      onPageSizeChange && onPageSizeChange(page,sizePerPage)
     },
     sizePerPageRenderer: sizePerPageRenderer,
     onSizePerPageChange: (page, sizePerPage) => {
-      //console.log(page, sizePerPage)
+      onPageSizeChange && onPageSizeChange(0,page)
+      sizePerPageRef.current = page
     },
   }
 
@@ -176,21 +226,19 @@ const TableBootstrap = (props: TableBootstrapProps) => {
 
   const afterSaveCell = (oldValue, newValue, row, column) => {
     if (oldValue !== newValue) {
-      props.onUpdateItem && props.onUpdateItem(newValue, column.dataField, row._id)
+      onUpdateItem && onUpdateItem(newValue, column.dataField, row._id)
     }
   }
 
   return (
     <ToolkitProvider
-      keyField={props.id}
+      keyField={id}
       bootstrap4
-      data={props.data}
-      columns={props.columns}
+      data={data}
+      columns={columns}
       search
       exportCSV={{
-        fileName: `${props.fileName}_${moment(new Date()).format(
-          "YYYY-MM-DD HH:mm"
-        )}.csv`,
+        fileName: `${fileName}_${moment(new Date()).format("YYYY-MM-DD HH:mm")}.csv`,
         noAutoBOM: false,
         blobType: "text/csv;charset=ansi",
       }}
@@ -213,7 +261,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
             {...props.baseProps}
             noDataIndication="Table is Empty"
             hover
-            pagination={paginationFactory(options)}
+            pagination={totalSize !== 0 && paginationFactory(options)}
             filter={filterFactory()}
             selectRow={
               isSelectRow
@@ -231,7 +279,7 @@ const TableBootstrap = (props: TableBootstrapProps) => {
                     blurToSave: true,
                     afterSaveCell,
                   })
-                : undefined              
+                : undefined
             }
           />
         </div>

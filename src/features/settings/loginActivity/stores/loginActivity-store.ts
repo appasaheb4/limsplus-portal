@@ -5,19 +5,19 @@ import * as Services from "../services"
 @version(0.1)
 class LoginActivityStore {
   @observable listLoginActivity?: Models.LoginActivity[] = []
+  @observable listLoginActivityCount?: number = 0
   constructor() {
     makeAutoObservable(this)
   }
 
   @computed get LoginActivityService() {
-    return new Services.LoginActivityService(
-    )
+    return new Services.LoginActivityService()
   }
-
-  @action fetchLoginActivity() {
-    this.LoginActivityService.listLoginActivity().then((list) => {
-      // console.log({ rolMapping: list })
-      this.listLoginActivity = list
+   
+  @action fetchLoginActivity(limit=10) {
+    this.LoginActivityService.listLoginActivity(limit).then((list) => {
+      this.listLoginActivity = list.data.loginActivity  
+      this.listLoginActivityCount = list.data.count
     })
   }
 }

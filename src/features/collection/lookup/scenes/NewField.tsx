@@ -232,7 +232,7 @@ export const NewField = observer((props: NewFieldProps) => {
                         } rounded-md`}
                         onChange={(e) => {
                           let defaultItem = JSON.parse(e.target.value)
-                          defaultItem = {code:defaultItem.code,value:defaultItem.value}
+                          defaultItem = [{code:defaultItem.code,value:defaultItem.value}]
                           onChange(defaultItem)
                           Stores.lookupStore.updateLookup({
                             ...Stores.lookupStore.lookup,

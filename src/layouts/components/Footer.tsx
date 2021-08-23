@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Row, Col } from "reactstrap"
 
 const Footer = () => (
-  <footer className="footer fixed bottom-0 w-full">
+  <footer className="footer bottom-0 w-full">
     <Container fluid>
       <Row className="text-muted">
         <Col xs="6" className="text-left">
