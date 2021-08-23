@@ -7,6 +7,7 @@ import * as Services from "../services"
 class BannerStore {
   @ignore @observable banner!: Models.Banner
   @observable listBanner: Models.Banner[] = []
+  @observable listBannerCount: number = 0;
   constructor() {
     makeAutoObservable(this)
   }
@@ -15,9 +16,10 @@ class BannerStore {
     return new Services.BannerService()
   }
 
-  @action fetchListBanner() {
-    this.BannerService.listBanner().then((banner) => {
+  @action fetchListBanner(page?,limit?) {
+    this.BannerService.listBanner(page,limit).then((banner) => {
       this.listBanner = banner
+      
     })
   }
   

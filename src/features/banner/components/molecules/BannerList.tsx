@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 interface BannerListProps {
   data: any
+  totlaSize:number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -14,6 +15,7 @@ interface BannerListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }   
 
 const BannerList = (props: BannerListProps) => {
@@ -21,6 +23,7 @@ const BannerList = (props: BannerListProps) => {
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
       data={props.data}
+      totalSize={props.totlaSize}
       columns={[
         {
           dataField: "_id",
@@ -150,6 +153,9 @@ const BannerList = (props: BannerListProps) => {
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+      onPageSizeChange={(page,size)=>{
+        props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
   )
