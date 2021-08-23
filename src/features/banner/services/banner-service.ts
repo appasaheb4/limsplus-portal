@@ -10,10 +10,10 @@ import * as Models from "../models"
 
 export class BannerService {
 
-  listBanner = () =>
+  listBanner = (page=0,limit=10) =>
     new Promise<Models.Banner[]>((resolve, reject) => {
       http
-        .get(`/banner/listBanner`)
+        .get(`/banner/listBanner/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

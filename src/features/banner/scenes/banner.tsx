@@ -170,6 +170,7 @@ const Banner = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.BannerList
             data={Stores.bannerStore.listBanner || []}
+            totlaSize={Stores.bannerStore.listBannerCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -208,6 +209,9 @@ const Banner = observer(() => {
                 title: "Are you sure?",
                 body: `Update banner!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.bannerStore.fetchListBanner(page,limit)
             }}
           />
         </div>
