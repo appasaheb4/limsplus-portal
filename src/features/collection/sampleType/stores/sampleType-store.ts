@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class SampleTypeStore {
   @observable listSampleType: Models.SampleType[] = []
+  @observable listSampleTypeCount: number = 0
   @ignore @observable sampleType?: Models.SampleType
 
   constructor() {
@@ -17,8 +18,8 @@ class SampleTypeStore {
     )
   }
 
-  fetchSampleTypeList() {
-    this.sampleTypeService.listSampleType().then((res) => {
+  fetchSampleTypeList(page?,limit?) {
+    this.sampleTypeService.listSampleType(page,limit).then((res) => {
       this.listSampleType = res
     })
   }

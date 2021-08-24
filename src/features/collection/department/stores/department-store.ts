@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 class DepartmentStore {
   @observable listDepartment: Models.Department[] = []
+  @observable listDepartmentCount: number = 0
   @ignore @observable department?: Models.Department
   @ignore @observable checkExitsCode?: boolean = false
 
@@ -30,8 +31,8 @@ class DepartmentStore {
     return new Services.DepartmentService()
   }
 
-  fetchListDepartment() {
-    this.DepartmentService.listDepartment().then((res) => {
+  fetchListDepartment(page?,limit?) {
+    this.DepartmentService.listDepartment(page,limit).then((res) => {
       //  console.log({ department: res });
       this.listDepartment = res
     })

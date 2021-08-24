@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class AdministrativeDivisionsService  {
-  listAdministrativeDivisions = () =>
+  listAdministrativeDivisions = (page=0,limit=10) =>
     new Promise<Models.AdministrativeDivisions[]>((resolve, reject) => {
       http
-        .get(`master/administrativeDivisions/listAdministrativeDivisions`)
+        .get(`master/administrativeDivisions/listAdministrativeDivisions/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

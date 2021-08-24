@@ -14,6 +14,7 @@ import * as LibraryModels from "@lp/library/models"
 
 interface PanelMasterListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -22,6 +23,7 @@ interface PanelMasterListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 
 }
 
@@ -1041,6 +1043,9 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
       </div>

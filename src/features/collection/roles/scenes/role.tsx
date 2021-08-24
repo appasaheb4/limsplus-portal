@@ -192,6 +192,7 @@ const Role = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.RoleList
             data={Stores.roleStore.listRole || []}
+            totalSize={Stores.roleStore.listRoleCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -221,6 +222,9 @@ const Role = observer(() => {
                 title: "Are you sure?",
                 body: `Update role!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.roleStore.fetchListRole(page,limit)
             }}
           />
         </div>

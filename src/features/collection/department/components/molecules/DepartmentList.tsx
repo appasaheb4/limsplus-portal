@@ -11,12 +11,14 @@ import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 interface DepartmentListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const DepartmentList = observer((props: DepartmentListProps) => {
@@ -389,6 +391,9 @@ const DepartmentList = observer((props: DepartmentListProps) => {
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+      onPageSizeChange={(page,size)=>{
+        props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
   )

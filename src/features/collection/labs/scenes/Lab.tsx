@@ -943,6 +943,7 @@ const Lab = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.LabList
             data={Stores.labStore.listLabs || []}
+            totalSize={Stores.labStore.listLabsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -981,6 +982,9 @@ const Lab = observer(() => {
                 title: "Are you sure?",
                 body: `Update lab!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.labStore.fetchListLab(page,limit)
             }}
           />
         </div>

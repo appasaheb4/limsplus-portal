@@ -7,6 +7,7 @@ import * as Services from "../services"
 class LibraryStore {
   @ignore @observable library!: Library
   @observable listLibrary: Library[] = []
+  @observable listLibraryCount: number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -20,8 +21,8 @@ class LibraryStore {
     return new Services.MasterAnalyteService()
   }
 
-  @action fetchLibrary() {
-    this.libraryService.listLibrary().then((res) => {
+  @action fetchLibrary(page?,limit?) {
+    this.libraryService.listLibrary(page,limit).then((res) => {
       this.listLibrary = res
     })
   }

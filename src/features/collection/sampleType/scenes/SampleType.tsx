@@ -226,6 +226,7 @@ const SampleType = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleTypeList
             data={Stores.sampleTypeStore.listSampleType || []}
+            totalSize={Stores.sampleTypeStore.listSampleTypeCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -256,6 +257,9 @@ const SampleType = observer(() => {
                 title: "Are you sure?",
                 body: `Update lab!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.sampleTypeStore.fetchSampleTypeList(page,limit)
             }}
           />
         </div>

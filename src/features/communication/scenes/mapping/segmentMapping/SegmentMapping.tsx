@@ -630,6 +630,7 @@ const SegmentMapping = observer(() => {
       <div className="p-2 rounded-lg shadow-xl overflow-scroll">
         {/* <FeatureComponents.Molecules.SegmentMappingList
           data={Stores.segmentMappingStore.listSegmentMapping || []}
+          totalSize={Stores.segmentMappingStore.listSegmentMappingCount}
           isDelete={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
             "Delete"
@@ -656,6 +657,9 @@ const SegmentMapping = observer(() => {
               title: "Are you sure?",
               body: `Update user!`,
             })
+          }}
+          onPageSizeChange={(page,limit)=>{
+            Stores.segmentMappingStore.fetchListSegmentMapping(page,limit)
           }}
         /> */}
         <div>

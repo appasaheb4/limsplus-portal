@@ -10,12 +10,14 @@ import { Stores as DepartmentStore } from "@lp/features/collection/department/st
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 interface SectionListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 export const SectionList = observer((props: SectionListProps) => {
@@ -272,6 +274,9 @@ export const SectionList = observer((props: SectionListProps) => {
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+      onPageSizeChange={(page,size)=>{
+        props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
   )

@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class AdministrativeDivisionsStore {
   @ignore @observable administrativeDiv?: Models.AdministrativeDivisions
+  @observable listAdministrativeDivCount: number = 0;
   @observable listAdministrativeDiv?: Models.AdministrativeDivisions[] = []
 
   constructor() {
@@ -16,8 +17,8 @@ class AdministrativeDivisionsStore {
     return new Services.AdministrativeDivisionsService()
   }
 
-  fetchAdministrativeDiv() {
-    this.administrativeDivisionsService.listAdministrativeDivisions().then((res) => {
+  fetchAdministrativeDiv(page?,limit?) {
+    this.administrativeDivisionsService.listAdministrativeDivisions(page,limit).then((res) => {
       this.listAdministrativeDiv = res
     })
   }

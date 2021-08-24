@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class TestAnalyteMappingStore {
   @ignore @observable testAnalyteMapping?: Models.TestAnalyteMapping
   @observable listTestAnalyteMapping?: Models.TestAnalyteMapping[] = []
+  @observable listTestAnalyteMappingCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -28,8 +29,8 @@ class TestAnalyteMappingStore {
     )
   }
 
-  fetchTestAnalyteMapping() {
-    this.testAnalyteMappingService.listTestAnalyteMapping().then((res) => {
+  fetchTestAnalyteMapping(page?,limit?) {
+    this.testAnalyteMappingService.listTestAnalyteMapping(page,limit).then((res) => {
       this.listTestAnalyteMapping = res
     })
   }

@@ -17,6 +17,7 @@ import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 
 interface TestMasterProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -25,6 +26,7 @@ interface TestMasterProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const TestMasterList = observer((props: TestMasterProps) => {
@@ -1289,6 +1291,9 @@ const TestMasterList = observer((props: TestMasterProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
       </div>

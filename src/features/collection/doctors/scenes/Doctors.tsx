@@ -1249,6 +1249,7 @@ const Doctors = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.DoctorsList
             data={Stores.doctorsStore.listDoctors || []}
+            totalSize={Stores.doctorsStore.listDoctorsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1297,6 +1298,9 @@ const Doctors = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.doctorsStore.fetchDoctors(page,limit)
             }}
           />
         </div>

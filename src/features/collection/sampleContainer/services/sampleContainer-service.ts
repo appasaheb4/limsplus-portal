@@ -9,10 +9,10 @@ import { http } from "@lp/library/modules/http"
 import * as Models from "../models"
 
 class SampleContainerService  {
-  listSampleContainer = () =>
+  listSampleContainer = (page=0,limit=10) =>
     new Promise<Models.SampleContainer[]>((resolve, reject) => {
       http
-        .get(`master/sampleContainer/listSampleContainer`)
+        .get(`master/sampleContainer/listSampleContainer/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

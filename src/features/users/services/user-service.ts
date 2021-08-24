@@ -9,10 +9,10 @@ import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { AssetsService } from "@lp/features/assets/services"
 
 export class UserService {
-  userList = () =>
+  userList = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/auth/listUser`)
+        .get(`/auth/listUser/${page}/${limit}`)
         .then((response) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

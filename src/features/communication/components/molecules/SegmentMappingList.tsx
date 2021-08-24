@@ -12,12 +12,14 @@ import { Stores } from "../../stores"
 
 interface SegmentMappingListProps {
   data: any
+  totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onDuplicate?: (selectedItem: any) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const SegmentMappingList = observer((props: SegmentMappingListProps) => {
@@ -854,6 +856,9 @@ const SegmentMappingList = observer((props: SegmentMappingListProps) => {
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+      onPageSizeChange={(page,size)=>{
+        props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
   )
