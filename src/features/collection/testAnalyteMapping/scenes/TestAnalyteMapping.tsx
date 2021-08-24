@@ -596,6 +596,7 @@ const TestAnalyteMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestAnalyteMappingList
             data={Stores.testAnalyteMappingStore.listTestAnalyteMapping || []}
+            totalSize={Stores.testAnalyteMappingStore.listTestAnalyteMappingCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -644,6 +645,9 @@ const TestAnalyteMapping = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.testAnalyteMappingStore.fetchTestAnalyteMapping(page,limit)
             }}
           />
         </div>

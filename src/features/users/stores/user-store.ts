@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class UsersStore {
   @ignore @observable user!: Models.Users
   @observable userList?: Models.Users[]
+  @observable userListCount: number = 0
   @ignore @observable changePassword?: Models.ChangePassword
   @ignore @observable checkExitsUserId: boolean = false
   @ignore @observable checkExistsEmpCode: boolean = false
@@ -38,8 +39,8 @@ class UsersStore {
     return new Services.UserService()
   }
 
-  @action loadUser() {
-    this.UsersService.userList().then((res) => {
+  @action loadUser(page?,limit?) {
+    this.UsersService.userList(page,limit).then((res) => {
       if (res.success) this.userList = res.data.user
       else alert(res.message)
     })  

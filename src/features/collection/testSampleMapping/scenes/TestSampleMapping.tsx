@@ -827,6 +827,7 @@ const TestSampleMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestSampleMappingList
             data={Stores.testSampleMappingStore.listTestSampleMapping || []}
+            totalSize={Stores.testSampleMappingStore.listTestSampleMappingCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -857,6 +858,9 @@ const TestSampleMapping = observer(() => {
                 title: "Are you sure?",
                 body: `Update lab!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.testSampleMappingStore.fetchSampleTypeList(page,limit)
             }}
           />
         </div>

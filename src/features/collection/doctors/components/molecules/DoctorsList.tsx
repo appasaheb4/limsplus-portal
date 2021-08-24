@@ -20,6 +20,7 @@ const { ExportCSVButton } = CSVExport
 
 interface DoctorsListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -28,6 +29,7 @@ interface DoctorsListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const DoctorsList = observer((props: DoctorsListProps) => {
@@ -863,6 +865,9 @@ const DoctorsList = observer((props: DoctorsListProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
     </div>

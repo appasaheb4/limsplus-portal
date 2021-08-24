@@ -9,6 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class DoctorsStore {
   @ignore @observable doctors?: Models.Doctors
   @observable listDoctors?: Models.Doctors[] = []
+  @observable listDoctorsCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -30,8 +31,8 @@ class DoctorsStore {
     )
   }
 
-  fetchDoctors() {
-    this.doctorsService.listDoctors().then((res) => {
+  fetchDoctors(page?,limit?) {
+    this.doctorsService.listDoctors(page,limit).then((res) => {
       this.listDoctors = res
     })
   }

@@ -19,6 +19,7 @@ const { ExportCSVButton } = CSVExport
 
 interface RegistrationLocationsListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -27,6 +28,7 @@ interface RegistrationLocationsListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const RegistrationLocationsList = observer(
@@ -874,6 +876,9 @@ const RegistrationLocationsList = observer(
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

@@ -13,12 +13,14 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface DeliverySchduleListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
@@ -281,6 +283,9 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

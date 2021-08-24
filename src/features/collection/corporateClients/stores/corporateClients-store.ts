@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 class CorporateClientsStore {
   @ignore @observable corporateClients?: Models.CorporateClients
+  @observable listCoporateClientsCount: number = 0
   @observable listCorporateClients?: Models.CorporateClients[] = []
 
   constructor() {
@@ -30,8 +31,8 @@ class CorporateClientsStore {
     )
   }
 
-  fetchCorporateClients() {
-    this.corporateClientsService.listCorporateClients().then((res) => {
+  fetchCorporateClients(page?,limit?) {
+    this.corporateClientsService.listCorporateClients(page,limit).then((res) => {
       this.listCorporateClients = res
     })
   }

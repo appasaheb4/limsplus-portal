@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class NoticeBoardService  {
-  noticeBoardsList = () =>
+  noticeBoardsList = (page=0,limit=10) =>
     new Promise<Models.NoticeBoard[]>((resolve, reject) => {
       http
-        .get(`/settings/noticeBoards/listNoticeBoards`)
+        .get(`/settings/noticeBoards/listNoticeBoards/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

@@ -8,6 +8,7 @@ import * as Services from "../services"
 class ConversationMappingStore {
   @ignore @observable conversationMapping?: Models.ConversationMapping
   @observable listConversationMapping?: Models.ConversationMapping[] = []
+  @observable listConversationMappingCount: number = 0
   @ignore @observable updateItem?: Models.UpdateItem
 
   constructor() {
@@ -18,9 +19,9 @@ class ConversationMappingStore {
     return new Services.CommunicationService()
   }
 
-  @action fetchConversationMapping() {
+  @action fetchConversationMapping(page?,limit?) {
     this.conversationMappingService
-      .listConversationMapping()
+      .listConversationMapping(page,limit)
       .then((conversation) => {
         this.listConversationMapping = conversation
       })

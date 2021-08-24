@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class TestSampleMappingService  {
-  listTestSampleMapping = () =>
+  listTestSampleMapping = (page=0,limit=10) =>
     new Promise<Models.TestSampleMapping[]>((resolve, reject) => {
       http
-        .get(`master/testSampleMapping/listTestSampleMapping`)
+        .get(`master/testSampleMapping/listTestSampleMapping/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

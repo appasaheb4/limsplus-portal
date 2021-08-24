@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class TestPanelMappingService  {
-  listTestPanelMapping = () =>
+  listTestPanelMapping = (page=0,limit=10) =>
     new Promise<Models.TestPanelMapping[]>((resolve, reject) => {
       http
-        .get(`master/testPanelMapping/listTestPanelMapping`)
+        .get(`master/testPanelMapping/listTestPanelMapping/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)  
         })

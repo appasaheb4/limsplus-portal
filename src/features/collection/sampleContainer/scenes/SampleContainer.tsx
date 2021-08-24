@@ -235,6 +235,7 @@ const SampleContainer = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleContainerList
             data={Stores.sampleContainerStore.listSampleContainer || []}
+            totalSize={Stores.sampleContainerStore.listSampleContainerCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -265,6 +266,9 @@ const SampleContainer = observer(() => {
                 title: "Are you sure?",
                 body: `Update item!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.sampleContainerStore.fetchListSampleContainer(page,limit)
             }}
           />
         </div>

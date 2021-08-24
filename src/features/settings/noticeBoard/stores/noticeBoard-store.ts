@@ -6,6 +6,7 @@ import * as Models from "../models"
 class NoticeBoardStore {
   @ignore @observable noticeBoard?: Models.NoticeBoard
   @observable noticeBoardList?: Models.NoticeBoard[] = []
+  @observable noticeBoardListCount: number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -16,8 +17,8 @@ class NoticeBoardStore {
     )
   }
 
-  @action fetchNoticeBoards() {
-    this.NoticeBoardService.noticeBoardsList().then((list) => {
+  @action fetchNoticeBoards(page?,limit?) {
+    this.NoticeBoardService.noticeBoardsList(page,limit).then((list) => {
       this.noticeBoardList = list
     })
   }

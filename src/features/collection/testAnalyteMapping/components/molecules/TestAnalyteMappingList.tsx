@@ -15,6 +15,7 @@ import * as LibraryModels from "@lp/library/models"
 
 interface TestAnalyteMappingListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -23,6 +24,7 @@ interface TestAnalyteMappingListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => {
@@ -363,6 +365,9 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
     </>

@@ -7,6 +7,7 @@ import * as Services from "../services"
 class MethodsStore {
   @ignore @observable methods?: Models.Methods
   @observable listMethods?: Models.Methods[] = []
+  @observable listMethodsCount: number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -17,8 +18,8 @@ class MethodsStore {
     )
   }
 
-  fetchMethods() {
-    this.methodsService.listMethods().then((res) => {
+  fetchMethods(page?,limit?) {
+    this.methodsService.listMethods(page,limit).then((res) => {
       this.listMethods = res
     })
   }

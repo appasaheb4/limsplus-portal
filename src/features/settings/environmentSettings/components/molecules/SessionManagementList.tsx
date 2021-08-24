@@ -18,11 +18,13 @@ import { toJS } from "mobx"
 
 interface SessionManagementListProps {
   data: any
+  totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const SessionManagementList = observer((props: SessionManagementListProps) => {
@@ -271,6 +273,9 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

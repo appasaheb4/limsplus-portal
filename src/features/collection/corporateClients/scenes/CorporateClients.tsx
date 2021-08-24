@@ -1062,6 +1062,7 @@ const CorporateClients = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.CorporateClient
             data={Stores.corporateClientsStore.listCorporateClients || []}
+            totalSize={Stores.corporateClientsStore.listCoporateClientsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1092,6 +1093,9 @@ const CorporateClients = observer(() => {
                 title: "Are you sure?",
                 body: `Update Section!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.corporateClientsStore.fetchCorporateClients(page,limit)
             }}
           />
         </div>

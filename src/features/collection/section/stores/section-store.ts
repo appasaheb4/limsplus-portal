@@ -6,6 +6,8 @@ import * as Services from "../services"
 @version(0.1)
 class SectionStore {
   @observable listSection: Models.Section[] = []
+  @observable listSectionCount: number = 0 
+  
   @ignore @observable section?: Models.Section
 
   constructor() {
@@ -17,8 +19,8 @@ class SectionStore {
     )
   }
   
-  @action fetchSections() {
-    this.sectionService.listSection().then((res) => {
+  @action fetchSections(page?,limit?) {
+    this.sectionService.listSection(page,limit).then((res) => {
       this.listSection = res
     })
   }

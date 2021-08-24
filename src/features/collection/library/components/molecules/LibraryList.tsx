@@ -9,6 +9,7 @@ import * as LibraryModels from "@lp/library/models"
 
 interface LibraryListProps {
   data: any
+  totalSize: number
   extraData:any
   isDelete?: boolean
   isEditModify?: boolean
@@ -17,6 +18,7 @@ interface LibraryListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 export const LibraryList = observer((props: LibraryListProps) => {
@@ -730,6 +732,9 @@ export const LibraryList = observer((props: LibraryListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

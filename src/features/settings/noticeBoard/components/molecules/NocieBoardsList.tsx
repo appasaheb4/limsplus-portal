@@ -17,11 +17,13 @@ import { toJS } from "mobx"
 
 interface NoticeBoardsListProps {
   data: any
+  totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
@@ -182,6 +184,9 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>
