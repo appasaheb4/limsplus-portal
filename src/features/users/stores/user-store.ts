@@ -41,7 +41,10 @@ class UsersStore {
 
   @action loadUser(page?,limit?) {
     this.UsersService.userList(page,limit).then((res) => {
-      if (res.success) this.userList = res.data.user
+      if (res.success) {
+        this.userList = res.data.user
+        this.userListCount = res.data.count
+      }
       else alert(res.message)
     })  
   }
