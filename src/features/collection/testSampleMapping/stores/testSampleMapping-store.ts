@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class TestSampleMappingStore {
   @observable listTestSampleMapping: Models.TestSampleMapping[] = []
+  @observable listTestSampleMappingCount: number = 0 
   @ignore @observable testSampleMapping?: Models.TestSampleMapping
     
   constructor() {
@@ -28,8 +29,8 @@ class TestSampleMappingStore {
     )
   }
 
-  fetchSampleTypeList() {
-    this.testSampleMappingService.listTestSampleMapping().then((res) => {
+  fetchSampleTypeList(page?,limit?) {
+    this.testSampleMappingService.listTestSampleMapping(page,limit).then((res) => {
       this.listTestSampleMapping = res
     })
   }

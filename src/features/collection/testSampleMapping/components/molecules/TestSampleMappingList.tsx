@@ -12,12 +12,14 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface TestSampleMappingListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
@@ -759,6 +761,9 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
     </>

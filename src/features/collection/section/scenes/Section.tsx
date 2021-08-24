@@ -437,6 +437,7 @@ const Section = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <SectionList
             data={Stores.sectionStore.listSection || []}
+            totalSize={Stores.sectionStore.listSectionCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -466,6 +467,9 @@ const Section = observer(() => {
                 title: "Are you sure?",
                 body: `Update Section!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.sectionStore.fetchSections(page,limit)
             }}
           />
         </div>

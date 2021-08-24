@@ -199,6 +199,7 @@ const Deginisation = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.DeginisationList
             data={Stores.deginisationStore.listDeginisation || []}
+            totalSize={Stores.deginisationStore.listDeginisationCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -228,6 +229,9 @@ const Deginisation = observer(() => {
                 title: "Are you sure?",
                 body: `Update deginisation!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.deginisationStore.fetchListDeginisation(page,limit)
             }}
           />
         </div>

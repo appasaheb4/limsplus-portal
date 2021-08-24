@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class SampleTypeService  {
-  listSampleType = () =>
+  listSampleType = (page=0 , limit=10) =>
     new Promise<Models.SampleType[]>((resolve, reject) => {
       http
-        .get(`master/sampleType/listSampleType`)
+        .get(`master/sampleType/listSampleType/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

@@ -1569,6 +1569,7 @@ const TestMater = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestMasterList
             data={Stores.testMasterStore.listTestMaster || []}
+            totalSize={Stores.testMasterStore.listTestMasterCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1617,6 +1618,9 @@ const TestMater = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.testMasterStore.fetchTestMaster(page,limit)
             }}
           />
         </div>

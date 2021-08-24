@@ -7,6 +7,7 @@ import * as Models from "../models"
 class EnvironmentSettingsStore {
   @ignore @observable sessionManagement?: Models.SessionManagement
   @observable sessionManagementList?: Models.SessionManagement[] = []
+  @observable sessionManagementListCount: number = 0
   constructor() {
     makeAutoObservable(this)
   }
@@ -14,8 +15,8 @@ class EnvironmentSettingsStore {
     return new Services.EnvironmentSettingsService(
     )
   }
-  @action fetchSessionManagementList() {
-    this.EnvironmentSettingsService.sessionManagementList().then((sessions) => {
+  @action fetchSessionManagementList(page?,limit?) {
+    this.EnvironmentSettingsService.sessionManagementList(page,limit).then((sessions) => {
       this.sessionManagementList = sessions
     })
   }

@@ -8,11 +8,13 @@ import { Stores } from "../../stores"
 
 interface InterfaceManagerListProps {
   data: any
+  totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
@@ -515,6 +517,9 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+      }}
+      onPageSizeChange={(page,size)=>{
+        props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
   )

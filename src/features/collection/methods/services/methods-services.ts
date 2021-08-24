@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class MethodsService  {
-  listMethods = () =>
+  listMethods = (page=0,limit=10) =>
     new Promise<Models.Methods[]>((resolve, reject) => {
       http
-        .get(`master/methods/listMethods`)
+        .get(`master/methods/listMethods/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

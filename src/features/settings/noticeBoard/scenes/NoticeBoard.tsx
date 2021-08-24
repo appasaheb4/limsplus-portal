@@ -230,6 +230,7 @@ const NoticeBoard = observer(() => {
       >
         <FeatureComponents.Molecules.NoticeBoardsList
           data={Stores.noticeBoardStore.noticeBoardList}
+          totalSize={Stores.noticeBoardStore.noticeBoardListCount}
           isDelete={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
             "Delete"
@@ -256,6 +257,9 @@ const NoticeBoard = observer(() => {
               title: "Are you sure?",
               body: `Update recoard!`,
             })
+          }}
+          onPageSizeChange={(page,limit)=>{
+            Stores.noticeBoardStore.fetchNoticeBoards(page,limit)
           }}
         />
       </div>

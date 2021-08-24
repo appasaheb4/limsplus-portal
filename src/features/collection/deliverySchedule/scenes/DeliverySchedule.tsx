@@ -588,6 +588,7 @@ const DeliverySchedule = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.DeliverySchduleList
             data={Stores.deliveryScheduleStore.listDeliverySchedule || []}
+            totalSize={Stores.deliveryScheduleStore.listDeliveryScheduleCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -618,6 +619,9 @@ const DeliverySchedule = observer(() => {
                 title: "Are you sure?",
                 body: `Update lab!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.deliveryScheduleStore.fetchDeliverySchedule(page,limit)
             }}
           />
         </div>

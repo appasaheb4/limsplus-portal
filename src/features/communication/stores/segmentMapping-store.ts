@@ -7,6 +7,7 @@ import * as Services from "../services"
 class SegmentMappingStore {
   @ignore @observable segmentMapping?: Models.SegmentMapping
   @observable listSegmentMapping?: Models.SegmentMapping[] = []
+  @observable listSegmentMappingCount: number = 0 
   @ignore @observable selectedItems?: Models.SegmentMapping[] = []
   @ignore @observable updateItem?: Models.UpdateItem
   @ignore @observable mapping?: Models.Mapping[] = []
@@ -14,8 +15,8 @@ class SegmentMappingStore {
     makeAutoObservable(this)
   }
 
-  @action fetchListSegmentMapping() {
-    this.segmentMappingService.listSegmentMapping().then((listSegmentMapping) => {
+  @action fetchListSegmentMapping(page?,limit?) {
+    this.segmentMappingService.listSegmentMapping(page,limit).then((listSegmentMapping) => {
       //console.log({ listSegmentMapping })
       this.listSegmentMapping = listSegmentMapping
     })

@@ -13,6 +13,7 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface LabListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -20,6 +21,7 @@ interface LabListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const LabList = observer((props: LabListProps) => {
@@ -739,6 +741,9 @@ const LabList = observer((props: LabListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

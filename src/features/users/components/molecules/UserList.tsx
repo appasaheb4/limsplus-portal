@@ -14,6 +14,7 @@ import { toJS } from "mobx"
 
 interface UserListProps {  
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -22,6 +23,7 @@ interface UserListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onChangePassword?: (id: string)=> void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 export const UserList = observer((props: UserListProps) => {
@@ -773,6 +775,9 @@ export const UserList = observer((props: UserListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

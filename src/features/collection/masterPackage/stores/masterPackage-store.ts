@@ -11,6 +11,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class MasterPackageStore {
   @ignore @observable masterPackage?: Models.MasterPackage
   @observable listMasterPackage?: Models.MasterPackage[] =[]
+  @observable listMasterPackageCount: number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -31,8 +32,8 @@ class MasterPackageStore {
     )
   }
 
-  fetchPackageMaster() {
-    this.masterPackageService.listPackageMaster().then((res) => {
+  fetchPackageMaster(page?,limit?) {
+    this.masterPackageService.listPackageMaster(page,limit).then((res) => {
       this.listMasterPackage = res
     })
   }

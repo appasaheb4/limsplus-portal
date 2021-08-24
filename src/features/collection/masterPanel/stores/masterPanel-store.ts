@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class MasterPanelStore {
   @ignore @observable masterPanel?: Models.MasterPanel
   @observable listMasterPanel?: Models.MasterPanel[] = []
+  @observable listMasterPanelCount: number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -40,8 +41,8 @@ class MasterPanelStore {
     )
   }
 
-  fetchPanelMaster() {
-    this.masterPanelService.listPanelMaster().then((res) => {
+  fetchPanelMaster(page?,limit?) {
+    this.masterPanelService.listPanelMaster(page,limit).then((res) => {
       this.listMasterPanel = res
     })
   }

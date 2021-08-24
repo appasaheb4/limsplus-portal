@@ -7,6 +7,7 @@ import {SalesTeamService} from "../services"
 export class SalesTeamStore {
   @ignore @observable salesTeam?: Models.SalesTeam
   @observable listSalesTeam?: Models.SalesTeam[] = []
+  @observable listSalesTeamCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -17,8 +18,8 @@ export class SalesTeamStore {
     )
   }
 
-  fetchSalesTeam() {
-    this.salesTeamService.listSalesTeam().then((res) => {
+  fetchSalesTeam(page?,limit?) {
+    this.salesTeamService.listSalesTeam(page,limit).then((res) => {
       this.listSalesTeam = res
     })
   }

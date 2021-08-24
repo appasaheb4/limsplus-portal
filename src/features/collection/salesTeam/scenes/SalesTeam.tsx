@@ -365,6 +365,7 @@ export const SalesTeam = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <SalesTeamList
             data={Stores.salesTeamStore.listSalesTeam || []}
+            totalSize={Stores.salesTeamStore.listSalesTeamCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -395,6 +396,9 @@ export const SalesTeam = observer(() => {
                 title: "Are you sure?",
                 body: `Update Section!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.salesTeamStore.fetchSalesTeam(page,limit)
             }}
           />
         </div>

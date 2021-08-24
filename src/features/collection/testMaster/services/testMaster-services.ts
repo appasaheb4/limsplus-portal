@@ -8,10 +8,10 @@
 import { http } from "@lp/library/modules/http"
 
 class TestMasterService  {
-  listTestMaster = () =>
+  listTestMaster = (page=0,limit=10) =>
     new Promise<any[]>((resolve, reject) => {
       http
-        .get(`/master/testMaster/listTestMaster`)
+        .get(`/master/testMaster/listTestMaster/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

@@ -1323,6 +1323,7 @@ const RegistrationLocation = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.RegistrationLocationsList
             data={Stores.registrationLocationsStore.listRegistrationLocations || []}
+            totalSize={Stores.registrationLocationsStore.listRegistrationLocationsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1371,6 +1372,9 @@ const RegistrationLocation = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.registrationLocationsStore.fetchRegistrationLocations(page,limit)
             }}
           />
         </div>

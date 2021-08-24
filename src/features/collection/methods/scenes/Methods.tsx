@@ -277,6 +277,7 @@ const Methods = observer(() => {
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.MethodsList
             data={Stores.methodsStore.listMethods || []}
+            totalSize={Stores.methodsStore.listMethodsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -308,6 +309,10 @@ const Methods = observer(() => {
                 body: `Update Section!`,
               })
             }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.methodsStore.fetchMethods(page,limit)
+            }}
+
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

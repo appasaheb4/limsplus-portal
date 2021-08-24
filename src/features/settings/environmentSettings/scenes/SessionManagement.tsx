@@ -287,6 +287,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
       >   
         <FeatureComponents.Molecules.SessionManagementList
           data={Stores.enviromentSettingsStore.sessionManagementList}
+          totalSize={Stores.enviromentSettingsStore.sessionManagementListCount}
           isDelete={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
             "Delete"
@@ -317,6 +318,9 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                 title: "Are you sure?",
                 body: `Update recoard!`,
               })
+          }}
+          onPageSizeChange={(page,limit)=>{
+            Stores.enviromentSettingsStore.fetchSessionManagementList(page,limit)
           }}
         />
       </div>

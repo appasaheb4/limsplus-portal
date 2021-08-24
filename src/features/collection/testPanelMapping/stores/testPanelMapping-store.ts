@@ -9,7 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class TestPanelMappingStore {
   @ignore @observable testPanelMapping?: Models.TestPanelMapping
   @observable listTestPanelMapping?: Models.TestPanelMapping[] = []
-
+  @observable listTestPanelMappingCount: number = 0 
   constructor() {
     makeAutoObservable(this)
     this.testPanelMapping = {
@@ -29,8 +29,8 @@ class TestPanelMappingStore {
     )
   }
 
-  fetchTestPanelMapping() {
-    this.testPanelMappingService.listTestPanelMapping().then((res) => {
+  fetchTestPanelMapping(page?,limit?) {
+    this.testPanelMappingService.listTestPanelMapping(page,limit).then((res) => {
       this.listTestPanelMapping = res
     })
   }

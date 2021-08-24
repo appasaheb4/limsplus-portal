@@ -855,6 +855,7 @@ export const Library = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <LibraryList
             data={Stores.libraryStore.listLibrary || []}
+            totalSize={Stores.libraryStore.listLibraryCount}
             extraData={{
               listLookup:LookupStore.lookupStore.listLookup,
               library:Stores.libraryStore.library,
@@ -908,6 +909,9 @@ export const Library = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.libraryStore.fetchLibrary(page,limit)
             }}
           />
         </div>

@@ -11,6 +11,7 @@ import { Stores as LoginStores } from "@lp/features/login/stores"
 class TestMasterStore {
   @ignore @observable testMaster?: Models.TestMaster
   @observable listTestMaster?: Models.TestMaster[] = []
+  @observable listTestMasterCount:  number = 0 
 
   constructor() {
     makeAutoObservable(this)
@@ -47,8 +48,8 @@ class TestMasterStore {
     )
   }
   
-  fetchTestMaster() {
-    this.testMasterService.listTestMaster().then((res) => {
+  fetchTestMaster(page?,limit?) {
+    this.testMasterService.listTestMaster(page,limit).then((res) => {
       //console.log({ res })
       this.listTestMaster = res
     })
