@@ -15,6 +15,7 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface PackageMasterListProps {
   data: any
+  totalSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -23,6 +24,7 @@ interface PackageMasterListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const PackageMasterList = observer((props: PackageMasterListProps) => {
@@ -344,6 +346,9 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
         }}
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+        }}
+        onPageSizeChange={(page,size)=>{
+          props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
     </>

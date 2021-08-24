@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
    
 class MasterPackageService  {
-  listPackageMaster = () =>
+  listPackageMaster = (page=0,limit=10) =>
     new Promise<Models.MasterPackage[]>((resolve, reject) => {
       http
-        .get(`master/packageMaster/listPackageMaster`)
+        .get(`master/packageMaster/listPackageMaster/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

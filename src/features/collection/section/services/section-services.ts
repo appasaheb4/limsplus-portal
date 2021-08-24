@@ -7,10 +7,10 @@
 import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 export class SectionService  {
-  listSection = () =>
+  listSection = (page=0,limit=10) =>
     new Promise<Models.Section[]>((resolve, reject) => {
       http
-        .get(`/master/section/listSection`)
+        .get(`/master/section/listSection/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 class LabStore {
   @observable listLabs: Models.Labs[] = []
+  @observable listLabsCount: number = 0 
   @ignore @observable labs?: Models.Labs
   @ignore @observable checkExitsCode?: boolean = false
 
@@ -23,8 +24,8 @@ class LabStore {
     return new Services.LabService()
   }
 
-  fetchListLab() {
-    this.LabService.listLabs().then((res) => {
+  fetchListLab(page?,limit?) {
+    this.LabService.listLabs(page,limit).then((res) => {
       // console.log({ lab: res })
       this.listLabs = res
     })

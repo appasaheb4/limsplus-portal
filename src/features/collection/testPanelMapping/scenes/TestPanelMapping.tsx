@@ -548,6 +548,7 @@ const TestPanelMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestPanelMappingList
             data={Stores.testPanelMappingStore.listTestPanelMapping || []}
+            totalSize={Stores.testPanelMappingStore.listTestPanelMappingCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -596,6 +597,9 @@ const TestPanelMapping = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.testPanelMappingStore.fetchTestPanelMapping(page,limit)
             }}
           />
         </div>

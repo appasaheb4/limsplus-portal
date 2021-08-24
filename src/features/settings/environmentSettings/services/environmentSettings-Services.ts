@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class EnvironmentSettingsService  {
-  sessionManagementList = () =>
+  sessionManagementList = (page=0,limit=10) =>
     new Promise<Models.SessionManagement[]>((resolve, reject) => {
       http
-        .get(`/settings/environmentSettings/listSessionManagement`)
+        .get(`/settings/environmentSettings/listSessionManagement/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

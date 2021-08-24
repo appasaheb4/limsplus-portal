@@ -160,6 +160,7 @@ const ConversationMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <FeatureComponents.Molecules.ConversationMappingList
             data={Stores.conversationMappingStore.listConversationMapping || []}
+            totalSize={Stores.conversationMappingStore.listConversationMappingCount}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
@@ -186,6 +187,9 @@ const ConversationMapping = observer(() => {
                 title: "Are you sure?",
                 body: `Update conversation mapping!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.conversationMappingStore.fetchConversationMapping(page,limit)
             }}
           />
         </div>

@@ -307,6 +307,7 @@ const InterfaceManager = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <FeatureComponents.Molecules.InterfaceManagerList
             data={Stores.interfaceManagerStore.listEncodeCharacter || []}
+            totalSize={Stores.interfaceManagerStore.listEncodeCharacterCount}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
@@ -333,6 +334,9 @@ const InterfaceManager = observer(() => {
                 title: "Are you sure?",
                 body: `Update interface manager!`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.interfaceManagerStore.fetchEncodeCharacter(page,limit)
             }}
           />
         </div>

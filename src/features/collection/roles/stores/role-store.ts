@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class RoleStore {
   @observable listRole: Models.Role[] = []
+  @observable listRoleCount: number = 0
   @ignore @observable role?: Models.Role
   @ignore @observable checkExitsCode?: boolean = false
 
@@ -22,8 +23,8 @@ class RoleStore {
   @computed get RoleService() {
     return new Services.RoleService()
   }
-  fetchListRole() {
-    this.RoleService.listRole().then((res) => {
+  fetchListRole(page?,limit?) {
+    this.RoleService.listRole(page,limit).then((res) => {
       // console.log({ role: res });
       this.listRole = res
     })

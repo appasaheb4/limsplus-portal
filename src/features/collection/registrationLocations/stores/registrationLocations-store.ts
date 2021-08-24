@@ -9,7 +9,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class RegistrationLocationsStore {
   @ignore @observable registrationLocations?: Models.RegistrationLocations
   @observable listRegistrationLocations?: Models.RegistrationLocations[] = []
-
+  @observable listRegistrationLocationsCount: number = 0
   constructor() {
     makeAutoObservable(this)
     this.registrationLocations = {
@@ -32,8 +32,8 @@ class RegistrationLocationsStore {
     )
   }
 
-  fetchRegistrationLocations() {
-    this.registrationLocationsService.listRegistrationLocations().then((res) => {
+  fetchRegistrationLocations(page?,limit?) {
+    this.registrationLocationsService.listRegistrationLocations(page,limit).then((res) => {
       this.listRegistrationLocations = res
     })
   }

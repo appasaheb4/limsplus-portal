@@ -8,10 +8,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 export class RoleService {  
-  listRole = () =>  
+  listRole = (page=0,limit=10) =>  
     new Promise<Models.Role[]>((resolve, reject) => {
       http
-        .get(`/role/listRole`)
+        .get(`/role/listRole/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

@@ -1392,6 +1392,7 @@ const MasterPanel = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PanelMasterList
             data={Stores.masterPanelStore.listMasterPanel || []}
+            totalSize={Stores.masterPanelStore.listMasterPanelCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1440,6 +1441,9 @@ const MasterPanel = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.masterPanelStore.fetchPanelMaster(page,limit)
             }}
           />
         </div>

@@ -1058,6 +1058,7 @@ const MasterAnalyte = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.MasterAnalyteList
             data={Stores.masterAnalyteStore.listMasterAnalyte || []}
+            totalSize={Stores.masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems
             }}
@@ -1105,6 +1106,9 @@ const MasterAnalyte = observer(() => {
                 title: "Are you duplicate?",
                 body: `Duplicate this record`,
               })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.masterAnalyteStore.fetchAnalyteMaster(page,limit)
             }}
           />
         </div>

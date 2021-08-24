@@ -8,10 +8,10 @@
 import { http } from "@lp/library/modules/http"
    
 class MasterPanelService  {
-  listPanelMaster = () =>
+  listPanelMaster = (page=0,limit=10) =>
     new Promise<any[]>((resolve, reject) => {
       http
-        .get(`/master/panelMaster/listPanelMaster`)
+        .get(`/master/panelMaster/listPanelMaster/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

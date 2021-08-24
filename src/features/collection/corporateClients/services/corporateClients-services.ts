@@ -9,10 +9,10 @@ import * as Models from "../models"
 import { http } from "@lp/library/modules/http"
 
 class CorporateClientsService  {
-  listCorporateClients = () =>
+  listCorporateClients = (page=0,limit=10) =>
     new Promise<Models.CorporateClients[]>((resolve, reject) => {
       http
-        .get(`master/corporateClients/listCorporateClients`)
+        .get(`master/corporateClients/listCorporateClients/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })

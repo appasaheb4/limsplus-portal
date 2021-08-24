@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 class DeliveryScheduleStore {
   @ignore @observable deliverySchedule?: Models.DeliverySchedule
   @observable listDeliverySchedule?: Models.DeliverySchedule[] = []
+  @observable listDeliveryScheduleCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -30,8 +31,8 @@ class DeliveryScheduleStore {
     )
   }
 
-  fetchDeliverySchedule() {
-    this.deliveryScheduleService.listDeliverySchdule().then((res) => {
+  fetchDeliverySchedule(page?,limit?) {
+    this.deliveryScheduleService.listDeliverySchdule(page,limit).then((res) => {
       this.listDeliverySchedule = res
     })
   }

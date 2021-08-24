@@ -7,6 +7,7 @@ import * as Services from "../services"
 class SampleContainerStore {
   @ignore @observable sampleContainer?: Models.SampleContainer
   @observable listSampleContainer: Models.SampleContainer[] = []
+  @observable listSampleContainerCount: number = 0 
   constructor() {
     makeAutoObservable(this)
   }
@@ -16,8 +17,8 @@ class SampleContainerStore {
     )
   }
 
-  @action fetchListSampleContainer() {
-    this.sampleContainerService.listSampleContainer().then((sampleList) => {
+  @action fetchListSampleContainer(page?,limit?) {
+    this.sampleContainerService.listSampleContainer(page,limit).then((sampleList) => {
       this.listSampleContainer = sampleList
     })
   }

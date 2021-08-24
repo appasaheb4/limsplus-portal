@@ -939,6 +939,7 @@ export const Users = observer(() => {
           >
             <UserList
               data={Stores.userStore.userList || []}
+              totalSize={Stores.userStore.userListCount}
               extraData={{
                 lookupItems: routerStore.lookupItems,
                 listLabs: LabStore.labStore.listLabs,
@@ -991,6 +992,9 @@ export const Users = observer(() => {
                   title: "Are You Sure?",
                   body: `UpdatePassword!`,
                 })
+              }}
+              onPageSizeChange={(page,limit)=>{
+                Stores.userStore.loadUser(page,limit)
               }}
             />
           </div>

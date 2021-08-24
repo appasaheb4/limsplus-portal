@@ -393,6 +393,7 @@ export const PossibleResults = observer(() => {
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <PossibleResultsList
               data={Stores.possibleResultsStore.listPossibleResults || []}
+              totalSize={Stores.possibleResultsStore.listPossibleResultsCount}
               extraData={{
                 listMasterAnalyte: AnalyteStore.masterAnalyteStore.listMasterAnalyte,
                 possibleResults: Stores.possibleResultsStore.possibleResults,
@@ -425,6 +426,9 @@ export const PossibleResults = observer(() => {
                   title: "Are you sure?",
                   body: `Update Lookup!`,
                 })
+              }}
+              onPageSizeChange={(page,limit)=>{
+                Stores.possibleResultsStore.fetchListPossibleResults(page,limit)
               }}
             />
           </div>

@@ -591,6 +591,7 @@ export const Department = observer(() => {
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
             <FeatureComponents.Molecules.DepartmentList
               data={Stores.departmentStore.listDepartment || []}
+              totalSize={Stores.departmentStore.listDepartmentCount}
               extraData={{
                 lookupItems: stores.routerStore.lookupItems
               }}
@@ -620,6 +621,9 @@ export const Department = observer(() => {
                   title: "Are you sure?",
                   body: `Update department!`,
                 })
+              }}
+              onPageSizeChange={(page,limit)=>{
+                Stores.departmentStore.fetchListDepartment(page,limit)
               }}
             />
           </div>

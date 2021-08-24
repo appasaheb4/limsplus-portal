@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 class DeginisationStore {
   @observable listDeginisation: Models.Deginisation[] = []
+  @observable listDeginisationCount: number = 0
   @ignore @observable deginisation?: Models.Deginisation
   @ignore @observable checkExitsCode?: boolean = false
 
@@ -25,8 +26,8 @@ class DeginisationStore {
     )
   }
 
-  fetchListDeginisation() {
-   this.DeginisationService.listDeginisation().then((res) => {
+  fetchListDeginisation(page?,limit?) {
+   this.DeginisationService.listDeginisation(page,limit).then((res) => {
       // console.log({ deginisation: res });
       this.listDeginisation = res
     })

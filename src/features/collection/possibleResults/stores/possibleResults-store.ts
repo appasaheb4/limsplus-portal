@@ -6,6 +6,7 @@ import * as Services from "../services"
 @version(0.1)
 export class PossibleResultsStore {
   @observable listPossibleResults: PossibleResults[] = []
+  @observable listPossibleResultsCount: number = 0
   @ignore @observable possibleResults!: PossibleResults
     
   constructor() {
@@ -17,8 +18,8 @@ export class PossibleResultsStore {
     )
   }
 
-  @action fetchListPossibleResults() {
-    this.possibleResultsService.listPossibleResults().then((res) => {
+  @action fetchListPossibleResults(page?,limit?) {
+    this.possibleResultsService.listPossibleResults(page,limit).then((res) => {
       this.listPossibleResults = res
     })
   }

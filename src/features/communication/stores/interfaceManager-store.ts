@@ -7,6 +7,7 @@ import * as Services from "../services"
 class InterfaceManagerStore {
   @ignore @observable encodeCharacter!: Models.EncodeCharacter
   @observable listEncodeCharacter?: Models.EncodeCharacter[] = []
+  @observable listEncodeCharacterCount: number = 0
   @ignore @observable updateItem?: Models.UpdateItem
   
   constructor() {
@@ -17,8 +18,8 @@ class InterfaceManagerStore {
     return new Services.CommunicationService()
   }
 
-  @action fetchEncodeCharacter() {
-    this.encodeCharacterService.listInterfaceManager().then((listEncode) => {
+  @action fetchEncodeCharacter(page?,limit?) {
+    this.encodeCharacterService.listInterfaceManager(page,limit).then((listEncode) => {
       this.listEncodeCharacter = listEncode
     })
   }

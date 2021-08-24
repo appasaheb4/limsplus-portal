@@ -123,10 +123,10 @@ class CommunicationService  {
           reject({ error })
         })
     })
-  listSegmentMapping = () =>
+  listSegmentMapping = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/communication/listSegmentMapping`)
+        .get(`/communication/listSegmentMapping/${page}/${limit}`)
         .then((res) => {
           const data = res.data.data
           const group = data.reduce((r: any, a: any) => {
@@ -267,10 +267,10 @@ class CommunicationService  {
         })
     })
 
-  listInterfaceManager = () =>
+  listInterfaceManager = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/communication/listInterfaceManager`)
+        .get(`/communication/listInterfaceManager/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })
@@ -349,10 +349,10 @@ class CommunicationService  {
         })
     })
 
-  listConversationMapping = () =>
+  listConversationMapping = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/communication/conversationMapping/listConversationMapping`)
+        .get(`/communication/conversationMapping/listConversationMapping/${page}/${limit}`)
         .then((res: any) => {
           resolve(res.data.data)
         })
