@@ -43,6 +43,7 @@ export const UserList = observer((props: UserListProps) => {
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
+          totalSize={props.totalSize}
           columns={[
             {
               dataField: "_id",
