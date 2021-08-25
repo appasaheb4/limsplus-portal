@@ -55,6 +55,7 @@ const LabList = observer((props: LabListProps) => {
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
+          totalSize={props.totalSize}
           columns={[
             {
               dataField: "_id",
