@@ -6,19 +6,19 @@
  */
 //import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
-import * as Models from "../models"
 
 export class BannerService {
 
   listBanner = (page=0,limit=10) =>
-    new Promise<Models.Banner[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`/banner/listBanner/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
     

@@ -237,7 +237,7 @@ const TableBootstrap = ({
 
   return (
     <PaginationProvider
-      pagination={paginationFactory(totalSize !== 0 ? options : options)}
+      pagination={paginationFactory(totalSize !== 0 && options)}
       keyField={id}
       columns={columns}
       data={data}

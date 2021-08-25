@@ -22,14 +22,14 @@ class DeginisationStore {
   }
 
   @computed get DeginisationService() {
-    return new Services.DeginisationService(
-    )
+    return new Services.DeginisationService()
   }
 
-  fetchListDeginisation(page?,limit?) {
-   this.DeginisationService.listDeginisation(page,limit).then((res) => {
-      // console.log({ deginisation: res });
-      this.listDeginisation = res
+  @action fetchListDeginisation(page?, limit?) {
+    this.DeginisationService.listDeginisation(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listDeginisation = res.data.deginisation
+      this.listDeginisationCount = res.data.count
     })
   }
 
