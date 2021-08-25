@@ -48,7 +48,6 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
     setOptions(props.data)
   }, [props])
 
-
   const uniqByKeepFirst = (a, key) => {
     const seen = new Set()
     return a.filter((item) => {
@@ -126,29 +125,34 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
           ? options?.length > 0 && (
               <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
                 <ul className="p-2 rounded-sm">
-                  {options?.map((item, index) => (
-                    <>
-                      <li key={index} className="text-gray-400">
-                        {item.title}
-                      </li>
-                      <ul className="ml-4">
-                        {item.children.map((children, childrenIndex) => (
-                          <li
-                            key={childrenIndex}
-                            className="hover:bg-gray-200 focus:outline-none cursor-pointer"
-                            onClick={async () => {
-                              props.onChange && props.onChange(item, children)
-                              setIsListOpen(false)
-                              setValue(children.title)
-                              setOptions([])
-                            }}
-                          >
-                            {children.title}
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ))}
+                  <div
+                    className="overflow-y-auto"
+                    style={{ height: "auto", maxHeight: "350px" }}
+                  >
+                    {options?.map((item, index) => (
+                      <>
+                        <li key={index} className="text-gray-400">
+                          {item.title}
+                        </li>
+                        <ul className="ml-4">
+                          {item.children.map((children, childrenIndex) => (
+                            <li
+                              key={childrenIndex}
+                              className="hover:bg-gray-200 focus:outline-none cursor-pointer"
+                              onClick={async () => {
+                                props.onChange && props.onChange(item, children)
+                                setIsListOpen(false)
+                                setValue(children.title)
+                                setOptions([])
+                              }}
+                            >
+                              {children.title}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ))}
+                  </div>
                 </ul>
               </div>
             )
