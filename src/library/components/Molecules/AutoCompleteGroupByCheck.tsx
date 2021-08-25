@@ -180,8 +180,9 @@ export const AutoCompleteGroupByCheck = (props: AutoCompleteGroupByCheckProps) =
         {options && isListOpen
           ? options?.length > 0 && (
               <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
-                <ul className="p-2 rounded-sm">
-                  {options?.map((item, index) => (
+                <ul className="p-2 rounded-sm ">
+                <div className='overflow-y-auto' style={{height:'auto',maxHeight:'350px'}}>
+                {options?.map((item, index) => (
                     <>
                       <li key={index} className="text-gray-400">
                         {item.title}
@@ -209,6 +210,7 @@ export const AutoCompleteGroupByCheck = (props: AutoCompleteGroupByCheckProps) =
                       </ul>
                     </>
                   ))}
+                </div>
                 </ul>
               </div>
             )

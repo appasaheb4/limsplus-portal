@@ -127,6 +127,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
           ? options?.length > 0 && (
               <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
                 <ul>
+                <div className='overflow-y-auto' style={{height:'auto',maxHeight:'350px'}}>
                   {options?.map((item, index) => (
                     <>
                       <li
@@ -142,6 +143,7 @@ export const AutoComplete = (props: AutoCompleteProps) => {
                       </li>
                     </>
                   ))}
+                  </div>
                 </ul>
               </div>
             )
