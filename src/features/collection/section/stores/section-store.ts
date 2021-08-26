@@ -21,7 +21,9 @@ class SectionStore {
   
   @action fetchSections(page?,limit?) {
     this.sectionService.listSection(page,limit).then((res) => {
-      this.listSection = res
+      if (!res.success) return alert(res.message)
+      this.listSection = res.data.section
+      this.listSectionCount =  res.data.count
     })
   }
 

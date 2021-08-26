@@ -18,8 +18,11 @@ class NoticeBoardStore {
   }
 
   @action fetchNoticeBoards(page?,limit?) {
-    this.NoticeBoardService.noticeBoardsList(page,limit).then((list) => {
-      this.noticeBoardList = list
+    this.NoticeBoardService.noticeBoardsList(page,limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.noticeBoardList = res.data.noticeBoard
+      this.noticeBoardListCount = res.data.count
+
     })
   }
 

@@ -32,9 +32,11 @@ class MasterPackageStore {
     )
   }
 
-  fetchPackageMaster(page?,limit?) {
+  @action fetchPackageMaster(page?,limit?) {
     this.masterPackageService.listPackageMaster(page,limit).then((res) => {
-      this.listMasterPackage = res
+      if (!res.success) return alert(res.message)
+      this.listMasterPackage = res.data.masterPackage
+      this.listMasterPackageCount = res.data.count
     })
   }
 
