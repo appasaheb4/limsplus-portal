@@ -23,10 +23,11 @@ class RoleStore {
   @computed get RoleService() {
     return new Services.RoleService()
   }
-  fetchListRole(page?,limit?) {
-    this.RoleService.listRole(page,limit).then((res) => {
-      // console.log({ role: res });
-      this.listRole = res
+  @action fetchListRole(page?, limit?) {
+    this.RoleService.listRole(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listRole = res.data.roles
+      this.listRoleCount = res.data.count
     })
   }
   @action setExitsCode(status: boolean) {

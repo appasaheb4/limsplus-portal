@@ -129,31 +129,6 @@ const TableBootstrap = ({
     </div>
   )
 
-  const pageButtonRenderer = ({ page, active, disable, title, onPageChange }) => {
-    const handleClick = (e) => {
-      e.preventDefault()
-      onPageChange(page)
-    }
-    const activeStyle: any = {}
-    if (active) {
-      activeStyle.backgroundColor = "black"
-      activeStyle.color = "white"
-    } else {
-      activeStyle.backgroundColor = "gray"
-      activeStyle.color = "black"
-    }
-    if (typeof page === "string") {
-      activeStyle.backgroundColor = "white"
-      activeStyle.color = "black"
-    }
-    return (
-      <li className="page-item">
-        <a href="#" onClick={handleClick} style={activeStyle}>
-          {page}
-        </a>
-      </li>
-    )
-  }
 
   const onPageChangeHandler = (page, sizePerPage) => {
     if (page !== 0) onPageSizeChange && onPageSizeChange(page, sizePerPage)
@@ -164,7 +139,6 @@ const TableBootstrap = ({
 
   const options = {
     cutome: true,
-    //pageButtonRenderer,
     totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
@@ -210,7 +184,7 @@ const TableBootstrap = ({
       sizePerPageRef.current = page
     },
   }
-
+   
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {

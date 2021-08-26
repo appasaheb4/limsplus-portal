@@ -8,7 +8,7 @@ import { Stores } from "@lp/features/login/stores"
 class MasterAnalyteStore {
   @ignore @observable masterAnalyte?: Models.MasterAnalyte
   @observable listMasterAnalyte?: Models.MasterAnalyte[] = []
-  @observable listMasterAnalyteCount: number = 0 
+  @observable listMasterAnalyteCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -33,13 +33,14 @@ class MasterAnalyteStore {
     }
   }
   @computed get masterAnalyteService() {
-    return new Services.MasterAnalyteService(
-    )
+    return new Services.MasterAnalyteService()
   }
 
-  fetchAnalyteMaster(page?,limit?) {
-    this.masterAnalyteService.listAnalyteMaster(page,limit).then((res) => {
-      this.listMasterAnalyte = res
+  @action fetchAnalyteMaster(page?, limit?) {
+    this.masterAnalyteService.listAnalyteMaster(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listMasterAnalyte = res.data.analyteMaster
+      this.listMasterAnalyteCount = res.data.count
     })
   }
 
