@@ -29,9 +29,11 @@ class TestAnalyteMappingStore {
     )
   }
 
-  fetchTestAnalyteMapping(page?,limit?) {
+  @action fetchTestAnalyteMapping(page?,limit?) {
     this.testAnalyteMappingService.listTestAnalyteMapping(page,limit).then((res) => {
-      this.listTestAnalyteMapping = res
+      if (!res.success) return alert(res.message)
+      this.listTestAnalyteMapping = res.data.testAnalyteMapping
+      this.listTestAnalyteMappingCount = res.data.count
     })
   }
 
