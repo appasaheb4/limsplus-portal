@@ -31,10 +31,11 @@ class DepartmentStore {
     return new Services.DepartmentService()
   }
 
-  fetchListDepartment(page?,limit?) {
-    this.DepartmentService.listDepartment(page,limit).then((res) => {
-      //  console.log({ department: res });
-      this.listDepartment = res
+  @action fetchListDepartment(page?, limit?) {
+    this.DepartmentService.listDepartment(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listDepartment = res.data.department
+      this.listDepartmentCount = res.data.count
     })
   }
 
