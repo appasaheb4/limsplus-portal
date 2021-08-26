@@ -5,19 +5,20 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
-import * as Models from "../models"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+// import * as Models from "../models"
 
 class SampleContainerService  {
   listSampleContainer = (page=0,limit=10) =>
-    new Promise<Models.SampleContainer[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`master/sampleContainer/listSampleContainer/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   addSampleContainer = (sampleContainer: any) =>

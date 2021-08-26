@@ -31,9 +31,11 @@ class CorporateClientsStore {
     )
   }
 
-  fetchCorporateClients(page?,limit?) {
+  @action fetchCorporateClients(page?,limit?) {
     this.corporateClientsService.listCorporateClients(page,limit).then((res) => {
-      this.listCorporateClients = res
+      if (!res.success) return alert(res.message)
+      this.listCoporateClientsCount = res.data.count
+      this.listCorporateClients = res.data.corporateClients
     })
   }
 

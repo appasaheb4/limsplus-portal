@@ -31,9 +31,11 @@ class DeliveryScheduleStore {
     )
   }
 
-  fetchDeliverySchedule(page?,limit?) {
+  @action fetchDeliverySchedule(page?,limit?) {
     this.deliveryScheduleService.listDeliverySchdule(page,limit).then((res) => {
-      this.listDeliverySchedule = res
+      if (!res.success) return alert(res.message)
+      this.listDeliverySchedule = res.data.deliverySchedule
+      this.listDeliveryScheduleCount = res.data.count
     })
   }
 

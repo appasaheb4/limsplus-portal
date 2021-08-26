@@ -32,9 +32,11 @@ class RegistrationLocationsStore {
     )
   }
 
-  fetchRegistrationLocations(page?,limit?) {
+  @action fetchRegistrationLocations(page?,limit?) {
     this.registrationLocationsService.listRegistrationLocations(page,limit).then((res) => {
-      this.listRegistrationLocations = res
+      if (!res.success) return alert(res.message)
+      this.listRegistrationLocationsCount = res.data.count
+      this.listRegistrationLocations = res.data.registrationLocations
     })
   }
 

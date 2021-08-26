@@ -41,9 +41,11 @@ class MasterPanelStore {
     )
   }
 
-  fetchPanelMaster(page?,limit?) {
+  @action fetchPanelMaster(page?,limit?) {
     this.masterPanelService.listPanelMaster(page,limit).then((res) => {
-      this.listMasterPanel = res
+      if (!res.success) return alert(res.message)
+      this.listMasterPanel = res.data.masterPanel
+      this.listMasterPanelCount = res.data.count
     })
   }
 
