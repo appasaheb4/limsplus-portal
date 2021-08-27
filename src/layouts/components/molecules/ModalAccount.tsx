@@ -57,6 +57,10 @@ const ModalAccount = observer((props: ModalAccountProps) => {
               <label className="text-white">
                 Role: {LoginStores.loginStore.login?.role}
               </label>
+              <br/>
+              <label className="text-white">
+                Environment: {LoginStores.loginStore.login?.environment}
+              </label>
             </div>
             {LoginStores.loginStore.login?.labList !== undefined &&
               LoginStores.loginStore.login?.labList?.length > 1 && (
