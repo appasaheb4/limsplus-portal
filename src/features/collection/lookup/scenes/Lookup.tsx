@@ -61,13 +61,13 @@ const Lookup = observer(() => {
         )}  
    
         <Accordion>  
-          {[{ title: "NEW FIELD" }, { title: "GENERAL SETTING" }].map((item) => {
+          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map((item) => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "NEW FIELD"}
+                expanded={item.title === "DOCUMENT SETTING"}
               >
-                {item.title === "NEW FIELD" && (
+                {item.title === "DOCUMENT SETTING" && (
                   <>
                     <NewField />
                   </>
