@@ -20,7 +20,9 @@ export class PossibleResultsStore {
 
   @action fetchListPossibleResults(page?,limit?) {
     this.possibleResultsService.listPossibleResults(page,limit).then((res) => {
-      this.listPossibleResults = res
+      if (!res.success) return alert(res.message)
+      this.listPossibleResults = res.data.possibleResults
+      this.listPossibleResultsCount = res.data.count
     })
   }
    

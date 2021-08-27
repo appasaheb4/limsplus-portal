@@ -18,9 +18,11 @@ class MethodsStore {
     )
   }
 
-  fetchMethods(page?,limit?) {
+  @action fetchMethods(page?,limit?) {
     this.methodsService.listMethods(page,limit).then((res) => {
-      this.listMethods = res
+      if (!res.success) return alert(res.message)
+      this.listMethodsCount = res.data.count
+      this.listMethods = res.data.methods
     })
   }
 

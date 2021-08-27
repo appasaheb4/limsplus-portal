@@ -6,18 +6,19 @@
  */
 
 import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
     
 class DeliveryScheduleService  {
   listDeliverySchdule = (page=0,limit=10) =>
-    new Promise<Models.DeliverySchedule[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`master/deliverySchdule/listDeliverySchdule/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })  
     addDeliverySchdule = (deliverySchdule?: Models.DeliverySchedule) =>

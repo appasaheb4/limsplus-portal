@@ -18,9 +18,11 @@ class SampleTypeStore {
     )
   }
 
-  fetchSampleTypeList(page?,limit?) {
+  @action fetchSampleTypeList(page?,limit?) {
     this.sampleTypeService.listSampleType(page,limit).then((res) => {
-      this.listSampleType = res
+      if (!res.success) return alert(res.message)
+      this.listSampleType = res.data.sampleType
+      this.listSampleTypeCount = res.data.count
     })
   }
   @action updateSampleType = (sampleType: Models.SampleType) => {

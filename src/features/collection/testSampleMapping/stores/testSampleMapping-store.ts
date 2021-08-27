@@ -29,9 +29,11 @@ class TestSampleMappingStore {
     )
   }
 
-  fetchSampleTypeList(page?,limit?) {
+  @action fetchSampleTypeList(page?,limit?) {
     this.testSampleMappingService.listTestSampleMapping(page,limit).then((res) => {
-      this.listTestSampleMapping = res
+      if (!res.success) return alert(res.message)
+      this.listTestSampleMapping = res.data.testSampleMapping
+      this.listTestSampleMappingCount = res.data.count
     })
   }
   @action updateSampleType = (sampleMapping: Models.TestSampleMapping) => {

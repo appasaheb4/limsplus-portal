@@ -5,18 +5,19 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
 export class PossibleResultsService {
   listPossibleResults = (page=0,limit=10) =>
-    new Promise<Models.PossibleResults[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`/master/possibleResults/listPossibleResults/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   addPossibleResults = (lookup?: Models.PossibleResults) =>

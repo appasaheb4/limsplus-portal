@@ -31,9 +31,11 @@ class DoctorsStore {
     )
   }
 
-  fetchDoctors(page?,limit?) {
+  @action fetchDoctors(page?,limit?) {
     this.doctorsService.listDoctors(page,limit).then((res) => {
-      this.listDoctors = res
+      if (!res.success) return alert(res.message)
+      this.listDoctors = res.data.doctor
+      this.listDoctorsCount = res.data.count
     })
   }
 
