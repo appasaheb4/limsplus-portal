@@ -22,7 +22,7 @@ class LabMappingStore {
     this.LabMappingService.labMappingList().then((res) => {
       if (!res.success) return alert(res.message)
       // console.log({ rolMapping: list })
-      this.labMappingList = res.data.labMappingList
+      this.labMappingList = res.data.labMList
       this.labMappingListCount = res.data.count
     })
   }
