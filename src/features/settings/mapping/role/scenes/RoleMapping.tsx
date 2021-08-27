@@ -513,6 +513,7 @@ const RoleMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.RoleMappingList
             data={Stores.roleMappingStore.roleMappingList || []}
+            totalSize={Stores.roleMappingStore.roleMappingListCount}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
@@ -527,6 +528,9 @@ const RoleMapping = observer(() => {
               setHideRole(true)
               Stores.roleMappingStore.updateSelectedRole(toJS(selectedItem))
               setIsModify({ status: true, id: selectedItem.id })
+            }}
+            onPageSizeChange={(page,limit)=>{
+              Stores.roleMappingStore.fetchRoleMappingList(page,limit)
             }}
           />
         </div>

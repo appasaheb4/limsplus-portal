@@ -8,6 +8,7 @@ class RoleMappingStore {
   @ignore @observable user?: Models.IRole
   @ignore @observable selectedRole?: Models.RoleMapping
   @observable roleMappingList?: Models.IRole[] = []
+  @observable roleMappingListCount: number = 0 
   @observable rolePermission?: any
   constructor() {
     makeAutoObservable(this)
@@ -18,9 +19,11 @@ class RoleMappingStore {
     )
   }
 
-  @action fetchRoleMappingList() {
-    this.roleMappingService.roleMappingList().then((list) => {
-      this.roleMappingList = list
+  @action fetchRoleMappingList(page?,limit?) {
+    this.roleMappingService.roleMappingList(page,limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.roleMappingList = res.data.roleMappingList
+      this.roleMappingListCount = res.data.count
     })
   }
 

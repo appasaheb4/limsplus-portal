@@ -7,6 +7,7 @@ import * as Services from "../services"
 class LabMappingStore {
   @ignore @observable lab?: Models.ILabMapping
   @observable labMappingList?: Models.ILabMapping[] = []
+  @observable labMappingListCount: number = 0 
   @observable arrSelectedLabs?: any[] = []
   constructor() {
     makeAutoObservable(this)
@@ -18,9 +19,11 @@ class LabMappingStore {
   }
 
   @action fetchLabMappingList() {
-    this.LabMappingService.labMappingList().then((list) => {
+    this.LabMappingService.labMappingList().then((res) => {
+      if (!res.success) return alert(res.message)
       // console.log({ rolMapping: list })
-      this.labMappingList = list
+      this.labMappingList = res.data.labMList
+      this.labMappingListCount = res.data.count
     })
   }
 
