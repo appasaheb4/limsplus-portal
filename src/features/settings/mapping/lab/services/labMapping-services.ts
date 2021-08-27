@@ -4,19 +4,21 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+// import * as Models from "../models"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
 class LabMappingService  {
-  labMappingList = () =>
-    new Promise<Models.ILabMapping[]>((resolve, reject) => {
+  labMappingList = (page=0,limit=10) =>
+    new Promise<any>((resolve, reject) => {
       http
-        .get(`/mapping/labMappingList`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .get(`/mapping/labMappingList/${page}/${limit}`)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+
         })
     })
   addLabMapping = (userMapping: any) =>
