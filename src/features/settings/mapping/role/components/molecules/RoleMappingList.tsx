@@ -16,12 +16,14 @@ import { toJS } from "mobx"
 
 interface RoleMappingListProps {
   data: any
+  totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onDuplicate?: (selectedItem: any) => void
+  onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
 const RoleMappingList = observer((props: RoleMappingListProps) => {
@@ -31,6 +33,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
+          totalSize={props.totalSize}
           columns={[
             {
               dataField: "_id",
@@ -189,6 +192,9 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,size)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,size)
           }}
         />
       </div>

@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+// import * as Models from "../models"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
 class RoleMappingService  {
   addRoleMapping = (roleMapping: any) =>
@@ -20,15 +20,16 @@ class RoleMappingService  {
           reject({ error })
         })
     })
-  roleMappingList = () =>
-    new Promise<Models.IRole[]>((resolve, reject) => {
+  roleMappingList = (page=0,limit=10) =>
+    new Promise<any>((resolve, reject) => {
       http
-        .get(`/mapping/roleMappingList`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .get(`/mapping/roleMappingList/${page}/${limit}`)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   deleteRoleMapping = (id: string) =>
