@@ -29,9 +29,11 @@ class TestPanelMappingStore {
     )
   }
 
-  fetchTestPanelMapping(page?,limit?) {
+  @action fetchTestPanelMapping(page?,limit?) {
     this.testPanelMappingService.listTestPanelMapping(page,limit).then((res) => {
-      this.listTestPanelMapping = res
+      if (!res.success) return alert(res.message)
+      this.listTestPanelMapping = res.data.testPanelMapping
+      this.listTestPanelMappingCount = res.data.count
     })
   }
 

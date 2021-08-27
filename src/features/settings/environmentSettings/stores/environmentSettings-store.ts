@@ -16,8 +16,10 @@ class EnvironmentSettingsStore {
     )
   }
   @action fetchSessionManagementList(page?,limit?) {
-    this.EnvironmentSettingsService.sessionManagementList(page,limit).then((sessions) => {
-      this.sessionManagementList = sessions
+    this.EnvironmentSettingsService.sessionManagementList(page,limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.sessionManagementList = res.data.sessionManagement
+      this.sessionManagementListCount = res.data.count
     })
   }
   @action updateSessionManagement(session: Models.SessionManagement) {

@@ -23,7 +23,9 @@ class LibraryStore {
 
   @action fetchLibrary(page?,limit?) {
     this.libraryService.listLibrary(page,limit).then((res) => {
-      this.listLibrary = res
+      if (!res.success) return alert(res.message)
+      this.listLibrary = res.data.library
+      this.listLibraryCount = res.data.count
     })
   }
 

@@ -48,10 +48,12 @@ class TestMasterStore {
     )
   }
   
-  fetchTestMaster(page?,limit?) {
+  @action fetchTestMaster(page?,limit?) {
     this.testMasterService.listTestMaster(page,limit).then((res) => {
+      if (!res.success) return alert(res.message)
       //console.log({ res })
-      this.listTestMaster = res
+      this.listTestMaster = res.data.testMaster
+      this.listTestMasterCount = res.data.count
     })
   }
 

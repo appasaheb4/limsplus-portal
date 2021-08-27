@@ -6,18 +6,19 @@
  */
 
 import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
 class CorporateClientsService  {
   listCorporateClients = (page=0,limit=10) =>
-    new Promise<Models.CorporateClients[]>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {
       http
         .get(`master/corporateClients/listCorporateClients/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
   addCorporateClients = (clients?: Models.CorporateClients) =>

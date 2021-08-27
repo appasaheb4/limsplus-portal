@@ -17,9 +17,11 @@ class AdministrativeDivisionsStore {
     return new Services.AdministrativeDivisionsService()
   }
 
-  fetchAdministrativeDiv(page?,limit?) {
+  @action fetchAdministrativeDiv(page?,limit?) {
     this.administrativeDivisionsService.listAdministrativeDivisions(page,limit).then((res) => {
-      this.listAdministrativeDiv = res
+      if (!res.success) return alert(res.message)
+      this.listAdministrativeDivCount = res.data.count
+      this.listAdministrativeDiv = res.data.administrativeDivisions
     })
   }
 
