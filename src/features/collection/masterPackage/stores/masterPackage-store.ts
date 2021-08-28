@@ -35,7 +35,7 @@ class MasterPackageStore {
   @action fetchPackageMaster(page?,limit?) {
     this.masterPackageService.listPackageMaster(page,limit).then((res) => {
       if (!res.success) return alert(res.message)
-      this.listMasterPackage = res.data.masterPackage
+      this.listMasterPackage = res.data.packageMaster
       this.listMasterPackageCount = res.data.count
     })
   }

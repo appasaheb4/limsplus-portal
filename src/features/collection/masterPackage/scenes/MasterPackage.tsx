@@ -8,7 +8,7 @@ import * as FeatureComponents from "../components"
 
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -26,21 +26,23 @@ const MasterPackage = observer(() => {
     formState: { errors },
   } = useForm()
 
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
   const [arrPanelItems, setArrPanelItems] = useState<Array<any>>()
+
   const getServiceTypes = (fileds: any) => {
-    const finalArray = fileds.arrValue.filter((fileds) => {
-      if (fileds.code === "K" || fileds.code === "M") return fileds
-    })
-    return finalArray
+    if (fileds) {
+      const finalArray = fileds.arrValue.filter((fileds) => {
+        if (fileds.code === "K" || fileds.code === "M") return fileds
+      })
+      return finalArray
+    }    
+    return []
   }
 
-  const onSubmitMasterPackage = () =>{
+  const onSubmitMasterPackage = () => {
     if (Stores.masterPackageStore.masterPackage) {
       if (
         !Stores.masterPackageStore.masterPackage?.existsVersionId &&
@@ -58,9 +60,7 @@ const MasterPackage = observer(() => {
         !Stores.masterPackageStore.masterPackage?.existsRecordId
       ) {
         Stores.masterPackageStore.masterPackageService
-          .versionUpgradePackageMaster(
-            Stores.masterPackageStore.masterPackage
-          )
+          .versionUpgradePackageMaster(Stores.masterPackageStore.masterPackage)
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Package master version upgrade.`,
@@ -71,9 +71,7 @@ const MasterPackage = observer(() => {
         Stores.masterPackageStore.masterPackage?.existsRecordId
       ) {
         Stores.masterPackageStore.masterPackageService
-          .duplicatePackageMaster(
-            Stores.masterPackageStore.masterPackage
-          )
+          .duplicatePackageMaster(Stores.masterPackageStore.masterPackage)
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Package master duplicate created.`,
@@ -97,7 +95,7 @@ const MasterPackage = observer(() => {
         <LibraryComponents.Atoms.PageHeading
           title={stores.routerStore.selectedComponents?.title || ""}
         />
-         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
+        <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
         toJS(stores.routerStore.userPermission),
@@ -119,310 +117,333 @@ const MasterPackage = observer(() => {
               justify="stretch"
               fill
             >
-             
-              
-             <Controller
-               control={control}
-                render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="Lab"
-              hasError={errors.lab}
-              >
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.lab
-                      ? "border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const lab = e.target.value as string
-                   onChange(lab)
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      lab,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="lab"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-            
-
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="Service Type"
-              hasError={errors.serviceType}
-              >
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.serviceType
-                      ? "border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const serviceItem = JSON.parse(e.target.value)
-                    onChange(serviceItem)
-                    if (PanelMasterStore.masterPanelStore.listMasterPanel) {
-                      console.log({
-                        items: PanelMasterStore.masterPanelStore.listMasterPanel,
-                      })
-                      const listPackageItems: any = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
-                        (item) => {
-                          return item.serviceType === serviceItem.code
-                        }
-                      )
-                      setArrPackageItems(listPackageItems)
-                      const listPanelItems = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
-                        (item) => {
-                          return (
-                            item.serviceType ===
-                            (serviceItem.code === "K" ? "N" : "S")
-                          )
-                        }
-                      )
-                      setArrPanelItems(listPanelItems)
-                    }
-                    
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      serviceType: serviceItem.code,
-                      packageName: undefined,
-                      panelName: undefined,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {stores.routerStore.lookupItems.length > 0 &&
-                    getServiceTypes(
-                      stores.routerStore.lookupItems.find((item) => {
-                        return item.fieldName === "SERVICE_TYPE"
-                      })
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="serviceType"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Package Code" hasError={errors.packageCode}>
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const packageItem = JSON.parse(e.target.value)
-                    onChange(packageItem)
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      packageCode: packageItem.panelCode,
-                      packageName: packageItem.panelName,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {arrPackageItems &&
-                    arrPackageItems.map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.panelName} - ${item.panelCode}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="packageItem"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Package Name" hasError={errors.packageName}>
-                <select
-                  disabled={true}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.packageName
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
-                >
-                  <option selected>
-                    {Stores.masterPackageStore.masterPackage?.packageName ||
-                      `Select`}
-                  </option>
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="packageName"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-              {arrPanelItems && (
-                <>
-                  {" "}
-                  <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code" hasError={errors.panelCode}>
-                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
-                      placeholder={errors.panelCode?"Please Search Panel Name Or Panel Code":"Search by panel name or panel code"}
-                      data={{
-                        defulatValues: [],
-                        list: arrPanelItems,
-                        displayKey: ["panelName", "panelCode"],
-                        findKey: ["panelName", "panelCode"],
-                      }}
-                      onUpdate={(items) => {
-                        onChange(items)
-                        const panelCode: string[] = []
-                        const panelName: string[] = []
-                        items.filter((item: any) => {
-                          panelCode.push(item.panelCode)
-                          panelName.push(item.panelName)
-                        })
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Lab"
+                    hasError={errors.lab}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.lab ? "border-red-500" : "border-gray-200"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const lab = e.target.value as string
+                        onChange(lab)
                         Stores.masterPackageStore.updateMasterPackage({
                           ...Stores.masterPackageStore.masterPackage,
-                          panelCode,
-                          panelName,
+                          lab,
                         })
                       }}
-                    />
+                    >
+                      <option selected>Select</option>
+                      {LabStores.labStore.listLabs.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        )
+                      )}
+                    </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="panelCode"
-                  rules={{ required: false }}
-                  defaultValue=""
-                 />
-                  <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Name" hasError={errors.panelName}>
+                )}
+                name="lab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Service Type"
+                    hasError={errors.serviceType}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.serviceType ? "border-red-500" : "border-gray-200"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const serviceItem = JSON.parse(e.target.value)
+                        onChange(serviceItem)
+                        if (PanelMasterStore.masterPanelStore.listMasterPanel) {
+                          console.log({
+                            items: PanelMasterStore.masterPanelStore.listMasterPanel,
+                          })
+                          const listPackageItems: any = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                            (item) => {
+                              return item.serviceType === serviceItem.code
+                            }
+                          )
+                          setArrPackageItems(listPackageItems)
+                          const listPanelItems = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                            (item) => {
+                              return (
+                                item.serviceType ===
+                                (serviceItem.code === "K" ? "N" : "S")
+                              )
+                            }
+                          )
+                          setArrPanelItems(listPanelItems)
+                        }
+
+                        Stores.masterPackageStore.updateMasterPackage({
+                          ...Stores.masterPackageStore.masterPackage,
+                          serviceType: serviceItem.code,
+                          packageName: undefined,
+                          panelName: undefined,
+                        })
+                      }}
+                    >  
+                      <option selected>Select</option>
+                      {stores.routerStore.lookupItems.length > 0 &&
+                        getServiceTypes(
+                          stores.routerStore.lookupItems.find((item) => {
+                            return item.fieldName === "SERVICE_TYPE"
+                          })
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="serviceType"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Package Code"
+                    hasError={errors.packageCode}
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const packageItem = JSON.parse(e.target.value)
+                        onChange(packageItem)
+                        Stores.masterPackageStore.updateMasterPackage({
+                          ...Stores.masterPackageStore.masterPackage,
+                          packageCode: packageItem.panelCode,
+                          packageName: packageItem.panelName,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {arrPackageItems &&
+                        arrPackageItems.map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.panelName} - ${item.panelCode}`}
+                          </option>
+                        ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="packageItem"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Package Name"
+                    hasError={errors.packageName}
+                  >
                     <select
                       disabled={true}
                       className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelName
+                        errors.packageName
                           ? "border-red-500  focus:border-red-500"
                           : "border-gray-200"
                       } rounded-md`}
                     >
                       <option selected>
-                        {Stores.masterPackageStore.masterPackage?.panelName?.join(
-                          ","
-                        ) || `Select`}
+                        {Stores.masterPackageStore.masterPackage?.packageName ||
+                          `Select`}
                       </option>
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="panelName"
-                  rules={{ required: false }}
-                  defaultValue=""
-                 />
+                )}
+                name="packageName"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              {arrPanelItems && (
+                <>
+                  {" "}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.InputWrapper
+                        label="Panel Code"
+                        hasError={errors.panelCode}
+                      >
+                        <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                          placeholder={
+                            errors.panelCode
+                              ? "Please Search Panel Name Or Panel Code"
+                              : "Search by panel name or panel code"
+                          }
+                          data={{
+                            defulatValues: [],
+                            list: arrPanelItems,
+                            displayKey: ["panelName", "panelCode"],
+                            findKey: ["panelName", "panelCode"],
+                          }}
+                          onUpdate={(items) => {
+                            onChange(items)
+                            const panelCode: string[] = []
+                            const panelName: string[] = []
+                            items.filter((item: any) => {
+                              panelCode.push(item.panelCode)
+                              panelName.push(item.panelName)
+                            })
+                            Stores.masterPackageStore.updateMasterPackage({
+                              ...Stores.masterPackageStore.masterPackage,
+                              panelCode,
+                              panelName,
+                            })
+                          }}
+                        />
+                      </LibraryComponents.Atoms.Form.InputWrapper>
+                    )}
+                    name="panelCode"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.InputWrapper
+                        label="Panel Name"
+                        hasError={errors.panelName}
+                      >
+                        <select
+                          disabled={true}
+                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                            errors.panelName
+                              ? "border-red-500  focus:border-red-500"
+                              : "border-gray-200"
+                          } rounded-md`}
+                        >
+                          <option selected>
+                            {Stores.masterPackageStore.masterPackage?.panelName?.join(
+                              ","
+                            ) || `Select`}
+                          </option>
+                        </select>
+                      </LibraryComponents.Atoms.Form.InputWrapper>
+                    )}
+                    name="panelName"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
                 </>
               )}
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
-                <select
-                  value={Stores.masterPackageStore.masterPackage?.status}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.status
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const status = e.target.value
-                    onChange(status)
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      status,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "STATUS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="status"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder={errors.userId ? "Please Enter Entered By " : "Entered By"}
-                hasError={errors.userId}
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Status"
+                    hasError={errors.status}
+                  >
+                    <select
+                      value={Stores.masterPackageStore.masterPackage?.status}
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value
+                        onChange(status)
+                        Stores.masterPackageStore.updateMasterPackage({
+                          ...Stores.masterPackageStore.masterPackage,
+                          status,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="userId"
-               rules={{ required: false }}
-               defaultValue=""
-             />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder={errors.dateCreation ? "Please Enter DateCreation" : "Date Creation"}
-                hasError={errors.dateCreation}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateCreation || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Entered By"
+                    placeholder={
+                      errors.userId ? "Please Enter Entered By " : "Entered By"
+                    }
+                    hasError={errors.userId}
+                    value={LoginStore.loginStore.login?.userId}
+                    disabled={true}
+                  />
+                )}
+                name="userId"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="dateCreation"
-               rules={{ required: false }}
-             defaultValue=""
-            />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (    
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Bill"
-                id="modeBill"
-                hasError={errors.bill}
-                value={Stores.masterPackageStore.masterPackage?.bill}
-                onChange={(bill) => {
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    bill,
-                  })
-                }}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Creation"
+                    placeholder={
+                      errors.dateCreation
+                        ? "Please Enter DateCreation"
+                        : "Date Creation"
+                    }
+                    hasError={errors.dateCreation}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterPackageStore.masterPackage?.dateCreation || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
+                name="dateCreation"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="bill"
-               rules={{ required: false }}
-             defaultValue=""
-            />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Toggle
+                    label="Bill"
+                    id="modeBill"
+                    hasError={errors.bill}
+                    value={Stores.masterPackageStore.masterPackage?.bill}
+                    onChange={(bill) => {
+                      Stores.masterPackageStore.updateMasterPackage({
+                        ...Stores.masterPackageStore.masterPackage,
+                        bill,
+                      })
+                    }}
+                  />
+                )}
+                name="bill"
+                rules={{ required: false }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -432,113 +453,128 @@ const MasterPackage = observer(() => {
               fill
             >
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder={errors.dateActiveFrom ? "Please Enter DateActiveFrom" : "Date Active"}
-                hasError={errors.dateActiveFrom}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Active"
+                    placeholder={
+                      errors.dateActiveFrom
+                        ? "Please Enter DateActiveFrom"
+                        : "Date Active"
+                    }
+                    hasError={errors.dateActiveFrom}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
+                name="dateActiveFrom"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="dateActiveFrom"
-               rules={{ required: false }}
-             defaultValue=""
-            />
-              
-              
+
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder={errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"}
-                hasError={errors.dateExpire}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterPackageStore.masterPackage?.dateActiveTo || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  onChange(schedule)
-                  Stores.masterPackageStore.updateMasterPackage({
-                    ...Stores.masterPackageStore.masterPackage,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Expire"
+                    placeholder={
+                      errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
+                    }
+                    hasError={errors.dateExpire}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterPackageStore.masterPackage?.dateActiveTo || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    onChange={(e) => {
+                      const schedule = new Date(e.target.value)
+                      onChange(schedule)
+                      Stores.masterPackageStore.updateMasterPackage({
+                        ...Stores.masterPackageStore.masterPackage,
+                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      })
+                    }}
+                  />
+                )}
+                name="dateActiveTo"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="dateActiveTo"
-               rules={{ required: false }}
-             defaultValue=""
-            />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder={errors.version ? "Please Enter Version " : "Version"}
-                hasError={errors.version}
-                value={Stores.masterPackageStore.masterPackage?.version}
-                disabled={true}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Version"
+                    placeholder={
+                      errors.version ? "Please Enter Version " : "Version"
+                    }
+                    hasError={errors.version}
+                    value={Stores.masterPackageStore.masterPackage?.version}
+                    disabled={true}
+                  />
+                )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="version"
-               rules={{ required: false }}
-             defaultValue=""
-            />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                hasError={errors.keyNum}
-                value={Stores.masterPackageStore.masterPackage?.keyNum}
-                disabled={true}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Key Num"
+                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
+                    hasError={errors.keyNum}
+                    value={Stores.masterPackageStore.masterPackage?.keyNum}
+                    disabled={true}
+                  />
+                )}
+                name="keyNum"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-               name="keyNum"
-               rules={{ required: false }}
-             defaultValue=""
-            />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-               <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
-                <select
-                  value={Stores.masterPackageStore.masterPackage?.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.masterPackageStore.updateMasterPackage({
-                      ...Stores.masterPackageStore.masterPackage,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="environment"
-              rules={{ required: true }}
-            defaultValue=""
-           />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Environment"
+                    hasError={errors.environment}
+                  >
+                    <select
+                      value={Stores.masterPackageStore.masterPackage?.environment}
+                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-200"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.masterPackageStore.updateMasterPackage({
+                          ...Stores.masterPackageStore.masterPackage,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -569,7 +605,7 @@ const MasterPackage = observer(() => {
             data={Stores.masterPackageStore.listMasterPackage || []}
             totalSize={Stores.masterPackageStore.listMasterPackageCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -617,8 +653,8 @@ const MasterPackage = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.masterPackageStore.fetchPackageMaster(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.masterPackageStore.fetchPackageMaster(page, limit)
             }}
           />
         </div>

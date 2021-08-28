@@ -7,11 +7,9 @@ import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"  
 
-import Storage from "@lp/library/modules/storage"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -31,13 +29,11 @@ export const AdministrativeDivisions = observer(() => {
 
   const onSubmitAdministrativeDivision = () =>{ 
     if (Stores.administrativeDivStore.administrativeDiv) {
-      
       Stores.administrativeDivStore.administrativeDivisionsService
         .addAdministrativeDivisions(
           Stores.administrativeDivStore.administrativeDiv
         )
         .then((res) => {
-          
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Administrative divisions created.`,

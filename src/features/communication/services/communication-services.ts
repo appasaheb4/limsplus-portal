@@ -8,7 +8,7 @@ import { http } from "@lp/library/modules/http"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
 
-class CommunicationService  {
+class CommunicationService {
   adddepartment = (department?: Models.HostCommunication) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -123,12 +123,12 @@ class CommunicationService  {
           reject({ error })
         })
     })
-  listSegmentMapping = (page=0,limit=10) =>
+  listSegmentMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
         .get(`/communication/listSegmentMapping/${page}/${limit}`)
         .then((res) => {
-          const data = res.data.data
+          const data = res.data.data.data.segmentMappingList
           const group = data.reduce((r: any, a: any) => {
             r[a.segments] = [...(r[a.segments] || []), a]
             return r
@@ -145,7 +145,13 @@ class CommunicationService  {
               values.push(item)
             })
           }
-          resolve(values)
+          resolve({
+            data: {
+              segmentMappingList: values,
+              count: res.data.data.data.count,
+            },
+            success: 1,
+          })
         })
         .catch((error) => {
           reject({ error })
@@ -164,13 +170,12 @@ class CommunicationService  {
         })
     })
 
-  mappingList = () =>
+  mappingList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/communication/listSegmentMapping`)
+        .get(`/communication/listSegmentMapping/${page}/${limit}`)
         .then((res) => {
           const data = res.data.data
-
           const mapping: any[] = []
           const values: Models.MappingValues[] = []
           data.forEach((item: Models.SegmentMapping) => {
@@ -187,7 +192,7 @@ class CommunicationService  {
                 component: [Number(item.field_no), 1],
                 field_no: Number(item.field_no),
                 default: "",
-              })  
+              })
             }
           })
           const group = values.reduce((r: any, a: any) => {
@@ -267,7 +272,7 @@ class CommunicationService  {
         })
     })
 
-  listInterfaceManager = (page=0,limit=10) =>
+  listInterfaceManager = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
         .get(`/communication/listInterfaceManager/${page}/${limit}`)
@@ -349,10 +354,12 @@ class CommunicationService  {
         })
     })
 
-  listConversationMapping = (page=0,limit=10) =>
+  listConversationMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/communication/conversationMapping/listConversationMapping/${page}/${limit}`)
+        .get(
+          `/communication/conversationMapping/listConversationMapping/${page}/${limit}`
+        )
         .then((res: any) => {
           resolve(res.data.data)
         })
@@ -384,6 +391,6 @@ class CommunicationService  {
           reject({ error })
         })
     })
-}  
+}
 
 export default CommunicationService

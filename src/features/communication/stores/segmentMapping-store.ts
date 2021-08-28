@@ -7,7 +7,7 @@ import * as Services from "../services"
 class SegmentMappingStore {
   @ignore @observable segmentMapping?: Models.SegmentMapping
   @observable listSegmentMapping?: Models.SegmentMapping[] = []
-  @observable listSegmentMappingCount: number = 0 
+  @observable listSegmentMappingCount: number = 0
   @ignore @observable selectedItems?: Models.SegmentMapping[] = []
   @ignore @observable updateItem?: Models.UpdateItem
   @ignore @observable mapping?: Models.Mapping[] = []
@@ -15,12 +15,13 @@ class SegmentMappingStore {
     makeAutoObservable(this)
   }
 
-  @action fetchListSegmentMapping(page?,limit?) {
-    this.segmentMappingService.listSegmentMapping(page,limit).then((listSegmentMapping) => {
-      //console.log({ listSegmentMapping })
-      this.listSegmentMapping = listSegmentMapping
+  @action fetchListSegmentMapping(page?, limit?) {
+    this.segmentMappingService.listSegmentMapping(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listSegmentMapping = res.data.segmentMappingList
+      this.listSegmentMappingCount = res.data.count
     })
-  }
+  }   
 
   @action fetchmappingList() {
     this.segmentMappingService.mappingList().then((mapping) => {
@@ -29,8 +30,7 @@ class SegmentMappingStore {
   }
 
   @computed get segmentMappingService() {
-    return new Services.CommunicationService(
-    )
+    return new Services.CommunicationService()
   }
 
   @action updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {

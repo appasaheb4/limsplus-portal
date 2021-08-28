@@ -20,7 +20,7 @@ class SampleContainerStore {
   @action fetchListSampleContainer(page?,limit?) {
     this.sampleContainerService.listSampleContainer(page,limit).then((res) => {
       if (!res.success) return alert(res.message)
-      this.listSampleContainer = res.data.sampleList
+      this.listSampleContainer = res.data.sampleContainer
       this.listSampleContainerCount = res.data.count
     })
   }
