@@ -214,6 +214,5 @@ export class Http {
     return new ServiceResponse<T>(0, "App has encountered some issues")
   }
 }
-
 export const http = new Http()
 export { ServiceResponse }

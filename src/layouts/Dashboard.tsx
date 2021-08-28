@@ -60,13 +60,13 @@ const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
-  let countLoadApi = 0
 
   const loadApi = async (pathname?: string) => {
+    console.log({ beforeStore: stores })
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
     console.log({ pathname })
-    if (pathname !== "/") {
+    if (pathname !== "/" && stores.loginStore.login) {
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -77,7 +77,7 @@ const Dashboard = observer(({ children }) => {
       // lookup item fetch
       RouterFlow.getLookupValues(pathname).then((items) => {
         stores.routerStore.updateLookupItems(items)
-      })  
+      })
       // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
       if (
@@ -149,9 +149,8 @@ const Dashboard = observer(({ children }) => {
         pathname === "/communication/mapping/segmentMapping"
       )
         await Communication.startup()
-
-      countLoadApi++
     }
+    stores.appStore.updateLoadApi({ count: 0 })
   }
 
   const router = async () => {
@@ -189,15 +188,20 @@ const Dashboard = observer(({ children }) => {
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
-        loadApi()
-        // history.listen((location, action) => {
-        //   if (countLoadApi === 0) {
-        //     console.log({ location, countLoadApi })
-        //     let pathname = location.pathname
-        //     loadApi(pathname)
-        //     countLoadApi++
-        //   }
-        // })
+        console.log({ count: stores.appStore.loadApi })
+        if (stores.appStore.loadApi.count === 0) loadApi()
+        history.listen(async (location, action) => {
+          let pathname = location.pathname
+          await stores.appStore.updateLoadApi({
+            ...stores.appStore.loadApi,
+            path: pathname,
+          })
+          if (
+            stores.appStore.loadApi.count === 1 &&
+            stores.appStore.loadApi.path !== pathname
+          )
+            loadApi(pathname)
+        })
         router()
         setTimeout(() => {
           permission()
