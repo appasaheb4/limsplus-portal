@@ -20,29 +20,6 @@ interface SalesTeamListProps {
 }  
 
 export const SalesTeamList = observer((props: SalesTeamListProps) => {
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      if (items) {
-        setLookupItems(items)
-      }  
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"

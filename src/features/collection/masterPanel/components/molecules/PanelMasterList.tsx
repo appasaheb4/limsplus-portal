@@ -28,27 +28,6 @@ interface PanelMasterListProps {
 }
 
 const PanelMasterList = observer((props: PanelMasterListProps) => {
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      setLookupItems(items)
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
 
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -236,7 +215,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SERVICE_TYPE").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SERVICE_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -409,7 +388,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PROCESSING").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "PROCESSING").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -451,7 +430,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -486,7 +465,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PANEL_TYPE").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "PANEL_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -710,7 +689,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SEX").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SEX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -864,7 +843,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
