@@ -27,7 +27,7 @@ export const Library = observer(() => {
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  const [lookupItems, setLookupItems] = useState<any[]>([])
+  
 
   const {
     control,
@@ -35,39 +35,7 @@ export const Library = observer(() => {
     formState: { errors },
   } = useForm()
 
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      if (items) {
-        const status = items
-          .find((fileds) => {
-            return fileds.fieldName === "STATUS"
-          })
-          ?.arrValue?.find((statusItem) => statusItem.code === "A")
-        if (status) {
-          Stores.libraryStore.updateLibrary({
-            ...Stores.libraryStore.library,
-            status: status.code as string,
-          })
-        }
-        setLookupItems(items)
-      }
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
+ 
 
   const onSubmitLibrary = (data) => {
     console.log("click")
@@ -175,7 +143,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "USAGE_TYPE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "USAGE_TYPE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -209,7 +177,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "LIBRARY_TYPE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "LIBRARY_TYPE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -243,7 +211,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "COMMENT_TYPE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "COMMENT_TYPE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -345,7 +313,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "COMMENTS_TARGET").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "COMMENTS_TARGET").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -408,7 +376,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PARAMETER").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "PARAMETER").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -442,7 +410,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ACTION").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ACTION").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -476,7 +444,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "RESULTS").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "RESULTS").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -599,7 +567,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "STATUS").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -744,7 +712,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SEX").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SEX").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -778,7 +746,7 @@ export const Library = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SEX_ACTION").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SEX_ACTION").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}

@@ -33,40 +33,7 @@ interface RegistrationLocationsListProps {
 
 const RegistrationLocationsList = observer(
   (props: RegistrationLocationsListProps) => {
-    const [lookupItems, setLookupItems] = useState<any[]>([])
-    const getLookupValues = async () => {
-      const listLookup = LookupStore.lookupStore.listLookup
-      if (listLookup.length > 0) {
-        const selectedCategory: any = await Storage.getItem(
-          `__persist_mobx_stores_routerStore_SelectedCategory__`
-        )
-        const items = listLookup.filter((item: any) => {
-          if (
-            item.documentName.name === selectedCategory.category &&
-            item.documentName.children.name === selectedCategory.item
-          )
-            return item
-        })
-        if (items) {
-          const status = items
-            .find((fileds) => {
-              return fileds.fieldName === "STATUS"
-            })
-            ?.arrValue?.find((statusItem) => statusItem.code === "A")
-          if (status) {
-            Stores.registrationLocationsStore.updateRegistrationLocations({
-              ...Stores.registrationLocationsStore.registrationLocations,
-              status: status.code,
-            })
-          }
-          setLookupItems(items)
-        }
-      }
-    }
-  
-    useEffect(() => {
-      getLookupValues()
-    }, [LookupStore.lookupStore.listLookup])
+    
     const editorCell = (row: any) => {
       return row.status !== "I" ? true : false
     }
@@ -157,7 +124,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -191,7 +158,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -264,7 +231,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -298,7 +265,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -426,7 +393,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "METHOD_COLN").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "METHOD_COLN").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -467,7 +434,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SPECIALITY").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SPECIALITY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -682,7 +649,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
