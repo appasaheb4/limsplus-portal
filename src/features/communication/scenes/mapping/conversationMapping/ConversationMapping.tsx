@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../../../components"
+import * as LibraryUtils from "@lp/library/utils"
 import BootstrapTable from "react-bootstrap-table-next"
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
@@ -11,6 +12,7 @@ import moment from "moment"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
+import { useForm, Controller } from "react-hook-form" 
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../../../stores"
 import { stores } from "@lp/library/stores"
@@ -22,12 +24,42 @@ const ConversationMapping = observer(() => {
   const {
 		loginStore,
 	} = useStores();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [
     hideAddConversationMapping,
     setHideAddConversationMapping,
   ] = useState<boolean>(true)
 
+  const onSubmitConversationMapping  = () =>{
+    if (
+      Stores.conversationMappingStore.conversationMapping !== undefined
+    ) {
+      
+      Stores.conversationMappingStore.conversationMappingService
+        .addConversationMapping(
+          Stores.conversationMappingStore.conversationMapping
+        )
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+             message : `😊Conversation Mapping created.`
+            })
+            window.location.reload()
+            //Stores.conversationMappingStore.()
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+       message : "😔Please enter all information!"
+      })
+    }
+  }
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -61,52 +93,115 @@ const ConversationMapping = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="Hexa Decimal"
                 id="hexadecimal"
                 name="hexadecimal"
-                placeholder="Hexa Decimal"
+                placeholder={errors.hexadecimal?"Please Enter hexadecimal":"Hexa Decimal"}
+                hasError={errors.hexadecimal}
                 value={
                   Stores.conversationMappingStore.conversationMapping?.hexadecimal
                 }
                 onChange={(hexadecimal) => {
+                  onChange(hexadecimal)
                   Stores.conversationMappingStore.updateConversationMapping({
                     ...Stores.conversationMappingStore.conversationMapping,
                     hexadecimal,
                   })
                 }}
               />
-
+              )}
+              name="hexadecimal"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="Binary"
                 id="binary"
                 name="binary"
-                placeholder="Binary"
+                placeholder={errors.binary?"Please Enter Binary":"Binary"}
+                hasError={errors.binary}
                 value={Stores.conversationMappingStore.conversationMapping?.binary}
                 onChange={(binary) => {
+                  onChange(binary)
                   Stores.conversationMappingStore.updateConversationMapping({
                     ...Stores.conversationMappingStore.conversationMapping,
                     binary,
                   })
                 }}
               />
-
+              )}
+              name="binary"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="text"
                 label="ASCII"
                 id="ascii"
                 name="ascii"
-                placeholder="ASCII"
+                placeholder={errors.ascii?"Please Enter ascii":"ASCII"}
+                hasError={errors.ascii}
                 value={Stores.conversationMappingStore.conversationMapping?.ascii}
                 onChange={(ascii) => {
+                  onChange(ascii)
                   Stores.conversationMappingStore.updateConversationMapping({
                     ...Stores.conversationMappingStore.conversationMapping,
                     ascii,
                   })
                 }}
               />
+              )}
+              name="ascii"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.conversationMappingStore.conversationMapping?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.conversationMappingStore.updateConversationMapping({
+                      ...Stores.conversationMappingStore.conversationMapping,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
               <div className="clearfix" />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -115,31 +210,7 @@ const ConversationMapping = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (
-                  Stores.conversationMappingStore.conversationMapping !== undefined
-                ) {
-                  
-                  Stores.conversationMappingStore.conversationMappingService
-                    .addConversationMapping(
-                      Stores.conversationMappingStore.conversationMapping
-                    )
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                         message : `😊Conversation Mapping created.`
-                        })
-                        window.location.reload()
-                        //Stores.conversationMappingStore.()
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                   message : "😔Please enter all information!"
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitConversationMapping)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -160,6 +231,7 @@ const ConversationMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <FeatureComponents.Molecules.ConversationMappingList
             data={Stores.conversationMappingStore.listConversationMapping || []}
+            extraData={{lookupItems:stores.routerStore.lookupItems}}
             totalSize={Stores.conversationMappingStore.listConversationMappingCount}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),

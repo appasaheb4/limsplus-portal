@@ -2,12 +2,14 @@
 import React, { useState, useContext } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../../../models"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
 import * as FeatureComponents from "../../../components"
 import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
+import { useForm, Controller } from "react-hook-form" 
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../../../stores"
 import { stores } from "@lp/library/stores"
@@ -17,9 +19,13 @@ import { toJS } from "mobx"
 
 const SegmentMapping = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
-  const [errors, setErrors] = useState<Models.SegmentMapping>()
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)
   const [saveTitle, setSaveTitle] = useState("Save")
@@ -160,6 +166,31 @@ const SegmentMapping = observer(() => {
     reader.readAsBinaryString(file)
   }
 
+  const onSubmitSegmentMapiing = () =>{
+    
+    if(Stores.segmentMappingStore.segmentMappingService
+      )    {
+           
+      Stores.segmentMappingStore.segmentMappingService.addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+              message :`😊Segment Mapping created.`
+            })
+            if (saveTitle === "Save") {
+              window.location.reload()
+            }
+            Stores.segmentMappingStore.fetchListSegmentMapping()
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+       message : "😔Please enter all information!"
+    })
+    }
+  }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -192,17 +223,25 @@ const SegmentMapping = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="EQUIPMENT TYPE"
                 id="equipment_type"
+                hasError={errors.equipmentType}
               >
                 <select
                   name="equipment_type"
                   value={Stores.segmentMappingStore.segmentMapping?.equipmentType}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.equipmentType
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const equipmentType = e.target.value
-                   
+                   onChange(equipmentType)
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       equipmentType,
@@ -219,28 +258,30 @@ const SegmentMapping = observer(() => {
                   )}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              {errors?.equipmentType && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.equipmentType}
-                </span>
               )}
+              name="equipmentType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="DATA FLOW FROM"
                 id="dataFlowFrom"
+                hasError={errors.dataFlowFrom}
               >
                 <select
                   name="dataFlowFrom"
                   value={Stores.segmentMappingStore.segmentMapping?.dataFlowFrom}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.dataFlowFrom
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const dataFlowFrom = e.target.value
-                    setErrors({
-                      ...errors,
-                      dataFlowFrom: Utils.validate.single(
-                        dataFlowFrom,
-                        Utils.constraintsSegmentMapping.dataFlowFrom
-                      ),
-                    })
+                   onChange(dataFlowFrom)
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       dataFlowFrom,
@@ -255,28 +296,30 @@ const SegmentMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              {errors?.dataFlowFrom && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.dataFlowFrom}
-                </span>
               )}
+              name="dataFlowFrom"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="DATA TYPE"
                 id="data_type"
+                hasError={errors.data_type}
               >
                 <select
                   name="data_type"
                   value={Stores.segmentMappingStore.segmentMapping?.data_type}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.data_type
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const data_type = e.target.value
-                    setErrors({
-                      ...errors,
-                      data_type: Utils.validate.single(
-                        data_type,
-                        Utils.constraintsSegmentMapping.data_type
-                      ),
-                    })
+                    onChange(data_type)
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       data_type,
@@ -291,21 +334,31 @@ const SegmentMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
-              {errors?.data_type && (
-                <span className="text-red-600 font-medium relative">
-                  {errors.data_type}
-                </span>
               )}
+              name="data_type"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="SEGMENTS"
                 id="segments"
+                hasError={errors.segments}
               >
                 <select
                   name="segments"
                   value={Stores.segmentMappingStore.segmentMapping?.segments}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.segments
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const segments = e.target.value
+                    onChange(segments)
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       segments,
@@ -320,17 +373,31 @@ const SegmentMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="segments"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
 
               <LibraryComponents.Atoms.Form.InputWrapper
                 label="SEGMENT USAGE"
                 id="segment_usage"
+                hasError={errors.segment_usage}
               >
                 <select
                   name="segment_usage"
                   value={Stores.segmentMappingStore.segmentMapping?.segment_usage}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.segment_usage
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
                   onChange={(e) => {
                     const segment_usage = e.target.value
+                    onChange(segment_usage)
                     Stores.segmentMappingStore.updateSegmentMapping({
                       ...Stores.segmentMappingStore.segmentMapping,
                       segment_usage,
@@ -345,32 +412,57 @@ const SegmentMapping = observer(() => {
                   ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="segment_usage"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Field No"
                 name="field_no"
-                placeholder="Field No"
+                placeholder={errors.field_no?"Please Enter field_no":"Field No"}
+                hasError={errors.field_no}
                 value={Stores.segmentMappingStore.segmentMapping?.field_no}
                 onChange={(field_no) => {
+                  onChange(field_no)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     field_no: parseFloat(field_no).toFixed(2).toString(),
                   })
                 }}
               />
+              )}
+              name="field_no"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="Item No"
                 name="item_no"
-                placeholder="Item No"
+                placeholder={errors.item_no?"Please Enter item_no":"Item No"}
+                hasError={errors.item_no}
                 value={Stores.segmentMappingStore.segmentMapping?.item_no}
                 onChange={(item_no) => {
+                  onChange(item_no)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     item_no: parseFloat(item_no).toFixed(2).toString(),
                   })
                 }}
               />
+              )}
+              name="item_no"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -379,90 +471,160 @@ const SegmentMapping = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="FIELD REQUIRED"
                 id="field_required"
+                hasError={errors.field_required}
                 value={Stores.segmentMappingStore.segmentMapping?.field_required}
                 onChange={(field_required) => {
+                  onChange(field_required)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     field_required,
                   })
                 }}
               />
+              )}
+              name="field_required"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Element Name"
                 name="element_name"
-                placeholder="Element Name"
+                placeholder={errors.element_name?"Please Enter element_name":"Element Name"}
+                hasError={errors.element_name}
                 value={Stores.segmentMappingStore.segmentMapping?.element_name}
                 onChange={(element_name) => {
+                  onChange(element_name)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     element_name,
                   })
                 }}
               />
+              )}
+              name="element_name"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="TRANSMITTED DATA"
                 name="transmitted_data"
-                placeholder="TRANSMITTED DATA"
+                placeholder={errors.transmitted_data?"Please Enter transmitted_data":"TRANSMITTED DATA"}
+                hasError={errors.transmitted_data}
                 value={Stores.segmentMappingStore.segmentMapping?.transmitted_data}
                 onChange={(transmitted_data) => {
+                  onChange(transmitted_data)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     transmitted_data,
                   })
                 }}
               />
+              )}
+              name="transmitted_data"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+
               <LibraryComponents.Atoms.Form.Input
                 label="FIELD ARRAY"
                 name="field_array"
-                placeholder="FIELD ARRAY"
+                placeholder={errors.field_array?"Please Enter field_array":"FIELD ARRAY"}
+                hasError={errors.field_array}
                 value={Stores.segmentMappingStore.segmentMapping?.field_array}
                 onChange={(field_array) => {
+                  onChange(field_array)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     field_array,
                   })
                 }}
               />
+              )}
+              name="field_array"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 type="number"
                 label="FIELD LENGTH"
                 name="field_length"
-                placeholder="FIELD LENGTH"
+                placeholder={errors.field_length?"Please Enter field_length":"FIELD LENGTH"}
+                hasError={errors.field_length}
                 value={Stores.segmentMappingStore.segmentMapping?.field_length}
                 onChange={(field_length) => {
+                  onChange(field_length)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     field_length: parseFloat(field_length).toFixed(2).toString(),
                   })
                 }}
               />
-
+              )}
+              name="field_length"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="FIELD TYPE"
                 name="field_type"
-                placeholder="FIELD TYPE"
+                placeholder={errors.field_type?"Please Enter field_type":"FIELD TYPE"}
+                hasError={errors.field_type}
                 value={Stores.segmentMappingStore.segmentMapping?.field_type}
                 onChange={(field_type) => {
+                  onChange(field_type)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     field_type,
                   })
                 }}
               />
+              )}
+              name="field_type"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="REPEAT DELIMITER"
                 id="repeat_delimiter"
+                hasError={errors.repeat_delimiter}
                 value={Stores.segmentMappingStore.segmentMapping?.repeat_delimiter}
                 onChange={(repeat_delimiter) => {
+                  onChange(repeat_delimiter)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     repeat_delimiter,
                   })
                 }}
               />
+              )}
+              name="repeat_delimiter"
+              rules={{ required: false }}
+              defaultValue=""
+            />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -471,92 +633,195 @@ const SegmentMapping = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="MANDATORY"
                 id="mandatory"
+                hasError={errors.mandatory}
                 value={Stores.segmentMappingStore.segmentMapping?.mandatory}
                 onChange={(mandatory) => {
+                  onChange(mandatory)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     mandatory,
                   })
                 }}
               />
+              )}
+              name="mandatory"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="LIMS DESCRIPTIONS"
                 id="lims_descriptions"
-                placeholder="LIMS DESCRIPTIONS"
+                placeholder={errors.lims_descriptions?"Please Enter lims_descriptions":"LIMS DESCRIPTIONS"}
+                hasError={errors.lims_descriptions}
                 value={Stores.segmentMappingStore.segmentMapping?.lims_descriptions}
                 onChange={(lims_descriptions) => {
+                  onChange(lims_descriptions)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_descriptions,
                   })
                 }}
               />
+              )}
+              name="lims_descriptions"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="LIMS TABLES"
                 name="lims_tables"
-                placeholder="Lims Tables"
+                placeholder={errors.lims_tables?"Please Enter lims_tables":"Lims Tables"}
+                hasError={errors.lims_tables}
                 value={Stores.segmentMappingStore.segmentMapping?.lims_tables}
                 onChange={(lims_tables) => {
+                  onChange(lims_tables)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_tables,
                   })
                 }}
               />
+              )}
+              name="lims_tables"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="LIMS FIELDS"
                 name="lims_fields"
-                placeholder="LIMS FIELDS"
+                placeholder={errors.lims_fields?"Please Enter lims_fields":"LIMS FIELDS"}
+                hasError={errors.lims_fields}
                 value={Stores.segmentMappingStore.segmentMapping?.lims_fields}
                 onChange={(lims_fields) => {
+                  onChange(lims_fields)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     lims_fields,
                   })
                 }}
               />
-
+              )}
+              name="lims_fields"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Toggle
                 label="REQUIRED FOR LIMS"
                 id="required_for_lims"
+                hasError={errors.required_for_lims}
                 value={Stores.segmentMappingStore.segmentMapping?.required_for_lims}
                 onChange={(required_for_lims) => {
+                  onChange(required_for_lims)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     required_for_lims,
                   })
                 }}
               />
-
+              )}
+              name="required_for_lims"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="NOTES"
                 name="notes"
-                placeholder="NOTES"
+                placeholder={errors.notes?"Please Enter notes":"NOTES"}
+                hasError={errors.notes}
                 value={Stores.segmentMappingStore.segmentMapping?.notes}
                 onChange={(notes) => {
+                  onChange(notes)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     notes,
                   })
                 }}
               />
+              )}
+              name="notes"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputFile
                 label="ATTACHMENTS"
                 name="attachments"
-                placeholder="ATTACHMENTS"
+                placeholder={errors.attachments?"Please Enter attachments":"ATTACHMENTS"}
+                hasError={errors.attachments}
                 multiple={true}
                 // value={Stores.segmentMappingStore.segmentMapping?.attachments}
                 onChange={(e) => {
                   const attachments = e.target.files
+                  onChange(attachments)
                   Stores.segmentMappingStore.updateSegmentMapping({
                     ...Stores.segmentMappingStore.segmentMapping,
                     attachments,
                   })
                 }}
               />
+              )}
+              name="attachments"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.segmentMappingStore.segmentMapping?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.segmentMappingStore.updateSegmentMapping({
+                      ...Stores.segmentMappingStore.segmentMapping,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -565,34 +830,7 @@ const SegmentMapping = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (
-                  Utils.validate(
-                    Stores.segmentMappingStore.segmentMapping,
-                    Utils.constraintsSegmentMapping
-                  ) === undefined
-                ) {
-                  
-                  Stores.segmentMappingStore.segmentMappingService
-                    .addSegmentMapping(Stores.segmentMappingStore.segmentMapping)
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message :`😊Segment Mapping created.`
-                        })
-                        if (saveTitle === "Save") {
-                          window.location.reload()
-                        }
-                        Stores.segmentMappingStore.fetchListSegmentMapping()
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                   message : "😔Please enter all information!"
-                })
-                }
-              }}
+              onClick={handleSubmit(onSubmitSegmentMapiing)}
             >
               {saveTitle}
             </LibraryComponents.Atoms.Buttons.Button>
