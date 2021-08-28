@@ -29,30 +29,7 @@ export const SalesTeam = observer(() => {
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      if (items) {
-        setLookupItems(items)
-      }
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
+  
 
   const onSubmitSalesTeam = () =>{
     if (Stores.salesTeamStore.salesTeam) {
@@ -127,7 +104,7 @@ export const SalesTeam = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SALES_HIERARCHY").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SALES_HIERARCHY").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}

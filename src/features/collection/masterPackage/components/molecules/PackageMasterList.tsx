@@ -28,27 +28,7 @@ interface PackageMasterListProps {
 }
 
 const PackageMasterList = observer((props: PackageMasterListProps) => {
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      setLookupItems(items)
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
+ 
 
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -176,7 +156,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.value} - ${item.code}`}
                           </option>
