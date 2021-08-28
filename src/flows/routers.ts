@@ -1,7 +1,6 @@
 import { toJS } from "mobx"
 import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
-import { stores } from "@lp/library/stores"
 /* eslint-disable */
 import { LookupService } from "@lp/features/collection/lookup/services"
 
