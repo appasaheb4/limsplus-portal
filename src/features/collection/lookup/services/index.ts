@@ -1,3 +1,2 @@
-import LookupService from './lookup-services'
-export{LookupService}
+export * from './lookup-services'
 

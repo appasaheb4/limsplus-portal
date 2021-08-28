@@ -8,10 +8,10 @@
 import { http, Http, ServiceResponse } from "@lp/library/modules/http"
 
 class LoginActivityService {
-  listLoginActivity = (limit=10) =>
+  listLoginActivity = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
       http
-        .get(`/auth/listLoginActivity/${limit}`)
+        .get(`/auth/listLoginActivity/${page}/${limit}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

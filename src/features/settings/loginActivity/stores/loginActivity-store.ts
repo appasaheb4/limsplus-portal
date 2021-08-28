@@ -14,10 +14,12 @@ class LoginActivityStore {
     return new Services.LoginActivityService()
   }
    
-  @action fetchLoginActivity(limit=10) {
-    this.LoginActivityService.listLoginActivity(limit).then((list) => {
-      this.listLoginActivity = list.data.loginActivity  
-      this.listLoginActivityCount = list.data.count
+  @action fetchLoginActivity(page?,limit=10) {
+    this.LoginActivityService.listLoginActivity(page,limit).then((res) => {
+      console.log({res});
+      
+      this.listLoginActivity = res.data.loginActivity  
+      this.listLoginActivityCount = res.data.count
     })
   }
 }

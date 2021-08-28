@@ -7,7 +7,7 @@
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 
-class LookupService {
+export class LookupService {
   listLookup = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -68,6 +68,17 @@ class LookupService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
-}
 
-export default LookupService
+  lookupItemsByPath = (path?: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/lookup/lookupItemsByPath`, {path})
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
+}

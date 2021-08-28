@@ -60,11 +60,12 @@ const Dashboard = observer(({ children }) => {
   const history: any = useHistory()
   const [isLogined, setIsLogined] = useState<boolean>(false)
   const [modalIdleTime, setModalIdleTime] = useState<any>()
+  let countLoadApi = 0
 
   const loadApi = async (pathname?: string) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    //console.log({ pathname })
+    console.log({ pathname })
     if (pathname !== "/") {
       // common use api
       await Deginisation.startup()
@@ -73,6 +74,10 @@ const Dashboard = observer(({ children }) => {
       await Department.startup()
       await User.startup()
       await Lookup.startup()
+      // lookup item fetch
+      RouterFlow.getLookupValues(pathname).then((items) => {
+        stores.routerStore.updateLookupItems(items)
+      })  
       // specific api load
       if (pathname === "/collection/banner") await Banner.startup()
       if (
@@ -144,6 +149,8 @@ const Dashboard = observer(({ children }) => {
         pathname === "/communication/mapping/segmentMapping"
       )
         await Communication.startup()
+
+      countLoadApi++
     }
   }
 
@@ -183,10 +190,14 @@ const Dashboard = observer(({ children }) => {
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         loadApi()
-        history.listen((location, action) => {
-          let pathname = location.pathname
-          loadApi(pathname)
-        })
+        // history.listen((location, action) => {
+        //   if (countLoadApi === 0) {
+        //     console.log({ location, countLoadApi })
+        //     let pathname = location.pathname
+        //     loadApi(pathname)
+        //     countLoadApi++
+        //   }
+        // })
         router()
         setTimeout(() => {
           permission()
@@ -208,7 +219,6 @@ const Dashboard = observer(({ children }) => {
   const handleOnIdle = (event) => {
     // console.log("user is idle", event)
     console.log("last active", getLastActiveTime())
-
     setIsLogined(true)
     LoginStores.loginStore
       .removeUser()
