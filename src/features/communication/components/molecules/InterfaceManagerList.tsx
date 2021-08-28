@@ -493,7 +493,7 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
             <>
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
-                  value={Stores.interfaceManagerStore.encodeCharacter?.environment}
+                  value={row.environment}
                   className="leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md"
                   onChange={(e) => {
                     const environment = e.target.value
