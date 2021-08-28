@@ -30,27 +30,7 @@ interface TestMasterProps {
 }
 
 const TestMasterList = observer((props: TestMasterProps) => {
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      setLookupItems(items)
-    }
-  }
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
-
+  
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -455,7 +435,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "WORKFLOW").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "WORKFLOW").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -492,7 +472,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "DISEASE").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "DISEASE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -527,7 +507,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "CATEGORY").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CATEGORY").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -563,7 +543,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "TEST_TYPE").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "TEST_TYPE").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -990,7 +970,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "PREFIX").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "PREFIX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -1027,7 +1007,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "SUFIX").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SUFIX").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
@@ -1112,7 +1092,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map((item: any, index: number) => (
+                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>

@@ -24,28 +24,6 @@ interface DeliverySchduleListProps {
 }
 
 const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      setLookupItems(items)
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
-
   return (
     <>
       <div style={{ position: "relative" }}>

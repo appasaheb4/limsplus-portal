@@ -28,41 +28,7 @@ const MasterAnalyte = observer(() => {
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-  const [lookupItems, setLookupItems] = useState<any[]>([])
-
-  const getLookupValues = async () => {
-    const listLookup = LookupStore.lookupStore.listLookup
-    if (listLookup.length > 0) {
-      const selectedCategory: any = await Storage.getItem(
-        `__persist_mobx_stores_routerStore_SelectedCategory__`
-      )
-      const items = listLookup.filter((item: any) => {
-        if (
-          item.documentName.name === selectedCategory.category &&
-          item.documentName.children.name === selectedCategory.item
-        )
-          return item
-      })
-      if (items) {
-        const status = items
-          .find((fileds) => {
-            return fileds.fieldName === "STATUS"
-          })
-          ?.arrValue?.find((statusItem) => statusItem.code === "A")
-        if (status) {
-          Stores.masterAnalyteStore.updateMasterAnalyte({
-            ...Stores.masterAnalyteStore.masterAnalyte,
-            status: status.code,
-          })
-        }
-        setLookupItems(items)
-      }
-    }
-  }
-
-  useEffect(() => {
-    getLookupValues()
-  }, [LookupStore.lookupStore.listLookup])
+ 
   
   const onSubmitMasterAnalyte = () =>{
     if (Stores.masterAnalyteStore.masterAnalyte) {
@@ -482,7 +448,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "RESULT_TYPE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "RESULT_TYPE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -517,7 +483,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "ANALYTE_TYPE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ANALYTE_TYPE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -552,7 +518,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "UNITS").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "UNITS").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -587,7 +553,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "USAGE").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "USAGE").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
@@ -782,7 +748,7 @@ const MasterAnalyte = observer(() => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(lookupItems, "STATUS").map(
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "STATUS").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
