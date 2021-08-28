@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
@@ -169,16 +170,7 @@ const InterfaceManager = observer(() => {
               rules={{ required: false }}
               defaultValue=""
             />
-
-              <div className="clearfix" />
-            </LibraryComponents.Atoms.List>
-            <LibraryComponents.Atoms.List
-              direction="col"
-              space={4}
-              justify="stretch"
-              fill
-            >
-              <Controller
+            <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
@@ -202,6 +194,17 @@ const InterfaceManager = observer(() => {
               rules={{ required: false }}
               defaultValue=""
             />
+
+              <div className="clearfix" />
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
+            >
+              
+            
               
               <LibraryComponents.Atoms.Form.InputWrapper label="Block" id="block">
                 <LibraryComponents.Atoms.Grid cols={2}>
@@ -376,9 +379,45 @@ const InterfaceManager = observer(() => {
                   </div>
                 </LibraryComponents.Atoms.List>
               </LibraryComponents.Atoms.Form.InputWrapper>
-
-            </LibraryComponents.Atoms.List>
+            
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.interfaceManagerStore.encodeCharacter?.environment}
+                  className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-200"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.interfaceManagerStore.updateEncodeCharacter({
+                      ...Stores.interfaceManagerStore.encodeCharacter,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+          </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
+          
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
@@ -406,6 +445,9 @@ const InterfaceManager = observer(() => {
           <FeatureComponents.Molecules.InterfaceManagerList
             data={Stores.interfaceManagerStore.listEncodeCharacter || []}
             totalSize={Stores.interfaceManagerStore.listEncodeCharacterCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
