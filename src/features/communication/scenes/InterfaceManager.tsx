@@ -3,6 +3,7 @@ import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
+import { useForm, Controller } from "react-hook-form"
 import {useStores} from '@lp/library/stores'
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
@@ -11,6 +12,11 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 const InterfaceManager = observer(() => {
   const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const {
 		loginStore,
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -18,6 +24,31 @@ const InterfaceManager = observer(() => {
     true
   )
 
+
+  const onSubmitInterfaceManager = ()=>{
+    if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
+                  
+      Stores.interfaceManagerStore.encodeCharacterService
+        .addInterfaceManager(
+          Stores.interfaceManagerStore.encodeCharacter
+        )
+        .then((res) => {
+          
+          if (res.status === 200) {
+            LibraryComponents.Atoms.Toast.success({
+             message : `😊Encode Character created.`
+            })
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
+          }
+        })
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+       message : "😔Please enter all information!"
+      })
+    }
+  }
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -49,56 +80,95 @@ const InterfaceManager = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Interface Type"
                 name="interfaceType"
-                placeholder="Interface Type"
+                placeholder={errors.interfaceType?"Please Enter InterFace Type":"Interface Type"}
+                hasError={errors.interfaceType}
                 value={Stores.interfaceManagerStore.encodeCharacter?.interfaceType}
                 onChange={(interfaceType) => {
+                  onChange(interfaceType)
                   Stores.interfaceManagerStore.updateEncodeCharacter({
                     ...Stores.interfaceManagerStore.encodeCharacter,
                     interfaceType,
                   })
                 }}
               />
+              )}
+              name="interfaceType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
 
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Instrument Type"
                 name="instrumentType"
-                placeholder="Instrument Type"
+                placeholder={errors.instrumentType ? "Please Enter instrumentType":"Instrument Type"}
+                hasError={errors.instrumentType}
                 value={Stores.interfaceManagerStore.encodeCharacter?.instrumentType}
                 onChange={(instrumentType) => {
+                  onChange(instrumentType)
                   Stores.interfaceManagerStore.updateEncodeCharacter({
                     ...Stores.interfaceManagerStore.encodeCharacter,
                     instrumentType,
                   })
                 }}
               />
-
+              )}
+              name="instrumentType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Instrument Name"
                 name="instrumentName"
-                placeholder="Instrument Name"
+                placeholder={errors.instrumentName?"Please Enter InstrumentName":"Instrument Name"}
+                hasError={errors.instrumentName}
                 value={Stores.interfaceManagerStore.encodeCharacter?.instrumentName}
                 onChange={(instrumentName) => {
+                  onChange(instrumentName)
                   Stores.interfaceManagerStore.updateEncodeCharacter({
                     ...Stores.interfaceManagerStore.encodeCharacter,
                     instrumentName,
                   })
                 }}
               />
+              )}
+              name="instrumentName"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Data Flow From"
                 name="dataFlowFrom"
-                placeholder="Data Flow From"
+                placeholder={errors.dataFlowFrom?"Please Enter DataFlowFrom":"Data Flow From"}
+                hasError={errors.dataFlowFrom}
                 value={Stores.interfaceManagerStore.encodeCharacter?.dataFlowFrom}
                 onChange={(dataFlowFrom) => {
+                  onChange(dataFlowFrom)
                   Stores.interfaceManagerStore.updateEncodeCharacter({
                     ...Stores.interfaceManagerStore.encodeCharacter,
                     dataFlowFrom,
                   })
                 }}
               />
+              )}
+              name="dataFlowFrom"
+              rules={{ required: false }}
+              defaultValue=""
+            />
 
               <div className="clearfix" />
             </LibraryComponents.Atoms.List>
@@ -108,71 +178,122 @@ const InterfaceManager = observer(() => {
               justify="stretch"
               fill
             >
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Communication Protocol"
                 name="communicationProtocal"
-                placeholder="Communication Protocal"
+                placeholder={errors.communicationProtocal?"Please Enter communicationProtocal":"Communication Protocal"}
+                hasError={errors.communicationProtocal}
                 value={
                   Stores.interfaceManagerStore.encodeCharacter?.communicationProtocol
                 }
                 onChange={(communicationProtocol) => {
+                  onChange(communicationProtocol)
                   Stores.interfaceManagerStore.updateEncodeCharacter({
                     ...Stores.interfaceManagerStore.encodeCharacter,
                     communicationProtocol,
                   })
                 }}
               />
+              )}
+              name="communicationProtocal"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              
               <LibraryComponents.Atoms.Form.InputWrapper label="Block" id="block">
                 <LibraryComponents.Atoms.Grid cols={2}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     name="startBlock"
-                    placeholder="Start Block"
+                    placeholder={errors.blockStart?"Please Enter BlockStart":"Start Block"}
+                    hasError={errors.blockStart}
                     value={Stores.interfaceManagerStore.encodeCharacter?.blockStart}
                     onChange={(blockStart) => {
+                      onChange(blockStart)
                       Stores.interfaceManagerStore.updateEncodeCharacter({
                         ...Stores.interfaceManagerStore.encodeCharacter,
                         blockStart,
                       })
                     }}
                   />
+                  )}
+                  name="startBlock"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                  
+                  <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     name="endBlock"
-                    placeholder="End Block"
+                    placeholder={errors.endBlock?"Please Enter endBlock":"End Block"}
                     value={Stores.interfaceManagerStore.encodeCharacter?.blockEnd}
                     onChange={(blockEnd) => {
+                      onChange(blockEnd)
                       Stores.interfaceManagerStore.updateEncodeCharacter({
                         ...Stores.interfaceManagerStore.encodeCharacter,
                         blockEnd,
                       })
                     }}
                   />
+                  )}
+                  name="endBlock"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 </LibraryComponents.Atoms.Grid>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Filed" id="filed">
                 <LibraryComponents.Atoms.Grid cols={3}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     name="filed"
-                    placeholder="Filed"
+                    placeholder={errors.filed?"Please Enter Filed":"Filed"}
+                    hasError={errors.filed}
                     value={Stores.interfaceManagerStore.encodeCharacter?.filed}
                     onChange={(filed) => {
+                      onChange(filed)
                       Stores.interfaceManagerStore.updateEncodeCharacter({
                         ...Stores.interfaceManagerStore.encodeCharacter,
                         filed,
                       })
                     }}
                   />
+                  )}
+                  name="filed"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                  <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     name="value"
-                    placeholder="Value"
+                    placeholder={errors.value?"Please Enter Value":"Value"}
+                    hasError={errors.value}
                     value={Stores.interfaceManagerStore.encodeCharacter?.value}
                     onChange={(value) => {
+                      onChange(value)
                       Stores.interfaceManagerStore.updateEncodeCharacter({
                         ...Stores.interfaceManagerStore.encodeCharacter,
                         value,
                       })
                     }}
                   />
+                  )}
+                  name="value"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                   <div className="mt-2">
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
@@ -263,30 +384,7 @@ const InterfaceManager = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={() => {
-                if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
-                  
-                  Stores.interfaceManagerStore.encodeCharacterService
-                    .addInterfaceManager(
-                      Stores.interfaceManagerStore.encodeCharacter
-                    )
-                    .then((res) => {
-                      
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                         message : `😊Encode Character created.`
-                        })
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 1000)
-                      }
-                    })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                   message : "😔Please enter all information!"
-                  })
-                }
-              }}
+              onClick={handleSubmit(onSubmitInterfaceManager)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
