@@ -6,13 +6,17 @@
  */
 //import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { stores } from "@lp/library/stores"
 
 export class BannerService {
-
-  listBanner = (page=0,limit=10) =>
+  listBanner = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ stores })
+   
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/banner/listBanner/${page}/${limit}`)
+        .get(`/banner/listBanner/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -21,7 +25,7 @@ export class BannerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
-    
+
   addBanner = (banner: any) =>
     new Promise<any>((resolve, reject) => {
       const form = new FormData()
@@ -44,7 +48,7 @@ export class BannerService {
         .then((response) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
-        })  
+        })
         .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })

@@ -19,7 +19,6 @@ const Banner = observer(() => {
     formState: { errors },
   } = useForm()
   const { loginStore } = useStores()
-
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
