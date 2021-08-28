@@ -1,10 +1,7 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
-import * as Services from "../services"
-import { RouterFlow } from "@lp/flows"
-
-import { stores } from "@lp/library/stores"
+import {LookupService} from "../services"
 
 @version(0.1)
 class LookupStore {
@@ -18,16 +15,12 @@ class LookupStore {
   }
 
   @computed get LookupService() {
-    return new Services.LookupService()
+    return new LookupService()
   }
 
-  @action fetchListLookup(page?,limit?) {
-    this.LookupService.listLookup(page,limit).then((res) => {
-      RouterFlow.getLookupValues(res.data.lookup).then((items) => {
-        stores.routerStore.updateLookupItems(items)
-      })
-      console.log({res});
-      
+  @action fetchListLookup(page?, limit?) {
+    this.LookupService.listLookup(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
       this.listLookup = res.data.lookup
       this.listLookupCount = res.data.count
     })

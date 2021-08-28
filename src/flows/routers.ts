@@ -1,7 +1,9 @@
 import { toJS } from "mobx"
 import Storage from "@lp/library/modules/storage"
 import hydrateStore from "@lp/library/modules/startup"
+import { stores } from "@lp/library/stores"
 /* eslint-disable */
+import { LookupService } from "@lp/features/collection/lookup/services"
 
 export const selectedComponents = (store, category, subCategory) => {
   if (store) {
@@ -78,20 +80,11 @@ export const updateSelectedCategory = async (
   await hydrateStore("routerStore", stores.routerStore)
 }
 
-export const getLookupValues = async (listLookup: any):Promise<any> => {
-  if (listLookup.length > 0) {
-    const selectedCategory: any = await Storage.getItem(
-      `__persist_mobx_stores_routerStore_SelectedCategory__`
-    )
-    const items = listLookup.filter((item: any) => {
-      if (
-        item.documentName.name === selectedCategory.category &&
-        item.documentName.children.name === selectedCategory.item
-      )
-        return item
-    })
-    if (items) {
-      return items
-    }
-  }
+export const getLookupValues = async (path: string): Promise<any> => {
+  let lookupItems: Array<any> = []
+  await new LookupService().lookupItemsByPath(path).then((res) => {
+    if (!res.success) return alert(res.message)
+    lookupItems = res.data.lookupItems
+  })
+  return lookupItems
 }
