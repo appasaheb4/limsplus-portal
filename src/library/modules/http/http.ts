@@ -30,7 +30,7 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
       config.headers.Authorization = `x-limsplus-key ${token}`
     }
     return config
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(error)
   }
 }
@@ -195,7 +195,7 @@ export class Http {
       const strippedResponse = path ? _.get(data, path) : data
       return new ServiceResponse<T>(
         settings.success, // 1= Success, 0= Failure,
-        settings.message,  
+        settings.message,
         Type ? new Type(strippedResponse) : strippedResponse
       )
     }
