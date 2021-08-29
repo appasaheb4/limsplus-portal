@@ -7,12 +7,15 @@
 
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { stores } from "@lp/library/stores"
     
 class DeliveryScheduleService  {
   listDeliverySchdule = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`master/deliverySchdule/listDeliverySchdule/${page}/${limit}`)
+        .get(`master/deliverySchdule/listDeliverySchdule/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

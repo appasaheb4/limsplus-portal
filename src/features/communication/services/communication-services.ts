@@ -7,6 +7,7 @@
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
+import { stores } from "@lp/library/stores"
 
 class CommunicationService {
   adddepartment = (department?: Models.HostCommunication) =>
@@ -125,8 +126,10 @@ class CommunicationService {
     })
   listSegmentMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/communication/listSegmentMapping/${page}/${limit}`)
+        .get(`/communication/listSegmentMapping/${page}/${limit}/${env}/${role}`)
         .then((res) => {
           const data = res.data.data.data.segmentMappingList
           const group = data.reduce((r: any, a: any) => {
@@ -172,8 +175,10 @@ class CommunicationService {
 
   mappingList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/communication/listSegmentMapping/${page}/${limit}`)
+        .get(`/communication/listSegmentMapping/${page}/${limit}/${env}/${role}`)
         .then((res) => {
           const data = res.data.data
           const mapping: any[] = []
@@ -274,8 +279,10 @@ class CommunicationService {
 
   listInterfaceManager = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/communication/listInterfaceManager/${page}/${limit}`)
+        .get(`/communication/listInterfaceManager/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -357,9 +364,11 @@ class CommunicationService {
 
   listConversationMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
         .get(
-          `/communication/conversationMapping/listConversationMapping/${page}/${limit}`
+          `/communication/conversationMapping/listConversationMapping/${page}/${limit}/${env}/${role}`
         )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)

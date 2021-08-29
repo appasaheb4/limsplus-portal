@@ -6,12 +6,15 @@
  */
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
-
-class DoctorsService  {
-  listDoctors = (page=0,limit=10) =>
+import { stores } from "@lp/library/stores"
+      
+class DoctorsService {
+  listDoctors = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`master/doctors/listDoctors/${page}/${limit}`)
+        .get(`master/doctors/listDoctors/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -20,7 +23,7 @@ class DoctorsService  {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
-    addDoctors = (doctor?: Models.Doctors) =>
+  addDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/doctors/addDoctors`, doctor)
@@ -31,7 +34,7 @@ class DoctorsService  {
           reject({ error })
         })
     })
-    versionUpgradeDoctors = (doctor?: Models.Doctors) =>
+  versionUpgradeDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/doctors/versionUpgradeDoctors`, doctor)
@@ -42,9 +45,9 @@ class DoctorsService  {
           reject({ error })
         })
     })
-    duplicateDoctors = (doctor?: Models.Doctors) =>
+  duplicateDoctors = (doctor?: Models.Doctors) =>
     new Promise<any>((resolve, reject) => {
-      http  
+      http
         .post(`master/doctors/duplicateDoctors`, doctor)
         .then((res) => {
           resolve(res)
@@ -53,7 +56,7 @@ class DoctorsService  {
           reject({ error })
         })
     })
-    deleteDoctors = (id: string) =>
+  deleteDoctors = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .delete(`master/doctors/deleteDoctors/${id}`)
@@ -70,7 +73,7 @@ class DoctorsService  {
       http
         .post(`master/doctors/updateSingleFiled`, newValue)
         .then((res) => {
-          resolve(res)   
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })

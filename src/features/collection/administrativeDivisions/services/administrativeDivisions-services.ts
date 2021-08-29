@@ -6,19 +6,23 @@
  */
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { stores } from "@lp/library/stores"
 
-class AdministrativeDivisionsService  {
-  listAdministrativeDivisions = (page=0,limit=10) =>
+class AdministrativeDivisionsService {
+  listAdministrativeDivisions = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`master/administrativeDivisions/listAdministrativeDivisions/${page}/${limit}`)
+        .get(
+          `master/administrativeDivisions/listAdministrativeDivisions/${page}/${limit}/${env}/${role}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
         })
         .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
-
         })
     })
   addAdministrativeDivisions = (methods?: Models.AdministrativeDivisions) =>
@@ -54,7 +58,7 @@ class AdministrativeDivisionsService  {
         .catch((error) => {
           reject({ error })
         })
-    })   
+    })
 }
 
 export default AdministrativeDivisionsService
