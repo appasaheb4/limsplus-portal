@@ -82,7 +82,7 @@
   "scripts": {
     "start": "serve -s ./build",
     "dev": "craco start",
-    "build": "node --max_old_space_size=5120 craco build",
+    "build": "node --max_old_space_size=5120 && craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext ts,tsx",
