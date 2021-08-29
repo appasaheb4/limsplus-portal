@@ -37,7 +37,7 @@ export const Login = observer(() => {
     handleSubmit,
     formState: { errors },
     setValue,
-    clearErrors
+    clearErrors,
   } = useForm()
 
   const handleWindowSizeChange = () => {
@@ -45,7 +45,10 @@ export const Login = observer(() => {
   }
 
   useEffect(() => {
-    BannerStores.bannerStore.fetchListBanner()
+    BannerStores.bannerStore.fetchListAllBanner()
+  },[])
+
+  useEffect(() => {
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         history.push("/dashboard/default")
@@ -134,7 +137,7 @@ export const Login = observer(() => {
               <img src={Assets.logo} className="w-20 h-15" alt="logo" />
               <div className="mt-2 mb-2">
                 <Bootstrap.Carousel>
-                  {BannerStores.bannerStore.listBanner.map((item, key) => (
+                  {BannerStores.bannerStore.listAllBanner.map((item, key) => (
                     <Bootstrap.Carousel.Item interval={5000} key={key}>
                       <img
                         key={key}
@@ -187,10 +190,10 @@ export const Login = observer(() => {
                                   data: { user },
                                 } = res
                                 setValue("lab", user.defaultLab)
-                                clearErrors('lab')
+                                clearErrors("lab")
                                 if (user.role.length == 1)
                                   setValue("role", user.role[0].code)
-                                  clearErrors('role')
+                                clearErrors("role")
                                 Stores.loginStore.updateInputUser({
                                   ...Stores.loginStore.inputLogin,
                                   lab: user.defaultLab,
@@ -273,7 +276,7 @@ export const Login = observer(() => {
                         </select>
                       </LibraryComponents.Atoms.Form.InputWrapper>
                     )}
-                    name="lab"  
+                    name="lab"
                     rules={{ required: true }}
                     defaultValue={Stores.loginStore.inputLogin?.lab}
                   />
@@ -427,8 +430,8 @@ export const Login = observer(() => {
                 Stores.loginStore.updateForgotPassword(undefined)
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.message}`,
-                })   
-              } else {   
+                })
+              } else {
                 LibraryComponents.Atoms.Toast.error({
                   message: `😔 ${res.message}`,
                 })

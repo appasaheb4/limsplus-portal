@@ -9,10 +9,20 @@ import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { stores } from "@lp/library/stores"
 
 export class BannerService {
+  listAllBanner = () =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .get(`/banner/listAllBanner`)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
   listBanner = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ stores })
-   
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       http
