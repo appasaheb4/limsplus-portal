@@ -6,12 +6,17 @@
  */
 // import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
-   
-class MasterPackageService  {
-  listPackageMaster = (page=0,limit=10) =>
+import { stores } from "@lp/library/stores"
+
+class MasterPackageService {
+  listPackageMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`master/packageMaster/listPackageMaster/${page}/${limit}`)
+        .get(
+          `master/packageMaster/listPackageMaster/${page}/${limit}/${env}/${role}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -31,7 +36,7 @@ class MasterPackageService  {
           reject({ error })
         })
     })
-    versionUpgradePackageMaster = (packageMaster?: any) =>
+  versionUpgradePackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/packageMaster/versionUpgradePackageMaster`, packageMaster)
@@ -42,9 +47,9 @@ class MasterPackageService  {
           reject({ error })
         })
     })
-    duplicatePackageMaster = (packageMaster?: any) =>
+  duplicatePackageMaster = (packageMaster?: any) =>
     new Promise<any>((resolve, reject) => {
-      http  
+      http
         .post(`master/packageMaster/duplicatePackageMaster`, packageMaster)
         .then((res) => {
           resolve(res.data)
@@ -63,7 +68,7 @@ class MasterPackageService  {
         .catch((error) => {
           reject({ error })
         })
-    })   
+    })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http

@@ -7,12 +7,15 @@
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { AssetsService } from "@lp/features/assets/services"
+import { stores } from "@lp/library/stores"
 
 export class UserService {
-  userList = (page=0,limit=10) =>
+  userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/auth/listUser/${page}/${limit}`)
+        .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
         .then((response) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -64,11 +67,11 @@ export class UserService {
       form.append("defaultLab", user.defaultLab)
       form.append("lab", JSON.stringify(user.lab))
       form.append("password", user.password)
-      form.append("passChanged", JSON.stringify(user.passChanged) || '')
+      form.append("passChanged", JSON.stringify(user.passChanged) || "")
       form.append("deginisation", user.deginisation)
-      form.append("fullName", user.fullName)  
+      form.append("fullName", user.fullName)
       form.append("mobileNo", user.mobileNo)
-      form.append("contactNo", user.contactNo || '')
+      form.append("contactNo", user.contactNo || "")
       form.append("email", user.email)
       form.append("dateOfBirth", JSON.stringify(user.dateOfBirth))
       form.append("marriageAnniversary", JSON.stringify(user.marriageAnniversary))
@@ -77,17 +80,17 @@ export class UserService {
       form.append("exipreDate", JSON.stringify(user.exipreDate))
       form.append("expireDays", JSON.stringify(user.expireDays))
       form.append("role", JSON.stringify(user.role))
-      form.append("validationLevel", JSON.stringify(user.validationLevel) ||'')
-      form.append("workstation", user.workstation || '')
-      form.append("ipAddress", user.ipAddress || '')
+      form.append("validationLevel", JSON.stringify(user.validationLevel) || "")
+      form.append("workstation", user.workstation || "")
+      form.append("ipAddress", user.ipAddress || "")
       form.append("dateOfEntry", JSON.stringify(user.dateOfEntry))
       form.append("createdBy", user.createdBy)
       form.append("confidential", JSON.stringify(user.confidential))
       form.append("signature", signaturePath || "")
       form.append("picture", picturePath || "")
       form.append("status", user.status)
-      form.append("environment", user.environment)   
-      form.append("confirguration",JSON.stringify(user.confirguration))
+      form.append("environment", user.environment)
+      form.append("confirguration", JSON.stringify(user.confirguration))
       http
         .post(`/auth/addUser`, form)
         .then((response) => {

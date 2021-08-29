@@ -5,13 +5,18 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import {  Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { stores } from "@lp/library/stores"
 
-class MasterAnalyteService  {
-  listAnalyteMaster = (page=0,limit=10) =>
+class MasterAnalyteService {
+  listAnalyteMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`master/analyteMaster/listAnalyteMaster/${page}/${limit}`)
+        .get(
+          `master/analyteMaster/listAnalyteMaster/${page}/${limit}/${env}/${role}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -42,7 +47,7 @@ class MasterAnalyteService  {
           reject({ error })
         })
     })
-    duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
