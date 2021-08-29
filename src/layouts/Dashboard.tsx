@@ -150,7 +150,7 @@ const Dashboard = observer(({ children }) => {
       )
         await Communication.startup()
     }
-    stores.appStore.updateLoadApi({ count: 0 })
+    stores.appStore.updateLoadApi({ count: 1 })
   }
 
   const router = async () => {
@@ -188,19 +188,19 @@ const Dashboard = observer(({ children }) => {
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
-        console.log({ count: stores.appStore.loadApi })
         if (stores.appStore.loadApi.count === 0) loadApi()
         history.listen(async (location, action) => {
+          console.log({ location, count: stores.appStore.loadApi })
           let pathname = location.pathname
+          if (
+            stores.appStore.loadApi.count === 1 &&
+            stores.appStore.loadApi.path != pathname
+          )
+            loadApi(pathname)
           await stores.appStore.updateLoadApi({
             ...stores.appStore.loadApi,
             path: pathname,
           })
-          if (
-            stores.appStore.loadApi.count === 1 &&
-            stores.appStore.loadApi.path !== pathname
-          )
-            loadApi(pathname)
         })
         router()
         setTimeout(() => {
