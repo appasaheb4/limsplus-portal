@@ -120,7 +120,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={row.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
                     props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)

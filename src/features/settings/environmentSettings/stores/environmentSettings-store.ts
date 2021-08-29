@@ -5,7 +5,7 @@ import * as Models from "../models"
 
 @version(0.1)
 class EnvironmentSettingsStore {
-  @ignore @observable sessionManagement?: Models.SessionManagement
+  @ignore @observable sessionManagement!: Models.SessionManagement
   @observable sessionManagementList?: Models.SessionManagement[] = []
   @observable sessionManagementListCount: number = 0
   constructor() {

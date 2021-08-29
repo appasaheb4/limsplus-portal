@@ -198,7 +198,7 @@ export const Users = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.defaultLab ? "border-red-500" : "border-gray-200"
+                          errors.defaultLab ? "border-red-500" : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const defaultLab = e.target.value
@@ -298,7 +298,7 @@ export const Users = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deginisation ? "border-red-500" : "border-gray-200"
+                          errors.deginisation ? "border-red-500" : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const deginisation = e.target.value
@@ -366,7 +366,7 @@ export const Users = observer(() => {
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
                             ? "border-red-500"
-                            : "border-gray-200"
+                            : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const validationLevel = (e.target.value || 0) as number

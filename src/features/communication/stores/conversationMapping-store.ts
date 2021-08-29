@@ -19,11 +19,13 @@ class ConversationMappingStore {
     return new Services.CommunicationService()
   }
 
-  @action fetchConversationMapping(page?,limit?) {
+  @action fetchConversationMapping(page?, limit?) {
     this.conversationMappingService
-      .listConversationMapping(page,limit)
-      .then((conversation) => {
-        this.listConversationMapping = conversation
+      .listConversationMapping(page, limit)
+      .then((res) => {
+        if (!res.success) return alert(res.message)
+        this.listConversationMapping = res.data.conversationMapping
+        this.listConversationMappingCount = res.data.count
       })
   }
 

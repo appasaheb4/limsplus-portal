@@ -110,9 +110,7 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
       <div ref={wrapperRef}>
         <div
           className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
-            props.hasError
-              ? "border-red-500"
-              : "border-gray-300"
+            props.hasError ? "border-red-500" : "border-gray-300"
           } rounded-md`}
         >
           <input

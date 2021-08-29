@@ -6,12 +6,15 @@
  */
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { stores } from "@lp/library/stores"
 
-export class LabService {
-  listLabs = (page=0,limit=10) =>
+export class LabService {   
+  listLabs = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/master/lab/listlabs/${page}/${limit}`)
+        .get(`/master/lab/listlabs/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -44,7 +47,7 @@ export class LabService {
       form.append("openingTime", lab?.openingTime || "")
       form.append("closingTime", lab?.closingTime || "")
       form.append("email", lab?.email || "")
-      if (lab?.labLog) {  
+      if (lab?.labLog) {
         form.append("file", lab.labLog)
         form.append("folder", "labs")
         form.append("fileName", lab?.labLog.name)
@@ -52,7 +55,7 @@ export class LabService {
           "image",
           `https://limsplus.blob.core.windows.net/labs/${lab?.labLog.name}`
         )
-      }  
+      }
       form.append("autoRelease", JSON.stringify(lab?.autoRelease || false))
       form.append(
         "requireReceveInLab",
