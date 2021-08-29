@@ -188,20 +188,6 @@ const Dashboard = observer(({ children }) => {
     // buz reload page after not showing delete and update so added settimout
     stores.rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
-        if (stores.appStore.loadApi.count === 0) loadApi()
-        history.listen(async (location, action) => {
-          console.log({ location, count: stores.appStore.loadApi })
-          let pathname = location.pathname
-          if (
-            stores.appStore.loadApi.count === 1 &&
-            stores.appStore.loadApi.path != pathname
-          )
-            loadApi(pathname)
-          await stores.appStore.updateLoadApi({
-            ...stores.appStore.loadApi,
-            path: pathname,
-          })
-        })
         router()
         setTimeout(() => {
           permission()
@@ -215,6 +201,22 @@ const Dashboard = observer(({ children }) => {
     setTimeout(() => {
       stores.rootStore.isLogin().then((isLogin) => {
         if (!isLogin && !isLogined) history.push("/")
+        else {
+          if (stores.appStore.loadApi.count === 0) loadApi()
+          history.listen(async (location, action) => {
+            console.log({ location, count: stores.appStore.loadApi })
+            let pathname = location.pathname
+            if (
+              stores.appStore.loadApi.count === 1 &&
+              stores.appStore.loadApi.path != pathname
+            )
+              loadApi(pathname)
+            await stores.appStore.updateLoadApi({
+              ...stores.appStore.loadApi,
+              path: pathname,
+            })
+          })
+        }
       })
     }, 1000)
   }, [LoginStores.loginStore.login])

@@ -410,10 +410,10 @@ const RegistrationLocation = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group" hasError={errors.customerGroup}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.customerGroup
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const customerGroup = e.target.value
@@ -444,10 +444,10 @@ const RegistrationLocation = observer(() => {
              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Category" hasError={errors.category}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.category
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const category = e.target.value
@@ -555,10 +555,10 @@ const RegistrationLocation = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type" hasError={errors.deliveryType}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.deliveryType
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const deliveryType = e.target.value
@@ -589,10 +589,10 @@ const RegistrationLocation = observer(() => {
              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method" hasError={errors.deliveryMethod}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.deliveryMethod
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const deliveryMethod = e.target.value
@@ -623,10 +623,10 @@ const RegistrationLocation = observer(() => {
              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Corporate Code" hasError={errors.corporateCode}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.corporateCode
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const corporateCode = e.target.value
@@ -655,10 +655,10 @@ const RegistrationLocation = observer(() => {
              render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Invoice AC"hasError={errors.invoiceAc}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.invoiceAc
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const invoiceAc = e.target.value
@@ -710,10 +710,10 @@ const RegistrationLocation = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Method Coln" hasError={errors.methodColn}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.methodColn
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const methodColn = e.target.value
@@ -768,10 +768,10 @@ const RegistrationLocation = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy" hasError={errors.salesTerritoRy}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.salesTerritoRy
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const salesTerritoRy = e.target.value
@@ -971,10 +971,10 @@ const RegistrationLocation = observer(() => {
                   value={
                     Stores.registrationLocationsStore.registrationLocations?.lab
                   }
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.lab
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
@@ -1073,10 +1073,10 @@ const RegistrationLocation = observer(() => {
                   value={
                     Stores.registrationLocationsStore.registrationLocations?.schedule
                   }
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.schedule
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const schedule = e.target.value as string
@@ -1196,10 +1196,10 @@ const RegistrationLocation = observer(() => {
                 render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.status
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
@@ -1231,10 +1231,10 @@ const RegistrationLocation = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.registrationLocationsStore.registrationLocations?.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value

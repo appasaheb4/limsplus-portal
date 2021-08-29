@@ -8,7 +8,8 @@ export class SessionManagement {
   value?: string
   descriptions?: string
   documentType?: string
-  constructor(rawData: {[key in string]: any}){
+  environment: string
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.lab = rawData.lab
     this.user = rawData.user
@@ -17,5 +18,6 @@ export class SessionManagement {
     this.value = rawData.value
     this.descriptions = rawData.descriptions
     this.documentType = rawData.documentType
+    this.environment = rawData.environment
   }
 }

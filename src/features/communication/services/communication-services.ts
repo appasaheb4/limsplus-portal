@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import { http } from "@lp/library/modules/http"
+import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
 
@@ -276,11 +276,12 @@ class CommunicationService {
     new Promise<any>((resolve, reject) => {
       http
         .get(`/communication/listInterfaceManager/${page}/${limit}`)
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 
@@ -360,11 +361,12 @@ class CommunicationService {
         .get(
           `/communication/conversationMapping/listConversationMapping/${page}/${limit}`
         )
-        .then((res: any) => {
-          resolve(res.data.data)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 

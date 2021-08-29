@@ -126,7 +126,7 @@ const MasterPackage = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-200"
+                        errors.lab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const lab = e.target.value as string
@@ -162,7 +162,7 @@ const MasterPackage = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.serviceType ? "border-red-500" : "border-gray-200"
+                        errors.serviceType ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const serviceItem = JSON.parse(e.target.value)
@@ -256,10 +256,10 @@ const MasterPackage = observer(() => {
                   >
                     <select
                       disabled={true}
-                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.packageName
                           ? "border-red-500  focus:border-red-500"
-                          : "border-gray-200"
+                          : "border-gray-300"
                       } rounded-md`}
                     >
                       <option selected>
@@ -325,10 +325,10 @@ const MasterPackage = observer(() => {
                       >
                         <select
                           disabled={true}
-                          className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.panelName
                               ? "border-red-500  focus:border-red-500"
-                              : "border-gray-200"
+                              : "border-gray-300"
                           } rounded-md`}
                         >
                           <option selected>
@@ -354,10 +354,10 @@ const MasterPackage = observer(() => {
                   >
                     <select
                       value={Stores.masterPackageStore.masterPackage?.status}
-                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
                           ? "border-red-500  focus:border-red-500"
-                          : "border-gray-200"
+                          : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
@@ -545,10 +545,10 @@ const MasterPackage = observer(() => {
                   >
                     <select
                       value={Stores.masterPackageStore.masterPackage?.environment}
-                      className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
                           ? "border-red-500  focus:border-red-500"
-                          : "border-gray-200"
+                          : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value

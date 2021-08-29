@@ -112,10 +112,10 @@ const Banner = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.bannerStore.banner?.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value

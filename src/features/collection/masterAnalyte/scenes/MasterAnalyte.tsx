@@ -129,7 +129,7 @@ const MasterAnalyte = observer(() => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.lab
                       ? "border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const lab = e.target.value as string
@@ -433,10 +433,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Result Type" hasError={errors.resultType}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.resultType
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const resultType = e.target.value
@@ -468,10 +468,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type" hasError={errors.analyteType}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.analyteType
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const analyteType = e.target.value
@@ -503,10 +503,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Units" hasError={errors.units}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.units}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.units
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const units = e.target.value as string
@@ -538,10 +538,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Usage" hasError={errors.usage}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.usage}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.usage
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const usage = e.target.value
@@ -578,10 +578,10 @@ const MasterAnalyte = observer(() => {
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.picture}
                   name="optionPicture"
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.picture 
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const picture = e.target.value as "0" | "1" | "2" | "3"
@@ -733,10 +733,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.status}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.status
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const status = e.target.value
@@ -966,10 +966,10 @@ const MasterAnalyte = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                 <select
                   value={Stores.masterAnalyteStore.masterAnalyte?.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment
                       ? "border-red-500  focus:border-red-500"
-                      : "border-gray-200"
+                      : "border-gray-300"
                   } rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value

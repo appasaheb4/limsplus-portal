@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
+import * as LibraryUtils from "@lp/library/utils"
+
 import * as FeatureComponents from "../components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
@@ -26,41 +28,21 @@ const SessionManagement = observer((props: SessionManagementProps) => {
     control,
     handleSubmit,
     formState: { errors },
-    
   } = useForm()
 
-  const onSubmitSessionManagement = () =>{
-    if (
-      Utils.validate(
-        Stores.enviromentSettingsStore.sessionManagement,
-        Utils.constraintsSessionManagement
-      ) === undefined
-    ) {
-      
-      Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
-        Stores.enviromentSettingsStore
-          .sessionManagement as Models.SessionManagement
-      ).then((res) => {
-        
-        if (res.status === 201) {
-          LibraryComponents.Atoms.Toast.success({message:`😊 Session created.`})
-          // Stores.userStore.clear()
-          // Stores.userStore.loadUser()
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-        } else {
-          LibraryComponents.Atoms.Toast.warning({
-           message: "😔 Session not create.Please try again"
-          })
-        }
-      })
-    } else {
-      LibraryComponents.Atoms.Toast.warning({
-       message: "😔 Please enter all information!"
-      })
-    }
+  const onSubmitSessionManagement = () => {
+    Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
+      Stores.enviromentSettingsStore.sessionManagement as Models.SessionManagement
+    ).then((res) => {
+      if (res.success) {
+        LibraryComponents.Atoms.Toast.success({ message: `😊 ${res.message}` })
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      }
+    })
   }
+
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -73,136 +55,160 @@ const SessionManagement = observer((props: SessionManagementProps) => {
           >
             <Controller
               control={control}
-                render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper 
-            label="Lab"
-             id="labs"
-             hasError={errors.lab}
-             >
-              <LibraryComponents.Molecules.AutocompleteCheck
-                data={{
-                  defulatValues: [],
-                  list: LabStore.labStore.listLabs,
-                  displayKey: "name",
-                  findKey: "code",
-                }}
-                onUpdate={(items) => {
-                  onChange(items)
-                  Stores.enviromentSettingsStore.updateSessionManagement({
-                    ...Stores.enviromentSettingsStore.sessionManagement,
-                    lab: items,
-                  })
-                }}
-              />
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="lab"
-            rules={{ required: true }}
-            defaultValue=""
-           />
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Lab"
+                  id="labs"
+                  hasError={errors.lab}
+                >
+                  <LibraryComponents.Molecules.AutocompleteCheck
+                    data={{
+                      defulatValues: [],
+                      list: LabStore.labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "code",
+                    }}
+                    hasError={errors.lab}
+                    onUpdate={(items) => {
+                      onChange(items)
+                      Stores.enviromentSettingsStore.updateSessionManagement({
+                        ...Stores.enviromentSettingsStore.sessionManagement,
+                        lab: items,
+                      })
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="lab"
+              rules={{ required: true }}
+              defaultValue=""
+            />
 
             {UserStore.userStore.userList && (
-               <Controller
-               control={control}
-               render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Users" id="user"
-              hasError={errors.user}
-              >
-                <LibraryComponents.Molecules.AutocompleteCheck
-                  data={{
-                    defulatValues: [],
-                    list: UserStore.userStore.userList,
-                    displayKey: "fullName",
-                    findKey: "fullName",
-                  }}
-                  onUpdate={(items) => {
-                    onChange(items)
-                    console.log({ items })
-                    
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Users"
+                    id="user"
+                    hasError={errors.user}
+                  >
+                    <LibraryComponents.Molecules.AutocompleteCheck
+                      data={{
+                        defulatValues: [],
+                        list: UserStore.userStore.userList,
+                        displayKey: "fullName",
+                        findKey: "fullName",
+                      }}
+                      hasError={errors.user}
+                      onUpdate={(items) => {
+                        onChange(items)
+                        console.log({ items })
+
+                        Stores.enviromentSettingsStore.updateSessionManagement({
+                          ...Stores.enviromentSettingsStore.sessionManagement,
+                          user: items,
+                        })
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="user"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Department"
+                  id="department"
+                  hasError={errors.department}
+                >
+                  <LibraryComponents.Molecules.AutocompleteCheck
+                    data={{
+                      defulatValues: [],
+                      list: DepartmentStore.departmentStore.listDepartment,
+                      displayKey: "name",
+                      findKey: "code",
+                    }}
+                    hasError={errors.department}
+                    onUpdate={(items) => {
+                      onChange(items)
+                      Stores.enviromentSettingsStore.updateSessionManagement({
+                        ...Stores.enviromentSettingsStore.sessionManagement,
+                        department: items,
+                      })
+                    }}
+                  />
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="department"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Variable"
+                  id="lblVariable"
+                  hasError={errors.variable}
+                >
+                  <select
+                    name="variable"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.variable ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const variable = e.target.value as string
+                      onChange(variable)
+                      Stores.enviromentSettingsStore.updateSessionManagement({
+                        ...Stores.enviromentSettingsStore.sessionManagement,
+                        variable,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="variable"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.Input
+                  label="Value"
+                  name="lblValue"
+                  hasError={errors.value}
+                  placeholder={errors.value ? "Please Enter Value" : "Value"}
+                  type="number"
+                  onChange={(value) => {
+                    onChange(value)
                     Stores.enviromentSettingsStore.updateSessionManagement({
                       ...Stores.enviromentSettingsStore.sessionManagement,
-                      user: items,
+                      value,
                     })
                   }}
                 />
-              </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="user"
+              name="value"
               rules={{ required: true }}
               defaultValue=""
-             />
-            )}
-
-          <Controller
-            control={control}
-               render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
-              label="Department"
-              id="department"
-              hasError={errors.user}
-            >
-
-              <LibraryComponents.Molecules.AutocompleteCheck
-                data={{
-                  defulatValues: [],
-                  list: DepartmentStore.departmentStore.listDepartment,
-                  displayKey: "name",
-                  findKey: "code",
-                }}
-                onUpdate={(items) => {
-                  onChange(items)
-                  Stores.enviromentSettingsStore.updateSessionManagement({
-                    ...Stores.enviromentSettingsStore.sessionManagement,
-                    department: items,
-                  })
-                }}
-              />
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="department"
-            rules={{ required: true }}
-            defaultValue=""
-           />
-
-          <Controller
-           control={control}
-             render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.InputWrapper
-              label="Variable"
-              id="lblVariable"
-              hasError={errors.variable}
-            >
-              <select
-                name="variable"
-                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                  errors.variable
-                    ? "border-red-500"
-                    : "border-gray-200"
-                } rounded-md`}
-                onChange={(e) => {
-                  const variable = e.target.value as string
-                 onChange(variable)
-                  Stores.enviromentSettingsStore.updateSessionManagement({
-                    ...Stores.enviromentSettingsStore.sessionManagement,
-                    variable,
-                  })
-                }}
-              >
-                <option selected>Select</option>
-                {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  )
-                )}
-              </select>
-            </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="variable"
-            rules={{ required: true }}
-            defaultValue=""
-           />
+            />
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -211,51 +217,68 @@ const SessionManagement = observer((props: SessionManagementProps) => {
             fill
           >
             <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Value"
-              name="lblValue"
-              hasError={errors.value}
-              placeholder={errors.value ? "Please Enter Value" : "Value"}
-              type="number"
-              //value={Stores.userStore.user.password}
-              onChange={(value) => {
-                onChange(value)
-                Stores.enviromentSettingsStore.updateSessionManagement({
-                  ...Stores.enviromentSettingsStore.sessionManagement,
-                  value,
-                })
-              }}
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.MultilineInput
+                  rows={7}
+                  label="Description"
+                  name="lblDescription"
+                  placeholder={
+                    errors.descriptions ? "Please Enter descriptions" : "Description"
+                  }
+                  hasError={errors.descriptions}
+                  //value={Stores.userStore.user.password}
+                  onChange={(descriptions) => {
+                    onChange(descriptions)
+                    Stores.enviromentSettingsStore.updateSessionManagement({
+                      ...Stores.enviromentSettingsStore.sessionManagement,
+                      descriptions,
+                    })
+                  }}
+                />
+              )}
+              name="descriptions"
+              rules={{ required: false }}
+              defaultValue=""
             />
-            )}
-             name="value"
-            rules={{ required: true }}
-             defaultValue=""
-           />
-              <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.MultilineInput
-              rows={7}
-              label="Description"
-              name="lblDescription"
-              placeholder={errors.descriptions?"Please Enter descriptions":"Description"}
-              hasError={errors.descriptions}
-              //value={Stores.userStore.user.password}
-              onChange={(descriptions) => {
-                onChange(descriptions)
-                Stores.enviromentSettingsStore.updateSessionManagement({
-                  ...Stores.enviromentSettingsStore.sessionManagement,
-                  descriptions,
-                })
-              }}
+            <Controller
+              control={control}
+              render={({ field: { onChange } }) => (
+                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <select
+                    value={
+                      Stores.enviromentSettingsStore.sessionManagement?.environment
+                    }
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.environment
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      onChange(environment)
+                      Stores.enviromentSettingsStore.updateSessionManagement({
+                        ...Stores.enviromentSettingsStore.sessionManagement,
+                        environment,
+                      })
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      stores.routerStore.lookupItems,
+                      "SESSION_ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
+              name="environment"
+              rules={{ required: true }}
+              defaultValue=""
             />
-            )}
-             name="descriptions"
-            rules={{ required: false }}
-             defaultValue=""
-           />
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
@@ -284,10 +307,13 @@ const SessionManagement = observer((props: SessionManagementProps) => {
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
-      >   
+      >
         <FeatureComponents.Molecules.SessionManagementList
           data={Stores.enviromentSettingsStore.sessionManagementList}
           totalSize={Stores.enviromentSettingsStore.sessionManagementListCount}
+          extraData={{
+            lookupItems: stores.routerStore.lookupItems,
+          }}
           isDelete={RouterFlow.checkPermission(
             toJS(stores.routerStore.userPermission),
             "Delete"
@@ -319,8 +345,8 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                 body: `Update recoard!`,
               })
           }}
-          onPageSizeChange={(page,limit)=>{
-            Stores.enviromentSettingsStore.fetchSessionManagementList(page,limit)
+          onPageSizeChange={(page, limit) => {
+            Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
           }}
         />
       </div>

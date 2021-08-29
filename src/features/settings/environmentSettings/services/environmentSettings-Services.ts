@@ -20,18 +20,23 @@ class EnvironmentSettingsService  {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
+
   addSessionManagement = (session: Models.SessionManagement) =>
     new Promise<any>((resolve, reject) => {
       session.documentType = "session"
       http
         .post(`/settings/environmentSettings/addSessionManagement`, session)
-        .then((res) => {
-          resolve(res)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
+
 
   deleteEnvironmentSettings = (id: string) =>
     new Promise<any>((resolve, reject) => {

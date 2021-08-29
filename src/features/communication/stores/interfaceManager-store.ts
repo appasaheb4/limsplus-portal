@@ -9,29 +9,29 @@ class InterfaceManagerStore {
   @observable listEncodeCharacter?: Models.EncodeCharacter[] = []
   @observable listEncodeCharacterCount: number = 0
   @ignore @observable updateItem?: Models.UpdateItem
-  
+
   constructor() {
     makeAutoObservable(this)
   }
 
   @computed get encodeCharacterService() {
     return new Services.CommunicationService()
-  }
+  }   
 
-  @action fetchEncodeCharacter(page?,limit?) {
-    this.encodeCharacterService.listInterfaceManager(page,limit).then((listEncode) => {
-      this.listEncodeCharacter = listEncode
+  @action fetchEncodeCharacter(page?, limit?) {
+    this.encodeCharacterService.listInterfaceManager(page, limit).then((res) => {
+      if (!res.success) return alert(res.message)
+      this.listEncodeCharacter = res.data.encodeCharacter
+      this.listEncodeCharacterCount = res.data.count
     })
   }
-
-  
 
   @action updateEncodeCharacter = (encode: Models.EncodeCharacter) => {
     this.encodeCharacter = encode
   }
   @action changeUpdateItem = (item: Models.UpdateItem) => {
     this.updateItem = item
-  }    
+  }
 }
 
 export default InterfaceManagerStore
