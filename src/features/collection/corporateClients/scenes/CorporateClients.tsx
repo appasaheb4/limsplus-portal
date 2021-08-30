@@ -241,7 +241,7 @@ const CorporateClients = observer(() => {
                 }}
               />
               )}
-              name="corporate Name"
+              name="corporateName"
               rules={{ required: true }}
               defaultValue=""
             />

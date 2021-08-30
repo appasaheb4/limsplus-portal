@@ -231,7 +231,7 @@ const Doctors = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Code"
                 hasError={errors.doctorCode}
-                placeholder={errors.doctorCode ? "Please Enter Code" : "Doctor Code"}
+                placeholder={errors.doctorCode ? "Please Enter Doctor Code" : "Doctor Code"}
                 value={Stores.doctorsStore.doctors?.doctorCode}
                 onChange={(doctorCode) => {
                   onChange(doctorCode)
@@ -338,7 +338,7 @@ const Doctors = observer(() => {
                render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="First Name"
-                placeholder={errors.firstName ? "Please Enter firstName" : "First Name"}
+                placeholder={errors.firstName ? "Please Enter FirstName" : "First Name"}
                 hasError={errors.firstName}
                 value={Stores.doctorsStore.doctors?.firstName}
                 onChange={(firstName) => {
@@ -359,7 +359,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Middle Name"
-                placeholder={errors.middleName ? "Please Enter" : "Middle Name"}
+                placeholder={errors.middleName ? "Please Enter MiddleName" : "Middle Name"}
                 hasError={errors.middleName}
                 value={Stores.doctorsStore.doctors?.middleName}
                 onChange={(middleName) => {
@@ -380,7 +380,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Last Name"
-                placeholder={errors.lastName ? "Please Enter lastName" : "Last Name"}
+                placeholder={errors.lastName ? "Please Enter LastName" : "Last Name"}
                 hasError={errors.lastName}
                 value={Stores.doctorsStore.doctors?.lastName}
                 onChange={(lastName) => {
@@ -401,7 +401,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Report Name"
-                placeholder={errors.reportName ? "Please Enter reportName" :"Report Name"}
+                placeholder={errors.reportName ? "Please Enter ReportName" :"Report Name"}
                 hasError={errors.reportName}
                 value={Stores.doctorsStore.doctors?.reportName}
                 onChange={(reportName) => {
@@ -423,7 +423,7 @@ const Doctors = observer(() => {
               <LibraryComponents.Atoms.Form.MultilineInput
                 rows={3}
                 label="Address"
-                placeholder={errors.address ? "Please Enter address" : "Address"}
+                placeholder={errors.address ? "Please Enter Address" : "Address"}
                 hasError={errors.address}
                 value={Stores.doctorsStore.doctors?.address}
                 onChange={(address) => {
@@ -451,7 +451,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="City"
-                placeholder={errors.city ? "Please Enter city" : "City"}
+                placeholder={errors.city ? "Please Enter City" : "City"}
                 hasError={errors.city}
                 value={Stores.doctorsStore.doctors?.city}
                 onChange={(city) => {
@@ -472,7 +472,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="State"
-                placeholder={errors.state ? "Please Enter state" : "State"}
+                placeholder={errors.state ? "Please Enter State" : "State"}
                 value={Stores.doctorsStore.doctors?.state}
                 hasError={errors.state}
                 onChange={(state) => {
@@ -493,7 +493,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Country"
-                placeholder={errors.country ? "Please Enter country" : "Country"}
+                placeholder={errors.country ? "Please Enter Country" : "Country"}
                 hasError={errors.country}
                 value={Stores.doctorsStore.doctors?.country}
                 onChange={(country) => {
@@ -514,7 +514,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Postcode"
-                placeholder={errors.postcode ? "Please Enter postcode" : "Postcode"}
+                placeholder={errors.postcode ? "Please Enter Postcode" : "Postcode"}
                 type="number"
                 hasError={errors.postcode}
                 value={Stores.doctorsStore.doctors?.postcode}
@@ -536,7 +536,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Doctor Type"
-                placeholder={errors.doctorType ? "Please Enter doctorType" : "Doctor Type"}
+                placeholder={errors.doctorType ? "Please Enter DoctorType" : "Doctor Type"}
                 hasError={errors.doctorType}
                 value={Stores.doctorsStore.doctors?.doctorType}
                 onChange={(doctorType) => {
@@ -667,7 +667,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Telephone"
-                placeholder={errors.telephone ? "Please Enter telephone" : "Telephone"}
+                placeholder={errors.telephone ? "Please Enter Telephone" : "Telephone"}
                 hasError={errors.telephone}
                 value={Stores.doctorsStore.doctors?.telephone}
                 onChange={(telephone) => {
@@ -688,7 +688,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Mobile No"
-                placeholder={errors.mobileNo ? "Please Enter mobileNo" : "Mobile No"}
+                placeholder={errors.mobileNo ? "Please Enter MobileNo" : "Mobile No"}
                 hasError={errors.mobileNo}
                 value={Stores.doctorsStore.doctors?.mobileNo}
                 onChange={(mobileNo) => {
@@ -730,7 +730,7 @@ const Doctors = observer(() => {
                   render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
                 label="Work Hours"
-                placeholder={errors.workHours ? "Please Enter workHours" : "Work Hours"}
+                placeholder={errors.workHours ? "Please Enter WorkHours" : "Work Hours"}
                 type="number"
                 hasError={errors.workHours}
                 value={Stores.doctorsStore.doctors?.workHours}

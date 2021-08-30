@@ -15,6 +15,7 @@ export class PaientManger {
     species?: string  
     permanent?: boolean
     vip?: boolean
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this.internalPid = rawData.internalPid
         this.mobileNo = rawData.mobileNo
@@ -32,6 +33,7 @@ export class PaientManger {
         this.species = rawData.species
         this.permanent = rawData.permanent
         this.vip = rawData.vip
+        this.environment = rawData.environment
     }
   }
   
@@ -58,6 +60,7 @@ export class PaientManger {
     history?: boolean
     status?: string
     createdBy?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this.pId = rawData.pId
         this.labId = rawData.labId
@@ -80,6 +83,7 @@ export class PaientManger {
         this.history = rawData.history
         this.status = rawData.status
         this.createdBy = rawData.createdBy
+        this.environment = rawData.environment
     }
   }
   
@@ -103,6 +107,7 @@ export class PaientManger {
     dueDate?: Date
     comments?: string
     orderStatus?: string
+    environment?: string
     constructor(rawData: {[key in string]: any}){
         this.labId = rawData.labId
         this.packageValue = rawData.packageValue
@@ -123,6 +128,7 @@ export class PaientManger {
         this.dueDate = rawData.dueDate
         this.comments = rawData.comments
         this.orderStatus = rawData.orderStatus
+        this.environment = rawData.environment
     }
   }
 

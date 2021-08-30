@@ -323,6 +323,7 @@ const MasterPanel = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Panel Code"
                 placeholder={errors.panelCode ? "Please Enter PanelCode" : "Panel Code"}
+                hasError={errors.panelCode}
                 value={Stores.masterPanelStore.masterPanel?.panelCode}
                 onChange={(panelCode) => {
                  onChange(panelCode)
@@ -333,7 +334,7 @@ const MasterPanel = observer(() => {
                 }}
               />
               )}
-             name="Panel Code"
+             name="panelCode"
                rules={{ required: true }}
              defaultValue=""
                    />
@@ -354,7 +355,7 @@ const MasterPanel = observer(() => {
                 }}
               />
               )}
-            name="Panel Name"
+            name="panelName"
              rules={{ required: true }}
              defaultValue=""
               />

@@ -1,28 +1,38 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../../utils"
-import * as Models from "../../models"
-
+import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+
 import { stores } from "@lp/library/stores"
 
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void
 }
 
 const PatientOrder = observer((props: PatientOrderProps) => {
-  const [errors, setErrors] = useState<Models.PatientOrder>()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm()
+  const onSubmitPatientOrder = () =>{
+    // Add PatientOrder Api Calling
+  }
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.patientRegistationStore.updatePatientOrder({
+        ...Stores.patientRegistationStore.patientOrder,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -33,107 +43,113 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             justify="stretch"
             fill
           >
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Lab Id"
               name="txtLabId"
-              placeholder="Lab Id"
+              placeholder={errors.labId?"Please Enter Lab Id":"Lab Id"}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.labId}
               onChange={(labId) => {
-                setErrors({
-                  ...errors,
-                  labId: Utils.validate.single(labId, Utils.patientOrder.labId),
-                })
+                onChange(labId)
                 Stores.patientRegistationStore.updatePatientOrder({
                   ...Stores.patientRegistationStore.patientOrder,
                   labId,
                 })
               }}
             />
-            {errors?.labId && (
-              <span className="text-red-600 font-medium relative">
-                {errors.labId}
-              </span>
             )}
+              name="labId"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Package"
               name="txtPackage"
-              placeholder="Package"
+              placeholder={errors.packageValue?"Please Enter Package Value":"Package"}
+              hasError={errors.packageValue}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.packageValue}
               onChange={(packageValue) => {
-                setErrors({
-                  ...errors,
-                  packageValue: Utils.validate.single(
-                    packageValue,
-                    Utils.patientOrder.packageValue
-                  ),
-                })
+                onChange(packageValue)
                 Stores.patientRegistationStore.updatePatientOrder({
                   ...Stores.patientRegistationStore.patientOrder,
                   packageValue,
                 })
               }}
             />
-            {errors?.packageValue && (
-              <span className="text-red-600 font-medium relative">
-                {errors.packageValue}
-              </span>
             )}
+              name="packageValue"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Panel"
               name="txtPanel"
-              placeholder="Panel"
+              placeholder={errors.panel?"Please Enter Panel":"Panel"}
+              hasError={errors.panel}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.panel}
               onChange={(panel) => {
-                // setErrors({
-                //   ...errors,
-                //   panel: Utils.validate.single(
-                //     panel,
-                //     Utils.patientOrder.panel
-                //   ),
-                // })
+                onChange(panel)
                 Stores.patientRegistationStore.updatePatientOrder({
                   ...Stores.patientRegistationStore.patientOrder,
                   panel,
                 })
               }}
             />
-            {/* {errors?.panel && (
-              <span className="text-red-600 font-medium relative">
-                {errors.panel}
-              </span>
-            )} */}
+            )}
+              name="panel"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Test"
               name="txtTest"
-              placeholder="Test"
+              placeholder={errors.test?"Please Enter Test":"Test"}
+              hasError={errors.test}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.test}
               onChange={(test) => {
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
+                onChange(test)
                 Stores.patientRegistationStore.updatePatientOrder({
                   ...Stores.patientRegistationStore.patientOrder,
                   test,
                 })
               }}
             />
-            {/* {errors?.test && (
-              <span className="text-red-600 font-medium relative">
-                {errors.test}
-              </span>
-            )} */}
+            )}
+              name="test"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Analyte"
               name="txtAnalyte"
-              placeholder="Analyte"
+              placeholder={errors.analyte?"Please Enter Analyte":"Analyte"}
+              hasError={errors.analyte}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.analyte}
               onChange={(analyte) => {
+                onChange(analyte)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -144,12 +160,23 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="analyte"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Bill"
               name="txtBill"
-              placeholder="Bill"
+              placeholder={errors.bill?"Please Enter Bill":"Bill"}
+              hasError={errors.bill}
               value={Stores.patientRegistationStore.patientOrder?.bill}
               onChange={(bill) => {
+                onChange(bill)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -160,13 +187,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="bill"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.Input
               label="Container Id"
               name="txtContainerId"
-              placeholder="Containcer Id"
+              placeholder={errors.containerId?"Please Enter Container Id":"Containcer Id"}
+              hasError={errors.containerId}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.containerId}
               onChange={(containerId) => {
+                onChange(containerId)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -177,6 +215,12 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="containerId"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -184,14 +228,18 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             justify="stretch"
             fill
           >
-          
+          <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Sample Type"
               name="txtSampleType"
-              placeholder="Sample Type"
+              placeholder={errors.sampleType?"Please Enter Sample Type":"Sample Type"}
+              hasError={errors.sampleType}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.sampleType}
               onChange={(sampleType) => {
+                onChange(sampleType)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -202,13 +250,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="sampleType"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Sample Id"
               name="txtSampleId"
-              placeholder="Sample Id"
+              placeholder={errors.sampleId?"Please Enter Sample ID":"Sample Id"}
+              hasError={errors.sampleId}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.sampleId}
               onChange={(sampleId) => {
+                onChange(sampleId)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -219,13 +278,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="sampleId"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="RLab"
               name="txtRLab"
-              placeholder="RLab"
+              placeholder={errors.rLab?"Please Enter RLab":"RLab"}
+              hasError={errors.rLab}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.rLab}
               onChange={(rLab) => {
+                onChange(rLab)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -236,13 +306,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="rLab"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="PLab"
               name="txtPLab"
-              placeholder="PLab"
+              placeholder={errors.pLab?"Please Enter PLab":"PLab"}
+              hasError={errors.pLab}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.pLab}
               onChange={(pLab) => {
+                onChange(pLab)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -253,13 +334,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="pLab"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Department"
               name="txtDepartment"
-              placeholder="Department"
+              placeholder={errors.department?"Please Enter Department":"Department"}
+              hasError={errors.department}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.department}
               onChange={(department) => {
+                onChange(department)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -270,13 +362,24 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="department"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Section"
               name="txtSection"
-              placeholder="Section"
+              placeholder={errors.section?"Please Enter Section":"Section"}
+              hasError={errors.section}
               disabled={true}
               value={Stores.patientRegistationStore.patientOrder?.section}
               onChange={(section) => {
+                onChange(section)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -287,12 +390,23 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="section"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
              <LibraryComponents.Atoms.Form.Input
               label="PS"
               name="txtPS"
-              placeholder="PS"
+              placeholder={errors.ps?"Please Enter PS":"PS"}
+              hasError={errors.ps}
               value={Stores.patientRegistationStore.patientOrder?.ps}
               onChange={(ps) => {
+                onChange(ps)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -303,6 +417,12 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="ps"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -310,13 +430,17 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             justify="stretch"
             fill
           >
-           
+           <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="TS"
               name="txtTS"
-              placeholder="TS"
+              placeholder={errors.ts?"Please Enter TS":"TS"}
+              hasError={errors.ts}
               value={Stores.patientRegistationStore.patientOrder?.ts}
               onChange={(ts) => {
+                onChange(ts)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -327,12 +451,23 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="ts"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="AS"
               name="txtAS"
-              placeholder="AS"
+              placeholder={errors.as?"Please Enter AS":"AS"}
+              hasError={errors.as}
               value={Stores.patientRegistationStore.patientOrder?.as}
               onChange={(as) => {
+                onChange(as)
                 // setErrors({
                 //   ...errors,
                 //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
@@ -343,15 +478,26 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="as"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
               label="Due Date"
               name="txtDueDate"
-              placeholder="Due Date"
+              placeholder={errors.dueDate?"Please Enter DueDate":"Due Date"}
+              hasError={errors.dueDate}
               value={LibraryUtils.moment(
                 Stores.patientRegistationStore.patientOrder?.dueDate
               ).format("YYYY-MM-DD")}
               onChange={(e) => {
                 let dueDate = new Date(e.target.value)
+                onChange(dueDate)
                 const formatDate = LibraryUtils.moment(dueDate).format(
                   "YYYY-MM-DD HH:mm"
                 )
@@ -361,26 +507,47 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="dueDate"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.MultilineInput
               rows={4}
               label="Comments"
               name="txtComments"
-              placeholder="Comments"
+              placeholder={errors.comments?"Please Enter Comments":"Comments"}
+              hasError={errors.comments}
               value={Stores.patientRegistationStore.patientOrder?.comments}
               onChange={(comments) => {
+                onChange(comments)
                 Stores.patientRegistationStore.updatePatientOrder({
                   ...Stores.patientRegistationStore.patientOrder,
                   comments,
                 })
               }}
             />
+            )}
+              name="comments"
+              rules={{ required: false }}
+              defaultValue=""
+            />
 
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Order Status"
               name="txtOrderStatus"
-              placeholder="Order Status"
+              placeholder={errors.orderStatus?"Please Enter OrderStatus":"Order Status"}
+              hasError={errors.orderStatus}
               value={Stores.patientRegistationStore.patientOrder?.orderStatus}
               onChange={(orderStatus) => {
+                onChange(orderStatus)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -391,6 +558,58 @@ const PatientOrder = observer((props: PatientOrderProps) => {
                 })
               }}
             />
+            )}
+              name="orderStatus"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.patientRegistationStore.patientOrder?.environment}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.patientRegistationStore.updatePatientOrder({
+                      ...Stores.patientRegistationStore.patientOrder,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.patientRegistationStore.patientOrder?.environment || `Select`}
+                      </option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
@@ -401,38 +620,7 @@ const PatientOrder = observer((props: PatientOrderProps) => {
           size="medium"
           type="solid"
           icon={LibraryComponents.Atoms.Icon.Save}
-          onClick={() => {
-            // if (
-            //   Utils.validate(
-            //     Stores.enviromentSettingsStore.sessionManagement,
-            //     Utils.constraintsSessionManagement
-            //   ) === undefined
-            // ) {
-            //   
-            //   Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
-            //     Stores.enviromentSettingsStore
-            //       .sessionManagement as Models.SessionManagement
-            //   ).then((res) => {
-            //     
-            //     if (res.status === 201) {
-            //       LibraryComponents.Atoms.ToastsStore.success(`Session created.`)
-            //       // Stores.userStore.clear()
-            //       // Stores.userStore.loadUser()
-            //       setTimeout(() => {
-            //         window.location.reload()
-            //       }, 2000)
-            //     } else {
-            //       LibraryComponents.Atoms.ToastsStore.warning(
-            //         "Session not create.Please try again"
-            //       )
-            //     }
-            //   })
-            // } else {
-            //   LibraryComponents.Atoms.ToastsStore.warning(
-            //     "Please enter all information!"
-            //   )
-            // }
-          }}
+          onClick={handleSubmit(onSubmitPatientOrder)}
         >
           Save
         </LibraryComponents.Atoms.Buttons.Button>
