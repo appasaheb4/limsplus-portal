@@ -24,7 +24,7 @@ const MasterPackage = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
 
   const { loginStore } = useStores()
@@ -39,7 +39,7 @@ const MasterPackage = observer(() => {
         if (fileds.code === "K" || fileds.code === "M") return fileds
       })
       return finalArray
-    }    
+    }
     return []
   }
   useEffect(() => {
@@ -59,7 +59,10 @@ const MasterPackage = observer(() => {
         !Stores.masterPackageStore.masterPackage?.existsRecordId
       ) {
         Stores.masterPackageStore.masterPackageService
-          .addPackageMaster(Stores.masterPackageStore.masterPackage)
+          .addPackageMaster({
+            ...Stores.masterPackageStore.masterPackage,
+            enteredBy: stores.loginStore.login.userId,
+          })
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Package master created.`,
@@ -205,7 +208,7 @@ const MasterPackage = observer(() => {
                           panelName: undefined,
                         })
                       }}
-                    >  
+                    >
                       <option selected>Select</option>
                       {stores.routerStore.lookupItems.length > 0 &&
                         getServiceTypes(
@@ -232,10 +235,12 @@ const MasterPackage = observer(() => {
                     hasError={errors.packageCode}
                   >
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.packageCode ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
                       onChange={(e) => {
                         const packageItem = JSON.parse(e.target.value)
-                        onChange(packageItem)
+                        onChange(packageItem.panelCode)
                         Stores.masterPackageStore.updateMasterPackage({
                           ...Stores.masterPackageStore.masterPackage,
                           packageCode: packageItem.panelCode,
@@ -253,8 +258,8 @@ const MasterPackage = observer(() => {
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="packageItem"
-                rules={{ required: false }}
+                name="packageCode"
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -299,6 +304,7 @@ const MasterPackage = observer(() => {
                               ? "Please Search Panel Name Or Panel Code"
                               : "Search by panel name or panel code"
                           }
+                          hasError={errors.panelCode}
                           data={{
                             defulatValues: [],
                             list: arrPanelItems,
@@ -323,7 +329,7 @@ const MasterPackage = observer(() => {
                       </LibraryComponents.Atoms.Form.InputWrapper>
                     )}
                     name="panelCode"
-                    rules={{ required: false }}
+                    rules={{ required: true }}
                     defaultValue=""
                   />
                   <Controller

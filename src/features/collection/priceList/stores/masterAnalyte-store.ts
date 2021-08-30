@@ -18,7 +18,6 @@ class MasterAnalyteStore {
     //   dateActiveTo: LibraryUtils.moment().unix(),
     //   version: 1,
     //   keyNum: "1",
-    //   enteredBy: Stores.loginStore.login?._id,
     //   schedule: LibraryUtils.moment().unix(),
     //   bill: false,
     //   autoRelease: false,

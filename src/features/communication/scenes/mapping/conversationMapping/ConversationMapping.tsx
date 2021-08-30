@@ -12,8 +12,8 @@ import moment from "moment"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-import { useForm, Controller } from "react-hook-form" 
-import {useStores} from '@lp/library/stores'
+import { useForm, Controller } from "react-hook-form"
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../../../stores"
 import { stores } from "@lp/library/stores"
 
@@ -21,14 +21,12 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const ConversationMapping = observer(() => {
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [
@@ -44,20 +42,14 @@ const ConversationMapping = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
-  const onSubmitConversationMapping  = () =>{
-    if (
-      Stores.conversationMappingStore.conversationMapping !== undefined
-    ) {
-      
+  const onSubmitConversationMapping = () => {
+    if (Stores.conversationMappingStore.conversationMapping !== undefined) {
       Stores.conversationMappingStore.conversationMappingService
-        .addConversationMapping(
-          Stores.conversationMappingStore.conversationMapping
-        )
+        .addConversationMapping(Stores.conversationMappingStore.conversationMapping)
         .then((res) => {
-          
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
-             message : `😊Conversation Mapping created.`
+              message: `😊Conversation Mapping created.`,
             })
             window.location.reload()
             //Stores.conversationMappingStore.()
@@ -65,7 +57,7 @@ const ConversationMapping = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-       message : "😔Please enter all information!"
+        message: "😔Please enter all information!",
       })
     }
   }
@@ -103,125 +95,139 @@ const ConversationMapping = observer(() => {
               fill
             >
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                type="text"
-                label="Hexa Decimal"
-                id="hexadecimal"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    type="text"
+                    label="Hexa Decimal"
+                    id="hexadecimal"
+                    name="hexadecimal"
+                    placeholder={
+                      errors.hexadecimal
+                        ? "Please Enter hexadecimal"
+                        : "Hexa Decimal"
+                    }
+                    hasError={errors.hexadecimal}
+                    value={
+                      Stores.conversationMappingStore.conversationMapping
+                        ?.hexadecimal
+                    }
+                    onChange={(hexadecimal) => {
+                      onChange(hexadecimal)
+                      Stores.conversationMappingStore.updateConversationMapping({
+                        ...Stores.conversationMappingStore.conversationMapping,
+                        hexadecimal,
+                      })
+                    }}
+                  />
+                )}
                 name="hexadecimal"
-                placeholder={errors.hexadecimal?"Please Enter hexadecimal":"Hexa Decimal"}
-                hasError={errors.hexadecimal}
-                value={
-                  Stores.conversationMappingStore.conversationMapping?.hexadecimal
-                }
-                onChange={(hexadecimal) => {
-                  onChange(hexadecimal)
-                  Stores.conversationMappingStore.updateConversationMapping({
-                    ...Stores.conversationMappingStore.conversationMapping,
-                    hexadecimal,
-                  })
-                }}
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="hexadecimal"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                type="text"
-                label="Binary"
-                id="binary"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    type="text"
+                    label="Binary"
+                    id="binary"
+                    name="binary"
+                    placeholder={errors.binary ? "Please Enter Binary" : "Binary"}
+                    hasError={errors.binary}
+                    value={
+                      Stores.conversationMappingStore.conversationMapping?.binary
+                    }
+                    onChange={(binary) => {
+                      onChange(binary)
+                      Stores.conversationMappingStore.updateConversationMapping({
+                        ...Stores.conversationMappingStore.conversationMapping,
+                        binary,
+                      })
+                    }}
+                  />
+                )}
                 name="binary"
-                placeholder={errors.binary?"Please Enter Binary":"Binary"}
-                hasError={errors.binary}
-                value={Stores.conversationMappingStore.conversationMapping?.binary}
-                onChange={(binary) => {
-                  onChange(binary)
-                  Stores.conversationMappingStore.updateConversationMapping({
-                    ...Stores.conversationMappingStore.conversationMapping,
-                    binary,
-                  })
-                }}
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="binary"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                type="text"
-                label="ASCII"
-                id="ascii"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    type="text"
+                    label="ASCII"
+                    id="ascii"
+                    name="ascii"
+                    placeholder={errors.ascii ? "Please Enter ascii" : "ASCII"}
+                    hasError={errors.ascii}
+                    value={
+                      Stores.conversationMappingStore.conversationMapping?.ascii
+                    }
+                    onChange={(ascii) => {
+                      onChange(ascii)
+                      Stores.conversationMappingStore.updateConversationMapping({
+                        ...Stores.conversationMappingStore.conversationMapping,
+                        ascii,
+                      })
+                    }}
+                  />
+                )}
                 name="ascii"
-                placeholder={errors.ascii?"Please Enter ascii":"ASCII"}
-                hasError={errors.ascii}
-                value={Stores.conversationMappingStore.conversationMapping?.ascii}
-                onChange={(ascii) => {
-                  onChange(ascii)
-                  Stores.conversationMappingStore.updateConversationMapping({
-                    ...Stores.conversationMappingStore.conversationMapping,
-                    ascii,
-                  })
-                }}
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="ascii"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.conversationMappingStore.conversationMapping?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.conversationMappingStore.updateConversationMapping({
-                      ...Stores.conversationMappingStore.conversationMapping,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={
+                        Stores.conversationMappingStore.conversationMapping
+                          ?.environment
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.conversationMappingStore.updateConversationMapping({
+                          ...Stores.conversationMappingStore.conversationMapping,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.conversationMappingStore.conversationMapping?.environment}
+                          : Stores.conversationMappingStore.conversationMapping
+                              ?.environment}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
               <div className="clearfix" />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -251,7 +257,7 @@ const ConversationMapping = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <FeatureComponents.Molecules.ConversationMappingList
             data={Stores.conversationMappingStore.listConversationMapping || []}
-            extraData={{lookupItems:stores.routerStore.lookupItems}}
+            extraData={{ lookupItems: stores.routerStore.lookupItems }}
             totalSize={Stores.conversationMappingStore.listConversationMappingCount}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -280,35 +286,34 @@ const ConversationMapping = observer(() => {
                 body: `Update conversation mapping!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.conversationMappingStore.fetchConversationMapping(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.conversationMappingStore.fetchConversationMapping(page, limit)
             }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            
             if (type === "Delete") {
               Stores.conversationMappingStore.conversationMappingService
                 .deleteConversationMapping(modalConfirm.id)
                 .then((res) => {
-                  
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.Atoms.Toast.success({message :`😊Items deleted.`})
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊Items deleted.`,
+                    })
                   }
                 })
             } else if (type == "Update") {
               Stores.conversationMappingStore.conversationMappingService
                 .updateConversationMappingUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
-                  
                   setModalConfirm({ show: false })
                   if (res.status === 200) {
                     Stores.conversationMappingStore.fetchConversationMapping()
-                    LibraryComponents.Atoms.Toast.success({message :`😊Updated.`})
+                    LibraryComponents.Atoms.Toast.success({ message: `😊Updated.` })
                   }
                 })
             }

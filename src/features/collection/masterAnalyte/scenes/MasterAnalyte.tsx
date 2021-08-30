@@ -61,7 +61,7 @@ const MasterAnalyte = observer(() => {
         Stores.masterAnalyteStore.masterAnalyteService
           .versionUpgradeAnalyteMaster({
             ...Stores.masterAnalyteStore.masterAnalyte,
-            enteredBy: LoginStore.loginStore.login?._id,
+            enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
@@ -75,7 +75,7 @@ const MasterAnalyte = observer(() => {
         Stores.masterAnalyteStore.masterAnalyteService
           .duplicateAnalyteMaster({
             ...Stores.masterAnalyteStore.masterAnalyte,
-            enteredBy: LoginStore.loginStore.login?._id,
+            enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
@@ -179,7 +179,7 @@ const MasterAnalyte = observer(() => {
                     }}
                   />
                 )}
-                name="analyte Code"
+                name="analyteCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
@@ -190,9 +190,10 @@ const MasterAnalyte = observer(() => {
                     label="Analyte Name"
                     name="txtAnalyteName"
                     placeholder="Analyte Name"
+                    hasError={errors.analyteName}
                     value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
                     onChange={(analyteName) => {
-                      onChange()
+                      onChange(analyteName)
                       Stores.masterAnalyteStore.updateMasterAnalyte({
                         ...Stores.masterAnalyteStore.masterAnalyte,
                         analyteName: analyteName.toUpperCase(),
@@ -201,7 +202,7 @@ const MasterAnalyte = observer(() => {
                   />
                 )}
                 name="analyteName"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
