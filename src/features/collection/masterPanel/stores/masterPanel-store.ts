@@ -20,7 +20,6 @@ class MasterPanelStore {
       dateActiveTo: LibraryUtils.moment().unix(),
       version: 1,
       keyNum: "1",
-      enteredBy: Stores.loginStore.login?._id,
       rLab: Stores.loginStore.login?.lab,
       bill: false,
       autoRelease: false,

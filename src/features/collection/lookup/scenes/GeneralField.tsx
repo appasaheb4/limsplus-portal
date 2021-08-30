@@ -25,13 +25,10 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
-
-  useEffect(() => {
-    console.log({ store: LookupStore.lookupStore.listLookup })
-
-  }, [LookupStore.lookupStore.listLookup])
+   
+  
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.lookupStore.LookupService.generalSettingsUpdate({
@@ -39,7 +36,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
-    }
+    }  
   }, [stores.loginStore.login])
 
   const onSubmitGeneralFiled = (data: any) => {
@@ -258,10 +255,12 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   } rounded-md`}
                   onChange={(e) => {
                     let defaultItem = JSON.parse(e.target.value)
-                    defaultItem = [{
-                      code: defaultItem.code,
-                      value: defaultItem.value,
-                    }]
+                    defaultItem = [
+                      {
+                        code: defaultItem.code,
+                        value: defaultItem.value,
+                      },
+                    ]
                     onChange(defaultItem)
                     Stores.lookupStore.updateGlobalSettings({
                       ...Stores.lookupStore.globalSettings,
@@ -344,11 +343,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   }}
                 >
                   <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.lookupStore.globalSettings?.environment}
-                      </option>
+                    {stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? `Select`
+                      : Stores.lookupStore.globalSettings?.environment}
+                  </option>
                   {LibraryUtils.lookupItems(
                     stores.routerStore.lookupItems,
                     "ENVIRONMENT"

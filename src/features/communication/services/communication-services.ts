@@ -95,7 +95,8 @@ class CommunicationService {
         form.append("lims_tables", segments.lims_tables)
         form.append("lims_fields", segments.lims_fields)
         form.append("required_for_lims", segments.required_for_lims || false)
-        form.append("notes", segments.notes)
+        form.append("notes", segments.notes)   
+        form.append("environment", segments.environment)
         form.append("attachments", JSON.stringify(path))
         http
           .post(`/communication/addSegmentMapping`, form, {

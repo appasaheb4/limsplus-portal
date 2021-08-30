@@ -31,6 +31,7 @@ class SampleContainerService {
       form.append("containerCode", sampleContainer.containerCode)
       form.append("containerName", sampleContainer.containerName)
       form.append("description", sampleContainer.description)
+      form.append("environment", sampleContainer.environment)
       form.append("file", sampleContainer.image)
       form.append("folder", "sampleconatiner")
       form.append("fileName", sampleContainer.image.name)

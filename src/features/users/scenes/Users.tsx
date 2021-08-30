@@ -42,7 +42,6 @@ export const Users = observer(() => {
     setValue,
   } = useForm()
 
-
   useEffect(() => {
     const status = routerStore.lookupItems
       .find((fileds) => {
@@ -66,6 +65,7 @@ export const Users = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
   const onSubmitUser = (data: any) => {
     if (!Stores.userStore.checkExitsUserId && !Stores.userStore.checkExistsEmpCode) {
       Stores.userStore.UsersService.addUser({
@@ -76,7 +76,9 @@ export const Users = observer(() => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.message}`,
           })
-          Stores.userStore.loadUser()
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
         } else {
           LibraryComponents.Atoms.Toast.error({
             message: `😔 ${res.message}`,
@@ -901,11 +903,11 @@ export const Users = observer(() => {
                     }}
                   >
                     <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.userStore.user?.environment}
-                      </option>
+                      {stores.loginStore.login &&
+                      stores.loginStore.login.role !== "SYSADMIN"
+                        ? `Select`
+                        : Stores.userStore.user?.environment}
+                    </option>
                     {LibraryUtils.lookupItems(
                       routerStore.lookupItems,
                       "ENVIRONMENT"
@@ -1021,8 +1023,8 @@ export const Users = observer(() => {
                   body: `UpdatePassword!`,
                 })
               }}
-              onPageSizeChange={(page,limit)=>{
-                Stores.userStore.loadUser(page,limit)
+              onPageSizeChange={(page, limit) => {
+                Stores.userStore.loadUser(page, limit)
               }}
             />
           </div>
