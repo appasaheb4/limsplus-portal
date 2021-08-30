@@ -67,7 +67,7 @@ export class Http {
     })
 
     http.interceptors.request.use(
-      (config) => {  
+      (config) => {
         //console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)

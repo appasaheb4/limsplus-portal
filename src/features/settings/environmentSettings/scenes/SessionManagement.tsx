@@ -28,7 +28,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
@@ -279,11 +279,12 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                     }}
                   >
                     <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.enviromentSettingsStore.sessionManagement?.environment}
-                      </option>
+                      {stores.loginStore.login &&
+                      stores.loginStore.login.role !== "SYSADMIN"
+                        ? `Select`
+                        : Stores.enviromentSettingsStore.sessionManagement
+                            ?.environment}
+                    </option>
                     {LibraryUtils.lookupItems(
                       stores.routerStore.lookupItems,
                       "SESSION_ENVIRONMENT"
@@ -301,29 +302,30 @@ const SessionManagement = observer((props: SessionManagementProps) => {
             />
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
+        <br />
+        <LibraryComponents.Atoms.List direction="row" space={3} align="center">
+          <LibraryComponents.Atoms.Buttons.Button
+            size="medium"
+            type="solid"
+            icon={LibraryComponents.Atoms.Icon.Save}
+            onClick={handleSubmit(onSubmitSessionManagement)}
+          >
+            Save
+          </LibraryComponents.Atoms.Buttons.Button>
+          <LibraryComponents.Atoms.Buttons.Button
+            size="medium"
+            type="outline"
+            icon={LibraryComponents.Atoms.Icon.Remove}
+            onClick={() => {
+              window.location.reload()
+            }}
+          >
+            Clear
+          </LibraryComponents.Atoms.Buttons.Button>
+        </LibraryComponents.Atoms.List>
       </div>
       <br />
 
-      <LibraryComponents.Atoms.List direction="row" space={3} align="center">
-        <LibraryComponents.Atoms.Buttons.Button
-          size="medium"
-          type="solid"
-          icon={LibraryComponents.Atoms.Icon.Save}
-          onClick={handleSubmit(onSubmitSessionManagement)}
-        >
-          Save
-        </LibraryComponents.Atoms.Buttons.Button>
-        <LibraryComponents.Atoms.Buttons.Button
-          size="medium"
-          type="outline"
-          icon={LibraryComponents.Atoms.Icon.Remove}
-          onClick={() => {
-            window.location.reload()
-          }}
-        >
-          Clear
-        </LibraryComponents.Atoms.Buttons.Button>
-      </LibraryComponents.Atoms.List>
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}

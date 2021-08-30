@@ -7,7 +7,8 @@ import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteCheckMultiFilterKeysProps {
   placeholder?: string
-  data?: {  
+  hasError?: boolean
+  data?: {
     defulatValues?: any[]
     list?: any[]
     displayKey?: string[]
@@ -15,7 +16,7 @@ interface AutoCompleteCheckMultiFilterKeysProps {
   }
   defaultData?: any[]
   onUpdate?: (item: any) => void
-}    
+}
 
 export const AutoCompleteCheckMultiFilterKeys = observer(
   (props: AutoCompleteCheckMultiFilterKeysProps) => {
@@ -141,7 +142,11 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
     return (
       <>
         <div ref={wrapperRef}>
-          <div className="flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border border-gray-300 rounded-md">
+          <div
+            className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2 ${
+              props.hasError ? "border-red-500" : "border-gray-300"
+            } rounded-md`}
+          >
             <input
               placeholder={props.placeholder || "Search ..."}
               value={
@@ -194,4 +199,3 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
     )
   }
 )
-
