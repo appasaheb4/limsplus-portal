@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext } from "react"
+import React, { useState, useContext ,useEffect} from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -22,6 +22,7 @@ const SegmentMapping = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
   const { loginStore } = useStores()
   const [modalImportFile, setModalImportFile] = useState({})
@@ -163,6 +164,16 @@ const SegmentMapping = observer(() => {
     }
     reader.readAsBinaryString(file)
   }
+
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.segmentMappingStore.updateSegmentMapping({
+        ...Stores.segmentMappingStore.segmentMapping,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
     
   const onSubmitSegmentMapiing = () => {
     if (Stores.segmentMappingStore.segmentMappingService) {
@@ -837,6 +848,12 @@ const SegmentMapping = observer(() => {
                           ? "border-red-500  focus:border-red-500"
                           : "border-gray-300"
                       } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
@@ -846,7 +863,12 @@ const SegmentMapping = observer(() => {
                         })
                       }}
                     >
-                      <option selected>Select</option>
+                      <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.segmentMappingStore.segmentMapping?.environment}
+                      </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
                         "ENVIRONMENT"

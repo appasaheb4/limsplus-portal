@@ -22,6 +22,7 @@ export const PossibleResults = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
 
   const {
@@ -44,6 +45,15 @@ export const PossibleResults = observer(() => {
       }
     })
   }, [])
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.possibleResultsStore.updatePossibleResults({
+        ...Stores.possibleResultsStore.possibleResults,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitPossibleResult = () =>{
     if (Stores.possibleResultsStore.possibleResults) {
@@ -159,6 +169,12 @@ export const PossibleResults = observer(() => {
                       ? "border-red-500  focus:border-red-500"
                       : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -168,7 +184,12 @@ export const PossibleResults = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.possibleResultsStore.possibleResults?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

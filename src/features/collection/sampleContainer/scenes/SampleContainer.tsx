@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -17,7 +17,8 @@ const SampleContainer = observer(() => {
   const {
     control,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setValue
   } = useForm()
 
   const {
@@ -26,6 +27,16 @@ const SampleContainer = observer(() => {
   
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.sampleContainerStore.updateSampleContainer({
+        ...Stores.sampleContainerStore.sampleContainer,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitSampleContainer = () =>{
     if (Stores.sampleContainerStore.sampleContainer) {
@@ -182,6 +193,12 @@ const SampleContainer = observer(() => {
                       ? "border-red-500  focus:border-red-500"
                       : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -191,7 +208,12 @@ const SampleContainer = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                 <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.sampleContainerStore.sampleContainer?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
