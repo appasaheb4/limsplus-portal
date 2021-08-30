@@ -5,7 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
@@ -16,11 +16,9 @@ const InterfaceManager = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddInterfaceManager, setHideAddInterfaceManager] = useState<boolean>(
     true
@@ -35,18 +33,18 @@ const InterfaceManager = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitInterfaceManager = ()=>{
-    if (Stores.interfaceManagerStore.encodeCharacter !== undefined) {
-                  
+  const onSubmitInterfaceManager = () => {
+    if (
+      Stores.interfaceManagerStore.encodeCharacter &&
+      Stores.interfaceManagerStore.encodeCharacter.fileds &&
+      Stores.interfaceManagerStore.encodeCharacter.fileds?.length > 0
+    ) {
       Stores.interfaceManagerStore.encodeCharacterService
-        .addInterfaceManager(
-          Stores.interfaceManagerStore.encodeCharacter
-        )
+        .addInterfaceManager(Stores.interfaceManagerStore.encodeCharacter)
         .then((res) => {
-          
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
-             message : `😊Encode Character created.`
+              message: `😊 Encode Character created.`,
             })
             setTimeout(() => {
               window.location.reload()
@@ -55,7 +53,7 @@ const InterfaceManager = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-       message : "😔Please enter all information!"
+        message: "😔 Please enter filed and value!",
       })
     }
   }
@@ -91,118 +89,147 @@ const InterfaceManager = observer(() => {
               fill
             >
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Interface Type"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Interface Type"
+                    name="interfaceType"
+                    placeholder={
+                      errors.interfaceType
+                        ? "Please Enter InterFace Type"
+                        : "Interface Type"
+                    }
+                    hasError={errors.interfaceType}
+                    value={
+                      Stores.interfaceManagerStore.encodeCharacter?.interfaceType
+                    }
+                    onChange={(interfaceType) => {
+                      onChange(interfaceType)
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
+                        interfaceType,
+                      })
+                    }}
+                  />
+                )}
                 name="interfaceType"
-                placeholder={errors.interfaceType?"Please Enter InterFace Type":"Interface Type"}
-                hasError={errors.interfaceType}
-                value={Stores.interfaceManagerStore.encodeCharacter?.interfaceType}
-                onChange={(interfaceType) => {
-                  onChange(interfaceType)
-                  Stores.interfaceManagerStore.updateEncodeCharacter({
-                    ...Stores.interfaceManagerStore.encodeCharacter,
-                    interfaceType,
-                  })
-                }}
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="interfaceType"
-              rules={{ required: false }}
-              defaultValue=""
-            />
 
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Instrument Type"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Instrument Type"
+                    name="instrumentType"
+                    placeholder={
+                      errors.instrumentType
+                        ? "Please Enter instrumentType"
+                        : "Instrument Type"
+                    }
+                    hasError={errors.instrumentType}
+                    value={
+                      Stores.interfaceManagerStore.encodeCharacter?.instrumentType
+                    }
+                    onChange={(instrumentType) => {
+                      onChange(instrumentType)
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
+                        instrumentType,
+                      })
+                    }}
+                  />
+                )}
                 name="instrumentType"
-                placeholder={errors.instrumentType ? "Please Enter instrumentType":"Instrument Type"}
-                hasError={errors.instrumentType}
-                value={Stores.interfaceManagerStore.encodeCharacter?.instrumentType}
-                onChange={(instrumentType) => {
-                  onChange(instrumentType)
-                  Stores.interfaceManagerStore.updateEncodeCharacter({
-                    ...Stores.interfaceManagerStore.encodeCharacter,
-                    instrumentType,
-                  })
-                }}
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="instrumentType"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Instrument Name"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Instrument Name"
+                    name="instrumentName"
+                    placeholder={
+                      errors.instrumentName
+                        ? "Please Enter InstrumentName"
+                        : "Instrument Name"
+                    }
+                    hasError={errors.instrumentName}
+                    value={
+                      Stores.interfaceManagerStore.encodeCharacter?.instrumentName
+                    }
+                    onChange={(instrumentName) => {
+                      onChange(instrumentName)
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
+                        instrumentName,
+                      })
+                    }}
+                  />
+                )}
                 name="instrumentName"
-                placeholder={errors.instrumentName?"Please Enter InstrumentName":"Instrument Name"}
-                hasError={errors.instrumentName}
-                value={Stores.interfaceManagerStore.encodeCharacter?.instrumentName}
-                onChange={(instrumentName) => {
-                  onChange(instrumentName)
-                  Stores.interfaceManagerStore.updateEncodeCharacter({
-                    ...Stores.interfaceManagerStore.encodeCharacter,
-                    instrumentName,
-                  })
-                }}
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="instrumentName"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Data Flow From"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Data Flow From"
+                    name="dataFlowFrom"
+                    placeholder={
+                      errors.dataFlowFrom
+                        ? "Please Enter DataFlowFrom"
+                        : "Data Flow From"
+                    }
+                    hasError={errors.dataFlowFrom}
+                    value={
+                      Stores.interfaceManagerStore.encodeCharacter?.dataFlowFrom
+                    }
+                    onChange={(dataFlowFrom) => {
+                      onChange(dataFlowFrom)
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
+                        dataFlowFrom,
+                      })
+                    }}
+                  />
+                )}
                 name="dataFlowFrom"
-                placeholder={errors.dataFlowFrom?"Please Enter DataFlowFrom":"Data Flow From"}
-                hasError={errors.dataFlowFrom}
-                value={Stores.interfaceManagerStore.encodeCharacter?.dataFlowFrom}
-                onChange={(dataFlowFrom) => {
-                  onChange(dataFlowFrom)
-                  Stores.interfaceManagerStore.updateEncodeCharacter({
-                    ...Stores.interfaceManagerStore.encodeCharacter,
-                    dataFlowFrom,
-                  })
-                }}
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="dataFlowFrom"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Communication Protocol"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Communication Protocol"
+                    name="communicationProtocal"
+                    placeholder={
+                      errors.communicationProtocal
+                        ? "Please Enter communicationProtocal"
+                        : "Communication Protocal"
+                    }
+                    hasError={errors.communicationProtocal}
+                    value={
+                      Stores.interfaceManagerStore.encodeCharacter
+                        ?.communicationProtocol
+                    }
+                    onChange={(communicationProtocol) => {
+                      onChange(communicationProtocol)
+                      Stores.interfaceManagerStore.updateEncodeCharacter({
+                        ...Stores.interfaceManagerStore.encodeCharacter,
+                        communicationProtocol,
+                      })
+                    }}
+                  />
+                )}
                 name="communicationProtocal"
-                placeholder={errors.communicationProtocal?"Please Enter communicationProtocal":"Communication Protocal"}
-                hasError={errors.communicationProtocal}
-                value={
-                  Stores.interfaceManagerStore.encodeCharacter?.communicationProtocol
-                }
-                onChange={(communicationProtocol) => {
-                  onChange(communicationProtocol)
-                  Stores.interfaceManagerStore.updateEncodeCharacter({
-                    ...Stores.interfaceManagerStore.encodeCharacter,
-                    communicationProtocol,
-                  })
-                }}
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="communicationProtocal"
-              rules={{ required: false }}
-              defaultValue=""
-            />
 
               <div className="clearfix" />
             </LibraryComponents.Atoms.List>
@@ -212,100 +239,108 @@ const InterfaceManager = observer(() => {
               justify="stretch"
               fill
             >
-              
-            
-              
               <LibraryComponents.Atoms.Form.InputWrapper label="Block" id="block">
                 <LibraryComponents.Atoms.Grid cols={2}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    name="startBlock"
-                    placeholder={errors.blockStart?"Please Enter BlockStart":"Start Block"}
-                    hasError={errors.blockStart}
-                    value={Stores.interfaceManagerStore.encodeCharacter?.blockStart}
-                    onChange={(blockStart) => {
-                      onChange(blockStart)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
-                        blockStart,
-                      })
-                    }}
-                  />
-                  )}
-                  name="startBlock"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-                  
                   <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    name="endBlock"
-                    placeholder={errors.endBlock?"Please Enter endBlock":"End Block"}
-                    value={Stores.interfaceManagerStore.encodeCharacter?.blockEnd}
-                    onChange={(blockEnd) => {
-                      onChange(blockEnd)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
-                        blockEnd,
-                      })
-                    }}
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        name="startBlock"
+                        placeholder={
+                          errors.startBlock
+                            ? "Please Enter BlockStart"
+                            : "Start Block"
+                        }
+                        hasError={errors.startBlock}
+                        value={
+                          Stores.interfaceManagerStore.encodeCharacter?.blockStart
+                        }
+                        onChange={(blockStart) => {
+                          onChange(blockStart)
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
+                            blockStart,
+                          })
+                        }}
+                      />
+                    )}
+                    name="startBlock"
+                    rules={{ required: true }}
+                    defaultValue=""
                   />
-                  )}
-                  name="endBlock"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        name="endBlock"
+                        placeholder={
+                          errors.endBlock ? "Please Enter endBlock" : "End Block"
+                        }
+                        hasError={errors.endBlock}
+                        value={
+                          Stores.interfaceManagerStore.encodeCharacter?.blockEnd
+                        }
+                        onChange={(blockEnd) => {
+                          onChange(blockEnd)
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
+                            blockEnd,
+                          })
+                        }}
+                      />
+                    )}
+                    name="endBlock"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
                 </LibraryComponents.Atoms.Grid>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Filed" id="filed">
                 <LibraryComponents.Atoms.Grid cols={3}>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    name="filed"
-                    placeholder={errors.filed?"Please Enter Filed":"Filed"}
-                    hasError={errors.filed}
-                    value={Stores.interfaceManagerStore.encodeCharacter?.filed}
-                    onChange={(filed) => {
-                      onChange(filed)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
-                        filed,
-                      })
-                    }}
-                  />
-                  )}
-                  name="filed"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
                   <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    name="value"
-                    placeholder={errors.value?"Please Enter Value":"Value"}
-                    hasError={errors.value}
-                    value={Stores.interfaceManagerStore.encodeCharacter?.value}
-                    onChange={(value) => {
-                      onChange(value)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
-                        value,
-                      })
-                    }}
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        name="filed"
+                        placeholder={errors.filed ? "Please Enter Filed" : "Filed"}
+                        hasError={errors.filed}
+                        value={Stores.interfaceManagerStore.encodeCharacter?.filed}
+                        onChange={(filed) => {
+                          onChange(filed)
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
+                            filed,
+                          })
+                        }}
+                      />
+                    )}
+                    name="filed"
+                    rules={{ required: false }}
+                    defaultValue=""
                   />
-                  )}
-                  name="value"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        name="value"
+                        placeholder={errors.value ? "Please Enter Value" : "Value"}
+                        hasError={errors.value}
+                        value={Stores.interfaceManagerStore.encodeCharacter?.value}
+                        onChange={(value) => {
+                          onChange(value)
+                          Stores.interfaceManagerStore.updateEncodeCharacter({
+                            ...Stores.interfaceManagerStore.encodeCharacter,
+                            value,
+                          })
+                        }}
+                      />
+                    )}
+                    name="value"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
                   <div className="mt-2">
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
@@ -325,12 +360,12 @@ const InterfaceManager = observer(() => {
                                 filed,
                                 value,
                               })
-                            : fileds = [
+                            : (fileds = [
                                 {
                                   filed,
                                   value,
                                 },
-                              ]
+                              ])
                           Stores.interfaceManagerStore.updateEncodeCharacter({
                             ...Stores.interfaceManagerStore.encodeCharacter,
                             fileds,
@@ -388,57 +423,60 @@ const InterfaceManager = observer(() => {
                   </div>
                 </LibraryComponents.Atoms.List>
               </LibraryComponents.Atoms.Form.InputWrapper>
-            
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.interfaceManagerStore.encodeCharacter?.environment}
-                  className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
 
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.interfaceManagerStore.updateEncodeCharacter({
-                      ...Stores.interfaceManagerStore.encodeCharacter,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={
+                        Stores.interfaceManagerStore.encodeCharacter?.environment
+                      }
+                      className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.interfaceManagerStore.updateEncodeCharacter({
+                          ...Stores.interfaceManagerStore.encodeCharacter,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.interfaceManagerStore.encodeCharacter?.environment}
+                          : Stores.interfaceManagerStore.encodeCharacter
+                              ?.environment}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
-          </LibraryComponents.Atoms.List>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
-          
+
           <LibraryComponents.Atoms.List direction="row" space={3} align="center">
             <LibraryComponents.Atoms.Buttons.Button
               size="medium"
@@ -467,7 +505,7 @@ const InterfaceManager = observer(() => {
             data={Stores.interfaceManagerStore.listEncodeCharacter || []}
             totalSize={Stores.interfaceManagerStore.listEncodeCharacterCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -496,24 +534,23 @@ const InterfaceManager = observer(() => {
                 body: `Update interface manager!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.interfaceManagerStore.fetchEncodeCharacter(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.interfaceManagerStore.fetchEncodeCharacter(page, limit)
             }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type) => {
-            
             if (type === "Delete") {
               Stores.interfaceManagerStore.encodeCharacterService
                 .deleteInterfaceManager(modalConfirm.id)
                 .then((res: any) => {
                   console.log({ res })
-                  
+
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
-                      message :`😊Interface manager deleted.`
+                      message: `😊Interface manager deleted.`,
                     })
                     setModalConfirm({ show: false })
                     Stores.interfaceManagerStore.fetchEncodeCharacter()
@@ -523,10 +560,9 @@ const InterfaceManager = observer(() => {
               Stores.interfaceManagerStore.encodeCharacterService
                 .interfaceManagerUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
-                  
                   if (res.status === 200) {
                     Stores.interfaceManagerStore.fetchEncodeCharacter()
-                    LibraryComponents.Atoms.Toast.success({message :`😊Updated.`})
+                    LibraryComponents.Atoms.Toast.success({ message: `😊Updated.` })
                   }
                 })
             }

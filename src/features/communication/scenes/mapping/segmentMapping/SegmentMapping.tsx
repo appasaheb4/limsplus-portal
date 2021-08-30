@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useContext ,useEffect} from "react"
+import React, { useState, useContext, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -22,7 +22,7 @@ const SegmentMapping = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
   const { loginStore } = useStores()
   const [modalImportFile, setModalImportFile] = useState({})
@@ -174,7 +174,7 @@ const SegmentMapping = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
-    
+
   const onSubmitSegmentMapiing = () => {
     if (Stores.segmentMappingStore.segmentMappingService) {
       Stores.segmentMappingStore.segmentMappingService
@@ -182,13 +182,15 @@ const SegmentMapping = observer(() => {
         .then((res) => {
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊Segment Mapping created.`,
+              message: `😊 Segment Mapping created.`,
             })
             if (saveTitle === "Save") {
-              window.location.reload()
+              setTimeout(() => {
+                window.location.reload()
+              }, 2000)
             }
             Stores.segmentMappingStore.fetchListSegmentMapping()
-          }  
+          }
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -271,7 +273,7 @@ const SegmentMapping = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="equipmentType"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller

@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 //import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -22,14 +22,13 @@ import { RouterFlow } from "@lp/flows"
 import { has, toJS } from "mobx"
 
 const TestMater = observer(() => {
-  const {control,
+  const {
+    control,
     handleSubmit,
     formState: { errors },
-    setValue
-    } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+    setValue,
+  } = useForm()
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
@@ -42,9 +41,8 @@ const TestMater = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitTestMaster = () =>{
+  const onSubmitTestMaster = () => {
     if (Stores.testMasterStore.testMaster) {
-      
       if (
         !Stores.testMasterStore.testMaster?.existsVersionId &&
         !Stores.testMasterStore.testMaster?.existsRecordId
@@ -52,45 +50,41 @@ const TestMater = observer(() => {
         Stores.testMasterStore.testMasterService
           .addTestMaster({
             ...Stores.testMasterStore.testMaster,
-            enteredBy: LoginStore.loginStore.login?._id,
+            enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
-            
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Test master created.`,
             })
           })
-      }else if(
+      } else if (
         Stores.testMasterStore.testMaster?.existsVersionId &&
         !Stores.testMasterStore.testMaster?.existsRecordId
-      ){
+      ) {
         Stores.testMasterStore.testMasterService
-        .versionUpgradeTestMaster({
-          ...Stores.testMasterStore.testMaster,
-          enteredBy: LoginStore.loginStore.login?._id,
-        })
-        .then(() => {
-          
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Test master version upgrade.`,
+          .versionUpgradeTestMaster({
+            ...Stores.testMasterStore.testMaster,
+            enteredBy: stores.loginStore.login.userId,
           })
-        })
-      }else if(
-        !Stores.testMasterStore.testMaster
-        ?.existsVersionId &&
-      Stores.testMasterStore.testMaster?.existsRecordId
-      ){
+          .then(() => {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test master version upgrade.`,
+            })
+          })
+      } else if (
+        !Stores.testMasterStore.testMaster?.existsVersionId &&
+        Stores.testMasterStore.testMaster?.existsRecordId
+      ) {
         Stores.testMasterStore.testMasterService
-        .duplicateTestMaster({
-          ...Stores.testMasterStore.testMaster,
-          enteredBy: LoginStore.loginStore.login?._id,
-        })
-        .then(() => {
-          
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Test master duplicate created.`,
+          .duplicateTestMaster({
+            ...Stores.testMasterStore.testMaster,
+            enteredBy: stores.loginStore.login.userId,
           })
-        })
+          .then(() => {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 Test master duplicate created.`,
+            })
+          })
       }
       setTimeout(() => {
         window.location.reload()
@@ -129,514 +123,530 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-             
-             <Controller
-               control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="RLab"
-              hasError={errors.rLab}
-              >
-                <select
-                  value={LoginStores.loginStore.login?.lab}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.rLab
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const rLab = e.target.value as string
-                    onChange(rLab)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      rLab,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LoginStores.loginStore.login?.labList &&
-                    LoginStores.loginStore.login?.labList.map(
-                      (item: any, index: number) => (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="RLab"
+                    hasError={errors.rLab}
+                  >
+                    <select
+                      value={LoginStores.loginStore.login?.lab}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.rLab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const rLab = e.target.value as string
+                        onChange(rLab)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          rLab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LoginStores.loginStore.login?.labList &&
+                        LoginStores.loginStore.login?.labList.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="rLab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="PLab"
+                    hasError={errors.pLab}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.pLab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const pLab = e.target.value as string
+                        onChange(pLab)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          pLab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LabStore.labStore.listLabs.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {item.name}
                         </option>
-                      )
-                    )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="rLab"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-            
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="pLab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
 
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="PLab"
-              hasError={errors.pLab}
-              >
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.pLab
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const pLab = e.target.value as string
-                    onChange(pLab)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      pLab,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LabStore.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="pLab"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-
-
-            
-           <Controller
-              control={control}
-               render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="Department"
-              hasError={errors.department}
-              >
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.department
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const department = e.target.value as string
-                    onChange(department)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      department,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {DepartmentStore.departmentStore.listDepartment.map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.code} - ${item.name}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="department"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-             <Controller
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Section" hasError={errors.section}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.section
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const section = e.target.value as string
-                    onChange(section)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      section,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Section 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="section"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Test Code"
-                placeholder={errors.testCode?"Please Enter testCode":"Test Code"}
-                hasError={errors.testCode}
-                value={Stores.testMasterStore.testMaster?.testCode}
-                onChange={(testCode) => {
-                  onChange(testCode)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    testCode: testCode.toUpperCase(),
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Department"
+                    hasError={errors.department}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.department ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const department = e.target.value as string
+                        onChange(department)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          department,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {DepartmentStore.departmentStore.listDepartment.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.code} - ${item.name}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="department"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="testCode"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Test Name"
-                placeholder={errors.testName?"Please Enter testName":"Test Name"}
-                hasError={errors.testName}
-                value={Stores.testMasterStore.testMaster?.testName}
-                onChange={(testName) => {
-                  onChange(testName)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    testName: testName.toUpperCase(),
-                  })
-                }}
-              />
-              )}
-              name="testName"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={3}
-                label="Description"
-                placeholder={errors.description?"Please Enter description":"Description"}
-                hasError={errors.description}
-                value={Stores.testMasterStore.testMaster?.description}
-                onChange={(description) => {
-                  onChange(description)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    description,
-                  })
-                }}
-              />
-              )}
-              name="description"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Short Name"
-                placeholder={errors.shortName?"Please Enter shortName":"Short Name"}
-                hasError={errors.shortName}
-                value={Stores.testMasterStore.testMaster?.shortName}
-                onChange={(shortName) => {
-                  onChange(shortName)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    shortName: shortName.toUpperCase(),
-                  })
-                }}
-              />
-              )}
-              name="shortName"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                placeholder={errors.price?"Please Enter price":"Price"}
-                type="number"
-                hasError={errors.price}
-                value={Stores.testMasterStore.testMaster?.price}
-                onChange={(price) => {
-                  onChange(price)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    price,
-                  })
-                }}
-              />
-              )}
-              name="price"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Schedule" hasError={errors.schedule}> 
-                <select
-                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                  errors.schedule
-                    ? "border-red-500  focus:border-red-500"
-                    : "border-gray-300"
-                } rounded-md`}
-                  onChange={(e) => {
-                    const schedule = e.target.value as string
-                    onChange(schedule)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      schedule,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {DeliveryScheduleStore.deliveryScheduleStore
-                    .listDeliverySchedule &&
-                    DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule
-                      ?.length > 0 &&
-                    DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule?.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.schCode}>
-                          {`${item.schCode}`}
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Section"
+                    hasError={errors.section}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.section
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const section = e.target.value as string
+                        onChange(section)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          section,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["Section 1"].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
                         </option>
-                      )
-                    )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="schedule"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="TAT"
-                placeholder={errors.tat?"Please Enter tat":"TAT"}
-                value={Stores.testMasterStore.testMaster?.tat}
-                onChange={(tat) => {
-                  onChange(tat)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    tat: tat.toUpperCase(),
-                  })
-                }}
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="section"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="tat"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level" hasError={errors.validationLevel}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.validationLevel
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const validationLevel: any = e.target.value
-                    onChange(validationLevel)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      validationLevel,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="validationLevel"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Result Order"
-                placeholder={errors.resultOrder?"Please Enter resultOrder":"Result Order"}
-                hasError={errors.resultOrder}
-                value={Stores.testMasterStore.testMaster?.resultOrder}
-                onChange={(resultOrder) => {
-                  onChange(resultOrder)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    resultOrder: resultOrder.toUpperCase(),
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Test Code"
+                    placeholder={
+                      errors.testCode ? "Please Enter testCode" : "Test Code"
+                    }
+                    hasError={errors.testCode}
+                    value={Stores.testMasterStore.testMaster?.testCode}
+                    onChange={(testCode) => {
+                      onChange(testCode)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        testCode: testCode.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="testCode"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="resultOrder"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Processing" hasError={errors.processing}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.processing
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const processing = e.target.value as
-                      | "MANUAL"
-                      | "AEMI"
-                      | "AUTOMATIC"
-                      onChange(processing)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      processing,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["MANUAL", "AEMI", "AUTOMATIC"].map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item}>
-                        {item}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="processing"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Test Name"
+                    placeholder={
+                      errors.testName ? "Please Enter testName" : "Test Name"
+                    }
+                    hasError={errors.testName}
+                    value={Stores.testMasterStore.testMaster?.testName}
+                    onChange={(testName) => {
+                      onChange(testName)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        testName: testName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="testName"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={3}
+                    label="Description"
+                    placeholder={
+                      errors.description ? "Please Enter description" : "Description"
+                    }
+                    hasError={errors.description}
+                    value={Stores.testMasterStore.testMaster?.description}
+                    onChange={(description) => {
+                      onChange(description)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        description,
+                      })
+                    }}
+                  />
+                )}
+                name="description"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Short Name"
+                    placeholder={
+                      errors.shortName ? "Please Enter shortName" : "Short Name"
+                    }
+                    hasError={errors.shortName}
+                    value={Stores.testMasterStore.testMaster?.shortName}
+                    onChange={(shortName) => {
+                      onChange(shortName)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        shortName: shortName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="shortName"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Price"
+                    placeholder={errors.price ? "Please Enter price" : "Price"}
+                    type="number"
+                    hasError={errors.price}
+                    value={Stores.testMasterStore.testMaster?.price}
+                    onChange={(price) => {
+                      onChange(price)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        price,
+                      })
+                    }}
+                  />
+                )}
+                name="price"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Schedule"
+                    hasError={errors.schedule}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.schedule
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const schedule = e.target.value as string
+                        onChange(schedule)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          schedule,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {DeliveryScheduleStore.deliveryScheduleStore
+                        .listDeliverySchedule &&
+                        DeliveryScheduleStore.deliveryScheduleStore
+                          .listDeliverySchedule?.length > 0 &&
+                        DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule?.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.schCode}>
+                              {`${item.schCode}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="schedule"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="TAT"
+                    placeholder={errors.tat ? "Please Enter tat" : "TAT"}
+                    value={Stores.testMasterStore.testMaster?.tat}
+                    onChange={(tat) => {
+                      onChange(tat)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        tat: tat.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="tat"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Validation Level"
+                    hasError={errors.validationLevel}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.validationLevel
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const validationLevel: any = e.target.value
+                        onChange(validationLevel)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          validationLevel,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="validationLevel"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Result Order"
+                    placeholder={
+                      errors.resultOrder
+                        ? "Please Enter resultOrder"
+                        : "Result Order"
+                    }
+                    hasError={errors.resultOrder}
+                    value={Stores.testMasterStore.testMaster?.resultOrder}
+                    onChange={(resultOrder) => {
+                      onChange(resultOrder)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        resultOrder: resultOrder.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="resultOrder"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Processing"
+                    hasError={errors.processing}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.processing
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const processing = e.target.value as
+                          | "MANUAL"
+                          | "AEMI"
+                          | "AUTOMATIC"
+                        onChange(processing)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          processing,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["MANUAL", "AEMI", "AUTOMATIC"].map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="processing"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <LibraryComponents.Atoms.Grid cols={5}>
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  hasError={errors.bill}
-                  value={Stores.testMasterStore.testMaster?.bill}
-                  onChange={(bill) => {
-                    onChange(bill)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      bill,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Bill"
+                      id="modeBill"
+                      hasError={errors.bill}
+                      value={Stores.testMasterStore.testMaster?.bill}
+                      onChange={(bill) => {
+                        onChange(bill)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          bill,
+                        })
+                      }}
+                    />
+                  )}
+                  name="bill"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-              name="bill"
-              rules={{ required: false }}
-              defaultValue=""
-            />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="AutoFinish"
-                  id="modeAutoFinish"
-                  hasError={errors.autoFinish}
-                  value={Stores.testMasterStore.testMaster?.autoFinish}
-                  onChange={(autoFinish) => {
-                    onChange(autoFinish)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      autoFinish,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="AutoFinish"
+                      id="modeAutoFinish"
+                      hasError={errors.autoFinish}
+                      value={Stores.testMasterStore.testMaster?.autoFinish}
+                      onChange={(autoFinish) => {
+                        onChange(autoFinish)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          autoFinish,
+                        })
+                      }}
+                    />
+                  )}
+                  name="autoFinish"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-              name="autoFinish"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Hold OOS"
-                  id="modeHoldOOS"
-                  hasError={errors.holdOOS}
-                  value={Stores.testMasterStore.testMaster?.holdOOS}
-                  onChange={(holdOOS) => {
-                    onChange(holdOOS)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      holdOOS,
-                    })
-                  }}
-                />
-                )}
-              name="holdOOS"
-              rules={{ required: false }}
-              defaultValue=""
-            />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Confidential"
-                  hasError={errors.confidential}
-                  value={Stores.testMasterStore.testMaster?.confidential}
-                  onChange={(confidential) => {
-                    onChange(confidential)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      confidential,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Hold OOS"
+                      id="modeHoldOOS"
+                      hasError={errors.holdOOS}
+                      value={Stores.testMasterStore.testMaster?.holdOOS}
+                      onChange={(holdOOS) => {
+                        onChange(holdOOS)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          holdOOS,
+                        })
+                      }}
+                    />
+                  )}
+                  name="holdOOS"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-              name="confidential"
-              rules={{ required: false }}
-              defaultValue=""
-            />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Urgent"
-                  hasError={errors.urgent}
-                  value={Stores.testMasterStore.testMaster?.urgent}
-                  onChange={(urgent) => {
-                    onChange(urgent)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      urgent,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Confidential"
+                      hasError={errors.confidential}
+                      value={Stores.testMasterStore.testMaster?.confidential}
+                      onChange={(confidential) => {
+                        onChange(confidential)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          confidential,
+                        })
+                      }}
+                    />
+                  )}
+                  name="confidential"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-              name="urgent"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Urgent"
+                      hasError={errors.urgent}
+                      value={Stores.testMasterStore.testMaster?.urgent}
+                      onChange={(urgent) => {
+                        onChange(urgent)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          urgent,
+                        })
+                      }}
+                    />
+                  )}
+                  name="urgent"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
 
@@ -646,7 +656,6 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-              
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Report Group"
                 placeholder="Report Group"
@@ -658,7 +667,6 @@ const TestMater = observer(() => {
                   })
                 }}
               /> */}
-              
 
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
@@ -685,90 +693,101 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Panel Method"
-                placeholder={errors.panelMethod?"Please Enter panelMethod":"Panel Method"}
-                hasError={errors.panelMethod}
-                value={Stores.testMasterStore.testMaster?.panelMethod}
-                onChange={(panelMethod) => {
-                  onChange(panelMethod)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    panelMethod,
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Panel Method"
+                    placeholder={
+                      errors.panelMethod
+                        ? "Please Enter panelMethod"
+                        : "Panel Method"
+                    }
+                    hasError={errors.panelMethod}
+                    value={Stores.testMasterStore.testMaster?.panelMethod}
+                    onChange={(panelMethod) => {
+                      onChange(panelMethod)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        panelMethod,
+                      })
+                    }}
+                  />
+                )}
+                name="panelMethod"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="panelMethod"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sample Run On" hasError={errors.sampleRunOn}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.sampleRunOn
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
-                    onChange(sampleRunOn)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      sampleRunOn,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["LABID", "SAMPLEID"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="sampleRunOn"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sample Run On"
+                    hasError={errors.sampleRunOn}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.sampleRunOn
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
+                        onChange(sampleRunOn)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          sampleRunOn,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["LABID", "SAMPLEID"].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="sampleRunOn"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow" hasError={errors.workflow}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.workflow
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const workflow = e.target.value as string
-                    onChange(workflow)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      workflow,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "WORKFLOW").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="workflow"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Workflow"
+                    hasError={errors.workflow}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.workflow
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const workflow = e.target.value as string
+                        onChange(workflow)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          workflow,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "WORKFLOW"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="workflow"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
@@ -783,24 +802,28 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Speical Instruction"
-                hasError={errors.speicalInstructions}
-                placeholder={errors.speicalInstructions?"Please Enter speicalInstructions":"Speical Instrcution"}
-                value={Stores.testMasterStore.testMaster?.speicalInstructions}
-                onChange={(speicalInstructions) => {
-                  onChange(speicalInstructions)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    speicalInstructions: speicalInstructions.toUpperCase(),
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Speical Instruction"
+                    hasError={errors.speicalInstructions}
+                    placeholder={
+                      errors.speicalInstructions
+                        ? "Please Enter speicalInstructions"
+                        : "Speical Instrcution"
+                    }
+                    value={Stores.testMasterStore.testMaster?.speicalInstructions}
+                    onChange={(speicalInstructions) => {
+                      onChange(speicalInstructions)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        speicalInstructions: speicalInstructions.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="speicalInstructions"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="speicalInstructions"
-              rules={{ required: false }}
-              defaultValue=""
-            />
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Disease"
                 placeholder="Disease"
@@ -815,129 +838,144 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Disease" hasError={errors.disease}>
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const disease = e.target.value as string
-                    onChange(disease)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      disease,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "DISEASE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="disease"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Disease"
+                    hasError={errors.disease}
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const disease = e.target.value as string
+                        onChange(disease)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          disease,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "DISEASE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="disease"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Category" hasError={errors.category}>
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const category = e.target.value as string
-                    onChange(category)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      category,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "CATEGORY").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="category"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Category"
+                    hasError={errors.category}
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const category = e.target.value as string
+                        onChange(category)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          category,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "CATEGORY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="category"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Test Type" hasError={errors.testType}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.testType
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const testType = e.target.value as string
-                    onChange(testType)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      testType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "TEST_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="testType"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Test Type"
+                    hasError={errors.testType}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.testType
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const testType = e.target.value as string
+                        onChange(testType)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          testType,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "TEST_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="testType"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Workflow Code" hasError={errors.workflowCode}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.workflowCode
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const workflowCode = e.target.value as string
-                    onChange(workflowCode)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      workflowCode,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Workflow Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="workflowCode"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Workflow Code"
+                    hasError={errors.workflowCode}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.workflowCode
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const workflowCode = e.target.value as string
+                        onChange(workflowCode)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          workflowCode,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["Workflow Code 1"].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="workflowCode"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Worklist Code">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -958,22 +996,24 @@ const TestMater = observer(() => {
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper> */}
               <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="CPT Code"
-                placeholder={errors.cptCode?"Please Enter cptCode":"CPT Code"}
-                hasError={errors.cptCode}
-                value={Stores.testMasterStore.testMaster?.cptCode}
-                onChange={(cptCode) => {
-                  onChange(cptCode)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    cptCode: cptCode.toUpperCase(),
-                  })
-                }}
-              />
-              )}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="CPT Code"
+                    placeholder={
+                      errors.cptCode ? "Please Enter cptCode" : "CPT Code"
+                    }
+                    hasError={errors.cptCode}
+                    value={Stores.testMasterStore.testMaster?.cptCode}
+                    onChange={(cptCode) => {
+                      onChange(cptCode)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        cptCode: cptCode.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
                 name="cptCode"
                 rules={{ required: false }}
                 defaultValue=""
@@ -981,88 +1021,100 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Prefix" hasError={errors.prefix}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.prefix
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const prefix = e.target.value
-                    onChange(prefix)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      prefix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "PREFIX").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="prefix"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sufix" hasError={errors.sufix}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.sufix
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const sufix = e.target.value
-                    onChange(sufix)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      sufix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SUFIX").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="sufix"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Delevery Schedule"
-                placeholder={errors.deleverySchedule?"Please Enter deleverySchedule":"Delevery Schedule"}
-                hasError={errors.deleverySchedule}
-                value={Stores.testMasterStore.testMaster?.deleverySchedule}
-                onChange={(deleverySchedule) => {
-                  onChange(deleverySchedule)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    deleverySchedule: deleverySchedule.toUpperCase(),
-                  })
-                }}
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Prefix"
+                    hasError={errors.prefix}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.prefix
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const prefix = e.target.value
+                        onChange(prefix)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          prefix,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "PREFIX"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="prefix"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sufix"
+                    hasError={errors.sufix}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.sufix
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const sufix = e.target.value
+                        onChange(sufix)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          sufix,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "SUFIX"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="sufix"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Delevery Schedule"
+                    placeholder={
+                      errors.deleverySchedule
+                        ? "Please Enter deleverySchedule"
+                        : "Delevery Schedule"
+                    }
+                    hasError={errors.deleverySchedule}
+                    value={Stores.testMasterStore.testMaster?.deleverySchedule}
+                    onChange={(deleverySchedule) => {
+                      onChange(deleverySchedule)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        deleverySchedule: deleverySchedule.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
                 name="deleverySchedule"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1070,105 +1122,105 @@ const TestMater = observer(() => {
 
               <LibraryComponents.Atoms.Grid cols={5}>
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Instant Result"
-                  hasError={errors.instantResult}
-                  value={Stores.testMasterStore.testMaster?.instantResult}
-                  onChange={(instantResult) => {
-                    onChange(instantResult)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      instantResult,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Instant Result"
+                      hasError={errors.instantResult}
+                      value={Stores.testMasterStore.testMaster?.instantResult}
+                      onChange={(instantResult) => {
+                        onChange(instantResult)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          instantResult,
+                        })
+                      }}
+                    />
+                  )}
+                  name="instantResult"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="instantResult"
-                rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Accredited"
-                  hasError={errors.accredited}
-                  value={Stores.testMasterStore.testMaster?.accredited}
-                  onChange={(accredited) => {
-                    onChange(accredited)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      accredited,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Accredited"
+                      hasError={errors.accredited}
+                      value={Stores.testMasterStore.testMaster?.accredited}
+                      onChange={(accredited) => {
+                        onChange(accredited)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          accredited,
+                        })
+                      }}
+                    />
+                  )}
+                  name="accredited"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="accredited"
-                rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Cretical"
-                  hasError={errors.cretical}
-                  value={Stores.testMasterStore.testMaster?.cretical}
-                  onChange={(cretical) => {
-                    onChange(cretical)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      cretical,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Cretical"
+                      hasError={errors.cretical}
+                      value={Stores.testMasterStore.testMaster?.cretical}
+                      onChange={(cretical) => {
+                        onChange(cretical)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          cretical,
+                        })
+                      }}
+                    />
+                  )}
+                  name="cretical"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="cretical"
-                rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Repetition"
-                  hasError={errors.repitation}
-                  value={Stores.testMasterStore.testMaster?.repitation}
-                  onChange={(repitation) => {
-                    onChange(repitation)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      repitation,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Repetition"
+                      hasError={errors.repitation}
+                      value={Stores.testMasterStore.testMaster?.repitation}
+                      onChange={(repitation) => {
+                        onChange(repitation)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          repitation,
+                        })
+                      }}
+                    />
+                  )}
+                  name="repitation"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="repitation"
-                rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Print Label"
-                  hasError={errors.printLabel}
-                  value={Stores.testMasterStore.testMaster?.printLabel}
-                  onChange={(printLabel) => {
-                    onChange(printLabel)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      printLabel,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Print Label"
+                      hasError={errors.printLabel}
+                      value={Stores.testMasterStore.testMaster?.printLabel}
+                      onChange={(printLabel) => {
+                        onChange(printLabel)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          printLabel,
+                        })
+                      }}
+                    />
+                  )}
+                  name="printLabel"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="printLabel"
-                rules={{ required: false }}
-                defaultValue=""
-              />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -1177,8 +1229,6 @@ const TestMater = observer(() => {
               justify="stretch"
               fill
             >
-              
-              
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Collection Container">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -1201,20 +1251,24 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Holding Days"
-                placeholder={errors.holdingDays?"Please Enter holdingDays":"Holding Days"}
-                hasError={errors.holdingDays}
-                value={Stores.testMasterStore.testMaster?.holdingDays}
-                onChange={(holdingDays) => {
-                  onChange(holdingDays)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    holdingDays: holdingDays.toUpperCase(),
-                  })
-                }}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Holding Days"
+                    placeholder={
+                      errors.holdingDays
+                        ? "Please Enter holdingDays"
+                        : "Holding Days"
+                    }
+                    hasError={errors.holdingDays}
+                    value={Stores.testMasterStore.testMaster?.holdingDays}
+                    onChange={(holdingDays) => {
+                      onChange(holdingDays)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        holdingDays: holdingDays.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
                 name="holdingDays"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1222,49 +1276,57 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
-                <select
-                  value={Stores.testMasterStore.testMaster?.status}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.status
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const status = e.target.value
-                    onChange(status)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      status,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "STATUS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="status"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder={errors.dateCreation?"Please Enter dateCreation":"Entered By"}
-                hasError={errors.dateCreation}
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Status"
+                    hasError={errors.status}
+                  >
+                    <select
+                      value={Stores.testMasterStore.testMaster?.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value
+                        onChange(status)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          status,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Entered By"
+                    placeholder={
+                      errors.dateCreation
+                        ? "Please Enter dateCreation"
+                        : "Entered By"
+                    }
+                    hasError={errors.dateCreation}
+                    value={LoginStore.loginStore.login?.userId}
+                    disabled={true}
+                  />
+                )}
                 name="dateCreation"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1272,16 +1334,20 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder={errors.dateCreation?"Please Enter dateCreation":"Date Creation"}
-                hasError={errors.dateCreation}
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Creation"
+                    placeholder={
+                      errors.dateCreation
+                        ? "Please Enter dateCreation"
+                        : "Date Creation"
+                    }
+                    hasError={errors.dateCreation}
+                    value={LibraryUtils.moment
+                      .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
                 name="dateCreation"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1289,16 +1355,20 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder={errors.dateActiveFrom?"Please Enter dateActiveFrom":"Date Active"}
-                hasError={errors.dateActiveFrom}
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Active"
+                    placeholder={
+                      errors.dateActiveFrom
+                        ? "Please Enter dateActiveFrom"
+                        : "Date Active"
+                    }
+                    hasError={errors.dateActiveFrom}
+                    value={LibraryUtils.moment
+                      .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
                 name="dateActiveFrom"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1306,23 +1376,27 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder={errors.dateActiveTo?"Please Enter dateActiveTo":"Date Expire"}
-                hasError={errors.dateActiveTo}
-                value={LibraryUtils.moment
-                  .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  onChange(schedule)
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Expire"
+                    placeholder={
+                      errors.dateActiveTo
+                        ? "Please Enter dateActiveTo"
+                        : "Date Expire"
+                    }
+                    hasError={errors.dateActiveTo}
+                    value={LibraryUtils.moment
+                      .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
+                      .format("YYYY-MM-DD")}
+                    onChange={(e) => {
+                      const schedule = new Date(e.target.value)
+                      onChange(schedule)
+                      Stores.testMasterStore.updateTestMaster({
+                        ...Stores.testMasterStore.testMaster,
+                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      })
+                    }}
+                  />
+                )}
                 name="dateActiveTo"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1330,14 +1404,14 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder={errors.version?"Please Enter version":"Version"}
-                hasError={errors.version}
-                value={Stores.testMasterStore.testMaster?.version}
-                disabled={true}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Version"
+                    placeholder={errors.version ? "Please Enter version" : "Version"}
+                    hasError={errors.version}
+                    value={Stores.testMasterStore.testMaster?.version}
+                    disabled={true}
+                  />
+                )}
                 name="version"
                 rules={{ required: false }}
                 defaultValue=""
@@ -1345,186 +1419,189 @@ const TestMater = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder={errors.keyNum?"Please Enter keyNum":"Key Num"}
-                hasError={errors.keyNum}
-                value={Stores.testMasterStore.testMaster?.keyNum}
-                disabled={true}
-              />
-              )}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Key Num"
+                    placeholder={errors.keyNum ? "Please Enter keyNum" : "Key Num"}
+                    hasError={errors.keyNum}
+                    value={Stores.testMasterStore.testMaster?.keyNum}
+                    disabled={true}
+                  />
+                )}
                 name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
               <Controller
-                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
-                <select
-                  value={Stores.testMasterStore.testMaster?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Environment"
+                    hasError={errors.environment}
+                  >
+                    <select
+                      value={Stores.testMasterStore.testMaster?.environment}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.testMasterStore.testMaster?.environment}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="environment"
-              rules={{ required: true }}
-              defaultValue=""
-             />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
               <LibraryComponents.Atoms.Grid cols={6}>
-              <Controller
-                 control={control}
-                  render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Method"
-                  hasError={errors.method}
-                  value={Stores.testMasterStore.testMaster?.method}
-                  onChange={(method) => {
-                    onChange(method)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      method,
-                    })
-                  }}
-                />
-                )}
-                name="method"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                 control={control}
-                  render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Cumulative"
-                  hasError={errors.cumulative}
-                  value={Stores.testMasterStore.testMaster?.cumulative}
-                  onChange={(cumulative) => {
-                    onChange(cumulative)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      cumulative,
-                    })
-                  }}
-                />
-                )}
-                name="cumulative"
-                rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                 control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="QC Hold"
-                  hasError={errors.qcHold}
-                  value={Stores.testMasterStore.testMaster?.qcHold}
-                  onChange={(qcHold) => {
-                    onChange(qcHold)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      qcHold,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Method"
+                      hasError={errors.method}
+                      value={Stores.testMasterStore.testMaster?.method}
+                      onChange={(method) => {
+                        onChange(method)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          method,
+                        })
+                      }}
+                    />
+                  )}
+                  name="method"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                 name="qcHold"
-                 rules={{ required: false }}
-                 defaultValue=""
-               />
                 <Controller
-                 control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="OOS Hold"
-                  hasError={errors.oosHold}
-                  value={Stores.testMasterStore.testMaster?.oosHold}
-                  onChange={(oosHold) => {
-                    onChange(oosHold)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      oosHold,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Cumulative"
+                      hasError={errors.cumulative}
+                      value={Stores.testMasterStore.testMaster?.cumulative}
+                      onChange={(cumulative) => {
+                        onChange(cumulative)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          cumulative,
+                        })
+                      }}
+                    />
+                  )}
+                  name="cumulative"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-               name=" oosHold"
-               rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                 control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Delta Hold"
-                  hasError={errors.deltaHold}
-                  value={Stores.testMasterStore.testMaster?.deltaHold}
-                  onChange={(deltaHold) => {
-                    onChange(deltaHold)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      deltaHold,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="QC Hold"
+                      hasError={errors.qcHold}
+                      value={Stores.testMasterStore.testMaster?.qcHold}
+                      onChange={(qcHold) => {
+                        onChange(qcHold)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          qcHold,
+                        })
+                      }}
+                    />
+                  )}
+                  name="qcHold"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-               name="deltaHold"
-               rules={{ required: false }}
-                defaultValue=""
-              />
                 <Controller
-                 control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Allow Partial"
-                  hasError={errors.allowPartial}
-                  value={Stores.testMasterStore.testMaster?.allowPartial}
-                  onChange={(allowPartial) => {
-                    onChange(allowPartial)
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
-                      allowPartial,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="OOS Hold"
+                      hasError={errors.oosHold}
+                      value={Stores.testMasterStore.testMaster?.oosHold}
+                      onChange={(oosHold) => {
+                        onChange(oosHold)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          oosHold,
+                        })
+                      }}
+                    />
+                  )}
+                  name=" oosHold"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-               name="allowPartial"
-              rules={{ required: false }}
-                 defaultValue=""
-               />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Delta Hold"
+                      hasError={errors.deltaHold}
+                      value={Stores.testMasterStore.testMaster?.deltaHold}
+                      onChange={(deltaHold) => {
+                        onChange(deltaHold)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          deltaHold,
+                        })
+                      }}
+                    />
+                  )}
+                  name="deltaHold"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Allow Partial"
+                      hasError={errors.allowPartial}
+                      value={Stores.testMasterStore.testMaster?.allowPartial}
+                      onChange={(allowPartial) => {
+                        onChange(allowPartial)
+                        Stores.testMasterStore.updateTestMaster({
+                          ...Stores.testMasterStore.testMaster,
+                          allowPartial,
+                        })
+                      }}
+                    />
+                  )}
+                  name="allowPartial"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -1556,7 +1633,7 @@ const TestMater = observer(() => {
             data={Stores.testMasterStore.listTestMaster || []}
             totalSize={Stores.testMasterStore.listTestMasterCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -1604,8 +1681,8 @@ const TestMater = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.testMasterStore.fetchTestMaster(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.testMasterStore.fetchTestMaster(page, limit)
             }}
           />
         </div>
@@ -1613,11 +1690,9 @@ const TestMater = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.testMasterStore.testMasterService
                 .deleteTestMaster(modalConfirm.id)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Test master deleted.`,
@@ -1627,11 +1702,9 @@ const TestMater = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.testMasterStore.testMasterService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Test master updated.`,

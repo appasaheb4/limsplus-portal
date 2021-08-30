@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react"
+/* eslint-disable */
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -6,25 +7,22 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
-
 
 const SampleContainer = observer(() => {
   const {
     control,
     formState: { errors },
     handleSubmit,
-    setValue
+    setValue,
   } = useForm()
 
-  const {
-		loginStore,
-	} = useStores();
-  
+  const { loginStore } = useStores()
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
@@ -38,13 +36,11 @@ const SampleContainer = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitSampleContainer = () =>{
+  const onSubmitSampleContainer = () => {
     if (Stores.sampleContainerStore.sampleContainer) {
-      
       Stores.sampleContainerStore.sampleContainerService
         .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
         .then((res) => {
-          
           if (res.status === LibraryModels.StatusCode.CREATED) {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Sample container created.`,
@@ -90,68 +86,80 @@ const SampleContainer = observer(() => {
             >
               <Controller
                 control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Container Code"
-                hasError={errors.containerCode}
-                placeholder={errors.containerCode ? "Please Enter Container Code " : "Conatiner Code"}
-                value={Stores.sampleContainerStore.sampleContainer?.containerCode}
-                onChange={(containerCode) => {
-                 onChange(containerCode)
-                  Stores.sampleContainerStore.updateSampleContainer({
-                    ...Stores.sampleContainerStore.sampleContainer,
-                    containerCode:containerCode.toUpperCase()
-                  })
-                }}
-              />
-              )}
-                 name="containerCode"
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Container Code"
+                    hasError={errors.containerCode}
+                    placeholder={
+                      errors.containerCode
+                        ? "Please Enter Container Code "
+                        : "Conatiner Code"
+                    }
+                    value={
+                      Stores.sampleContainerStore.sampleContainer?.containerCode
+                    }
+                    onChange={(containerCode) => {
+                      onChange(containerCode)
+                      Stores.sampleContainerStore.updateSampleContainer({
+                        ...Stores.sampleContainerStore.sampleContainer,
+                        containerCode: containerCode.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="containerCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
 
-          <Controller
-             control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Container Name"
-                hasError={errors.containerName}
-                placeholder={errors.containerName ? "Please Enter Container Name" : "Container Name"}
-                value={Stores.sampleContainerStore.sampleContainer?.containerName}
-                onChange={(containerName) => {
-                  onChange(containerName)
-                  Stores.sampleContainerStore.updateSampleContainer({
-                    ...Stores.sampleContainerStore.sampleContainer,
-                    containerName:containerName.toUpperCase()
-                  })
-                }}
-              />
-              )}
-               name="containerName"
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Container Name"
+                    hasError={errors.containerName}
+                    placeholder={
+                      errors.containerName
+                        ? "Please Enter Container Name"
+                        : "Container Name"
+                    }
+                    value={
+                      Stores.sampleContainerStore.sampleContainer?.containerName
+                    }
+                    onChange={(containerName) => {
+                      onChange(containerName)
+                      Stores.sampleContainerStore.updateSampleContainer({
+                        ...Stores.sampleContainerStore.sampleContainer,
+                        containerName: containerName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="containerName"
                 rules={{ required: true }}
                 defaultValue=""
-             />
-             <Controller
-                control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputFile
-                label="Image"
-                placeholder={errors.image?"Please Insert Image":"Image"}
-                hasError={errors.image}
-                onChange={(e) => {
-                  const image = e.target.files[0]
-                  onChange(image)
-                  Stores.sampleContainerStore.updateSampleContainer({
-                    ...Stores.sampleContainerStore.sampleContainer,
-                    image,
-                  })
-                }}
               />
-              )}
-               name="image"
-                rules={{ required: false }}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputFile
+                    label="Image"
+                    placeholder={errors.image ? "Please Insert Image" : "Image"}
+                    hasError={errors.image}
+                    onChange={(e) => {
+                      const image = e.target.files[0]
+                      onChange(image)
+                      Stores.sampleContainerStore.updateSampleContainer({
+                        ...Stores.sampleContainerStore.sampleContainer,
+                        image,
+                      })
+                    }}
+                  />
+                )}
+                name="image"
+                rules={{ required: true }}
                 defaultValue=""
-             />
+              />
             </LibraryComponents.Atoms.List>
 
             <LibraryComponents.Atoms.List
@@ -162,72 +170,77 @@ const SampleContainer = observer(() => {
             >
               <Controller
                 control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={5}
-                label="Description"
-                hasError={errors.description}
-                placeholder={errors.description?"Please Enter Description":"Description"}
-                value={Stores.sampleContainerStore.sampleContainer?.description}
-                onChange={(description) => {
-                  onChange(description)
-                  Stores.sampleContainerStore.updateSampleContainer({
-                    ...Stores.sampleContainerStore.sampleContainer,
-                    description,
-                  })
-                }}
-              />
-              )}
-               name="description"
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={5}
+                    label="Description"
+                    hasError={errors.description}
+                    placeholder={
+                      errors.description ? "Please Enter Description" : "Description"
+                    }
+                    value={Stores.sampleContainerStore.sampleContainer?.description}
+                    onChange={(description) => {
+                      onChange(description)
+                      Stores.sampleContainerStore.updateSampleContainer({
+                        ...Stores.sampleContainerStore.sampleContainer,
+                        description,
+                      })
+                    }}
+                  />
+                )}
+                name="description"
                 rules={{ required: false }}
                 defaultValue=""
-             />
+              />
               <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.sampleContainerStore.sampleContainer?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.sampleContainerStore.updateSampleContainer({
-                      ...Stores.sampleContainerStore.sampleContainer,
-                      environment,
-                    })
-                  }}
-                >
-                 <option selected>
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={
+                        Stores.sampleContainerStore.sampleContainer?.environment
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.sampleContainerStore.updateSampleContainer({
+                          ...Stores.sampleContainerStore.sampleContainer,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.sampleContainerStore.sampleContainer?.environment}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -253,13 +266,13 @@ const SampleContainer = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />  
+        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleContainerList
             data={Stores.sampleContainerStore.listSampleContainer || []}
             totalSize={Stores.sampleContainerStore.listSampleContainerCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -289,8 +302,8 @@ const SampleContainer = observer(() => {
                 body: `Update item!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.sampleContainerStore.fetchListSampleContainer(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.sampleContainerStore.fetchListSampleContainer(page, limit)
             }}
           />
         </div>
@@ -298,30 +311,30 @@ const SampleContainer = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              
-              Stores.sampleContainerStore.sampleContainerService.deleteSampleContainer(modalConfirm.id).then(
-                (res: any) => {
-                  
+              Stores.sampleContainerStore.sampleContainerService
+                .deleteSampleContainer(modalConfirm.id)
+                .then((res: any) => {
                   if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({message:`😊 Records deleted.`})
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Records deleted.`,
+                    })
                     setModalConfirm({ show: false })
                     Stores.sampleContainerStore.fetchListSampleContainer()
                   }
-                }
-              )
+                })
             } else if (type === "Update") {
-              
-              Stores.sampleContainerStore.sampleContainerService.updateSingleFiled(
-                modalConfirm.data
-              ).then((res: any) => {
-                
-                if (res.status === 200) {
-                  LibraryComponents.Atoms.Toast.success({message:`😊 Record updated.`})
-                  setModalConfirm({ show: false })
-                  Stores.sampleContainerStore.fetchListSampleContainer()
-                  window.location.reload();
-                }
-              })
+              Stores.sampleContainerStore.sampleContainerService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Record updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.sampleContainerStore.fetchListSampleContainer()
+                    window.location.reload()
+                  }
+                })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
