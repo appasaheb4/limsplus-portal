@@ -23,13 +23,24 @@ const CorporateClients = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
+
   const {
 		loginStore,
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.corporateClientsStore.updateCorporateClients({
+        ...Stores.corporateClientsStore.corporateClients,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitCoporateClients = () =>{
     if (Stores.corporateClientsStore.corporateClients) {
       Stores.corporateClientsStore.corporateClientsService
@@ -970,6 +981,12 @@ const CorporateClients = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.corporateClientsStore.corporateClients?.environment}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment
                       ? "border-red-500  focus:border-red-500"
@@ -984,7 +1001,12 @@ const CorporateClients = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.corporateClientsStore.corporateClients?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

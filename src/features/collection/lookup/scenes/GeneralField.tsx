@@ -25,11 +25,22 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
 
   useEffect(() => {
     console.log({ store: LookupStore.lookupStore.listLookup })
+
   }, [LookupStore.lookupStore.listLookup])
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.lookupStore.LookupService.generalSettingsUpdate({
+        ...Stores.lookupStore.globalSettings,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitGeneralFiled = (data: any) => {
     Stores.lookupStore.LookupService.generalSettingsUpdate({
@@ -315,8 +326,14 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 <select
                   value={Stores.lookupStore.globalSettings?.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.defaultLab ? "border-red-500" : "border-gray-300"
+                    errors.environment ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -326,7 +343,12 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.lookupStore.globalSettings?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(
                     stores.routerStore.lookupItems,
                     "ENVIRONMENT"

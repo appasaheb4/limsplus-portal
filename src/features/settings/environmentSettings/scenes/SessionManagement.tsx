@@ -28,8 +28,17 @@ const SessionManagement = observer((props: SessionManagementProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
-
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.enviromentSettingsStore.updateSessionManagement({
+        ...Stores.enviromentSettingsStore.sessionManagement,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitSessionManagement = () => {
     Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
       Stores.enviromentSettingsStore.sessionManagement as Models.SessionManagement
@@ -254,6 +263,12 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                         ? "border-red-500  focus:border-red-500"
                         : "border-gray-300"
                     } rounded-md`}
+                    disabled={
+                      stores.loginStore.login &&
+                      stores.loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
                     onChange={(e) => {
                       const environment = e.target.value
                       onChange(environment)
@@ -263,7 +278,12 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                       })
                     }}
                   >
-                    <option selected>Select</option>
+                    <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.enviromentSettingsStore.sessionManagement?.environment}
+                      </option>
                     {LibraryUtils.lookupItems(
                       stores.routerStore.lookupItems,
                       "SESSION_ENVIRONMENT"

@@ -57,6 +57,15 @@ export const Users = observer(() => {
     }
   }, [routerStore.lookupItems])
 
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.userStore.updateUser({
+        ...Stores.userStore.user,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitUser = (data: any) => {
     if (!Stores.userStore.checkExitsUserId && !Stores.userStore.checkExistsEmpCode) {
       Stores.userStore.UsersService.addUser({
@@ -839,7 +848,11 @@ export const Users = observer(() => {
                     <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                       <select
                         value={Stores.userStore.user?.status}
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.status
+                            ? "border-red-500  focus:border-red-500"
+                            : "border-gray-300"
+                        } rounded-md`}
                         onChange={(e) => {
                           const status = e.target.value
                           onChange(status)
@@ -868,7 +881,17 @@ export const Users = observer(() => {
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                   <select
                     value={Stores.userStore.user?.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    disabled={
+                      stores.loginStore.login &&
+                      stores.loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.environment
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
                     onChange={(e) => {
                       const environment = e.target.value
                       Stores.userStore.updateUser({
@@ -877,7 +900,12 @@ export const Users = observer(() => {
                       })
                     }}
                   >
-                    <option selected>Select</option>
+                    <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.userStore.user?.environment}
+                      </option>
                     {LibraryUtils.lookupItems(
                       routerStore.lookupItems,
                       "ENVIRONMENT"

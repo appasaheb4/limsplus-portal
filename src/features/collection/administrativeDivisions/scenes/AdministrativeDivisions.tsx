@@ -18,6 +18,7 @@ export const AdministrativeDivisions = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
   const {
 		loginStore,
@@ -25,7 +26,15 @@ export const AdministrativeDivisions = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   
-
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.administrativeDivStore.updateAdministrativeDiv({
+        ...Stores.administrativeDivStore.administrativeDiv,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitAdministrativeDivision = () =>{ 
     if (Stores.administrativeDivStore.administrativeDiv) {
@@ -295,6 +304,12 @@ export const AdministrativeDivisions = observer(() => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.administrativeDivStore.administrativeDiv?.environment}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment
                       ? "border-red-500  focus:border-red-500"
@@ -309,7 +324,12 @@ export const AdministrativeDivisions = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.administrativeDivStore.administrativeDiv?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
