@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
@@ -23,14 +23,11 @@ const MasterAnalyte = observer(() => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
- 
-  
-  const onSubmitMasterAnalyte = () =>{
+
+  const onSubmitMasterAnalyte = () => {
     if (Stores.masterAnalyteStore.masterAnalyte) {
       if (
         !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
@@ -42,7 +39,6 @@ const MasterAnalyte = observer(() => {
             enteredBy: LoginStore.loginStore.login?._id,
           })
           .then(() => {
-            
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Analyte master created.`,
             })
@@ -57,7 +53,6 @@ const MasterAnalyte = observer(() => {
             enteredBy: LoginStore.loginStore.login?._id,
           })
           .then(() => {
-            
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Analyte master version upgrade.`,
             })
@@ -72,12 +67,11 @@ const MasterAnalyte = observer(() => {
             enteredBy: LoginStore.loginStore.login?._id,
           })
           .then(() => {
-            
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Analyte master duplicate created.`,
             })
           })
-      }  
+      }
       setTimeout(() => {
         window.location.reload()
       }, 2000)
@@ -118,306 +112,319 @@ const MasterAnalyte = observer(() => {
             >
               <Controller
                 control={control}
-                 render={({ field: { onChange } }) => (
-
-                <LibraryComponents.Atoms.Form.InputWrapper 
-                label="Lab"
-                hasError={errors.lab}
-                >
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.lab}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.lab
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const lab = e.target.value as string
-                   onChange(lab)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      lab,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="lab"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-              <Controller
-                 control={control}
-                 render={({ field: { onChange } }) => (
-             <LibraryComponents.Atoms.Form.Input
-                label="Analyte Code"
-                name="txtAnalyteCode"
-                hasError={errors.analyteCode}
-                placeholder={errors.analyteCode ? "Please Enter Analyte Code" : "Analyte Code"}
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
-                onChange={(analyteCode) => {
-                 onChange(analyteCode)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteCode: analyteCode.toUpperCase(),
-                  })
-                }}
-              />
-              )}
-               name="analyte Code"
-              rules={{ required: true }}
-              defaultValue=""
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Lab"
+                    hasError={errors.lab}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.lab}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.lab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const lab = e.target.value as string
+                        onChange(lab)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          lab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LabStores.labStore.listLabs.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="lab"
+                rules={{ required: true }}
+                defaultValue=""
               />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Analyte Name"
-                name="txtAnalyteName"
-                placeholder="Analyte Name"
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
-                onChange={(analyteName) => {
-                  onChange()
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteName: analyteName.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Analyte Code"
+                    name="txtAnalyteCode"
+                    hasError={errors.analyteCode}
+                    placeholder={
+                      errors.analyteCode
+                        ? "Please Enter Analyte Code"
+                        : "Analyte Code"
+                    }
+                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
+                    onChange={(analyteCode) => {
+                      onChange(analyteCode)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        analyteCode: analyteCode.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="analyte Code"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-             name="analyteName"
-             rules={{ required: false }}
-             defaultValue=""
-            />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.MultilineInput
-                rows={3}
-                label="Description"
-                name="txtDescription"
-                placeholder={errors.description ? "Please Enter Description " : "Description"}
-                hasError={errors.description}
-                value={Stores.masterAnalyteStore.masterAnalyte?.description}
-                onChange={(description) => {
-                  onChange(description)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    description,
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Analyte Name"
+                    name="txtAnalyteName"
+                    placeholder="Analyte Name"
+                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
+                    onChange={(analyteName) => {
+                      onChange()
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        analyteName: analyteName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="analyteName"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="description"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Analyte Method"
-                name="txtAnalyteMethod"
-                placeholder={errors.analyteMethod ? "Please Enter Analyte Method" : "Analyte Method"}
-                hasError={errors.analyteMethod}
-                value={Stores.masterAnalyteStore.masterAnalyte?.analyteMethod}
-                onChange={(analyteMethod) => {
-                  onChange(analyteMethod)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    analyteMethod,
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={3}
+                    label="Description"
+                    name="txtDescription"
+                    placeholder={
+                      errors.description
+                        ? "Please Enter Description "
+                        : "Description"
+                    }
+                    hasError={errors.description}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.description}
+                    onChange={(description) => {
+                      onChange(description)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        description,
+                      })
+                    }}
+                  />
+                )}
+                name="description"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="analyteMethod"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (      
-              <LibraryComponents.Atoms.Form.Input
-                label="Short Name"
-                name="txtShortName" 
-                placeholder={errors.shortName ? "Please Enter Short Name" : "Short Name"}
-                hasError={errors.shortName}
-                value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
-                onChange={(shortName) => {
-                  onChange(shortName)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    shortName: shortName.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Analyte Method"
+                    name="txtAnalyteMethod"
+                    placeholder={
+                      errors.analyteMethod
+                        ? "Please Enter Analyte Method"
+                        : "Analyte Method"
+                    }
+                    hasError={errors.analyteMethod}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteMethod}
+                    onChange={(analyteMethod) => {
+                      onChange(analyteMethod)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        analyteMethod,
+                      })
+                    }}
+                  />
+                )}
+                name="analyteMethod"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="shortName"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Price"
-                name="txtPrice"
-                placeholder={errors.price ? "Please Enter Price" : "Price"}
-                type="number"
-                hasError={errors.price}
-                value={Stores.masterAnalyteStore.masterAnalyte?.price}
-                onChange={(price) => {
-                  onChange(price)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    price,
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Short Name"
+                    name="txtShortName"
+                    placeholder={
+                      errors.shortName ? "Please Enter Short Name" : "Short Name"
+                    }
+                    hasError={errors.shortName}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
+                    onChange={(shortName) => {
+                      onChange(shortName)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        shortName: shortName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="shortName"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="price"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="High"
-                name="txtHigh"
-                placeholder={errors.high ? "Please Enter High" : "High"}
-                hasError={errors.high}
-                value={Stores.masterAnalyteStore.masterAnalyte?.high}
-                onChange={(high) => {
-                  onChange(high)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    high: high.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Price"
+                    name="txtPrice"
+                    placeholder={errors.price ? "Please Enter Price" : "Price"}
+                    type="number"
+                    hasError={errors.price}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.price}
+                    onChange={(price) => {
+                      onChange(price)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        price,
+                      })
+                    }}
+                  />
+                )}
+                name="price"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="high"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Low"
-                name="txtLow"
-                placeholder={errors.low ? "Please Enter low" : "Low"}
-                hasError={errors.low}
-                value={Stores.masterAnalyteStore.masterAnalyte?.low}
-                onChange={(low) => {
-                  onChange(low)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    low: low.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="High"
+                    name="txtHigh"
+                    placeholder={errors.high ? "Please Enter High" : "High"}
+                    hasError={errors.high}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.high}
+                    onChange={(high) => {
+                      onChange(high)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        high: high.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="high"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="low"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-              
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Low"
+                    name="txtLow"
+                    placeholder={errors.low ? "Please Enter low" : "Low"}
+                    hasError={errors.low}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.low}
+                    onChange={(low) => {
+                      onChange(low)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        low: low.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="low"
+                rules={{ required: false }}
+                defaultValue=""
+              />
 
               <LibraryComponents.Atoms.Grid cols={5}>
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                  label="Method"
-                  id="modeMethod"
-                  hasError={errors.method}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.method}
-                  onChange={(method) => {
-                    onChange(method)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      method,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Method"
+                      id="modeMethod"
+                      hasError={errors.method}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.method}
+                      onChange={(method) => {
+                        onChange(method)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          method,
+                        })
+                      }}
+                    />
+                  )}
+                  name="method"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="method"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Bill"
-                  id="modeBill"
-                  hasError={errors.bill}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.bill}
-                  onChange={(bill) => {
-                    onChange(bill)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      bill,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Bill"
+                      id="modeBill"
+                      hasError={errors.bill}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.bill}
+                      onChange={(bill) => {
+                        onChange(bill)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          bill,
+                        })
+                      }}
+                    />
+                  )}
+                  name="bill"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="bill"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Display"
-                  id="modeDisplay"
-                  hasError={errors.display}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.display}
-                  onChange={(display) => {
-                    onChange(display)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      display,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Display"
+                      id="modeDisplay"
+                      hasError={errors.display}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.display}
+                      onChange={(display) => {
+                        onChange(display)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          display,
+                        })
+                      }}
+                    />
+                  )}
+                  name="display"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="display"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
-                  render={({ field: { onChange } }) => ( 
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Calculation Flag"
-                  id="modeCalculationFlag"
-                  hasError={errors.calculationFlag}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.calculationFlag}
-                  onChange={(calculationFlag) => {
-                    onChange(calculationFlag)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      calculationFlag,
-                    })
-                  }}
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Calculation Flag"
+                      id="modeCalculationFlag"
+                      hasError={errors.calculationFlag}
+                      value={
+                        Stores.masterAnalyteStore.masterAnalyte?.calculationFlag
+                      }
+                      onChange={(calculationFlag) => {
+                        onChange(calculationFlag)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          calculationFlag,
+                        })
+                      }}
+                    />
+                  )}
+                  name="calculationFlag"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="calculationFlag"
-                rules={{ required: false }}
-                defaultValue=""
-               />
-                
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
 
@@ -429,181 +436,197 @@ const MasterAnalyte = observer(() => {
             >
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Result Type" hasError={errors.resultType}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.resultType
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const resultType = e.target.value
-                    onChange( resultType)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      resultType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "RESULT_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name=" resultType"
-               rules={{ required: false }}
-               defaultValue=""
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Result Type"
+                    hasError={errors.resultType}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.resultType
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const resultType = e.target.value
+                        onChange(resultType)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          resultType,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "RESULT_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name=" resultType"
+                rules={{ required: false }}
+                defaultValue=""
               />
               <Controller
-              control={control}
+                control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type" hasError={errors.analyteType}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.analyteType
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const analyteType = e.target.value
-                    onChange(analyteType)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      analyteType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ANALYTE_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="analyteType"
-               rules={{ required: false }}
-               defaultValue=""
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Analyte Type"
+                    hasError={errors.analyteType}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.analyteType
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const analyteType = e.target.value
+                        onChange(analyteType)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          analyteType,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ANALYTE_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="analyteType"
+                rules={{ required: false }}
+                defaultValue=""
               />
               <Controller
-              control={control}
+                control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Units" hasError={errors.units}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.units}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.units
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const units = e.target.value as string
-                    onChange(units)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      units,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "UNITS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="units"
-               rules={{ required: false }}
-               defaultValue=""
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Units"
+                    hasError={errors.units}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.units}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.units
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const units = e.target.value as string
+                        onChange(units)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          units,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "UNITS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="units"
+                rules={{ required: false }}
+                defaultValue=""
               />
               <Controller
-              control={control}
+                control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Usage" hasError={errors.usage}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.usage}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.usage
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const usage = e.target.value
-                    onChange(usage)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      usage,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "USAGE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="usage"
-               rules={{ required: false }}
-               defaultValue=""
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Usage"
+                    hasError={errors.usage}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.usage}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.usage
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const usage = e.target.value
+                        onChange(usage)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          usage,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "USAGE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="usage"
+                rules={{ required: false }}
+                defaultValue=""
               />
               <Controller
-              control={control}
+                control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper
-                label="Picture"
-                id="optionPicture" 
-                hasError={errors.picture}
-              >
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.picture}
-                  name="optionPicture"
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.picture 
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const picture = e.target.value as "0" | "1" | "2" | "3"
-                    onChange(picture)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      picture,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["0", "1", "2", "3"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="picture"
-               rules={{ required: false }}
-               defaultValue=""
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Picture"
+                    id="optionPicture"
+                    hasError={errors.picture}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.picture}
+                      name="optionPicture"
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.picture
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const picture = e.target.value as "0" | "1" | "2" | "3"
+                        onChange(picture)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          picture,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {["0", "1", "2", "3"].map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="picture"
+                rules={{ required: false }}
+                defaultValue=""
               />
               {/* <LibraryComponents.Atoms.Form.InputDate
                 label="Schedule"
@@ -635,7 +658,7 @@ const MasterAnalyte = observer(() => {
                   })
                 }}
               /> */}
-              
+
               {/* <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
                 <select
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
@@ -685,169 +708,177 @@ const MasterAnalyte = observer(() => {
               </LibraryComponents.Atoms.Form.InputWrapper> */}
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Calcy Name"
-                name="txtCalcyName"
-                placeholder={errors.calcyName ? "Please Enter Calcy Name" : "Calcy Name"}
-                hasError={errors.calcyName}
-                value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
-                onChange={(calcyName) => {
-                  onChange(calcyName)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    calcyName: calcyName.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Calcy Name"
+                    name="txtCalcyName"
+                    placeholder={
+                      errors.calcyName ? "Please Enter Calcy Name" : "Calcy Name"
+                    }
+                    hasError={errors.calcyName}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
+                    onChange={(calcyName) => {
+                      onChange(calcyName)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        calcyName: calcyName.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="calcyName"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="calcyName"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="CPT Code"
-                name="txtCPTCode"
-                placeholder={errors.cptCode ? "Please Enter CPT Code" : "CPT Code"}
-                hasError={errors.cptCode}
-                value={Stores.masterAnalyteStore.masterAnalyte?.cptCode}
-                onChange={(cptCode) => {
-                  onChange(cptCode)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    cptCode: cptCode.toUpperCase(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="CPT Code"
+                    name="txtCPTCode"
+                    placeholder={
+                      errors.cptCode ? "Please Enter CPT Code" : "CPT Code"
+                    }
+                    hasError={errors.cptCode}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.cptCode}
+                    onChange={(cptCode) => {
+                      onChange(cptCode)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        cptCode: cptCode.toUpperCase(),
+                      })
+                    }}
+                  />
+                )}
+                name="cptCode"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="cptCode"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => ( 
-              <LibraryComponents.Atoms.Form.InputWrapper label="Status" hasError={errors.status}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.status}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.status
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const status = e.target.value
-                    onChange(status)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      status,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "STATUS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="status"
-               rules={{ required: false }}
-               defaultValue=""
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Status"
+                    hasError={errors.status}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value
+                        onChange(status)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          status,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              
+
               <LibraryComponents.Atoms.Grid cols={5}>
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                  label="AutoRelease"
-                  id="modeAutoRelease"
-                  hasError={errors.autoRelease}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.autoRelease}
-                  onChange={(autoRelease) => {
-                    onChange(autoRelease)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      autoRelease,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="AutoRelease"
+                      id="modeAutoRelease"
+                      hasError={errors.autoRelease}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.autoRelease}
+                      onChange={(autoRelease) => {
+                        onChange(autoRelease)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          autoRelease,
+                        })
+                      }}
+                    />
+                  )}
+                  name="autoRelease"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="autoRelease"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Hold OOS"
-                  id="modeHoldOOS"
-                  hasError={errors.holdOOS}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.holdOOS}
-                  onChange={(holdOOS) => {
-                    onChange(holdOOS)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      holdOOS,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Hold OOS"
+                      id="modeHoldOOS"
+                      hasError={errors.holdOOS}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.holdOOS}
+                      onChange={(holdOOS) => {
+                        onChange(holdOOS)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          holdOOS,
+                        })
+                      }}
+                    />
+                  )}
+                  name="holdOOS"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="holdOOS"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="InstantResult"
-                  id="modeInstantResult"
-                  hasError={errors.instantResult}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
-                  onChange={(instantResult) => {
-                    onChange(instantResult)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      instantResult,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="InstantResult"
+                      id="modeInstantResult"
+                      hasError={errors.instantResult}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
+                      onChange={(instantResult) => {
+                        onChange(instantResult)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          instantResult,
+                        })
+                      }}
+                    />
+                  )}
+                  name="instantResult"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="instantResult"
-                rules={{ required: false }}
-                defaultValue=""
-               />
                 <Controller
-                control={control}
+                  control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Toggle
-                  label="Repitation"
-                  id="modeRepitation"
-                  hasError={errors.repetition}
-                  value={Stores.masterAnalyteStore.masterAnalyte?.repetition}
-                  onChange={(repetition) => {
-                    onChange(repetition)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      repetition,
-                    })
-                  }}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Repitation"
+                      id="modeRepitation"
+                      hasError={errors.repetition}
+                      value={Stores.masterAnalyteStore.masterAnalyte?.repetition}
+                      onChange={(repetition) => {
+                        onChange(repetition)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          repetition,
+                        })
+                      }}
+                    />
+                  )}
+                  name="repetition"
+                  rules={{ required: false }}
+                  defaultValue=""
                 />
-                )}
-                name="repetition"
-                rules={{ required: false }}
-                defaultValue=""
-               />
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -856,144 +887,160 @@ const MasterAnalyte = observer(() => {
               justify="stretch"
               fill
             >
-              
-              
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Entered By"
-                placeholder={errors.keyNum ? "Please Enter Entered By" : "Entered By"}
-                hasError={errors.keyNum}
-                value={LoginStore.loginStore.login?.userId}
-                disabled={true}
-              />
-              )}
-              name="userId"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-              <Controller
-              control={control}
                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Creation"
-                placeholder={errors.keyNum ? "Please Enter Date Creation" : "Date Creation"}
-                hasError={errors.keyNum}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Entered By"
+                    placeholder={
+                      errors.keyNum ? "Please Enter Entered By" : "Entered By"
+                    }
+                    hasError={errors.keyNum}
+                    value={LoginStore.loginStore.login?.userId}
+                    disabled={true}
+                  />
+                )}
+                name="userId"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="dateCreation"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Active"
-                placeholder={errors.keyNum ? "Please Enter Date Active" : "Date Active"}
-                hasError={errors.keyNum}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0)
-                  .format("YYYY-MM-DD")}
-                disabled={true}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Creation"
+                    placeholder={
+                      errors.keyNum ? "Please Enter Date Creation" : "Date Creation"
+                    }
+                    hasError={errors.keyNum}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
+                name="dateCreation"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="dateActiveFrom"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputDate
-                label="Date Expire"
-                placeholder={errors.schedule ? "Please Enter schedule" : "Date Expire"}
-                hasError={errors.keyNum}
-                value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.dateActiveTo || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
-                    dateActiveTo: LibraryUtils.moment(schedule).unix(),
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Active"
+                    placeholder={
+                      errors.keyNum ? "Please Enter Date Active" : "Date Active"
+                    }
+                    hasError={errors.keyNum}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    disabled={true}
+                  />
+                )}
+                name="dateActiveFrom"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="schedule"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Version"
-                placeholder={errors.version ? "Please Enter Version" : "Version"}
-                hasError={errors.version}
-                value={Stores.masterAnalyteStore.masterAnalyte?.version}
-                disabled={true}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputDate
+                    label="Date Expire"
+                    placeholder={
+                      errors.schedule ? "Please Enter schedule" : "Date Expire"
+                    }
+                    hasError={errors.keyNum}
+                    value={LibraryUtils.moment
+                      .unix(
+                        Stores.masterAnalyteStore.masterAnalyte?.dateActiveTo || 0
+                      )
+                      .format("YYYY-MM-DD")}
+                    onChange={(e) => {
+                      const schedule = new Date(e.target.value)
+                      Stores.masterAnalyteStore.updateMasterAnalyte({
+                        ...Stores.masterAnalyteStore.masterAnalyte,
+                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      })
+                    }}
+                  />
+                )}
+                name="schedule"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="version"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Key Num"
-                placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                hasError={errors.keyNum}
-                value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
-                disabled={true}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Version"
+                    placeholder={errors.version ? "Please Enter Version" : "Version"}
+                    hasError={errors.version}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.version}
+                    disabled={true}
+                  />
+                )}
+                name="version"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="keyNum"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
                 control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
-                <select
-                  value={Stores.masterAnalyteStore.masterAnalyte?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-               )}
-               name="environment"
-               rules={{ required: true }}
-               defaultValue=""
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Key Num"
+                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
+                    hasError={errors.keyNum}
+                    value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
+                    disabled={true}
+                  />
+                )}
+                name="keyNum"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Environment"
+                    hasError={errors.environment}
+                  >
+                    <select
+                      value={Stores.masterAnalyteStore.masterAnalyte?.environment}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.masterAnalyteStore.updateMasterAnalyte({
+                          ...Stores.masterAnalyteStore.masterAnalyte,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
               />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
@@ -1026,7 +1073,7 @@ const MasterAnalyte = observer(() => {
             data={Stores.masterAnalyteStore.listMasterAnalyte || []}
             totalSize={Stores.masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -1073,8 +1120,8 @@ const MasterAnalyte = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.masterAnalyteStore.fetchAnalyteMaster(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.masterAnalyteStore.fetchAnalyteMaster(page, limit)
             }}
           />
         </div>
@@ -1082,11 +1129,9 @@ const MasterAnalyte = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.masterAnalyteStore.masterAnalyteService
                 .deleteAnalyteMaster(modalConfirm.id)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Analyte master deleted.`,
@@ -1096,11 +1141,9 @@ const MasterAnalyte = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.masterAnalyteStore.masterAnalyteService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Analyte master updated.`,

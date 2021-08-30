@@ -23,7 +23,7 @@ const Deginisation = observer(() => {
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
 
   const onSubmitDesginiation = () => {
-    if (Stores.deginisationStore.checkExitsCode) {
+    if (!Stores.deginisationStore.checkExitsCode) {
       Stores.deginisationStore.DeginisationService.addDeginisation(
         Stores.deginisationStore.deginisation
       ).then((res) => {
@@ -31,8 +31,9 @@ const Deginisation = observer(() => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 Deginisation created.`,
           })
-          Stores.deginisationStore.fetchListDeginisation()
-          Stores.deginisationStore.clear()
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
         } else {
           LibraryComponents.Atoms.Toast.error({ message: "😔 Please try again" })
         }
@@ -91,7 +92,6 @@ const Deginisation = observer(() => {
                       Stores.deginisationStore.DeginisationService.checkExitsCode(
                         code
                       ).then((res) => {
-                        console.log({ res })
                         if (res)
                           if (res.length > 0)
                             Stores.deginisationStore.setExitsCode(true)
@@ -104,7 +104,7 @@ const Deginisation = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-             
+
               {Stores.deginisationStore.checkExitsCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
@@ -135,41 +135,42 @@ const Deginisation = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-               <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.deginisationStore.deginisation?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.deginisationStore.updateDescription({
-                      ...Stores.deginisationStore.deginisation,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={Stores.deginisationStore.deginisation?.environment}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.deginisationStore.updateDescription({
+                          ...Stores.deginisationStore.deginisation,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -201,7 +202,7 @@ const Deginisation = observer(() => {
             data={Stores.deginisationStore.listDeginisation || []}
             totalSize={Stores.deginisationStore.listDeginisationCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -230,8 +231,8 @@ const Deginisation = observer(() => {
                 body: `Update deginisation!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.deginisationStore.fetchListDeginisation(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.deginisationStore.fetchListDeginisation(page, limit)
             }}
           />
         </div>

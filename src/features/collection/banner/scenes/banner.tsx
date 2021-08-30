@@ -11,16 +11,28 @@ import { RouterFlow } from "@lp/flows"
 import { AssetsService } from "@lp/features/assets/services"
 
 import { useStores } from "@lp/library/stores"
+import { useEffect } from "react"
 
 const Banner = observer(() => {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.bannerStore.updateBanner({
+        ...Stores.bannerStore.banner,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitBanner = () => {
     Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
@@ -107,40 +119,52 @@ const Banner = observer(() => {
                 defaultValue=""
               />
               <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.bannerStore.banner?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.bannerStore.updateBanner({
-                      ...Stores.bannerStore.banner,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={Stores.bannerStore.banner?.environment}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.bannerStore.updateBanner({
+                          ...Stores.bannerStore.banner,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.bannerStore.banner?.environment}
                       </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -171,7 +195,7 @@ const Banner = observer(() => {
             data={Stores.bannerStore.listBanner || []}
             totlaSize={Stores.bannerStore.listBannerCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -209,8 +233,8 @@ const Banner = observer(() => {
                 body: `Update banner!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.bannerStore.fetchListBanner(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.bannerStore.fetchListBanner(page, limit)
             }}
           />
         </div>
