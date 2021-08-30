@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -16,11 +16,21 @@ const Deginisation = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    // setValue,
+    setValue,
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
+
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.deginisationStore.updateDescription({
+        ...Stores.deginisationStore.deginisation,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitDesginiation = () => {
     if (!Stores.deginisationStore.checkExitsCode) {
@@ -141,6 +151,12 @@ const Deginisation = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
                       value={Stores.deginisationStore.deginisation?.environment}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
                           ? "border-red-500  focus:border-red-500"
@@ -155,7 +171,12 @@ const Deginisation = observer(() => {
                         })
                       }}
                     >
-                      <option selected>Select</option>
+                      <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.deginisationStore.deginisation?.environment}
+                      </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
                         "ENVIRONMENT"

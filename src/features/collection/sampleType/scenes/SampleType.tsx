@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -15,14 +15,23 @@ const SampleType = observer(() => {
   const {
     control,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setValue
   } = useForm()
   const {
 		loginStore,
 	} = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.sampleTypeStore.updateSampleType({
+        ...Stores.sampleTypeStore.sampleType,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitSampleType = () =>{
     if (Stores.sampleTypeStore.sampleType) {
       
@@ -174,6 +183,12 @@ const SampleType = observer(() => {
                       ? "border-red-500  focus:border-red-500"
                       : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -183,7 +198,12 @@ const SampleType = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.sampleTypeStore.sampleType?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

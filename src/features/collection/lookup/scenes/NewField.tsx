@@ -22,8 +22,18 @@ export const NewField = observer((props: NewFieldProps) => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
 
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.lookupStore.updateLookup({
+        ...Stores.lookupStore.lookup,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitNewField = (data: any) => {
     if (
       Stores.lookupStore.lookup?.value === "" &&
@@ -292,7 +302,15 @@ export const NewField = observer((props: NewFieldProps) => {
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
                   value={Stores.lookupStore.lookup?.environment}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment ? "border-red-500" : "border-gray-300"
+                  } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -302,7 +320,12 @@ export const NewField = observer((props: NewFieldProps) => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.lookupStore.lookup?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

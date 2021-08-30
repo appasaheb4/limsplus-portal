@@ -21,7 +21,7 @@ const Doctors = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    // setValue,
+    setValue,
   } = useForm()
   const {
 		loginStore,
@@ -29,6 +29,15 @@ const Doctors = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.doctorsStore.updateDoctors({
+        ...Stores.doctorsStore.doctors,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitDoctors = () =>{
     if (Stores.doctorsStore.doctors) {
@@ -1162,6 +1171,12 @@ const Doctors = observer(() => {
                       ? "border-red-500  focus:border-red-500"
                       : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -1171,7 +1186,12 @@ const Doctors = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.doctorsStore.doctors?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

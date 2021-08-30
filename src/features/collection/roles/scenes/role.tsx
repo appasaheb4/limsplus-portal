@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -15,10 +15,20 @@ const Role = observer(() => {
     control,
     formState: { errors },
     handleSubmit,
+    setValue
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.roleStore.updateRole({
+        ...Stores.roleStore.role,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitRoles = () => {
     if (!Stores.roleStore.checkExitsCode) {
       Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(() => {
@@ -133,6 +143,12 @@ const Role = observer(() => {
                           ? "border-red-500  focus:border-red-500"
                           : "border-gray-300"
                       } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
@@ -142,7 +158,12 @@ const Role = observer(() => {
                         })
                       }}
                     >
-                      <option selected>Select</option>
+                      <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.roleStore.role?.environment}
+                      </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
                         "ENVIRONMENT"
