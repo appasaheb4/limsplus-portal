@@ -25,7 +25,7 @@ class BannerStore {
     })
   }
 
-  @action fetchListAllBanner() {     
+  @action fetchListAllBanner() {
     this.BannerService.listAllBanner().then((res) => {
       if (!res.success) return alert(res.message)
       this.listAllBanner = res.data.banner

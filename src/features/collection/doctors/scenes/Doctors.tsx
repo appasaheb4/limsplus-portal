@@ -32,7 +32,6 @@ const Doctors = observer(() => {
 
   const onSubmitDoctors = () =>{
     if (Stores.doctorsStore.doctors) {
-      
       if (
         !Stores.doctorsStore.doctors?.existsVersionId &&
         !Stores.doctorsStore.doctors?.existsRecordId

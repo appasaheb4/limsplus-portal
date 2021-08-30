@@ -25,7 +25,7 @@ import { useStores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 
-import * as Banner from "@lp/features/banner"
+import * as Banner from "@lp/features/collection/banner"
 import * as Deginisation from "@lp/features/collection/deginisation"
 import * as Lab from "@lp/features/collection/labs"
 import * as Role from "@lp/features/collection/roles"
@@ -62,10 +62,10 @@ const Dashboard = observer(({ children }) => {
   const [modalIdleTime, setModalIdleTime] = useState<any>()
 
   const loadApi = async (pathname?: string) => {
-    console.log({ beforeStore: stores })
+    //console.log({ beforeStore: stores })
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    console.log({ pathname })
+    //console.log({ pathname })
     if (pathname !== "/" && stores.loginStore.login) {
       // common use api
       await Deginisation.startup()
@@ -204,7 +204,6 @@ const Dashboard = observer(({ children }) => {
         else {
           if (stores.appStore.loadApi.count === 0) loadApi()
           history.listen(async (location, action) => {
-            console.log({ location, count: stores.appStore.loadApi })
             let pathname = location.pathname
             if (
               stores.appStore.loadApi.count === 1 &&

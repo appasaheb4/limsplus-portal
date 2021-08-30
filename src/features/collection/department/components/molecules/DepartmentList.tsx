@@ -26,6 +26,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
     return row.status !== "I" ? true : false
   }
   return (
+    <div style={{ position: "relative" }}>
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
       data={props.data}
@@ -363,6 +364,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
         props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
+    </div>
   )
 })
 export default DepartmentList

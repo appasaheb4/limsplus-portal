@@ -15,7 +15,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useHistory } from "react-router-dom"
 
 import { Stores } from "@lp/features/login/stores"
-import { Stores as BannerStores } from "@lp/features/banner/stores"
+import { Stores as BannerStores } from "@lp/features/collection/banner/stores"
 import { stores } from "@lp/library/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
