@@ -189,10 +189,11 @@ const MasterAnalyte = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Analyte Name"
                     name="txtAnalyteName"
-                    placeholder="Analyte Name"
+                    placeholder={errors.analyteName?"Please Enter Analyte Name":"Analyte Name"}
+                    hasError={errors.analyteName}
                     value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
                     onChange={(analyteName) => {
-                      onChange()
+                      onChange(analyteName)
                       Stores.masterAnalyteStore.updateMasterAnalyte({
                         ...Stores.masterAnalyteStore.masterAnalyte,
                         analyteName: analyteName.toUpperCase(),

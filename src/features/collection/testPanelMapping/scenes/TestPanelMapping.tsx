@@ -254,7 +254,7 @@ const TestPanelMapping = observer(() => {
                 />
               </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-              name="Test Name"
+              name="testName"
                rules={{ required: false }}
                defaultValue=""
                />
