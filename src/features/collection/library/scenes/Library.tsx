@@ -33,9 +33,18 @@ export const Library = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm()
 
- 
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.libraryStore.updateLibrary({
+        ...Stores.libraryStore.library,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
 
   const onSubmitLibrary = (data) => {
     console.log("click")
@@ -771,6 +780,12 @@ export const Library = observer(() => {
                       ? "border-red-500  focus:border-red-500"
                       : "border-gray-300"
                   } rounded-md`}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
@@ -780,7 +795,12 @@ export const Library = observer(() => {
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.libraryStore.library?.environment}
+                      </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>

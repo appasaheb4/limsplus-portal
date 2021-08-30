@@ -22,12 +22,20 @@ export const Department = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    // setValue,
+    setValue,
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
-
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.departmentStore.updateDepartment({
+        ...Stores.departmentStore.department,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   const onSubmitDepartment = () => {
     if (!Stores.departmentStore.checkExitsCode) {
       Stores.departmentStore.DepartmentService.adddepartment(
@@ -515,6 +523,12 @@ export const Department = observer(() => {
                             ? "border-red-500  focus:border-red-500"
                             : "border-gray-300"
                         } rounded-md`}
+                        disabled={
+                          stores.loginStore.login &&
+                          stores.loginStore.login.role !== "SYSADMIN"
+                            ? true
+                            : false
+                        }
                         onChange={(e) => {
                           const environment = e.target.value
                           onChange(environment)
@@ -524,7 +538,12 @@ export const Department = observer(() => {
                           })
                         }}
                       >
-                        <option selected>Select</option>
+                        <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.departmentStore.department?.environment}
+                      </option>
                         {LibraryUtils.lookupItems(
                           stores.routerStore.lookupItems,
                           "ENVIRONMENT"
