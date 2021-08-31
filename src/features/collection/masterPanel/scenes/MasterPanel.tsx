@@ -302,7 +302,7 @@ const MasterPanel = observer(() => {
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="Service Type"
+                name="serviceType"
                 rules={{ required: true }}
                 defaultValue=""
               />
