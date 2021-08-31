@@ -32,8 +32,10 @@ const TestAnalyteMapping = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
         ...Stores.testAnalyteMappingStore.testAnalyteMapping,
+        lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
@@ -129,6 +131,13 @@ const TestAnalyteMapping = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
+                      value={Stores.testAnalyteMappingStore.testAnalyteMapping?.lab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.lab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}

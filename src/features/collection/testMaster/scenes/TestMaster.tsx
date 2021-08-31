@@ -35,8 +35,10 @@ const TestMater = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.testMasterStore.updateTestMaster({
         ...Stores.testMasterStore.testMaster,
+        pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("plab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
@@ -169,6 +171,7 @@ const TestMater = observer(() => {
                     hasError={errors.pLab}
                   >
                     <select
+                      value={Stores.testMasterStore.testMaster?.pLab}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.pLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}

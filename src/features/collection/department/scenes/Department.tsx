@@ -31,8 +31,10 @@ export const Department = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.departmentStore.updateDepartment({
         ...Stores.departmentStore.department,
+        lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
@@ -92,7 +94,13 @@ export const Department = observer(() => {
                       hasError={errors.lab}
                     >
                       <select
-                        name="lab"
+                        value={Stores.departmentStore.department?.lab}
+                        disabled={
+                          stores.loginStore.login &&
+                          stores.loginStore.login.role !== "SYSADMIN"
+                            ? true
+                            : false
+                        }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.lab ? "border-red-500" : "border-gray-300"
                         } rounded-md`}
@@ -539,11 +547,11 @@ export const Department = observer(() => {
                         }}
                       >
                         <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.departmentStore.department?.environment}
-                      </option>
+                          {stores.loginStore.login &&
+                          stores.loginStore.login.role !== "SYSADMIN"
+                            ? `Select`
+                            : Stores.departmentStore.department?.environment}
+                        </option>
                         {LibraryUtils.lookupItems(
                           stores.routerStore.lookupItems,
                           "ENVIRONMENT"
