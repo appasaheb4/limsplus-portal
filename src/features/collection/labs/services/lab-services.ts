@@ -8,13 +8,14 @@ import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { stores } from "@lp/library/stores"
 
-export class LabService {   
+export class LabService {
   listLabs = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
+      const lab = stores.loginStore.login && stores.loginStore.login.lab
       http
-        .get(`/master/lab/listlabs/${page}/${limit}/${env}/${role}`)
+        .get(`/master/lab/listlabs/${page}/${limit}/${env}/${role}/${lab}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

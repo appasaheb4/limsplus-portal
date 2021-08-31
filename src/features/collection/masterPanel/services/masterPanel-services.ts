@@ -7,14 +7,17 @@
 //import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { stores } from "@lp/library/stores"
-   
-class MasterPanelService  {
-  listPanelMaster = (page=0,limit=10) =>
+
+class MasterPanelService {
+  listPanelMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
+      const lab = stores.loginStore.login && stores.loginStore.login.lab
       http
-        .get(`/master/panelMaster/listPanelMaster/${page}/${limit}/${env}/${role}`)
+        .get(
+          `/master/panelMaster/listPanelMaster/${page}/${limit}/${env}/${role}/${lab}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -23,7 +26,7 @@ class MasterPanelService  {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
-    addPanelMaster = (panel?: any) =>
+  addPanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/panelMaster/addPanelMaster`, panel)
@@ -34,31 +37,31 @@ class MasterPanelService  {
           reject({ error })
         })
     })
-    versionUpgradePanelMaster = (panel?: any) =>
+  versionUpgradePanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({panel});
-      
+      console.log({ panel })
+
       http
         .post(`/master/panelMaster/versionUpgradePanelMaster`, panel)
-        .then((res) => {  
+        .then((res) => {
           resolve(res.data)
         })
         .catch((error) => {
           reject({ error })
         })
     })
-    duplicatePanelMaster = (panel?: any) =>
+  duplicatePanelMaster = (panel?: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/panelMaster/duplicatePanelMaster`, panel)
-        .then((res) => {  
+        .then((res) => {
           resolve(res.data)
         })
         .catch((error) => {
           reject({ error })
         })
     })
-    deletePanelMaster = (id: string) =>
+  deletePanelMaster = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .delete(`/master/panelMaster/deletePanelMaster/${id}`)
