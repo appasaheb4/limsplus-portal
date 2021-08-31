@@ -46,8 +46,10 @@ const MasterPackage = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.masterPackageStore.updateMasterPackage({
         ...Stores.masterPackageStore.masterPackage,
+        lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
@@ -138,6 +140,13 @@ const MasterPackage = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
+                      value={Stores.masterPackageStore.masterPackage?.lab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.lab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}

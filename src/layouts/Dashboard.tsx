@@ -69,7 +69,7 @@ const Dashboard = observer(({ children }) => {
     if (pathname !== "/" && stores.loginStore.login) {
       // common use api
       await Deginisation.startup()
-      await Lab.startup()
+      await Lab.startup()  
       await Role.startup()
       await Department.startup()
       await User.startup()

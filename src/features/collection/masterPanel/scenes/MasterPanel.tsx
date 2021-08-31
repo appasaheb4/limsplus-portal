@@ -33,8 +33,10 @@ const MasterPanel = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.masterPanelStore.updateMasterPanel({
         ...Stores.masterPanelStore.masterPanel,
+        pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("pLab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
@@ -168,6 +170,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.pLab}
                   >
                     <select
+                    value={Stores.masterPanelStore.masterPanel?.pLab}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.pLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
