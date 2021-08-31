@@ -1,28 +1,40 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect} from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../../utils"
-import * as Models from "../../models"
-
-import { Stores } from "../../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import { useForm, Controller } from "react-hook-form"
 import { stores } from "@lp/library/stores"
 
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
+import { Stores } from "../../stores"
+
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void
 }
 
 const PatientVisit = observer((props: PatientVisitProps) => {
-  const [errors, setErrors] = useState<Models.PatientVisit>()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue
+  } = useForm()
+
+  const onSubmitPatientVisit = () =>{
+    //  Add PatientVisit Api Calling.
+  }
+
+  useEffect(() => {
+    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+      Stores.patientRegistationStore.updatePatientVisit({
+        ...Stores.patientRegistationStore.patientVisit,
+        environment: stores.loginStore.login.environment,
+      })
+      setValue("environment", stores.loginStore.login.environment)
+    }
+  }, [stores.loginStore.login])
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -33,196 +45,199 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             justify="stretch"
             fill
           >
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Pid"
               name="txtPid"
-              placeholder="Pid"
+              placeholder={errors.pId?"Please Enter PId":"Pid"}
+              hasError={errors.pId}
               disabled={true}
               value={Stores.patientRegistationStore.patientVisit?.pId}
               onChange={(pId) => {
-                setErrors({
-                  ...errors,
-                  pId: Utils.validate.single(pId, Utils.patientVisit.pId),
-                })
+                onChange(pId)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   pId,
                 })
               }}
             />
-            {errors?.pId && (
-              <span className="text-red-600 font-medium relative">{errors.pId}</span>
             )}
+              name="pId"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Lab Id"
               name="txtLabId"
-              placeholder="Lab Id"
+              placeholder={errors.labId?"Please Enter LabId":"Lab Id"}
+              hasError={errors.labId}
               value={Stores.patientRegistationStore.patientVisit?.labId}
               onChange={(labId) => {
-                setErrors({
-                  ...errors,
-                  labId: Utils.validate.single(labId, Utils.patientVisit.labId),
-                })
+               onChange(labId)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   labId,
                 })
               }}
             />
-            {errors?.labId && (
-              <span className="text-red-600 font-medium relative">
-                {errors.labId}
-              </span>
             )}
+              name="labId"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Internal Id"
               name="txtInternalId"
-              placeholder="Internal Id"
+              placeholder={errors.internalId?"Please Enter InternalId":"Internal Id"}
+              hasError={errors.internalId}
               value={Stores.patientRegistationStore.patientVisit?.internalId}
               onChange={(internalId) => {
-                setErrors({
-                  ...errors,
-                  internalId: Utils.validate.single(
-                    internalId,
-                    Utils.patientVisit.internalId
-                  ),
-                })
+                onChange(internalId)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   internalId,
                 })
               }}
             />
-            {errors?.internalId && (
-              <span className="text-red-600 font-medium relative">
-                {errors.internalId}
-              </span>
             )}
+              name="internalId"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="RLab"
               name="txtRLab"
-              placeholder="RLab"
+              placeholder={errors.rLab?"Please Enter RLab":"RLab"}
+              hasError={errors.rLab}
               value={Stores.patientRegistationStore.patientVisit?.rLab}
               onChange={(rLab) => {
-                setErrors({
-                  ...errors,
-                  rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                })
+                onChange(rLab)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   rLab,
                 })
               }}
             />
-            {errors?.rLab && (
-              <span className="text-red-600 font-medium relative">
-                {errors.rLab}
-              </span>
             )}
+              name="rLab"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
               label="BithDate"
               name="txtBirthDate"
-              placeholder="BirthDate"
+              placeholder={errors.birthDate?"Please Enter BirthDate":"BirthDate"}
+              hasError={errors.birthDate}
               value={LibraryUtils.moment(
                 Stores.patientRegistationStore.patientVisit?.birthDate
               ).format("YYYY-MM-DD")}
               onChange={(e) => {
                 let birthDate = new Date(e.target.value)
+                onChange(birthDate)
                 const formatDate = LibraryUtils.moment(birthDate).format(
                   "YYYY-MM-DD HH:mm"
                 )
-                setErrors({
-                  ...errors,
-                  birthDate: Utils.validate.single(
-                    birthDate,
-                    Utils.patientVisit.birthDate
-                  ),
-                })
+                
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   birthDate: new Date(formatDate),
                 })
               }}
             />
-            {errors?.birthDate && (
-              <span className="text-red-600 font-medium relative">
-                {errors.birthDate}
-              </span>
             )}
+              name="birthDate"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Age"
               name="txtAge"
-              placeholder="Age"
+              placeholder={errors.birthDate?"Please Enter Age":"Age"}
+              hasError={errors.age}
               type="number"
               value={Stores.patientRegistationStore.patientVisit?.age}
               onChange={(age) => {
-                setErrors({
-                  ...errors,
-                  age: Utils.validate.single(age, Utils.patientVisit.age),
-                })
+                onChange(age)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   age,
                 })
               }}
             />
-            {errors?.age && (
-              <span className="text-red-600 font-medium relative">{errors.age}</span>
             )}
+              name="age"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Age Units"
               name="txtAgeUnits"
-              placeholder="Age Units"
+              placeholder={errors.ageUnits?"Please Enter AgeUnits":"Age Units"}
+              hasError={errors.ageUnits}
               value={Stores.patientRegistationStore.patientVisit?.ageUnits}
               onChange={(ageUnits) => {
-                setErrors({
-                  ...errors,
-                  ageUnits: Utils.validate.single(
-                    ageUnits,
-                    Utils.patientVisit.ageUnits
-                  ),
-                })
+                onChange(ageUnits)
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   ageUnits,
                 })
               }}
             />
-            {errors?.ageUnits && (
-              <span className="text-red-600 font-medium relative">
-                {errors.ageUnits}
-              </span>
             )}
+              name="ageUnits"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
               label="Date Registration"
               name="txtDateRegistration"
-              placeholder="Date Registration"
+              placeholder={errors.dateRegistration?"Please Enter DateRegistration":"Date Registration"}
+              hasError={errors.dateRegistration}
               value={LibraryUtils.moment(
                 Stores.patientRegistationStore.patientVisit?.dateRegistration
               ).format("YYYY-MM-DD")}
               onChange={(e) => {
                 let dateRegistration = new Date(e.target.value)
+                onChange(dateRegistration)
                 const formatDate = LibraryUtils.moment(dateRegistration).format(
                   "YYYY-MM-DD HH:mm"
                 )
-                setErrors({
-                  ...errors,
-                  dateRegistration: Utils.validate.single(
-                    dateRegistration,
-                    Utils.patientVisit.dateRegistration
-                  ),
-                })
+                
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   dateRegistration: new Date(formatDate),
                 })
               }}
             />
-            {errors?.dateRegistration && (
-              <span className="text-red-600 font-medium relative">
-                {errors.dateRegistration}
-              </span>
             )}
+              name="dateRegistration"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -230,52 +245,53 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             justify="stretch"
             fill
           >
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
               label="Date Service"
               name="txtDateService"
-              placeholder="Date Service"
+              placeholder={errors.dateService?"Please Enter DateService":"Date Service"}
+              hasError={errors.dateService}
               value={LibraryUtils.moment(
                 Stores.patientRegistationStore.patientVisit?.dateService
               ).format("YYYY-MM-DD")}
               onChange={(e) => {
                 let dateService = new Date(e.target.value)
+                onChange(dateService)
                 const formatDate = LibraryUtils.moment(dateService).format(
                   "YYYY-MM-DD HH:mm"
                 )
-                setErrors({
-                  ...errors,
-                  dateService: Utils.validate.single(
-                    dateService,
-                    Utils.patientVisit.dateService
-                  ),
-                })
+                
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   dateService: new Date(formatDate),
                 })
               }}
             />
-            {errors?.dateService && (
-              <span className="text-red-600 font-medium relative">
-                {errors.dateService}
-              </span>
             )}
+              name="dateService"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper
               label="Method Collection"
               id="optionMethodCollection"
+              hasError={errors.methodCollection}
             >
               <select
                 name="optionMethodCollections"
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.methodCollection
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-300"
+                } rounded-md`}
                 onChange={(e) => {
                   const methodCollection = e.target.value as string
-                  setErrors({
-                    ...errors,
-                    methodCollection: Utils.validate.single(
-                      methodCollection,
-                      Utils.patientVisit.methodCollection
-                    ),
-                  })
+                  onChange(methodCollection)
                   Stores.patientRegistationStore.updatePatientVisit({
                     ...Stores.patientRegistationStore.patientVisit,
                     methodCollection,
@@ -290,50 +306,58 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
-            {errors?.methodCollection && (
-              <span className="text-red-600 font-medium relative">
-                {errors.methodCollection}
-              </span>
             )}
+            name="methodCollection"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
               label="Date Collection"
               name="txtDateCollection"
-              placeholder="Date Collection"
+              placeholder={errors.dateCollection?"Please Enter DateCollection":"Date Collection"}
+              hasError={errors.dateCollection}
               value={LibraryUtils.moment(
                 Stores.patientRegistationStore.patientVisit?.dateCollection
               ).format("YYYY-MM-DD")}
               onChange={(e) => {
                 let dateCollection = new Date(e.target.value)
+                onChange(dateCollection)
                 const formatDate = LibraryUtils.moment(dateCollection).format(
                   "YYYY-MM-DD HH:mm"
                 )
-                setErrors({
-                  ...errors,
-                  dateCollection: Utils.validate.single(
-                    dateCollection,
-                    Utils.patientVisit.dateCollection
-                  ),
-                })
+               
                 Stores.patientRegistationStore.updatePatientVisit({
                   ...Stores.patientRegistationStore.patientVisit,
                   dateCollection: new Date(formatDate),
                 })
               }}
             />
-            {errors?.dateCollection && (
-              <span className="text-red-600 font-medium relative">
-                {errors.dateCollection}
-              </span>
             )}
+              name="dateCollection"
+              rules={{ required: true }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper
               label="Collection Center"
               id="optionCollectionCenter"
+              hasError={errors.collectionCenter}
             >
               <select
                 name="optionCollectionCenters"
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.collectionCenter
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-300"
+                } rounded-md`}
                 onChange={(e) => {
                   const collectionCenter = e.target.value as string
+                  onChange(collectionCenter)
                   // setErrors({
                   //   ...errors,
                   //   collectionCenter: Utils.validate.single(
@@ -355,15 +379,29 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="collectionCenter"
+            rules={{ required: false }}
+            defaultValue=""
+          />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper
               label="Report Center"
               id="optionReportCenter"
+              hasError={errors.reportCenter}
             >
               <select
                 name="optionReportCenters"
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.reportCenter
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-300"
+                } rounded-md`}
                 onChange={(e) => {
                   const reportCenter = e.target.value as string
+                  onChange(reportCenter)
                   // setErrors({
                   //   ...errors,
                   //   collectionCenter: Utils.validate.single(
@@ -385,15 +423,29 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="reportCenter"
+            rules={{ required: false }}
+            defaultValue=""
+          />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper
               label="Doctor id"
               id="optionsDoctorId"
+              hasError={errors.doctorId}
             >
               <select
                 name="optionsDoctorIds"
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.doctorId
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-300"
+                } rounded-md`}
                 onChange={(e) => {
                   const doctorId = e.target.value as string
+                  onChange(doctorId)
                   // setErrors({
                   //   ...errors,
                   //   collectionCenter: Utils.validate.single(
@@ -415,15 +467,29 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="doctorId"
+            rules={{ required: false }}
+            defaultValue=""
+          />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper
               label="Doctor Name"
               id="optionsDoctorName"
+              hasError={errors.doctorName}
             >
               <select
                 name="optionsDoctorNames"
-                className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.doctorName
+                    ? "border-red-500  focus:border-red-500"
+                    : "border-gray-300"
+                } rounded-md`}
                 onChange={(e) => {
                   const doctorName = e.target.value as string
+                  onChange(doctorName)
                   // setErrors({
                   //   ...errors,
                   //   collectionCenter: Utils.validate.single(
@@ -445,12 +511,22 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 ))}
               </select>
             </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="doctorName"
+            rules={{ required: false }}
+            defaultValue=""
+          />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="AC Class"
               name="txtAcClass"
-              placeholder="AC Class"
+              placeholder={errors.acClass?"Please Enter ACClass":"AC Class"}
+              hasError={errors.acClass}
               value={Stores.patientRegistationStore.patientVisit?.acClass}
               onChange={(acClass) => {
+                onChange(acClass)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -461,6 +537,11 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="acClass"
+              rules={{ required: false }}
+              defaultValue=""
+            />
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -468,12 +549,17 @@ const PatientVisit = observer((props: PatientVisitProps) => {
             justify="stretch"
             fill
           >
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Bill To"
               name="txtBillTo"
-              placeholder="Bill To"
+              placeholder={errors.billTo?"Please Enter BillTo":"Bill To"}
+              hasError={errors.billTo}
               value={Stores.patientRegistationStore.patientVisit?.billTo}
               onChange={(billTo) => {
+                onChange(billTo)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -484,12 +570,22 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="billTo"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Invoice Ac"
               name="txtInvoiceAC"
-              placeholder="Invoice Ac"
+              placeholder={errors.invoiceAc?"Please Enter InvoiceAc":"Invoice Ac"}
+              hasError={errors.invoiceAc}
               value={Stores.patientRegistationStore.patientVisit?.invoiceAc}
               onChange={(invoiceAc) => {
+                onChange(invoiceAc)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -500,12 +596,22 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="invoiceAc"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Report Priority"
               name="txtReportPriority"
-              placeholder="Report Priority"
+              placeholder={errors.reportPriority?"Please Enter ReportPriority":"Report Priority"}
+              hasError={errors.reportPriority}
               value={Stores.patientRegistationStore.patientVisit?.reportPriority}
               onChange={(reportPriority) => {
+                onChange(reportPriority)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -516,9 +622,18 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="reportPriority"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Toggle
               label="History"
               id="toggleHistory"
+              hasError={errors.history}
               value={Stores.patientRegistationStore.patientVisit?.history}
               onChange={(history) => {
                 Stores.patientRegistationStore.updatePatientVisit({
@@ -527,12 +642,22 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="history"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Status"
               name="txtStatus"
-              placeholder="Status"
+              hasError={errors.status}
+              placeholder={errors.status?"Please Enter Status":"Status"}
               value={Stores.patientRegistationStore.patientVisit?.status}
               onChange={(status) => {
+                onChange(status)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -543,12 +668,22 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="status"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
               label="Created By"
               name="txtCreateBy"
-              placeholder="Created By"
+              placeholder={errors.createdBy?"Please Enter CreatedBy":"Created By"}
+              hasError={errors.createdBy}
               value={Stores.patientRegistationStore.patientVisit?.createdBy}
               onChange={(createdBy) => {
+                onChange(createdBy)
                 // setErrors({
                 //   ...errors,
                 //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
@@ -559,6 +694,58 @@ const PatientVisit = observer((props: PatientVisitProps) => {
                 })
               }}
             />
+            )}
+              name="createdBy"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={Stores.patientRegistationStore.patientVisit?.environment}
+                  disabled={
+                    stores.loginStore.login &&
+                    stores.loginStore.login.role !== "SYSADMIN"
+                      ? true
+                      : false
+                  }
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.environment
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    onChange(environment)
+                    Stores.patientRegistationStore.updatePatientVisit({
+                      ...Stores.patientRegistationStore.patientVisit,
+                      environment,
+                    })
+                  }}
+                >
+                  <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.patientRegistationStore.patientVisit?.environment || `Select`}
+                      </option>
+                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    (item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    )
+                  )}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="environment"
+            rules={{ required: true }}
+            defaultValue=""
+          />
+            
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
@@ -569,38 +756,7 @@ const PatientVisit = observer((props: PatientVisitProps) => {
           size="medium"
           type="solid"
           icon={LibraryComponents.Atoms.Icon.Save}
-          onClick={() => {
-            // if (
-            //   Utils.validate(
-            //     Stores.enviromentSettingsStore.sessionManagement,
-            //     Utils.constraintsSessionManagement
-            //   ) === undefined
-            // ) {
-            //   
-            //   Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
-            //     Stores.enviromentSettingsStore
-            //       .sessionManagement as Models.SessionManagement
-            //   ).then((res) => {
-            //     
-            //     if (res.status === 201) {
-            //       LibraryComponents.Atoms.ToastsStore.success(`Session created.`)
-            //       // Stores.userStore.clear()
-            //       // Stores.userStore.loadUser()
-            //       setTimeout(() => {
-            //         window.location.reload()
-            //       }, 2000)
-            //     } else {
-            //       LibraryComponents.Atoms.ToastsStore.warning(
-            //         "Session not create.Please try again"
-            //       )
-            //     }
-            //   })
-            // } else {
-            //   LibraryComponents.Atoms.ToastsStore.warning(
-            //     "Please enter all information!"
-            //   )
-            // }
-          }}
+          onClick={handleSubmit(onSubmitPatientVisit)}
         >
           Save
         </LibraryComponents.Atoms.Buttons.Button>

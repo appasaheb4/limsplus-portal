@@ -4,21 +4,10 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../../utils"
-import * as Models from "../../models"
 
 import { PatientManager, PatientVisit, PatientOrder } from "../PatientRegistration"
-
-import { Stores } from "../../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import {useStores} from '@lp/library/stores'
 import { stores } from "@lp/library/stores"
-
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
-
 const PatientRegistation = observer(() => {
   const {
 		loginStore,
