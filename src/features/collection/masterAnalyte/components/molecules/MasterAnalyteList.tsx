@@ -713,7 +713,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
-              dataField: "Environment",
+              dataField: "environment",
               text: "Environment",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
