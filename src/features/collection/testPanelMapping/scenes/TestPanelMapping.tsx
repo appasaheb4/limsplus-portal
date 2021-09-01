@@ -515,7 +515,7 @@ const TestPanelMapping = observer(() => {
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.testPanelMappingStore.testPanelMapping
-                              ?.environment}
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

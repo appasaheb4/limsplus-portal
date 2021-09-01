@@ -550,7 +550,7 @@ export const Department = observer(() => {
                           {stores.loginStore.login &&
                           stores.loginStore.login.role !== "SYSADMIN"
                             ? `Select`
-                            : Stores.departmentStore.department?.environment}
+                            : Stores.departmentStore.department?.environment || `Select`}
                         </option>
                         {LibraryUtils.lookupItems(
                           stores.routerStore.lookupItems,

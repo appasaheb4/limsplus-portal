@@ -1467,7 +1467,7 @@ const TestMater = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.testMasterStore.testMaster?.environment}
+                          : Stores.testMasterStore.testMaster?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

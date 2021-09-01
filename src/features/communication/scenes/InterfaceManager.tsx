@@ -457,7 +457,7 @@ const InterfaceManager = observer(() => {
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.interfaceManagerStore.encodeCharacter
-                              ?.environment}
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

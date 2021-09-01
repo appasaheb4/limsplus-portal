@@ -8,13 +8,16 @@ import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { stores } from "@lp/library/stores"
 
-class RegistrationLocationsService  {
-  listRegistrationLocations = (page=0,limit=10) =>
+class RegistrationLocationsService {
+  listRegistrationLocations = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
+      const lab = stores.loginStore.login && stores.loginStore.login.lab
       http
-        .get(`master/registartionLocations/listRegistrationLocations/${page}/${limit}/${env}/${role}`)
+        .get(
+          `master/registartionLocations/listRegistrationLocations/${page}/${limit}/${env}/${role}/${lab}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -23,7 +26,7 @@ class RegistrationLocationsService  {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
-    addRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
+  addRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`master/registartionLocations/addRegistrationLocations`, regLocation)
@@ -34,10 +37,13 @@ class RegistrationLocationsService  {
           reject({ error })
         })
     })
-    versionUpgradeRegistrationLocations = (doctor?: Models.RegistrationLocations) =>
+  versionUpgradeRegistrationLocations = (doctor?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`master/registartionLocations/versionUpgradeRegistrationLocations`, doctor)
+        .post(
+          `master/registartionLocations/versionUpgradeRegistrationLocations`,
+          doctor
+        )
         .then((res) => {
           resolve(res)
         })
@@ -45,10 +51,13 @@ class RegistrationLocationsService  {
           reject({ error })
         })
     })
-    duplicateRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
+  duplicateRegistrationLocations = (regLocation?: Models.RegistrationLocations) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`master/registartionLocations/duplicateRegistrationLocations`, regLocation)
+        .post(
+          `master/registartionLocations/duplicateRegistrationLocations`,
+          regLocation
+        )
         .then((res) => {
           resolve(res)
         })
@@ -56,7 +65,7 @@ class RegistrationLocationsService  {
           reject({ error })
         })
     })
-    deleteRegistrationLocations = (id: string) =>
+  deleteRegistrationLocations = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .delete(`master/registartionLocations/deleteRegistrationLocations/${id}`)
@@ -73,7 +82,7 @@ class RegistrationLocationsService  {
       http
         .post(`master/registartionLocations/updateSingleFiled`, newValue)
         .then((res) => {
-          resolve(res)   
+          resolve(res)
         })
         .catch((error) => {
           reject({ error })

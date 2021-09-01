@@ -346,7 +346,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                     {stores.loginStore.login &&
                     stores.loginStore.login.role !== "SYSADMIN"
                       ? `Select`
-                      : Stores.lookupStore.globalSettings?.environment}
+                      : Stores.lookupStore.globalSettings?.environment || `Select`}
                   </option>
                   {LibraryUtils.lookupItems(
                     stores.routerStore.lookupItems,

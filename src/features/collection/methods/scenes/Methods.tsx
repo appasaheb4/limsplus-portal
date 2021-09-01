@@ -231,7 +231,7 @@ const Methods = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.methodsStore.methods?.environment}
+                          : Stores.methodsStore.methods?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

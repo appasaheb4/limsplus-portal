@@ -149,7 +149,7 @@ const Banner = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.bannerStore.banner?.environment}
+                          : Stores.bannerStore.banner?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

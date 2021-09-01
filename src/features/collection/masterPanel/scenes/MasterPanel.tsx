@@ -1381,7 +1381,7 @@ const MasterPanel = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterPanelStore.masterPanel?.environment}
+                          : Stores.masterPanelStore.masterPanel?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

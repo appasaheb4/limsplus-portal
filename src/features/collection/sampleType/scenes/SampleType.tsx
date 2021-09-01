@@ -203,7 +203,7 @@ const SampleType = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.sampleTypeStore.sampleType?.environment}
+                          : Stores.sampleTypeStore.sampleType?.environment || `Select`}
                       </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (
