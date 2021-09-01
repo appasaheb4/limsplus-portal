@@ -1414,7 +1414,7 @@ const RegistrationLocation = observer(() => {
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.registrationLocationsStore.registrationLocations
-                              ?.environment}
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

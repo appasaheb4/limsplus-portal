@@ -870,7 +870,7 @@ export const Library = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.libraryStore.library?.environment}
+                          : Stores.libraryStore.library?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

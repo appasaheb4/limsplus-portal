@@ -594,7 +594,7 @@ const MasterPackage = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterPackageStore.masterPackage?.environment}
+                          : Stores.masterPackageStore.masterPackage?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

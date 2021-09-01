@@ -1056,7 +1056,7 @@ const MasterAnalyte = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterAnalyteStore.masterAnalyte?.environment}
+                          : Stores.masterAnalyteStore.masterAnalyte?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

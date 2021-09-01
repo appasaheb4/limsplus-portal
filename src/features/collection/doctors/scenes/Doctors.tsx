@@ -1280,7 +1280,7 @@ const Doctors = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.doctorsStore.doctors?.environment}
+                          : Stores.doctorsStore.doctors?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

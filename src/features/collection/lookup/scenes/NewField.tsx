@@ -324,7 +324,7 @@ export const NewField = observer((props: NewFieldProps) => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.lookupStore.lookup?.environment}
+                          : Stores.lookupStore.lookup?.environment || `Select`}
                       </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (

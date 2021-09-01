@@ -283,7 +283,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                       stores.loginStore.login.role !== "SYSADMIN"
                         ? `Select`
                         : Stores.enviromentSettingsStore.sessionManagement
-                            ?.environment}
+                            ?.environment || `Select`}
                     </option>
                     {LibraryUtils.lookupItems(
                       stores.routerStore.lookupItems,

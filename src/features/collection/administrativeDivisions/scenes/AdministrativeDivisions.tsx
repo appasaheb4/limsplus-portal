@@ -328,7 +328,7 @@ export const AdministrativeDivisions = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.administrativeDivStore.administrativeDiv?.environment}
+                          : Stores.administrativeDivStore.administrativeDiv?.environment || `Select`}
                       </option>
                   {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
                     (item: any, index: number) => (

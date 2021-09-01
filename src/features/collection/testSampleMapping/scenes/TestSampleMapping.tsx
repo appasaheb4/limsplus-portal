@@ -751,7 +751,7 @@ const TestSampleMapping = observer(() => {
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.testSampleMappingStore.testSampleMapping
-                              ?.environment}
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

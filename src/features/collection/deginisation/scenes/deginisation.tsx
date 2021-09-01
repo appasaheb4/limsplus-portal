@@ -176,7 +176,7 @@ const Deginisation = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.deginisationStore.deginisation?.environment}
+                          : Stores.deginisationStore.deginisation?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

@@ -906,7 +906,7 @@ export const Users = observer(() => {
                       {stores.loginStore.login &&
                       stores.loginStore.login.role !== "SYSADMIN"
                         ? `Select`
-                        : Stores.userStore.user?.environment}
+                        : Stores.userStore.user?.environment || `Select`}
                     </option>
                     {LibraryUtils.lookupItems(
                       routerStore.lookupItems,

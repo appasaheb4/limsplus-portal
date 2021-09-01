@@ -1085,7 +1085,7 @@ const CorporateClients = observer(() => {
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.corporateClientsStore.corporateClients
-                              ?.environment}
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
