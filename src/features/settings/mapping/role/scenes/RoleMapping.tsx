@@ -12,7 +12,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import "react-dropdown-tree-select/dist/styles.css"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { stores } from "@lp/library/stores"
@@ -30,10 +30,8 @@ const getListStyle = (isDraggingOver) => ({
 })
 
 const RoleMapping = observer(() => {
-  const {
-		loginStore,
-	} = useStores();
-     
+  const { loginStore } = useStores()
+
   const [hideRole, setHideRole] = useState<boolean>(false)
   const [modalConfirm, setModalConfirm] = useState<any>()
   let roleList: any = RoleStore.roleStore.listRole || []
@@ -89,10 +87,6 @@ const RoleMapping = observer(() => {
     }
   }, [])
 
-  const handleOnDragEnd = async (result) => {
-    console.log({ result })
-  }
-
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -124,6 +118,32 @@ const RoleMapping = observer(() => {
               className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
                 const role = roleList[e.target.value]
+                if (role.code !== "SYSADMIN") {
+                  const routers: any = stores.routerStore.router.filter(
+                    (item: any) => {
+                      const children = item.children.filter((childernItem) => {
+                        if (
+                          childernItem.name !== "User" &&
+                          childernItem.name !== "Login Activity" &&
+                          childernItem.name !== "Role Mapping" &&
+                          childernItem.name !== "Environment Settings" &&
+                          childernItem.name !== "Notice Boards"
+                        ) {
+                          childernItem.title = childernItem.name
+                          childernItem.toggle = false
+                          childernItem.permission = permission
+                          childernItem.icon = childernItem.icon
+                          return childernItem
+                        }
+                      })
+                      item.children = children
+                      return item
+                    }
+                  )
+                  if (routers) {
+                    stores.routerStore.updateRouter(routers)
+                  }
+                }
                 Stores.roleMappingStore.updateSelectedRole(toJS(role))
               }}
             >
@@ -179,16 +199,12 @@ const RoleMapping = observer(() => {
                                   value={item.title}
                                   onChange={(e) => {
                                     const title = e.target.value
-                                    const routers = toJS(
-                                      stores.routerStore.router
-                                    )
+                                    const routers = toJS(stores.routerStore.router)
                                     routers[index].title = title
                                     stores.routerStore.updateRouter(routers)
                                   }}
                                   onBlur={() => {
-                                    const routers = toJS(
-                                      stores.routerStore.router
-                                    )
+                                    const routers = toJS(stores.routerStore.router)
                                     routers[index].toggle = false
                                     stores.routerStore.updateRouter(routers)
                                   }}
@@ -197,9 +213,7 @@ const RoleMapping = observer(() => {
                                 <p
                                   className="font-bold"
                                   onDoubleClick={() => {
-                                    const routers = toJS(
-                                      stores.routerStore.router
-                                    )
+                                    const routers = toJS(stores.routerStore.router)
                                     routers[index].toggle = true
                                     stores.routerStore.updateRouter(routers)
                                   }}
@@ -259,8 +273,7 @@ const RoleMapping = observer(() => {
                                                       onChange={(e) => {
                                                         const title = e.target.value
                                                         const routers = toJS(
-                                                          stores.routerStore
-                                                            .router
+                                                          stores.routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
@@ -271,8 +284,7 @@ const RoleMapping = observer(() => {
                                                       }}
                                                       onBlur={() => {
                                                         const routers = toJS(
-                                                          stores.routerStore
-                                                            .router
+                                                          stores.routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
@@ -287,8 +299,7 @@ const RoleMapping = observer(() => {
                                                       className="font-bold"
                                                       onDoubleClick={() => {
                                                         const routers = toJS(
-                                                          stores.routerStore
-                                                            .router
+                                                          stores.routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
@@ -524,13 +535,35 @@ const RoleMapping = observer(() => {
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
             onDuplicate={(selectedItem: any) => {
+              if (selectedItem.code !== "SYSADMIN") {
+                const routers: any = stores.routerStore.router.filter(
+                  (item: any) => {
+                    const children = item.children.filter((childernItem) => {
+                      if (
+                        childernItem.name !== "User" &&
+                        childernItem.name !== "Login Activity" &&
+                        childernItem.name !== "Role Mapping" &&
+                        childernItem.name !== "Environment Settings" &&
+                        childernItem.name !== "Notice Boards"
+                      ) {
+                        return childernItem
+                      }
+                    })
+                    item.children = children
+                    return item
+                  }
+                )
+                if (routers) {
+                  stores.routerStore.updateRouter(routers)
+                }
+              }
               setHideAddRoleMapping(!hideAddRoleMapping)
               setHideRole(true)
               Stores.roleMappingStore.updateSelectedRole(toJS(selectedItem))
               setIsModify({ status: true, id: selectedItem.id })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.roleMappingStore.fetchRoleMappingList(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.roleMappingStore.fetchRoleMappingList(page, limit)
             }}
           />
         </div>

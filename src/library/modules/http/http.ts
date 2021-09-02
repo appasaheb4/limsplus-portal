@@ -50,7 +50,7 @@ export class Http {
   }
 
   private get http(): AxiosInstance {
-    console.log({ instance: this.instance })
+    //console.log({ instance: this.instance })
     return this.instance != null ? this.instance : this.initHttp()
   }
 
@@ -68,7 +68,7 @@ export class Http {
 
     http.interceptors.request.use(
       (config) => {
-        console.log("Axios Request: ", config)
+        //console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
           stores.setLoading(true)
         }
