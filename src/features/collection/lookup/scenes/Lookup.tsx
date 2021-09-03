@@ -121,6 +121,7 @@ const Lookup = observer(() => {
                 })
               }}  
               onPageSizeChange={(page,size)=>{
+                // console.log({page,size})
                 Stores.lookupStore.fetchListLookup(page,size);
               }}
             />
