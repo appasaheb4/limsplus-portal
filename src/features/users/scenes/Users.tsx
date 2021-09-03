@@ -32,7 +32,7 @@ export const Users = observer(() => {
   const { loginStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
-  const [modalChangePassword, setModalChangePassword] = useState<any>()
+  const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] = useState<any>()
   // const [lookupItems, setLookupItems] = useState<any[]>([])
 
   const {
@@ -1015,7 +1015,7 @@ export const Users = observer(() => {
                 })
               }}
               onChangePassword={(id: string) => {
-                setModalChangePassword({
+                setModalChangePasswordByAdmin({
                   show: true,
                   type: "ChangePassword",
                   data: { id },
@@ -1089,8 +1089,8 @@ export const Users = observer(() => {
             }}
             onClose={() => setModalConfirm({ show: false })}
           />
-          <LibraryComponents.Molecules.ModalChangePassword
-            {...modalChangePassword}
+          <LibraryComponents.Molecules.ModalChangePasswordByAdmin
+            {...modalChangePasswordByadmin}
             onClick={() => {
               const exipreDate = new Date(
                 moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
@@ -1118,7 +1118,7 @@ export const Users = observer(() => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 Password changed!`,
                   })
-                  setModalChangePassword({ show: false })
+                  setModalChangePasswordByAdmin({ show: false })
                 } else if (res.status === 203) {
                   LibraryComponents.Atoms.Toast.error({
                     message: `😔 ${res.data.data.message}`,
@@ -1139,7 +1139,7 @@ export const Users = observer(() => {
                 ...UserStores.userStore.changePassword,
                 tempHide: true,
               })
-              setModalChangePassword({ show: false })
+              setModalChangePasswordByAdmin({ show: false })
             }}
           />
         </div>
