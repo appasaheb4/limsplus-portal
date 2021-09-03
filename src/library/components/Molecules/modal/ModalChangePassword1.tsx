@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useEffect } from "react"
 import * as LibraryComponents from "@lp/library/components"
-import * as Models from "@lp/features/users/models"
-import * as Utils from "@lp/library/utils"
-
+// import * as Models from "@lp/features/users/models"
+// import * as Utils from "@lp/library/utils"
+import { useForm, Controller } from "react-hook-form"
 import { Stores as UserStores } from "@lp/features/users/stores"
 
 interface ModalProps {
@@ -13,8 +13,25 @@ interface ModalProps {
 }
 
 export default function ModalChangePassword(props: ModalProps) {
-  const [errors, setErrors] = useState<Models.ChangePassword>()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    // setValue,
+  } = useForm()
   const [showModal, setShowModal] = React.useState(props.show)
+
+  const onSubmitModalChangePassword = ()=>{
+    if (
+      UserStores.userStore.changePassword
+    ) {
+      props.onClick()
+    } else {
+      LibraryComponents.Atoms.Toast.error({
+        message: `😔 Please enter all information!`,
+      })
+    }
+  }
   useEffect(() => {
     setShowModal(props.show)
   }, [props])
@@ -28,7 +45,7 @@ export default function ModalChangePassword(props: ModalProps) {
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t">
+                <div className="flex items-start justify-between border-b border-solid border-gray-300 rounded-t p-2">
                   <div className="flex-col">
                     <h3 className="text-3xl font-semibold">Change Password</h3>
                     <br />
@@ -46,100 +63,86 @@ export default function ModalChangePassword(props: ModalProps) {
                 </div>
 
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
+                <div className="relative  flex-auto p-5" >
                   <LibraryComponents.Atoms.List
                     direction="col"
                     space={4}
                     justify="stretch"
                     fill
                   >
+                    <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       type="password"
                       label="Old Password"
                       name="oldPassword"
-                      placeholder="Old Password"
+                      hasError={errors.oldPassword}
+                      placeholder={errors.oldPassword?"Please Enter Old Password":"Old Password"}
                       value={UserStores.userStore.changePassword?.oldPassword}
                       onChange={(oldPassword) => {
-                        setErrors({
-                          ...errors,
-                          oldPassword: Utils.validate.single(
-                            oldPassword,
-                            Utils.constraintsChangePassword.oldPassword
-                          ),
-                        })
+                        onChange(oldPassword)
                         UserStores.userStore.updateChangePassword({
                           ...UserStores.userStore.changePassword,
                           oldPassword,
                         })
                       }}
                     />
-                    {errors?.oldPassword && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.oldPassword}
-                      </span>
                     )}
+                  name="oldPassword"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+                   <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       type="password"
                       label="New Password"
                       name="newPassword"
-                      placeholder="New Password"
+                      placeholder={errors.newPassword?"Please Enter New Password":"New Password"}
+                      hasError={errors.newPassword}
                       value={UserStores.userStore.changePassword?.newPassword}
                       onChange={(newPassword) => {
-                        setErrors({
-                          ...errors,
-                          newPassword:
-                            UserStores.userStore.changePassword?.oldPassword !==
-                            newPassword
-                              ? Utils.validate.single(
-                                  newPassword,
-                                  Utils.constraintsChangePassword.newPassword
-                                )
-                              : "Please use diff password!",
-                        })
+                        onChange(newPassword)
                         UserStores.userStore.updateChangePassword({
                           ...UserStores.userStore.changePassword,
                           newPassword,
                         })
                       }}
                     />
-                    {errors?.newPassword && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.newPassword}
-                      </span>
                     )}
+                    name="newPassword"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+                    <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       type="password"
                       label="Confirm Password"
                       name="confirmPassword"
-                      placeholder="Confirm Password"
+                      placeholder={errors.confirmPassword?"Please Enter Confirm Password":"Confirm Password"}
+                      hasError={errors.confirmPassword}
                       value={UserStores.userStore.changePassword?.confirmPassword}
                       onChange={(confirmPassword) => {
-                        setErrors({
-                          ...errors,
-                          confirmPassword:
-                            UserStores.userStore.changePassword?.newPassword !==
-                            confirmPassword
-                              ? "Please enter same password!"
-                              : Utils.validate.single(
-                                  confirmPassword,
-                                  Utils.constraintsChangePassword.confirmPassword
-                                ),
-                        })
+                        onChange(confirmPassword)
                         UserStores.userStore.updateChangePassword({
                           ...UserStores.userStore.changePassword,
                           confirmPassword,
                         })
                       }}
                     />
-                    {errors?.confirmPassword && (
-                      <span className="text-red-600 font-medium relative">
-                        {errors.confirmPassword}
-                      </span>
                     )}
+                    name="confirmPassword"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
                   </LibraryComponents.Atoms.List>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-gray-300 rounded-b">
+                <div className="flex items-center justify-end  border-t border-solid border-gray-300 rounded-b p-2">
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1"
                     type="button"
@@ -152,21 +155,7 @@ export default function ModalChangePassword(props: ModalProps) {
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                     style={{ transition: "all .15s ease" }}
-                    onClick={() => {
-                      if (
-                        Utils.validate(
-                          UserStores.userStore.changePassword,
-                          Utils.constraintsChangePassword
-                        ) === undefined &&
-                        !Utils.checkNotUndefined(errors)
-                      ) {
-                        props.onClick()
-                      } else {
-                        LibraryComponents.Atoms.Toast.error({
-                          message: `😔 Please enter all information!`,
-                        })
-                      }
-                    }}
+                    onClick={handleSubmit(onSubmitModalChangePassword)}
                   >
                     Change
                   </button>
