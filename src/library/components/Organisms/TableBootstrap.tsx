@@ -131,7 +131,7 @@ const TableBootstrap = ({
 
 
   const onPageChangeHandler = (page, sizePerPage) => {
-    if (page !== 0) onPageSizeChange && onPageSizeChange(page, sizePerPage)
+    if (page !== 0) onPageSizeChange && onPageSizeChange(0,0)
     setTimeout(() => {
       pageStartIndexRef.current = page
     }, 2000);
