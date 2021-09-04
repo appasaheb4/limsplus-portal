@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState ,useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import moment from "moment"
@@ -12,7 +12,7 @@ import * as LibraryModels from "@lp/library/models"
 import { Stores } from "@lp/features/users/stores"
 import { toJS } from "mobx"
 
-interface UserListProps {  
+interface UserListProps {
   data: any
   totalSize: number
   extraData: any
@@ -22,8 +22,8 @@ interface UserListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
-  onChangePassword?: (id: string)=> void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onChangePassword?: (id: string, userId: string) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
 export const UserList = observer((props: UserListProps) => {
@@ -34,7 +34,7 @@ export const UserList = observer((props: UserListProps) => {
     setValue,
   } = useForm()
   const [labs, setLabs] = useState<any>()
-  
+
   let count = 0
 
   return (
@@ -81,31 +81,25 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Default Lab"
-                    >
-                      <select
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Default Lab">
+                    <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.defaultLab
-                          ? "border-red-500"
-                          : "border-gray-300"
+                        errors.defaultLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
-                        onChange={(e) => {
-                          const defaultLab = e.target.value
-                          props.onUpdateItem &&
-                          props.onUpdateItem(defaultLab,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listLabs.map(
-                          (item: any, index: number) => (
-                            <option key={item.name} value={item.code}>
-                              {item.name}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                      onChange={(e) => {
+                        const defaultLab = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(defaultLab, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listLabs.map((item: any, index: number) => (
+                        <option key={item.name} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -147,7 +141,7 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            
+
             {
               dataField: "deginisation",
               text: "Deginisation",
@@ -166,9 +160,7 @@ export const UserList = observer((props: UserListProps) => {
                   <select
                     name="deginisation"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.deginisation
-                        ? "border-red-500"
-                        : "border-gray-300"
+                      errors.deginisation ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {
                       const deginisation = e.target.value
@@ -243,29 +235,29 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Validation Level"
-                    >
-                      <select
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Validation Level">
+                    <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.validationLevel
-                          ? "border-red-500"
-                          : "border-gray-300"
+                        errors.validationLevel ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
-                        onChange={(e) => {
-                          const validationLevel = (e.target.value || 0) as number
-                          props.onUpdateItem &&
-                          props.onUpdateItem(validationLevel,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
-                          <option key={item.description} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                      onChange={(e) => {
+                        const validationLevel = (e.target.value || 0) as number
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            validationLevel,
+                            column.dataField,
+                            row._id
+                          )
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
+                        <option key={item.description} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -337,21 +329,17 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
-                      label="Birthday Date"
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.birthDay
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      value={dayjs
-                        .unix(row.dateOfBirth || 0)
-                        .format("YYYY-MM-DD")}
-                      onChange={(e: any) => {
-                        let date = new Date(e.target.value)
-                          props.onUpdateItem &&
-                          props.onUpdateItem(date,column.dataField,row._id)
-                      }}
-                    />
+                    label="Birthday Date"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.birthDay ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                    value={dayjs.unix(row.dateOfBirth || 0).format("YYYY-MM-DD")}
+                    onChange={(e: any) => {
+                      let date = new Date(e.target.value)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(date, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -374,21 +362,18 @@ export const UserList = observer((props: UserListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
-                      label="Marriage Anniversary Date"
-                     
-                      value={dayjs
-                        .unix(row.dateOfBirth || 0)
-                        .format("YYYY-MM-DD")}
-                      onChange={(e: any) => {
-                        let date = new Date(e.target.value)
-                          props.onUpdateItem &&
-                          props.onUpdateItem(date,column.dataField,row._id)
-                      }}
-                    />
+                    label="Marriage Anniversary Date"
+                    value={dayjs.unix(row.dateOfBirth || 0).format("YYYY-MM-DD")}
+                    onChange={(e: any) => {
+                      let date = new Date(e.target.value)
+                      props.onUpdateItem &&
+                        props.onUpdateItem(date, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
-           
+
             {
               text: "Exipre Date",
               dataField: "exipreDate",
@@ -470,13 +455,13 @@ export const UserList = observer((props: UserListProps) => {
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                      value={row.confidential}
-                      onChange={(confidential) => {
-                        props.onUpdateItem &&
-                        props.onUpdateItem(confidential,"confidential",row._id)
-                      }}
-                    />
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.confidential}
+                    onChange={(confidential) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(confidential, "confidential", row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -486,15 +471,9 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              editable:false,
+              editable: false,
               formatter: (cell, row) => {
-                return (
-                  <>
-                     {dayjs
-                      .unix(row.dateOfEntry || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs.unix(row.dateOfEntry || 0).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -503,8 +482,7 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              editable:false,
-              
+              editable: false,
             },
             {
               dataField: "signature",
@@ -600,7 +578,7 @@ export const UserList = observer((props: UserListProps) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(status, column.dataField, row._id)
                       }}
-                    >   
+                    >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
                         props.extraData.lookupItems,
@@ -630,26 +608,27 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  <select
-                    value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={row.environment}
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const environment = e.target.value
                         props.onUpdateItem &&
-                        props.onUpdateItem(environment,column.dataField,row._id)
-                    }}
-                  >   
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
+                          props.onUpdateItem(environment, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -661,13 +640,13 @@ export const UserList = observer((props: UserListProps) => {
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
-                   <LibraryComponents.Atoms.Form.Toggle
-                      value={row.confirguration}
-                      onChange={(confirguration) => {
-                        props.onUpdateItem &&
-                        props.onUpdateItem(confirguration,"confirguration",row._id)
-                      }}
-                    />
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.confirguration}
+                    onChange={(confirguration) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(confirguration, "confirguration", row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -716,12 +695,13 @@ export const UserList = observer((props: UserListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <>
-                <LibraryComponents.Atoms.Buttons.Button
+                  <LibraryComponents.Atoms.Buttons.Button
                     size="small"
                     type="outline"
                     icon={LibraryComponents.Atoms.Icon.ReSendPassword}
-                    onClick={()=>{
-                      props.onChangePassword && props.onChangePassword(row._id)
+                    onClick={() => {
+                      props.onChangePassword &&
+                        props.onChangePassword(row._id, row.userId)
                     }}
                   >
                     Change Password
@@ -759,14 +739,11 @@ export const UserList = observer((props: UserListProps) => {
                         )}
                       </LibraryComponents.Atoms.Icons.IconContext>
                     </LibraryComponents.Atoms.Tooltip>
-
                   </div>
                 </>
               ),
             },
-        
           ]}
-
           isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName="User"
@@ -777,8 +754,8 @@ export const UserList = observer((props: UserListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
         />
       </div>

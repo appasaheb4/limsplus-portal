@@ -1014,11 +1014,11 @@ export const Users = observer(() => {
                   body: `UpdateImage!`,
                 })
               }}
-              onChangePassword={(id: string) => {
+              onChangePassword={(id: string, userId: string) => {
                 setModalChangePasswordByAdmin({
                   show: true,
-                  type: "ChangePassword",
-                  data: { id },
+                  type: "changePassword",
+                  data: { id, userId },
                   title: "Are You Sure?",
                   body: `UpdatePassword!`,
                 })
@@ -1085,60 +1085,38 @@ export const Users = observer(() => {
                       alert(res.message)
                     }
                   })
-              }
+              }   
             }}
             onClose={() => setModalConfirm({ show: false })}
           />
+
           <LibraryComponents.Molecules.ModalChangePasswordByAdmin
             {...modalChangePasswordByadmin}
             onClick={() => {
               const exipreDate = new Date(
                 moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
               )
-              let body = Object.assign(
-                LoginStores.loginStore.login,
-                UserStores.userStore.changePassword
-              )
-              body = {
-                ...body,
+              const body = {
+                userId: modalChangePasswordByadmin.data.userId,
+                password: Stores.userStore.changePassword?.confirmPassword,
                 exipreDate: LibraryUtils.moment(exipreDate).unix(),
               }
-              UserStores.userStore.UsersService.changePassword(body).then((res) => {
-                console.log({ res })
-                if (res.status === 200) {
-                  LoginStores.loginStore.updateLogin({
-                    ...LoginStores.loginStore.login,
-                    exipreDate: LibraryUtils.moment(exipreDate).unix(),
-                    passChanged: true,
-                  })
-                  UserStores.userStore.updateChangePassword({
-                    ...UserStores.userStore.changePassword,
-                    tempHide: true,
-                  })
-                  LibraryComponents.Atoms.Toast.success({
-                    message: `😊 Password changed!`,
-                  })
-                  setModalChangePasswordByAdmin({ show: false })
-                } else if (res.status === 203) {
-                  LibraryComponents.Atoms.Toast.error({
-                    message: `😔 ${res.data.data.message}`,
-                  })
-                } else {
-                  LibraryComponents.Atoms.Toast.error({
-                    message: `😔 Please enter correct old password`,
-                  })
+              UserStores.userStore.UsersService.changepasswordByAdmin(body).then(
+                (res) => {
+                  if (res.success) {
+                    setModalChangePasswordByAdmin({ show: false })
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.message}`,
+                    })
+                  } else {
+                    LibraryComponents.Atoms.Toast.error({
+                      message: `😔 ${res.message}`,
+                    })
+                  }
                 }
-              })
+              )
             }}
             onClose={() => {
-              LoginStores.loginStore.updateLogin({
-                ...LoginStores.loginStore.login,
-                passChanged: true,
-              })
-              UserStores.userStore.updateChangePassword({
-                ...UserStores.userStore.changePassword,
-                tempHide: true,
-              })
               setModalChangePasswordByAdmin({ show: false })
             }}
           />

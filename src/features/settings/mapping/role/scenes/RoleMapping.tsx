@@ -123,6 +123,7 @@ const RoleMapping = observer(() => {
                     (item: any) => {
                       const children = item.children.filter((childernItem) => {
                         if (
+                          childernItem.name !== "Role" &&
                           childernItem.name !== "User" &&
                           childernItem.name !== "Login Activity" &&
                           childernItem.name !== "Role Mapping" &&
@@ -539,7 +540,8 @@ const RoleMapping = observer(() => {
                 const routers: any = stores.routerStore.router.filter(
                   (item: any) => {
                     const children = item.children.filter((childernItem) => {
-                      if (
+                      if (    
+                        childernItem.name !== "Role" &&
                         childernItem.name !== "User" &&
                         childernItem.name !== "Login Activity" &&
                         childernItem.name !== "Role Mapping" &&
