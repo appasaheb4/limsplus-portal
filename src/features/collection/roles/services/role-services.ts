@@ -14,7 +14,7 @@ export class RoleService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       http
-        .get(`/role/listRole/${page}/${limit}/${env}/${role}`)  
+        .get(`/role/listRole/${page}/${limit}/${env}/${role}`)
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -35,17 +35,19 @@ export class RoleService {
         })
     })
 
-  checkExitsCode = (code: string) =>
+  checkExitsEnvCode = (code: string, env) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/role/checkExitsCode`, { code })
-        .then((res: any) => {
-          resolve(res.data.data)
+        .post(`/role/checkExitsEnvCode`, { code, env })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   deleterole = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
