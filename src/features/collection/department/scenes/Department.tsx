@@ -52,7 +52,7 @@ export const Department = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: "😔 Please enter all information!",
+        message: "😔 Please enter diff code!",
       })
     }
   }
@@ -111,6 +111,18 @@ export const Department = observer(() => {
                             ...Stores.departmentStore.department,
                             lab,
                           })
+                          Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
+                            Stores.departmentStore.department?.code || "",
+                            Stores.departmentStore.department?.environment || "",
+                            lab
+                          ).then((res) => {
+                            if (res.success) {
+                              Stores.departmentStore.setExitsCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.departmentStore.setExitsCode(false)
+                          })
                         }}
                       >
                         <option selected>Select</option>
@@ -144,13 +156,17 @@ export const Department = observer(() => {
                         })
                       }}
                       onBlur={(code) => {
-                        Stores.departmentStore.DepartmentService.checkExitsCode(
-                          code
+                        Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
+                          code,
+                          Stores.departmentStore.department?.environment || "",
+                          Stores.departmentStore.department?.lab || ""
                         ).then((res) => {
-                          if (res)
-                            if (res.length > 0)
-                              Stores.departmentStore.setExitsCode(true)
-                            else Stores.departmentStore.setExitsCode(false)
+                          if (res.success) {
+                            Stores.departmentStore.setExitsCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.departmentStore.setExitsCode(false)
                         })
                       }}
                     />
@@ -544,13 +560,26 @@ export const Department = observer(() => {
                             ...Stores.departmentStore.department,
                             environment,
                           })
+                          Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
+                            Stores.departmentStore.department?.code || "",
+                            environment,
+                            Stores.departmentStore.department?.lab || ""
+                          ).then((res) => {
+                            if (res.success) {
+                              Stores.departmentStore.setExitsCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.departmentStore.setExitsCode(false)
+                          })
                         }}
                       >
                         <option selected>
                           {stores.loginStore.login &&
                           stores.loginStore.login.role !== "SYSADMIN"
                             ? `Select`
-                            : Stores.departmentStore.department?.environment || `Select`}
+                            : Stores.departmentStore.department?.environment ||
+                              `Select`}
                         </option>
                         {LibraryUtils.lookupItems(
                           stores.routerStore.lookupItems,

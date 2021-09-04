@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -16,7 +16,7 @@ const Role = observer(() => {
     control,
     formState: { errors },
     handleSubmit,
-    setValue
+    setValue,
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -63,7 +63,7 @@ const Role = observer(() => {
         <div
           className={
             "p-2 rounded-lg shadow-xl overflow-auto " +
-            (hideAddRole ? "hidden" : "shown")
+            (hideAddRole ? "shown" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -90,13 +90,17 @@ const Role = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.roleStore.RoleService.checkExitsCode(code).then(
-                        (res) => {
-                          if (res)
-                            if (res.length > 0) Stores.roleStore.setExitsCode(true)
-                            else Stores.roleStore.setExitsCode(false)
-                        }
-                      )
+                      Stores.roleStore.RoleService.checkExitsEnvCode(
+                        code,
+                        Stores.roleStore.role?.environment
+                      ).then((res) => {
+                        if (res.success) {
+                          Stores.roleStore.setExitsCode(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.message}`,
+                          })
+                        } else Stores.roleStore.setExitsCode(false)
+                      })
                     }}
                   />
                 )}
@@ -156,6 +160,17 @@ const Role = observer(() => {
                         Stores.roleStore.updateRole({
                           ...Stores.roleStore.role,
                           environment,
+                        })      
+                        Stores.roleStore.RoleService.checkExitsEnvCode(
+                          Stores.roleStore.role?.code || "",
+                          environment
+                        ).then((res) => {
+                          if (res.success) {
+                            Stores.roleStore.setExitsCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.roleStore.setExitsCode(false)
                         })
                       }}
                     >

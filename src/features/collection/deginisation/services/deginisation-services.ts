@@ -45,17 +45,22 @@ class DeginisationService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+    
+
+  checkExitsEnvCode = (code: string, env: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/deginisation/checkExitsCode`, { code })
-        .then((res: any) => {
-          resolve(res.data.data)
+        .post(`/deginisation/checkExitsEnvCode`, { code, env })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
-        .catch((error) => {
-          reject({ error })
+        .catch((error) => {  
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
+    
 
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {

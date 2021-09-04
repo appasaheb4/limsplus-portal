@@ -15,7 +15,9 @@ class DepartmentService {
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
       http
-        .get(`/master/department/listDepartment/${page}/${limit}/${env}/${role}/${lab}`)
+        .get(
+          `/master/department/listDepartment/${page}/${limit}/${env}/${role}/${lab}`
+        )
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -36,17 +38,20 @@ class DepartmentService {
           reject({ error })
         })
     })
-  checkExitsCode = (code: string) =>
+
+  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/department/checkExitsCode`, { code })
-        .then((res: any) => {
-          resolve(res.data.data)
+        .post(`/master/department/checkExitsLabEnvCode`, { code, env, lab })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
         })
         .catch((error) => {
-          reject({ error })
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   deletedepartment = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http

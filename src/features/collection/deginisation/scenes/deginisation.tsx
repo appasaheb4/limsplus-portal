@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -51,7 +51,7 @@ const Deginisation = observer(() => {
       })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: "😔 Please ente diff code!",
+        message: "😔 Please enter diff code",
       })
     }
   }
@@ -73,7 +73,7 @@ const Deginisation = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "hidden" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "shown" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -100,13 +100,16 @@ const Deginisation = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.deginisationStore.DeginisationService.checkExitsCode(
-                        code
+                      Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
+                        code,
+                        Stores.deginisationStore.deginisation?.environment || ""
                       ).then((res) => {
-                        if (res)
-                          if (res.length > 0)
-                            Stores.deginisationStore.setExitsCode(true)
-                          else Stores.deginisationStore.setExitsCode(false)
+                        if (res.success) {
+                          Stores.deginisationStore.setExitsCode(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.message}`,
+                          })
+                        } else Stores.deginisationStore.setExitsCode(false)
                       })
                     }}
                   />
@@ -170,13 +173,25 @@ const Deginisation = observer(() => {
                           ...Stores.deginisationStore.deginisation,
                           environment,
                         })
+                        Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
+                          Stores.deginisationStore.deginisation?.code || "",
+                          environment
+                        ).then((res) => {
+                          if (res.success) {
+                            Stores.deginisationStore.setExitsCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.deginisationStore.setExitsCode(false)
+                        })
                       }}
                     >
                       <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.deginisationStore.deginisation?.environment || `Select`}
+                          : Stores.deginisationStore.deginisation?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
