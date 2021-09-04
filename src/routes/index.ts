@@ -314,7 +314,7 @@ const collectionRoutes = {
     },
   ],
 }
-
+  
 const communicationRoutes = {
   path: "/communication",
   name: "Communication",

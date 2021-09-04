@@ -1,21 +1,16 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 
-import * as Models from "../models"
 import * as Utils from "../util"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores, stores } from "@lp/library/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 import { Stores as SalesTeamStore } from "@lp/features/collection/salesTeam/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -42,7 +37,7 @@ const Lab = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitLab = () => {
-    if (!Stores.labStore.checkExitsCode) {
+    if (!Stores.labStore.checkExitsEnvCode) {
       Stores.labStore.LabService.addLab(Stores.labStore.labs).then(() => {
         LibraryComponents.Atoms.Toast.success({
           message: `😊 Lab created.`,
@@ -53,7 +48,7 @@ const Lab = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: "😔 Please enter all information!",
+        message: "😔 Please enter diff code and environment",
       })
     }
   }
@@ -103,9 +98,16 @@ const Lab = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.labStore.LabService.checkExitsCode(code).then((res) => {
-                        if (res) Stores.labStore.setExitsCode(true)
-                        else Stores.labStore.setExitsCode(false)
+                      Stores.labStore.LabService.checkExitsEnvCode(
+                        code,
+                        Stores.labStore.labs?.environment || ""
+                      ).then((res) => {
+                        if (res.success) {
+                          Stores.labStore.setExitsEnvCode(true)
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.message}`,
+                          })
+                        } else Stores.labStore.setExitsEnvCode(false)
                       })
                     }}
                   />
@@ -114,7 +116,7 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.labStore.checkExitsCode && (
+              {Stores.labStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -845,6 +847,17 @@ const Lab = observer(() => {
                         Stores.labStore.updateLabs({
                           ...Stores.labStore.labs,
                           environment,
+                        })
+                        Stores.labStore.LabService.checkExitsEnvCode(
+                          Stores.labStore.labs?.code || "",
+                          environment
+                        ).then((res) => {
+                          if (res.success) {
+                            Stores.labStore.setExitsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.labStore.setExitsEnvCode(false)
                         })
                       }}
                     >
