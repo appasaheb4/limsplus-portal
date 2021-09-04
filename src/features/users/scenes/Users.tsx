@@ -1014,11 +1014,11 @@ export const Users = observer(() => {
                   body: `UpdateImage!`,
                 })
               }}
-              onChangePassword={(id: string, userId: string) => {
+              onChangePassword={(id: string, userId: string, email: string) => {
                 setModalChangePasswordByAdmin({
                   show: true,
                   type: "changePassword",
-                  data: { id, userId },
+                  data: { id, userId, email },
                   title: "Are You Sure?",
                   body: `UpdatePassword!`,
                 })
@@ -1085,7 +1085,7 @@ export const Users = observer(() => {
                       alert(res.message)
                     }
                   })
-              }   
+              }
             }}
             onClose={() => setModalConfirm({ show: false })}
           />
@@ -1099,15 +1099,19 @@ export const Users = observer(() => {
               const body = {
                 userId: modalChangePasswordByadmin.data.userId,
                 password: Stores.userStore.changePassword?.confirmPassword,
+                email: modalChangePasswordByadmin.data.email,
                 exipreDate: LibraryUtils.moment(exipreDate).unix(),
               }
               UserStores.userStore.UsersService.changepasswordByAdmin(body).then(
                 (res) => {
-                  if (res.success) {
+                  if (res.success) {  
                     setModalChangePasswordByAdmin({ show: false })
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 ${res.message}`,
                     })
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
                   } else {
                     LibraryComponents.Atoms.Toast.error({
                       message: `😔 ${res.message}`,

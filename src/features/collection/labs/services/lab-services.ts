@@ -24,6 +24,7 @@ export class LabService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
+
   addLab = (lab?: Models.Labs) =>
     new Promise<any>((resolve, reject) => {
       const form = new FormData()
@@ -93,6 +94,20 @@ export class LabService {
           reject({ error })
         })
     })
+
+  checkExitsEnvCode = (code: string,env: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/lab/checkExitsEnvCode`, { code,env })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
+
   deleteLab = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http

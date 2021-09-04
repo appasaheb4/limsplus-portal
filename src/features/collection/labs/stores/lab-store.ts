@@ -9,7 +9,7 @@ class LabStore {
   @observable listLabs: Models.Labs[] = []
   @observable listLabsCount: number = 0
   @ignore @observable labs?: Models.Labs
-  @ignore @observable checkExitsCode?: boolean = false
+  @ignore @observable checkExitsEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -32,8 +32,8 @@ class LabStore {
     })
   }
 
-  @action setExitsCode(status: boolean) {
-    this.checkExitsCode = status
+  @action setExitsEnvCode(status: boolean) {
+    this.checkExitsEnvCode = status
   }
 
   @action updateLabs = (labs: Models.Labs) => {

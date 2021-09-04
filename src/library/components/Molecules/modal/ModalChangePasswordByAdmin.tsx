@@ -63,7 +63,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                 </div>
 
                 {/*body*/}
-                <div className="relative p-5 flex-auto">
+                <div className="relative p-3 flex-auto">
                   <LibraryComponents.Atoms.List
                     direction="col"
                     space={4}
