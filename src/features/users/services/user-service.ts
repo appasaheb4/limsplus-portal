@@ -138,6 +138,20 @@ export class UserService {
         })
     })
 
+
+    changepasswordByAdmin = (body: any) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/auth/changepasswordByAdmin`, body)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
+
   switchAccess = (accessInfo: any) =>
     new Promise<any>((resolve, reject) => {
       http

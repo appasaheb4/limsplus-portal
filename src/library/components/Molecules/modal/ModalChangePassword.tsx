@@ -3,7 +3,6 @@ import * as LibraryComponents from "@lp/library/components"
 // import * as Models from "@lp/features/users/models"
 // import * as Utils from "@lp/library/utils"
 import { FormHelper } from "@lp/helper"
-import { Container } from "reactstrap"
 import { useForm, Controller } from "react-hook-form"
 import { Stores as UserStores } from "@lp/features/users/stores"
 
@@ -14,7 +13,7 @@ interface ModalProps {
   onClose: () => void
 }
 
-export default function ModalChangePasswordByAdmin(props: ModalProps) {
+export default function ModalChangePassword(props: ModalProps) {
   const {
     control,
     handleSubmit,
@@ -23,7 +22,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
   } = useForm()
   const [showModal, setShowModal] = React.useState(props.show)
 
-  const onSubmitModalChangePasswordByAdmin = () => {
+  const onSubmitModalChangePassword = () => {
     if (UserStores.userStore.changePassword) {
       props.onClick()
     } else {
@@ -37,19 +36,19 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
   }, [props])
 
   return (
-    <Container>
+    <>
       {showModal && (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-full my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none p-3">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between border-b border-solid border-gray-300 rounded-t ">
+                <div className="flex items-start justify-between border-b border-solid border-gray-300 rounded-t p-2">
                   <div className="flex-col">
-                    <h3 className="text-3xl font-semibold">
-                      Change Password By Adminstrator
-                    </h3>
+                    <h3 className="text-3xl font-semibold">Change Password</h3>
+                    <br />
+                    <h6>{UserStores.userStore.changePassword?.subTitle}</h6>
                   </div>
 
                   <button
@@ -63,7 +62,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                 </div>
 
                 {/*body*/}
-                <div className="relative p-5 flex-auto">
+                <div className="relative  flex-auto p-5">
                   <LibraryComponents.Atoms.List
                     direction="col"
                     space={4}
@@ -75,14 +74,44 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                       render={({ field: { onChange } }) => (
                         <LibraryComponents.Atoms.Form.Input
                           type="password"
+                          label="Old Password"
+                          name="oldPassword"
+                          hasError={errors.oldPassword}
+                          placeholder={
+                            errors.oldPassword
+                              ? "Please Enter Old Password"
+                              : "Old Password"
+                          }
+                          value={UserStores.userStore.changePassword?.oldPassword}
+                          onChange={(oldPassword) => {
+                            onChange(oldPassword)
+                            UserStores.userStore.updateChangePassword({
+                              ...UserStores.userStore.changePassword,
+                              oldPassword,
+                            })
+                          }}
+                        />
+                      )}
+                      name="oldPassword"
+                      rules={{
+                        required: true,
+                        pattern: FormHelper.patterns.password,
+                      }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          type="password"
                           label="New Password"
                           name="newPassword"
-                          hasError={errors.newPassword}
                           placeholder={
                             errors.newPassword
                               ? "Please Enter New Password"
                               : "New Password"
                           }
+                          hasError={errors.newPassword}
                           value={UserStores.userStore.changePassword?.newPassword}
                           onChange={(newPassword) => {
                             onChange(newPassword)
@@ -107,12 +136,12 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                           type="password"
                           label="Confirm Password"
                           name="confirmPassword"
-                          hasError={errors.confirmPassword}
                           placeholder={
                             errors.confirmPassword
                               ? "Please Enter Confirm Password"
                               : "Confirm Password"
                           }
+                          hasError={errors.confirmPassword}
                           value={
                             UserStores.userStore.changePassword?.confirmPassword
                           }
@@ -131,7 +160,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                         pattern: FormHelper.patterns.password,
                         validate: (value) =>
                           value === UserStores.userStore.changePassword?.newPassword,
-                      }}    
+                      }}
                       defaultValue=""
                     />
                   </LibraryComponents.Atoms.List>
@@ -150,7 +179,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                     className="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                     style={{ transition: "all .15s ease" }}
-                    onClick={handleSubmit(onSubmitModalChangePasswordByAdmin)}
+                    onClick={handleSubmit(onSubmitModalChangePassword)}
                   >
                     Change
                   </button>
@@ -161,6 +190,6 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       )}
-    </Container>
+    </>
   )
 }

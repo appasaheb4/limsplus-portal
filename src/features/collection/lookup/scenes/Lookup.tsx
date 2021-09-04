@@ -58,28 +58,30 @@ const Lookup = observer(() => {
             show={hideAddLookup}
             onClick={() => setHideAddLookup(!hideAddLookup)}
           />
-        )}  
-   
-        <Accordion>  
-          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map((item) => {
-            return (
-              <AccordionItem
-                title={`${item.title}`}
-                expanded={item.title === "DOCUMENT SETTING"}
-              >
-                {item.title === "DOCUMENT SETTING" && (
-                  <>
-                    <NewField />
-                  </>
-                )}
-                {item.title === "GENERAL SETTING" && (
-                  <>
-                    <GeneralField />
-                  </>
-                )}
-              </AccordionItem>
-            )
-          })}
+        )}
+
+        <Accordion>
+          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map(
+            (item) => {
+              return (
+                <AccordionItem
+                  title={`${item.title}`}
+                  expanded={item.title === "DOCUMENT SETTING"}
+                >
+                  {item.title === "DOCUMENT SETTING" && (
+                    <>
+                      <NewField />
+                    </>
+                  )}
+                  {item.title === "GENERAL SETTING" && (
+                    <>
+                      <GeneralField />
+                    </>
+                  )}
+                </AccordionItem>
+              )
+            }
+          )}
         </Accordion>
 
         <div className="mx-auto">
@@ -91,7 +93,7 @@ const Lookup = observer(() => {
               extraData={{
                 lookup: Stores.lookupStore.lookup,
                 updateLookup: Stores.lookupStore.updateLookup,
-                lookupItems: stores.routerStore.lookupItems
+                lookupItems: stores.routerStore.lookupItems,
               }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
@@ -119,10 +121,10 @@ const Lookup = observer(() => {
                   title: "Are you sure?",
                   body: `Update Lookup!`,
                 })
-              }}  
-              onPageSizeChange={(page,size)=>{
+              }}
+              onPageSizeChange={(page, size) => {
                 // console.log({page,size})
-                Stores.lookupStore.fetchListLookup(page,size);
+                Stores.lookupStore.fetchListLookup(page, size)
               }}
             />
           </div>
