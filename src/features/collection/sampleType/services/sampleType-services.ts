@@ -56,6 +56,19 @@ class SampleTypeService {
           reject({ error })
         })
     })
+
+    checkExitsEnvCode = (code: string, env: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/sampleType/checkExitsEnvCode`, { code, env })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
 }
 
 export default SampleTypeService

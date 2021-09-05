@@ -33,16 +33,18 @@ const MasterPanel = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.masterPanelStore.updateMasterPanel({
         ...Stores.masterPanelStore.masterPanel,
+        rLab: stores.loginStore.login.lab,
         pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("rLab", stores.loginStore.login.lab)
       setValue("pLab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
 
   const onSubmitMasterPanel = () => {
-    if (Stores.masterPanelStore.masterPanel) {
+    if (!Stores.masterPanelStore.checkExitsLabEnvCode) {
       if (
         !Stores.masterPanelStore.masterPanel?.existsVersionId &&
         !Stores.masterPanelStore.masterPanel?.existsRecordId
@@ -91,7 +93,7 @@ const MasterPanel = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -132,7 +134,13 @@ const MasterPanel = observer(() => {
                     hasError={errors.rLab}
                   >
                     <select
-                      value={LoginStore.loginStore.login?.lab}
+                      value={Stores.masterPanelStore.masterPanel?.rLab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.rLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -143,6 +151,23 @@ const MasterPanel = observer(() => {
                           ...Stores.masterPanelStore.masterPanel,
                           rLab,
                         })
+                        if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
+                          Stores.masterPanelStore.masterPanelService
+                            .checkExitsLabEnvCode(
+                              Stores.masterPanelStore.masterPanel?.panelCode || "",
+                              Stores.masterPanelStore.masterPanel?.environment || "",
+                              rLab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -170,7 +195,13 @@ const MasterPanel = observer(() => {
                     hasError={errors.pLab}
                   >
                     <select
-                    value={Stores.masterPanelStore.masterPanel?.pLab}
+                      value={Stores.masterPanelStore.masterPanel?.pLab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.pLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -324,12 +355,36 @@ const MasterPanel = observer(() => {
                         panelCode: panelCode.toUpperCase(),
                       })
                     }}
+                    onBlur={(code) => {
+                      if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
+                        Stores.masterPanelStore.masterPanelService
+                          .checkExitsLabEnvCode(
+                            code,
+                            Stores.masterPanelStore.masterPanel?.environment || "",
+                            Stores.masterPanelStore.masterPanel?.rLab || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="panelCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.masterPanelStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
 
               <Controller
                 control={control}
@@ -1375,13 +1430,31 @@ const MasterPanel = observer(() => {
                           ...Stores.masterPanelStore.masterPanel,
                           environment,
                         })
+                        if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
+                          Stores.masterPanelStore.masterPanelService
+                            .checkExitsLabEnvCode(
+                              Stores.masterPanelStore.masterPanel?.panelCode || "",
+                              environment,
+                              Stores.masterPanelStore.masterPanel?.rLab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterPanelStore.masterPanel?.environment || `Select`}
+                          : Stores.masterPanelStore.masterPanel?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -1538,6 +1611,11 @@ const MasterPanel = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("rLab",modalConfirm.data.rLab)
+              setValue("pLab",modalConfirm.data.pLab)
+              setValue("panelCode",modalConfirm.data.panelCode)
+              setValue("panelName",modalConfirm.data.panelName)
+              setValue("environment",modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,

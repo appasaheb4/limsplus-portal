@@ -37,7 +37,7 @@ const SampleContainer = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitSampleContainer = () => {
-    if (Stores.sampleContainerStore.sampleContainer) {
+    if (!Stores.sampleContainerStore.checkExitsEnvCode) {
       Stores.sampleContainerStore.sampleContainerService
         .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
         .then((res) => {
@@ -52,7 +52,7 @@ const SampleContainer = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -105,13 +105,34 @@ const SampleContainer = observer(() => {
                         containerCode: containerCode.toUpperCase(),
                       })
                     }}
+                    onBlur={(code) => {
+                      Stores.sampleContainerStore.sampleContainerService
+                        .checkExitsEnvCode(
+                          code,
+                          Stores.sampleContainerStore.sampleContainer?.environment ||
+                            ""
+                        )
+                        .then((res) => {
+                          if (res.success) {
+                            Stores.sampleContainerStore.updateExitsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else
+                            Stores.sampleContainerStore.updateExitsEnvCode(false)
+                        })
+                    }}
                   />
-                )}
+                )}   
                 name="containerCode"
                 rules={{ required: true }}
                 defaultValue=""
-              />
-
+              />  
+              {Stores.sampleContainerStore.checkExitsEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -218,13 +239,29 @@ const SampleContainer = observer(() => {
                           ...Stores.sampleContainerStore.sampleContainer,
                           environment,
                         })
+                        Stores.sampleContainerStore.sampleContainerService
+                          .checkExitsEnvCode(
+                            Stores.sampleContainerStore.sampleContainer
+                              ?.containerCode || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.sampleContainerStore.updateExitsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.sampleContainerStore.updateExitsEnvCode(false)
+                          })
                       }}
                     >
                       <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.sampleContainerStore.sampleContainer?.environment || `Select`}
+                          : Stores.sampleContainerStore.sampleContainer
+                              ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

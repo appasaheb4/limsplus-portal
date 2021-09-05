@@ -9,6 +9,8 @@ class TestPanelMappingStore {
   @ignore @observable testPanelMapping?: Models.TestPanelMapping
   @observable listTestPanelMapping?: Models.TestPanelMapping[] = []
   @observable listTestPanelMappingCount: number = 0 
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
+
   constructor() {
     makeAutoObservable(this)
     this.testPanelMapping = {
@@ -37,6 +39,10 @@ class TestPanelMappingStore {
 
   @action updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
     this.testPanelMapping = testPanel
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

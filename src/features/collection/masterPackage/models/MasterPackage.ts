@@ -8,8 +8,8 @@ export class MasterPackage {
     keyNum?: string
     enteredBy?: string
     lab?: string  
-    packageCode?: string
-    packageName?: string
+    packageCode: string | undefined
+    packageName: string |undefined
     panelCode?: string[]
     panelName?: string[]
     bill?: boolean

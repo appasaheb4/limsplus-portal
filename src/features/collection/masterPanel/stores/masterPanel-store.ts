@@ -2,13 +2,13 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import { Stores } from "@lp/features/login/stores"
 import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 class MasterPanelStore {
   @ignore @observable masterPanel?: Models.MasterPanel
   @observable listMasterPanel?: Models.MasterPanel[] = []
-  @observable listMasterPanelCount: number = 0 
+  @observable listMasterPanelCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -20,7 +20,6 @@ class MasterPanelStore {
       dateActiveTo: LibraryUtils.moment().unix(),
       version: 1,
       keyNum: "1",
-      rLab: Stores.loginStore.login?.lab,
       bill: false,
       autoRelease: false,
       holdOOS: false,
@@ -36,12 +35,11 @@ class MasterPanelStore {
   }
 
   @computed get masterPanelService() {
-    return new Services.MasterPanelService(
-    )
+    return new Services.MasterPanelService()
   }
 
-  @action fetchPanelMaster(page?,limit?) {
-    this.masterPanelService.listPanelMaster(page,limit).then((res) => {
+  @action fetchPanelMaster(page?, limit?) {
+    this.masterPanelService.listPanelMaster(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listMasterPanel = res.data.masterPanel
       this.listMasterPanelCount = res.data.count
@@ -50,6 +48,10 @@ class MasterPanelStore {
 
   @action updateMasterPanel(analyte: Models.MasterPanel) {
     this.masterPanel = analyte
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

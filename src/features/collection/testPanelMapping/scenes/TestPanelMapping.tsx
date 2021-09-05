@@ -42,7 +42,7 @@ const TestPanelMapping = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitTestPanelMapping = () => {
-    if (Stores.testPanelMappingStore.testPanelMapping) {
+    if (!Stores.testPanelMappingStore.checkExitsLabEnvCode) {
       if (
         !Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
         !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
@@ -84,7 +84,7 @@ const TestPanelMapping = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -142,6 +142,32 @@ const TestPanelMapping = observer(() => {
                           ...Stores.testPanelMappingStore.testPanelMapping,
                           lab,
                         })
+                        if (
+                          !Stores.testPanelMappingStore.testPanelMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode(
+                              Stores.testPanelMappingStore.testPanelMapping
+                                ?.panelCode || "",
+                              Stores.testPanelMappingStore.testPanelMapping
+                                ?.environment || "",
+                              lab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -178,6 +204,32 @@ const TestPanelMapping = observer(() => {
                           ...Stores.testPanelMappingStore.testPanelMapping,
                           panelCode: panelCode,
                         })
+                        if (
+                          !Stores.testPanelMappingStore.testPanelMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode(
+                              panelCode,
+                              Stores.testPanelMappingStore.testPanelMapping
+                                ?.environment || "",
+                              Stores.testPanelMappingStore.testPanelMapping?.lab ||
+                                ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -196,6 +248,12 @@ const TestPanelMapping = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.testPanelMappingStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -508,6 +566,32 @@ const TestPanelMapping = observer(() => {
                           ...Stores.testPanelMappingStore.testPanelMapping,
                           environment,
                         })
+                        if (
+                          !Stores.testPanelMappingStore.testPanelMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode(
+                              Stores.testPanelMappingStore.testPanelMapping
+                                ?.panelCode || "",
+                              environment,
+                              Stores.testPanelMappingStore.testPanelMapping?.lab ||
+                                ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -645,7 +729,7 @@ const TestPanelMapping = observer(() => {
                     Stores.testPanelMappingStore.fetchTestPanelMapping()
                     window.location.reload()
                   }
-                })
+                })  
             } else if (type === "versionUpgrade") {
               Stores.testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,
@@ -655,6 +739,9 @@ const TestPanelMapping = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,

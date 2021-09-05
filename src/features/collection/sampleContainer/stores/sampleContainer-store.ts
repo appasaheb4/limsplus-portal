@@ -8,6 +8,9 @@ class SampleContainerStore {
   @ignore @observable sampleContainer?: Models.SampleContainer
   @observable listSampleContainer: Models.SampleContainer[] = []
   @observable listSampleContainerCount: number = 0 
+  @ignore @observable checkExitsEnvCode?: boolean = false
+
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -27,6 +30,10 @@ class SampleContainerStore {
   
   @action updateSampleContainer = (sampleContainer: Models.SampleContainer) => {
     this.sampleContainer = sampleContainer
+  }
+
+  @action updateExitsEnvCode(status: boolean) {
+    this.checkExitsEnvCode = status
   }
 }
 export default SampleContainerStore

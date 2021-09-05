@@ -83,18 +83,6 @@ export class LabService {
         })
     })
 
-  checkExitsCode = (code: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/lab/checkExitsCode`, { code })
-        .then((res: any) => {
-          resolve(res.data.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-
   checkExitsEnvCode = (code: string,env: string) =>
     new Promise<any>((resolve, reject) => {
       http

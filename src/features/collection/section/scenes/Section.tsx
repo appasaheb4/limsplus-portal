@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-   
+
 import { SectionList } from "../components/molecules"
 import { useStores } from "@lp/library/stores"
 import { useForm, Controller } from "react-hook-form"
@@ -20,7 +20,7 @@ const Section = observer(() => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm()  
+  } = useForm()
 
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -34,9 +34,9 @@ const Section = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
-
+   
   const onSubmitSection = () => {
-    if (Stores.sectionStore.section) {
+    if (!Stores.sectionStore.checkExitsEnvCode) {
       Stores.sectionStore.sectionService
         .addSection(Stores.sectionStore.section)
         .then((res) => {
@@ -55,7 +55,7 @@ const Section = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.error({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -140,13 +140,32 @@ const Section = observer(() => {
                         code,
                       })
                     }}
+                    onBlur={(code) => {
+                      Stores.sectionStore.sectionService
+                        .checkExitsEnvCode(
+                          code,
+                          Stores.sectionStore.section?.environment || ""
+                        )
+                        .then((res) => {
+                          if (res.success) {
+                            Stores.sectionStore.setExitsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.sectionStore.setExitsEnvCode(false)
+                        })
+                    }}
                   />
                 )}
                 name="code"
                 rules={{ required: true }}
                 defaultValue=""
               />
-
+              {Stores.sectionStore.checkExitsEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -382,6 +401,19 @@ const Section = observer(() => {
                           ...Stores.sectionStore.section,
                           environment,
                         })
+                        Stores.sectionStore.sectionService
+                          .checkExitsEnvCode(
+                            Stores.sectionStore.section?.code || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.sectionStore.setExitsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.sectionStore.setExitsEnvCode(false)
+                          })
                       }}
                     >
                       <option selected>

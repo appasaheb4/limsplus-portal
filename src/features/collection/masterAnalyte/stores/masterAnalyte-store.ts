@@ -9,6 +9,7 @@ class MasterAnalyteStore {
   @ignore @observable masterAnalyte?: Models.MasterAnalyte
   @observable listMasterAnalyte?: Models.MasterAnalyte[] = []
   @observable listMasterAnalyteCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -45,6 +46,10 @@ class MasterAnalyteStore {
 
   @action updateMasterAnalyte(analyte: Models.MasterAnalyte) {
     this.masterAnalyte = analyte
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 
