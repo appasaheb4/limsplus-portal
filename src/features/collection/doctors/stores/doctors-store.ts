@@ -9,28 +9,28 @@ class DoctorsStore {
   @ignore @observable doctors?: Models.Doctors
   @observable listDoctors?: Models.Doctors[] = []
   @observable listDoctorsCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
-    this.doctors ={
+    this.doctors = {
       ...this.doctors,
       dateCreation: LibraryUtils.moment().unix(),
       dateActiveFrom: LibraryUtils.moment().unix(),
       dateActiveTo: LibraryUtils.moment().unix(),
-      version: 1,  
+      version: 1,
       keyNum: "1",
-      confidential:false,
-      urgent:false
+      confidential: false,
+      urgent: false,
     }
   }
-   
+
   @computed get doctorsService() {
-    return new Services.DoctorsService(
-    )
+    return new Services.DoctorsService()
   }
 
-  @action fetchDoctors(page?,limit?) {
-    this.doctorsService.listDoctors(page,limit).then((res) => {
+  @action fetchDoctors(page?, limit?) {
+    this.doctorsService.listDoctors(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listDoctors = res.data.doctors
       this.listDoctorsCount = res.data.count
@@ -39,6 +39,9 @@ class DoctorsStore {
 
   @action updateDoctors(methods: Models.Doctors) {
     this.doctors = methods
+  }
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

@@ -7,19 +7,19 @@ import * as Services from "../services"
 class MethodsStore {
   @ignore @observable methods?: Models.Methods
   @observable listMethods?: Models.Methods[] = []
-  @observable listMethodsCount: number = 0 
+  @observable listMethodsCount: number = 0
+  @ignore @observable checkExitsEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
   }
-   
+  
   @computed get methodsService() {
-    return new Services.MethodsService(
-    )
+    return new Services.MethodsService()
   }
 
-  @action fetchMethods(page?,limit?) {
-    this.methodsService.listMethods(page,limit).then((res) => {
+  @action fetchMethods(page?, limit?) {
+    this.methodsService.listMethods(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listMethodsCount = res.data.count
       this.listMethods = res.data.methods
@@ -28,6 +28,10 @@ class MethodsStore {
 
   @action updateMethods(methods: Models.Methods) {
     this.methods = methods
+  }
+
+  @action updateExitsEnvCode(status: boolean) {
+    this.checkExitsEnvCode = status
   }
 }
 
