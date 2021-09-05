@@ -9,6 +9,7 @@ class TestAnalyteMappingStore {
   @ignore @observable testAnalyteMapping?: Models.TestAnalyteMapping
   @observable listTestAnalyteMapping?: Models.TestAnalyteMapping[] = []
   @observable listTestAnalyteMappingCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -38,6 +39,10 @@ class TestAnalyteMappingStore {
 
   @action updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
     this.testAnalyteMapping = testAnalyte
+  }
+  
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

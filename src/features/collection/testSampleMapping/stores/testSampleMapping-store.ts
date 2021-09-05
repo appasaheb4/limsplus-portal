@@ -6,8 +6,9 @@ import * as Services from "../services"
 @version(0.1)
 class TestSampleMappingStore {
   @observable listTestSampleMapping: Models.TestSampleMapping[] = []
-  @observable listTestSampleMappingCount: number = 0 
+  @observable listTestSampleMappingCount: number = 0
   @ignore @observable testSampleMapping?: Models.TestSampleMapping
+  @ignore @observable checkExitsTestSampleEnvCode?: boolean = false
     
   constructor() {
     makeAutoObservable(this)
@@ -25,12 +26,11 @@ class TestSampleMappingStore {
   }
 
   @computed get testSampleMappingService() {
-    return new Services.TestSampleMappingService(
-    )
+    return new Services.TestSampleMappingService()
   }
 
-  @action fetchSampleTypeList(page?,limit?) {
-    this.testSampleMappingService.listTestSampleMapping(page,limit).then((res) => {
+  @action fetchSampleTypeList(page?, limit?) {
+    this.testSampleMappingService.listTestSampleMapping(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listTestSampleMapping = res.data.testSampleMapping
       this.listTestSampleMappingCount = res.data.count
@@ -38,6 +38,10 @@ class TestSampleMappingStore {
   }
   @action updateSampleType = (sampleMapping: Models.TestSampleMapping) => {
     this.testSampleMapping = sampleMapping
+  }
+   
+  @action updateExitsTestSampleEnvCode = (status: boolean) => {
+    this.checkExitsTestSampleEnvCode = status
   }
 }
 

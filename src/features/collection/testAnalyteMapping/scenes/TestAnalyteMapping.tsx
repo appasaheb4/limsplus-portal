@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-import Storage from "@lp/library/modules/storage"
 import { useStores } from "@lp/library/stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
@@ -41,7 +39,7 @@ const TestAnalyteMapping = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitTestAnalyteMapping = () => {
-    if (Stores.testAnalyteMappingStore.testAnalyteMapping) {
+    if (!Stores.testAnalyteMappingStore.checkExitsLabEnvCode) {
       if (
         !Stores.testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
         !Stores.testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
@@ -90,7 +88,7 @@ const TestAnalyteMapping = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -148,6 +146,32 @@ const TestAnalyteMapping = observer(() => {
                           ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                           lab,
                         })
+                        if (
+                          !Stores.testAnalyteMappingStore.testAnalyteMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testAnalyteMappingStore.testAnalyteMappingService
+                            .checkExitsLabEnvCode(
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.testCode || "",
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.environment || "",
+                              lab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -190,6 +214,11 @@ const TestAnalyteMapping = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              {Stores.testAnalyteMappingStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -212,6 +241,32 @@ const TestAnalyteMapping = observer(() => {
                           testName: testMasteritem.testName,
                           testCode: testMasteritem.testCode,
                         })
+                        if (
+                          !Stores.testAnalyteMappingStore.testAnalyteMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testAnalyteMappingStore.testAnalyteMappingService
+                            .checkExitsLabEnvCode(
+                              testMasteritem.testCode,
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.environment || "",
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.lab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -578,6 +633,32 @@ const TestAnalyteMapping = observer(() => {
                           ...Stores.testAnalyteMappingStore.testAnalyteMapping,
                           environment,
                         })
+                        if (
+                          !Stores.testAnalyteMappingStore.testAnalyteMapping
+                            ?.existsVersionId
+                        ) {
+                          Stores.testAnalyteMappingStore.testAnalyteMappingService
+                            .checkExitsLabEnvCode(
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.testCode || "",
+                              environment,
+                              Stores.testAnalyteMappingStore.testAnalyteMapping
+                                ?.lab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testAnalyteMappingStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -726,6 +807,11 @@ const TestAnalyteMapping = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("lab",modalConfirm.data.lab)
+              setValue("testCode",modalConfirm.data.testCode)
+              setValue("testName",modalConfirm.data.testName)
+              setValue("analyteCode",'default')
+              setValue("environment",modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.testAnalyteMappingStore.updateTestAnalyteMapping({
                 ...modalConfirm.data,

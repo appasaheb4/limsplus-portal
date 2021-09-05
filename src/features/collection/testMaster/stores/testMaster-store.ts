@@ -9,7 +9,8 @@ import { Stores as LoginStores } from "@lp/features/login/stores"
 class TestMasterStore {
   @ignore @observable testMaster?: Models.TestMaster
   @observable listTestMaster?: Models.TestMaster[] = []
-  @observable listTestMasterCount:  number = 0 
+  @observable listTestMasterCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -41,12 +42,11 @@ class TestMasterStore {
   }
 
   @computed get testMasterService() {
-    return new Services.TestMasterService(
-    )
+    return new Services.TestMasterService()
   }
-  
-  @action fetchTestMaster(page?,limit?) {
-    this.testMasterService.listTestMaster(page,limit).then((res) => {
+
+  @action fetchTestMaster(page?, limit?) {
+    this.testMasterService.listTestMaster(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       //console.log({ res })
       this.listTestMaster = res.data.testMaster
@@ -56,6 +56,10 @@ class TestMasterStore {
 
   @action updateTestMaster(test: Models.TestMaster) {
     this.testMaster = test
+  }   
+  
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

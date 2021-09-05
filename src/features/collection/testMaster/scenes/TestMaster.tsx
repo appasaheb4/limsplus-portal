@@ -35,16 +35,18 @@ const TestMater = observer(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.testMasterStore.updateTestMaster({
         ...Stores.testMasterStore.testMaster,
+        rLab: stores.loginStore.login.lab,
         pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
+      setValue("rLab", stores.loginStore.login.lab)
       setValue("plab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
 
   const onSubmitTestMaster = () => {
-    if (Stores.testMasterStore.testMaster) {
+    if (!Stores.testMasterStore.checkExitsLabEnvCode) {
       if (
         !Stores.testMasterStore.testMaster?.existsVersionId &&
         !Stores.testMasterStore.testMaster?.existsRecordId
@@ -93,10 +95,11 @@ const TestMater = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -133,7 +136,13 @@ const TestMater = observer(() => {
                     hasError={errors.rLab}
                   >
                     <select
-                      value={LoginStores.loginStore.login?.lab}
+                      value={Stores.testMasterStore.testMaster?.rLab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.rLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -144,6 +153,23 @@ const TestMater = observer(() => {
                           ...Stores.testMasterStore.testMaster,
                           rLab,
                         })
+                        if (!Stores.testMasterStore.testMaster?.existsVersionId) {
+                          Stores.testMasterStore.testMasterService
+                            .checkExitsLabEnvCode(
+                              Stores.testMasterStore.testMaster?.testCode || "",
+                              Stores.testMasterStore.testMaster?.environment || "",
+                              rLab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testMasterStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testMasterStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -172,6 +198,12 @@ const TestMater = observer(() => {
                   >
                     <select
                       value={Stores.testMasterStore.testMaster?.pLab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.pLab ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
@@ -285,12 +317,36 @@ const TestMater = observer(() => {
                         testCode: testCode.toUpperCase(),
                       })
                     }}
+                    onBlur={(code) => {
+                      if (!Stores.testMasterStore.testMaster?.existsVersionId) {
+                        Stores.testMasterStore.testMasterService
+                          .checkExitsLabEnvCode(
+                            code,
+                            Stores.testMasterStore.testMaster?.environment || "",
+                            Stores.testMasterStore.testMaster?.rLab || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.testMasterStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.testMasterStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="testCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.testMasterStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1461,13 +1517,31 @@ const TestMater = observer(() => {
                           ...Stores.testMasterStore.testMaster,
                           environment,
                         })
+                        if (!Stores.testMasterStore.testMaster?.existsVersionId) {
+                          Stores.testMasterStore.testMasterService
+                            .checkExitsLabEnvCode(
+                              Stores.testMasterStore.testMaster?.testCode || "",
+                              environment,
+                              Stores.testMasterStore.testMaster?.rLab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.testMasterStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.testMasterStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.testMasterStore.testMaster?.environment || `Select`}
+                          : Stores.testMasterStore.testMaster?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,

@@ -4,13 +4,12 @@ import * as Models from "../models"
 import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
-
-
 @version(0.1)
 class MasterPackageStore {
-  @ignore @observable masterPackage?: Models.MasterPackage
-  @observable listMasterPackage?: Models.MasterPackage[] =[]
-  @observable listMasterPackageCount: number = 0 
+  @ignore @observable masterPackage!: Models.MasterPackage
+  @observable listMasterPackage?: Models.MasterPackage[] = []
+  @observable listMasterPackageCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -26,12 +25,11 @@ class MasterPackageStore {
   }
 
   @computed get masterPackageService() {
-    return new Services.MasterPackageService(
-    )
+    return new Services.MasterPackageService()
   }
 
-  @action fetchPackageMaster(page?,limit?) {
-    this.masterPackageService.listPackageMaster(page,limit).then((res) => {
+  @action fetchPackageMaster(page?, limit?) {
+    this.masterPackageService.listPackageMaster(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listMasterPackage = res.data.packageMaster
       this.listMasterPackageCount = res.data.count
@@ -40,6 +38,10 @@ class MasterPackageStore {
 
   @action updateMasterPackage(pacakge: Models.MasterPackage) {
     this.masterPackage = pacakge
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 

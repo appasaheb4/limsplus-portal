@@ -1,18 +1,15 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -22,7 +19,8 @@ const MasterAnalyte = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    clearErrors,
   } = useForm()
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -41,7 +39,7 @@ const MasterAnalyte = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitMasterAnalyte = () => {
-    if (Stores.masterAnalyteStore.masterAnalyte) {
+    if (!Stores.masterAnalyteStore.checkExitsLabEnvCode) {
       if (
         !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
         !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
@@ -90,7 +88,7 @@ const MasterAnalyte = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -148,6 +146,31 @@ const MasterAnalyte = observer(() => {
                           ...Stores.masterAnalyteStore.masterAnalyte,
                           lab,
                         })
+                        if (
+                          !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
+                        ) {
+                          Stores.masterAnalyteStore.masterAnalyteService
+                            .checkExitsLabEnvCode(
+                              Stores.masterAnalyteStore.masterAnalyte?.analyteCode ||
+                                "",
+                              Stores.masterAnalyteStore.masterAnalyte?.environment ||
+                                "",
+                              lab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -185,12 +208,39 @@ const MasterAnalyte = observer(() => {
                         analyteCode: analyteCode.toUpperCase(),
                       })
                     }}
+                    onBlur={(code) => {
+                      if (
+                        !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
+                      ) {
+                        Stores.masterAnalyteStore.masterAnalyteService
+                          .checkExitsLabEnvCode(
+                            code,
+                            Stores.masterAnalyteStore.masterAnalyte?.environment ||
+                              "",
+                            Stores.masterAnalyteStore.masterAnalyte?.lab || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.masterAnalyteStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.masterAnalyteStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="analyteCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.masterAnalyteStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1050,13 +1100,38 @@ const MasterAnalyte = observer(() => {
                           ...Stores.masterAnalyteStore.masterAnalyte,
                           environment,
                         })
+                        if (
+                          !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
+                        ) {
+                          Stores.masterAnalyteStore.masterAnalyteService
+                            .checkExitsLabEnvCode(
+                              Stores.masterAnalyteStore.masterAnalyte?.analyteCode ||
+                                "",
+                              environment,
+                              Stores.masterAnalyteStore.masterAnalyte?.lab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterAnalyteStore.masterAnalyte?.environment || `Select`}
+                          : Stores.masterAnalyteStore.masterAnalyte?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -1191,7 +1266,12 @@ const MasterAnalyte = observer(() => {
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
-              })
+              })  
+              setValue("lab",modalConfirm.data.lab)
+              setValue("analyteCode",modalConfirm.data.analyteCode)
+              setValue("analyteName",modalConfirm.data.analyteName)
+              setValue("environment",modalConfirm.data.environment)
+              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
             } else if (type === "duplicate") {
               Stores.masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,

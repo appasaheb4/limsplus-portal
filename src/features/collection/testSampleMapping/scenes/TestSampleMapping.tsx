@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
@@ -13,7 +11,6 @@ import { stores } from "@lp/library/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
 import { Stores as SampleTypeStore } from "@lp/features/collection/sampleType/stores"
 import { Stores as SampleContainerStore } from "@lp/features/collection/sampleContainer/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -41,7 +38,7 @@ const TestSampleMapping = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitTestSampleMapping = () => {
-    if (Stores.testSampleMappingStore.testSampleMapping) {
+    if (!Stores.testSampleMappingStore.checkExitsTestSampleEnvCode) {
       Stores.testSampleMappingStore.testSampleMappingService
         .addTestSampleMapping(Stores.testSampleMappingStore.testSampleMapping)
         .then(() => {
@@ -54,7 +51,7 @@ const TestSampleMapping = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: "😔 Please enter all information!",
+        message: "😔 Please enter diff code!",
       })
     }
   }
@@ -105,6 +102,27 @@ const TestSampleMapping = observer(() => {
                           ...Stores.testSampleMappingStore.testSampleMapping,
                           testCode,
                         })
+                        Stores.testSampleMappingStore.testSampleMappingService
+                          .checkExitsTestSampleEnvCode(
+                            testCode,
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.sampleCode || "",
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.environment || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                true
+                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                false
+                              )
+                          })
                       }}
                     >
                       <option selected>Select</option>
@@ -123,6 +141,11 @@ const TestSampleMapping = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.testSampleMappingStore.checkExitsTestSampleEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Test code or sample code already exits. Please use other code.
+                </span>
+              )}
 
               <Controller
                 control={control}
@@ -142,6 +165,27 @@ const TestSampleMapping = observer(() => {
                           ...Stores.testSampleMappingStore.testSampleMapping,
                           sampleCode,
                         })
+                        Stores.testSampleMappingStore.testSampleMappingService
+                          .checkExitsTestSampleEnvCode(
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.testCode || "",
+                            sampleCode,
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.environment || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                true
+                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                false
+                              )
+                          })
                       }}
                     >
                       <option selected>Select</option>
@@ -160,6 +204,11 @@ const TestSampleMapping = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.testSampleMappingStore.checkExitsTestSampleEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Test code or sample code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -744,6 +793,27 @@ const TestSampleMapping = observer(() => {
                           ...Stores.testSampleMappingStore.testSampleMapping,
                           environment,
                         })
+                        Stores.testSampleMappingStore.testSampleMappingService
+                          .checkExitsTestSampleEnvCode(
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.testCode || "",
+                            Stores.testSampleMappingStore.testSampleMapping
+                              ?.sampleCode || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                true
+                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                false
+                              )
+                          })
                       }}
                     >
                       <option selected>

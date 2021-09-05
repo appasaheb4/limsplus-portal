@@ -71,6 +71,7 @@ class MasterAnalyteService {
           reject({ error })
         })
     })
+
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -80,6 +81,19 @@ class MasterAnalyteService {
         })
         .catch((error) => {
           reject({ error })
+        })
+    })
+
+  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/analyteMaster/checkExitsLabEnvCode`, { code, env, lab })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }
