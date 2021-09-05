@@ -38,7 +38,7 @@ const Doctors = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitDoctors = () => {
-    if (Stores.doctorsStore.doctors) {
+    if (!Stores.doctorsStore.checkExitsLabEnvCode) {
       if (
         !Stores.doctorsStore.doctors?.existsVersionId &&
         !Stores.doctorsStore.doctors?.existsRecordId
@@ -87,7 +87,7 @@ const Doctors = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -254,12 +254,35 @@ const Doctors = observer(() => {
                         doctorCode,
                       })
                     }}
+                    onBlur={(code) => {
+                      if (!Stores.doctorsStore.doctors?.existsVersionId) {
+                        Stores.doctorsStore.doctorsService
+                          .checkExitsLabEnvCode(
+                            code,
+                            Stores.doctorsStore.doctors?.environment || "",
+                            Stores.doctorsStore.doctors?.lab || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.doctorsStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.doctorsStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="doctorCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.doctorsStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
 
               <Controller
                 control={control}
@@ -1024,6 +1047,23 @@ const Doctors = observer(() => {
                           ...Stores.doctorsStore.doctors,
                           lab,
                         })
+                        if (!Stores.doctorsStore.doctors?.existsVersionId) {
+                          Stores.doctorsStore.doctorsService
+                            .checkExitsLabEnvCode(
+                              Stores.doctorsStore.doctors?.doctorCode || "",
+                              Stores.doctorsStore.doctors?.environment || "",
+                              lab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.doctorsStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.doctorsStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -1038,7 +1078,7 @@ const Doctors = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1274,6 +1314,23 @@ const Doctors = observer(() => {
                           ...Stores.doctorsStore.doctors,
                           environment,
                         })
+                        if (!Stores.doctorsStore.doctors?.existsVersionId) {
+                          Stores.doctorsStore.doctorsService
+                            .checkExitsLabEnvCode(
+                              Stores.doctorsStore.doctors?.doctorCode || "",
+                              environment,
+                              Stores.doctorsStore.doctors?.lab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.doctorsStore.updateExistsLabEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.doctorsStore.updateExistsLabEnvCode(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -1416,7 +1473,11 @@ const Doctors = observer(() => {
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
-              })
+              })   
+              setValue("doctorCode", modalConfirm.data.doctorCode)
+              setValue("doctorName", modalConfirm.data.doctorName)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.doctorsStore.updateDoctors({
                 ...modalConfirm.data,

@@ -35,7 +35,7 @@ const Methods = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitMethods = () => {
-    if (Stores.methodsStore.methods) {
+    if (!Stores.methodsStore.checkExitsEnvCode) {
       Stores.methodsStore.methodsService
         .addMethods(Stores.methodsStore.methods)
         .then((res) => {
@@ -50,7 +50,7 @@ const Methods = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
   }
@@ -99,12 +99,32 @@ const Methods = observer(() => {
                         methodsCode,
                       })
                     }}
+                    onBlur={(code) => {
+                      Stores.methodsStore.methodsService
+                        .checkExitsEnvCode(
+                          code,
+                          Stores.methodsStore.methods?.environment || ""
+                        )
+                        .then((res) => {
+                          if (res.success) {
+                            Stores.methodsStore.updateExitsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.methodsStore.updateExitsEnvCode(false)
+                        })
+                    }}
                   />
                 )}
                 name="methodsCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.methodsStore.checkExitsEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -225,6 +245,19 @@ const Methods = observer(() => {
                           ...Stores.methodsStore.methods,
                           environment,
                         })
+                        Stores.methodsStore.methodsService
+                          .checkExitsEnvCode(
+                            Stores.methodsStore.methods?.methodsCode || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.methodsStore.updateExitsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.methodsStore.updateExitsEnvCode(false)
+                          })  
                       }}
                     >
                       <option selected>
