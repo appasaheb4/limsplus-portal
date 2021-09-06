@@ -1,16 +1,13 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 
@@ -38,7 +35,7 @@ const RegistrationLocation = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitRegistrationLocation = () => {
-    if (Stores.registrationLocationsStore.registrationLocations) {
+    if (!Stores.registrationLocationsStore.checkExitsLabEnvCode) {
       if (
         !Stores.registrationLocationsStore.registrationLocations?.existsVersionId &&
         !Stores.registrationLocationsStore.registrationLocations?.existsRecordId
@@ -91,7 +88,7 @@ const RegistrationLocation = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code!`,
       })
     }
   }
@@ -270,12 +267,45 @@ const RegistrationLocation = observer(() => {
                         locationCode,
                       })
                     }}
+                    onBlur={(code) => {
+                      if (
+                        !Stores.registrationLocationsStore.registrationLocations
+                          ?.existsVersionId
+                      ) {
+                        Stores.registrationLocationsStore.registrationLocationsService
+                          .checkExitsLabEnvCode(
+                            code,
+                            Stores.registrationLocationsStore.registrationLocations
+                              ?.environment || "",
+                            Stores.registrationLocationsStore.registrationLocations
+                              ?.lab || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                true
+                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                false
+                              )
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="locationCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.registrationLocationsStore.checkExitsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
 
               <Controller
                 control={control}
@@ -1094,6 +1124,32 @@ const RegistrationLocation = observer(() => {
                             lab,
                           }
                         )
+                        if (
+                          !Stores.registrationLocationsStore.registrationLocations
+                            ?.existsVersionId
+                        ) {
+                          Stores.registrationLocationsStore.registrationLocationsService
+                            .checkExitsLabEnvCode(
+                              Stores.registrationLocationsStore.registrationLocations
+                                ?.locationCode || "",
+                              Stores.registrationLocationsStore.registrationLocations
+                                ?.environment || "",
+                              lab
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -1108,7 +1164,7 @@ const RegistrationLocation = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1407,6 +1463,32 @@ const RegistrationLocation = observer(() => {
                             environment,
                           }
                         )
+                        if (
+                          !Stores.registrationLocationsStore.registrationLocations
+                            ?.existsVersionId
+                        ) {
+                          Stores.registrationLocationsStore.registrationLocationsService
+                            .checkExitsLabEnvCode(
+                              Stores.registrationLocationsStore.registrationLocations
+                                ?.locationCode || "",
+                              environment,
+                              Stores.registrationLocationsStore.registrationLocations
+                                ?.lab || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -1556,6 +1638,10 @@ const RegistrationLocation = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("locationCode", modalConfirm.data.locationCode)
+              setValue("locationName", modalConfirm.data.locationName)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.registrationLocationsStore.updateRegistrationLocations({
                 ...modalConfirm.data,
