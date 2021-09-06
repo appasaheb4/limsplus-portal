@@ -8,7 +8,7 @@
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import { stores } from "@lp/library/stores"
-  
+
 class CorporateClientsService {
   listCorporateClients = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -58,6 +58,18 @@ class CorporateClientsService {
         })
         .catch((error) => {
           reject({ error })
+        })
+    })
+  checkExistsEnvCode = (code: string, env: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/corporateClients/checkExistsEnvCode`, { code, env })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })
 }
