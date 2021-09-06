@@ -8,6 +8,7 @@ class LibraryStore {
   @ignore @observable library!: Library
   @observable listLibrary: Library[] = []
   @observable listLibraryCount: number = 0 
+  @ignore @observable checkExistsLabEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -31,6 +32,10 @@ class LibraryStore {
 
   @action updateLibrary(library: Library) {
     this.library = library
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExistsLabEnvCode = status
   }
 }
 

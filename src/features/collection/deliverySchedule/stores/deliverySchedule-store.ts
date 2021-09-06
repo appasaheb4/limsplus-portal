@@ -9,6 +9,7 @@ class DeliveryScheduleStore {
   @ignore @observable deliverySchedule?: Models.DeliverySchedule
   @observable listDeliverySchedule?: Models.DeliverySchedule[] = []
   @observable listDeliveryScheduleCount: number = 0
+  @ignore @observable checkExistsEnvCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -41,6 +42,10 @@ class DeliveryScheduleStore {
 
   @action updateDeliverySchedule(deliverySchedule: Models.DeliverySchedule) {
     this.deliverySchedule = deliverySchedule
+  }
+
+  @action updateExistsEnvCode(status: boolean) {
+    this.checkExistsEnvCode = status
   }
 }
 
