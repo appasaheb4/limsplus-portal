@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-    Stores.masterAnalyteStore.fetchAnalyteMaster()
+    Stores.priceListStore.fetchListPriceList()
 }
 
 export default startup;

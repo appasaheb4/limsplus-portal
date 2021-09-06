@@ -1,6 +1,2 @@
-import MasterAnalyteService from './masterAnalyte-services'
-export{MasterAnalyteService}  
 
-
-
-
+export * from './priceList-service'

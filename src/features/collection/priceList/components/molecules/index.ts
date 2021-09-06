@@ -1,1 +1,1 @@
-export {default as MasterAnalyteList} from './MasterAnalyteList';
+export {default as PriceList} from './PriceListList';

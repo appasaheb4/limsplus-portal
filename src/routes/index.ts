@@ -79,6 +79,7 @@ const PossibleResults = async(
   () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
 )
 const Library = async(() => import("@lp/features/collection/library/scenes/Library"))
+const PriceList = async(() => import("@lp/features/collection/priceList/scenes/PriceList"))
 
 // Communication
 const HostCommunication = async(
@@ -312,6 +313,13 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
       component: Library,
     },  
+    {
+      path: "/collection/priceList",
+      name:"PriceList",
+      // icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+      component: PriceList
+
+    }
   ],
 }
   
