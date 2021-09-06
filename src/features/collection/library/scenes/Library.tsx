@@ -46,18 +46,22 @@ export const Library = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitLibrary = (data) => {
-    console.log("click")
-    console.log({ data })
-    Stores.libraryStore.libraryService
-      .addLibrary(Stores.libraryStore.library)
-      .then(() => {
-        LibraryComponents.Atoms.Toast.success({
-          message: `😊 Library created.`,
+    if (!Stores.libraryStore.checkExistsLabEnvCode) {
+      Stores.libraryStore.libraryService
+        .addLibrary(Stores.libraryStore.library)
+        .then(() => {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 Library created.`,
+          })
         })
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter diff code`,
       })
-    setTimeout(() => {
-      window.location.reload()
-    }, 2000)
+    }
   }
 
   return (
@@ -103,12 +107,33 @@ export const Library = observer(() => {
                         code,
                       })
                     }}
+                    onBlur={(code) => {
+                      Stores.libraryStore.libraryService
+                        .checkExistsLabEnvCode(
+                          code,
+                          Stores.libraryStore.library?.environment || "",
+                          Stores.libraryStore.library?.lab || ""
+                        )
+                        .then((res) => {
+                          if (res.success) {
+                            Stores.libraryStore.updateExistsLabEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                        })
+                    }}
                   />
                 )}
                 name="code"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.libraryStore.checkExistsLabEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -274,6 +299,20 @@ export const Library = observer(() => {
                           ...Stores.libraryStore.library,
                           lab,
                         })
+                        Stores.libraryStore.libraryService
+                          .checkExistsLabEnvCode(
+                            Stores.libraryStore.library.code,
+                            Stores.libraryStore.library?.environment || "",
+                            lab
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.libraryStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                          })
                       }}
                     >
                       <option selected>Select</option>
@@ -289,7 +328,7 @@ export const Library = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -864,6 +903,20 @@ export const Library = observer(() => {
                           ...Stores.libraryStore.library,
                           environment,
                         })
+                        Stores.libraryStore.libraryService
+                          .checkExistsLabEnvCode(
+                            Stores.libraryStore.library.code,
+                            environment,
+                            Stores.libraryStore.library.lab
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.libraryStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                          })
                       }}
                     >
                       <option selected>
