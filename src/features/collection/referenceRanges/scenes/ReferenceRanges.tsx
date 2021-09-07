@@ -236,7 +236,7 @@ const ReferenceRanges = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="species"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -274,7 +274,7 @@ const ReferenceRanges = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="sex"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -332,7 +332,7 @@ const ReferenceRanges = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="eqType"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
               <Controller
@@ -438,7 +438,7 @@ const ReferenceRanges = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="rangType"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller

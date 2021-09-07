@@ -108,11 +108,11 @@ const PriceList = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const panel = JSON.parse(e.target.value) as any
-                        onChange(panel)
+                        const panelCode = JSON.parse(e.target.value)
+                        onChange(panelCode)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
-                          panelCode: panel.panelCode ,
+                          panelCode,
                         })
                       }}
                     >
@@ -129,7 +129,7 @@ const PriceList = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelCode"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -167,7 +167,7 @@ const PriceList = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelName"
-                rules={{ required: false }}
+                rules={{ required: true}}
                 defaultValue=""
               />
               <Controller
@@ -443,7 +443,7 @@ const PriceList = observer(() => {
                   />
                 )}
                 name="price"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               </LibraryComponents.Atoms.List>
