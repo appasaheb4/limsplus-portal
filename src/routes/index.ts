@@ -18,7 +18,7 @@ const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/Department")
 )
 const CollectionRole = async(
-  () => import("@lp/features/collection/roles/scenes/Role")
+  () => import("@lp/features/collection/roles/scenes/role")
 )
 // master
 const MasterAnalyte = async(

@@ -8,7 +8,7 @@ import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
 import { stores } from "@lp/library/stores"
@@ -22,12 +22,10 @@ export const PossibleResults = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
 
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
@@ -55,12 +53,10 @@ export const PossibleResults = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitPossibleResult = () =>{
-    if (Stores.possibleResultsStore.possibleResults) {
+  const onSubmitPossibleResult = () => {
+    if (!Stores.possibleResultsStore.checkExistsEnvCode) {
       Stores.possibleResultsStore.possibleResultsService
-        .addPossibleResults(
-          Stores.possibleResultsStore.possibleResults
-        )
+        .addPossibleResults(Stores.possibleResultsStore.possibleResults)
         .then(() => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 Possible results created.`,
@@ -71,7 +67,7 @@ export const PossibleResults = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please use diff code`,
       })
     }
   }
@@ -107,187 +103,247 @@ export const PossibleResults = observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                 label="Analyte Code"
-                 hasError={errors.analyte}
-                 >
-                  <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.analyte
-                        ? "border-red-500  focus:border-red-500"
-                        : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const analyte = JSON.parse(e.target.value)
-                      onChange(analyte)
-                      Stores.possibleResultsStore.updatePossibleResults({
-                        ...Stores.possibleResultsStore.possibleResults,
-                        analyteCode: analyte.analyteCode,
-                        analyteName: analyte.analyteName,
-                      })
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
-                      AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteCode} - ${item.analyteName}`}
-                          </option>
-                        )
-                      )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Analyte Code"
+                      hasError={errors.analyte}
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.analyte
+                            ? "border-red-500  focus:border-red-500"
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const analyte = JSON.parse(e.target.value)
+                          onChange(analyte)
+                          Stores.possibleResultsStore.updatePossibleResults({
+                            ...Stores.possibleResultsStore.possibleResults,
+                            analyteCode: analyte.analyteCode,
+                            analyteName: analyte.analyteName,
+                          })
+                          Stores.possibleResultsStore.possibleResultsService
+                            .checkExistsEnvCode(
+                              analyte.analyteCode,
+                              Stores.possibleResultsStore.possibleResults
+                                ?.environment || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.possibleResultsStore.updateExistsEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.possibleResultsStore.updateExistsEnvCode(
+                                  false
+                                )
+                            })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
+                          AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={JSON.stringify(item)}>
+                                {`${item.analyteCode} - ${item.analyteName}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="analyte"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+                {Stores.possibleResultsStore.checkExistsEnvCode && (
+                  <span className="text-red-600 font-medium relative">
+                    Code already exits. Please use other code.
+                  </span>
                 )}
-                name="analyte"
-                rules={{ required: true }}
-                defaultValue=""
-               />
-               <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  disabled={true}
-                  label="Analyte Name"
-                  placeholder={errors.analyteName?"Please Enter Analyte Name":"Analyte Name"}
-                  hasError={errors.analyteName}
-                  value={Stores.possibleResultsStore.possibleResults?.analyteName}
-                />
-                )}
-                name="analyteName"
-                rules={{ required: false }}
-                defaultValue=""
-               />
-                <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.possibleResultsStore.possibleResults?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.possibleResultsStore.updatePossibleResults({
-                      ...Stores.possibleResultsStore.possibleResults,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.possibleResultsStore.possibleResults?.environment || `Select`}
-                      </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
+                    <LibraryComponents.Atoms.Form.Input
+                      disabled={true}
+                      label="Analyte Name"
+                      placeholder={
+                        errors.analyteName
+                          ? "Please Enter Analyte Name"
+                          : "Analyte Name"
+                      }
+                      hasError={errors.analyteName}
+                      value={
+                        Stores.possibleResultsStore.possibleResults?.analyteName
+                      }
+                    />
                   )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                  name="analyteName"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                      <select
+                        value={
+                          Stores.possibleResultsStore.possibleResults?.environment
+                        }
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment
+                            ? "border-red-500  focus:border-red-500"
+                            : "border-gray-300"
+                        } rounded-md`}
+                        disabled={
+                          stores.loginStore.login &&
+                          stores.loginStore.login.role !== "SYSADMIN"
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          const environment = e.target.value
+                          onChange(environment)
+                          Stores.possibleResultsStore.updatePossibleResults({
+                            ...Stores.possibleResultsStore.possibleResults,
+                            environment,
+                          })
+                          Stores.possibleResultsStore.possibleResultsService
+                            .checkExistsEnvCode(
+                              Stores.possibleResultsStore.possibleResults
+                                .analyteCode || "",
+                              environment
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.possibleResultsStore.updateExistsEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.possibleResultsStore.updateExistsEnvCode(
+                                  false
+                                )
+                            })
+                        }}
+                      >
+                        <option selected>
+                          {stores.loginStore.login &&
+                          stores.loginStore.login.role !== "SYSADMIN"
+                            ? `Select`
+                            : Stores.possibleResultsStore.possibleResults
+                                ?.environment || `Select`}
+                        </option>
+                        {LibraryUtils.lookupItems(
+                          stores.routerStore.lookupItems,
+                          "ENVIRONMENT"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="environment"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
                 <LibraryComponents.Atoms.Form.InputWrapper label="Conclusion Value">
                   <LibraryComponents.Atoms.Grid cols={5}>
-                  <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
-                      placeholder={errors.result?"Please Enter Result":"Result"}
-                      hasError={errors.result}
-                      value={Stores.possibleResultsStore.possibleResults?.result}
-                      onChange={(result) => {
-                        onChange(result)
-                        Stores.possibleResultsStore.updatePossibleResults({
-                          ...Stores.possibleResultsStore.possibleResults,
-                          result,
-                        })
-                      }}
-                    />
-                    )}
-                    name="result"
-                    rules={{ required: false }}
-                    defaultValue=""
-                   />
-                   <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Input
-                      placeholder={errors.possibleValue?"Please Enter Possible Value":"Possible Value"}
-                      hasError={errors.possibleValue}
-                      value={
-                        Stores.possibleResultsStore.possibleResults?.possibleValue
-                      }
-                      onChange={(possibleValue) => {
-                        onChange(possibleValue)
-                        Stores.possibleResultsStore.updatePossibleResults({
-                          ...Stores.possibleResultsStore.possibleResults,
-                          possibleValue,
-                        })
-                      }}
-                    />
-                    )}
-                    name="possibleValue"
-                    rules={{ required: false }}
-                    defaultValue=""
-                   />
                     <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="AbNormal"
-                      hasError={errors.abNormal}
-                      value={Stores.possibleResultsStore.possibleResults?.abNormal}
-                      onChange={(abNormal) => {
-                        onChange(abNormal)
-                        Stores.possibleResultsStore.updatePossibleResults({
-                          ...Stores.possibleResultsStore.possibleResults,
-                          abNormal,
-                        })
-                      }}
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          placeholder={
+                            errors.result ? "Please Enter Result" : "Result"
+                          }
+                          hasError={errors.result}
+                          value={Stores.possibleResultsStore.possibleResults?.result}
+                          onChange={(result) => {
+                            onChange(result)
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              result,
+                            })
+                          }}
+                        />
+                      )}
+                      name="result"
+                      rules={{ required: false }}
+                      defaultValue=""
                     />
-                    )}
-                    name="abNormal"
-                    rules={{ required: false }}
-                    defaultValue=""
-                   />
-                   <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                    hasError={errors.critical}
-                      label="Critical"
-                      value={Stores.possibleResultsStore.possibleResults?.critical}
-                      onChange={(critical) => {
-                        onChange(critical)
-                        Stores.possibleResultsStore.updatePossibleResults({
-                          ...Stores.possibleResultsStore.possibleResults,
-                          critical,
-                        })
-                      }}
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          placeholder={
+                            errors.possibleValue
+                              ? "Please Enter Possible Value"
+                              : "Possible Value"
+                          }
+                          hasError={errors.possibleValue}
+                          value={
+                            Stores.possibleResultsStore.possibleResults
+                              ?.possibleValue
+                          }
+                          onChange={(possibleValue) => {
+                            onChange(possibleValue)
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              possibleValue,
+                            })
+                          }}
+                        />
+                      )}
+                      name="possibleValue"
+                      rules={{ required: false }}
+                      defaultValue=""
                     />
-                    )}
-                    name="critical"
-                    rules={{ required: false }}
-                    defaultValue=""
-                   />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          label="AbNormal"
+                          hasError={errors.abNormal}
+                          value={
+                            Stores.possibleResultsStore.possibleResults?.abNormal
+                          }
+                          onChange={(abNormal) => {
+                            onChange(abNormal)
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              abNormal,
+                            })
+                          }}
+                        />
+                      )}
+                      name="abNormal"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          hasError={errors.critical}
+                          label="Critical"
+                          value={
+                            Stores.possibleResultsStore.possibleResults?.critical
+                          }
+                          onChange={(critical) => {
+                            onChange(critical)
+                            Stores.possibleResultsStore.updatePossibleResults({
+                              ...Stores.possibleResultsStore.possibleResults,
+                              critical,
+                            })
+                          }}
+                        />
+                      )}
+                      name="critical"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
                     <div className="mt-2">
                       <LibraryComponents.Atoms.Buttons.Button
                         size="medium"
@@ -408,7 +464,6 @@ export const PossibleResults = observer(() => {
                 Clear
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
-           
           </div>
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
@@ -418,8 +473,9 @@ export const PossibleResults = observer(() => {
               extraData={{
                 listMasterAnalyte: AnalyteStore.masterAnalyteStore.listMasterAnalyte,
                 possibleResults: Stores.possibleResultsStore.possibleResults,
-                updatePossibleResults:Stores.possibleResultsStore.updatePossibleResults,
-                lookupItems: stores.routerStore.lookupItems
+                updatePossibleResults:
+                  Stores.possibleResultsStore.updatePossibleResults,
+                lookupItems: stores.routerStore.lookupItems,
               }}
               isDelete={RouterFlow.checkPermission(
                 stores.routerStore.userPermission,
@@ -448,8 +504,8 @@ export const PossibleResults = observer(() => {
                   body: `Update Lookup!`,
                 })
               }}
-              onPageSizeChange={(page,limit)=>{
-                Stores.possibleResultsStore.fetchListPossibleResults(page,limit)
+              onPageSizeChange={(page, limit) => {
+                Stores.possibleResultsStore.fetchListPossibleResults(page, limit)
               }}
             />
           </div>

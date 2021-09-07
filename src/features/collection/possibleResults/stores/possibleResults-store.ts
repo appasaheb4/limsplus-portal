@@ -8,6 +8,7 @@ export class PossibleResultsStore {
   @observable listPossibleResults: PossibleResults[] = []
   @observable listPossibleResultsCount: number = 0
   @ignore @observable possibleResults!: PossibleResults
+  @ignore @observable checkExistsEnvCode?: boolean = false
     
   constructor() {
     makeAutoObservable(this)
@@ -28,5 +29,9 @@ export class PossibleResultsStore {
    
   @action updatePossibleResults = (results: PossibleResults) => {
     this.possibleResults = results
+  }
+
+  @action updateExistsEnvCode(status: boolean) {
+    this.checkExistsEnvCode = status
   }
 }

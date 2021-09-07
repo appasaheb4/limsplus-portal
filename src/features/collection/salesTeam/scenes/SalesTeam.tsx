@@ -1,33 +1,29 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import { SalesTeamList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/library/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 
 import { RouterFlow } from "@lp/flows"
+import { toJS } from "mobx"
 
 export const SalesTeam = observer(() => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
@@ -40,13 +36,11 @@ export const SalesTeam = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitSalesTeam = () =>{
-    if (Stores.salesTeamStore.salesTeam) {
-      
+  const onSubmitSalesTeam = () => {
+    if (!Stores.salesTeamStore.checkExistsEnvCode) {
       Stores.salesTeamStore.salesTeamService
         .addSalesTeam(Stores.salesTeamStore.salesTeam)
         .then((res) => {
-          
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 Sales team created.`,
@@ -58,7 +52,7 @@ export const SalesTeam = observer(() => {
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please use diff emp code`,
       })
     }
   }
@@ -91,118 +85,141 @@ export const SalesTeam = observer(() => {
               fill
             >
               <Controller
-                  control={control}
-                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper 
-              label="Sales Hierarchy"
-              hasError={errors.salesHierarchy}
-              >
-                <select
-                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                  errors.salesHierarchy
-                    ? "border-red-500"
-                    : "border-gray-300"
-                } rounded-md`}
-                  onChange={(e) => {
-                    const salesHierarchy = e.target.value
-                    onChange(salesHierarchy)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      salesHierarchy,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SALES_HIERARCHY").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="salesHierarchy"
-              rules={{ required: true }}
-              defaultValue=""
-             />
-             <Controller
-                  control={control}
-                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory" hasError={errors.salesTerritory}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.salesTerritory
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const salesTerritory = JSON.parse(e.target.value)
-                    onChange(salesTerritory)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      salesTerritory,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {AdministrativeDivStore.administrativeDivStore
-                    .listAdministrativeDiv &&
-                    AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={JSON.stringify(item)}>
-                          {`${item.area}`}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sales Hierarchy"
+                    hasError={errors.salesHierarchy}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.salesHierarchy ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const salesHierarchy = e.target.value
+                        onChange(salesHierarchy)
+                        Stores.salesTeamStore.updateSalesTeam({
+                          ...Stores.salesTeamStore.salesTeam,
+                          salesHierarchy,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "SALES_HIERARCHY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="salesTerritory"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-             <Controller
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="salesHierarchy"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sales Territory"
+                    hasError={errors.salesTerritory}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.salesTerritory
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const salesTerritory = JSON.parse(e.target.value)
+                        onChange(salesTerritory)
+                        Stores.salesTeamStore.updateSalesTeam({
+                          ...Stores.salesTeamStore.salesTeam,
+                          salesTerritory,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {AdministrativeDivStore.administrativeDivStore
+                        .listAdministrativeDiv &&
+                        AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.area}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="salesTerritory"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              {UserStore.userStore.userList && (
+                <Controller
                   control={control}
-                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Employee code" hasError={errors.userDetials}>
-                <select
-                  //value={Stores.salesTeamStore.salesTeam?.empCode}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.userDetials
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const userDetials = JSON.parse(e.target.value) as any
-                    onChange(userDetials)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      empCode: userDetials.empCode,
-                      empName: userDetials.empName,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {UserStore.userStore.userList &&
-                    Utils.filterUsersItems(
-                      UserStore.userStore.userList,
-                      "role",
-                      "code",
-                      "SALES"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.empCode} -${item.empName}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Employee code"
+                      hasError={errors.empDetails}
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.empDetails ? "border-red-500" : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const userDetials = JSON.parse(e.target.value) as any
+                          onChange(userDetials)
+                          Stores.salesTeamStore.updateSalesTeam({
+                            ...Stores.salesTeamStore.salesTeam,
+                            empCode: userDetials.empCode,
+                            empName: userDetials.empName,
+                          })
+                          Stores.salesTeamStore.salesTeamService
+                            .checkExistsEnvCode(
+                              userDetials.empCode,
+                              Stores.salesTeamStore.salesTeam?.environment || ""
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.salesTeamStore.updateExistsEnvCode(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else Stores.salesTeamStore.updateExistsEnvCode(false)
+                            })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {Utils.filterUsersItems(
+                          toJS(UserStore.userStore.userList),
+                          "role",
+                          "code",
+                          "SALES"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.empCode} -${item.empName}`}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="empDetails"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
               )}
-              name="userDetials"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+
+              {Stores.salesTeamStore.checkExistsEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -211,129 +228,149 @@ export const SalesTeam = observer(() => {
               fill
             >
               <Controller
-                  control={control}
-                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Employee Name" hasError={errors.userDetials}>
-                <select
-                  //value={Stores.salesTeamStore.salesTeam?.empName}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.userDetials
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const userDetials = JSON.parse(e.target.value) as any
-                    onChange(userDetials)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      empCode: userDetials.empCode,
-                      empName: userDetials.empName,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {UserStore.userStore.userList &&
-                    Utils.filterUsersItems(
-                      UserStore.userStore.userList,
-                      "role",
-                      "code",
-                      "SALES"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.empCode} -${item.empName}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="userDetials"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-             <Controller
-                  control={control}
-                   render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To" hasError={errors.userDetials}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.userDetials
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const userDetials = JSON.parse(e.target.value) as any
-                    onChange(userDetials)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      reportingTo: userDetials.empCode,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {UserStore.userStore.userList &&
-                    Utils.filterUsersItems(
-                      UserStore.userStore.userList,
-                      "role",
-                      "code",
-                      "SALES"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={JSON.stringify(item)}>
-                        {`${item.empCode} -${item.empName}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="userDetials"
-              rules={{ required: false }}
-              defaultValue=""
-             />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Employee Name"
+                    hasError={errors.userDetials}
+                  >
+                    <select
+                      //value={Stores.salesTeamStore.salesTeam?.empName}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.userDetials
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const userDetials = JSON.parse(e.target.value) as any
+                        onChange(userDetials)
+                        Stores.salesTeamStore.updateSalesTeam({
+                          ...Stores.salesTeamStore.salesTeam,
+                          empCode: userDetials.empCode,
+                          empName: userDetials.empName,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {UserStore.userStore.userList &&
+                        Utils.filterUsersItems(
+                          UserStore.userStore.userList,
+                          "role",
+                          "code",
+                          "SALES"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.empCode} -${item.empName}`}
+                          </option>
+                        ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="userDetials"
+                rules={{ required: false }}
+                defaultValue=""
+              />
               <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.salesTeamStore.salesTeam?.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.salesTeamStore.updateSalesTeam({
-                      ...Stores.salesTeamStore.salesTeam,
-                      environment,
-                    })
-                  }}
-                >
-                 <option selected>
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Reporting To"
+                    hasError={errors.userDetials}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.userDetials
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const userDetials = JSON.parse(e.target.value) as any
+                        onChange(userDetials)
+                        Stores.salesTeamStore.updateSalesTeam({
+                          ...Stores.salesTeamStore.salesTeam,
+                          reportingTo: userDetials.empCode,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {UserStore.userStore.userList &&
+                        Utils.filterUsersItems(
+                          UserStore.userStore.userList,
+                          "role",
+                          "code",
+                          "SALES"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.empCode} -${item.empName}`}
+                          </option>
+                        ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="userDetials"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={Stores.salesTeamStore.salesTeam?.environment}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.salesTeamStore.updateSalesTeam({
+                          ...Stores.salesTeamStore.salesTeam,
+                          environment,
+                        })
+                        Stores.salesTeamStore.salesTeamService
+                          .checkExistsEnvCode(
+                            Stores.salesTeamStore.salesTeam?.empCode || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.salesTeamStore.updateExistsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else Stores.salesTeamStore.updateExistsEnvCode(false)
+                          })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : Stores.salesTeamStore.salesTeam?.environment || `Select`}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -364,7 +401,7 @@ export const SalesTeam = observer(() => {
             data={Stores.salesTeamStore.listSalesTeam || []}
             totalSize={Stores.salesTeamStore.listSalesTeamCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -394,8 +431,8 @@ export const SalesTeam = observer(() => {
                 body: `Update Section!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.salesTeamStore.fetchSalesTeam(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.salesTeamStore.fetchSalesTeam(page, limit)
             }}
           />
         </div>
@@ -403,11 +440,9 @@ export const SalesTeam = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.salesTeamStore.salesTeamService
                 .deleteSalesTeam(modalConfirm.id)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sales team record deleted.`,
@@ -417,11 +452,9 @@ export const SalesTeam = observer(() => {
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.salesTeamStore.salesTeamService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
-                  
                   if (res.status === 200) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 Sales team record updated.`,
