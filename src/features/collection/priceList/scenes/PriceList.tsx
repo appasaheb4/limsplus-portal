@@ -11,7 +11,8 @@ import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
-// import { Stores as CoporateClients} from "@lp/features/collection/corporateClients/stores"
+import { Stores as CoporateClients} from "@lp/features/collection/corporateClients/stores"
+import { Stores as PanelMaster} from "@lp/features/collection/masterPanel/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -75,10 +76,9 @@ const PriceList = observer(() => {
                 control={control}
                 render={({field:{onChange}})=>(
                   <LibraryComponents.Atoms.Form.Input
-                    label="RELREC"
+                    label="RelRec"
                     name="txtRelRec"
                     placeholder={errors.relrec ? "Please Enter RelRec" : "RelRec"}
-                    type="number"
                     hasError={errors.relrec}
                     value={Stores.priceListStore.priceList?.relrec}
                     onChange={(relrec) => {
@@ -98,37 +98,37 @@ const PriceList = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Panel"
-                    hasError={errors.panel}
+                    label="Panel Code"
+                    hasError={errors.panelCode}
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panel
+                        errors.panelCode
                           ? "border-red-500  focus:border-red-500"
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const panel = e.target.value as string
+                        const panel = JSON.parse(e.target.value) as any
                         onChange(panel)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
-                          panel,
+                          panelCode: panel.panelCode ,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {/* {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "PANEL_NAME"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))} */}
+                      {PanelMaster.masterPanelStore.listMasterPanel
+                      && PanelMaster.masterPanelStore.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.panelCode}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="panel"
+                name="panelCode"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -146,7 +146,7 @@ const PriceList = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const panelName = e.target.value as string
+                        const panelName = JSON.parse(e.target.value)
                         onChange(panelName)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
@@ -155,14 +155,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "PANEL_NAME"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                      {PanelMaster.masterPanelStore.listMasterPanel
+                      && PanelMaster.masterPanelStore.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.panelName}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -259,7 +259,7 @@ const PriceList = observer(() => {
                         errors.billto ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const billto = e.target.value as string
+                        const billto = JSON.parse(e.target.value)
                         onChange(billto)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
@@ -268,17 +268,18 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {/* {CoporateClients.corporateClientsStore.listCorporateClients.map(
+                      {CoporateClients.corporateClientsStore.listCorporateClients
+                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
                         (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.billingOn}`}
                           </option>
                         )
-                      )} */}
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="invoiceAc"
+                name="billto"
                 rules={{ required: true }}
                 defaultValue=""
               />
@@ -294,7 +295,7 @@ const PriceList = observer(() => {
                         errors.clientName ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const clientName = e.target.value as string
+                        const clientName = JSON.parse(e.target.value)
                         onChange(clientName)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
@@ -303,13 +304,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {/* {CoporateClients.corporateClientsStore.listCorporateClients.map(
+                      {CoporateClients.corporateClientsStore.listCorporateClients
+                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
                         (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.corporateName}`}
                           </option>
                         )
-                      )} */}
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -329,7 +331,7 @@ const PriceList = observer(() => {
                         errors.invoiceAc ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const invoiceAc = e.target.value as string
+                        const invoiceAc = JSON.parse(e.target.value)
                         onChange(invoiceAc)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
@@ -338,13 +340,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {/* {CoporateClients.corporateClientsStore.listCorporateClients.map(
+                      {CoporateClients.corporateClientsStore.listCorporateClients
+                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
                         (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.invoiceAc}`}
                           </option>
                         )
-                      )} */}
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -481,7 +484,6 @@ const PriceList = observer(() => {
                     label="Min SP"
                     name="txtMinSp"
                     placeholder={errors.minSp ? "Please Enter Min SP" : " Min Sp"}
-                    type="number"
                     hasError={errors.minSp}
                     value={Stores.priceListStore.priceList?.minSp}
                     onChange={(minSp) => {
@@ -504,7 +506,6 @@ const PriceList = observer(() => {
                     label="Max SP"
                     name="txtMaxSp"
                     placeholder={errors.maxSp ? "Please Enter Min SP" : " Min Sp"}
-                    type="number"
                     hasError={errors.minSp}
                     value={Stores.priceListStore.priceList?.maxSp}
                     onChange={(maxSp) => {
@@ -565,7 +566,6 @@ const PriceList = observer(() => {
                     label="Max SP"
                     name="txtMaxSp"
                     placeholder={errors.schemePrice ? "Please Enter Min SP" : " Min Sp"}
-                    type="number"
                     hasError={errors.schemePrice}
                     value={Stores.priceListStore.priceList?.maxSp}
                     onChange={(schemePrice) => {
@@ -587,9 +587,9 @@ const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Entered By"
                     placeholder={
-                      errors.keyNum ? "Please Enter Entered By" : "Entered By"
+                      errors.userId ? "Please Enter Entered By" : "Entered By"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.userId}
                     value={LoginStore.loginStore.login?.userId}
                     disabled={true}
                   />
@@ -741,10 +741,10 @@ const PriceList = observer(() => {
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.schedule}
                     value={LibraryUtils.moment
                       .unix(
-                        Stores.priceListStore.priceList?.dateExpiry || 0
+                        Stores.priceListStore.priceList?.dateActive || 0
                       )
                       .format("YYYY-MM-DD")}
                     onChange={(e) => {
@@ -895,9 +895,10 @@ const PriceList = observer(() => {
           <FeatureComponents.Molecules.PriceList
             data={Stores.priceListStore.listPriceList || []}
             // totalSize={Stores.priceListStore.listPriceListCount}
-            // extraData={{
-            //   lookupItems: stores.routerStore.lookupItems,
-            // }}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listMasterPanel: PanelMaster.masterPanelStore.listMasterPanel,
+            }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"

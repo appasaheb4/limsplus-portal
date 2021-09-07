@@ -14,6 +14,7 @@ import { stores } from "@lp/library/stores"
 
 interface PriceListProps {
   data: any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -49,46 +50,301 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
-              dataFeild: "panel",
-              text : "Panel",
+              dataFeild: "panelCode",
+              text : "Panel Code",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Panel Code"
+                
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                       
+                      onChange={(e) => {
+                        const panelCode = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(
+                          panelCode,column.dataField,row._id
+                        )
+                       
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMasterPanel
+                      && props.extraData.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.panelCode}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "panelName",
               text : "Panel Name",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Panel Code"
+                
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                       
+                      onChange={(e) => {
+                        const panelName = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(
+                          panelName,column.dataField,row._id
+                        )
+                       
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMasterPanel
+                      && props.extraData.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.panelName}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "priority",
               text : "Priority",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                        
+                      onChange={(e) => {
+                        const priority = e.target.value as string
+                       props.onUpdateItem && props.onUpdateItem(priority,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PRIORITY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "priceGroup",
               text : "Price Group",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                        
+                      onChange={(e) => {
+                        const priceGroup = e.target.value as string
+                       props.onUpdateItem && props.onUpdateItem(priceGroup,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PRICE_GROUP"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "billto",
               text : "Bill To",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                       
+                      onChange={(e) => {
+                        const billto = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(
+                          billto,column.dataField,row._id
+                        )
+                       
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMasterPanel
+                      && props.extraData.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.billingOn}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "clientName",
               text : "Client Name",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                       
+                      onChange={(e) => {
+                        const clientName = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(
+                          clientName,column.dataField,row._id
+                        )
+                       
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMasterPanel
+                      && props.extraData.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.corporateName}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "invoiceAc",
               text : "Invoice Ac",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                       
+                      onChange={(e) => {
+                        const invoiceAc = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(
+                          invoiceAc,column.dataField,row._id
+                        )
+                       
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMasterPanel
+                      && props.extraData.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.invoiceAc}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "lab",
@@ -132,48 +388,117 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               text : "Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataFeild: "fixedPrice",
               text : "Fixed Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataFeild: "minSp",
               text : "Min Sp",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataFeild: "maxSp",
               text : "Max Sp",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataFeild: "anyScheme",
               text : "Any Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                <>
+                 <LibraryComponents.Atoms.Form.Toggle
+                    
+                    value={row.anyScheme}
+                    onChange={(anyScheme) => {
+                      props.onUpdateItem &&
+                      props.onUpdateItem(anyScheme,'anyScheme',row._id)       
+                    }}
+                  />
+                </>
+                )
+                },
             },
             {
               dataFeild: "specialScheme",
               text : "Special Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    
+                  >
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
+                        
+                      onChange={(e) => {
+                        const speicalScheme = e.target.value as string
+                       props.onUpdateItem && props.onUpdateItem(speicalScheme,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SPECIAL_SCHEME"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataFeild: "schemePrice",
               text : "Scheme Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataFeild: "disOnScheme",
               text : "Dis On Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              formatter: (cell, row) => {
+                return (
+                <>
+                 <LibraryComponents.Atoms.Form.Toggle
+                    
+                    value={row.disOnScheme}
+                    onChange={(disOnScheme) => {
+                      props.onUpdateItem &&
+                      props.onUpdateItem(disOnScheme,'disOnScheme',row._id)       
+                    }}
+                  />
+                </>
+                )
+                },
             },
             
             {
@@ -287,6 +612,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               text: "Environment",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -306,7 +632,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
+                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}

@@ -1,5 +1,6 @@
 import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
+import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Services from "../services"
 
@@ -12,6 +13,16 @@ class PriceListStore {
     @ignore @observable checkExitsLabEnvCode?: boolean = false
     constructor(){
         makeAutoObservable(this)
+        this.priceList = {
+          ...this.priceList,
+          dateCreation: LibraryUtils.moment().unix(),
+          dateActive: LibraryUtils.moment().unix(),
+          schedule: LibraryUtils.moment().unix(),
+          version: 1,
+          keyNum: "1",
+          anyScheme: false,
+          disOnScheme: false
+        }
     }
     @computed get priceListService() {
         return new Services.PriceListService()

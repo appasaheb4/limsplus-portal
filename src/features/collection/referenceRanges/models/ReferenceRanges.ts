@@ -1,4 +1,5 @@
 export class ReferenceRanges {
+    existsVersionId: string
     relRec: string
     analyteCode: string
     analyteName: string
@@ -8,7 +9,7 @@ export class ReferenceRanges {
     rangeSetOn: string
     eqType: string
     lab: string
-    rangeType: string
+    rangType: string
     age: number
     ageUnit: string
     low: string
@@ -17,17 +18,19 @@ export class ReferenceRanges {
     enteredBy: string
     status: string
     environment: string
-    dateCreation: string
-    dateActive: string
-    dateExpiry: string
-    version: string
+    dateCreation: number
+    dateActive: number
+    dateExpiry: number
+    version: number
     keyNum: string
-    deltarang_tetype: number
+    deltarang_tetype: string
     deltaInterval: string
     intervalUnit: string
-    formalResultScript: string
+    formatResultScript: string
     reportDefault: string
+    schedule: number
     constructor(rawData: {[key in string]: any}){
+        this.existsVersionId = rawData.existsVersionId
         this.relRec = rawData.relRec
         this.analyteCode = rawData.analyteCode
         this.analyteName = rawData.analyteName
@@ -37,7 +40,7 @@ export class ReferenceRanges {
         this.rangeSetOn = rawData.rangeSetOn
         this.eqType = rawData.eqType
         this.lab = rawData.lab
-        this.rangeType = rawData.rangeType
+        this.rangType = rawData.rangeType
         this.age = rawData.age
         this.ageUnit = rawData.ageUnit
         this.low = rawData.low
@@ -54,7 +57,8 @@ export class ReferenceRanges {
         this.deltarang_tetype = rawData.deltarang_tetype
         this.deltaInterval = rawData.deltaInterval
         this.intervalUnit = rawData.intervalUnit
-        this.formalResultScript = rawData.formalResultScript
+        this.formatResultScript = rawData.formalResultScript
         this.reportDefault = rawData.reportDefault
+        this.schedule = rawData.schedule
     }
 }
