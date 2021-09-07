@@ -38,7 +38,7 @@ const CorporateClients = observer(() => {
     }
   }, [stores.loginStore.login])
   const onSubmitCoporateClients = () => {
-    if (Stores.corporateClientsStore.corporateClients) {
+    if (!Stores.corporateClientsStore.checkExistsEnvCode) {
       Stores.corporateClientsStore.corporateClientsService
         .addCorporateClients({
           ...Stores.corporateClientsStore.corporateClients,
@@ -54,10 +54,10 @@ const CorporateClients = observer(() => {
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
-        message: `😔 Please enter all information!`,
+        message: `😔 Please enter diff code`,
       })
     }
-  }
+  }   
 
   return (
     <>
@@ -232,13 +232,39 @@ const CorporateClients = observer(() => {
                         corporateCode,
                       })
                     }}
+                    onBlur={(code) => {
+                      // if (
+                      //   !Stores.corporateClientsStore.corporateClients
+                      //     ?.existsVersionId
+                      // ) {
+                      Stores.corporateClientsStore.corporateClientsService
+                        .checkExistsEnvCode(
+                          code,
+                          Stores.corporateClientsStore.corporateClients
+                            ?.environment || ""
+                        )
+                        .then((res) => {
+                          if (res.success) {
+                            Stores.corporateClientsStore.updateExistsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.message}`,
+                            })
+                          } else
+                            Stores.corporateClientsStore.updateExistsEnvCode(false)
+                        })
+                      //}
+                    }}
                   />
                 )}
                 name="corporateCode"
                 rules={{ required: true }}
                 defaultValue=""
               />
-
+              {Stores.corporateClientsStore.checkExistsEnvCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1078,6 +1104,26 @@ const CorporateClients = observer(() => {
                           ...Stores.corporateClientsStore.corporateClients,
                           environment,
                         })
+                        // if (
+                        //   !Stores.corporateClientsStore.corporateClients
+                        //     ?.existsVersionId
+                        // ) {
+                        Stores.corporateClientsStore.corporateClientsService
+                          .checkExistsEnvCode(
+                            Stores.corporateClientsStore.corporateClients
+                              ?.corporateCode || "",
+                            environment
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.corporateClientsStore.updateExistsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.corporateClientsStore.updateExistsEnvCode(false)
+                          })
+                        //}
                       }}
                     >
                       <option selected>

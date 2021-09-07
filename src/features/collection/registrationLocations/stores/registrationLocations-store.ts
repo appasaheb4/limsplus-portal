@@ -9,6 +9,8 @@ class RegistrationLocationsStore {
   @ignore @observable registrationLocations?: Models.RegistrationLocations
   @observable listRegistrationLocations?: Models.RegistrationLocations[] = []
   @observable listRegistrationLocationsCount: number = 0
+  @ignore @observable checkExitsLabEnvCode?: boolean = false
+
   constructor() {
     makeAutoObservable(this)
     this.registrationLocations = {
@@ -21,25 +23,30 @@ class RegistrationLocationsStore {
       confidential: false,
       printLabel: false,
       neverBill: false,
-      urgent: false,  
+      urgent: false,
     }
   }
 
   @computed get registrationLocationsService() {
-    return new Services.RegistrationLocationsService(
-    )
+    return new Services.RegistrationLocationsService()
   }
 
-  @action fetchRegistrationLocations(page?,limit?) {
-    this.registrationLocationsService.listRegistrationLocations(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listRegistrationLocationsCount = res.data.count
-      this.listRegistrationLocations = res.data.registrationLocations
-    })
+  @action fetchRegistrationLocations(page?, limit?) {
+    this.registrationLocationsService
+      .listRegistrationLocations(page, limit)
+      .then((res) => {
+        if (!res.success) return alert(res.message)
+        this.listRegistrationLocationsCount = res.data.count
+        this.listRegistrationLocations = res.data.registrationLocations
+      })
   }
-
+   
   @action updateRegistrationLocations(locations: Models.RegistrationLocations) {
     this.registrationLocations = locations
+  }
+
+  @action updateExistsLabEnvCode = (status: boolean) => {
+    this.checkExitsLabEnvCode = status
   }
 }
 
