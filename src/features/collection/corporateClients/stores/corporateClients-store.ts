@@ -9,7 +9,8 @@ class CorporateClientsStore {
   @ignore @observable corporateClients?: Models.CorporateClients
   @observable listCoporateClientsCount: number = 0
   @observable listCorporateClients?: Models.CorporateClients[] = []
-
+  @ignore @observable checkExistsEnvCode?: boolean = false
+  
   constructor() {
     makeAutoObservable(this)
     this.corporateClients = {
@@ -25,12 +26,11 @@ class CorporateClientsStore {
   }
 
   @computed get corporateClientsService() {
-    return new Services.CorporateClientsService(
-    )
+    return new Services.CorporateClientsService()
   }
 
-  @action fetchCorporateClients(page?,limit?) {
-    this.corporateClientsService.listCorporateClients(page,limit).then((res) => {
+  @action fetchCorporateClients(page?, limit?) {
+    this.corporateClientsService.listCorporateClients(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listCoporateClientsCount = res.data.count
       this.listCorporateClients = res.data.corporateClients
@@ -39,6 +39,10 @@ class CorporateClientsStore {
 
   @action updateCorporateClients(clients: Models.CorporateClients) {
     this.corporateClients = clients
+  }
+  
+  @action updateExistsEnvCode(status: boolean) {
+    this.checkExistsEnvCode = status
   }
 }
 
