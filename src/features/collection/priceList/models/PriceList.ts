@@ -1,7 +1,7 @@
 export class PriceList {
     existsVersionId: string
     relrec: number
-    panel: string
+    panelCode: string
     panelName: string
     priority: string
     priceGroup: string
@@ -25,10 +25,11 @@ export class PriceList {
     dateExpiry: number
     version: number
     keyNum: string
+    schedule: number
     constructor(rawData: { [key in string]: any }){
         this.existsVersionId = rawData.existsVersionId
         this.relrec = rawData.relrec
-        this.panel = rawData.panel
+        this.panelCode = rawData.panel
         this.panelName = rawData.panelName
         this.priority = rawData.priority
         this.priceGroup = rawData.priceGroup
@@ -52,6 +53,7 @@ export class PriceList {
         this.dateExpiry = rawData.dateExpiry
         this.version = rawData.version
         this.keyNum = rawData.keyNum
+        this.schedule = rawData.schedule
  
     }
   
