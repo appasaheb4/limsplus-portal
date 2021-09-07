@@ -1,3 +1,3 @@
-import Role from "./Role";
+import Role from "./role";
 
 export { Role };
