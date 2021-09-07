@@ -317,14 +317,14 @@ const collectionRoutes = {
     {
       path: "/collection/priceList",
       name:"PriceList",
-      // icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiPriceTag",
       component: PriceList
 
     },
     {
       path: "/collection/referenceRanges",
       name:"ReferenceRanges",
-      // icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+       icon: "LibraryComponents.Atoms.Icons.Iconvsc.VscReferences",
       component: ReferenceRanges
 
     }

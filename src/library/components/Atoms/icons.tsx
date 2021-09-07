@@ -120,7 +120,10 @@ export const getIcons = (icon: string): any => {
     return LibraryComponents.Atoms.Icons.Iconai.AiOutlineSolution
     if (icon === "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary")
     return LibraryComponents.Atoms.Icons.Iconhi.HiLibrary
-
+    if (icon === "LibraryComponents.Atoms.Icons.IconGi.GiPriceTag")
+    return LibraryComponents.Atoms.Icons.IconGi.GiPriceTag
+    if (icon === "LibraryComponents.Atoms.Icons.Iconvsc.VscReferences")
+    return LibraryComponents.Atoms.Icons.Iconvsc.VscReferences
 
 
   //communication
