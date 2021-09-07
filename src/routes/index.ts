@@ -18,7 +18,7 @@ const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/Department")
 )
 const CollectionRole = async(
-  () => import("@lp/features/collection/roles/scenes/role")
+  () => import("@lp/features/collection/roles/scenes/Role")
 )
 // master
 const MasterAnalyte = async(
@@ -79,6 +79,8 @@ const PossibleResults = async(
   () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
 )
 const Library = async(() => import("@lp/features/collection/library/scenes/Library"))
+const PriceList = async(() => import("@lp/features/collection/priceList/scenes/PriceList"))
+const ReferenceRanges = async(() => import("@lp/features/collection/referenceRanges/scenes/ReferenceRanges"))
 
 // Communication
 const HostCommunication = async(
@@ -312,6 +314,20 @@ const collectionRoutes = {
       icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
       component: Library,
     },  
+    {
+      path: "/collection/priceList",
+      name:"PriceList",
+      // icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+      component: PriceList
+
+    },
+    {
+      path: "/collection/referenceRanges",
+      name:"ReferenceRanges",
+      // icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
+      component: ReferenceRanges
+
+    }
   ],
 }
   

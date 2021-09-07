@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-    Stores.priceListStore.fetchListPriceList()
+    Stores.referenceRangesStore.fetchListReferenceRanges()
 }
 
 export default startup;

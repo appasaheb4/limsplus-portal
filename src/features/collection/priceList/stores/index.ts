@@ -1,11 +1,9 @@
 import React from "react"
-    
-import MasterAnalyteStore from "./masterAnalyte-store"
-   
+import PriceListStore from "./priceList-store"
+
 export const Stores = {
-  masterAnalyteStore: new MasterAnalyteStore(),
+    priceListStore: new PriceListStore()
 }
-    
 export const Contexts = {
-  masterAnalyteContext: React.createContext(Stores.masterAnalyteStore),
+    priceListContext: React.createContext(Stores.priceListStore)
 }

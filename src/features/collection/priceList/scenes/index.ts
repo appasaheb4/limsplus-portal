@@ -1,4 +1,4 @@
-import MasterAnalyte from "./MasterAnalyte";
+import PriceList from "./PriceList";
    
-export { MasterAnalyte };
+export { PriceList };
   
