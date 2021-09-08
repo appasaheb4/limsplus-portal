@@ -86,7 +86,7 @@ const Role = observer(() => {
                       onChange(code)
                       Stores.roleStore.updateRole({
                         ...Stores.roleStore.role,
-                        code,
+                        code:code.toUpperCase(),
                       })
                     }}   
                     onBlur={(code) => {
@@ -128,7 +128,7 @@ const Role = observer(() => {
                       onChange(description)
                       Stores.roleStore.updateRole({
                         ...Stores.roleStore.role,
-                        description,
+                        description:description.toUpperCase(),
                       })
                     }}
                   />

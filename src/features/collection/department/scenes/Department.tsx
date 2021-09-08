@@ -152,7 +152,7 @@ export const Department = observer(() => {
                         onChange(code)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          code,
+                          code:code.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
@@ -194,7 +194,7 @@ export const Department = observer(() => {
                         onChange(name)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          name,
+                          name:name.toUpperCase(),
                         })
                       }}
                     />
@@ -218,7 +218,7 @@ export const Department = observer(() => {
                         onChange(shortName)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          shortName,
+                          shortName:shortName.toUpperCase(),
                         })
                       }}
                     />
