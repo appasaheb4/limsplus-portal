@@ -106,11 +106,13 @@ const ReferenceRanges = observer(() => {
                         errors.analyteCode ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const analyteCode = e.target.value as string
-                        onChange(analyteCode)
+                        const analyte = JSON.parse(e.target.value) as any
+                        onChange(analyte.analyteCode)
+                        setValue("analyteName",analyte.analyteName)
                         Stores.referenceRangesStore.updateReferenceRanges({
                           ...Stores.referenceRangesStore.referenceRanges,
-                          analyteCode,
+                          analyteCode: analyte.analyteCode,
+                          analyteName: analyte.analyteName,
                         })
                       }}
                     >
@@ -119,7 +121,7 @@ const ReferenceRanges = observer(() => {
                       && AnalyteMaster.masterAnalyteStore.listMasterAnalyte.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteCode}`}
+                            {`${item.analyteName} - ${item.analyteCode}`}
                           </option>
                         )
                       )}
@@ -130,40 +132,30 @@ const ReferenceRanges = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Controller
+             <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Analyte Name"
-                    hasError={errors.analyteName}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.analyteName ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const analyteName = e.target.value as string
-                        onChange(analyteName)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
-                          analyteName,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {AnalyteMaster.masterAnalyteStore.listMasterAnalyte
-                      && AnalyteMaster.masterAnalyteStore.listMasterAnalyte.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteName}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.Input
+                  label="Analyte Name"
+                  name="txtAnalyteName"
+                  placeholder={
+                    errors.analyteName ? "Please Enter Analyte Name" : "AnalyteName"
+                  }
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.analyteName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                  hasError={errors.analyteName}
+                  disabled={true}
+                  value={
+                    Stores.referenceRangesStore.referenceRanges?.analyteName
+                    
+                  }
+                />
                 )}
                 name="analyteName"
-                rules={{ required: true }}
+                rules={{ required: true}}
                 defaultValue=""
               />
               <Controller
