@@ -94,6 +94,7 @@ const PriceList = observer(() => {
                 rules={{required:true}}
                 defaultValue=""
               />
+               
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -108,11 +109,13 @@ const PriceList = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const panelCode = JSON.parse(e.target.value)
-                        onChange(panelCode)
+                        const panel = JSON.parse(e.target.value) as any
+                        onChange(panel)
+                        setValue("panelName", panel.panelName)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
-                          panelCode,
+                          panelCode: panel.panelCode,
+                          panelName: panel.panelName,
                         })
                       }}
                     >
@@ -121,7 +124,7 @@ const PriceList = observer(() => {
                       && PanelMaster.masterPanelStore.listMasterPanel.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
-                            {`${item.panelCode}`}
+                            {`${item.panelName} - ${item.panelCode}  `}
                           </option>
                         )
                       )}
@@ -132,39 +135,27 @@ const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Controller
+             <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Panel Name"
-                    hasError={errors.panelName}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelName
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const panelName = JSON.parse(e.target.value)
-                        onChange(panelName)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
-                          panelName,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {PanelMaster.masterPanelStore.listMasterPanel
-                      && PanelMaster.masterPanelStore.listMasterPanel.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.panelName}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.Input
+                  label="Panel Name"
+                  name="txtPanelName"
+                  placeholder={
+                    errors.panelName ? "Please Enter Panel Name" : "Panel Name"
+                  }
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.panelName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                  hasError={errors.panelName}
+                  disabled={true}
+                  value={
+                    Stores.priceListStore.priceList?.panelName
+                    
+                  }
+                />
                 )}
                 name="panelName"
                 rules={{ required: true}}
