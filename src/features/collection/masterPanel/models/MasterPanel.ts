@@ -11,7 +11,7 @@ export class MasterPanel {
     rLab?: string
     pLab?: string
     department?: string
-    section?: string
+    section?: Record<string, any>
     panelCode?: string
     panelName?: string
     description?: string

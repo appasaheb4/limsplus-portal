@@ -70,4 +70,17 @@ export class SectionService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
     })  
+
+    findSectionListByDeptCode = (code: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`/master/section/findSectionListByDeptCode`, { code })
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })  
 }

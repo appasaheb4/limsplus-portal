@@ -94,7 +94,7 @@ const Lab = observer(() => {
                       onChange(code)
                       Stores.labStore.updateLabs({
                         ...Stores.labStore.labs,
-                        code,
+                        code: code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
