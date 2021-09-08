@@ -175,6 +175,7 @@ export const SalesTeam = observer(() => {
                         onChange={(e) => {
                           const userDetials = JSON.parse(e.target.value) as any
                           onChange(userDetials)
+                          setValue("empName",userDetials.empName)
                           Stores.salesTeamStore.updateSalesTeam({
                             ...Stores.salesTeamStore.salesTeam,
                             empCode: userDetials.empCode,
@@ -230,41 +231,23 @@ export const SalesTeam = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Employee Name"
-                    hasError={errors.userDetials}
-                  >
-                    <select
-                      //value={Stores.salesTeamStore.salesTeam?.empName}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.userDetials
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const userDetials = JSON.parse(e.target.value) as any
-                        onChange(userDetials)
-                        Stores.salesTeamStore.updateSalesTeam({
-                          ...Stores.salesTeamStore.salesTeam,
-                          empCode: userDetials.empCode,
-                          empName: userDetials.empName,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {UserStore.userStore.userList &&
-                        Utils.filterUsersItems(
-                          UserStore.userStore.userList,
-                          "role",
-                          "code",
-                          "SALES"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.empCode} -${item.empName}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.Input
+                  label="Employee Name"
+                  name="txtEmployeeName"
+                  placeholder={
+                    errors.empName ? "Please Enter EmployeeName" : "Employee Name"
+                  }
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.empName
+                      ? "border-red-500  focus:border-red-500"
+                      : "border-gray-300"
+                  } rounded-md`}
+                  hasError={errors.empName}
+                  disabled={true}
+                  value={
+                    Stores.salesTeamStore.salesTeam?.empName
+                  }
+                />
                 )}
                 name="userDetials"
                 rules={{ required: false }}
