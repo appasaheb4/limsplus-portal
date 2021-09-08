@@ -26,6 +26,10 @@ const MasterPanel = observer(() => {
     setValue,
   } = useForm()
 
+
+  console.log({stores});
+  
+
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -248,6 +252,7 @@ const MasterPanel = observer(() => {
                           ...Stores.masterPanelStore.masterPanel,
                           department,
                         })
+                        stores.sectionStore.findSectionListByDeptCode(department)
                       }}
                     >
                       <option selected>Select</option>
@@ -279,20 +284,22 @@ const MasterPanel = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const section = e.target.value as string
+                        const section = e.target.value as Object
                         onChange(section)
                         Stores.masterPanelStore.updateMasterPanel({
                           ...Stores.masterPanelStore.masterPanel,
                           section,
                         })
                       }}
-                    >
+                    >   
                       <option selected>Select</option>
-                      {["Section 1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
+                      {stores.sectionStore.sectionListByDeptCode && stores.sectionStore.sectionListByDeptCode.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {`${item.code} -${item.name}`}`
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1611,11 +1618,11 @@ const MasterPanel = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
-              setValue("rLab",modalConfirm.data.rLab)
-              setValue("pLab",modalConfirm.data.pLab)
-              setValue("panelCode",modalConfirm.data.panelCode)
-              setValue("panelName",modalConfirm.data.panelName)
-              setValue("environment",modalConfirm.data.environment)
+              setValue("rLab", modalConfirm.data.rLab)
+              setValue("pLab", modalConfirm.data.pLab)
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("panelName", modalConfirm.data.panelName)
+              setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
               Stores.masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,
