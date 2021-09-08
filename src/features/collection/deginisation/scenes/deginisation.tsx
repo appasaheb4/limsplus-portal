@@ -96,7 +96,7 @@ const Deginisation = observer(() => {
                       onChange(code)
                       Stores.deginisationStore.updateDescription({
                         ...Stores.deginisationStore.deginisation,
-                        code,
+                        code:code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
@@ -140,7 +140,7 @@ const Deginisation = observer(() => {
                       onChange(description)
                       Stores.deginisationStore.updateDescription({
                         ...Stores.deginisationStore.deginisation,
-                        description,
+                        description:description.toUpperCase(),
                       })
                     }}
                   />

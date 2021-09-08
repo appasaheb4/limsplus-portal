@@ -96,7 +96,7 @@ const Methods = observer(() => {
                       onChange(methodsCode)
                       Stores.methodsStore.updateMethods({
                         ...Stores.methodsStore.methods,
-                        methodsCode,
+                        methodsCode:methodsCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
@@ -141,7 +141,7 @@ const Methods = observer(() => {
                       onChange(methodsName)
                       Stores.methodsStore.updateMethods({
                         ...Stores.methodsStore.methods,
-                        methodsName,
+                        methodsName:methodsName.toUpperCase(),
                       })
                     }}
                   />
@@ -167,7 +167,7 @@ const Methods = observer(() => {
                       onChange(description)
                       Stores.methodsStore.updateMethods({
                         ...Stores.methodsStore.methods,
-                        description,
+                        description:description.toUpperCase(),
                       })
                     }}
                   />
