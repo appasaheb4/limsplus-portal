@@ -1190,6 +1190,24 @@ const CorporateClients = observer(() => {
             )}
             // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
             onSelectedRow={(rows) => {
               setModalConfirm({
                 show: true,
