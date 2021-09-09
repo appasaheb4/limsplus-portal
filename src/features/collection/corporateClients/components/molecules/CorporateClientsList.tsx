@@ -1,16 +1,11 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
+import React from "react"
 import { observer } from "mobx-react"
-import BootstrapTable from "react-bootstrap-table-next"
 import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-import Storage from "@lp/library/modules/storage"
 import { Stores } from "../../stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
@@ -23,6 +18,8 @@ interface CorporateClientListProps {
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
@@ -612,6 +609,42 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
                         )}
                       </LibraryComponents.Atoms.Icons.IconContext>
                     </LibraryComponents.Atoms.Tooltip>
+                    {row.status !== "I" && (
+                      <>
+                        <LibraryComponents.Atoms.Tooltip
+                          className="ml-2"
+                          tooltipText="Version Upgrade"
+                        >
+                          <LibraryComponents.Atoms.Icons.IconContext
+                            color="#000"
+                            size="20"
+                            onClick={() =>
+                              props.onVersionUpgrade && props.onVersionUpgrade(row)
+                            }
+                          >
+                            {LibraryComponents.Atoms.Icons.getIconTag(
+                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                            )}
+                          </LibraryComponents.Atoms.Icons.IconContext>
+                        </LibraryComponents.Atoms.Tooltip>
+                        <LibraryComponents.Atoms.Tooltip
+                          className="ml-2"
+                          tooltipText="Duplicate"
+                        >
+                          <LibraryComponents.Atoms.Icons.IconContext
+                            color="#000"
+                            size="20"
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {LibraryComponents.Atoms.Icons.getIconTag(
+                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                            )}
+                          </LibraryComponents.Atoms.Icons.IconContext>
+                        </LibraryComponents.Atoms.Tooltip>
+                      </>
+                    )}
                   </div>
               </>
             ),
