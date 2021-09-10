@@ -5,12 +5,17 @@ import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 
+import {SectionService} from '@lp/features/collection/section/services'
+import * as ModelsSection from '@lp/features/collection/section/models'
+import * as LibraryComponents from "@lp/library/components"
+
 @version(0.1)
 class TestMasterStore {
   @ignore @observable testMaster?: Models.TestMaster
   @observable listTestMaster?: Models.TestMaster[] = []
   @observable listTestMasterCount: number = 0
   @ignore @observable checkExitsLabEnvCode?: boolean = false
+  @observable sectionListByDeptCode!: ModelsSection.Section[]
 
   constructor() {
     makeAutoObservable(this)
@@ -51,6 +56,17 @@ class TestMasterStore {
       //console.log({ res })
       this.listTestMaster = res.data.testMaster
       this.listTestMasterCount = res.data.count
+    })
+  }
+
+  @action findSectionListByDeptCode = (code: string) => {
+    new SectionService().findSectionListByDeptCode(code).then((res) => {
+      console.log({res});
+      if (!res.success)
+        return LibraryComponents.Atoms.Toast.error({
+          message: `😔 ${res.message}`,
+        })
+      this.sectionListByDeptCode = res.data.sectionList
     })
   }
 

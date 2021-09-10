@@ -14,6 +14,7 @@ import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as SectionStores } from "@lp/features/collection/section/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -26,9 +27,7 @@ const MasterPanel = observer(() => {
     setValue,
   } = useForm()
 
-
-  console.log({stores});
-  
+  console.log({ stores })
 
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -252,7 +251,7 @@ const MasterPanel = observer(() => {
                           ...Stores.masterPanelStore.masterPanel,
                           department,
                         })
-                        stores.sectionStore.findSectionListByDeptCode(department)
+                        Stores.masterPanelStore.findSectionListByDeptCode(department)
                       }}
                     >
                       <option selected>Select</option>
@@ -270,43 +269,47 @@ const MasterPanel = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Section"
-                    hasError={errors.section}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.section
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const section = e.target.value as Object
-                        onChange(section)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
-                          section,
-                        })
-                      }}
-                    >   
-                      <option selected>Select</option>
-                      {stores.sectionStore.sectionListByDeptCode && stores.sectionStore.sectionListByDeptCode.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item.code} -${item.name}`}`
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="section"
-                rules={{ required: true }}
-                defaultValue=""
-              />
+
+              {Stores.masterPanelStore.sectionListByDeptCode && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Section"
+                      hasError={errors.section}
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.section
+                            ? "border-red-500  focus:border-red-500"
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const section = e.target.value as Object
+                          onChange(section)
+                          Stores.masterPanelStore.updateMasterPanel({
+                            ...Stores.masterPanelStore.masterPanel,
+                            section,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {Stores.masterPanelStore.sectionListByDeptCode &&
+                          Stores.masterPanelStore.sectionListByDeptCode.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item}>
+                                {`${item.code} -${item.name}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="section"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              )}
 
               <Controller
                 control={control}
