@@ -37,6 +37,30 @@ class CorporateClientsService {
           reject({ error })
         })
     })
+    versionUpgradeCorporateClient = (analyte?: Models.CorporateClients) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`master/corporateClients/versionUpgradeCorporateClient`, analyte)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })  
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
+  duplicateCorporateClient = (analyte?: Models.CorporateClients) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(`master/corporateClients/duplicateCorporateClient`, analyte)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
   deleteCorporateClients = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http

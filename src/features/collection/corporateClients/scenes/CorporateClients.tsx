@@ -39,25 +39,67 @@ const CorporateClients = observer(() => {
   }, [stores.loginStore.login])
   const onSubmitCoporateClients = () => {
     if (!Stores.corporateClientsStore.checkExistsEnvCode) {
-      Stores.corporateClientsStore.corporateClientsService
-        .addCorporateClients({
-          ...Stores.corporateClientsStore.corporateClients,
-          enteredBy: stores.loginStore.login.userId,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Corporate Client record created.`,
-            })
-            Stores.corporateClientsStore.fetchCorporateClients()
-          }
-        })
+      if (
+        !Stores.corporateClientsStore.corporateClients?.existsVersionId &&
+        !Stores.corporateClientsStore.corporateClients?.existsRecordId
+      ) {
+        Stores.corporateClientsStore.corporateClientsService
+          .addCorporateClients({
+            ...Stores.corporateClientsStore.corporateClients,
+            enteredBy: stores.loginStore.login.userId,
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 Corporate Client record created.`,
+              })
+              Stores.corporateClientsStore.fetchCorporateClients()
+            }
+          })
+      } else if (
+        Stores.corporateClientsStore.corporateClients?.existsVersionId &&
+        !Stores.corporateClientsStore.corporateClients?.existsRecordId
+      ) {
+        Stores.corporateClientsStore.corporateClientsService
+          .versionUpgradeCorporateClient({
+            ...Stores.corporateClientsStore.corporateClients,
+            enteredBy: stores.loginStore.login.userId,
+          })
+          .then((res) => {
+            console.log({res});
+            
+            if (res.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.message}`,
+              })
+            }
+          })
+      } else if (
+        !Stores.corporateClientsStore.corporateClients?.existsVersionId &&
+        Stores.corporateClientsStore.corporateClients?.existsRecordId
+      ) {
+        Stores.corporateClientsStore.corporateClientsService
+          .duplicateCorporateClient({
+            ...Stores.corporateClientsStore.corporateClients,
+            enteredBy: stores.loginStore.login.userId,
+          })
+          .then((res) => {
+            if (res.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.message}`,
+              })
+            }
+          })
+      }
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter diff code`,
       })
     }
-  }   
+  }
 
   return (
     <>
@@ -233,26 +275,26 @@ const CorporateClients = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      // if (
-                      //   !Stores.corporateClientsStore.corporateClients
-                      //     ?.existsVersionId
-                      // ) {
-                      Stores.corporateClientsStore.corporateClientsService
-                        .checkExistsEnvCode(
-                          code,
-                          Stores.corporateClientsStore.corporateClients
-                            ?.environment || ""
-                        )
-                        .then((res) => {
-                          if (res.success) {
-                            Stores.corporateClientsStore.updateExistsEnvCode(true)
-                            LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
-                            })
-                          } else
-                            Stores.corporateClientsStore.updateExistsEnvCode(false)
-                        })
-                      //}
+                      if (
+                        !Stores.corporateClientsStore.corporateClients
+                          ?.existsVersionId
+                      ) {
+                        Stores.corporateClientsStore.corporateClientsService
+                          .checkExistsEnvCode(
+                            code,
+                            Stores.corporateClientsStore.corporateClients
+                              ?.environment || ""
+                          )
+                          .then((res) => {
+                            if (res.success) {
+                              Stores.corporateClientsStore.updateExistsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.message}`,
+                              })
+                            } else
+                              Stores.corporateClientsStore.updateExistsEnvCode(false)
+                          })
+                      }
                     }}
                   />
                 )}
@@ -1104,26 +1146,30 @@ const CorporateClients = observer(() => {
                           ...Stores.corporateClientsStore.corporateClients,
                           environment,
                         })
-                        // if (
-                        //   !Stores.corporateClientsStore.corporateClients
-                        //     ?.existsVersionId
-                        // ) {
-                        Stores.corporateClientsStore.corporateClientsService
-                          .checkExistsEnvCode(
-                            Stores.corporateClientsStore.corporateClients
-                              ?.corporateCode || "",
-                            environment
-                          )
-                          .then((res) => {
-                            if (res.success) {
-                              Stores.corporateClientsStore.updateExistsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
-                              })
-                            } else
-                              Stores.corporateClientsStore.updateExistsEnvCode(false)
-                          })
-                        //}
+                        if (
+                          !Stores.corporateClientsStore.corporateClients
+                            ?.existsVersionId
+                        ) {
+                          Stores.corporateClientsStore.corporateClientsService
+                            .checkExistsEnvCode(
+                              Stores.corporateClientsStore.corporateClients
+                                ?.corporateCode || "",
+                              environment
+                            )
+                            .then((res) => {
+                              if (res.success) {
+                                Stores.corporateClientsStore.updateExistsEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.message}`,
+                                })
+                              } else
+                                Stores.corporateClientsStore.updateExistsEnvCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -1257,8 +1303,30 @@ const CorporateClients = observer(() => {
                     setModalConfirm({ show: false })
                     Stores.corporateClientsStore.fetchCorporateClients()
                     window.location.reload()
-                  }
+                  }  
                 })
+            } else if (type === "versionUpgrade") {
+              Stores.corporateClientsStore.updateCorporateClients({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: modalConfirm.data._id,
+                existsRecordId: undefined,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+              setValue("corporateCode", modalConfirm.data.corporateCode)
+              setValue("corporateName", modalConfirm.data.corporateName)
+              setValue("environment", modalConfirm.data.environment)
+              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+            } else if (type === "duplicate") {
+              Stores.corporateClientsStore.updateCorporateClients({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: undefined,
+                existsRecordId: modalConfirm.data._id,
+                version: 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

@@ -364,15 +364,23 @@ export const PossibleResults = observer(() => {
                               ? conclusionResult.push({
                                   result,
                                   possibleValue,
-                                  abNormal: false,
-                                  critical: false,
+                                  abNormal:
+                                    Stores.possibleResultsStore.possibleResults
+                                      .abNormal,
+                                  critical:
+                                    Stores.possibleResultsStore.possibleResults
+                                      .critical,
                                 })
                               : (conclusionResult = [
                                   {
                                     result,
                                     possibleValue,
-                                    abNormal: false,
-                                    critical: false,
+                                    abNormal:
+                                      Stores.possibleResultsStore.possibleResults
+                                        .abNormal,
+                                    critical:
+                                      Stores.possibleResultsStore.possibleResults
+                                        .critical,
                                   },
                                 ])
                             Stores.possibleResultsStore.updatePossibleResults({
@@ -440,6 +448,53 @@ export const PossibleResults = observer(() => {
                     </div>
                   </LibraryComponents.Atoms.List>
                 </LibraryComponents.Atoms.Form.InputWrapper>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      hasError={errors.defaulItem}
+                      label="Default Conclusion"
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.defaultLab ? "border-red-500" : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          let defaultConclusion = JSON.parse(e.target.value)
+                          defaultConclusion = {
+                            result: defaultConclusion.result,
+                            possibleValue: defaultConclusion.possibleValue,
+                            abNormal: defaultConclusion.abNormal,
+                            critical: defaultConclusion.critical,
+                          }
+                          onChange(defaultConclusion)
+                          Stores.possibleResultsStore.updatePossibleResults({
+                            ...Stores.possibleResultsStore.possibleResults,
+                            defaultConclusion,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {Stores.possibleResultsStore.possibleResults &&
+                          Stores.possibleResultsStore.possibleResults
+                            .conclusionResult &&
+                          Stores.possibleResultsStore.possibleResults.conclusionResult.map(
+                            (item: any, index: number) => (
+                              <option key={item.name} value={JSON.stringify(item)}>
+                                {`Result: ${item.result}  
+                              Possible Value: ${item.possibleValue}  
+                              AbNormal: ${item.abNormal}  
+                              Critical: ${item.critical}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="defaulItem"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />

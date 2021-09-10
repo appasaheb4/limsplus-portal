@@ -12,6 +12,11 @@ export class PossibleResultsStore {
     
   constructor() {
     makeAutoObservable(this)
+    this.possibleResults = {
+      ...this.possibleResults,
+      abNormal: false,
+      critical:false
+    }
   }
 
   @computed get possibleResultsService() {
