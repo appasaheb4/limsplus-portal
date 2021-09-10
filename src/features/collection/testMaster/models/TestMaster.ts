@@ -11,7 +11,7 @@ export class TestMaster {
     rLab?: string
     pLab?: string
     department?: string
-    section?: string
+    section?: Record<string, any>
     testCode?: string
     testName?: string
     description?: string

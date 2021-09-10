@@ -248,6 +248,7 @@ const TestMater = observer(() => {
                           ...Stores.testMasterStore.testMaster,
                           department,
                         })
+                        Stores.testMasterStore.findSectionListByDeptCode(department)
                       }}
                     >
                       <option selected>Select</option>
@@ -265,41 +266,46 @@ const TestMater = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Section"
-                    hasError={errors.section}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.section
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const section = e.target.value as string
-                        onChange(section)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
-                          section,
-                        })
-                      }}
+              {Stores.testMasterStore.sectionListByDeptCode && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Section"
+                      hasError={errors.section}
                     >
-                      <option selected>Select</option>
-                      {["Section 1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="section"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.section
+                            ? "border-red-500  focus:border-red-500"
+                            : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const section = e.target.value as Object
+                          onChange(section)
+                          Stores.testMasterStore.updateTestMaster({
+                            ...Stores.testMasterStore.testMaster,
+                            section,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {Stores.testMasterStore.sectionListByDeptCode &&
+                          Stores.testMasterStore.sectionListByDeptCode.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item}>
+                               {`${item.code} -${item.name}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="section"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
