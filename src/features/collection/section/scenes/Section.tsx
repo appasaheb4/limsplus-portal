@@ -137,7 +137,7 @@ const Section = observer(() => {
                       onChange(code)
                       Stores.sectionStore.updateSection({
                         ...Stores.sectionStore.section,
-                        code,
+                        code:code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
@@ -202,7 +202,7 @@ const Section = observer(() => {
                       onChange(shortName)
                       Stores.sectionStore.updateSection({
                         ...Stores.sectionStore.section,
-                        shortName,
+                        shortName:shortName.toUpperCase(),
                       })
                     }}
                   />

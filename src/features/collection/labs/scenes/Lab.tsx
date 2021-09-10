@@ -134,7 +134,7 @@ const Lab = observer(() => {
                       onChange(name)
                       Stores.labStore.updateLabs({
                         ...Stores.labStore.labs,
-                        name,
+                        name: name.toUpperCase(),
                       })
                     }}
                   />
