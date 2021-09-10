@@ -287,7 +287,7 @@ const collectionRoutes = {
     {
       path: "/collection/deliverySchedule",
       name: "Delivery Schedule",
-      icon: "LibraryComponents.Atoms.Icons.IconGr.GrDeliver",
+      icon: "LibraryComponents.Atoms.Icons.Iconai.AiOutlineSchedule",
       component: DeliverySchedule,
     },
     {

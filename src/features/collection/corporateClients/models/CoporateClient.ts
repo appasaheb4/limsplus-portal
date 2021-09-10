@@ -1,6 +1,7 @@
 export class CorporateClients {
     _id?: string
-    duplicateId?: string
+    existsVersionId?: string
+    existsRecordId?: string  
     dateCreation?: number
     dateActiveFrom?: number
     dateActiveTo?: number
@@ -37,11 +38,12 @@ export class CorporateClients {
     info?: string
     fyiLine?: string
     workLine?: string
-    status?: string
+    status?: string  
     environment?: string
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
-        this.duplicateId = rawData.duplicateId
+        this.existsVersionId = rawData.existsVersionId
+        this.existsRecordId = rawData.existsRecordId
         this.dateCreation = rawData.dateCreation
         this.dateActiveFrom = rawData.dateActiveFrom
         this.dateActiveTo = rawData.dateActiveTo
