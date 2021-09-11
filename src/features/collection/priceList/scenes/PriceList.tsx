@@ -6,18 +6,18 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
-import {useStores} from '@lp/library/stores'
+import { useStores } from "@lp/library/stores"
 import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { stores } from "@lp/library/stores"
-import { Stores as CoporateClients} from "@lp/features/collection/corporateClients/stores"
-import { Stores as PanelMaster} from "@lp/features/collection/masterPanel/stores"
+import { Stores as CoporateClients } from "@lp/features/collection/corporateClients/stores"
+import { Stores as PanelMaster } from "@lp/features/collection/masterPanel/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-const PriceList = observer(() => {
+export const PriceList = observer(() => {
   const {
     control,
     handleSubmit,
@@ -25,9 +25,7 @@ const PriceList = observer(() => {
     setValue,
     // clearErrors,
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
@@ -41,7 +39,7 @@ const PriceList = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
-  const onSubmitPriceList = () =>{
+  const onSubmitPriceList = () => {
     //api Callling
   }
   return (
@@ -61,20 +59,20 @@ const PriceList = observer(() => {
           onClick={() => setHideAddLab(!hideAddLab)}
         />
       )}
-      <div className='mx-auto flex-wrap'>
-        <div 
-          className={'p-2 rounded-lg shadow-xl ' + (hideAddLab ? "shown" : "shown")}
+      <div className="mx-auto flex-wrap">
+        <div
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
-            direction="col"
-            space={4}
-            justify="stretch"
-            fill
+              direction="col"
+              space={4}
+              justify="stretch"
+              fill
             >
               <Controller
                 control={control}
-                render={({field:{onChange}})=>(
+                render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="RelRec"
                     name="txtRelRec"
@@ -91,10 +89,10 @@ const PriceList = observer(() => {
                   />
                 )}
                 name="relrec"
-                rules={{required:true}}
+                rules={{ required: true }}
                 defaultValue=""
               />
-               
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -120,14 +118,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {PanelMaster.masterPanelStore.listMasterPanel
-                      && PanelMaster.masterPanelStore.listMasterPanel.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.panelName} - ${item.panelCode}  `}
-                          </option>
-                        )
-                      )}
+                      {PanelMaster.masterPanelStore.listMasterPanel &&
+                        PanelMaster.masterPanelStore.listMasterPanel.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.panelName} - ${item.panelCode}  `}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -135,30 +133,27 @@ const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-             <Controller
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                  label="Panel Name"
-                  name="txtPanelName"
-                  placeholder={
-                    errors.panelName ? "Please Enter Panel Name" : "Panel Name"
-                  }
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.panelName
-                      ? "border-red-500  focus:border-red-500"
-                      : "border-gray-300"
-                  } rounded-md`}
-                  hasError={errors.panelName}
-                  disabled={true}
-                  value={
-                    Stores.priceListStore.priceList?.panelName
-                    
-                  }
-                />
+                    label="Panel Name"
+                    name="txtPanelName"
+                    placeholder={
+                      errors.panelName ? "Please Enter Panel Name" : "Panel Name"
+                    }
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.panelName
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
+                    hasError={errors.panelName}
+                    disabled={true}
+                    value={Stores.priceListStore.priceList?.panelName}
+                  />
                 )}
                 name="panelName"
-                rules={{ required: true}}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -237,7 +232,7 @@ const PriceList = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -259,14 +254,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients
-                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.billingOn}`}
-                          </option>
-                        )
-                      )}
+                      {CoporateClients.corporateClientsStore.listCorporateClients &&
+                        CoporateClients.corporateClientsStore.listCorporateClients.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.billingOn}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -295,14 +290,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients
-                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.corporateName}`}
-                          </option>
-                        )
-                      )}
+                      {CoporateClients.corporateClientsStore.listCorporateClients &&
+                        CoporateClients.corporateClientsStore.listCorporateClients.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.corporateName}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -331,14 +326,14 @@ const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients
-                      && CoporateClients.corporateClientsStore.listCorporateClients.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.invoiceAc}`}
-                          </option>
-                        )
-                      )}
+                      {CoporateClients.corporateClientsStore.listCorporateClients &&
+                        CoporateClients.corporateClientsStore.listCorporateClients.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.invoiceAc}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -414,7 +409,7 @@ const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-               <Controller
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
@@ -437,21 +432,22 @@ const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              </LibraryComponents.Atoms.List>
-              <LibraryComponents.Atoms.List
+            </LibraryComponents.Atoms.List>
+            <LibraryComponents.Atoms.List
               direction="col"
               space={4}
               justify="stretch"
               fill
-              >
-               
-               <Controller
+            >
+              <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="Fixed Price"
                     name="txtFixedPrice"
-                    placeholder={errors.fixedPrice ? "Please Enter Fixed Price" : " Fixed Price"}
+                    placeholder={
+                      errors.fixedPrice ? "Please Enter Fixed Price" : " Fixed Price"
+                    }
                     type="number"
                     hasError={errors.fixedPrice}
                     value={Stores.priceListStore.priceList?.fixedPrice}
@@ -556,7 +552,9 @@ const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Max SP"
                     name="txtMaxSp"
-                    placeholder={errors.schemePrice ? "Please Enter Min SP" : " Min Sp"}
+                    placeholder={
+                      errors.schemePrice ? "Please Enter Min SP" : " Min Sp"
+                    }
                     hasError={errors.schemePrice}
                     value={Stores.priceListStore.priceList?.maxSp}
                     onChange={(schemePrice) => {
@@ -628,9 +626,9 @@ const PriceList = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              
+
               <LibraryComponents.Atoms.Grid cols={5}>
-              <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
@@ -672,7 +670,6 @@ const PriceList = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-
               </LibraryComponents.Atoms.Grid>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -687,13 +684,13 @@ const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Creation"
                     placeholder={
-                      errors.dateCreation ? "Please Enter Date Creation" : "Date Creation"
+                      errors.dateCreation
+                        ? "Please Enter Date Creation"
+                        : "Date Creation"
                     }
                     hasError={errors.dateCreation}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.priceListStore.priceList?.dateCreation || 0
-                      )
+                      .unix(Stores.priceListStore.priceList?.dateCreation || 0)
                       .format("YYYY-MM-DD")}
                     disabled={true}
                   />
@@ -702,7 +699,7 @@ const PriceList = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -713,9 +710,7 @@ const PriceList = observer(() => {
                     }
                     hasError={errors.dateActive}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.priceListStore.priceList?.dateActive || 0
-                      )
+                      .unix(Stores.priceListStore.priceList?.dateActive || 0)
                       .format("YYYY-MM-DD")}
                     disabled={true}
                   />
@@ -730,24 +725,22 @@ const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.schedule ? "Please Enter schedule" : "Date Expire"
+                      errors.dateExpiry ? "Please Enter schedule" : "Date Expire"
                     }
-                    hasError={errors.schedule}
+                    hasError={errors.dateExpiry}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.priceListStore.priceList?.dateActive || 0
-                      )
+                      .unix(Stores.priceListStore.priceList?.dateActive || 0)
                       .format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
+                      const dateExpiry = new Date(e.target.value)
                       Stores.priceListStore.updatePriceList({
                         ...Stores.priceListStore.priceList,
-                        dateActive: LibraryUtils.moment(schedule).unix(),
+                        dateExpiry: LibraryUtils.moment(dateExpiry).unix(),
                       })
                     }}
                   />
                 )}
-                name="schedule"
+                name="dateExpiry"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -838,8 +831,7 @@ const PriceList = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.priceListStore.priceList?.environment ||
-                            `Select`}
+                          : Stores.priceListStore.priceList?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -881,7 +873,7 @@ const PriceList = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br/>
+        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PriceList
             data={Stores.priceListStore.listPriceList || []}
@@ -975,7 +967,7 @@ const PriceList = observer(() => {
           //       existsRecordId: undefined,
           //       version: modalConfirm.data.version + 1,
           //       dateActiveFrom: LibraryUtils.moment().unix(),
-          //     })  
+          //     })
           //     setValue("lab",modalConfirm.data.lab)
           //     setValue("analyteCode",modalConfirm.data.analyteCode)
           //     setValue("analyteName",modalConfirm.data.analyteName)

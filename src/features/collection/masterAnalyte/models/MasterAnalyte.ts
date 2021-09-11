@@ -39,6 +39,7 @@ export class MasterAnalyte {
     analyteType?: string
     status?: string
     environment?: string
+    
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.existsVersionId = rawData.existsVersionId
