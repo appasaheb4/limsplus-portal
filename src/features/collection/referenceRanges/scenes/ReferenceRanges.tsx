@@ -758,17 +758,17 @@ const ReferenceRanges = observer(() => {
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.dateExpiry}
                     value={LibraryUtils.moment
                       .unix(
                         Stores.referenceRangesStore.referenceRanges?.dateActive || 0
                       )
                       .format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
+                      const dateExpiry = new Date(e.target.value)
                       Stores.referenceRangesStore.updateReferenceRanges({
                         ...Stores.referenceRangesStore.referenceRanges,
-                        dateActive: LibraryUtils.moment(schedule).unix(),
+                        dateExpiry: LibraryUtils.moment(dateExpiry).unix(),
                       })
                     }}
                   />
