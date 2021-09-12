@@ -54,6 +54,7 @@ import * as SalesTeam from "@lp/features/collection/salesTeam"
 import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
+import * as PriceList from "@lp/features/collection/priceList"
 
 const Dashboard = observer(({ children }) => {
   const { loginStore } = useStores()
@@ -69,7 +70,7 @@ const Dashboard = observer(({ children }) => {
     if (pathname !== "/" && stores.loginStore.login) {
       // common use api
       await Deginisation.startup()
-      await Lab.startup()  
+      await Lab.startup()
       await Role.startup()
       await Department.startup()
       await User.startup()
@@ -97,7 +98,8 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/masterPanel" ||
         pathname === "/collection/testPanelMapping" ||
         pathname === "/collection/masterPackage" ||
-        pathname === "/collection/library"
+        pathname === "/collection/library" ||
+        pathname === "/collection/priceList"
       )
         await PanelMaster.startup()
       if (
@@ -121,7 +123,11 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/doctors") await Doctors.startup()
       if (pathname === "/collection/registrationLocations")
         await RegistrationLocations.startup()
-      if (pathname === "/collection/corporateClients")
+      if (
+        pathname === "/collection/corporateClients" ||
+        pathname === "/collection/registrationLocations" ||
+        pathname === "/collection/priceList"
+      )
         await CorporateClients.startup()
       if (
         pathname === "/collection/deliverySchedule" ||
@@ -139,6 +145,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/section") await Section.startup()
       if (pathname === "/collection/possibleResults") await PossibleResults.startup()
       if (pathname === "/collection/library") await Library.startup()
+      if (pathname === "/collection/priceList") await PriceList.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()

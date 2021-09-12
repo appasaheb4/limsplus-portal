@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
@@ -16,6 +15,9 @@ import { Stores as PanelMaster } from "@lp/features/collection/masterPanel/store
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+
+import { ADD_PRICELIST } from "../services/query"
+import { useMutation } from "@apollo/client"
 
 export const PriceList = observer(() => {
   const {
@@ -39,9 +41,71 @@ export const PriceList = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
   const onSubmitPriceList = () => {
-    //api Callling
+    if (!Stores.priceListStore.checkExitsLabEnvCode) {
+      if (
+        !Stores.priceListStore.priceList?.existsVersionId &&
+        !Stores.priceListStore.priceList?.existsRecordId
+      ) {
+        const [addPriceList, { data, loading, error }] = useMutation(ADD_PRICELIST)
+        console.log({ addPriceList })  
+   
+        // Stores.priceListStore.priceListService
+        //   .addPriceList({
+        //     ...Stores.priceListStore.priceList,
+        //     enteredBy: LoginStore.loginStore.login?._id,
+        //   })
+        //   .then((res) => {
+        //     if (res.success) {
+        //       LibraryComponents.Atoms.Toast.success({
+        //         message: `😊 ${res.message}`,
+        //       })
+        //     }
+        //   })
+      } else if (
+        Stores.priceListStore.priceList?.existsVersionId &&
+        !Stores.priceListStore.priceList?.existsRecordId
+      ) {
+        Stores.priceListStore.priceListService
+          .versionUpgradePriceList({
+            ...Stores.priceListStore.priceList,
+            enteredBy: stores.loginStore.login.userId,
+          })
+          .then((res) => {
+            if (res.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.message}`,
+              })
+            }
+          })
+      } else if (
+        !Stores.priceListStore.priceList?.existsVersionId &&
+        Stores.priceListStore.priceList?.existsRecordId
+      ) {
+        Stores.priceListStore.priceListService
+          .duplicatePriceList({
+            ...Stores.priceListStore.priceList,
+            enteredBy: stores.loginStore.login.userId,
+          })
+          .then((res) => {
+            if (res.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.message}`,
+              })
+            }
+          })
+      }
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter diff code`,
+      })
+    }
   }
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -70,29 +134,6 @@ export const PriceList = observer(() => {
               justify="stretch"
               fill
             >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="RelRec"
-                    name="txtRelRec"
-                    placeholder={errors.relrec ? "Please Enter RelRec" : "RelRec"}
-                    hasError={errors.relrec}
-                    value={Stores.priceListStore.priceList?.relrec}
-                    onChange={(relrec) => {
-                      onChange(relrec)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
-                        relrec,
-                      })
-                    }}
-                  />
-                )}
-                name="relrec"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -181,7 +222,7 @@ export const PriceList = observer(() => {
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
-                        "PRIORITY"
+                        "PRIORIITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
@@ -238,18 +279,20 @@ export const PriceList = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Bill To"
-                    hasError={errors.billto}
+                    hasError={errors.billTo}
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.billto ? "border-red-500" : "border-gray-300"
+                        errors.billTo ? "border-red-500" : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const billto = JSON.parse(e.target.value)
-                        onChange(billto)
+                        const corporateClientsInfo = JSON.parse(e.target.value)
+                        onChange(corporateClientsInfo.corporateCode)
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
-                          billto,
+                          billTo: corporateClientsInfo.corporateCode,
+                          clientName: corporateClientsInfo.corporateName,
+                          invoiceAc: corporateClientsInfo.invoiceAc,
                         })
                       }}
                     >
@@ -258,87 +301,59 @@ export const PriceList = observer(() => {
                         CoporateClients.corporateClientsStore.listCorporateClients.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
-                              {`${item.billingOn}`}
+                              {`${item.corporateCode} - ${item.corporateName}`}
                             </option>
                           )
                         )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
-                name="billto"
+                name="billTo"
                 rules={{ required: true }}
                 defaultValue=""
               />
+              <label className="hidden">
+                {Stores.priceListStore.priceList.clientName}
+              </label>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <LibraryComponents.Atoms.Form.Input
                     label="Client Name"
+                    placeholder="Client Name"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.clientName
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
                     hasError={errors.clientName}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.clientName ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const clientName = JSON.parse(e.target.value)
-                        onChange(clientName)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
-                          clientName,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients &&
-                        CoporateClients.corporateClientsStore.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                    disabled={true}
+                    value={Stores.priceListStore.priceList?.clientName}
+                  />
                 )}
                 name="clientName"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
+                  <LibraryComponents.Atoms.Form.Input
                     label="Invoice Ac"
+                    placeholder="Invoice Ac"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.invoiceAc
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
                     hasError={errors.invoiceAc}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.invoiceAc ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const invoiceAc = JSON.parse(e.target.value)
-                        onChange(invoiceAc)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
-                          invoiceAc,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients &&
-                        CoporateClients.corporateClientsStore.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.invoiceAc}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                    disabled={true}
+                    value={Stores.priceListStore.priceList?.invoiceAc}
+                  />
                 )}
                 name="invoiceAc"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
               <Controller
@@ -533,7 +548,7 @@ export const PriceList = observer(() => {
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
-                        "SPECIAL_SCHEME"
+                        "SPEICAL_SCHEME"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
