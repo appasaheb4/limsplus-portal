@@ -42,15 +42,29 @@ export const PriceList = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitPriceList = () => {
+  const [addPriceList, { loading }] = useMutation(ADD_PRICELIST, {
+    onCompleted: (response) => {
+      console.log({ response })
+    },
+    onError: (errorResponse) => {
+      console.log({ errorResponse })
+    },
+  })
+
+  const onSubmitPriceList = async () => {
     if (!Stores.priceListStore.checkExitsLabEnvCode) {
       if (
         !Stores.priceListStore.priceList?.existsVersionId &&
         !Stores.priceListStore.priceList?.existsRecordId
       ) {
-        const [addPriceList, { data, loading, error }] = useMutation(ADD_PRICELIST)
-        console.log({ addPriceList })  
-   
+        console.log({store: Stores.priceListStore.priceList});
+        
+        await addPriceList({
+          variables: {
+            input: Stores.priceListStore.priceList,
+          },
+        })
+
         // Stores.priceListStore.priceListService
         //   .addPriceList({
         //     ...Stores.priceListStore.priceList,
@@ -180,21 +194,19 @@ export const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Panel Name"
                     name="txtPanelName"
+                    disabled={true}
+                    value={Stores.priceListStore.priceList?.panelName}
                     placeholder={
                       errors.panelName ? "Please Enter Panel Name" : "Panel Name"
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.panelName
-                        ? "border-red-500  focus:border-red-500"
-                        : "border-gray-300"
+                      errors.panelName ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.panelName}
-                    disabled={true}
-                    value={Stores.priceListStore.priceList?.panelName}
                   />
                 )}
                 name="panelName"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
               <Controller
@@ -438,7 +450,7 @@ export const PriceList = observer(() => {
                       onChange(price)
                       Stores.priceListStore.updatePriceList({
                         ...Stores.priceListStore.priceList,
-                        price,
+                        price: parseFloat(price),
                       })
                     }}
                   />
