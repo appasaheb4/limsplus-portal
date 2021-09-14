@@ -47,13 +47,14 @@ export const PriceList = observer(() => {
       ) {
         Stores.priceListStore.priceListService
           .addPriceList({
-            input: Stores.priceListStore.priceList,
+            input: {...Stores.priceListStore.priceList,enteredBy: stores.loginStore.login.userId},
           })
           .then((res) => {
             if (res.addPriceList.success) {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 ${res.addPriceList.message}`,
               })
+
             }
           })
       } else if (
@@ -89,9 +90,9 @@ export const PriceList = observer(() => {
             }
           })
       }
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 2000)
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter diff code`,
@@ -883,8 +884,8 @@ export const PriceList = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PriceList
             data={Stores.priceListStore.listPriceList || []}
-            // totalSize={Stores.priceListStore.listPriceListCount}
-            extraData={{
+            totalSize={Stores.priceListStore.listPriceListCount}
+            extraData={{  
               lookupItems: stores.routerStore.lookupItems,
               listMasterPanel: PanelMaster.masterPanelStore.listMasterPanel,
             }}

@@ -38,6 +38,8 @@ export class PriceListService {
           variables: { page, limit, env, role, lab },
         })
         .then((response: any) => {
+          console.log({response});
+          
           resolve(response.data)
         })
         .catch((error) =>

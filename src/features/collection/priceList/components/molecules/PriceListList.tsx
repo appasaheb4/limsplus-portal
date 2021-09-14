@@ -16,6 +16,7 @@ interface PriceListProps {
   data: any
   extraData: any
   isDelete?: boolean
+  totalSize: number
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
@@ -35,6 +36,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
+          totalSize={props.totalSize}
           columns={[
             {
               dataField: "_id",
@@ -43,17 +45,17 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               csvExport: false,
             },
             {
-              dataField: "relRec",
-              editable: false,
-              text: "RelRec",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
-            {
-              dataFeild: "panelCode",
+              dataField: "panelCode",
               text : "Panel Code",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              // formatter: (cell, row) => {
+              //   return (
+              //   <>
+              //    <h1>{JSON.stringify(row)}</h1>
+              //   </>
+              //   )
+              //   },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -218,7 +220,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "billto",
+              dataFeild: "billTo",
               text : "Bill To",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -608,7 +610,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
-              dataField: "Environment",
+              dataField: "environment",
               text: "Environment",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
