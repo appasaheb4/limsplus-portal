@@ -8,9 +8,25 @@ import { Http, http } from "@lp/library/modules/http"
 import * as Models from "../models/PriceList"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { GET_PRICELIST } from "./query"
+import { ADD_PRICELIST } from "./mutation"
 import { stores } from "@lp/library/stores"
-  
+
 export class PriceListService {
+  addPriceList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: ADD_PRICELIST,
+          variables,
+        })  
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   listPiceList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment

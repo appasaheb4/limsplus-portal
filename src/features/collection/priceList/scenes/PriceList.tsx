@@ -16,9 +16,6 @@ import { Stores as LoginStore } from "@lp/features/login/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
-import { ADD_PRICELIST } from "../services/query"
-import { useMutation } from "@apollo/client"
-
 export const PriceList = observer(() => {
   const {
     control,
@@ -42,41 +39,23 @@ export const PriceList = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const [addPriceList, { loading }] = useMutation(ADD_PRICELIST, {
-    onCompleted: (response) => {
-      console.log({ response })
-    },
-    onError: (errorResponse) => {
-      console.log({ errorResponse })
-    },
-  })
-
   const onSubmitPriceList = async () => {
     if (!Stores.priceListStore.checkExitsLabEnvCode) {
       if (
         !Stores.priceListStore.priceList?.existsVersionId &&
         !Stores.priceListStore.priceList?.existsRecordId
       ) {
-        console.log({store: Stores.priceListStore.priceList});
-        
-        await addPriceList({
-          variables: {
+        Stores.priceListStore.priceListService
+          .addPriceList({
             input: Stores.priceListStore.priceList,
-          },
-        })
-
-        // Stores.priceListStore.priceListService
-        //   .addPriceList({
-        //     ...Stores.priceListStore.priceList,
-        //     enteredBy: LoginStore.loginStore.login?._id,
-        //   })
-        //   .then((res) => {
-        //     if (res.success) {
-        //       LibraryComponents.Atoms.Toast.success({
-        //         message: `😊 ${res.message}`,
-        //       })
-        //     }
-        //   })
+          })
+          .then((res) => {
+            if (res.addPriceList.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.addPriceList.message}`,
+              })
+            }
+          })
       } else if (
         Stores.priceListStore.priceList?.existsVersionId &&
         !Stores.priceListStore.priceList?.existsRecordId
