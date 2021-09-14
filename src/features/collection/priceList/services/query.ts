@@ -11,10 +11,4 @@ export const GET_PRICELIST = gql`
   }
 `
   
-export const ADD_PRICELIST = gql`
-  mutation AddPriceList($input: PriceListInput!) {
-    addPriceList(input: $input) {
-      id
-    }
-  }
-`
+
