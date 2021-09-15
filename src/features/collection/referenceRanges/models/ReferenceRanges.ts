@@ -28,7 +28,6 @@ export class ReferenceRanges {
     intervalUnit: string
     formatResultScript: string
     reportDefault: string
-    schedule: number
     constructor(rawData: {[key in string]: any}){
         this.existsVersionId = rawData.existsVersionId
         this.relRec = rawData.relRec
@@ -59,6 +58,5 @@ export class ReferenceRanges {
         this.intervalUnit = rawData.intervalUnit
         this.formatResultScript = rawData.formalResultScript
         this.reportDefault = rawData.reportDefault
-        this.schedule = rawData.schedule
     }
 }
