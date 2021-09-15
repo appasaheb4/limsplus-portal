@@ -768,7 +768,7 @@ const ReferenceRanges = observer(() => {
                       const dateExpiry = new Date(e.target.value)
                       Stores.referenceRangesStore.updateReferenceRanges({
                         ...Stores.referenceRangesStore.referenceRanges,
-                        dateExpiry: LibraryUtils.moment(dateExpiry).unix(),
+                        dateActive: LibraryUtils.moment(dateExpiry).unix(),
                       })
                     }}
                   />

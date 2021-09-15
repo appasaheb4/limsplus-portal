@@ -16,6 +16,7 @@ interface PriceListProps {
   data: any
   extraData: any
   isDelete?: boolean
+  totalSize: number
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
@@ -35,6 +36,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
+          totalSize={props.totalSize}
           columns={[
             {
               dataField: "_id",
@@ -43,17 +45,17 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               csvExport: false,
             },
             {
-              dataField: "relRec",
-              editable: false,
-              text: "RelRec",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
-            {
-              dataFeild: "panelCode",
+              dataField: "panelCode",
               text : "Panel Code",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              // formatter: (cell, row) => {
+              //   return (
+              //   <>
+              //    <h1>{JSON.stringify(row)}</h1>
+              //   </>
+              //   )
+              //   },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -94,7 +96,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "panelName",
+              dataField: "panelName",
               text : "Panel Name",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -138,7 +140,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "priority",
+              dataField: "priority",
               text : "Priority",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -178,7 +180,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "priceGroup",
+              dataField: "priceGroup",
               text : "Price Group",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -218,7 +220,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "billto",
+              dataField: "billTo",
               text : "Bill To",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -261,7 +263,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "clientName",
+              dataField: "clientName",
               text : "Client Name",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -304,7 +306,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "invoiceAc",
+              dataField: "invoiceAc",
               text : "Invoice Ac",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -384,35 +386,35 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "price",
+              dataField: "price",
               text : "Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "fixedPrice",
+              dataField: "fixedPrice",
               text : "Fixed Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "minSp",
+              dataField: "minSp",
               text : "Min Sp",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "maxSp",
+              dataField: "maxSp",
               text : "Max Sp",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "anyScheme",
+              dataField: "anyScheme",
               text : "Any Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -433,7 +435,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                 },
             },
             {
-              dataFeild: "specialScheme",
+              dataField: "specialScheme",
               text : "Special Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -473,14 +475,14 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
-              dataFeild: "schemePrice",
+              dataField: "schemePrice",
               text : "Scheme Price",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "disOnScheme",
+              dataField: "disOnScheme",
               text : "Dis On Scheme",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -546,6 +548,43 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               ),
             },
             {
+              dataField: "environment",
+              text: "Environment",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                      props.onUpdateItem(environment,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
+            },
+            {
               dataField: "dateCreation",
               editable: false,
               text: "Date Creation",
@@ -607,43 +646,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            {
-              dataField: "Environment",
-              text: "Environment",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(environment,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
+            
             
             {
               dataField: "opration",
