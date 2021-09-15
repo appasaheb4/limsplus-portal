@@ -16,7 +16,7 @@ class RefernceRanges {
           ...this.referenceRanges,
           dateCreation: LibraryUtils.moment().unix(),
           dateActive: LibraryUtils.moment().unix(),
-          schedule: LibraryUtils.moment().unix(),
+          dateExpiry: LibraryUtils.moment().unix(),
           version: 1,
           keyNum: "1",
         }
