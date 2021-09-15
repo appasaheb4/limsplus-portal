@@ -213,6 +213,9 @@ export class Http {
     // Service function error
     return new ServiceResponse<T>(0, "App has encountered some issues")
   }
+
+
+  
 }
 export const http = new Http()
 export { ServiceResponse }

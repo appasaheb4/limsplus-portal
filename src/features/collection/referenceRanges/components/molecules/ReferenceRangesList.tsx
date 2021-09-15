@@ -45,7 +45,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               filter: LibraryComponents.Organisms.Utils.textFilter()
             },
             {
-              dataFeild: "analyteCode",
+              dataField: "analyteCode",
               text : "Analyte Code",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -83,7 +83,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "analyteName",
+              dataField: "analyteName",
               text : "Analayte Name",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -121,7 +121,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "department",
+              dataField: "department",
               text : "Department",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -159,7 +159,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "species",
+              dataField: "species",
               text : "Species",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -196,7 +196,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "sex",
+              dataField: "sex",
               text : "Sex",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -233,14 +233,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "rangeSetOn",
+              dataField: "rangeSetOn",
               text : "Range Set On",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "equipmentType",
+              dataField: "equipmentType",
               text : "Equipment Type",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -284,7 +284,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "rangType",
+              dataField: "rangType",
               text : "Rang Type",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -321,14 +321,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "age",
+              dataField: "age",
               text : "Age",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "ageUnit",
+              dataField: "ageUnit",
               text : "Age Unit",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -365,21 +365,21 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ),
             },
             {
-              dataFeild: "low",
+              dataField: "low",
               text : "Low",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "high",
+              dataField: "high",
               text : "High",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
-              dataFeild: "alpha",
+              dataField: "alpha",
               text : "Alpha",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),

@@ -5,12 +5,12 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+
+import { useStores, stores } from "@lp/library/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-
+import { Stores as CorporateClientsStore } from "@lp/features/collection/corporateClients/stores"
 import { RouterFlow } from "@lp/flows"
 
 const RegistrationLocation = observer(() => {
@@ -718,23 +718,28 @@ const RegistrationLocation = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const corporateCode = e.target.value
-                        onChange(corporateCode)
+                        const corporateDetails = JSON.parse(e.target.value)
+                        onChange(corporateDetails.corporateCode)
                         Stores.registrationLocationsStore.updateRegistrationLocations(
                           {
                             ...Stores.registrationLocationsStore
                               .registrationLocations,
-                            corporateCode,
+                            corporateCode: corporateDetails.corporateCode,
+                            invoiceAc: corporateDetails.invoiceAc,
                           }
                         )
                       }}
                     >
                       <option selected>Select</option>
-                      {[].map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                      {CorporateClientsStore.corporateClientsStore
+                        .listCorporateClients &&
+                        CorporateClientsStore.corporateClientsStore.listCorporateClients.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.corporateCode} - ${item.corporateName}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -742,39 +747,27 @@ const RegistrationLocation = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+              <label className="hidden">
+                {Stores.registrationLocationsStore.registrationLocations?.invoiceAc}
+              </label>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Invoice AC"
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Invoice Ac"
+                    placeholder="Invoice Ac"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.invoiceAc
+                        ? "border-red-500  focus:border-red-500"
+                        : "border-gray-300"
+                    } rounded-md`}
                     hasError={errors.invoiceAc}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.invoiceAc
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const invoiceAc = e.target.value
-                        onChange(invoiceAc)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            invoiceAc,
-                          }
-                        )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {[].map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                    disabled={true}
+                    value={
+                      Stores.registrationLocationsStore.registrationLocations
+                        ?.invoiceAc
+                    }
+                  />
                 )}
                 name="invoiceAc"
                 rules={{ required: false }}
