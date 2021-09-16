@@ -65,8 +65,8 @@ export class PriceListService {
   versionUpgradePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: VERSION_UPGRADE,
+        .mutate({
+          mutation: VERSION_UPGRADE,
           variables,
         })
         .then((response: any) => {

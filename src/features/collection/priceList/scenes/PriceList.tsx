@@ -93,10 +93,10 @@ export const PriceList = observer(() => {
               })
             }
           })
-      }
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
+      }  
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter diff code`,
@@ -140,6 +140,7 @@ export const PriceList = observer(() => {
                     hasError={errors.panelCode}
                   >
                     <select
+                      value={Stores.priceListStore.priceList.panelCode}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelCode
                           ? "border-red-500  focus:border-red-500"
@@ -284,6 +285,8 @@ export const PriceList = observer(() => {
                       onChange={(e) => {
                         const corporateClientsInfo = JSON.parse(e.target.value)
                         onChange(corporateClientsInfo.corporateCode)
+                        console.log({ corporateClientsInfo })
+
                         Stores.priceListStore.updatePriceList({
                           ...Stores.priceListStore.priceList,
                           billTo: corporateClientsInfo.corporateCode,
@@ -976,11 +979,12 @@ export const PriceList = observer(() => {
               Stores.priceListStore.updatePriceList({
                 ...modalConfirm.data,
                 _id: undefined,
+                __typename:undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
-              })  
+                dateCreation: LibraryUtils.moment().unix(),
+              })
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("panelName", modalConfirm.data.panelName)
               setValue("billTo", modalConfirm.data.billTo)
@@ -995,7 +999,7 @@ export const PriceList = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateCreation: LibraryUtils.moment().unix(),
               })
             }
           }}
