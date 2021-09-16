@@ -6,7 +6,10 @@ import * as Models from "../models"
 @version(0.1)
 class EnvironmentSettingsStore {
   @ignore @observable sessionManagement!: Models.SessionManagement
+  @ignore @observable environmentVariable!: Models.EnvironmentVariable
   @observable sessionManagementList?: Models.SessionManagement[] = []
+  @observable environmentVariableList?: Models.EnvironmentVariable[] = []
+  @observable environmentVariableListCount: number = 0
   @observable sessionManagementListCount: number = 0
   constructor() {
     makeAutoObservable(this)
@@ -24,6 +27,9 @@ class EnvironmentSettingsStore {
   }
   @action updateSessionManagement(session: Models.SessionManagement) {
     this.sessionManagement = session
+  }
+  @action updatEnvironmentVariable(environment: Models.EnvironmentVariable){
+    this.environmentVariable = environment
   }
 }
 export default EnvironmentSettingsStore
