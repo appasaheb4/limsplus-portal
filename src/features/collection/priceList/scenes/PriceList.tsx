@@ -557,10 +557,10 @@ export const PriceList = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Max SP"
+                    label="Scheme Price"
                     name="txtMaxSp"
                     placeholder={
-                      errors.schemePrice ? "Please Enter Min SP" : " Min Sp"
+                      errors.schemePrice ? "Please Enter Scheme Price" : " Scheme Price"
                     }
                     hasError={errors.schemePrice}
                     value={Stores.priceListStore.priceList?.maxSp}
@@ -573,7 +573,7 @@ export const PriceList = observer(() => {
                     }}
                   />
                 )}
-                name="maxSp"
+                name="schemePrice"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -635,6 +635,7 @@ export const PriceList = observer(() => {
               />
 
               <LibraryComponents.Atoms.Grid cols={5}>
+              
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -685,6 +686,81 @@ export const PriceList = observer(() => {
               justify="stretch"
               fill
             >
+              
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Environment"
+                    hasError={errors.environment}
+                  >
+                    <select
+                      value={Stores.priceListStore.priceList?.environment}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment
+                          ? "border-red-500  focus:border-red-500"
+                          : "border-gray-300"
+                      } rounded-md`}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.priceListStore.updatePriceList({
+                          ...Stores.priceListStore.priceList,
+                          environment,
+                        })
+                        // if (
+                        //   !Stores.priceListStore.priceList?.existsVersionId
+                        // ) {
+                        //   Stores.priceListStore.priceListService
+                        //     .checkExitsLabEnvCode(
+                        //       Stores.priceListStore.priceList?.analyteCode ||
+                        //         "",
+                        //       environment,
+                        //       Stores.priceListStore.priceList?.lab || ""
+                        //     )
+                        //     .then((res) => {
+                        //       if (res.success) {
+                        //         Stores.priceListStore.updateExistsLabEnvCode(
+                        //           true
+                        //         )
+                        //         LibraryComponents.Atoms.Toast.error({
+                        //           message: `😔 ${res.message}`,
+                        //         })
+                        //       } else
+                        //         Stores.priceListStore.updateExistsLabEnvCode(
+                        //           false
+                        //         )
+                        //     })
+                        // }
+                      }}
+                    >
+                      <option selected>
+                        {stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? `Select`
+                          : Stores.priceListStore.priceList?.environment || `Select`}
+                      </option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -781,80 +857,7 @@ export const PriceList = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Environment"
-                    hasError={errors.environment}
-                  >
-                    <select
-                      value={Stores.priceListStore.priceList?.environment}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
-                      } rounded-md`}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      onChange={(e) => {
-                        const environment = e.target.value
-                        onChange(environment)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
-                          environment,
-                        })
-                        // if (
-                        //   !Stores.priceListStore.priceList?.existsVersionId
-                        // ) {
-                        //   Stores.priceListStore.priceListService
-                        //     .checkExitsLabEnvCode(
-                        //       Stores.priceListStore.priceList?.analyteCode ||
-                        //         "",
-                        //       environment,
-                        //       Stores.priceListStore.priceList?.lab || ""
-                        //     )
-                        //     .then((res) => {
-                        //       if (res.success) {
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           true
-                        //         )
-                        //         LibraryComponents.Atoms.Toast.error({
-                        //           message: `😔 ${res.message}`,
-                        //         })
-                        //       } else
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           false
-                        //         )
-                        //     })
-                        // }
-                      }}
-                    >
-                      <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.priceListStore.priceList?.environment || `Select`}
-                      </option>
-                      {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "ENVIRONMENT"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="environment"
-                rules={{ required: true }}
-                defaultValue=""
-              />
+              
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
