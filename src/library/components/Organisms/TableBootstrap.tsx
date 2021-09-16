@@ -31,7 +31,7 @@ interface TableBootstrapProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page: number, totalSize: number) => void
+  onPageSizeChange?: (page: number, limit: number) => void
 }
 
 const TableBootstrap = ({
@@ -129,13 +129,13 @@ const TableBootstrap = ({
     </div>
   )
 
-
-  const onPageChangeHandler = (page, sizePerPage) => {
-    if (page !== 0) onPageSizeChange && onPageSizeChange(0,0)
-    setTimeout(() => {
+  const onPageChangeHandler = (page,sizePerPage)=>{
+    if(page!==0)  onPageSizeChange && onPageSizeChange(0,0)
+    setTimeout(()=>{
       pageStartIndexRef.current = page
-    }, 2000);
+    },2000)
   }
+
 
   const options = {
     cutome: true,
@@ -179,8 +179,9 @@ const TableBootstrap = ({
     onPageChange: onPageChangeHandler,
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
-    onSizePerPageChange: (page, sizePerPage) => {
-      onPageSizeChange && onPageSizeChange(0, page)
+    onSizePerPageChange: (page,sizePerPage) => {
+      console.log('SizePerPageChange',{page,sizePerPage})
+      onPageSizeChange && onPageSizeChange(0,page)
       sizePerPageRef.current = page
     },
   }
@@ -211,7 +212,7 @@ const TableBootstrap = ({
 
   return (
     <PaginationProvider
-      pagination={paginationFactory(totalSize !== 0 && options)}
+      pagination={paginationFactory(totalSize!==0&& options)}
       keyField={id}
       columns={columns}
       data={data}
