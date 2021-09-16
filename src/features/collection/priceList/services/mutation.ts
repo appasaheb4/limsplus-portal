@@ -15,7 +15,6 @@ export const VERSION_UPGRADE = gql`
     versionUpgrade(input: $input) {
       success
       message
-      id
     }
   }
 `
