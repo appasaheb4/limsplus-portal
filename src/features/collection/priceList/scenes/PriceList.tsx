@@ -47,14 +47,16 @@ export const PriceList = observer(() => {
       ) {
         Stores.priceListStore.priceListService
           .addPriceList({
-            input: {...Stores.priceListStore.priceList,enteredBy: stores.loginStore.login.userId},
+            input: {
+              ...Stores.priceListStore.priceList,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
           .then((res) => {
             if (res.addPriceList.success) {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 ${res.addPriceList.message}`,
               })
-
             }
           })
       } else if (
@@ -63,13 +65,15 @@ export const PriceList = observer(() => {
       ) {
         Stores.priceListStore.priceListService
           .versionUpgradePriceList({
-            ...Stores.priceListStore.priceList,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...Stores.priceListStore.priceList,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
           .then((res) => {
-            if (res.success) {
+            if (res.versionUpgrade.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.versionUpgrade.message}`,
               })
             }
           })
@@ -560,7 +564,9 @@ export const PriceList = observer(() => {
                     label="Scheme Price"
                     name="txtMaxSp"
                     placeholder={
-                      errors.schemePrice ? "Please Enter Scheme Price" : " Scheme Price"
+                      errors.schemePrice
+                        ? "Please Enter Scheme Price"
+                        : " Scheme Price"
                     }
                     hasError={errors.schemePrice}
                     value={Stores.priceListStore.priceList?.maxSp}
@@ -635,7 +641,6 @@ export const PriceList = observer(() => {
               />
 
               <LibraryComponents.Atoms.Grid cols={5}>
-              
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -686,7 +691,6 @@ export const PriceList = observer(() => {
               justify="stretch"
               fill
             >
-              
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -857,7 +861,6 @@ export const PriceList = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -888,7 +891,7 @@ export const PriceList = observer(() => {
           <FeatureComponents.Molecules.PriceList
             data={Stores.priceListStore.listPriceList || []}
             totalSize={Stores.priceListStore.listPriceListCount}
-            extraData={{  
+            extraData={{
               lookupItems: stores.routerStore.lookupItems,
               listMasterPanel: PanelMaster.masterPanelStore.listMasterPanel,
             }}
@@ -944,59 +947,61 @@ export const PriceList = observer(() => {
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
-          // click={(type?: string) => {
-          //   if (type === "Delete") {
-          //     Stores.masterAnalyteStore.masterAnalyteService
-          //       .deleteAnalyteMaster(modalConfirm.id)
-          //       .then((res: any) => {
-          //         if (res.status === 200) {
-          //           LibraryComponents.Atoms.Toast.success({
-          //             message: `😊 Analyte master deleted.`,
-          //           })
-          //           setModalConfirm({ show: false })
-          //           Stores.masterAnalyteStore.fetchAnalyteMaster()
-          //         }
-          //       })
-          //   } else if (type === "Update") {
-          //     Stores.masterAnalyteStore.masterAnalyteService
-          //       .updateSingleFiled(modalConfirm.data)
-          //       .then((res: any) => {
-          //         if (res.status === 200) {
-          //           LibraryComponents.Atoms.Toast.success({
-          //             message: `😊 Analyte master updated.`,
-          //           })
-          //           setModalConfirm({ show: false })
-          //           window.location.reload()
-          //         }
-          //       })
-          //   } else if (type === "versionUpgrade") {
-          //     Stores.masterAnalyteStore.updateMasterAnalyte({
-          //       ...modalConfirm.data,
-          //       _id: undefined,
-          //       existsVersionId: modalConfirm.data._id,
-          //       existsRecordId: undefined,
-          //       version: modalConfirm.data.version + 1,
-          //       dateActiveFrom: LibraryUtils.moment().unix(),
-          //     })
-          //     setValue("lab",modalConfirm.data.lab)
-          //     setValue("analyteCode",modalConfirm.data.analyteCode)
-          //     setValue("analyteName",modalConfirm.data.analyteName)
-          //     setValue("environment",modalConfirm.data.environment)
-          //     //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
-          //   } else if (type === "duplicate") {
-          //     Stores.masterAnalyteStore.updateMasterAnalyte({
-          //       ...modalConfirm.data,
-          //       _id: undefined,
-          //       existsVersionId: undefined,
-          //       existsRecordId: modalConfirm.data._id,
-          //       version: 1,
-          //       dateActiveFrom: LibraryUtils.moment().unix(),
-          //     })
-          //   }
-          // }}
-          // onClose={() => {
-          //   setModalConfirm({ show: false })
-          // }}
+          click={(type?: string) => {
+            if (type === "Delete") {
+              Stores.priceListStore.priceListService
+                .deletePriceList(modalConfirm.id)
+                .then((res: any) => {
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.priceListStore.fetchListPriceList()
+                  }
+                })
+            } else if (type === "Update") {
+              Stores.priceListStore.priceListService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    window.location.reload()
+                  }
+                })
+            } else if (type === "versionUpgrade") {
+              Stores.priceListStore.updatePriceList({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: modalConfirm.data._id,
+                existsRecordId: undefined,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })  
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("panelName", modalConfirm.data.panelName)
+              setValue("billTo", modalConfirm.data.billTo)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("price", modalConfirm.data.price)
+              setValue("environment", modalConfirm.data.environment)
+              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+            } else if (type === "duplicate") {
+              Stores.priceListStore.updatePriceList({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: undefined,
+                existsRecordId: modalConfirm.data._id,
+                version: 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+            }
+          }}
+          onClose={() => {
+            setModalConfirm({ show: false })
+          }}
         />
       </div>
     </>

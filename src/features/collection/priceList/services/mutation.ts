@@ -6,6 +6,16 @@ export const ADD_PRICELIST = gql`
       success
       message
       id
-    }   
+    }
+  }
+`
+
+export const VERSION_UPGRADE = gql`
+  mutation($input: PriceListInput!) {
+    versionUpgrade(input: $input) {
+      success
+      message
+      id
+    }
   }
 `

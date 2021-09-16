@@ -8,17 +8,18 @@ import { Http, http } from "@lp/library/modules/http"
 import * as Models from "../models/PriceList"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { GET_PRICELIST } from "./query"
-import { ADD_PRICELIST } from "./mutation"
+import { ADD_PRICELIST, VERSION_UPGRADE } from "./mutation"
 import { stores } from "@lp/library/stores"
 
 export class PriceListService {
+
   addPriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: ADD_PRICELIST,
           variables,
-        })  
+        })
         .then((response: any) => {
           resolve(response.data)
         })
@@ -26,6 +27,7 @@ export class PriceListService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
 
   listPiceList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -38,14 +40,15 @@ export class PriceListService {
           variables: { page, limit, env, role, lab },
         })
         .then((response: any) => {
-          console.log({response});
-          
+          console.log({ response })
+
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
 
   deletePriceList = (id: string) =>
     new Promise<any>((resolve, reject) => {
@@ -58,16 +61,21 @@ export class PriceListService {
           reject({ error })
         })
     })
-  versionUpgradePriceList = (input: Models.PriceList) =>
+
+  versionUpgradePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(``)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .query({
+          query: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          console.log({ response })
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   duplicatePriceList = (analyte?: Models.PriceList) =>
@@ -82,29 +90,29 @@ export class PriceListService {
         })
     })
 
-  // updateSingleFiled = (newValue: any) =>
-  //   new Promise<any>((resolve, reject) => {
-  //     http
-  //       .post(``, newValue)
-  //       .then((response) => {
-  //         const serviceResponse = Http.handleResponse<any>(response)
-  //         resolve(serviceResponse)
-  //       })
-  //       .catch((error) => {
-  //         reject(new ServiceResponse<any>(0, error.message, undefined))
-  //       })
-  //   })
+  updateSingleFiled = (newValue: any) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(``, newValue)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
 
-  // checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
-  //   new Promise<any>((resolve, reject) => {
-  //     http
-  //       .post(``)
-  //       .then((response: any) => {
-  //         const serviceResponse = Http.handleResponse<any>(response)
-  //         resolve(serviceResponse)
-  //       })
-  //       .catch((error) => {
-  //         reject(new ServiceResponse<any>(0, error.message, undefined))
-  //       })
-  //   })
+  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+    new Promise<any>((resolve, reject) => {
+      http
+        .post(``)
+        .then((response: any) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
+    })
 }
