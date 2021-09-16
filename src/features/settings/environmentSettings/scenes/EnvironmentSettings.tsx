@@ -18,6 +18,7 @@ import { stores } from "@lp/library/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+import EnvironmentVariable from "./EnvironmentVariable"
 
 const EnvironmentSettings = observer(() => {
   const {
@@ -32,13 +33,20 @@ const EnvironmentSettings = observer(() => {
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      <Accordion allowMultiple>
-        {[{ title: "Session" }].map((item) => {
+      <Accordion>
+        {[{ title: "Environment Variable"},{ title: "Session" }].map((item) => {
           return (
             <AccordionItem
               title={`${item.title}`}
               expanded={item.title === "Session"}
             >
+              {item.title === "Environment Variable" && (
+                <>
+                  <EnvironmentVariable
+                    onModalConfirm={(item) => setModalConfirm(item)}
+                  />
+                </>
+              )}
               {item.title === "Session" && (
                 <>
                   <SessionManagement
