@@ -32,7 +32,6 @@ class PriceListStore {
   @action fetchListPriceList(page?, limit?) {
     this.priceListService.listPiceList(page, limit).then((res) => {
       console.log({res});
-      
       this.listPriceList = res.getAllPriceList.data
       this.listPriceListCount = res.getAllPriceList.count
     })

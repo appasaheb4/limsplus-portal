@@ -83,20 +83,22 @@ export const PriceList = observer(() => {
       ) {
         Stores.priceListStore.priceListService
           .duplicatePriceList({
-            ...Stores.priceListStore.priceList,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...Stores.priceListStore.priceList,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
           .then((res) => {
-            if (res.success) {
+            if (res.duplicateRecord.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.duplicateRecord.message}`,
               })
             }
           })
-      }  
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 2000)
+      }
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter diff code`,
@@ -953,11 +955,11 @@ export const PriceList = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               Stores.priceListStore.priceListService
-                .deletePriceList(modalConfirm.id)
+                .deletePriceList({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.deleteRecord.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master deleted.`,
+                      message: `😊 ${res.deleteRecord.message}`,
                     })
                     setModalConfirm({ show: false })
                     Stores.priceListStore.fetchListPriceList()
@@ -979,7 +981,7 @@ export const PriceList = observer(() => {
               Stores.priceListStore.updatePriceList({
                 ...modalConfirm.data,
                 _id: undefined,
-                __typename:undefined,
+                __typename: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
@@ -991,16 +993,22 @@ export const PriceList = observer(() => {
               setValue("lab", modalConfirm.data.lab)
               setValue("price", modalConfirm.data.price)
               setValue("environment", modalConfirm.data.environment)
-              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
             } else if (type === "duplicate") {
               Stores.priceListStore.updatePriceList({
                 ...modalConfirm.data,
                 _id: undefined,
+                __typename: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
                 dateCreation: LibraryUtils.moment().unix(),
               })
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("panelName", modalConfirm.data.panelName)
+              setValue("billTo", modalConfirm.data.billTo)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("price", modalConfirm.data.price)
+              setValue("environment", modalConfirm.data.environment)
             }
           }}
           onClose={() => {

@@ -8,11 +8,15 @@ import { Http, http } from "@lp/library/modules/http"
 import * as Models from "../models/PriceList"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { GET_PRICELIST } from "./query"
-import { ADD_PRICELIST, VERSION_UPGRADE } from "./mutation"
+import {
+  ADD_PRICELIST,
+  VERSION_UPGRADE,
+  DELETE_RECORD,
+  DUPLICATE_RECORD,
+} from "./mutation"
 import { stores } from "@lp/library/stores"
 
 export class PriceListService {
-
   addPriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -28,7 +32,6 @@ export class PriceListService {
         )
     })
 
-
   listPiceList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
@@ -40,8 +43,6 @@ export class PriceListService {
           variables: { page, limit, env, role, lab },
         })
         .then((response: any) => {
-          console.log({ response })
-
           resolve(response.data)
         })
         .catch((error) =>
@@ -49,24 +50,11 @@ export class PriceListService {
         )
     })
 
-
-  deletePriceList = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-
-  versionUpgradePriceList = (variables: any) =>
+  deletePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: VERSION_UPGRADE,
+          mutation: DELETE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -78,16 +66,34 @@ export class PriceListService {
         )
     })
 
-  duplicatePriceList = (analyte?: Models.PriceList) =>
+  versionUpgradePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  duplicatePriceList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   updateSingleFiled = (newValue: any) =>
