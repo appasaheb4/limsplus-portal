@@ -18,3 +18,22 @@ export const VERSION_UPGRADE = gql`
     }
   }
 `
+
+export const DELETE_RECORD = gql`
+  mutation($input: DelRecord!) {
+    deleteRecord(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const DUPLICATE_RECORD = gql`
+  mutation($input: PriceListInput) {
+    duplicateRecord(input: $input) {
+      success
+      message
+      id
+    }
+  }
+`
