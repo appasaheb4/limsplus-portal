@@ -55,7 +55,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
-        <LibraryComponents.Atoms.Grid cols={3}>
+        <LibraryComponents.Atoms.Grid cols={2}>
           <LibraryComponents.Atoms.List
             direction="col"
             space={4}
@@ -218,6 +218,15 @@ const SessionManagement = observer((props: SessionManagementProps) => {
               rules={{ required: true }}
               defaultValue=""
             />
+            
+            
+          </LibraryComponents.Atoms.List>
+          <LibraryComponents.Atoms.List
+            direction='col'
+            justify='stretch'
+            fill
+            space={4}
+          >
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
@@ -243,307 +252,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
               rules={{ required: false }}
               defaultValue=""
             />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Session Timeout"
-                  name="lblSessionTimeout"
-                  hasError={errors.sessionTimeout}
-                  placeholder={errors.sessionTimeout ? "Please Enter Session Timeout" : "Session Timeout"}
-                  onChange={(sessionTimeout) => {
-                    onChange(sessionTimeout)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      sessionTimeout,
-                    })
-                  }}
-                />
-              )}
-              name="sessionTimeout"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Session Allowed"
-                  name="lblSessionAllowed"
-                  hasError={errors.sessionAllowed}
-                  placeholder={errors.sessionAllowed ? "Please Enter Session Allowed" : "Session Allowed"}
-                  onChange={(sessionAllowed) => {
-                    onChange(sessionAllowed)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      sessionAllowed,
-                    })
-                  }}
-                />
-              )}
-              name="sessionAllowed"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
-            direction="col"
-            space={4}
-            justify="stretch"
-            fill
-          >
-            
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Password Length"
-                  name="lblPasswordLength"
-                  hasError={errors.passwordLength}
-                  placeholder={errors.passwordLength ? "Please Enter Password Length" : "Password Length"}
-                  onChange={(passwordLength) => {
-                    onChange(passwordLength)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      passwordLength,
-                    })
-                  }}
-                />
-              )}
-              name="passwordLength"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Password Expired After Days"
-                  name="lblPasswordExpiredAfterDays"
-                  hasError={errors.passwordExpiredAfterDays}
-                  placeholder={errors.passwordExpiredAfterDays ? "Please Enter Password Expired After Days" : "Password Expired After Days"}
-                  onChange={(passwordExpiredAfterDays) => {
-                    onChange(passwordExpiredAfterDays)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      passwordExpiredAfterDays,
-                    })
-                  }}
-                />
-              )}
-              name="passwordExpiredAfterDays"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Allowed Login Attemped After Expiry"
-                  name="lblAllowedLoginAttempedAfterExpiry"
-                  hasError={errors.allowedLoginAttempedAfterExpiry}
-                  placeholder={errors.allowedLoginAttempedAfterExpiry 
-                    ? "Please Enter Allowed Login Attemped After Expiry" : "Allowed Login Attemped After Expiry"}
-                  onChange={(allowedLoginAttempedAfterExpiry) => {
-                    onChange(allowedLoginAttempedAfterExpiry)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      allowedLoginAttempedAfterExpiry,
-                    })
-                  }}
-                />
-              )}
-              name="allowedLoginAttempedAfterExpiry"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Password Mask"
-                  name="lblPasswordMask"
-                  hasError={errors.passwordMask}
-                  placeholder={errors.passwordMask 
-                    ? "Please Enter Password Mask" : "Password Mask"}
-                  onChange={(passwordMask) => {
-                    onChange(passwordMask)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      passwordMask,
-                    })
-                  }}
-                />
-              )}
-              name="passwordMask"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Count of Previous Password Not Allowed"
-                  name="lblCountofPreviousPasswordNotAllowed"
-                  hasError={errors.countOfPreviousPasswordNotAllowed}
-                  placeholder={errors.countOfPreviousPasswordNotAllowed 
-                    ? "Please Enter Count of Previous Password Not Allowed" : "Count of Previous Password Not Allowed"}
-                  onChange={(countOfPreviousPasswordNotAllowed) => {
-                    onChange(countOfPreviousPasswordNotAllowed)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      countOfPreviousPasswordNotAllowed,
-                    })
-                  }}
-                />
-              )}
-              name="countOfPreviousPasswordNotAllowed"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Invalid Characters"
-                  name="lblInvalidCharacters"
-                  hasError={errors.invalidCharacters}
-                  placeholder={errors.invalidCharacters 
-                    ? "Please Enter Invalid Characters" : "Invalid Characters"}
-                  onChange={(invalidCharacters) => {
-                    onChange(invalidCharacters)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      invalidCharacters,
-                    })
-                  }}
-                />
-              )}
-              name="invalidCharacters"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-             <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Allowed Characters"
-                  name="lblAllowedCharacters"
-                  hasError={errors.allowedCharaters}
-                  placeholder={errors.allowedCharaters 
-                    ? "Please Enter Allowed Characters" : "Allowed Characters"}
-                  onChange={(allowedCharaters) => {
-                    onChange(allowedCharaters)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      allowedCharaters,
-                    })
-                  }}
-                />
-              )}
-              name="allowedCharaters"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            
-            
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
-            direction='col'
-            justify='stretch'
-            fill
-            space={4}
-          >
-           <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Visit Id Length"
-                  name="lblVisitIdLength"
-                  hasError={errors.visitIdLength}
-                  placeholder={errors.visitIdLength 
-                    ? "Please Enter Visit Id Length" : "Visit Id Length"}
-                  onChange={(visitIdLength) => {
-                    onChange(visitIdLength)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      visitIdLength,
-                    })
-                  }}
-                />
-              )}
-              name="visitIdLength"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Specimen Id Length"
-                  name="lblSpecimenIdLength"
-                  hasError={errors.specimenIdLength}
-                  placeholder={errors.specimenIdLength 
-                    ? "Please Enter Specimen Id Length" : "Specimen Id Length"}
-                  onChange={(specimenIdLength) => {
-                    onChange(specimenIdLength)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      specimenIdLength,
-                    })
-                  }}
-                />
-              )}
-              name="specimenIdLength"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Pid Generation Logic"
-                  name="lblPidGenerationLogic"
-                  hasError={errors.pidGenratrionLogic}
-                  placeholder={errors.pidGenratrionLogic 
-                    ? "Please Enter Pid Generation Logic" : "Pid Generation Logic"}
-                  onChange={(pidGenratrionLogic) => {
-                    onChange(pidGenratrionLogic)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      pidGenratrionLogic,
-                    })
-                  }}
-                />
-              )}
-              name="pidGenratrionLogic"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.Input
-                  label="Visit Id Label"
-                  name="lblVisitIdLabel"
-                  hasError={errors.visitIdLabel}
-                  placeholder={errors.visitIdLabel 
-                    ? "Please Enter Visit Id Label" : "Visit Id Label"}
-                  onChange={(visitIdLabel) => {
-                    onChange(visitIdLabel)
-                    Stores.enviromentSettingsStore.updateSessionManagement({
-                      ...Stores.enviromentSettingsStore.sessionManagement,
-                      visitIdLabel,
-                    })
-                  }}
-                />
-              )}
-              name="visitIdLabel"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-            <Controller
+                       <Controller
               control={control}
               render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
@@ -593,28 +302,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
               rules={{ required: true }}
               defaultValue=""
             />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="Visit Id Auto Generated"
-                      id="modeVisitIdAutoGenerated"
-                      hasError={errors.visitIdAutoGenerated}
-                      value={Stores.enviromentSettingsStore.sessionManagement?.visitIdAutoGenerated}
-                      onChange={(visitIdAutoGenerated) => {
-                        onChange(visitIdAutoGenerated)
-                        Stores.enviromentSettingsStore.updateSessionManagement({
-                          ...Stores.enviromentSettingsStore.sessionManagement,
-                          visitIdAutoGenerated,
-                        })
-                      }}
-                    />
-                  )}
-                  name="visitIdAutoGenerated"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-          </LibraryComponents.Atoms.List>
+      </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
         <br />
         <LibraryComponents.Atoms.List direction="row" space={3} align="center">
