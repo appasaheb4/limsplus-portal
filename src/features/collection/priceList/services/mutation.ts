@@ -37,3 +37,21 @@ export const DUPLICATE_RECORD = gql`
     }
   }
 `
+  
+export const UPDATE_SINGE_FILED = gql`
+  mutation($input: UpdateRecord) {
+    updateSingleFiled(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const CHECKEXITS_PRICEG_ENV_LAB_CODE = gql`
+mutation($input: PriceListInput) {
+  checkExitsPriceGEnvLabCode(input: $input) {
+      success
+      message
+    }
+  }
+`;
