@@ -10,6 +10,7 @@ class RefernceRanges {
     @observable listReferenceRanges: Models.ReferenceRanges[] = []
     @observable listAllReferenceRangesCount: number = 0
     @ignore @observable checkExitsLabEnvCode?: boolean = false
+    
     constructor(){
         makeAutoObservable(this)
         this.referenceRanges ={
