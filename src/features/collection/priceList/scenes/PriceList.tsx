@@ -40,7 +40,7 @@ export const PriceList = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitPriceList = async () => {
-    if (!Stores.priceListStore.checkExitsLabEnvCode) {
+    if (!Stores.priceListStore.checkExitsPriceGEnvLabCode) {
       if (
         !Stores.priceListStore.priceList?.existsVersionId &&
         !Stores.priceListStore.priceList?.existsRecordId
@@ -157,6 +157,33 @@ export const PriceList = observer(() => {
                           panelCode: panel.panelCode,
                           panelName: panel.panelName,
                         })
+                        if (!Stores.priceListStore.priceList?.existsVersionId) {
+                          Stores.priceListStore.priceListService
+                            .checkExitsPriceGEnvLabCode({
+                              input: {
+                                priceGroup:
+                                  Stores.priceListStore.priceList.priceGroup,
+                                environment:
+                                  Stores.priceListStore.priceList.environment,
+                                lab: Stores.priceListStore.priceList?.lab,
+                                panelCode: panel.panelCode,
+                              },
+                            })
+                            .then((res) => {
+                              console.log({ res })
+                              if (res.checkExitsPriceGEnvLabCode.success) {
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                })
+                              } else
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -175,6 +202,11 @@ export const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.priceListStore.checkExitsPriceGEnvLabCode && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -254,6 +286,32 @@ export const PriceList = observer(() => {
                           ...Stores.priceListStore.priceList,
                           priceGroup,
                         })
+                        if (!Stores.priceListStore.priceList?.existsVersionId) {
+                          Stores.priceListStore.priceListService
+                            .checkExitsPriceGEnvLabCode({
+                              input: {
+                                priceGroup,
+                                environment:
+                                  Stores.priceListStore.priceList.environment,
+                                lab: Stores.priceListStore.priceList?.lab,
+                                panelCode: Stores.priceListStore.priceList.panelCode,
+                              },
+                            })
+                            .then((res) => {
+                              console.log({ res })
+                              if (res.checkExitsPriceGEnvLabCode.success) {
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                })
+                              } else
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -269,7 +327,7 @@ export const PriceList = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="priceGroup"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
 
@@ -382,32 +440,33 @@ export const PriceList = observer(() => {
                           ...Stores.priceListStore.priceList,
                           lab,
                         })
-                        // if (
-                        //   !Stores.priceListStore.priceList
-                        //     ?.existsVersionId
-                        // ) {
-                        //   Stores.priceListStore.priceListService
-                        //     .checkExitsLabEnvCode(
-                        //       Stores.priceListStore.priceList
-                        //         ?.price|| "",
-                        //       Stores.priceListStore.priceList
-                        //         ?.environment || "",
-                        //       lab
-                        //     )
-                        //     .then((res) => {
-                        //       if (res.success) {
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           true
-                        //         )
-                        //         LibraryComponents.Atoms.Toast.error({
-                        //           message: `😔 ${res.message}`,
-                        //         })
-                        //       } else
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           false
-                        //         )
-                        //     })
-                        // }
+                        if (!Stores.priceListStore.priceList?.existsVersionId) {
+                          Stores.priceListStore.priceListService
+                            .checkExitsPriceGEnvLabCode({
+                              input: {
+                                priceGroup:
+                                  Stores.priceListStore.priceList.priceGroup,
+                                environment:
+                                  Stores.priceListStore.priceList.environment,
+                                lab,
+                                panelCode: Stores.priceListStore.priceList.panelCode,
+                              },
+                            })
+                            .then((res) => {
+                              console.log({ res })
+                              if (res.checkExitsPriceGEnvLabCode.success) {
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                })
+                              } else
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -723,30 +782,32 @@ export const PriceList = observer(() => {
                           ...Stores.priceListStore.priceList,
                           environment,
                         })
-                        // if (
-                        //   !Stores.priceListStore.priceList?.existsVersionId
-                        // ) {
-                        //   Stores.priceListStore.priceListService
-                        //     .checkExitsLabEnvCode(
-                        //       Stores.priceListStore.priceList?.analyteCode ||
-                        //         "",
-                        //       environment,
-                        //       Stores.priceListStore.priceList?.lab || ""
-                        //     )
-                        //     .then((res) => {
-                        //       if (res.success) {
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           true
-                        //         )
-                        //         LibraryComponents.Atoms.Toast.error({
-                        //           message: `😔 ${res.message}`,
-                        //         })
-                        //       } else
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           false
-                        //         )
-                        //     })
-                        // }
+                        if (!Stores.priceListStore.priceList?.existsVersionId) {
+                          Stores.priceListStore.priceListService
+                            .checkExitsPriceGEnvLabCode({
+                              input: {
+                                priceGroup:
+                                  Stores.priceListStore.priceList.priceGroup,
+                                environment,
+                                lab: Stores.priceListStore.priceList.lab,
+                                panelCode: Stores.priceListStore.priceList.panelCode,
+                              },
+                            })
+                            .then((res) => {
+                              console.log({ res })
+                              if (res.checkExitsPriceGEnvLabCode.success) {
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                })
+                              } else
+                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
+                                  false
+                                )
+                            })
+                        }
                       }}
                     >
                       <option selected>
@@ -921,7 +982,7 @@ export const PriceList = observer(() => {
             onUpdateItem={(value: any, dataField: string, id: string) => {
               setModalConfirm({
                 show: true,
-                type: "Update",
+                type: "update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update item!`,
@@ -965,17 +1026,22 @@ export const PriceList = observer(() => {
                     Stores.priceListStore.fetchListPriceList()
                   }
                 })
-            } else if (type === "Update") {
+            } else if (type === "update") {
               Stores.priceListStore.priceListService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    ...modalConfirm.data,
+                    value: JSON.stringify(modalConfirm.data.value),
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master updated.`,
-                    })
-                    setModalConfirm({ show: false })
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateSingleFiled.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  setTimeout(() => {
                     window.location.reload()
-                  }
+                  }, 2000)
                 })
             } else if (type === "versionUpgrade") {
               Stores.priceListStore.updatePriceList({

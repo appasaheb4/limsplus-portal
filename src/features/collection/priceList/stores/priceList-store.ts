@@ -9,7 +9,7 @@ class PriceListStore {
   @ignore @observable priceList!: Models.PriceList
   @observable listPriceList: Models.PriceList[] = []
   @observable listPriceListCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+  @ignore @observable checkExitsPriceGEnvLabCode?: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -41,8 +41,8 @@ class PriceListStore {
     this.priceList = price
   }
 
-  @action updateExistsLabEnvCode = (status: boolean) => {
-    this.checkExitsLabEnvCode = status
+  @action updateExitsPriceGEnvLabCode = (status: boolean) => {
+    this.checkExitsPriceGEnvLabCode = status
   }
 }
 export default PriceListStore

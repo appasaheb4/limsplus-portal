@@ -49,13 +49,6 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
               text : "Panel Code",
               sort : true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              // formatter: (cell, row) => {
-              //   return (
-              //   <>
-              //    <h1>{JSON.stringify(row)}</h1>
-              //   </>
-              //   )
-              //   },
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,

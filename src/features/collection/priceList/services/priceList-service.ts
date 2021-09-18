@@ -4,8 +4,7 @@
  
  * @author limsplus
  */
-import { Http, http } from "@lp/library/modules/http"
-import * as Models from "../models/PriceList"
+
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { GET_PRICELIST } from "./query"
 import {
@@ -13,9 +12,11 @@ import {
   VERSION_UPGRADE,
   DELETE_RECORD,
   DUPLICATE_RECORD,
+  UPDATE_SINGE_FILED,
+  CHECKEXITS_PRICEG_ENV_LAB_CODE,
 } from "./mutation"
 import { stores } from "@lp/library/stores"
-
+   
 export class PriceListService {
   addPriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -96,29 +97,33 @@ export class PriceListService {
         )
     })
 
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(``, newValue)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: UPDATE_SINGE_FILED,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+  checkExitsPriceGEnvLabCode = (variables) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(``)
+      client
+        .mutate({
+          mutation: CHECKEXITS_PRICEG_ENV_LAB_CODE,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 }
