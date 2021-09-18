@@ -20,7 +20,7 @@ const customFetch = (uri, options): Promise<any> => {
   })
   return response
 }
-  
+     // http link
 const httpLink = new HttpLink({
   //uri: "http://localhost:8080/graphql",
   uri: "https://limsplus-api.azurewebsites.net/graphql",
