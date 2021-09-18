@@ -11,10 +11,9 @@ import Footer from "./components/Footer"
 import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
 import { useIdleTimer } from "react-idle-timer"
-
+   
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { toJS } from "mobx"
 
@@ -84,7 +83,8 @@ const Dashboard = observer(({ children }) => {
       if (
         pathname === "/collection/masterAnalyte" ||
         pathname === "/collection/testAnalyteMapping" ||
-        pathname === "/collection/possibleResults"
+        pathname === "/collection/possibleResults" ||
+        pathname === "/collection/referenceRanges"
       )
         await MasterAnalyte.startup()
       if (
