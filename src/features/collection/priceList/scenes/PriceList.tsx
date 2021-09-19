@@ -171,12 +171,12 @@ export const PriceList = observer(() => {
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCode.success) {
+                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
                                 })
                               } else
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
@@ -299,12 +299,12 @@ export const PriceList = observer(() => {
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCode.success) {
+                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
                                 })
                               } else
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
@@ -454,12 +454,12 @@ export const PriceList = observer(() => {
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCode.success) {
+                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
                                 })
                               } else
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
@@ -795,12 +795,12 @@ export const PriceList = observer(() => {
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCode.success) {
+                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCode.message}`,
+                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
                                 })
                               } else
                                 Stores.priceListStore.updateExitsPriceGEnvLabCode(
@@ -964,7 +964,7 @@ export const PriceList = observer(() => {
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Delete"
-            )}
+            )}   
             isEditModify={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
               "Edit/Modify"
@@ -973,7 +973,7 @@ export const PriceList = observer(() => {
             onSelectedRow={(rows) => {
               setModalConfirm({
                 show: true,
-                type: "Delete",
+                type: "delete",
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
@@ -1014,7 +1014,7 @@ export const PriceList = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "Delete") {
+            if (type === "delete") {
               Stores.priceListStore.priceListService
                 .deletePriceList({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
@@ -1023,7 +1023,10 @@ export const PriceList = observer(() => {
                       message: `😊 ${res.deletePriceList.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.priceListStore.fetchListPriceList()
+                   // Stores.priceListStore.fetchListPriceList()
+                   setTimeout(() => {
+                     window.location.reload()
+                   }, 2000);
                   }
                 })
             } else if (type === "update") {
@@ -1033,7 +1036,7 @@ export const PriceList = observer(() => {
                     ...modalConfirm.data,
                     value: JSON.stringify(modalConfirm.data.value),
                   },
-                })
+                })  
                 .then((res: any) => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateSingleFiledPriceList.message}`,

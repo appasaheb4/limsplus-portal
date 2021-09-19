@@ -27,19 +27,17 @@ export class ReferenceRangesService {
           variables: { page, limit, env, role, lab },
         })
         .then((response: any) => {
-          console.log({response});
-          
+          console.log({ response })
+
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   addReferenceRanges = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
       client
         .mutate({
           mutation: ADD_REFERENCERANGES,
@@ -55,6 +53,7 @@ export class ReferenceRangesService {
 
   deleteReferenceRanges = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({ variables })
       client
         .mutate({
           mutation: DELETE_RECORD,

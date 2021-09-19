@@ -11,7 +11,7 @@ export const ADD_REFERENCERANGES = gql`
 `
    
 export const VERSION_UPGRADE = gql`
-  mutation($input: PriceListInput!) {
+  mutation($input: ReferenceRangesInput) {
     versionUpgradeReferenceRanges(input: $input) {
       success
       message
@@ -20,7 +20,7 @@ export const VERSION_UPGRADE = gql`
 `
 
 export const DELETE_RECORD = gql`
-  mutation($input: DelRecord!) {
+  mutation($input: DelRecord) {
     deleteReferenceRanges(input: $input) {
       success
       message
@@ -29,7 +29,7 @@ export const DELETE_RECORD = gql`
 `
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: PriceListInput) {
+  mutation($input: ReferenceRangesInput) {
     duplicateReferenceRanges(input: $input) {
       success
       message

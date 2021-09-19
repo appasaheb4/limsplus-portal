@@ -44,6 +44,7 @@ export class PriceListService {
           variables: { page, limit, env, role, lab },
         })
         .then((response: any) => {
+          console.log({response});
           resolve(response.data)
         })
         .catch((error) =>
@@ -53,6 +54,8 @@ export class PriceListService {
 
   deletePriceList = (variables: any) =>
     new Promise<any>((resolve, reject) => {
+      console.log({variables});
+      
       client
         .mutate({
           mutation: DELETE_RECORD,
