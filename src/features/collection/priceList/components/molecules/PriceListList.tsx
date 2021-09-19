@@ -67,9 +67,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const panelCode = JSON.parse(e.target.value)
+                        const panel = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          panelCode,column.dataField,row._id
+                          panel.panelCode,column.dataField,row._id
                         )
                        
                       }}
@@ -111,9 +111,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const panelName = JSON.parse(e.target.value)
+                        const panel = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          panelName,column.dataField,row._id
+                          panel.panelName,column.dataField,row._id
                         )
                        
                       }}
@@ -234,9 +234,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const billto = JSON.parse(e.target.value)
+                        const bill = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          billto,column.dataField,row._id
+                          bill.billto,column.dataField,row._id
                         )
                        
                       }}
@@ -277,9 +277,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const clientName = JSON.parse(e.target.value)
+                        const client = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          clientName,column.dataField,row._id
+                          client.clientName,column.dataField,row._id
                         )
                        
                       }}
@@ -320,9 +320,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const invoiceAc = JSON.parse(e.target.value)
+                        const invoice = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          invoiceAc,column.dataField,row._id
+                          invoice.invoiceAc,column.dataField,row._id
                         )
                        
                       }}
@@ -713,7 +713,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="AnalyteMaster"
+          fileName="PriceList"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
