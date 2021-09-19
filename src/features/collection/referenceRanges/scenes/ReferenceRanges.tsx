@@ -100,9 +100,9 @@ const ReferenceRanges = observer(() => {
             }
           })
       }
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 2000)
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter diff code`,
@@ -1052,7 +1052,7 @@ const ReferenceRanges = observer(() => {
             onSelectedRow={(rows) => {
               setModalConfirm({
                 show: true,
-                type: "Delete",
+                type: "delete",
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
@@ -1093,25 +1093,33 @@ const ReferenceRanges = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "Delete") {
+            if (type === "delete") {
               Stores.referenceRangesStore.referenceRangesService
-                .deleteReferenceRanges(modalConfirm.id)
+                .deleteReferenceRanges({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.deleteReferenceRanges.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master deleted.`,
+                      message: `😊 ${res.deleteReferenceRanges.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.referenceRangesStore.fetchListReferenceRanges()
+                    //Stores.referenceRangesStore.fetchListReferenceRanges()
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
                   }
                 })
             } else if (type === "update") {
               Stores.referenceRangesStore.referenceRangesService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    ...modalConfirm.data,
+                    value: JSON.stringify(modalConfirm.data.value),
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateSingleFiledReferenceRanges.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master updated.`,
+                      message: `😊 ${res.updateSingleFiledReferenceRanges.message}`,
                     })
                     setModalConfirm({ show: false })
                     window.location.reload()
@@ -1121,25 +1129,56 @@ const ReferenceRanges = observer(() => {
               Stores.referenceRangesStore.updateReferenceRanges({
                 ...modalConfirm.data,
                 _id: undefined,
+                __typename: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
               })
-              setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
               setValue("analyteName", modalConfirm.data.analyteName)
+              setValue("department", modalConfirm.data.department)
+              setValue("species", modalConfirm.data.species)
+              setValue("sex", modalConfirm.data.sex)
+              setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("rangType", modalConfirm.data.rangType)
+              setValue("age", modalConfirm.data.age)
+              setValue("low", modalConfirm.data.low)
+              setValue("high", modalConfirm.data.high)
+              setValue("alpha", modalConfirm.data.alpha)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
-              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+              setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
+              setValue("deltaInterval", modalConfirm.data.deltaInterval)
+              setValue("formalResultScript", modalConfirm.data.formatResultScript)
+              setValue("reportDefault", modalConfirm.data.reportDefault)
             } else if (type === "duplicate") {
               Stores.referenceRangesStore.updateReferenceRanges({
                 ...modalConfirm.data,
                 _id: undefined,
+                __typename: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("analyteCode", modalConfirm.data.analyteCode)
+              setValue("analyteName", modalConfirm.data.analyteName)
+              setValue("department", modalConfirm.data.department)
+              setValue("species", modalConfirm.data.species)
+              setValue("sex", modalConfirm.data.sex)
+              setValue("rangeSetOn", modalConfirm.data.rangeSetOn)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("rangType", modalConfirm.data.rangType)
+              setValue("age", modalConfirm.data.age)
+              setValue("low", modalConfirm.data.low)
+              setValue("high", modalConfirm.data.high)
+              setValue("alpha", modalConfirm.data.alpha)
+              setValue("status", modalConfirm.data.status)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("deltarang_tetype", modalConfirm.data.deltarang_tetype)
+              setValue("deltaInterval", modalConfirm.data.deltaInterval)
+              setValue("formalResultScript", modalConfirm.data.formatResultScript)
+              setValue("reportDefault", modalConfirm.data.reportDefault)
             }
           }}
           onClose={() => {

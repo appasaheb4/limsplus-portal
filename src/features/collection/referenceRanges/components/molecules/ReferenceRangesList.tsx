@@ -7,25 +7,25 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { stores } from "@lp/stores"
 interface ReferenceRangesProps {
-    data: any
-    totalSize: number
-    extraData: any
-    isDelete?: boolean
-    isEditModify?: boolean
-    onDelete?: (selectedItem: LibraryModels.Confirm) => void
-    onSelectedRow?: (selectedItem: any) => void
-    onUpdateItem?: (value: any, dataField: string, id: string) => void
-    onVersionUpgrade?: (item: any) => void
-    onDuplicate?: (item: any) => void
+  data: any
+  totalSize: number
+  extraData: any
+  isDelete?: boolean
+  isEditModify?: boolean
+  onDelete?: (selectedItem: LibraryModels.Confirm) => void
+  onSelectedRow?: (selectedItem: any) => void
+  onUpdateItem?: (value: any, dataField: string, id: string) => void
+  onVersionUpgrade?: (item: any) => void
+  onDuplicate?: (item: any) => void
 }
 
-const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
-    const editorCell = (row: any) => {
-        return row.status !== "I" ? true : false
-      }
-      return(
-        <>
-            <div style={{ position: "relative" }}>
+const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
+  const editorCell = (row: any) => {
+    return row.status !== "I" ? true : false
+  }
+  return (
+    <>
+      <div style={{ position: "relative" }}>
         <LibraryComponents.Organisms.TableBootstrap
           id="_id"
           data={props.data}
@@ -39,8 +39,8 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
             },
             {
               dataField: "analyteCode",
-              text : "Analyte Code",
-              sort : true,
+              text: "Analyte Code",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -62,14 +62,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listMasterAnalyte
-                      && props.extraData.listMasterAnalyte.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteCode}`}
-                          </option>
-                        )
-                      )}
+                      {props.extraData.listMasterAnalyte &&
+                        props.extraData.listMasterAnalyte.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.analyteCode}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -77,8 +77,8 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
             },
             {
               dataField: "analyteName",
-              text : "Analayte Name",
-              sort : true,
+              text: "Analayte Name",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -100,14 +100,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listMasterAnalyte
-                      && props.extraData.listMasterAnalyte.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteName}`}
-                          </option>
-                        )
-                      )}
+                      {props.extraData.listMasterAnalyte &&
+                        props.extraData.listMasterAnalyte.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.analyteName}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -115,8 +115,8 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
             },
             {
               dataField: "department",
-              text : "Department",
-              sort : true,
+              text: "Department",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -138,14 +138,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listDepartment
-                      && props.extraData.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
+                      {props.extraData.listDepartment &&
+                        props.extraData.listDepartment.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {`${item.code} - ${item.name}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -153,8 +153,8 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
             },
             {
               dataField: "species",
-              text : "Species",
-              sort : true,
+              text: "Species",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -167,31 +167,32 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const species = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(species,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "SPECIES").map(
-                      (item: any, index: number) => (
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const species = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(species, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SPECIES"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
             {
               dataField: "sex",
-              text : "Sex",
-              sort : true,
+              text: "Sex",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -204,38 +205,39 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const sex = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(sex,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "SEX").map(
-                      (item: any, index: number) => (
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const sex = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(sex, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SEX"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
             {
               dataField: "rangeSetOn",
-              text : "Range Set On",
-              sort : true,
+              text: "Range Set On",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "equipmentType",
-              text : "Equipment Type",
-              sort : true,
+              text: "Equipment Type",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -264,13 +266,11 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {props.extraData.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -278,8 +278,8 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
             },
             {
               dataField: "rangType",
-              text : "Rang Type",
-              sort : true,
+              text: "Rang Type",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -292,38 +292,39 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const rangType = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(rangType,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "RANG_TYPE").map(
-                      (item: any, index: number) => (
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const rangType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(rangType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "RANG_TYPE"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
             {
               dataField: "age",
-              text : "Age",
-              sort : true,
+              text: "Age",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "ageUnit",
-              text : "Age Unit",
-              sort : true,
+              text: "Age Unit",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
@@ -336,45 +337,46 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper>
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const ageUnit = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(ageUnit,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "AGE_UNIT").map(
-                      (item: any, index: number) => (
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const ageUnit = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(ageUnit, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "AGE_UNIT"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
             {
               dataField: "low",
-              text : "Low",
-              sort : true,
+              text: "Low",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "high",
-              text : "High",
-              sort : true,
+              text: "High",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "alpha",
-              text : "Alpha",
-              sort : true,
+              text: "Alpha",
+              sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
@@ -410,13 +412,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -438,24 +441,25 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(environment,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(environment, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -547,25 +551,26 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper >
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const intervalUnit = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(intervalUnit,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "INTERVAL_UNIT").map(
-                      (item: any, index: number) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const intervalUnit = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(intervalUnit, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "INTERVAL_UNIT"
+                      ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}
                         </option>
-                      )
-                    )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -581,15 +586,14 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            
-            
+
             {
               dataField: "opration",
               text: "Action",
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
-              formatter: (cellContent, row) => (
+              formatter: (cellContent, row) => (   
                 <>
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
@@ -599,7 +603,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
-                            type: "Delete",
+                            type: "delete",
                             show: true,
                             id: [row._id],
                             title: "Are you sure?",
@@ -665,7 +669,7 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
           }}
         />
       </div>
-        </>
-      )
+    </>
+  )
 })
 export default ReferenceRangesList
