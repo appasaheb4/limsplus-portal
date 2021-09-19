@@ -18,8 +18,8 @@ import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 
-import { stores } from "@lp/library/stores"
-import { useStores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
@@ -852,7 +852,7 @@ export const Users = observer(() => {
                         value={Stores.userStore.user?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status
-                            ? "border-red-500  focus:border-red-500"
+                            ? "border-red-500  "
                             : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
@@ -891,7 +891,7 @@ export const Users = observer(() => {
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {

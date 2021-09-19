@@ -9,12 +9,12 @@ import * as Utils from "../utils"
 import * as Models from "../models"
 
 import SessionManagement from "./SessionManagement"
-import {useStores} from '@lp/library/stores'
+import {useStores} from '@lp/stores'
 import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"

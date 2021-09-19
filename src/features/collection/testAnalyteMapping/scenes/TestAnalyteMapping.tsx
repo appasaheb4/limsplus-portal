@@ -4,11 +4,11 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as AnalyteMasterStore } from "@lp/features/collection/masterAnalyte/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
@@ -200,7 +200,7 @@ const TestAnalyteMapping = observer(() => {
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.testCode
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.testCode}
@@ -229,7 +229,7 @@ const TestAnalyteMapping = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.testName
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -396,7 +396,7 @@ const TestAnalyteMapping = observer(() => {
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -617,7 +617,7 @@ const TestAnalyteMapping = observer(() => {
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

@@ -7,10 +7,10 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LoginStores } from "@lp/features/login/stores"
@@ -281,7 +281,7 @@ const MasterPanel = observer(() => {
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.section
-                            ? "border-red-500  focus:border-red-500"
+                            ? "border-red-500  "
                             : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
@@ -682,7 +682,7 @@ const MasterPanel = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -769,7 +769,7 @@ const MasterPanel = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.processing
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -830,7 +830,7 @@ const MasterPanel = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.category
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -868,7 +868,7 @@ const MasterPanel = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelType
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -906,7 +906,7 @@ const MasterPanel = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.sex
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -1252,7 +1252,7 @@ const MasterPanel = observer(() => {
                       value={Stores.masterPanelStore.masterPanel?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -1424,7 +1424,7 @@ const MasterPanel = observer(() => {
                       value={Stores.masterPanelStore.masterPanel?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

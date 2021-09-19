@@ -5,9 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -145,7 +145,7 @@ const Role = observer(() => {
                       value={Stores.roleStore.role?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

@@ -5,7 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { useHistory } from "react-router-dom"
 interface ModalAccountProps {

@@ -6,8 +6,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import {useStores} from '@lp/library/stores'
-import { stores } from "@lp/library/stores"
+import {useStores} from '@lp/stores'
+import { stores } from "@lp/stores"
 
 const grid = 8
 const getListStyle = (isDraggingOver) => ({

@@ -11,7 +11,7 @@ import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
 import { Stores as LoginStores } from "@lp/features/login/stores"
 import { Stores as UserStores } from "@lp/features/users/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"

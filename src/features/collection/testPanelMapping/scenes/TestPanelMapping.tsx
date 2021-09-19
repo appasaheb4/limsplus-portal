@@ -7,10 +7,10 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
 import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
@@ -550,7 +550,7 @@ const TestPanelMapping = observer(() => {
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

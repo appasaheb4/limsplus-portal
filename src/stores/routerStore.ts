@@ -1,6 +1,6 @@
 import { makeAutoObservable, action, observable } from "mobx"
 import { ignore, version } from "mobx-sync"
-import * as LibraryModels from "../models"
+import * as LibraryModels from "../library/models"
 
 @version(1.0)
 class RouterStore {

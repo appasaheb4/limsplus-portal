@@ -7,9 +7,9 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 
@@ -130,7 +130,7 @@ export const SalesTeam = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.salesTerritory
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -239,7 +239,7 @@ export const SalesTeam = observer(() => {
                   }
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.empName
-                      ? "border-red-500  focus:border-red-500"
+                      ? "border-red-500  "
                       : "border-gray-300"
                   } rounded-md`}
                   hasError={errors.empName}
@@ -263,7 +263,7 @@ export const SalesTeam = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.userDetials
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -302,7 +302,7 @@ export const SalesTeam = observer(() => {
                       value={Stores.salesTeamStore.salesTeam?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

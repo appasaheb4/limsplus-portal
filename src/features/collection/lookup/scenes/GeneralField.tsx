@@ -11,7 +11,7 @@ import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 
 import { Stores } from "../stores"
-import { stores, useStores } from "@lp/library/stores"
+import { stores, useStores } from "@lp/stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { toJS } from "mobx"
 

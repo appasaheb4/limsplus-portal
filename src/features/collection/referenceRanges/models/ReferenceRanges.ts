@@ -1,5 +1,6 @@
 export class ReferenceRanges {
     existsVersionId: string
+    existsRecordId: string
     analyteCode: string
     analyteName: string
     department: string
@@ -29,6 +30,7 @@ export class ReferenceRanges {
     reportDefault: string
     constructor(rawData: {[key in string]: any}){
         this.existsVersionId = rawData.existsVersionId
+        this.existsRecordId = rawData.existsRecordId
         this.analyteCode = rawData.analyteCode
         this.analyteName = rawData.analyteName
         this.department = rawData.department

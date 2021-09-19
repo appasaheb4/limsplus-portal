@@ -7,7 +7,7 @@
 
 import * as Models from "../models"
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 class DeliveryScheduleService {
   listDeliverySchdule = (page = 0, limit = 10) =>

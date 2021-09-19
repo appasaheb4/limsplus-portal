@@ -8,10 +8,10 @@ import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -110,7 +110,7 @@ export const PossibleResults = observer(() => {
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.analyte
-                            ? "border-red-500  focus:border-red-500"
+                            ? "border-red-500  "
                             : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
@@ -192,7 +192,7 @@ export const PossibleResults = observer(() => {
                         }
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment
-                            ? "border-red-500  focus:border-red-500"
+                            ? "border-red-500  "
                             : "border-gray-300"
                         } rounded-md`}
                         disabled={

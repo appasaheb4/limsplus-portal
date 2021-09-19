@@ -10,7 +10,7 @@ import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 interface PriceListProps {
   data: any

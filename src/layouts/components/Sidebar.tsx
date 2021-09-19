@@ -17,7 +17,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import * as Assets from "@lp/library/assets"
 
 
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 

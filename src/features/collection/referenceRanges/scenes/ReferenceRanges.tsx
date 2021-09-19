@@ -6,27 +6,30 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
-import { useStores } from "@lp/library/stores"
+import { stores, useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
 import { Stores as AnalyteMaster } from "@lp/features/collection/masterAnalyte/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
+import { Stores as CommunicationStore } from "@lp/features/communication/stores"
+
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+
 const ReferenceRanges = observer(() => {
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
-    // clearErrors,
+    clearErrors,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, interfaceManagerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.referenceRangesStore.updateReferenceRanges({
@@ -39,7 +42,72 @@ const ReferenceRanges = observer(() => {
     }
   }, [stores.loginStore.login])
   const onSubmitReferenceRanges = () => {
-    //api Callling
+    if (!Stores.referenceRangesStore.checkExitsRecord) {
+      console.log({ store: Stores.referenceRangesStore.referenceRanges })
+
+      if (
+        !Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
+        !Stores.referenceRangesStore.referenceRanges?.existsRecordId
+      ) {
+        Stores.referenceRangesStore.referenceRangesService
+          .addReferenceRanges({
+            input: {
+              ...Stores.referenceRangesStore.referenceRanges,
+              enteredBy: stores.loginStore.login.userId,
+            },
+          })
+          .then((res) => {
+            if (res.addReferenceRanges.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.addReferenceRanges.message}`,
+              })
+            }
+          })
+      } else if (
+        Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
+        !Stores.referenceRangesStore.referenceRanges?.existsRecordId
+      ) {
+        Stores.referenceRangesStore.referenceRangesService
+          .versionUpgradeReferenceRanges({
+            input: {
+              ...Stores.referenceRangesStore.referenceRanges,
+              enteredBy: stores.loginStore.login.userId,
+            },
+          })
+          .then((res) => {
+            if (res.versionUpgradeReferenceRanges.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeReferenceRanges.message}`,
+              })
+            }
+          })
+      } else if (
+        !Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
+        Stores.referenceRangesStore.referenceRanges?.existsRecordId
+      ) {
+        Stores.referenceRangesStore.referenceRangesService
+          .duplicateReferenceRanges({
+            input: {
+              ...Stores.referenceRangesStore.referenceRanges,
+              enteredBy: stores.loginStore.login.userId,
+            },
+          })
+          .then((res) => {
+            if (res.duplicateReferenceRanges.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateReferenceRanges.message}`,
+              })
+            }
+          })
+      }
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 2000)
+    } else {
+      LibraryComponents.Atoms.Toast.warning({
+        message: `😔 Please enter diff code`,
+      })
+    }
   }
   return (
     <>
@@ -75,7 +143,7 @@ const ReferenceRanges = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Analyte Code"
                     hasError={errors.analyteCode}
-                  >  
+                  >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.analyteCode ? "border-red-500" : "border-gray-300"
@@ -84,6 +152,7 @@ const ReferenceRanges = observer(() => {
                         const analyte = JSON.parse(e.target.value) as any
                         onChange(analyte.analyteCode)
                         setValue("analyteName", analyte.analyteName)
+                        clearErrors("analyteName")
                         Stores.referenceRangesStore.updateReferenceRanges({
                           ...Stores.referenceRangesStore.referenceRanges,
                           analyteCode: analyte.analyteCode,
@@ -113,19 +182,17 @@ const ReferenceRanges = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Analyte Name"
                     name="txtAnalyteName"
+                    hasError={errors.analyteName}
+                    value={Stores.referenceRangesStore.referenceRanges?.analyteName}
                     placeholder={
                       errors.analyteName
                         ? "Please Enter Analyte Name"
                         : "AnalyteName"
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.analyteName
-                        ? "border-red-500  focus:border-red-500"
-                        : "border-gray-300"
+                      errors.analyteName ? "border-red-500" : "border-gray-300"
                     } rounded-md`}
-                    hasError={errors.analyteName}
                     disabled={true}
-                    value={Stores.referenceRangesStore.referenceRanges?.analyteName}
                   />
                 )}
                 name="analyteName"
@@ -176,9 +243,7 @@ const ReferenceRanges = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.species
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.species ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const species = e.target.value as string
@@ -214,9 +279,7 @@ const ReferenceRanges = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sex
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sex = e.target.value as string
@@ -279,42 +342,46 @@ const ReferenceRanges = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Equipment Type"
-                    hasError={errors.eqType}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.eqType ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const eqType = e.target.value as string
-                        onChange(eqType)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
-                          eqType,
-                        })
-                      }}
+
+              {interfaceManagerStore.listEncodeCharacter && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Equipment Type"
+                      hasError={errors.eqType}
                     >
-                      <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "RANGE_SET_ON"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="eqType"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.eqType ? "border-red-500" : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const eqType = e.target.value as string
+                          onChange(eqType)
+                          Stores.referenceRangesStore.updateReferenceRanges({
+                            ...Stores.referenceRangesStore.referenceRanges,
+                            eqType,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {CommunicationStore.interfaceManagerStore
+                          .listEncodeCharacter &&
+                          CommunicationStore.interfaceManagerStore.listEncodeCharacter.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.instrumentType}>
+                                {`${item.instrumentType}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="eqType"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -392,9 +459,7 @@ const ReferenceRanges = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.rangType
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.rangType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const rangType = e.target.value as string
@@ -435,7 +500,7 @@ const ReferenceRanges = observer(() => {
                       onChange(age)
                       Stores.referenceRangesStore.updateReferenceRanges({
                         ...Stores.referenceRangesStore.referenceRanges,
-                        age,
+                        age: parseInt(age),
                       })
                     }}
                   />
@@ -460,9 +525,7 @@ const ReferenceRanges = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.ageUnit
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.ageUnit ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const ageUnit = e.target.value as string
@@ -584,9 +647,7 @@ const ReferenceRanges = observer(() => {
                     <select
                       value={Stores.referenceRangesStore.referenceRanges?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
@@ -625,9 +686,7 @@ const ReferenceRanges = observer(() => {
                         Stores.referenceRangesStore.referenceRanges?.environment
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -642,31 +701,31 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           environment,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
-                            .checkExitsLabEnvCode(
-                              Stores.referenceRangesStore.referenceRanges
-                                ?.analyteCode || "",
-                              environment,
-                              Stores.referenceRangesStore.referenceRanges?.lab || ""
-                            )
-                            .then((res) => {
-                              if (res.success) {
-                                Stores.referenceRangesStore.updateExistsLabEnvCode(
-                                  true
-                                )
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
-                                })
-                              } else
-                                Stores.referenceRangesStore.updateExistsLabEnvCode(
-                                  false
-                                )
-                            })
-                        }
+                        // if (
+                        //   !Stores.referenceRangesStore.referenceRanges
+                        //     ?.existsVersionId
+                        // ) {
+                        //   Stores.referenceRangesStore.referenceRangesService
+                        //     .checkExitsLabEnvCode(
+                        //       Stores.referenceRangesStore.referenceRanges
+                        //         ?.analyteCode || "",
+                        //       environment,
+                        //       Stores.referenceRangesStore.referenceRanges?.lab || ""
+                        //     )
+                        //     .then((res) => {
+                        //       if (res.success) {
+                        //         Stores.referenceRangesStore.updateExistsLabEnvCode(
+                        //           true
+                        //         )
+                        //         LibraryComponents.Atoms.Toast.error({
+                        //           message: `😔 ${res.message}`,
+                        //         })
+                        //       } else
+                        //         Stores.referenceRangesStore.updateExistsLabEnvCode(
+                        //           false
+                        //         )
+                        //     })
+                        // }
                       }}
                     >
                       <option selected>
@@ -805,7 +864,6 @@ const ReferenceRanges = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="DeltaRang TetType"
-                    name="txtDeltarangTeType"
                     placeholder={
                       errors.deltarang_tetype
                         ? "Please Enter DeltaRang TetType"
@@ -833,13 +891,12 @@ const ReferenceRanges = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="Delta Interval"
-                    name="txtDelta Interval"
                     placeholder={
-                      errors.deltarang_tetype
+                      errors.deltaInterval
                         ? "Please Enter Delta Interval"
                         : "Delta Interval"
                     }
-                    hasError={errors.deltarang_tetype}
+                    hasError={errors.deltaInterval}
                     value={
                       Stores.referenceRangesStore.referenceRanges?.deltaInterval
                     }
@@ -865,9 +922,7 @@ const ReferenceRanges = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.intervalUnit
-                          ? "border-red-500  focus:border-red-500"
-                          : "border-gray-300"
+                        errors.intervalUnit ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const intervalUnit = e.target.value as string
@@ -901,11 +956,11 @@ const ReferenceRanges = observer(() => {
                     label="Format Result Script"
                     name="txtFormatResultScript"
                     placeholder={
-                      errors.formatResultScript
+                      errors.formalResultScript
                         ? "Please Enter Format Result Script "
                         : "Format Result Script"
                     }
-                    hasError={errors.formatResultScript}
+                    hasError={errors.formalResultScript}
                     value={
                       Stores.referenceRangesStore.referenceRanges?.formatResultScript
                     }
@@ -967,7 +1022,6 @@ const ReferenceRanges = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -979,7 +1033,7 @@ const ReferenceRanges = observer(() => {
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.ReferenceRanges
             data={Stores.referenceRangesStore.listReferenceRanges || []}
-            totalSize={Stores.referenceRangesStore.listAllReferenceRangesCount}
+            totalSize={Stores.referenceRangesStore.listReferenceRangesCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
               listMasterAnalyte: AnalyteMaster.masterAnalyteStore.listMasterAnalyte,
@@ -1007,7 +1061,7 @@ const ReferenceRanges = observer(() => {
             onUpdateItem={(value: any, dataField: string, id: string) => {
               setModalConfirm({
                 show: true,
-                type: "Update",
+                type: "update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update item!`,
@@ -1038,59 +1092,59 @@ const ReferenceRanges = observer(() => {
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
-          // click={(type?: string) => {
-          //   if (type === "Delete") {
-          //     Stores.masterAnalyteStore.masterAnalyteService
-          //       .deleteAnalyteMaster(modalConfirm.id)
-          //       .then((res: any) => {
-          //         if (res.status === 200) {
-          //           LibraryComponents.Atoms.Toast.success({
-          //             message: `😊 Analyte master deleted.`,
-          //           })
-          //           setModalConfirm({ show: false })
-          //           Stores.masterAnalyteStore.fetchAnalyteMaster()
-          //         }
-          //       })
-          //   } else if (type === "Update") {
-          //     Stores.masterAnalyteStore.masterAnalyteService
-          //       .updateSingleFiled(modalConfirm.data)
-          //       .then((res: any) => {
-          //         if (res.status === 200) {
-          //           LibraryComponents.Atoms.Toast.success({
-          //             message: `😊 Analyte master updated.`,
-          //           })
-          //           setModalConfirm({ show: false })
-          //           window.location.reload()
-          //         }
-          //       })
-          //   } else if (type === "versionUpgrade") {
-          //     Stores.masterAnalyteStore.updateMasterAnalyte({
-          //       ...modalConfirm.data,
-          //       _id: undefined,
-          //       existsVersionId: modalConfirm.data._id,
-          //       existsRecordId: undefined,
-          //       version: modalConfirm.data.version + 1,
-          //       dateActiveFrom: LibraryUtils.moment().unix(),
-          //     })
-          //     setValue("lab",modalConfirm.data.lab)
-          //     setValue("analyteCode",modalConfirm.data.analyteCode)
-          //     setValue("analyteName",modalConfirm.data.analyteName)
-          //     setValue("environment",modalConfirm.data.environment)
-          //     //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
-          //   } else if (type === "duplicate") {
-          //     Stores.masterAnalyteStore.updateMasterAnalyte({
-          //       ...modalConfirm.data,
-          //       _id: undefined,
-          //       existsVersionId: undefined,
-          //       existsRecordId: modalConfirm.data._id,
-          //       version: 1,
-          //       dateActiveFrom: LibraryUtils.moment().unix(),
-          //     })
-          //   }
-          // }}
-          // onClose={() => {
-          //   setModalConfirm({ show: false })
-          // }}
+          click={(type?: string) => {
+            if (type === "Delete") {
+              Stores.referenceRangesStore.referenceRangesService
+                .deleteReferenceRanges(modalConfirm.id)
+                .then((res: any) => {
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master deleted.`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.referenceRangesStore.fetchListReferenceRanges()
+                  }
+                })
+            } else if (type === "update") {
+              Stores.referenceRangesStore.referenceRangesService
+                .updateSingleFiled(modalConfirm.data)
+                .then((res: any) => {
+                  if (res.status === 200) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 Analyte master updated.`,
+                    })
+                    setModalConfirm({ show: false })
+                    window.location.reload()
+                  }
+                })
+            } else if (type === "versionUpgrade") {
+              Stores.referenceRangesStore.updateReferenceRanges({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: modalConfirm.data._id,
+                existsRecordId: undefined,
+                version: modalConfirm.data.version + 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("analyteCode", modalConfirm.data.analyteCode)
+              setValue("analyteName", modalConfirm.data.analyteName)
+              setValue("environment", modalConfirm.data.environment)
+              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+            } else if (type === "duplicate") {
+              Stores.referenceRangesStore.updateReferenceRanges({
+                ...modalConfirm.data,
+                _id: undefined,
+                existsVersionId: undefined,
+                existsRecordId: modalConfirm.data._id,
+                version: 1,
+                dateActiveFrom: LibraryUtils.moment().unix(),
+              })
+            }
+          }}
+          onClose={() => {
+            setModalConfirm({ show: false })
+          }}
         />
       </div>
     </>

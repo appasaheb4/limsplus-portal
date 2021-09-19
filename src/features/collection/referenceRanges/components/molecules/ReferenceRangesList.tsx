@@ -5,7 +5,7 @@ import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 interface ReferenceRangesProps {
     data: any
     totalSize: number
@@ -36,13 +36,6 @@ const ReferenceRangesList = observer((props:ReferenceRangesProps)=>{
               text: "Id",
               hidden: true,
               csvExport: false,
-            },
-            {
-              dataField: "relRec",
-              editable: false,
-              text: "RelRec",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter()
             },
             {
               dataField: "analyteCode",

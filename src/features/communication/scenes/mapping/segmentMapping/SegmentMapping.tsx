@@ -10,9 +10,9 @@ import * as FeatureComponents from "../../../components"
 import SegmentList from "./SegmentList"
 import * as Utils from "../../../util"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../../../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -246,7 +246,7 @@ const SegmentMapping = observer(() => {
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.equipmentType
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -289,7 +289,7 @@ const SegmentMapping = observer(() => {
                       value={Stores.segmentMappingStore.segmentMapping?.dataFlowFrom}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.dataFlowFrom
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -329,7 +329,7 @@ const SegmentMapping = observer(() => {
                       value={Stores.segmentMappingStore.segmentMapping?.data_type}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.data_type
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -367,7 +367,7 @@ const SegmentMapping = observer(() => {
                       value={Stores.segmentMappingStore.segmentMapping?.segments}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.segments
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -407,7 +407,7 @@ const SegmentMapping = observer(() => {
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.segment_usage
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -847,7 +847,7 @@ const SegmentMapping = observer(() => {
                       value={Stores.segmentMappingStore.segmentMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={
