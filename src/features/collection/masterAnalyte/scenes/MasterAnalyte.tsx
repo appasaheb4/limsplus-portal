@@ -5,10 +5,10 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -515,7 +515,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.resultType
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -554,7 +554,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.analyteType
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -593,7 +593,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.units}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.units
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -632,7 +632,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.usage}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.usage
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -673,7 +673,7 @@ const MasterAnalyte = observer(() => {
                       name="optionPicture"
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.picture
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -835,7 +835,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -1084,7 +1084,7 @@ const MasterAnalyte = observer(() => {
                       value={Stores.masterAnalyteStore.masterAnalyte?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={

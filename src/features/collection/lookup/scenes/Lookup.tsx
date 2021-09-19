@@ -9,9 +9,9 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 let router = dashboardRoutes

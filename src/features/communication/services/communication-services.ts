@@ -7,7 +7,7 @@
 import { Http, http, ServiceResponse } from "@lp/library/modules/http"
 import * as Assets from "@lp/features/assets"
 import * as Models from "../models"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 class CommunicationService {
   adddepartment = (department?: Models.HostCommunication) =>

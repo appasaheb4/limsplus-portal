@@ -3,7 +3,7 @@ import { makeAutoObservable, action, observable, runInAction, computed } from "m
 import Session from "@lp/library/modules/session"
 import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import Storage from "@lp/library/modules/storage"
 
 @version(0.1)

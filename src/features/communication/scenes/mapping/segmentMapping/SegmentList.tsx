@@ -16,7 +16,7 @@ const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
 
 import { Stores } from "../../../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 interface SegmentListProps {
   duplicate: (item: Models.SegmentMapping) => void

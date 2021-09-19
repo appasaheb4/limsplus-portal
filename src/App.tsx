@@ -10,7 +10,7 @@ import Routes from "./routes/Routes"
 // toast
 import "react-toastify/dist/ReactToastify.css"
 
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import hydrateStore from "@lp/library/modules/startup"

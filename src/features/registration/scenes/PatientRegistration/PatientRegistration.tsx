@@ -6,8 +6,8 @@ import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
 import { PatientManager, PatientVisit, PatientOrder } from "../PatientRegistration"
-import {useStores} from '@lp/library/stores'
-import { stores } from "@lp/library/stores"
+import {useStores} from '@lp/stores'
+import { stores } from "@lp/stores"
 const PatientRegistation = observer(() => {
   const {
 		loginStore,

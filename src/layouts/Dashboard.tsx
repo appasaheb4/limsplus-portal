@@ -19,8 +19,8 @@ import { toJS } from "mobx"
 
 import Storage from "@lp/library/modules/storage"
 
-import { stores } from "@lp/library/stores"
-import { useStores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -54,6 +54,7 @@ import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 import * as PriceList from "@lp/features/collection/priceList"
+import * as ReferenceRanges from '@lp/features/collection/referenceRanges'
 
 const Dashboard = observer(({ children }) => {
   const { loginStore } = useStores()
@@ -128,7 +129,7 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/registrationLocations" ||
         pathname === "/collection/priceList"
       )
-        await CorporateClients.startup()
+        await CorporateClients.startup()   
       if (
         pathname === "/collection/deliverySchedule" ||
         pathname === "/collection/testMaster"
@@ -146,6 +147,7 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/possibleResults") await PossibleResults.startup()
       if (pathname === "/collection/library") await Library.startup()
       if (pathname === "/collection/priceList") await PriceList.startup()
+      if (pathname === "/collection/referenceRanges") await ReferenceRanges.startup()
 
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
@@ -153,7 +155,8 @@ const Dashboard = observer(({ children }) => {
       if (
         pathname === "/communication/interfaceManager" ||
         pathname === "/communication/mapping/conversationMapping" ||
-        pathname === "/communication/mapping/segmentMapping"
+        pathname === "/communication/mapping/segmentMapping" ||
+        pathname === "/collection/referenceRanges"
       )
         await Communication.startup()
     }

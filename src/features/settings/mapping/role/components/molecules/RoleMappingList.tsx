@@ -10,7 +10,7 @@ import * as Services from "../../services"
 
 import { Stores } from "../../stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { toJS } from "mobx"
 

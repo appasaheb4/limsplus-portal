@@ -15,7 +15,7 @@ import {
   UPDATE_SINGE_FILED,
   CHECKEXITS_PRICEG_ENV_LAB_CODE,
 } from "./mutation"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
    
 export class PriceListService {
   addPriceList = (variables: any) =>

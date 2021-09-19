@@ -12,10 +12,10 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import "react-dropdown-tree-select/dist/styles.css"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"

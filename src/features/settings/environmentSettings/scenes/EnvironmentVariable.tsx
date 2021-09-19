@@ -10,7 +10,7 @@ import "@lp/library/assets/css/accordion.css"
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { useForm, Controller } from "react-hook-form"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 interface EnvironmentVariableProps {
@@ -82,7 +82,7 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.category
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {

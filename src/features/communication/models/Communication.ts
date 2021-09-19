@@ -1,3 +1,4 @@
+import { makeAutoObservable } from "mobx"
 export class HostCommunication {
   id?: string
   manualAutomaticMode?: boolean
@@ -117,7 +118,7 @@ export class SegmentMapping {
     this.segment_usage = rawData.segment_usage
     this.field_no = rawData.field_no
     this.item_no = rawData.item_no
-    this.field_required = rawData.field_required 
+    this.field_required = rawData.field_required
     this.element_name = rawData.element_name
     this.transmitted_data = rawData.transmitted_data
     this.field_array = rawData.field_array
@@ -153,17 +154,17 @@ export class ConversationMapping {
 }
 
 export class EncodeCharacter {
-  _id?: string
-  interfaceType?: string
-  instrumentType?: string
-  instrumentName?: string
-  dataFlowFrom?: string
-  communicationProtocol?: string
-  blockStart?: string
-  blockEnd?: string
-  filed?: string
-  value?: string
-  fileds?: { filed?: string | undefined; value?: string | undefined }[]
+  _id: string
+  interfaceType: string
+  instrumentType: string
+  instrumentName: string
+  dataFlowFrom: string
+  communicationProtocol: string
+  blockStart: string
+  blockEnd: string
+  filed: string
+  value: string
+  fileds: { filed?: string | undefined; value?: string | undefined }[]
   environment: string
 
   constructor(rawData: { [key in string]: any }) {
@@ -179,5 +180,7 @@ export class EncodeCharacter {
     this.value = rawData.value
     this.fileds = rawData.fileds
     this.environment = rawData.environment
+
+    makeAutoObservable(this)
   }
 }

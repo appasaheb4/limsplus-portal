@@ -13,7 +13,7 @@ import * as Assets from '@lp/library/assets'
 
 import { Badge, Button } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
    
 // import { createThis } from "typescript"
     

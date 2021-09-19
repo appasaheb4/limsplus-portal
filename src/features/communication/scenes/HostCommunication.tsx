@@ -5,9 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import { Container } from "reactstrap"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import {useStores} from '@lp/library/stores'
+import {useStores} from '@lp/stores'
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import * as Models from "../models"
 import * as Services from "../services"

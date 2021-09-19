@@ -1,5 +1,5 @@
 /* eslint-disable no-prototype-builtins */
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import * as Config from "@lp/config"
 import Session from "@lp/library/modules/session"

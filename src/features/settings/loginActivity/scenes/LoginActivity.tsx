@@ -9,9 +9,9 @@ import paginationFactory from "react-bootstrap-table2-paginator"
 
 const { SearchBar, ClearSearchButton } = Search
 const { ExportCSVButton } = CSVExport
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 const LoginActivity = observer(() => {
   const { loginStore } = useStores()

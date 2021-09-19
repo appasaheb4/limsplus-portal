@@ -6,7 +6,7 @@ import {
   from,
 } from "@apollo/client"
 import { onError } from "@apollo/client/link/error"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 
 const customFetch = (uri, options): Promise<any> => {

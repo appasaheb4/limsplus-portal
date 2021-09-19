@@ -14,7 +14,7 @@ import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -262,7 +262,7 @@ const SessionManagement = observer((props: SessionManagementProps) => {
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     disabled={

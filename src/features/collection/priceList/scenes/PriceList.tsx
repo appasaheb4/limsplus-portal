@@ -5,11 +5,11 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 
-import { useStores } from "@lp/library/stores"
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/library/stores"
+import { stores } from "@lp/stores"
 import { Stores as CoporateClients } from "@lp/features/collection/corporateClients/stores"
 import { Stores as PanelMaster } from "@lp/features/collection/masterPanel/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
@@ -71,9 +71,9 @@ export const PriceList = observer(() => {
             },
           })
           .then((res) => {
-            if (res.versionUpgrade.success) {
+            if (res.versionUpgradePriceList.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.versionUpgrade.message}`,
+                message: `😊 ${res.versionUpgradePriceList.message}`,
               })
             }
           })
@@ -89,9 +89,9 @@ export const PriceList = observer(() => {
             },
           })
           .then((res) => {
-            if (res.duplicateRecord.success) {
+            if (res.duplicatePriceList.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.duplicateRecord.message}`,
+                message: `😊 ${res.duplicatePriceList.message}`,
               })
             }
           })
@@ -145,7 +145,7 @@ export const PriceList = observer(() => {
                       value={Stores.priceListStore.priceList.panelCode}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.panelCode
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -238,7 +238,7 @@ export const PriceList = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.priority
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -276,7 +276,7 @@ export const PriceList = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.priceGroup
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -382,7 +382,7 @@ export const PriceList = observer(() => {
                     placeholder="Client Name"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.clientName
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.clientName}
@@ -403,7 +403,7 @@ export const PriceList = observer(() => {
                     placeholder="Invoice Ac"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.invoiceAc
-                        ? "border-red-500  focus:border-red-500"
+                        ? "border-red-500  "
                         : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.invoiceAc}
@@ -593,7 +593,7 @@ export const PriceList = observer(() => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.speicalScheme
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -675,7 +675,7 @@ export const PriceList = observer(() => {
                       value={Stores.priceListStore.priceList?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
@@ -766,7 +766,7 @@ export const PriceList = observer(() => {
                       value={Stores.priceListStore.priceList?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
-                          ? "border-red-500  focus:border-red-500"
+                          ? "border-red-500  "
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={
@@ -1018,9 +1018,9 @@ export const PriceList = observer(() => {
               Stores.priceListStore.priceListService
                 .deletePriceList({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.deleteRecord.success) {
+                  if (res.deletePriceList.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.deleteRecord.message}`,
+                      message: `😊 ${res.deletePriceList.message}`,
                     })
                     setModalConfirm({ show: false })
                     Stores.priceListStore.fetchListPriceList()
@@ -1036,7 +1036,7 @@ export const PriceList = observer(() => {
                 })
                 .then((res: any) => {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊 ${res.updateSingleFiled.message}`,
+                    message: `😊 ${res.updateSingleFiledPriceList.message}`,
                   })
                   setModalConfirm({ show: false })
                   setTimeout(() => {

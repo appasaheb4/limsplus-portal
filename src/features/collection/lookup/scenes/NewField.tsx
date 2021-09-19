@@ -11,7 +11,7 @@ let router = dashboardRoutes
 
 import { Stores } from "../stores"
 
-import { stores, useStores } from "@lp/library/stores"
+import { stores, useStores } from "@lp/stores"
 
 interface NewFieldProps {
   onModalConfirm?: (item: any) => void
