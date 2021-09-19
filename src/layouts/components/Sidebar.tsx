@@ -82,7 +82,7 @@ const SidebarCategory = withRouter(
           ) : null}
         </span>
         <Collapse isOpen={isOpen}>
-          <ul id="item" className={"sidebar-dropdown list-unstyled"}>
+          <ul id="item" className={`sidebar-dropdown list-unstyled ${title === 'MASTER SETUP' ? "overflow-y-scroll h-80" : ""}`}>
             {children}
           </ul>
         </Collapse>

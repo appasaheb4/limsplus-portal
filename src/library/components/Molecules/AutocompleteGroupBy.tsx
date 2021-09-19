@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-
+import PerfectScrollbar from "react-perfect-scrollbar"
 import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -125,8 +125,9 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
           ? options?.length > 0 && (
               <div className="mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200">
                 <ul className="p-2 rounded-sm">
+                  <PerfectScrollbar>
                   <div
-                    className="overflow-y-auto"
+                    className=""
                     style={{ height: "auto", maxHeight: "350px" }}
                   >
                     {options?.map((item, index) => (
@@ -153,6 +154,7 @@ export const AutocompleteGroupBy = observer((props: AutocompleteGroupByProps) =>
                       </>
                     ))}
                   </div>
+                </PerfectScrollbar>
                 </ul>
               </div>
             )
