@@ -30,6 +30,9 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
     return row.status !== "I" ? true : false
   }
 
+  console.log({props});
+  
+
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -161,7 +164,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
                         props.extraData.lookupItems,
-                        "PRIORITY"
+                        "PRIORIITY"  
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {`${item.value} - ${item.code}`}

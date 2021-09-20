@@ -426,7 +426,7 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
               ),
             },
             {
-              dataField: "Environment",
+              dataField: "environment",
               text: "Environment",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),

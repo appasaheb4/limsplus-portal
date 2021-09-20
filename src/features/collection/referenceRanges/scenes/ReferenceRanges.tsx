@@ -43,8 +43,6 @@ const ReferenceRanges = observer(() => {
   }, [stores.loginStore.login])
   const onSubmitReferenceRanges = () => {
     if (!Stores.referenceRangesStore.checkExitsRecord) {
-      console.log({ store: Stores.referenceRangesStore.referenceRanges })
-
       if (
         !Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
         !Stores.referenceRangesStore.referenceRanges?.existsRecordId
@@ -158,6 +156,41 @@ const ReferenceRanges = observer(() => {
                           analyteCode: analyte.analyteCode,
                           analyteName: analyte.analyteName,
                         })
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode: analyte.analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangType,
+                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -176,6 +209,11 @@ const ReferenceRanges = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              {Stores.referenceRangesStore.checkExitsRecord && (
+                <span className="text-red-600 font-medium relative">
+                  Code already exits. Please use other code.
+                </span>
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -252,6 +290,41 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           species,
                         })
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangType,
+                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -324,6 +397,41 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           rangeSetOn,
                         })
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .species,
+                                rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangType,
+                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -407,32 +515,43 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           lab,
                         })
-                        // if (
-                        //   !Stores.priceListStore.priceList
-                        //     ?.existsVersionId
-                        // ) {
-                        //   Stores.priceListStore.priceListService
-                        //     .checkExitsLabEnvCode(
-                        //       Stores.priceListStore.priceList
-                        //         ?.price|| "",
-                        //       Stores.priceListStore.priceList
-                        //         ?.environment || "",
-                        //       lab
-                        //     )
-                        //     .then((res) => {
-                        //       if (res.success) {
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           true
-                        //         )
-                        //         LibraryComponents.Atoms.Toast.error({
-                        //           message: `😔 ${res.message}`,
-                        //         })
-                        //       } else
-                        //         Stores.priceListStore.updateExistsLabEnvCode(
-                        //           false
-                        //         )
-                        //     })
-                        // }
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangType,
+                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -468,6 +587,41 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           rangType,
                         })
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .ageUnit,
+                                rangType,
+                                environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -503,6 +657,41 @@ const ReferenceRanges = observer(() => {
                         age: parseInt(age),
                       })
                     }}
+                    onBlur={(age) => {
+                      if (
+                        !Stores.referenceRangesStore.referenceRanges?.existsVersionId
+                      ) {
+                        Stores.referenceRangesStore.referenceRangesService
+                          .checkExitsRecord({
+                            input: {
+                              analyteCode:
+                                Stores.referenceRangesStore.referenceRanges
+                                  .analyteCode,
+                              species:
+                                Stores.referenceRangesStore.referenceRanges.species,
+                              rangeSetOn:
+                                Stores.referenceRangesStore.referenceRanges
+                                  .rangeSetOn,
+                              lab: Stores.referenceRangesStore.referenceRanges.lab,
+                              age: parseInt(age),
+                              ageUnit:
+                                Stores.referenceRangesStore.referenceRanges.ageUnit,
+                              rangType:
+                                Stores.referenceRangesStore.referenceRanges.rangType,
+                                environment: Stores.referenceRangesStore.referenceRanges.environment
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkExitsRecordReferenceRanges.success) {
+                              Stores.referenceRangesStore.updateExistsRecord(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                              })
+                            } else
+                              Stores.referenceRangesStore.updateExistsRecord(false)
+                          })
+                      }
+                    }}
                   />
                 )}
                 name="age"
@@ -534,6 +723,41 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           ageUnit,
                         })
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges
+                            ?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangType,
+                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>Select</option>
@@ -701,31 +925,39 @@ const ReferenceRanges = observer(() => {
                           ...Stores.referenceRangesStore.referenceRanges,
                           environment,
                         })
-                        // if (
-                        //   !Stores.referenceRangesStore.referenceRanges
-                        //     ?.existsVersionId
-                        // ) {
-                        //   Stores.referenceRangesStore.referenceRangesService
-                        //     .checkExitsLabEnvCode(
-                        //       Stores.referenceRangesStore.referenceRanges
-                        //         ?.analyteCode || "",
-                        //       environment,
-                        //       Stores.referenceRangesStore.referenceRanges?.lab || ""
-                        //     )
-                        //     .then((res) => {
-                        //       if (res.success) {
-                        //         Stores.referenceRangesStore.updateExistsLabEnvCode(
-                        //           true
-                        //         )
-                        //         LibraryComponents.Atoms.Toast.error({
-                        //           message: `😔 ${res.message}`,
-                        //         })
-                        //       } else
-                        //         Stores.referenceRangesStore.updateExistsLabEnvCode(
-                        //           false
-                        //         )
-                        //     })
-                        // }
+                        if (
+                          !Stores.referenceRangesStore.referenceRanges?.existsVersionId
+                        ) {
+                          Stores.referenceRangesStore.referenceRangesService
+                            .checkExitsRecord({
+                              input: {
+                                analyteCode:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .analyteCode,
+                                species:
+                                  Stores.referenceRangesStore.referenceRanges.species,
+                                rangeSetOn:
+                                  Stores.referenceRangesStore.referenceRanges
+                                    .rangeSetOn,
+                                lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                ageUnit:
+                                  Stores.referenceRangesStore.referenceRanges.ageUnit,
+                                rangType:
+                                  Stores.referenceRangesStore.referenceRanges.rangType,
+                                  environment
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkExitsRecordReferenceRanges.success) {
+                                Stores.referenceRangesStore.updateExistsRecord(true)
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                })
+                              } else
+                                Stores.referenceRangesStore.updateExistsRecord(false)
+                            })
+                        }
                       }}
                     >
                       <option selected>

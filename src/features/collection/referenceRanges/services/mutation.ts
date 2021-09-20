@@ -47,9 +47,9 @@ export const UPDATE_SINGE_FILED = gql`
   }
 `
 
-export const CHECKEXITS_PRICEG_ENV_LAB_CODE = gql`
-  mutation($input: PriceListInput) {
-    checkExitsPriceGEnvLabCodeReferenceRanges(input: $input) {
+export const CHECK_EXITS_RECORD = gql`
+  mutation($input: ReferenceRangesInput) {
+    checkExitsRecordReferenceRanges(input: $input) {
       success
       message
     }
