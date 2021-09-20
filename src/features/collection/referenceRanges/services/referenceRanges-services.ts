@@ -13,7 +13,7 @@ import {
   DELETE_RECORD,
   DUPLICATE_RECORD,
   UPDATE_SINGE_FILED,
-  CHECKEXITS_PRICEG_ENV_LAB_CODE,
+  CHECK_EXITS_RECORD,
 } from "./mutation"
 export class ReferenceRangesService {
   listReferenceRanges = (page = 0, limit = 10) =>
@@ -113,13 +113,13 @@ export class ReferenceRangesService {
         )
     })
 
-  checkExitsPriceGEnvLabCode = (variables) =>
+  checkExitsRecord = (variables) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: CHECKEXITS_PRICEG_ENV_LAB_CODE,
+          mutation: CHECK_EXITS_RECORD,
           variables,
-        })
+        }) 
         .then((response: any) => {
           resolve(response.data)
         })
