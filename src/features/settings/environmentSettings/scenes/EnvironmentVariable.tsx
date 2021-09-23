@@ -17,22 +17,13 @@ interface EnvironmentVariableProps {
   onModalConfirm?: (item: any) => void
 }
 
-const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
+export const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  useEffect(() => {
-    // if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-    //   Stores.enviromentSettingsStore.updateSessionManagement({
-    //     ...Stores.enviromentSettingsStore.sessionManagement,
-    //     environment: stores.loginStore.login.environment,
-    //   })
-    //   setValue("environment", stores.loginStore.login.environment)
-    // }
-  }, [stores.loginStore.login])
 
   const onSubmitEnvironmentVariable = () => {
     // api calling
@@ -61,8 +52,8 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
                   }
                   onChange={(environmentVariable) => {
                     onChange(environmentVariable)
-                    Stores.enviromentSettingsStore.updatEnvironmentVariable({
-                      ...Stores.enviromentSettingsStore.environmentVariable,
+                    Stores.enviromentStore.updatEnvironmentVariable({
+                      ...Stores.enviromentStore.environmentVariable,
                       environmentVariable: environmentVariable.toUpperCase(),
                     })
                   }}
@@ -88,8 +79,8 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
                     onChange={(e) => {
                       const category = e.target.value as string
                       onChange(category)
-                      Stores.enviromentSettingsStore.updatEnvironmentVariable({
-                        ...Stores.enviromentSettingsStore.environmentVariable,
+                      Stores.enviromentStore.updatEnvironmentVariable({
+                        ...Stores.enviromentStore.environmentVariable,
                         category,
                       })
                     }}
@@ -124,8 +115,8 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
                   //value={Stores.userStore.user.password}
                   onChange={(descriptions) => {
                     onChange(descriptions)
-                    Stores.enviromentSettingsStore.updatEnvironmentVariable({
-                      ...Stores.enviromentSettingsStore.environmentVariable,
+                    Stores.enviromentStore.updatEnvironmentVariable({
+                      ...Stores.enviromentStore.environmentVariable,
                       descriptions,
                     })
                   }}
@@ -188,8 +179,8 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
         style={{ overflowX: "scroll" }}
       >
         <FeatureComponents.Molecules.EnvironmentVariableList
-          data={Stores.enviromentSettingsStore.environmentVariableList}
-          totalSize={Stores.enviromentSettingsStore.environmentVariableListCount}
+          data={Stores.enviromentStore.environmentVariableList}
+          totalSize={Stores.enviromentStore.environmentVariableListCount}
           extraData={{
             lookupItems: stores.routerStore.lookupItems,
           }}
@@ -232,4 +223,3 @@ const EnvironmentVariable = observer((props: EnvironmentVariableProps) => {
     </>
   )
 })
-export default EnvironmentVariable

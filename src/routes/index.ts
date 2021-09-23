@@ -111,9 +111,9 @@ const LoginActivity = async(
 const ShortcutMenu = async(
   () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
 )
-const EnvironmentSettings = async(
+const Environment = async(
   () =>
-    import("@lp/features/settings/environmentSettings/scenes/EnvironmentSettings")
+    import("@lp/features/settings/environmentSettings/scenes/Environment")
 )
 const NoticeBoards = async(
   () => import("@lp/features/settings/noticeBoard/scenes/NoticeBoard")
@@ -374,7 +374,7 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog",
       component: User,
     },
-    {
+    {  
       path: "/settings/loginActivity",
       name: "Login Activity",
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiActivity",
@@ -392,11 +392,11 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconCg.CgShortcut",
       component: ShortcutMenu,
     },
-    {
+    {   
       path: "/settings/environmentSettings",
-      name: "Environment Settings",
+      name: "Environment",
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",
-      component: EnvironmentSettings,
+      component: Environment,
     },
     {
       path: "/settings/noticeBoards",
