@@ -5,7 +5,9 @@ import * as Models from "../models"
 
 @version(0.1)
 class PatientRegistrationStore {
-  @ignore @observable patientManger?: Models.PaientManger
+  @ignore @observable patientManger?: Models.PatientManger
+  @observable listPatientManger?: Models.PatientManger[] = []
+  @observable listPatientMangerCount: number = 0
   @ignore @observable patientVisit?: Models.PatientVisit
   @ignore @observable patientOrder?: Models.PatientOrder
 
@@ -18,7 +20,7 @@ class PatientRegistrationStore {
     )
   }
 
-  @action updatePatientManager(manager: Models.PaientManger) {
+  @action updatePatientManager(manager: Models.PatientManger) {
     this.patientManger = manager
   }
   

@@ -1,1 +1,1 @@
-export {default as SessionManagementList} from './SessionManagementList'
+export {default as PatientMangerList} from './PatientMangerList'

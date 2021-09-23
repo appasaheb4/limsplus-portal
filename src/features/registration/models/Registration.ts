@@ -1,38 +1,76 @@
-export class PaientManger {
-    internalPid?: string
+export class PatientManger {
+    pId?: string
     mobileNo?: string
+    birthDate?: Date
     title?: string
     firstName?: string
     middleName?: string
     lastName?: string
     sex?: string
+    species?: string
+    breed?: string
+    usualDoctor?: string
+    history?: boolean
     address?: string
+    postcode?: string
     city?: string
     state?: string
     country?: string
-    postcode?: string
-    email?: string
-    species?: string  
+    email?: string  
+    isMobileAndWhatsApp?: boolean
+    whatsappNumber?: string
     permanent?: boolean
     vip?: boolean
+    confidental?: boolean
+    photograph?: string
+    signature?: string
+    bloodGroup?: string
+    height?: string
+    weight?: string
+    followUp?: string
+    comments?: string
+    fyiLine?: string
+    balance?: string
+    accountType?: string
+    enteredBy?: string
+    status?: string
     environment?: string
     constructor(rawData: {[key in string]: any}){
-        this.internalPid = rawData.internalPid
+        this.pId = rawData.pId
         this.mobileNo = rawData.mobileNo
+        this.birthDate = rawData.birthDate
         this.title = rawData.title
         this.firstName = rawData.firstName
         this.middleName = rawData.middleName
         this.lastName = rawData.lastName
         this.sex = rawData.sex
+        this.species = rawData.species
+        this.breed = rawData.breed
+        this.usualDoctor = rawData.usualDoctor
+        this.history = rawData.history
         this.address = rawData.address
+        this.postcode = rawData.postcode
         this.city = rawData.city
         this.state = rawData.state
         this.country = rawData.country
-        this.postcode = rawData.postcode
         this.email = rawData.email
-        this.species = rawData.species
+        this.isMobileAndWhatsApp = rawData.isMobileAndWhatsApp
+        this.whatsappNumber = rawData.whatsappNumber
         this.permanent = rawData.permanent
         this.vip = rawData.vip
+        this.confidental = rawData.confidental
+        this.photograph = rawData.photograph
+        this.signature = rawData.signature
+        this.bloodGroup = rawData.bloodGroup
+        this.height = rawData.height
+        this.weight =  rawData.weight
+        this.followUp = rawData.followUp
+        this.comments = rawData.comments
+        this.fyiLine = rawData.fyiLine
+        this.balance = rawData.balance
+        this.accountType = rawData.accountType
+        this.enteredBy = rawData.enteredBy
+        this.status = rawData.status
         this.environment = rawData.environment
     }
   }
