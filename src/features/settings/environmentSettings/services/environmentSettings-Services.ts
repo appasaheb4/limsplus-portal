@@ -26,7 +26,7 @@ class EnvironmentSettingsService  {
     })
 
 
-  addSessionManagement = (session: Models.SessionManagement) =>
+  addSessionManagement = (session: Models.EnvironmentSettings) =>
     new Promise<any>((resolve, reject) => {
       session.documentType = "session"
       http

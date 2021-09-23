@@ -1,11 +1,11 @@
 import React from "react"
 
-import EnvironmentSettingsStore from "./environmentSettings-store"
+import {EnvironmentStore} from "./environment-store"
 
 export const Stores = {
-  enviromentSettingsStore: new EnvironmentSettingsStore(),
+  enviromentStore: new EnvironmentStore(),
 }
    
 export const Contexts = {
-  enviromentSettingsContext: React.createContext(Stores.enviromentSettingsStore),
+  enviromentContext: React.createContext(Stores.enviromentStore),
 }
