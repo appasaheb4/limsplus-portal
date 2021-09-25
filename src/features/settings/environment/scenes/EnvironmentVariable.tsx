@@ -26,7 +26,22 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
   } = useForm()
 
   const onSubmitEnvironmentVariable = () => {
-    // api calling
+    Stores.enviromentStore.EnvironmentService.addEnvironment({
+      input: {
+        ...Stores.enviromentStore.environmentVariable,
+        enteredBy: stores.loginStore.login.userId,
+        documentType: "environmentVariable",
+      },
+    }).then((res) => {
+      if (res.addEnvironment.success) {
+        LibraryComponents.Atoms.Toast.success({
+          message: `😊 ${res.addEnvironment.message}`,
+        })
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      }
+    })
   }
   return (
     <>
@@ -72,9 +87,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 >
                   <select
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.category
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.category ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {
                       const category = e.target.value as string
@@ -199,7 +212,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Delete",
+                type: "delete",
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
@@ -209,7 +222,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Update",
+                type: "update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update recoard!`,

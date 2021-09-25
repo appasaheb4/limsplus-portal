@@ -34,7 +34,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               dataField: "environmentVariable",
               text: "Environment Variable",
               sort: true,
-              //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               
             },
@@ -42,7 +42,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               dataField: "category",
               text: "Category",
               sort: true,
-              //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               
             },
@@ -74,7 +74,7 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                         onClick={() =>
                           props.onDelete &&
                           props.onDelete({
-                            type: "Delete",
+                            type: "delete",
                             show: true,
                             id: [row._id],
                             title: "Are you sure?",

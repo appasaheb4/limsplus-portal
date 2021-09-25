@@ -1,6 +1,6 @@
 import {Stores} from './stores';
 const startup = async () => {
-   Stores.enviromentStore.fetchSessionManagementList()
+   Stores.enviromentStore.fetchEnvironment()
 }   
    
 export default startup;  

@@ -113,7 +113,7 @@ const ShortcutMenu = async(
 )
 const Environment = async(
   () =>
-    import("@lp/features/settings/environmentSettings/scenes/Environment")
+    import("@lp/features/settings/environment/scenes/Environment")
 )
 const NoticeBoards = async(
   () => import("@lp/features/settings/noticeBoard/scenes/NoticeBoard")
