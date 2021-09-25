@@ -20,7 +20,7 @@ import { toJS } from "mobx"
 
 import { EnvironmentVariable } from "./EnvironmentVariable"
 import { EnvironmentSettings } from "./EnvironmentSettings"
-   
+
 const Environment = observer(() => {
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
@@ -62,15 +62,13 @@ const Environment = observer(() => {
       <LibraryComponents.Molecules.ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
-          if (type === "Delete") {
-            Stores.enviromentStore.EnvironmentSettingsService.deleteEnvironmentSettings(
-              modalConfirm.id
-            ).then((res: any) => {
-              console.log({ res })
-
-              if (res.status === 200) {
+          if (type === "delete") {
+            Stores.enviromentStore.EnvironmentService.deleteRecord({
+              input: { id: modalConfirm.id },
+            }).then((res: any) => {
+              if (res.deleteEnvironment.success) {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊Items deleted.`,
+                  message: `😊 ${res.deleteEnvironment.message}`,
                 })
                 setModalConfirm({ show: false })
                 setTimeout(() => {
@@ -78,12 +76,17 @@ const Environment = observer(() => {
                 }, 2000)
               }
             })
-          } else if (type === "Update") {
-            Stores.enviromentStore.EnvironmentSettingsService.updateSingleFiled(
-              modalConfirm.data
-            ).then((res: any) => {
-              if (res.status === 200) {
-                LibraryComponents.Atoms.Toast.success({ message: `😊Item updated.` })
+          } else if (type === "update") {
+            Stores.enviromentStore.EnvironmentService.updateSingleFiled({
+              input: {
+                ...modalConfirm.data,
+                value: JSON.stringify(modalConfirm.data.value),
+              },
+            }).then((res: any) => {
+              if (res.updateSingleFiledEnvironment.success) {
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.updateSingleFiledEnvironment.message}`,
+                })
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()

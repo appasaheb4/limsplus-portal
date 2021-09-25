@@ -363,7 +363,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               })
           }}
           onPageSizeChange={(page, limit) => {
-            Stores.enviromentStore.fetchSessionManagementList(page, limit)
+            Stores.enviromentStore.fetchEnvironment({},page, limit)
           }}
         />
       </div>
