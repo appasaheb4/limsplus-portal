@@ -170,4 +170,30 @@ export class PatientManger {
     }
   }
 
+export class InformationGroup {
+  infoDate?: Date
+  infoRelatedTo?: string
+  keyField?: string
+  infoType?: string
+  infoLookup?: boolean
+  lookupValue?: string
+  information?: string
+  attachment?: string
+  environment?: string
+  enteredBy?: string
+  status?: string
+  constructor(rawData: {[key in string]: any}){
+      this.infoDate = rawData.infoDate
+      this.infoRelatedTo = rawData.infoRelatedTo
+      this.keyField = rawData.keyField
+      this.infoType = rawData.infoType
+      this.infoLookup = rawData.infoLookup
+      this.lookupValue = rawData.lookupValue
+      this.information = rawData.information
+      this.attachment = rawData.attachment
+      this.environment = rawData.environment
+      this.enteredBy = rawData.enteredBy
+      this.status = rawData.status
+  }
+}
   
