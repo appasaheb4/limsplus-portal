@@ -10,6 +10,9 @@ class PatientRegistrationStore {
   @observable listPatientMangerCount: number = 0
   @ignore @observable patientVisit?: Models.PatientVisit
   @ignore @observable patientOrder?: Models.PatientOrder
+  @ignore @observable informationGroup?: Models.InformationGroup
+  @observable listInformationGroup?: Models.InformationGroup[] = []
+  @observable listInformationGroupCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -29,6 +32,9 @@ class PatientRegistrationStore {
   }
   @action updatePatientOrder(order: Models.PatientOrder) {
     this.patientOrder = order
+  }
+  @action updateInformationGroup(info: Models.InformationGroup){
+    this.informationGroup = info
   }
 }
 export default PatientRegistrationStore
