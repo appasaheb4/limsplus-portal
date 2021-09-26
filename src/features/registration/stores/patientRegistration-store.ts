@@ -5,9 +5,14 @@ import * as Models from "../models"
 
 @version(0.1)
 class PatientRegistrationStore {
-  @ignore @observable patientManger?: Models.PaientManger
+  @ignore @observable patientManger?: Models.PatientManger
+  @observable listPatientManger?: Models.PatientManger[] = []
+  @observable listPatientMangerCount: number = 0
   @ignore @observable patientVisit?: Models.PatientVisit
   @ignore @observable patientOrder?: Models.PatientOrder
+  @ignore @observable informationGroup?: Models.InformationGroup
+  @observable listInformationGroup?: Models.InformationGroup[] = []
+  @observable listInformationGroupCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -18,7 +23,7 @@ class PatientRegistrationStore {
     )
   }
 
-  @action updatePatientManager(manager: Models.PaientManger) {
+  @action updatePatientManager(manager: Models.PatientManger) {
     this.patientManger = manager
   }
   
@@ -27,6 +32,9 @@ class PatientRegistrationStore {
   }
   @action updatePatientOrder(order: Models.PatientOrder) {
     this.patientOrder = order
+  }
+  @action updateInformationGroup(info: Models.InformationGroup){
+    this.informationGroup = info
   }
 }
 export default PatientRegistrationStore
