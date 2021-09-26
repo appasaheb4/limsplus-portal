@@ -8,6 +8,7 @@ import "@lp/library/assets/css/accordion.css"
 import { PatientManager, PatientVisit, PatientOrder } from "../PatientRegistration"
 import {useStores} from '@lp/stores'
 import { stores } from "@lp/stores"
+import InformationGroup from "./InformationGroup"
 const PatientRegistation = observer(() => {
   const {
 		loginStore,
@@ -22,7 +23,7 @@ const PatientRegistation = observer(() => {
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <div>
-        <Accordion allowMultiple>
+        <Accordion>
           {[
             { title: "PATIENT MANAGER" },
             { title: "PATIENT VISIT" },
@@ -31,12 +32,12 @@ const PatientRegistation = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "PATIENT MANAGER"}
+                // expanded={item.title === "PATIENT MANAGER"}
               >
                 {item.title === "PATIENT MANAGER" && (
                   <>
                     <PatientManager
-                      onModalConfirm={(item) => setModalConfirm(item)}
+                      // onModalConfirm={(item) => setModalConfirm(item)}
                     />
                   </>
                 )}
@@ -56,8 +57,9 @@ const PatientRegistation = observer(() => {
         <h4>SPECIMEN AND TEST DETAILS</h4>
       </div>
       <div>
-        <Accordion allowMultiple>
+        <Accordion>
           {[
+            {title: "INFORMATION GROUP"},
             { title: "SAMPLE" },
             { title: "PANEL" },
             { title: "TEST" },
@@ -68,6 +70,7 @@ const PatientRegistation = observer(() => {
                 title={`${item.title}`}
                 // expanded={item.title === "Patient Manager"}
               >
+                {item.title === "INFORMATION GROUP" && <InformationGroup/>},
                 {item.title === "SAMPLE" && <></>}
               </AccordionItem>
             )
