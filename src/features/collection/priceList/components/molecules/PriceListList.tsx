@@ -237,19 +237,19 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const bill = JSON.parse(e.target.value)
+                        const corporateClientsInfo = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          bill.billto,column.dataField,row._id
+                          corporateClientsInfo.corporateCode,column.dataField,row._id
                         )
                        
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listMasterPanel
-                      && props.extraData.listMasterPanel.map(
+                      {props.extraData.listCorporateClients
+                      && props.extraData.listCorporateClients.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
-                            {`${item.billingOn}`}
+                            {`${item.corporateCode}`}
                           </option>
                         )
                       )}
@@ -280,16 +280,16 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const client = JSON.parse(e.target.value)
+                        const corporateClientsInfo = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          client.clientName,column.dataField,row._id
+                          corporateClientsInfo.corporateName,column.dataField,row._id
                         )
                        
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listMasterPanel
-                      && props.extraData.listMasterPanel.map(
+                      {props.extraData.listCorporateClients
+                      && props.extraData.listCorporateClients.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
                             {`${item.corporateName}`}
@@ -323,16 +323,16 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
                        
                       onChange={(e) => {
-                        const invoice = JSON.parse(e.target.value)
+                        const corporateClientsInfo = JSON.parse(e.target.value)
                         props.onUpdateItem && props.onUpdateItem(
-                          invoice.invoiceAc,column.dataField,row._id
+                          corporateClientsInfo.invoiceAc,column.dataField,row._id
                         )
                        
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listMasterPanel
-                      && props.extraData.listMasterPanel.map(
+                      {props.extraData.listCorporateClients
+                      && props.extraData.listCorporateClients.map(
                         (item: any, index: number) => (
                           <option key={index} value={JSON.stringify(item)}>
                             {`${item.invoiceAc}`}
