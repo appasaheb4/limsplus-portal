@@ -1,10 +1,10 @@
 export class ChangePassword {
-  oldPassword?: string
-  newPassword?: string
-  confirmPassword?: string
-  title?: string
-  subTitle?: string
-  tempHide?: boolean
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+  title: string
+  subTitle: string
+  tempHide: boolean
 
   constructor(rawData: { [key in string]: any }) {
     this.oldPassword = rawData.oldPassword

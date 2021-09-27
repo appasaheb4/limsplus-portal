@@ -7,7 +7,7 @@ import { stores } from "@lp/stores"
 import Storage from "@lp/library/modules/storage"
 
 @version(0.1)
-class LoginStore {
+export class LoginStore {
   @ignore @observable inputLogin!: Login
   @observable login!: Login
   @observable loginFailedCount?: number
