@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react"
 
-import UserStore from './user-store';
+import { UsersStore } from "./UsersStore"
 
 export const Stores = {
-  userStore: new UserStore(),
-};
+  userStore: new UsersStore(),
+}
 
 export const Contexts = {
   userContext: React.createContext(Stores.userStore),
-};
+}
