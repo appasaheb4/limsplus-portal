@@ -4,7 +4,7 @@ import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class SectionStore {
+export class SectionStore {
   @observable listSection: Models.Section[] =[]
   @observable listSectionCount: number = 0
   @ignore @observable checkExitsEnvCode?: boolean = false
@@ -35,5 +35,3 @@ class SectionStore {
     this.checkExitsEnvCode = status
   }
 }
-
-export default SectionStore

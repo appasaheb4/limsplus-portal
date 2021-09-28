@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 
 @version(0.1)
-export class UsersStore {
+export class UserStore {
   @ignore @observable user!: Models.Users
   @observable userList!: Models.Users[]
   @observable userListCount: number = 0
