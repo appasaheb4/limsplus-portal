@@ -28,8 +28,6 @@ export class EnvironmentService {
 
   addEnvironment = (variables: { input: Models.EnvironmentVariable }) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-
       client
         .mutate({
           mutation: ADD_ENVIRONMENT,

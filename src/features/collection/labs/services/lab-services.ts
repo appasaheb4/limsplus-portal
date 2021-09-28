@@ -83,10 +83,10 @@ export class LabService {
         })
     })
 
-  checkExitsEnvCode = (code: string,env: string) =>
+  checkExitsEnvCode = (code: string, env: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/lab/checkExitsEnvCode`, { code,env })
+        .post(`/master/lab/checkExitsEnvCode`, { code, env })
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)

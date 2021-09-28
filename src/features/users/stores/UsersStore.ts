@@ -2,9 +2,8 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
-import * as Services from "../services"
+import { UserService } from "../services"
 import * as LibraryUtils from "@lp/library/utils"
-
 
 @version(0.1)
 export class UserStore {
@@ -19,7 +18,7 @@ export class UserStore {
     makeAutoObservable(this)
     let date: Date = new Date()
     date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
-    this.user = new Models.Users({  
+    this.user = new Models.Users({
       ...this.user,
       exipreDate: LibraryUtils.moment(date).unix(),
       expireDays: 30,
@@ -36,7 +35,7 @@ export class UserStore {
   }
 
   @computed get UsersService() {
-    return new Services.UserService()
+    return new UserService()
   }
 
   @action loadUser(page?, limit?) {

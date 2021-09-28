@@ -12,17 +12,17 @@ import { stores } from "@lp/stores"
 export class UserService {
   userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env = stores.loginStore.login && stores.loginStore.login.environment
-      const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        const env = stores.loginStore.login && stores.loginStore.login.environment
+        const role = stores.loginStore.login && stores.loginStore.login.role
+        http
+          .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
+          .then((response) => {
+            const serviceResponse = Http.handleResponse<any>(response)
+            resolve(serviceResponse)
+          })
+          .catch((error) => {
+            reject(new ServiceResponse<any>(0, error.message, undefined))
+          })
     })
   reSendPassword = (userInfo: any) =>
     new Promise<any>((resolve, reject) => {
@@ -138,8 +138,7 @@ export class UserService {
         })
     })
 
-
-    changepasswordByAdmin = (body: any) =>
+  changepasswordByAdmin = (body: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/auth/changepasswordByAdmin`, body)
