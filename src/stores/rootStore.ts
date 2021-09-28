@@ -4,7 +4,7 @@ import Session from "@lp/library/modules/session"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 @version(1.0)
-class RootStore  {
+export class RootStore  {
   @ignore @observable processLoading: boolean = false
   @ignore @observable session?: any
 
@@ -41,4 +41,3 @@ class RootStore  {
     this.modalTokenExpire = details
   }
 }
-export default RootStore
