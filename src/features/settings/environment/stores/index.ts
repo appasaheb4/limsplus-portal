@@ -1,6 +1,6 @@
 import React from "react"
 
-import {EnvironmentStore} from "./environment-store"
+import {EnvironmentStore} from "./EnvironmentStore"
 
 export const Stores = {
   enviromentStore: new EnvironmentStore(),

@@ -27,7 +27,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     formState: { errors },
     setValue,
   } = useForm()
-  const { labStore } = useStores()
+  const { environmentStore } = useStores()
 
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
@@ -40,16 +40,22 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
   }, [stores.loginStore.login])
 
   const onSubmitSessionManagement = () => {
-    // Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
-    //   Stores.enviromentSettingsStore.sessionManagement as Models.SessionManagement
-    // ).then((res) => {
-    //   if (res.success) {
-    //     LibraryComponents.Atoms.Toast.success({ message: `😊 ${res.message}` })
-    //     setTimeout(() => {
-    //       window.location.reload()
-    //     }, 2000)
-    //   }
-    // })
+    environmentStore.EnvironmentService.addEnvironment({
+      input: {
+        ...Stores.enviromentStore.environmentSettings,
+        enteredBy: stores.loginStore.login.userId,
+        documentType: "environmentSettings",
+      },
+    }).then((res) => {
+      if (res.addEnvironment.success) {
+        LibraryComponents.Atoms.Toast.success({
+          message: `😊 ${res.addEnvironment.message}`,
+        })
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000)
+      }
+    })
   }
 
   return (
@@ -179,10 +185,10 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         variable,
                       })
                     }}
-                  >
+                  >  
                     <option selected>Select</option>
-                    {Stores.enviromentStore.environmentVariableList &&
-                      Stores.enviromentStore.environmentVariableList.map(
+                    {environmentStore.environmentVariableList &&
+                      environmentStore.environmentVariableList.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.environmentVariable}>
                             {item.environmentVariable}
