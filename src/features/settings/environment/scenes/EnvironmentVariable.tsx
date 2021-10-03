@@ -10,9 +10,9 @@ import "@lp/library/assets/css/accordion.css"
 import { Stores } from "../stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 import { useForm, Controller } from "react-hook-form"
-import { stores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
+import { stores, useStores } from "@lp/stores"
 interface EnvironmentVariableProps {
   onModalConfirm?: (item: any) => void
 }
@@ -24,6 +24,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
     formState: { errors },
     setValue,
   } = useForm()
+  const { environmentStore } = useStores()
 
   const onSubmitEnvironmentVariable = () => {
     Stores.enviromentStore.EnvironmentService.addEnvironment({
@@ -192,8 +193,8 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         style={{ overflowX: "scroll" }}
       >
         <FeatureComponents.Molecules.EnvironmentVariableList
-          data={Stores.enviromentStore.environmentVariableList}
-          totalSize={Stores.enviromentStore.environmentVariableListCount}
+          data={environmentStore.environmentVariableList}
+          totalSize={environmentStore.environmentVariableListCount}
           extraData={{
             lookupItems: stores.routerStore.lookupItems,
           }}

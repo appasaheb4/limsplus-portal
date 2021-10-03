@@ -5,21 +5,34 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import { GET_BANNER_LIST_ALL } from "./query"
 
 export class BannerService {
   listAllBanner = () =>
     new Promise<any>((resolve, reject) => {
-      http
-        .get(`/banner/listAllBanner`)
+      // http
+      //   .get(`/banner/listAllBanner`)
+      //   .then((response: any) => {
+      //     const serviceResponse = Http.handleResponse<any>(response)
+      //     resolve(serviceResponse)
+      //   })
+      //   .catch((error) => {
+      //     reject(new ServiceResponse<any>(0, error.message, undefined))
+      //   })
+      client  
+        .query({
+          query: GET_BANNER_LIST_ALL,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          console.log({ response })
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
   listBanner = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {

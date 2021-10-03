@@ -9,9 +9,11 @@ import { LookupStore } from "@lp/features/collection/lookup/stores/lookup-store"
 import { SectionStore } from "@lp/features/collection/section/stores/section-store"
 import { InterfaceManagerStore } from "@lp/features/communication/stores/interfaceManager-store"
 
-
-// master 
+// master
 import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
+
+// setting
+import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
 
 import { Store } from "./Store"
 export class Stores extends Store {
@@ -27,6 +29,9 @@ export class Stores extends Store {
   sectionStore!: SectionStore
   interfaceManagerStore!: InterfaceManagerStore
 
+  // settings
+  environmentStore!: EnvironmentStore
+
   constructor() {
     super()
     this.rootStore = new RootStore()
@@ -38,6 +43,9 @@ export class Stores extends Store {
     this.lookupStore = new LookupStore()
     this.sectionStore = new SectionStore()
     this.interfaceManagerStore = new InterfaceManagerStore()
+     
+    // settings
+    this.environmentStore = new EnvironmentStore()
     setTimeout(() => {
       this.userStore = new UserStore()
     }, 100)
