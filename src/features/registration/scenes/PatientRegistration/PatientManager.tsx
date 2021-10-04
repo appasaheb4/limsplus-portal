@@ -12,7 +12,14 @@ import { stores } from "@lp/stores"
 import { toJS } from "mobx"
 import { Stores } from "../../stores"
 import { RouterFlow } from "@lp/flows"
-import { AdministrativeDivisions } from "@lp/features/collection/administrativeDivisions/scenes"
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
 
 interface PatientManagerProps {
   onModalConfirm?: (item: any) => void
@@ -42,7 +49,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
-        <LibraryComponents.Atoms.Grid cols={3}>
+        <LibraryComponents.Atoms.Grid cols={2}>
           <LibraryComponents.Atoms.List
             direction="col"
             space={4}
@@ -171,7 +178,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 onChange(firstName)
                 Stores.patientRegistationStore.updatePatientManager({
                   ...Stores.patientRegistationStore.patientManger,
-                  firstName,
+                  firstName:firstName.toUpperCase(),
                 })
               }}
             />
@@ -193,7 +200,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                onChange(middleName)
                 Stores.patientRegistationStore.updatePatientManager({
                   ...Stores.patientRegistationStore.patientManger,
-                  middleName,
+                  middleName:middleName.toUpperCase(),
                 })
               }}
             />
@@ -215,7 +222,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 onChange(lastName)
                 Stores.patientRegistationStore.updatePatientManager({
                   ...Stores.patientRegistationStore.patientManger,
-                  lastName,
+                  lastName:lastName.toUpperCase(),
                 })
               }}
             />
@@ -259,7 +266,18 @@ const PatientManager = observer((props: PatientManagerProps) => {
             rules={{ required: true }}
             defaultValue=""
           />
-           <Controller
+           
+          
+           
+          </LibraryComponents.Atoms.List>
+
+          <LibraryComponents.Atoms.List
+            direction="col"
+            space={4}
+            justify="stretch"
+            fill
+          >
+            <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputWrapper label="Species" hasError={errors.species}>
@@ -352,6 +370,44 @@ const PatientManager = observer((props: PatientManagerProps) => {
                 rules={{ required: true }}
                 defaultValue=""
               />
+              
+              <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="History"
+                      id="txtHistory"
+                      hasError={errors.history}
+                      value={Stores.patientRegistationStore.patientManger?.history}
+                      onChange={(history) => {
+                        onChange(history)
+                        Stores.patientRegistationStore.updatePatientManager({
+                          ...Stores.patientRegistationStore.patientManger,
+                          history,
+                        })
+                      }}
+                    />
+                  )}
+                  name="history"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+          </LibraryComponents.Atoms.List>
+        </LibraryComponents.Atoms.Grid>
+      </div>
+      <br />
+      <div className='extra' style={{border:'1px solid yellow'}}>
+      <Accordion allowZeroExpanded>
+            <AccordionItem>
+                <AccordionItemHeading>
+                    <AccordionItemButton>
+                        EXTRA DATA
+                    </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                    <>
+                    <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.List direction='col' space={4} justify='stretch' fill>
               <Controller
             control={control}
             render={({ field: { onChange } }) => (
@@ -375,38 +431,6 @@ const PatientManager = observer((props: PatientManagerProps) => {
               rules={{ required: true }}
               defaultValue=""
             />
-              <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.Toggle
-                      label="History"
-                      id="txtHistory"
-                      hasError={errors.history}
-                      value={Stores.patientRegistationStore.patientManger?.history}
-                      onChange={(history) => {
-                        onChange(history)
-                        Stores.patientRegistationStore.updatePatientManager({
-                          ...Stores.patientRegistationStore.patientManger,
-                          history,
-                        })
-                      }}
-                    />
-                  )}
-                  name="history"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
-          
-           
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
-            direction="col"
-            space={4}
-            justify="stretch"
-            fill
-          >
-            
-            
             <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -426,7 +450,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="postcode"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
            <Controller
@@ -462,7 +486,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="city"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
             <Controller
@@ -498,7 +522,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="state"
-                rules={{ required: true }}
+                rules={{ required: false }}
                 defaultValue=""
               />
             <Controller
@@ -534,7 +558,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
             )}
               name="country"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -557,7 +581,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="email"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -579,7 +603,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="whatsappNumber"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -641,7 +665,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="bloodGroup"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -663,106 +687,12 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="height"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-                <LibraryComponents.Atoms.Grid cols={4}>
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Is Mobile WhatsApp"
-                id="modeIsMobileAndWhatsApp"
-                hasError={errors.isMobileAndWhatsApp}
-                value={Stores.patientRegistationStore.patientManger?.isMobileAndWhatsApp}
-                onChange={(isMobileAndWhatsApp) => {
-                  onChange(isMobileAndWhatsApp)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    isMobileAndWhatsApp,
-                  })
-                }}
-              />
-              )}
-              name="isMobileAndWhatsApp"
               rules={{ required: false }}
               defaultValue=""
             />
+            </LibraryComponents.Atoms.List>   
+              <LibraryComponents.Atoms.List direction='col' space={4} justify='stretch' fill>
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Permanent"
-                id="modePermanent"
-                hasError={errors.permanent}
-                value={Stores.patientRegistationStore.patientManger?.permanent}
-                onChange={(permanent) => {
-                  onChange(permanent)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    permanent,
-                  })
-                }}
-              />
-              )}
-              name="permanent"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-              <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Vip"
-                id="modeVip"
-                hasError={errors.vip}
-                value={Stores.patientRegistationStore.patientManger?.vip}
-                onChange={(vip) => {
-                  onChange(vip)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    vip,
-                  })
-                }}
-              />
-              )}
-              name="vip"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Toggle
-                label="Confidental"
-                id="modeConfidental"
-                hasError={errors.confidental}
-                value={Stores.patientRegistationStore.patientManger?.confidental}
-                onChange={(confidental) => {
-                  onChange(confidental)
-                  Stores.patientRegistationStore.updatePatientManager({
-                    ...Stores.patientRegistationStore.patientManger,
-                    confidental,
-                  })
-                }}
-              />
-              )}
-              name="confidental"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-            </LibraryComponents.Atoms.Grid>
-            
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
-            direction="col"
-            space={4}
-            justify="stretch"
-            fill
-          >
-            
-            
-            <Controller
             control={control}
             render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.Input
@@ -781,7 +711,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="weight"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -803,7 +733,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="followUp"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -825,7 +755,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="comments"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -847,7 +777,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="fyiLine"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -869,7 +799,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="balance"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -891,7 +821,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
             />
             )}
               name="accountType"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
             <Controller
@@ -944,7 +874,7 @@ const PatientManager = observer((props: PatientManagerProps) => {
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="status"
-                  rules={{ required: false }}
+                  rules={{ required: true }}
                   defaultValue=""
                 />
            
@@ -994,12 +924,59 @@ const PatientManager = observer((props: PatientManagerProps) => {
             rules={{ required: true }}
             defaultValue=""
           />
-            
-          </LibraryComponents.Atoms.List>
-        </LibraryComponents.Atoms.Grid>
+              </LibraryComponents.Atoms.List>
+              <LibraryComponents.Atoms.Grid cols={4}>
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Is Mobile WhatsApp"
+                id="modeIsMobileAndWhatsApp"
+                hasError={errors.isMobileAndWhatsApp}
+                value={Stores.patientRegistationStore.patientManger?.isMobileAndWhatsApp}
+                onChange={(isMobileAndWhatsApp) => {
+                  onChange(isMobileAndWhatsApp)
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    isMobileAndWhatsApp,
+                  })
+                }}
+              />
+              )}
+              name="isMobileAndWhatsApp"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+              
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.Toggle
+                label="Confidental"
+                id="modeConfidental"
+                hasError={errors.confidental}
+                value={Stores.patientRegistationStore.patientManger?.confidental}
+                onChange={(confidental) => {
+                  onChange(confidental)
+                  Stores.patientRegistationStore.updatePatientManager({
+                    ...Stores.patientRegistationStore.patientManger,
+                    confidental,
+                  })
+                }}
+              />
+              )}
+              name="confidental"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            </LibraryComponents.Atoms.Grid>
+            </LibraryComponents.Atoms.Grid>
+                    </>
+                </AccordionItemPanel>
+            </AccordionItem>
+        </Accordion>
       </div>
       <br />
-
       <LibraryComponents.Atoms.List direction="row" space={3} align="center">
         <LibraryComponents.Atoms.Buttons.Button
           size="medium"
@@ -1067,6 +1044,71 @@ const PatientManager = observer((props: PatientManagerProps) => {
           // }}
         />
       </div>
+      <hr />
+      <br />
+      <div className='extra' style={{border:'1px solid yellow'}}>
+      <Accordion allowZeroExpanded>
+            <AccordionItem>
+                <AccordionItemHeading>
+                    <AccordionItemButton>
+                        EXTRA DATA TABLE
+                    </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                    <>
+                    <div
+        className="p-2 rounded-lg shadow-xl overflow-scroll"
+        style={{ overflowX: "scroll" }}
+      >
+        <FeatureComponents.Molecules.ExtraDataPatientManagerList
+          data={Stores.patientRegistationStore.extraDatListPatientManger}
+          totalSize={Stores.patientRegistationStore.extraDataListPatientManagerCount}
+          extraData={{
+            lookupItems: stores.routerStore.lookupItems,
+            listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(stores.routerStore.userPermission),
+            "Delete"
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(stores.routerStore.userPermission),
+            "Edit/Modify"
+          )}
+          onDelete={(selectedUser) =>
+            props.onModalConfirm && props.onModalConfirm(selectedUser)
+          }
+          onSelectedRow={(rows) => {
+            props.onModalConfirm &&
+              props.onModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            props.onModalConfirm &&
+              props.onModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update recoard!`,
+              })
+          }}
+          // onPageSizeChange={(page, limit) => {
+          //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
+          // }}
+        />
+      </div>
+                    </>
+                </AccordionItemPanel>
+            </AccordionItem>
+        </Accordion>
+        </div>
+        
     </>
   )
 })

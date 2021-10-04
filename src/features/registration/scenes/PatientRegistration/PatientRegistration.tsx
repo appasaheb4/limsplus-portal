@@ -5,10 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
-import { PatientManager, PatientVisit, PatientOrder } from "../PatientRegistration"
+import { PatientManager, PatientVisit, PatientOrder,PatientSample,InformationGroup,PatientResult,SpecialResult } from "../PatientRegistration"
 import {useStores} from '@lp/stores'
 import { stores } from "@lp/stores"
-import InformationGroup from "./InformationGroup"
 const PatientRegistation = observer(() => {
   const {
 		loginStore,
@@ -28,6 +27,8 @@ const PatientRegistation = observer(() => {
             { title: "PATIENT MANAGER" },
             { title: "PATIENT VISIT" },
             { title: "PATIENT ORDER" },
+            { title: "PATIENT SAMPLE"},
+            { title: "PATIENT RESULT"},
           ].map((item) => {
             return (
               <AccordionItem
@@ -47,6 +48,8 @@ const PatientRegistation = observer(() => {
                   </>
                 )}
                 {item.title === "PATIENT ORDER" && <PatientOrder />}
+                {item.title === "PATIENT SAMPLE" && <PatientSample />}
+                {item.title === "PATIENT RESULT" && <PatientResult/> }
               </AccordionItem>
             )
           })}
@@ -60,6 +63,7 @@ const PatientRegistation = observer(() => {
         <Accordion>
           {[
             {title: "INFORMATION GROUP"},
+            {title:"SPECIAL RESULT"},
             { title: "SAMPLE" },
             { title: "PANEL" },
             { title: "TEST" },
@@ -71,6 +75,7 @@ const PatientRegistation = observer(() => {
                 // expanded={item.title === "Patient Manager"}
               >
                 {item.title === "INFORMATION GROUP" && <InformationGroup/>},
+                {item.title === "SPECIAL RESULT" && <SpecialResult/> }
                 {item.title === "SAMPLE" && <></>}
               </AccordionItem>
             )
