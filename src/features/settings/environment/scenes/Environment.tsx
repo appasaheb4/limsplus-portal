@@ -5,14 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../utils"
-import * as Models from "../models"
 
 import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -38,7 +33,7 @@ const Environment = observer(() => {
             return (
               <AccordionItem
                 title={`${item.title}`}
-                expanded={item.title === "Environment Variable"}
+                expanded={item.title === "Environment Setting"}
               >
                 {item.title === "Environment Variable" && (
                   <>

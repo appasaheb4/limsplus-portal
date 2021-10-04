@@ -9,9 +9,10 @@ interface ApplicationSetting {
 }
 // console.log()
 @version(1.0)
-class AppStore {
+export class AppStore {
   @observable applicationSetting?: ApplicationSetting
   @ignore @observable loadApi: {count: number,path?: string};
+  
   constructor() {
     this.loadApi = {count:0}
     makeAutoObservable(this)
@@ -28,4 +29,3 @@ class AppStore {
     this.loadApi = value
   }
 }
-export default AppStore

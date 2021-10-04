@@ -959,7 +959,7 @@ export const PriceList = observer(() => {
             totalSize={Stores.priceListStore.listPriceListCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
-              listMasterPanel: PanelMaster.masterPanelStore.listMasterPanel,
+              listCorporateClients: CoporateClients.corporateClientsStore.listCorporateClients,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),

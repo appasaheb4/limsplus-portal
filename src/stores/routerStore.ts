@@ -3,7 +3,7 @@ import { ignore, version } from "mobx-sync"
 import * as LibraryModels from "../library/models"
 
 @version(1.0)
-class RouterStore {
+export class RouterStore {
   @observable userRouter?: any[]
   @observable selectedUserCategory?: LibraryModels.SelectedCategory
   @ignore @observable userPermission: any[] = []
@@ -39,4 +39,3 @@ class RouterStore {
     this.lookupItems = items;
   }
 }
-export default RouterStore

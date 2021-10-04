@@ -1,20 +1,28 @@
 import React from "react"
 
-import RootStore from "./rootStore"
-import RouterStore from "./routerStore"
-import AppStore from "./appStore"
-import LoginStore from "@lp/features/login/stores/login-store"
-import LookupStore from "@lp/features/collection/lookup/stores/lookup-store"
-import SectionStore from "@lp/features/collection/section/stores/section-store"
+import { RootStore } from "./rootStore"
+import { RouterStore } from "./routerStore"
+import { AppStore } from "./appStore"
+import { LoginStore } from "@lp/features/login/stores/LoginStore"
+import { UserStore } from "@lp/features/users/stores/UsersStore"
+import { LookupStore } from "@lp/features/collection/lookup/stores/lookup-store"
+import { SectionStore } from "@lp/features/collection/section/stores/section-store"
 import { InterfaceManagerStore } from "@lp/features/communication/stores/interfaceManager-store"
 
-import { Store } from "./Store"
 
+// master 
+import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
+
+import { Store } from "./Store"
 export class Stores extends Store {
   rootStore!: RootStore
   appStore!: AppStore
   routerStore!: RouterStore
   loginStore!: LoginStore
+  userStore!: UserStore
+
+  // master
+  labStore!: LabStore
   lookupStore!: LookupStore
   sectionStore!: SectionStore
   interfaceManagerStore!: InterfaceManagerStore
@@ -25,11 +33,15 @@ export class Stores extends Store {
     this.appStore = new AppStore()
     this.routerStore = new RouterStore()
     this.loginStore = new LoginStore()
+
+    this.labStore = new LabStore()
     this.lookupStore = new LookupStore()
     this.sectionStore = new SectionStore()
     this.interfaceManagerStore = new InterfaceManagerStore()
+    setTimeout(() => {
+      this.userStore = new UserStore()
+    }, 100)
   }
-
   updateLoginStore() {
     this.loginStore = new LoginStore()
   }
