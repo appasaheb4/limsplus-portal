@@ -5,9 +5,26 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
+import * as FeatureComponents from "../../components"
+import { Stores as PanelMaster } from "@lp/features/collection/masterPanel/stores"
+import { Stores as LoginStores } from "@lp/features/login/stores"
+import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+import { Stores as PackageMaster } from "@lp/features/collection/masterPackage/stores"
+import { Stores as SectionMaster } from "@lp/features/collection/section/stores"
 import { Stores } from "../../stores"
-
 import { stores } from "@lp/stores"
+import { toJS } from "mobx"
+import { RouterFlow } from "@lp/flows"
+import {
+  Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+import 'react-accessible-accordion/dist/fancy-example.css';
+
 
 
 interface PatientOrderProps {
@@ -36,7 +53,7 @@ const PatientOrder = observer((props: PatientOrderProps) => {
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
-        <LibraryComponents.Atoms.Grid cols={3}>
+        <LibraryComponents.Atoms.Grid cols={2}>
           <LibraryComponents.Atoms.List
             direction="col"
             space={4}
@@ -46,181 +63,351 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Lab Id"
-              name="txtLabId"
-              placeholder={errors.labId?"Please Enter Lab Id":"Lab Id"}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.labId}
-              onChange={(labId) => {
-                onChange(labId)
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  labId,
-                })
-              }}
-            />
+            <LibraryComponents.Atoms.Form.InputWrapper
+              label="Visit Id"
+              hasError={errors.visitId}
+            >
+              <select
+                name="optionCollectionCenters"
+                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                  errors.visitId
+                    ? "border-red-500  "
+                    : "border-gray-300"
+                } rounded-md`}
+                onChange={(e) => {
+                  const visitId = e.target.value as string
+                  onChange(visitId)
+                  Stores.patientRegistationStore.updatePatientOrder({
+                    ...Stores.patientRegistationStore.patientOrder,
+                    visitId,
+                  })
+                }}
+              >
+                <option selected>Select</option>
+                {/* {["Collection 1"].map((item: any, index: number) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))} */}
+              </select>
+            </LibraryComponents.Atoms.Form.InputWrapper>
             )}
-              name="labId"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-
+            name="visitId"
+            rules={{ required: false }}
+            defaultValue=""
+          />
             <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Package"
-              name="txtPackage"
-              placeholder={errors.packageValue?"Please Enter Package Value":"Package"}
-              hasError={errors.packageValue}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.packageValue}
-              onChange={(packageValue) => {
-                onChange(packageValue)
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  packageValue,
-                })
-              }}
-            />
-            )}
-              name="packageValue"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Package Code"
+                    hasError={errors.packageCode}
+                  >
+                    <select
+                      // value={Stores.patientRegistationStore.patientOrder?.packageCode}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.packageCode
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const packageItem = JSON.parse(e.target.value) as any
+                        onChange(packageItem)
+                        setValue("packageName",packageItem.packageName)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          packageCode: packageItem.packageCode,
+                          packageName: packageItem.packageName
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {PackageMaster.masterPackageStore.listMasterPackage &&
+                        PackageMaster.masterPackageStore.listMasterPackage.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.packageCode} - ${item.packageName}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="packageCode"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Package Name"
+                    name="txtPackageName"
+                    disabled={true}
+                    value={Stores.patientRegistationStore.patientOrder?.packageName}
+                    placeholder={
+                      errors.packageName ? "Please Enter Package Name" : "Package Name"
+                    }
+                    hasError={errors.packageName}
+                  />
+                )}
+                name="packageName"
+                rules={{ required: false }}
+                defaultValue=""
+              />
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Panel"
-              name="txtPanel"
-              placeholder={errors.panel?"Please Enter Panel":"Panel"}
-              hasError={errors.panel}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.panel}
-              onChange={(panel) => {
-                onChange(panel)
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  panel,
-                })
-              }}
-            />
-            )}
-              name="panel"
-              rules={{ required: true }}
-              defaultValue=""
-            />
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Panel Code"
+                    hasError={errors.panelCode}
+                  >
+                    <select
+                      // value={Stores.patientRegistationStore.patientOrder?.panelCode}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.panelCode
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const panel = JSON.parse(e.target.value) as any
+                        onChange(panel)
+                        setValue("panelName", panel.panelName)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          panelCode: panel.panelCode,
+                          panelName: panel.panelName,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {PanelMaster.masterPanelStore.listMasterPanel &&
+                        PanelMaster.masterPanelStore.listMasterPanel.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.panelName} - ${item.panelCode}  `}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="panelCode"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Panel Name"
+                    name="txtPanelName"
+                    disabled={true}
+                    value={Stores.patientRegistationStore.patientOrder?.panelName}
+                    placeholder={
+                      errors.panelName ? "Please Enter Panel Name" : "Panel Name"
+                    }
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.panelName ? "border-red-500" : "border-gray-300"
+                    } rounded-md`}
+                    hasError={errors.panelName}
+                  />
+                )}
+                name="panelName"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Bill"
+                    hasError={errors.bill}
+                  >
+                    <select
+                      value={Stores.patientRegistationStore.patientOrder?.bill}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.bill
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const panel = JSON.parse(e.target.value) as any
+                        onChange(panel)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          bill:panel.bill 
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {PanelMaster.masterPanelStore.listMasterPanel &&
+                        PanelMaster.masterPanelStore.listMasterPanel.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.bill}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="bill"
+                rules={{ required: true }}
+                defaultValue=""
+              />
 
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Test"
-              name="txtTest"
-              placeholder={errors.test?"Please Enter Test":"Test"}
-              hasError={errors.test}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.test}
-              onChange={(test) => {
-                onChange(test)
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  test,
-                })
-              }}
-            />
-            )}
-              name="test"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Analyte"
-              name="txtAnalyte"
-              placeholder={errors.analyte?"Please Enter Analyte":"Analyte"}
-              hasError={errors.analyte}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.analyte}
-              onChange={(analyte) => {
-                onChange(analyte)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  analyte,
-                })
-              }}
-            />
-            )}
-              name="analyte"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Bill"
-              name="txtBill"
-              placeholder={errors.bill?"Please Enter Bill":"Bill"}
-              hasError={errors.bill}
-              value={Stores.patientRegistationStore.patientOrder?.bill}
-              onChange={(bill) => {
-                onChange(bill)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  bill,
-                })
-              }}
-            />
-            )}
-              name="bill"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-              label="Container Id"
-              name="txtContainerId"
-              placeholder={errors.containerId?"Please Enter Container Id":"Containcer Id"}
-              hasError={errors.containerId}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.containerId}
-              onChange={(containerId) => {
-                onChange(containerId)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  containerId,
-                })
-              }}
-            />
-            )}
-              name="containerId"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Service Type"
+                    hasError={errors.serviceType}
+                  >
+                    <select
+                      // value={Stores.patientRegistationStore.patientOrder?.serviceType}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.serviceType
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const service = JSON.parse(e.target.value) as any
+                        onChange(service)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          serviceType: service.serviceType
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {PanelMaster.masterPanelStore.listMasterPanel &&
+                        PanelMaster.masterPanelStore.listMasterPanel.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.serviceType}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="serviceType"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Department"
+                    hasError={errors.department}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.department ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const department = e.target.value as string
+                        onChange(department)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          department,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {DepartmentStore.departmentStore.listDepartment.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.code} - ${item.name}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="department"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Section"
+                    hasError={errors.section}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.section ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const section = e.target.value as string
+                        onChange(section)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          section,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {SectionMaster.sectionStore.listSection&&SectionMaster.sectionStore.listSection.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.code} - ${item.name}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="section"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Rlab"
+                    hasError={errors.rLab}
+                  >
+                    <select
+                      value={Stores.patientRegistationStore.patientOrder?.rLab}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.bill
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const rLab = JSON.parse(e.target.value) as any
+                        onChange(rLab)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          rLab
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LoginStores.loginStore.login?.labList &&
+                        LoginStores.loginStore.login?.labList.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="rLab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              
+              
           </LibraryComponents.Atoms.List>
           <LibraryComponents.Atoms.List
             direction="col"
@@ -228,263 +415,117 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             justify="stretch"
             fill
           >
-          <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Sample Type"
-              name="txtSampleType"
-              placeholder={errors.sampleType?"Please Enter Sample Type":"Sample Type"}
-              hasError={errors.sampleType}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.sampleType}
-              onChange={(sampleType) => {
-                onChange(sampleType)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  sampleType,
-                })
-              }}
-            />
-            )}
-              name="sampleType"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
             <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Sample Id"
-              name="txtSampleId"
-              placeholder={errors.sampleId?"Please Enter Sample ID":"Sample Id"}
-              hasError={errors.sampleId}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.sampleId}
-              onChange={(sampleId) => {
-                onChange(sampleId)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  sampleId,
-                })
-              }}
-            />
-            )}
-              name="sampleId"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="RLab"
-              name="txtRLab"
-              placeholder={errors.rLab?"Please Enter RLab":"RLab"}
-              hasError={errors.rLab}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.rLab}
-              onChange={(rLab) => {
-                onChange(rLab)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  rLab,
-                })
-              }}
-            />
-            )}
-              name="rLab"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="PLab"
-              name="txtPLab"
-              placeholder={errors.pLab?"Please Enter PLab":"PLab"}
-              hasError={errors.pLab}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.pLab}
-              onChange={(pLab) => {
-                onChange(pLab)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  pLab,
-                })
-              }}
-            />
-            )}
-              name="pLab"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Department"
-              name="txtDepartment"
-              placeholder={errors.department?"Please Enter Department":"Department"}
-              hasError={errors.department}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.department}
-              onChange={(department) => {
-                onChange(department)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  department,
-                })
-              }}
-            />
-            )}
-              name="department"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Section"
-              name="txtSection"
-              placeholder={errors.section?"Please Enter Section":"Section"}
-              hasError={errors.section}
-              disabled={true}
-              value={Stores.patientRegistationStore.patientOrder?.section}
-              onChange={(section) => {
-                onChange(section)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  section,
-                })
-              }}
-            />
-            )}
-              name="section"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-             <LibraryComponents.Atoms.Form.Input
-              label="PS"
-              name="txtPS"
-              placeholder={errors.ps?"Please Enter PS":"PS"}
-              hasError={errors.ps}
-              value={Stores.patientRegistationStore.patientOrder?.ps}
-              onChange={(ps) => {
-                onChange(ps)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  ps,
-                })
-              }}
-            />
-            )}
-              name="ps"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-          </LibraryComponents.Atoms.List>
-          <LibraryComponents.Atoms.List
-            direction="col"
-            space={4}
-            justify="stretch"
-            fill
-          >
-           <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="TS"
-              name="txtTS"
-              placeholder={errors.ts?"Please Enter TS":"TS"}
-              hasError={errors.ts}
-              value={Stores.patientRegistationStore.patientOrder?.ts}
-              onChange={(ts) => {
-                onChange(ts)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  ts,
-                })
-              }}
-            />
-            )}
-              name="ts"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="AS"
-              name="txtAS"
-              placeholder={errors.as?"Please Enter AS":"AS"}
-              hasError={errors.as}
-              value={Stores.patientRegistationStore.patientOrder?.as}
-              onChange={(as) => {
-                onChange(as)
-                // setErrors({
-                //   ...errors,
-                //   rLab: Utils.validate.single(rLab, Utils.patientVisit.rLab),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  as,
-                })
-              }}
-            />
-            )}
-              name="as"
-              rules={{ required: false }}
-              defaultValue=""
-            />
-
-            <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="PLab"
+                    hasError={errors.pLab}
+                  >
+                    <select
+                      value={Stores.patientRegistationStore.patientOrder?.pLab}
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.pLab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const pLab = e.target.value as string
+                        onChange(pLab)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          pLab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LabStores.labStore.listLabs.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="pLab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Out Source Lab"
+                    hasError={errors.outSourceLab}
+                  >
+                    <select
+                      value={Stores.patientRegistationStore.patientOrder?.outSourceLab}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.outSourceLab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const outSourceLab = e.target.value as string
+                        onChange(outSourceLab)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          outSourceLab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {/* //coming from Panel Master */}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="outSourceLab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Current Department"
+                    hasError={errors.currentDepartment}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.currentDepartment ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const currentDepartment = e.target.value as string
+                        onChange(currentDepartment)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          currentDepartment,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {DepartmentStore.departmentStore.listDepartment.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.code} - ${item.name}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="currentDepartment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            
+              
+              
+              <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
             <LibraryComponents.Atoms.Form.InputDate
@@ -512,7 +553,73 @@ const PatientOrder = observer((props: PatientOrderProps) => {
               rules={{ required: false }}
               defaultValue=""
             />
-
+            <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+            <LibraryComponents.Atoms.Form.InputDate
+              label="Result Date"
+              name="txtResultDate"
+              placeholder={errors.resultDate?"Please Enter DueDate":"Due Date"}
+              hasError={errors.resultDate}
+              value={LibraryUtils.moment(
+                Stores.patientRegistationStore.patientOrder?.resultDate
+              ).format("YYYY-MM-DD")}
+              onChange={(e) => {
+                let resultDate = new Date(e.target.value)
+                onChange(resultDate)
+                const formatDate = LibraryUtils.moment(resultDate).format(
+                  "YYYY-MM-DD HH:mm"
+                )
+                Stores.patientRegistationStore.updatePatientOrder({
+                  ...Stores.patientRegistationStore.patientOrder,
+                  resultDate: new Date(formatDate),
+                })
+              }}
+            />
+            )}
+              name="resultDate"
+              rules={{ required: false }}
+              defaultValue=""
+            />
+            <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Status"
+                    hasError={errors.status}
+                  >
+                    <select
+                      value={Stores.patientRegistationStore.patientOrder?.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status
+                          ? "border-red-500  "
+                          : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value as string
+                        onChange(status)
+                        Stores.patientRegistationStore.updatePatientOrder({
+                          ...Stores.patientRegistationStore.patientOrder,
+                          status,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "PATIENT ORDER - STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: false }}
+                defaultValue=""
+              />
             <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -537,32 +644,7 @@ const PatientOrder = observer((props: PatientOrderProps) => {
               defaultValue=""
             />
 
-            <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-            <LibraryComponents.Atoms.Form.Input
-              label="Order Status"
-              name="txtOrderStatus"
-              placeholder={errors.orderStatus?"Please Enter OrderStatus":"Order Status"}
-              hasError={errors.orderStatus}
-              value={Stores.patientRegistationStore.patientOrder?.orderStatus}
-              onChange={(orderStatus) => {
-                onChange(orderStatus)
-                // setErrors({
-                //   ...errors,
-                //   acClass: Utils.validate.single(acClass, Utils.patientVisit.acClass),
-                // })
-                Stores.patientRegistationStore.updatePatientOrder({
-                  ...Stores.patientRegistationStore.patientOrder,
-                  orderStatus,
-                })
-              }}
-            />
-            )}
-              name="orderStatus"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+            
             <Controller
             control={control}
             render={({ field: { onChange } }) => (
@@ -609,12 +691,33 @@ const PatientOrder = observer((props: PatientOrderProps) => {
             rules={{ required: true }}
             defaultValue=""
           />
+          
 
           </LibraryComponents.Atoms.List>
         </LibraryComponents.Atoms.Grid>
       </div>
       <br />
-
+      <div className='extra' style={{border:'1px solid yellow'}}>
+      <Accordion allowZeroExpanded>
+            <AccordionItem>
+                <AccordionItemHeading>
+                    <AccordionItemButton>
+                        EXTRA DATA
+                    </AccordionItemButton>
+                </AccordionItemHeading>
+                <AccordionItemPanel>
+                    <>
+                        <LibraryComponents.Atoms.Grid cols={2}>
+                            <LibraryComponents.Atoms.List direction='col' justify='stretch' fill space={4}> 
+                              
+                            </LibraryComponents.Atoms.List>
+                        </LibraryComponents.Atoms.Grid>  
+                    </>
+                </AccordionItemPanel>
+            </AccordionItem>
+        </Accordion>
+        </div>
+        <br />
       <LibraryComponents.Atoms.List direction="row" space={3} align="center">
         <LibraryComponents.Atoms.Buttons.Button
           size="medium"
@@ -638,7 +741,50 @@ const PatientOrder = observer((props: PatientOrderProps) => {
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
-      ></div>
+      >
+        <FeatureComponents.Molecules.PatientOrderList
+          data={Stores.patientRegistationStore.listPatientOrder}
+          totalSize={Stores.patientRegistationStore.listPatientOrderCount}
+          extraData={{
+            lookupItems: stores.routerStore.lookupItems,
+            // listAdministrativeDiv: AdministrativeDivisionStore.administrativeDivStore.listAdministrativeDiv
+          }}
+          isDelete={RouterFlow.checkPermission(
+            toJS(stores.routerStore.userPermission),
+            "Delete"
+          )}
+          isEditModify={RouterFlow.checkPermission(
+            toJS(stores.routerStore.userPermission),
+            "Edit/Modify"
+          )}
+          onDelete={(selectedUser) =>
+            props.onModalConfirm && props.onModalConfirm(selectedUser)
+          }
+          onSelectedRow={(rows) => {
+            props.onModalConfirm &&
+              props.onModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+          }}
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            props.onModalConfirm &&
+              props.onModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update recoard!`,
+              })
+          }}
+          // onPageSizeChange={(page, limit) => {
+          //   // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
+          // }}
+        />
+      </div>
     </>
   )
 })
