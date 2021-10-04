@@ -159,6 +159,9 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/referenceRanges"
       )
         await Communication.startup()
+
+        // global 
+        stores;
     }
     stores.appStore.updateLoadApi({ count: 1 })
   }

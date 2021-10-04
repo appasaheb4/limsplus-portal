@@ -1,20 +1,17 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as FeatureComponents from "../components"
-import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../utils"
-import * as Models from "../models"
 import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
 import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { stores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -30,6 +27,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     formState: { errors },
     setValue,
   } = useForm()
+  const { labStore } = useStores()
+
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.enviromentStore.updateEnvironmentSettings({
@@ -39,6 +38,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
   const onSubmitSessionManagement = () => {
     // Stores.enviromentSettingsStore.EnvironmentSettingsService.addSessionManagement(
     //   Stores.enviromentSettingsStore.sessionManagement as Models.SessionManagement
@@ -181,13 +181,14 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     }}
                   >
                     <option selected>Select</option>
-                    {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      )
-                    )}
+                    {Stores.enviromentStore.environmentVariableList &&
+                      Stores.enviromentStore.environmentVariableList.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.environmentVariable}>
+                            {item.environmentVariable}
+                          </option>
+                        )
+                      )}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
@@ -363,7 +364,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               })
           }}
           onPageSizeChange={(page, limit) => {
-            Stores.enviromentStore.fetchEnvironment({},page, limit)
+            Stores.enviromentStore.fetchEnvironment({}, page, limit)
           }}
         />
       </div>

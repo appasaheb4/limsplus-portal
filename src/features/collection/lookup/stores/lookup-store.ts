@@ -4,7 +4,7 @@ import * as Models from "../models"
 import {LookupService} from "../services"
 
 @version(0.1)
-class LookupStore {
+export class LookupStore {
   @observable listLookup: Models.Lookup[] = []
   @observable listLookupCount: number = 0
   @ignore @observable lookup!: Models.Lookup
@@ -35,4 +35,3 @@ class LookupStore {
   }
 }
 
-export default LookupStore

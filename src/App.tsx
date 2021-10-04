@@ -14,8 +14,7 @@ import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import hydrateStore from "@lp/library/modules/startup"
-import {ApolloProvider,client} from '@lp/library/modules/apolloClient'
-
+import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
 
 const App = observer(() => {
   const loader = async () => {

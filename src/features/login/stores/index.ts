@@ -1,6 +1,6 @@
 import React from 'react';
 
-import LoginStore from './login-store';
+import {LoginStore} from './LoginStore';
 
 export const Stores = {
   loginStore: new LoginStore(),

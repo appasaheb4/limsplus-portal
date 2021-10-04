@@ -56,9 +56,9 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
-                        const analyteCode = e.target.value
+                        const analyte = JSON.parse(e.target.value)
                         props.onUpdateItem &&
-                          props.onUpdateItem(analyteCode, column.dataField, row._id)
+                          props.onUpdateItem(analyte.analyteCode, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
@@ -94,9 +94,9 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
                     <select
                       className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
-                        const analyteName = e.target.value
+                        const analyte = JSON.parse(e.target.value)
                         props.onUpdateItem &&
-                          props.onUpdateItem(analyteName, column.dataField, row._id)
+                          props.onUpdateItem(analyte.analyteName, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
