@@ -10,3 +10,12 @@ export const LOGIN = gql`
     }
   }
 `
+
+export const STATUS_UPDATE = gql`
+  mutation($input: UserInput!) {
+    userAccountStatusUpdate(input: $input) {
+      success
+      message
+    }
+  }
+`

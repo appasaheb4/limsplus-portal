@@ -66,12 +66,14 @@ export const Login = observer(() => {
     const loginFailedCount = Stores.loginStore.loginFailedCount || 0
     if (loginFailedCount > 4) {
       Stores.loginStore.LoginService.accountStatusUpdate({
-        userId: Stores.loginStore.inputLogin?.userId,
-        status: "I",
+        input: {
+          userId: Stores.loginStore.inputLogin?.userId,
+          status: "I",
+        },
       }).then((res) => {
-        if (res.success) {
+        if (res.userAccountStatusUpdate.success) {
           LibraryComponents.Atoms.Toast.error({
-            message: `😔 ${res.message}`,
+            message: `😔 ${res.userAccountStatusUpdate.message}`,
           })
           Stores.loginStore.updateLoginFailedCount(0)
         }
