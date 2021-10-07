@@ -26,15 +26,34 @@ export class EnvironmentStore {
       (res) => {
         console.log({res});
         if (!res.getAllEnvironment.success) return alert(res.getAllEnvironment.message)
-        this.environmentVariableList = res.getAllEnvironment.data
-        this.environmentVariableListCount = res.getAllEnvironment.count
+        // this.environmentVariableList = res.getAllEnvironment.data
+        // this.environmentVariableListCount = res.getAllEnvironment.count
       }
     )
   }
+
+
   @action updateEnvironmentSettings(env: Models.EnvironmentSettings) {
     this.environmentSettings = env
   }
+
+  @action updateEnvironmentSettingsList(list: Models.EnvironmentSettings[]) {
+    this.environmentSettingsList = list
+  }
+
+  @action updateEnvironmentSettingsCount(count: number){
+    this.environmentSettingsListCount = count;
+  }
+
   @action updatEnvironmentVariable(environment: Models.EnvironmentVariable) {
     this.environmentVariable = environment
+  }
+
+  @action updatEnvironmentVariableList(list: Models.EnvironmentVariable[]) {
+    this.environmentVariableList = list
+  }
+
+  @action updateEnvironmentVariableCount(count: number){
+    this.environmentVariableListCount = count
   }
 }

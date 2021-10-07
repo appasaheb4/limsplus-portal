@@ -3,7 +3,7 @@ import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
-import { stores } from "@lp/stores"
+
 
 @version(0.1)
 export class LabStore {
