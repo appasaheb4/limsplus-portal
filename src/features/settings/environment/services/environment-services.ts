@@ -8,6 +8,7 @@ import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import * as Models from "../models"
 import { GET_ALL_ENVIRONMENT } from "./query"
 import { ADD_ENVIRONMENT, DELETE_ENVIRONMENT, UPDATE_SINGEL } from "./mutation"
+import { stores } from "@lp/stores"
 
 export class EnvironmentService {
   listEnvironment = (filter: any, page = 0, limit = 10) =>
@@ -18,7 +19,12 @@ export class EnvironmentService {
           variables: { filter, page, limit },
         })
         .then((response: any) => {
-          console.log({ response })
+          stores.environmentStore.updatEnvironmentVariableList(
+            response.data.getAllEnvironment.data
+          )
+          stores.environmentStore.updateEnvironmentVariableCount(
+            response.data.getAllEnvironment.getAllEnvironment
+          )
           resolve(response.data)
         })
         .catch((error) =>
@@ -26,7 +32,9 @@ export class EnvironmentService {
         )
     })
 
-  addEnvironment = (variables: { input: Models.EnvironmentVariable }) =>
+  addEnvironment = (variables: {
+    input: Models.EnvironmentVariable | Models.EnvironmentSettings
+  }) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -45,7 +53,7 @@ export class EnvironmentService {
     new Promise<any>((resolve, reject) => {
       console.log({ variables })
       client
-        .mutate({  
+        .mutate({
           mutation: DELETE_ENVIRONMENT,
           variables,
         })
@@ -58,7 +66,7 @@ export class EnvironmentService {
         )
     })
 
-    updateSingleFiled = (variables: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -72,5 +80,4 @@ export class EnvironmentService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
 }

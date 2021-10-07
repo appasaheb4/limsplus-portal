@@ -135,12 +135,14 @@ const Default = observer(() => {
         click={(type) => {
           if (type === "accountexpire") {
             LoginStore.loginStore.LoginService.accountStatusUpdate({
+              input:{
               userId: LoginStore.loginStore.inputLogin?.userId,
               status: "I",
+              }
             }).then((res) => {
-              if (res.success) {
+              if (res.userAccountStatusUpdate.success) {
                 LibraryComponents.Atoms.Toast.error({
-                  message: `😔 ${res.message}`,
+                  message: `😔 ${res.userAccountStatusUpdate.message}`,
                 })
                 LoginStores.loginStore
                   .removeUser()

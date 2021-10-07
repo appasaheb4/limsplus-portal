@@ -46,7 +46,7 @@ export const Login = observer(() => {
 
   useEffect(() => {
     BannerStores.bannerStore.fetchListAllBanner()
-  },[])
+  }, [])
 
   useEffect(() => {
     stores.rootStore.isLogin().then((isLogin) => {
@@ -66,56 +66,60 @@ export const Login = observer(() => {
     const loginFailedCount = Stores.loginStore.loginFailedCount || 0
     if (loginFailedCount > 4) {
       Stores.loginStore.LoginService.accountStatusUpdate({
-        userId: Stores.loginStore.inputLogin?.userId,
-        status: "I",
+        input: {
+          userId: Stores.loginStore.inputLogin?.userId,
+          status: "I",
+        },
       }).then((res) => {
-        if (res.success) {
+        if (res.userAccountStatusUpdate.success) {
           LibraryComponents.Atoms.Toast.error({
-            message: `😔 ${res.message}`,
+            message: `😔 ${res.userAccountStatusUpdate.message}`,
           })
           Stores.loginStore.updateLoginFailedCount(0)
         }
       })
     } else {
       Stores.loginStore.LoginService.onLogin({
-        login: Stores.loginStore.inputLogin,
-        loginActivity: {
-          device: width <= 768 ? "Mobile" : "Desktop",
+        input: {
+          user: Stores.loginStore.inputLogin,
+          loginActivity: {
+            device: width <= 768 ? "Mobile" : "Desktop",
+          },
         },
       })
         .then((res) => {
           console.log({ res })
-          if (res.success == 1) {
+          if (res.login.success == 1) {
             Stores.loginStore.updateLoginFailedCount(0)
-            if (res.data.user.passChanged !== true) {
+            if (res.login.data.user.passChanged !== true) {
               setModalChangePassword({ show: true })
             } else {
-              if (res.data.user.noticeBoard !== undefined) {
+              if (res.login.data.user.noticeBoard !== undefined) {
                 setNoticeBoard({
                   show: true,
-                  userInfo: res.data.user,
-                  data: res.data.user.noticeBoard,
+                  userInfo: res.login.data.user,
+                  data: res.login.data.user.noticeBoard,
                 })
               } else {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.message}`,
+                  message: `😊 ${res.login.message}`,
                 })
-                Stores.loginStore.saveLogin(res.data.user)
+                Stores.loginStore.saveLogin(res.login.data.user)
                 Stores.loginStore.clearInputUser()
                 setTimeout(() => {
                   history.push("/dashboard/default")
                 }, 1000)
               }
             }
-          } else if (res.success == 2) {
+          } else if (res.login.success == 2) {
             setModalSessionAllowed({
               show: true,
-              data: res.data.loginActivityListByUserId,
+              data: res.login.data.loginActivityListByUserId,
             })
           } else {
             Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
             LibraryComponents.Atoms.Toast.error({
-              message: `😔 ${res.message}`,
+              message: `😔 ${res.login.message}`,
             })
           }
         })
