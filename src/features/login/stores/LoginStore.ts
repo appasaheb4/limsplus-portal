@@ -40,11 +40,13 @@ export class LoginStore {
     return new Promise<any>((resolve) => {
       if (Session.hasSession) {
         this.LoginService.logout({
-          id: this.login?.loginActivityId,
-          userId: this.login?._id,
-          accessToken: this.login?.accessToken,
+          input: {
+            loginActivityId: this.login?.loginActivityId,
+            _id: this.login?._id,
+            accessToken: this.login?.accessToken,
+          },
         }).then(async (res) => {
-          if (res.success) {
+          if (res.success) {  
             await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
             await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
             await Storage.removeItem(

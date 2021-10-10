@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom"
 
 // registration
 
+import { stores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
@@ -31,6 +32,8 @@ const Default = observer(() => {
       const date1 = dayjs.unix(LoginStores.loginStore.login?.exipreDate)
       const date2 = dayjs.unix(dayjs(new Date()).unix())
       let days = date1.diff(date2, "day")
+      console.log({days});
+      
       if (
         days >= 0 &&
         days <= 5 &&
@@ -136,7 +139,7 @@ const Default = observer(() => {
           if (type === "accountexpire") {
             LoginStore.loginStore.LoginService.accountStatusUpdate({
               input:{
-              userId: LoginStore.loginStore.inputLogin?.userId,
+              userId: stores.loginStore.login.userId,
               status: "I",
               }
             }).then((res) => {
@@ -144,7 +147,7 @@ const Default = observer(() => {
                 LibraryComponents.Atoms.Toast.error({
                   message: `😔 ${res.userAccountStatusUpdate.message}`,
                 })
-                LoginStores.loginStore
+                stores.loginStore
                   .removeUser()
                   .then((res) => {
                     if (res) {
