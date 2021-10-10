@@ -7,6 +7,9 @@ import {
 } from "@apollo/client"
 import { onError } from "@apollo/client/link/error"
 import { stores } from "@lp/stores"
+import { setContext } from '@apollo/client/link/context';
+import { createUploadLink } from 'apollo-upload-client';
+
 
 
 const customFetch = (uri, options): Promise<any> => {
@@ -23,30 +26,44 @@ const customFetch = (uri, options): Promise<any> => {
 }
 
 
-// http link
-const httpLink = new HttpLink({   
+const authLink = setContext(async (_, { headers }) => {
+	return {
+		headers: {
+			...headers,
+			Authorization:  `Bearer ${localStorage.getItem("accessToken")}`,
+		},
+	};
+});
+
+const UploadLink = createUploadLink({
   //uri: "http://localhost:8080/graphql",
   uri: "https://limsplus-api.azurewebsites.net/graphql",
-  headers: {
-    Authorization:
-      "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xOTIuMTY4LjMwLjE5MTo4MDAxXC9ncmFwaHFsIiwiaWF0IjoxNjMxMTkwNzU4LCJleHAiOjE2MzExOTQzNTgsIm5iZiI6MTYzMTE5MDc1OCwianRpIjoiYWxrYU02YXVmOFlrV25IRiIsInN1YiI6MjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJpZCI6MjEsIm5hbWUiOiJUZXN0IFVzZXIiLCJtb2JpbGUiOiIxMjM0NTY3ODkwIn0.XnUqFohQedUpR-rip6zi_l88OPNOQwFHTb7mZqY68Yk",
-  },
-  fetch: customFetch,
-})
+	fetch: customFetch,
+});
+
+
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    )
-  }
-  if (networkError) console.log(`[Network error]: ${networkError}`)
-})
+	if (graphQLErrors) {
+		graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+			console.log(
+				`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+			);
+			if (extensions && extensions.validation) {
+				const firstMessageKey = Object.keys(extensions.validation)[0];
+				if (firstMessageKey) {
+					alert(extensions.validation[firstMessageKey][0]);
+				}
+			} else {
+					alert('Something went wrong! Please try again.');
+			}
+		});
+	}
+	if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 export const client = new ApolloClient({
-  link: from([errorLink, httpLink]),
+  link: authLink.concat(from([errorLink, UploadLink])),
   cache: new InMemoryCache(),
 })
 

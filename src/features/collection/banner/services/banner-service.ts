@@ -6,28 +6,24 @@
  */
 //import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
 import { GET_BANNER_LIST_ALL } from "./query"
+import {
+  BANNER_LIST,
+  REMOVE_BANNERS,
+  UPDATE_BANNER,
+  CREATE_BANNER,
+  UPDATE_BANNER_IMAGE,
+} from "./mutation"
 
 export class BannerService {
   listAllBanner = () =>
     new Promise<any>((resolve, reject) => {
-      // http
-      //   .get(`/banner/listAllBanner`)
-      //   .then((response: any) => {
-      //     const serviceResponse = Http.handleResponse<any>(response)
-      //     resolve(serviceResponse)
-      //   })
-      //   .catch((error) => {
-      //     reject(new ServiceResponse<any>(0, error.message, undefined))
-      //   })
-      client  
+      client
         .query({
           query: GET_BANNER_LIST_ALL,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>
@@ -38,67 +34,87 @@ export class BannerService {
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`/banner/listBanner/${page}/${limit}/${env}/${role}`)
+      client
+        .mutate({
+          mutation: BANNER_LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   addBanner = (banner: any) =>
     new Promise<any>((resolve, reject) => {
-      const form = new FormData()
-      form.append("title", banner.title)
-      form.append("file", banner.image)
-      form.append("folder", "banner")
-      form.append("fileName", banner.image.name)
-      form.append(
-        "image",
-        `https://limsplus.blob.core.windows.net/banner/${banner.image.name}`
-      )
-      http
-        .post(`banner/addBanner`, form, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-            "content-type": "application/json; charset=utf-8",
+      client
+        .mutate({
+          mutation: CREATE_BANNER,
+          variables: {
+            input: {
+              title: banner.title,
+              environment: banner.environment,
+              file: banner.image,
+              containerName: "banner",
+            },
           },
         })
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+        .then((response: any) => {
+          console.log({ response })
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
-  deleteBanner = (id: string) =>
+  deleteBanner = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/banner/deleteBanner/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_BANNERS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          console.log({ response })
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/banner/updateSingleFiled`, newValue)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      console.log({ variables })
+      client
+        .mutate({
+          mutation: UPDATE_BANNER,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateBannerImage = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({ variables })
+      client
+        .mutate({
+          mutation: UPDATE_BANNER_IMAGE,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }

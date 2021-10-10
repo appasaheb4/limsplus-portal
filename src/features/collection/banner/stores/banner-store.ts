@@ -19,16 +19,16 @@ class BannerStore {
 
   @action fetchListBanner(page?, limit?) {
     this.BannerService.listBanner(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listBanner = res.data.banner
-      this.listBannerCount = res.data.count
+      if (!res.banners.success) return alert(res.banners.message)
+      this.listBanner = res.banners.data
+      this.listBannerCount = res.banners.paginatorInfo.count
     })
   }
 
   @action fetchListAllBanner() {
     this.BannerService.listAllBanner().then((res) => {
-      if (!res.banners.success) return alert(res.banners.message)
-      this.listAllBanner = res.banners.data
+      if (!res.bannersListAll.success) return alert(res.bannersListAll.message)
+      this.listAllBanner = res.bannersListAll.data
     })
   }
 
