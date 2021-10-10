@@ -19,3 +19,12 @@ export const STATUS_UPDATE = gql`
     }
   }
 `
+
+export const LOGOUT = gql`
+  mutation($input: UserInput!) {
+    logout(input: $input) {
+      success
+      message
+    }
+  }
+`
