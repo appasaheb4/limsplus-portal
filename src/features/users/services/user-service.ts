@@ -5,24 +5,26 @@
  */
 
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
 import { AssetsService } from "@lp/features/assets/services"
 import { stores } from "@lp/stores"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { CHECK_EXISTS_USERID } from "./mutation"
 
 export class UserService {
   userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-        const env = stores.loginStore.login && stores.loginStore.login.environment
-        const role = stores.loginStore.login && stores.loginStore.login.role
-        http
-          .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
-          .then((response) => {
-            const serviceResponse = Http.handleResponse<any>(response)
-            resolve(serviceResponse)
-          })
-          .catch((error) => {
-            reject(new ServiceResponse<any>(0, error.message, undefined))
-          })
+      const env = stores.loginStore.login && stores.loginStore.login.environment
+      const role = stores.loginStore.login && stores.loginStore.login.role
+      http
+        .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
+        .then((response) => {
+          const serviceResponse = Http.handleResponse<any>(response)
+          resolve(serviceResponse)
+        })
+        .catch((error) => {
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        })
     })
   reSendPassword = (userInfo: any) =>
     new Promise<any>((resolve, reject) => {
@@ -38,15 +40,18 @@ export class UserService {
 
   checkExitsUserId = (userId: string) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/checkExitsUserId`, { userId })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_USERID,
+          variables: { userId },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          console.log({ response })
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   addUser = async (user: Models.Users) =>

@@ -5,8 +5,10 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"   
+import {LOOKUPITEM_BY_PATH} from './mutation'
 
 export class LookupService {  
   listLookup = (page = 0, limit = 10) =>
@@ -72,16 +74,28 @@ export class LookupService {
         })
     })
 
-  lookupItemsByPath = (path?: string) =>
+  lookupItemsByPath = (path: string) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/lookup/lookupItemsByPath`, { path })
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+      client
+      .mutate({
+        mutation: LOOKUPITEM_BY_PATH,
+        variables: { path },
+      })
+      .then((response: any) => {
+        resolve(response.data)
+      })
+      .catch((error) =>
+        reject(new ServiceResponse<any>(0, error.message, undefined))
+      )
+
+      // http
+      //   .post(`/master/lookup/lookupItemsByPath`, { path })
+      //   .then((response) => {
+      //     const serviceResponse = Http.handleResponse<any>(response)
+      //     resolve(serviceResponse)
+      //   })
+      //   .catch((error) => {
+      //     reject(new ServiceResponse<any>(0, error.message, undefined))
+      //   })
     })
 }

@@ -189,10 +189,10 @@ export const Login = observer(() => {
                             UserStore.userStore.UsersService.checkExitsUserId(
                               userId.trim()
                             ).then((res) => {
-                              if (res.success) {
+                              if (res.checkUserExitsUserId.success) {
                                 const {
                                   data: { user },
-                                } = res
+                                } = res.checkUserExitsUserId
                                 setValue("lab", user.defaultLab)
                                 clearErrors("lab")
                                 if (user.role.length == 1)

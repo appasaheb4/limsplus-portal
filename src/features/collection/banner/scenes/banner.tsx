@@ -38,9 +38,9 @@ const Banner = observer(() => {
   const onSubmitBanner = () => {
     Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
       (res) => {
-        if (res.success) {
+        if (res.createBanner.success) {
           LibraryComponents.Atoms.Toast.success({
-            message: `😊 ${res.message}`,
+            message: `😊 ${res.createBanner.message}`,
           })
           setTimeout(() => {
             window.location.reload()
@@ -132,9 +132,7 @@ const Banner = observer(() => {
                           : false
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value
@@ -243,57 +241,78 @@ const Banner = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              Stores.bannerStore.BannerService.deleteBanner(modalConfirm.id).then(
-                (res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Banner deleted.`,
-                    })
-                    setModalConfirm({ show: false })
-                    Stores.bannerStore.fetchListBanner()
-                  }
-                }
-              )
-            } else if (type === "Update") {
-              Stores.bannerStore.BannerService.updateSingleFiled(
-                modalConfirm.data
-              ).then((res: any) => {
-                if (res.status === 200) {
+              Stores.bannerStore.BannerService.deleteBanner({
+                input: { id: modalConfirm.id },
+              }).then((res: any) => {
+                if (res.removeBanner.success) {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊 ${res.message}`,
+                    message: `😊 ${res.removeBanner.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  Stores.bannerStore.fetchListBanner()
+                }
+              })
+            } else if (type === "Update") {
+              Stores.bannerStore.BannerService.updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              }).then((res: any) => {
+                if (res.updateBanner.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateBanner.message}`,
                   })
                   setModalConfirm({ show: false })
                   Stores.bannerStore.fetchListBanner()
                 }
               })
             } else {
-              const path = `https://limsplus.blob.core.windows.net/banner/${modalConfirm.data.value.name}`
-              new AssetsService()
-                .uploadFile(
-                  modalConfirm.data.value,
-                  "banner",
-                  modalConfirm.data.value.name
-                )
-                .then((res) => {
-                  if (res.success) {
-                    Stores.bannerStore.BannerService.updateSingleFiled({
-                      ...modalConfirm.data,
-                      value: path,
-                    }).then((res: any) => {
-                      if (res.success) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 ${res.message}`,
-                        })
-                        setModalConfirm({ show: false })
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 2000)
-                      }
-                    })
-                  } else {
-                    alert(res.message)
-                  }
-                })
+              Stores.bannerStore.BannerService.updateBannerImage({
+                input: {
+                  _id: modalConfirm.data.id,
+                  file: modalConfirm.data.value,
+                  containerName:'banner'
+                },  
+              }).then((res: any) => {
+                if (res.updateBannerImage.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateBannerImage.message}`,
+                  })
+                 setTimeout(() => {
+                   window.location.reload()
+                 }, 2000);
+                 
+                }   
+              })
+
+              // const path = `https://limsplus.blob.core.windows.net/banner/${modalConfirm.data.value.name}`
+              // new AssetsService()
+              //   .uploadFile(
+              //     modalConfirm.data.value,
+              //     "banner",
+              //     modalConfirm.data.value.name
+              //   )
+              //   .then((res) => {
+              //     if (res.success) {
+              //       Stores.bannerStore.BannerService.updateSingleFiled({
+              //         ...modalConfirm.data,
+              //         value: path,
+              //       }).then((res: any) => {
+              //         if (res.success) {
+              //           LibraryComponents.Atoms.Toast.success({
+              //             message: `😊 ${res.message}`,
+              //           })
+              //           setModalConfirm({ show: false })
+              //           setTimeout(() => {
+              //             window.location.reload()
+              //           }, 2000)
+              //         }
+              //       })
+              //     } else {
+              //       alert(res.message)
+              //     }
+              //   })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
