@@ -851,9 +851,7 @@ export const Users = observer(() => {
                       <select
                         value={Stores.userStore.user?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.status ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const status = e.target.value
@@ -890,9 +888,7 @@ export const Users = observer(() => {
                         : false
                     }
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.environment
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.environment ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     onChange={(e) => {
                       const environment = e.target.value
@@ -1044,12 +1040,18 @@ export const Users = observer(() => {
                   }
                 )
               } else if (type === "Update") {
-                Stores.userStore.UsersService.updateSingleFiled(
-                  modalConfirm.data
+                console.log({ data: modalConfirm.data })
+  
+                Stores.userStore.UsersService.updateSingleFiled({
+                  input:{
+                    _id:modalConfirm.data.id,
+                    [modalConfirm.data.dataField]:modalConfirm.data.value
+                  }
+                }
                 ).then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateUser.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 User Updated`,
+                      message: `😊 ${res.updateUser.message}`,
                     })
                     setModalConfirm({ show: false })
                     setTimeout(() => {
@@ -1104,7 +1106,7 @@ export const Users = observer(() => {
               }
               UserStores.userStore.UsersService.changepasswordByAdmin(body).then(
                 (res) => {
-                  if (res.success) {  
+                  if (res.success) {
                     setModalChangePasswordByAdmin({ show: false })
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 ${res.message}`,
