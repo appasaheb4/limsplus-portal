@@ -32,8 +32,8 @@ const Default = observer(() => {
       const date1 = dayjs.unix(LoginStores.loginStore.login?.exipreDate)
       const date2 = dayjs.unix(dayjs(new Date()).unix())
       let days = date1.diff(date2, "day")
-      console.log({days});
-      
+     // console.log({ days })
+
       if (
         days >= 0 &&
         days <= 5 &&
@@ -104,7 +104,7 @@ const Default = observer(() => {
                 UserStores.userStore.updateChangePassword({
                   ...UserStores.userStore.changePassword,
                   tempHide: true,
-                })  
+                })
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 Password changed!`,
                 })
@@ -138,19 +138,19 @@ const Default = observer(() => {
         click={(type) => {
           if (type === "accountexpire") {
             LoginStore.loginStore.LoginService.accountStatusUpdate({
-              input:{
-              userId: stores.loginStore.login.userId,
-              status: "I",
-              }
+              input: {
+                userId: stores.loginStore.login.userId,
+                status: "I",
+              },
             }).then((res) => {
               if (res.userAccountStatusUpdate.success) {
-                LibraryComponents.Atoms.Toast.error({
-                  message: `😔 ${res.userAccountStatusUpdate.message}`,
-                })
                 stores.loginStore
                   .removeUser()
                   .then((res) => {
-                    if (res) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.logout.message}`,
+                    })
+                    if (res.logout.success) {
                       history.push("/")
                     }
                   })

@@ -241,7 +241,7 @@ const Dashboard = observer(({ children }) => {
     LoginStores.loginStore
       .removeUser()
       .then(async (res) => {
-        if (res) {
+        if (res.logout.success) {
           setModalIdleTime({
             show: true,
             title: "Your Session timeout!",
