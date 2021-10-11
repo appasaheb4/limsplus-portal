@@ -6,8 +6,8 @@ import ReduxToastr from "react-redux-toastr"
 
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
-
-// toast
+   
+// toast ui
 import "react-toastify/dist/ReactToastify.css"
 
 import { stores } from "@lp/stores"
