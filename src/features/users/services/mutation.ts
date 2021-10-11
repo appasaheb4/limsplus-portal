@@ -24,3 +24,12 @@ export const CHECK_EXISTS_USERID = gql`
     }
   }
 `
+
+export const UPDATE_USER = gql`
+ mutation($input: UpdateUserInput!) {
+  updateUser(input:$input){
+    success
+    message
+  }
+ }
+`;
