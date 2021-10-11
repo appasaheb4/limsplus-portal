@@ -40,10 +40,12 @@ export class UserStore {
 
   @action loadUser(page?, limit?) {
     this.UsersService.userList(page, limit).then((res) => {
-      if (res.success) {
-        this.userList = res.data.user
-        this.userListCount = res.data.count
-      } else alert(res.message)
+      if (res.users.success) {
+        console.log(res);
+        
+        this.userList = res.users.data
+        this.userListCount = res.users.paginatorInfo.count
+      } else alert(res.users.message)
     })
   }
 

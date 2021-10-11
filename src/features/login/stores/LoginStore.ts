@@ -46,7 +46,7 @@ export class LoginStore {
             accessToken: this.login?.accessToken,
           },
         }).then(async (res) => {
-          if (res.success) {  
+          if (res.logout.success) {  
             await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
             await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
             await Storage.removeItem(
@@ -59,7 +59,7 @@ export class LoginStore {
             })
             resolve(res)
           } else {
-            alert(res.message)
+            alert(res.logout.message)
           }
         })
       }

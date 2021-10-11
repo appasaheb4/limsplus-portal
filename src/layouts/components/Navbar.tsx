@@ -223,9 +223,9 @@ const NavbarComponent = observer(({ dispatch }) => {
                     LoginStores.loginStore
                       .removeUser()
                       .then((res) => {
-                        if (res.success) {
+                        if (res.logout.success) {
                           LibraryComponents.Atoms.Toast.success({
-                            message: `😊 ${res.message}`,
+                            message: `😊 ${res.logout.message}`,
                           })
                           history.push("/")
                         }
