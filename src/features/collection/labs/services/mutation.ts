@@ -8,11 +8,16 @@ mutation($input: LabInput!) {
       }
       success
       message
-      data {
-        _id
-        name
-        code
-      }
+      data 
+    }
+  }
+`;
+
+export const REMOVE_LABS = gql`
+mutation($input: RemoveLabInput!) {
+  removeLab(input: $input) {
+      success
+      message
     }
   }
 `;
