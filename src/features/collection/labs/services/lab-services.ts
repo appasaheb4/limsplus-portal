@@ -8,7 +8,7 @@ import * as Models from "../models"
 import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LABS_LIST } from "./mutation"
+import { LABS_LIST, REMOVE_LABS } from "./mutation"
 
 export class LabService {
   listLabs = (page = 0, limit = 10) =>
@@ -22,8 +22,6 @@ export class LabService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          console.log({response});
-          
           resolve(response.data)
         })
         .catch((error) =>
@@ -102,16 +100,19 @@ export class LabService {
         })
     })
 
-  deleteLab = (id: string) =>
+  deleteLab = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/lab/deleteLab/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_LABS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {

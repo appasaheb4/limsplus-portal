@@ -153,9 +153,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.country
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.country ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const country = e.target.value
@@ -192,9 +190,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.state
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.state ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const state = e.target.value
@@ -236,9 +232,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.district
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.district ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const district = e.target.value
@@ -282,9 +276,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.city
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.city ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const city = e.target.value
@@ -330,9 +322,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.area
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.area ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const area = e.target.value
@@ -380,9 +370,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.postalCode
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.postalCode ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const postalCode = e.target.value
@@ -430,9 +418,7 @@ const Lab = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.deliveryType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const deliveryType = e.target.value
@@ -654,9 +640,7 @@ const Lab = observer(() => {
                     <select
                       value={Stores.labStore.labs?.labType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.labType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.labType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const labType = e.target.value
@@ -831,9 +815,7 @@ const Lab = observer(() => {
                     <select
                       value={Stores.labStore.labs?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -1043,17 +1025,17 @@ const Lab = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.labStore.LabService.deleteLab(modalConfirm.id).then(
-                (res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Lab deleted.`,
-                    })
-                    setModalConfirm({ show: false })
-                    Stores.labStore.fetchListLab()
-                  }
+              Stores.labStore.LabService.deleteLab({
+                input: { id: modalConfirm.id },
+              }).then((res: any) => {
+                if (res.removeLab.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.removeLab.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  Stores.labStore.fetchListLab()
                 }
-              )
+              })
             } else if (type === "Update") {
               Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
                 (res: any) => {

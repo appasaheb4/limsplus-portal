@@ -4,7 +4,6 @@ import * as Models from "../models"
 import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
-
 @version(0.1)
 export class LabStore {
   @observable listLabs!: Models.Labs[]
@@ -37,13 +36,9 @@ export class LabStore {
 
   fetchListLab(page?, limit?) {
     this.LabService.listLabs(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-
-      
-      this.listLabs = res.data.labs
-      this.listLabsCount = res.data.count
-      console.log({labs: res});
-      
+      if (!res.labs.success) return alert(res.labs.message)
+      this.listLabs = res.labs.data
+      this.listLabsCount = res.labs.paginatorInfo.count
     })
   }
 
