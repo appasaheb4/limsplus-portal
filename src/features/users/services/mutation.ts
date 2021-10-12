@@ -33,3 +33,12 @@ export const UPDATE_USER = gql`
   }
  }
 `;
+
+export const REMOVE_USER = gql`
+mutation($input: RemoveUserInput!) {
+  removeUser(input:$input){
+    success
+    message
+  }
+ }
+`;

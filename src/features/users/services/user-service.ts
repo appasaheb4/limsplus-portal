@@ -9,7 +9,7 @@ import { Http, http } from "@lp/library/modules/http"
 import { AssetsService } from "@lp/features/assets/services"
 import { stores } from "@lp/stores"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { CHECK_EXISTS_USERID, USER_LIST, UPDATE_USER } from "./mutation"
+import { CHECK_EXISTS_USERID, USER_LIST, UPDATE_USER, REMOVE_USER } from "./mutation"
 
 export class UserService {
   userList = (page = 0, limit = 10) =>
@@ -125,45 +125,35 @@ export class UserService {
         })
     })
 
-  deleteUser = (id: string) =>
+  deleteUser = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/auth/deleteUser/${id}`)
-        .then((res) => {
-          resolve(res)
+      client     
+        .mutate({  
+          mutation: REMOVE_USER,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
       client
-      .mutate({
-        mutation: UPDATE_USER,
-        variables,
-      })
-      .then((response: any) => {
-        console.log({response});
-        resolve(response.data)
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
-
-
-
-      // http
-      //   .post(`/auth/updateSingleFiled`, newValue)
-      //   .then((res) => {
-      //     resolve(res)
-      //   })
-      //   .catch((error) => {
-      //     reject({ error })
-      //   })
+        .mutate({
+          mutation: UPDATE_USER,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({ response })
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   changePassword = (body: any) =>

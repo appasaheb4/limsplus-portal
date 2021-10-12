@@ -5,8 +5,10 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import { LABS_LIST } from "./mutation"
 
 export class LabService {
   listLabs = (page = 0, limit = 10) =>
@@ -14,15 +16,19 @@ export class LabService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(`/master/lab/listlabs/${page}/${limit}/${env}/${role}/${lab}`)
+      client
+        .mutate({
+          mutation: LABS_LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          console.log({response});
+          
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   addLab = (lab?: Models.Labs) =>

@@ -285,34 +285,6 @@ const Banner = observer(() => {
                  
                 }   
               })
-
-              // const path = `https://limsplus.blob.core.windows.net/banner/${modalConfirm.data.value.name}`
-              // new AssetsService()
-              //   .uploadFile(
-              //     modalConfirm.data.value,
-              //     "banner",
-              //     modalConfirm.data.value.name
-              //   )
-              //   .then((res) => {
-              //     if (res.success) {
-              //       Stores.bannerStore.BannerService.updateSingleFiled({
-              //         ...modalConfirm.data,
-              //         value: path,
-              //       }).then((res: any) => {
-              //         if (res.success) {
-              //           LibraryComponents.Atoms.Toast.success({
-              //             message: `😊 ${res.message}`,
-              //           })
-              //           setModalConfirm({ show: false })
-              //           setTimeout(() => {
-              //             window.location.reload()
-              //           }, 2000)
-              //         }
-              //       })
-              //     } else {
-              //       alert(res.message)
-              //     }
-              //   })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
