@@ -33,7 +33,6 @@ export const Users = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
   const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] = useState<any>()
-  // const [lookupItems, setLookupItems] = useState<any[]>([])
 
   const {
     control,
@@ -1028,27 +1027,26 @@ export const Users = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                Stores.userStore.UsersService.deleteUser(modalConfirm.id).then(
-                  (res: any) => {
-                    if (res.status === 200) {
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 User deleted.`,
-                      })
-                      setModalConfirm({ show: false })
-                      Stores.userStore.loadUser()
-                    }
-                  }
-                )
+                Stores.userStore.UsersService.deleteUser({
+                  input: { id: modalConfirm.id },
+                }).then((res: any) => {
+                  if (res.removeUser.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.removeUser.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    Stores.userStore.loadUser()
+                  }   
+                })
               } else if (type === "Update") {
                 console.log({ data: modalConfirm.data })
-  
+
                 Stores.userStore.UsersService.updateSingleFiled({
-                  input:{
-                    _id:modalConfirm.data.id,
-                    [modalConfirm.data.dataField]:modalConfirm.data.value
-                  }
-                }
-                ).then((res: any) => {
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                }).then((res: any) => {
                   if (res.updateUser.success) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 ${res.updateUser.message}`,
