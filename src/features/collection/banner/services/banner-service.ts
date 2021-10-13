@@ -4,7 +4,6 @@
  
  * @author limsplus
  */
-//import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import { GET_BANNER_LIST_ALL } from "./query"
@@ -62,7 +61,6 @@ export class BannerService {
           },
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>
@@ -78,7 +76,6 @@ export class BannerService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>

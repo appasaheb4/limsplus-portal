@@ -30,6 +30,10 @@ export class Labs {
     fyiLine?: string
     workLine?: string
     environment?: string
+
+
+
+    
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.code = rawData.code
