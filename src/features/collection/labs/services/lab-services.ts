@@ -4,11 +4,10 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
 import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LABS_LIST, REMOVE_LABS } from "./mutation"
+import { LABS_LIST, REMOVE_LABS, CREATE_LAB, UPDATE_LAB } from "./mutation"
 
 export class LabService {
   listLabs = (page = 0, limit = 10) =>
@@ -29,62 +28,19 @@ export class LabService {
         )
     })
 
-  addLab = (lab?: Models.Labs) =>
+  addLab = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      const form = new FormData()
-      form.append("code", lab?.code || "")
-      form.append("name", lab?.name || "")
-      form.append("country", lab?.country || "")
-      form.append("state", lab?.state || "")
-      form.append("district", lab?.district || "")
-      form.append("city", lab?.city || "")
-      form.append("area", lab?.area || "")
-      form.append("postalCode", lab?.postalCode || "")
-      form.append("address", lab?.address || "")
-      form.append("deliveryType", lab?.deliveryType || "")
-      form.append("salesTerritory", lab?.salesTerritory || "")
-      form.append("labLicence", lab?.labLicence || "")
-      form.append("director", lab?.director || "")
-      form.append("physician", lab?.physician || "")
-      form.append("mobileNo", lab?.mobileNo || "")
-      form.append("contactNo", lab?.contactNo || "")
-      form.append("speciality", lab?.speciality || "")
-      form.append("labType", lab?.labType || "")
-      form.append("openingTime", lab?.openingTime || "")
-      form.append("closingTime", lab?.closingTime || "")
-      form.append("email", lab?.email || "")
-      if (lab?.labLog) {
-        form.append("file", lab.labLog)
-        form.append("folder", "labs")
-        form.append("fileName", lab?.labLog.name)
-        form.append(
-          "image",
-          `https://limsplus.blob.core.windows.net/labs/${lab?.labLog.name}`
+      client
+        .mutate({
+          mutation: CREATE_LAB,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-      }
-      form.append("autoRelease", JSON.stringify(lab?.autoRelease || false))
-      form.append(
-        "requireReceveInLab",
-        JSON.stringify(lab?.requireReceveInLab || false)
-      )
-      form.append("requireScainIn", JSON.stringify(lab?.requireScainIn || false))
-      form.append("routingDept", JSON.stringify(lab?.routingDept || false))
-      form.append("fyiLine", lab?.fyiLine || "")
-      form.append("workLine", lab?.workLine || "")
-      http
-        .post(`/master/lab/addLab`, form, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-            "content-type": "application/json; charset=utf-8",
-          },
-        })
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
 
   checkExitsEnvCode = (code: string, env: string) =>
@@ -114,15 +70,20 @@ export class LabService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  updateSingleFiled = (newValue: any) =>
+
+    
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/lab/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_LAB,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }

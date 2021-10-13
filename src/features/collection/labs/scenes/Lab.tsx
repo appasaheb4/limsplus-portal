@@ -38,11 +38,15 @@ const Lab = observer(() => {
 
   const onSubmitLab = () => {
     if (!Stores.labStore.checkExitsEnvCode) {
-      Stores.labStore.LabService.addLab(Stores.labStore.labs).then(() => {
-        LibraryComponents.Atoms.Toast.success({
-          message: `😊 Lab created.`,
-        })
-      })
+      Stores.labStore.LabService.addLab({ input: { ...Stores.labStore.labs } }).then(
+        (res) => {
+          if (res.createLab.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createLab.message}`,
+            })
+          }
+        }
+      )
       setTimeout(() => {
         window.location.reload()
       }, 2000)
@@ -1037,19 +1041,22 @@ const Lab = observer(() => {
                 }
               })
             } else if (type === "Update") {
-              Stores.labStore.LabService.updateSingleFiled(modalConfirm.data).then(
-                (res: any) => {
-                  if (res.success) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
-                  }
+              Stores.labStore.LabService.updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              }).then((res: any) => {
+                if (res.updateLab.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateLab.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
                 }
-              )
+              })
             } else {
               const path = `https://limsplus.blob.core.windows.net/labs/${modalConfirm.data.value.name}`
               new AssetsService()
