@@ -102,14 +102,16 @@ const Lab = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.labStore.LabService.checkExitsEnvCode(
-                        code,
-                        Stores.labStore.labs?.environment || ""
-                      ).then((res) => {
-                        if (res.success) {
+                      Stores.labStore.LabService.checkExitsEnvCode({
+                        input: {
+                          code,
+                          env: Stores.labStore.labs?.environment,
+                        },
+                      }).then((res) => {
+                        if (res.checkLabExitsEnvCode.success) {
                           Stores.labStore.setExitsEnvCode(true)
                           LibraryComponents.Atoms.Toast.error({
-                            message: `😔 ${res.message}`,
+                            message: `😔 ${res.checkLabExitsEnvCode.message}`,
                           })
                         } else Stores.labStore.setExitsEnvCode(false)
                       })
@@ -834,14 +836,16 @@ const Lab = observer(() => {
                           ...Stores.labStore.labs,
                           environment,
                         })
-                        Stores.labStore.LabService.checkExitsEnvCode(
-                          Stores.labStore.labs?.code || "",
-                          environment
-                        ).then((res) => {
-                          if (res.success) {
+                        Stores.labStore.LabService.checkExitsEnvCode({
+                          input: {
+                            code: Stores.labStore.labs?.code,
+                            env: environment,
+                          },
+                        }).then((res) => {
+                          if (res.checkLabExitsEnvCode.success) {
                             Stores.labStore.setExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkLabExitsEnvCode.message}`,
                             })
                           } else Stores.labStore.setExitsEnvCode(false)
                         })
@@ -1058,33 +1062,22 @@ const Lab = observer(() => {
                 }
               })
             } else {
-              const path = `https://limsplus.blob.core.windows.net/labs/${modalConfirm.data.value.name}`
-              new AssetsService()
-                .uploadFile(
-                  modalConfirm.data.value,
-                  "labs",
-                  modalConfirm.data.value.name
-                )
-                .then((res) => {
-                  if (res.success) {
-                    Stores.labStore.LabService.updateSingleFiled({
-                      ...modalConfirm.data,
-                      value: path,
-                    }).then((res: any) => {
-                      if (res.status === 200) {
-                        LibraryComponents.Atoms.Toast.success({
-                          message: `😊 ${res.message}`,
-                        })
-                        setModalConfirm({ show: false })
-                        setTimeout(() => {
-                          window.location.reload()
-                        }, 2000)
-                      }
-                    })
-                  } else {
-                    alert(res.message)
-                  }
-                })
+              Stores.labStore.LabService.updateLabImages({
+                input: {
+                  _id: modalConfirm.data.id,
+                  labLog: modalConfirm.data.value,
+                },
+              }).then((res: any) => {
+                if (res.updateLabImages.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateLabImages.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 2000)
+                }
+              })
             }
           }}
           onClose={() => {

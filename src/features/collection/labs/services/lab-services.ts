@@ -7,7 +7,14 @@
 import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LABS_LIST, REMOVE_LABS, CREATE_LAB, UPDATE_LAB } from "./mutation"
+import {
+  LABS_LIST,
+  REMOVE_LABS,
+  CREATE_LAB,
+  UPDATE_LAB,
+  UPDATE_LAB_IMAGE,
+  CHECK_EXISTS_RECORD
+} from "./mutation"
 
 export class LabService {
   listLabs = (page = 0, limit = 10) =>
@@ -43,17 +50,19 @@ export class LabService {
         )
     })
 
-  checkExitsEnvCode = (code: string, env: string) =>
+  checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/lab/checkExitsEnvCode`, { code, env })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   deleteLab = (variables: any) =>
@@ -71,12 +80,27 @@ export class LabService {
         )
     })
 
-    
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: UPDATE_LAB,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateLabImages = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({ variables })
+      client
+        .mutate({
+          mutation: UPDATE_LAB_IMAGE,
           variables,
         })
         .then((response: any) => {
