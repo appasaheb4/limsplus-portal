@@ -3,6 +3,7 @@ import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import * as LibraryUtils from "@lp/library/utils"
 
 interface EnvironmentVariableProps {
   data: any
@@ -44,6 +45,38 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               sort: true,
                filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                  
+                >
+                  <select
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                    onChange={(e) => {
+                      const category = e.target.value as string
+                      props.onUpdateItem && props.onUpdateItem(category,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT_VARIABLES_CATEGORY"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
               
             },
             {
