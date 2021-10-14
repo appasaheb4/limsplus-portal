@@ -39,11 +39,11 @@ export const SalesTeam = observer(() => {
   const onSubmitSalesTeam = () => {
     if (!Stores.salesTeamStore.checkExistsEnvCode) {
       Stores.salesTeamStore.salesTeamService
-        .addSalesTeam(Stores.salesTeamStore.salesTeam)
+        .addSalesTeam({ input: { ...Stores.salesTeamStore.salesTeam } })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createSalesTeam.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Sales team created.`,
+              message: `😊 ${res.createSalesTeam.message}`,
             })
           }
         })
@@ -175,7 +175,7 @@ export const SalesTeam = observer(() => {
                         onChange={(e) => {
                           const userDetials = JSON.parse(e.target.value) as any
                           onChange(userDetials)
-                          setValue("empName",userDetials.empName)
+                          setValue("empName", userDetials.empName)
                           Stores.salesTeamStore.updateSalesTeam({
                             ...Stores.salesTeamStore.salesTeam,
                             empCode: userDetials.empCode,
@@ -232,22 +232,18 @@ export const SalesTeam = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                  label="Employee Name"
-                  name="txtEmployeeName"
-                  placeholder={
-                    errors.empName ? "Please Enter EmployeeName" : "Employee Name"
-                  }
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.empName
-                      ? "border-red-500  "
-                      : "border-gray-300"
-                  } rounded-md`}
-                  hasError={errors.empName}
-                  disabled={true}
-                  value={
-                    Stores.salesTeamStore.salesTeam?.empName
-                  }
-                />
+                    label="Employee Name"
+                    name="txtEmployeeName"
+                    placeholder={
+                      errors.empName ? "Please Enter EmployeeName" : "Employee Name"
+                    }
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                      errors.empName ? "border-red-500  " : "border-gray-300"
+                    } rounded-md`}
+                    hasError={errors.empName}
+                    disabled={true}
+                    value={Stores.salesTeamStore.salesTeam?.empName}
+                  />
                 )}
                 name="userDetials"
                 rules={{ required: false }}
@@ -262,9 +258,7 @@ export const SalesTeam = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.userDetials
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.userDetials ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const userDetials = JSON.parse(e.target.value) as any
@@ -301,9 +295,7 @@ export const SalesTeam = observer(() => {
                     <select
                       value={Stores.salesTeamStore.salesTeam?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -379,7 +371,7 @@ export const SalesTeam = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <br />
-        <div className="p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <SalesTeamList
             data={Stores.salesTeamStore.listSalesTeam || []}
             totalSize={Stores.salesTeamStore.listSalesTeamCount}
@@ -424,23 +416,28 @@ export const SalesTeam = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               Stores.salesTeamStore.salesTeamService
-                .deleteSalesTeam(modalConfirm.id)
+                .deleteSalesTeam({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeSalesTeam.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Sales team record deleted.`,
+                      message: `😊 ${res.removeSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })
                     Stores.salesTeamStore.fetchSalesTeam()
                   }
-                })
-            } else if (type === "Update") {
+                })  
+            } else if (type === "Update") {  
               Stores.salesTeamStore.salesTeamService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateSalesTeam.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Sales team record updated.`,
+                      message: `😊 ${res.updateSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })
                     window.location.reload()
