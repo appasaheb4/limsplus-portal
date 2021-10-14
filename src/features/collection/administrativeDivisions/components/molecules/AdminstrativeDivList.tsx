@@ -149,7 +149,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           formatter: (cellContent, row) => (
             <>
              <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#000"
                         size="20"
