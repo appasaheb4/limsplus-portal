@@ -5,9 +5,9 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
-import { useForm, Controller } from "react-hook-form"  
+import { useForm, Controller } from "react-hook-form"
 
-import {useStores} from '@lp/stores'
+import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
 import { stores } from "@lp/stores"
 
@@ -18,14 +18,12 @@ export const AdministrativeDivisions = observer(() => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
-  const {
-		loginStore,
-	} = useStores();
+  const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
-  
+
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.administrativeDivStore.updateAdministrativeDiv({
@@ -36,16 +34,16 @@ export const AdministrativeDivisions = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitAdministrativeDivision = () =>{ 
+  const onSubmitAdministrativeDivision = () => {
     if (Stores.administrativeDivStore.administrativeDiv) {
       Stores.administrativeDivStore.administrativeDivisionsService
-        .addAdministrativeDivisions(
-          Stores.administrativeDivStore.administrativeDiv
-        )
+        .addAdministrativeDivisions({
+          input: { ...Stores.administrativeDivStore.administrativeDiv },
+        })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createAdministrativeDivision.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Administrative divisions created.`,
+              message: `😊 ${res.createAdministrativeDivision.message}`,
             })
           }
         })
@@ -57,7 +55,6 @@ export const AdministrativeDivisions = observer(() => {
         message: `😔 Please enter all information!`,
       })
     }
-
   }
 
   return (
@@ -88,117 +85,118 @@ export const AdministrativeDivisions = observer(() => {
               fill
             >
               <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Country"
-                placeholder={errors.country ? "Please Enter Country " : "Country"}
-                hasError={errors.country}
-                value={Stores.administrativeDivStore.administrativeDiv?.country}
-                onChange={(country) => {
-                  onChange(country)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    country,
-                  })
-                }}
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Country"
+                    placeholder={
+                      errors.country ? "Please Enter Country " : "Country"
+                    }
+                    hasError={errors.country}
+                    value={Stores.administrativeDivStore.administrativeDiv?.country}
+                    onChange={(country) => {
+                      onChange(country)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        country,
+                      })
+                    }}
+                  />
+                )}
+                name="country"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="country"
-              rules={{ required: true }}
-              defaultValue=""
-            />
 
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="State"
-                placeholder={errors.state ? "Please Enter state" : "State"}
-                hasError={errors.state}
-                value={Stores.administrativeDivStore.administrativeDiv?.state}
-                onChange={(state) => {
-                  onChange(state)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    state:[state],
-                  })
-                }}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="State"
+                    placeholder={errors.state ? "Please Enter state" : "State"}
+                    hasError={errors.state}
+                    value={Stores.administrativeDivStore.administrativeDiv?.state}
+                    onChange={(state) => {
+                      onChange(state)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        state: [state],
+                      })
+                    }}
+                  />
+                )}
+                name="state"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="state"
-              rules={{ required: true }}
-              defaultValue=""
-            />
 
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="District"
-                placeholder={errors.district ? "Please Enter District" : "District"}
-                hasError={errors.district}
-                value={Stores.administrativeDivStore.administrativeDiv?.district}
-                onChange={(district) => {
-                  onChange(district)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    district:[district],
-                  })
-                }}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="District"
+                    placeholder={
+                      errors.district ? "Please Enter District" : "District"
+                    }
+                    hasError={errors.district}
+                    value={Stores.administrativeDivStore.administrativeDiv?.district}
+                    onChange={(district) => {
+                      onChange(district)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        district: [district],
+                      })
+                    }}
+                  />
+                )}
+                name="district"
+                rules={{ required: true }}
+                defaultValue=""
               />
-              )}
-              name="district"
-              rules={{ required: true }}
-              defaultValue=""
-            />
 
-          <Controller
-            control={control}
-               render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="City"
-                hasError={errors.city}
-                placeholder={errors.city ? "Please Enter City" : "City"}
-                value={Stores.administrativeDivStore.administrativeDiv?.city}
-                onChange={(city) => {
-                  onChange(city)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    city:[city],
-                  })
-                }}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="City"
+                    hasError={errors.city}
+                    placeholder={errors.city ? "Please Enter City" : "City"}
+                    value={Stores.administrativeDivStore.administrativeDiv?.city}
+                    onChange={(city) => {
+                      onChange(city)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        city: [city],
+                      })
+                    }}
+                  />
+                )}
+                name="city"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="city"
-              rules={{ required: false }}
-              defaultValue=""
-             />
 
-
-           <Controller
-               control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                label="Area"
-                placeholder={errors.area ? "Please Enter Area" : "Area"}
-                hasError={errors.area}
-                value={Stores.administrativeDivStore.administrativeDiv?.area}
-                onChange={(area) => {
-                  onChange(area)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    area:[area],
-                  })
-                }}
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    label="Area"
+                    placeholder={errors.area ? "Please Enter Area" : "Area"}
+                    hasError={errors.area}
+                    value={Stores.administrativeDivStore.administrativeDiv?.area}
+                    onChange={(area) => {
+                      onChange(area)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        area: [area],
+                      })
+                    }}
+                  />
+                )}
+                name="area"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-              name="area"
-               rules={{ required: false }}
-               defaultValue=""
-           />
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
               direction="col"
@@ -208,142 +206,152 @@ export const AdministrativeDivisions = observer(() => {
             >
               <Controller
                 control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.Input
-                type="number"
-                label="Postcode"
-                placeholder={errors.postalCode ? "Please Enter PostalCode" : "PostalCode"}
-                hasError={errors.postalCode}
-                value={Stores.administrativeDivStore.administrativeDiv?.postalCode}
-                onChange={(postalCode) => {
-                  onChange(postalCode)
-                  Stores.administrativeDivStore.updateAdministrativeDiv({
-                    ...Stores.administrativeDivStore.administrativeDiv,
-                    postalCode:[postalCode],
-                  })
-                }}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.Input
+                    type="number"
+                    label="Postcode"
+                    placeholder={
+                      errors.postalCode ? "Please Enter PostalCode" : "PostalCode"
+                    }
+                    hasError={errors.postalCode}
+                    value={
+                      Stores.administrativeDivStore.administrativeDiv?.postalCode
+                    }
+                    onChange={(postalCode) => {
+                      onChange(postalCode)
+                      Stores.administrativeDivStore.updateAdministrativeDiv({
+                        ...Stores.administrativeDivStore.administrativeDiv,
+                        postalCode: [postalCode],
+                      })
+                    }}
+                  />
+                )}
+                name="postalCode"
+                rules={{ required: false }}
+                defaultValue=""
               />
-              )}
-             name="postalCode"
-             rules={{ required: false }}
-             defaultValue=""
-             />
 
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="SBU" hasError={errors.sbu}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.sbu
-                      ? "border-red-500  "
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const sbu = e.target.value
-                    onChange(sbu)
-                    Stores.administrativeDivStore.updateAdministrativeDiv({
-                      ...Stores.administrativeDivStore.administrativeDiv,
-                      sbu,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "SBU").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="sbu"
-              rules={{ required: false }}
-              defaultValue=""
-             />
-
-            <Controller
-               control={control}
-                 render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="ZONE" hasError={errors.zone}>
-                <select
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.zone
-                      ? "border-red-500  "
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const zone = e.target.value
-                    onChange(zone)
-                    Stores.administrativeDivStore.updateAdministrativeDiv({
-                      ...Stores.administrativeDivStore.administrativeDiv,
-                      zone,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ZONE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="zone"
-              rules={{ required: false }}
-              defaultValue=""
-             />
               <Controller
-            control={control}
-            render={({ field: { onChange } }) => (
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={Stores.administrativeDivStore.administrativeDiv?.environment}
-                  disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
-                      ? true
-                      : false
-                  }
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                    errors.environment
-                      ? "border-red-500  "
-                      : "border-gray-300"
-                  } rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    onChange(environment)
-                    Stores.administrativeDivStore.updateAdministrativeDiv({
-                      ...Stores.administrativeDivStore.administrativeDiv,
-                      environment,
-                    })
-                  }}
-                >
-                  <option selected>
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="SBU"
+                    hasError={errors.sbu}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.sbu ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const sbu = e.target.value
+                        onChange(sbu)
+                        Stores.administrativeDivStore.updateAdministrativeDiv({
+                          ...Stores.administrativeDivStore.administrativeDiv,
+                          sbu,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "SBU"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="sbu"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="ZONE"
+                    hasError={errors.zone}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.zone ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const zone = e.target.value
+                        onChange(zone)
+                        Stores.administrativeDivStore.updateAdministrativeDiv({
+                          ...Stores.administrativeDivStore.administrativeDiv,
+                          zone,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ZONE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="zone"
+                rules={{ required: false }}
+                defaultValue=""
+              />
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                    <select
+                      value={
+                        Stores.administrativeDivStore.administrativeDiv?.environment
+                      }
+                      disabled={
+                        stores.loginStore.login &&
+                        stores.loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.environment ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        onChange(environment)
+                        Stores.administrativeDivStore.updateAdministrativeDiv({
+                          ...Stores.administrativeDivStore.administrativeDiv,
+                          environment,
+                        })
+                      }}
+                    >
+                      <option selected>
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.administrativeDivStore.administrativeDiv?.environment || `Select`}
+                          : Stores.administrativeDivStore.administrativeDiv
+                              ?.environment || `Select`}
                       </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            )}
-            name="environment"
-            rules={{ required: true }}
-            defaultValue=""
-          />
+                      {LibraryUtils.lookupItems(
+                        stores.routerStore.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="environment"
+                rules={{ required: true }}
+                defaultValue=""
+              />
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Grid>
           <br />
@@ -352,7 +360,7 @@ export const AdministrativeDivisions = observer(() => {
               size="medium"
               type="solid"
               icon={LibraryComponents.Atoms.Icon.Save}
-              onClick={ handleSubmit(onSubmitAdministrativeDivision)}
+              onClick={handleSubmit(onSubmitAdministrativeDivision)}
             >
               Save
             </LibraryComponents.Atoms.Buttons.Button>
@@ -367,7 +375,6 @@ export const AdministrativeDivisions = observer(() => {
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-          
         </div>
         <br />
         <div className="p-2 rounded-lg shadow-xl">
@@ -375,7 +382,7 @@ export const AdministrativeDivisions = observer(() => {
             data={Stores.administrativeDivStore.listAdministrativeDiv || []}
             totalSize={Stores.administrativeDivStore.listAdministrativeDivCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems
+              lookupItems: stores.routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -405,8 +412,8 @@ export const AdministrativeDivisions = observer(() => {
                 body: `Update Section!`,
               })
             }}
-            onPageSizeChange={(page,limit)=>{
-              Stores.administrativeDivStore.fetchAdministrativeDiv(page,limit)
+            onPageSizeChange={(page, limit) => {
+              Stores.administrativeDivStore.fetchAdministrativeDiv(page, limit)
             }}
           />
         </div>
@@ -414,28 +421,29 @@ export const AdministrativeDivisions = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              
               Stores.administrativeDivStore.administrativeDivisionsService
-                .deleteAdministrativeDivisions(modalConfirm.id)
+                .deleteAdministrativeDivisions({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  
-                  if (res.status === 200) {
+                  if (res.removeAdministrativeDivision.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Administrative divisions record deleted.`,
+                      message: `😊 ${res.removeAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })
                     Stores.administrativeDivStore.fetchAdministrativeDiv()
                   }
                 })
             } else if (type === "Update") {
-              
               Stores.administrativeDivStore.administrativeDivisionsService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  
-                  if (res.status === 200) {
+                  if (res.updateAdministrativeDivision.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Administrative divisions record updated.`,
+                      message: `😊 ${res.updateAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })
                     setTimeout(() => {
