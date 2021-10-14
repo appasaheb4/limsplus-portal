@@ -21,6 +21,7 @@ interface SalesTeamListProps {
 
 export const SalesTeamList = observer((props: SalesTeamListProps) => {
   return (
+    <div style={{ position: "relative" }}>
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
       data={props.data}
@@ -149,6 +150,7 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
         props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
+    </div>
   )
 })
 

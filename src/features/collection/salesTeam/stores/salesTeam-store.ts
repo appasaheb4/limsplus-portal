@@ -20,9 +20,9 @@ export class SalesTeamStore {
 
   @action fetchSalesTeam(page?, limit?) {
     this.salesTeamService.listSalesTeam(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listSalesTeam = res.data.salesTeam
-      this.listSalesTeamCount = res.data.count
+      if (!res.salesTeams.success) return alert(res.salesTeams.message)
+      this.listSalesTeam = res.salesTeams.data
+      this.listSalesTeamCount = res.salesTeams.paginatorInfo.count
     })
   }
 

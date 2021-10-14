@@ -16,7 +16,6 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>
@@ -32,7 +31,6 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>
@@ -65,15 +63,6 @@ export class LoginService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-      // http
-      //   .post(`/auth/logout`, details)
-      //   .then((response) => {
-      //     const serviceResponse = Http.handleResponse<any>(response)
-      //     resolve(serviceResponse)
-      //   })
-      //   .catch((error) => {
-      //     reject(new ServiceResponse<any>(0, error.message, undefined))
-      //   })
     })
 
   sessionAllowedLogout = (details: any) =>
