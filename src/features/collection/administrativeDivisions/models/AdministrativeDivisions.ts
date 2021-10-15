@@ -2,6 +2,7 @@ export class AdministrativeDivisions {
     _id?: string
     country?: string
     state?: Array<string>
+    // arrValue?: { value?: string | undefined; code?: string | undefined }[]
     district?: Array<string>   
     city?: Array<string>
     area?: Array<string>

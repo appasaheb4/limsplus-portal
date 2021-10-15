@@ -108,27 +108,57 @@ export const AdministrativeDivisions = observer(() => {
                 defaultValue=""
               />
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="State"
-                    placeholder={errors.state ? "Please Enter state" : "State"}
-                    hasError={errors.state}
-                    value={Stores.administrativeDivStore.administrativeDiv?.state}
-                    onChange={(state) => {
-                      onChange(state)
-                      Stores.administrativeDivStore.updateAdministrativeDiv({
-                        ...Stores.administrativeDivStore.administrativeDiv,
-                        state: [state],
-                      })
-                    }}
-                  />
-                )}
-                name="state"
-                rules={{ required: true }}
-                defaultValue=""
-              />
+              <LibraryComponents.Atoms.Form.InputWrapper label='State'>
+                  <LibraryComponents.Atoms.Grid cols={2}>
+                  <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Input
+                          // label="State"
+                          placeholder={errors.state ? "Please Enter state" : "State"}
+                          hasError={errors.state}
+                          value={Stores.administrativeDivStore.localState.state}
+                          onChange={(state) => {
+                            onChange(state)
+                            Stores.administrativeDivStore.updateLoclaState({
+                              ...Stores.administrativeDivStore.localState,
+                              state
+                            })
+                          }}
+                        />
+                      )}
+                      name="state"
+                      rules={{ required: true }}
+                      defaultValue=""
+                    />
+                     <div className="mt-2">
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="medium"
+                      type="solid"
+                      onClick={()=>{
+                        const state = Stores.administrativeDivStore.localState.state
+                        // let arrValue = Stores.administrativeDivStore.administrativeDiv?.state
+                        if(state === undefined)
+                         return alert("Please Enter State")
+                         if(state !== undefined){
+                           const arrState = Stores.administrativeDivStore.administrativeDiv?.state?.push(
+                            state 
+                           ) as [string]
+
+                           Stores.administrativeDivStore.updateAdministrativeDiv({
+                             ...Stores.administrativeDivStore.administrativeDiv,
+                             state: arrState
+                           })
+                         }
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
+                      {`Add`}
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  </div>
+
+                  </LibraryComponents.Atoms.Grid>
+              </LibraryComponents.Atoms.Form.InputWrapper>
 
               <Controller
                 control={control}
