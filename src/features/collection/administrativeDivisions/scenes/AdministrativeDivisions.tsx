@@ -108,56 +108,95 @@ export const AdministrativeDivisions = observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label='State'>
-                  <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.Form.InputWrapper label="State">
+                <LibraryComponents.Atoms.Grid cols={2}>
                   <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          // label="State"
-                          placeholder={errors.state ? "Please Enter state" : "State"}
-                          hasError={errors.state}
-                          value={Stores.administrativeDivStore.localState.state}
-                          onChange={(state) => {
-                            onChange(state)
-                            Stores.administrativeDivStore.updateLoclaState({
-                              ...Stores.administrativeDivStore.localState,
-                              state
-                            })
-                          }}
-                        />
-                      )}
-                      name="state"
-                      rules={{ required: true }}
-                      defaultValue=""
-                    />
-                     <div className="mt-2">
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        // label="State"
+                        placeholder={errors.state ? "Please Enter state" : "State"}
+                        hasError={errors.state}
+                        value={Stores.administrativeDivStore.localState?.state || ""}
+                        onChange={(state) => {
+                          onChange(state)
+                          Stores.administrativeDivStore.updateLoclaState({
+                            ...Stores.administrativeDivStore.localState,
+                            state,
+                          })
+                        }}
+                      />
+                    )}
+                    name="state"
+                    rules={{ required: true }}
+                    defaultValue=""
+                  />
+                  <div className="mt-2">
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
                       type="solid"
-                      onClick={()=>{
-                        const state = Stores.administrativeDivStore.localState.state
-                        // let arrValue = Stores.administrativeDivStore.administrativeDiv?.state
-                        if(state === undefined)
-                         return alert("Please Enter State")
-                         if(state !== undefined){
-                           const arrState = Stores.administrativeDivStore.administrativeDiv?.state?.push(
-                            state 
-                           ) as [string]
-
+                      onClick={() => {
+                        const state = Stores.administrativeDivStore.localState?.state
+                        if (state === undefined) return alert("Please Enter State")
+                        if (state !== undefined) {
+                          let arrState = Stores.administrativeDivStore.administrativeDiv && Stores.administrativeDivStore.administrativeDiv.state;
                            Stores.administrativeDivStore.updateAdministrativeDiv({
                              ...Stores.administrativeDivStore.administrativeDiv,
-                             state: arrState
+                             state: arrState? arrState.concat(state): [state] 
                            })
-                         }
+                           Stores.administrativeDivStore.updateLoclaState({
+                            ...Stores.administrativeDivStore.localState,
+                            state:''
+                          })
+                        }
                       }}
                     >
                       <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
-
-                  </LibraryComponents.Atoms.Grid>
+                </LibraryComponents.Atoms.Grid>
+                <br/>
+                <LibraryComponents.Atoms.List
+                    space={2}
+                    direction="row"
+                    justify="center"
+                  >
+                    <div>
+                      {Stores.administrativeDivStore.administrativeDiv?.state?.map(
+                        (item, index) => (
+                          <div className="mb-2" key={index}>
+                            <LibraryComponents.Atoms.Buttons.Button
+                              size="medium"
+                              type="solid"
+                              icon={LibraryComponents.Atoms.Icon.Remove}
+                              onClick={() => {
+                                const firstArr =
+                                  Stores.administrativeDivStore.administrativeDiv?.state?.slice(
+                                    0,
+                                    index
+                                  ) || []
+                                const secondArr =
+                                  Stores.administrativeDivStore.administrativeDiv?.state?.slice(
+                                    index + 1
+                                  ) || []
+                                const finalArray = [
+                                  ...firstArr,
+                                  ...secondArr,
+                                ]
+                                Stores.administrativeDivStore.updateAdministrativeDiv({
+                                  ...Stores.administrativeDivStore.administrativeDiv,
+                                  state: finalArray,
+                                })
+                              }}
+                            >
+                             {item}
+                            </LibraryComponents.Atoms.Buttons.Button>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </LibraryComponents.Atoms.List>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <Controller

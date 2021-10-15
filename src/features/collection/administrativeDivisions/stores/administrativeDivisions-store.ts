@@ -7,9 +7,9 @@ interface LocalState {
 }
 @version(0.1)
 class AdministrativeDivisionsStore {
-  @ignore @observable administrativeDiv?: Models.AdministrativeDivisions
+  @ignore @observable administrativeDiv!: Models.AdministrativeDivisions
   @observable listAdministrativeDivCount: number = 0
-  @observable listAdministrativeDiv?: Models.AdministrativeDivisions[] = []
+  @observable listAdministrativeDiv: Models.AdministrativeDivisions[] = []
   @ignore @observable  localState!: LocalState 
   constructor() {
     makeAutoObservable(this)
