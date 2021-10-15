@@ -2,13 +2,15 @@ import { version, ignore } from "mobx-sync"
 import { makeAutoObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-
+interface LocalState {
+   state: string
+}
 @version(0.1)
 class AdministrativeDivisionsStore {
   @ignore @observable administrativeDiv?: Models.AdministrativeDivisions
   @observable listAdministrativeDivCount: number = 0
   @observable listAdministrativeDiv?: Models.AdministrativeDivisions[] = []
-
+  @ignore @observable  localState!: LocalState 
   constructor() {
     makeAutoObservable(this)
   }
@@ -31,6 +33,9 @@ class AdministrativeDivisionsStore {
 
   @action updateAdministrativeDiv(administrative: Models.AdministrativeDivisions) {
     this.administrativeDiv = administrative
+  }
+  @action updateLoclaState(state: LocalState){
+    this.localState = state
   }
 }
 
