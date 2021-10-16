@@ -1,14 +1,8 @@
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  from,
-} from "@apollo/client"
+import { ApolloProvider, ApolloClient, InMemoryCache, from } from "@apollo/client"
 import { onError } from "@apollo/client/link/error"
 import { stores } from "@lp/stores"
-import { setContext } from '@apollo/client/link/context';
-import { createUploadLink } from 'apollo-upload-client';
-
+import { setContext } from "@apollo/client/link/context"
+import { createUploadLink } from "apollo-upload-client"
 
 const customFetch = (uri, options): Promise<any> => {
   stores.setLoading(true)
@@ -23,42 +17,39 @@ const customFetch = (uri, options): Promise<any> => {
   return response
 }
 
-
 const authLink = setContext(async (_, { headers }) => {
-	return {
-		headers: {
-			...headers,
-			Authorization:  `Bearer ${localStorage.getItem("accessToken")}`,
-		},
-	};
-});
-  
+  return {
+    headers: {
+      ...headers,
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+    },
+  }
+})
+
 const UploadLink = createUploadLink({
-//   uri: "http://localhost:8080/graphql",
+  //uri: "http://localhost:8080/graphql",
   uri: "https://limsplus-api.azurewebsites.net/graphql",
-	fetch: customFetch,
-});  
-
-
+  fetch: customFetch,
+})
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-	if (graphQLErrors) {
-		graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-			console.log(
-				`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-			);
-			if (extensions && extensions.validation) {
-				const firstMessageKey = Object.keys(extensions.validation)[0];
-				if (firstMessageKey) {
-					alert(extensions.validation[firstMessageKey][0]);
-				}
-			} else {
-					alert('Something went wrong! Please try again.');
-			}
-		});
-	}
-	if (networkError) console.log(`[Network error]: ${networkError}`);
-});
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path, extensions }) => {
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+      if (extensions && extensions.validation) {
+        const firstMessageKey = Object.keys(extensions.validation)[0]
+        if (firstMessageKey) {
+          alert(extensions.validation[firstMessageKey][0])
+        }
+      } else {
+        alert("Something went wrong! Please try again.")
+      }
+    })
+  }
+  if (networkError) console.log(`[Network error]: ${networkError}`)
+})
 
 export const client = new ApolloClient({
   link: authLink.concat(from([errorLink, UploadLink])),
