@@ -25,7 +25,7 @@ const authLink = setContext(async (_, { headers }) => {
     },
   }
 })
-
+  // link
 const UploadLink = createUploadLink({
   //uri: "http://localhost:8080/graphql",
   uri: "https://limsplus-api.azurewebsites.net/graphql",
