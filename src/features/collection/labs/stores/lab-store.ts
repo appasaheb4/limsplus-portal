@@ -8,11 +8,16 @@ import * as LibraryUtils from "@lp/library/utils"
 export class LabStore {
   @observable listLabs!: Models.Labs[]
   @observable listLabsCount: number = 0
-  @ignore @observable labs?: Models.Labs
-  @ignore @observable checkExitsEnvCode?: boolean = false
+  @ignore @observable labs!: Models.Labs
+  @ignore @observable checkExitsEnvCode: boolean = false
 
   constructor() {
     this.listLabs = []
+    this.labs = {
+      ...this.labs,
+      openingTime: LibraryUtils.moment().format("hh:mm a"),
+      closingTime: LibraryUtils.moment().format("hh:mm a"),
+    }
     makeObservable<LabStore, any>(this, {
       listLabs: observable,
       listLabsCount: observable,
@@ -23,11 +28,7 @@ export class LabStore {
       setExitsEnvCode: action,
       updateLabs: action,
     })
-    this.labs = {
-      ...this.labs,
-      openingTime: LibraryUtils.moment().format("hh:mm a"),
-      closingTime: LibraryUtils.moment().format("hh:mm a"),
-    }
+   
   }
 
   get LabService() {

@@ -1,21 +1,28 @@
 export class Lookup {
-  documentName: object
+  _id: string
+  documentName: object  
   fieldName: string
-  code: string
-  value: string
-  arrValue: { value?: string | undefined; code?: string | undefined }[]
+  arrValue: { value: string; code: string }[]
   description: string
-  defaultItem: Array<{ value?: string; code?: string }>
+  defaultItem: Array<{ value: string; code: string }>
   environment: string
 
   constructor(rawData: { [key in string]: any }) {
+    this._id = rawData._id
     this.documentName = rawData.documentName
     this.fieldName = rawData.fieldName
-    this.code = rawData.code
-    this.value = rawData.value
     this.arrValue = rawData.arrValue
     this.description = rawData.description
     this.defaultItem = rawData.defaultItem
     this.environment = rawData.environment
+  }
+}
+
+export class LocalInput{
+  code: string
+  value: string
+  constructor(rawData: { [key in string]: any }) {
+    this.code = rawData.code
+    this.value = rawData.value
   }
 }
