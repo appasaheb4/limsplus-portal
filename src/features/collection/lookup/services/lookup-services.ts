@@ -4,8 +4,7 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http } from "@lp/library/modules/http"
+
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -13,7 +12,8 @@ import {
   LIST,
   CREATE_DOCUMENT_RECORD,
   REMOVE_DOCUMENT_RECORD,
-  UPDATE_RECORD
+  UPDATE_RECORD,
+  GENERAL_SETTINGS_UPDATE,
 } from "./mutation"
 
 export class LookupService {
@@ -58,40 +58,44 @@ export class LookupService {
         .mutate({
           mutation: REMOVE_DOCUMENT_RECORD,
           variables,
-        })  
+        })
         .then((response: any) => {
           resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })   
+    })
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-      .mutate({
-        mutation: UPDATE_RECORD,
-        variables,
-      })
-      .then((response: any) => {
-        resolve(response.data)
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
-    })
-  generalSettingsUpdate = (lookup?: Partial<Models.GlobalSettings>) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/lookup/generalSettingsUpdate`, lookup)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  generalSettingsUpdate = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({variables});
+      
+      client
+        .mutate({
+          mutation: GENERAL_SETTINGS_UPDATE,
+          variables: variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   lookupItemsByPath = (path: string) =>

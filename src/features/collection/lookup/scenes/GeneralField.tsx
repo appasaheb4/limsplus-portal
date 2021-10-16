@@ -36,15 +36,17 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitGeneralFiled = (data: any) => {
+  const onSubmitGeneralFiled = (data: any) => {   
     lookupStore.LookupService.generalSettingsUpdate({
-      ...lookupStore.globalSettings,
-      router,
-    }).then((res) => {
-      if (res.success) {
+      input: {
+        ...lookupStore.globalSettings,
+        router,
+      },
+    }).then((res) => {  
+      if (res.lookupGeneralSettingsUpdate.success) {
         LibraryComponents.Atoms.Toast.success({
-          message: `😊 ${res.message}`,
-        })
+          message: `😊 ${res.lookupGeneralSettingsUpdate.message}`,
+        })   
         setTimeout(() => {
           window.location.reload()
         }, 2000)
@@ -132,11 +134,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Code"
                     hasError={errors.code}
-                    value={lookupStore.globalSettings?.code}
+                    value={lookupStore.localInput.code}
                     onChange={(code) => {
                       onChange(code.toUpperCase())
-                      lookupStore.updateGlobalSettings({
-                        ...lookupStore.globalSettings,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         code: code.toUpperCase(),
                       })
                     }}
@@ -153,11 +155,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Value"
                     hasError={errors.value}
-                    value={lookupStore.globalSettings?.value}
+                    value={lookupStore.localInput.value}
                     onChange={(value) => {
                       onChange(value)
-                      lookupStore.updateGlobalSettings({
-                        ...lookupStore.globalSettings,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         value,
                       })
                     }}
@@ -172,8 +174,8 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   size="medium"
                   type="solid"
                   onClick={() => {
-                    const value = lookupStore.globalSettings?.value
-                    const code = lookupStore.globalSettings?.code
+                    const value = lookupStore.localInput.value
+                    const code = lookupStore.localInput.code
                     let arrValue = lookupStore.globalSettings?.arrValue || []
                     if (value === undefined || code === undefined)
                       return alert("Please enter value and code.")
@@ -194,8 +196,8 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                         ...lookupStore.globalSettings,
                         arrValue,
                       })
-                      lookupStore.updateGlobalSettings({
-                        ...lookupStore.globalSettings,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         value: "",
                         code: "",
                       })
@@ -353,7 +355,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
               </LibraryComponents.Atoms.Form.InputWrapper>
             )}
             name="environment"
-            rules={{ required: false }}
+            rules={{ required: true }}
             defaultValue=""
           />
         </LibraryComponents.Atoms.List>

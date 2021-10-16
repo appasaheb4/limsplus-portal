@@ -80,10 +80,19 @@ export const REMOVE_DOCUMENT_RECORD = gql`
     }
   }
 `
-  
+
 export const UPDATE_RECORD = gql`
   mutation($input: UpdateLookupInput!) {
     updateLookup(input: $input) {
+      success
+      message
+    }
+  }
+`
+  
+export const GENERAL_SETTINGS_UPDATE = gql`
+  mutation($input: CreateLookupInput!) {
+    lookupGeneralSettingsUpdate(input: $input) {
       success
       message
     }
