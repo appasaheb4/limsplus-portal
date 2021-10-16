@@ -4,6 +4,10 @@ import * as Models from "../models"
 import * as Services from "../services"
 interface LocalState {
    state: string
+   district: string
+   city: string
+   area: string
+   postalCode: string
 }
 @version(0.1)
 class AdministrativeDivisionsStore {
@@ -34,8 +38,20 @@ class AdministrativeDivisionsStore {
   @action updateAdministrativeDiv(administrative: Models.AdministrativeDivisions) {
     this.administrativeDiv = administrative
   }
-  @action updateLoclaState(state: LocalState){
+  @action updateLocalState(state: LocalState){
     this.localState = state
+  }
+  @action updateLocalDistrict(district: LocalState){
+      this.localState = district
+  }
+  @action updateLocalCity(city: LocalState){
+      this.localState = city
+  }
+  @action updateLocalArea(area: LocalState){
+      this.localState  = area
+  }
+  @action updateLocalPostalCode(postalCode: LocalState){
+    this.localState  = postalCode
   }
 }
 
