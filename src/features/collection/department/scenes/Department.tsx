@@ -9,13 +9,17 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { useStores, stores } from "@lp/stores"
-import { Stores } from "../stores"
 
 import { RouterFlow } from "@lp/flows"
 
 export const Department = observer(() => {
-  const { loginStore, labStore, userStore } = useStores()
-  console.log({ userStore })
+  const {
+    loginStore,
+    labStore,
+    userStore,
+    departmentStore,
+    routerStore,
+  } = useStores()
   const {
     control,
     handleSubmit,
@@ -29,23 +33,23 @@ export const Department = observer(() => {
 
   useEffect(() => {
     reset()
-  }, [labStore.listLabs,userStore && userStore.userList])
+  }, [labStore.listLabs, userStore && userStore.userList])
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.departmentStore.updateDepartment({
-        ...Stores.departmentStore.department,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      departmentStore.updateDepartment({
+        ...departmentStore.department,
+        lab: loginStore.login.lab,
+        environment: loginStore.login.environment,
       })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("lab", loginStore.login.lab)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
   const onSubmitDepartment = () => {
-    if (!Stores.departmentStore.checkExitsCode) {
-      Stores.departmentStore.DepartmentService.adddepartment(
-        Stores.departmentStore.department
+    if (!departmentStore.checkExitsCode) {
+      departmentStore.DepartmentService.adddepartment(
+        departmentStore.department
       ).then(() => {
         LibraryComponents.Atoms.Toast.success({
           message: `😊 Department created.`,
@@ -66,11 +70,11 @@ export const Department = observer(() => {
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={stores.routerStore.selectedComponents?.title || ""}
+            title={routerStore.selectedComponents?.title || ""}
           />
           <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddDepartment}
             onClick={() => setHideAddDepartment(!hideAddDepartment)}
@@ -98,10 +102,9 @@ export const Department = observer(() => {
                       hasError={errors.lab}
                     >
                       <select
-                        value={Stores.departmentStore.department?.lab}
+                        value={departmentStore.department?.lab}
                         disabled={
-                          stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
+                          loginStore.login && loginStore.login.role !== "SYSADMIN"
                             ? true
                             : false
                         }
@@ -111,21 +114,21 @@ export const Department = observer(() => {
                         onChange={(e) => {
                           const lab = e.target.value
                           onChange(lab)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             lab,
                           })
-                          Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
-                            Stores.departmentStore.department?.code || "",
-                            Stores.departmentStore.department?.environment || "",
+                          departmentStore.DepartmentService.checkExitsLabEnvCode(
+                            departmentStore.department?.code || "",
+                            departmentStore.department?.environment || "",
                             lab
                           ).then((res) => {
                             if (res.success) {
-                              Stores.departmentStore.setExitsCode(true)
+                              departmentStore.setExitsCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else Stores.departmentStore.setExitsCode(false)
+                            } else departmentStore.setExitsCode(false)
                           })
                         }}
                       >
@@ -151,26 +154,26 @@ export const Department = observer(() => {
                       id="code"
                       hasError={errors.code}
                       placeholder={errors.code ? "Please Enter Code" : "Code"}
-                      value={Stores.departmentStore.department?.code}
+                      value={departmentStore.department?.code}
                       onChange={(code) => {
                         onChange(code)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           code: code.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
-                        Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
+                        departmentStore.DepartmentService.checkExitsLabEnvCode(
                           code,
-                          Stores.departmentStore.department?.environment || "",
-                          Stores.departmentStore.department?.lab || ""
+                          departmentStore.department?.environment || "",
+                          departmentStore.department?.lab || ""
                         ).then((res) => {
                           if (res.success) {
-                            Stores.departmentStore.setExitsCode(true)
+                            departmentStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.message}`,
                             })
-                          } else Stores.departmentStore.setExitsCode(false)
+                          } else departmentStore.setExitsCode(false)
                         })
                       }}
                     />
@@ -179,7 +182,7 @@ export const Department = observer(() => {
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                {Stores.departmentStore.checkExitsCode && (
+                {departmentStore.checkExitsCode && (
                   <span className="text-red-600 font-medium relative">
                     Code already exits. Please use other code.
                   </span>
@@ -193,11 +196,11 @@ export const Department = observer(() => {
                       name="name"
                       hasError={errors.name}
                       placeholder={errors.name ? "Please Enter Name" : "Name"}
-                      value={Stores.departmentStore.department?.name}
+                      value={departmentStore.department?.name}
                       onChange={(name) => {
                         onChange(name)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           name: name.toUpperCase(),
                         })
                       }}
@@ -217,11 +220,11 @@ export const Department = observer(() => {
                         errors.shortName ? "Please Enter Short Name" : "Short Name"
                       }
                       hasError={errors.shortName}
-                      value={Stores.departmentStore.department?.shortName}
+                      value={departmentStore.department?.shortName}
                       onChange={(shortName) => {
                         onChange(shortName)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           shortName: shortName.toUpperCase(),
                         })
                       }}
@@ -245,14 +248,15 @@ export const Department = observer(() => {
                         onChange={(e) => {
                           const hod = e.target.value
                           onChange(hod)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             hod,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {userStore && userStore.userList &&
+                        {userStore &&
+                          userStore.userList &&
                           userStore.userList.map((item: any, key: number) => (
                             <option key={key} value={item.fullName}>
                               {item.fullName}
@@ -282,11 +286,11 @@ export const Department = observer(() => {
                         errors.mobileNo ? "Please Enter MobileNo" : "MobileNo"
                       }
                       hasError={errors.mobileNo}
-                      value={Stores.departmentStore.department?.mobileNo}
+                      value={departmentStore.department?.mobileNo}
                       onChange={(mobileNo) => {
                         onChange(mobileNo)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           mobileNo,
                         })
                       }}
@@ -305,11 +309,11 @@ export const Department = observer(() => {
                         errors.contactNo ? "Please Enter contactNo" : "contactNo"
                       }
                       hasError={errors.contactNo}
-                      value={Stores.departmentStore.department?.contactNo}
+                      value={departmentStore.department?.contactNo}
                       onChange={(contactNo) => {
                         onChange(contactNo)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           contactNo,
                         })
                       }}
@@ -325,11 +329,11 @@ export const Department = observer(() => {
                     <LibraryComponents.Atoms.Form.Clock
                       label="Opening Time"
                       hasError={errors.openingTime}
-                      value={Stores.departmentStore.department?.openingTime}
+                      value={departmentStore.department?.openingTime}
                       onChange={(openingTime) => {
                         onChange(openingTime)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           openingTime,
                         })
                       }}
@@ -345,11 +349,11 @@ export const Department = observer(() => {
                     <LibraryComponents.Atoms.Form.Clock
                       label="Closing Time"
                       hasError={errors.closingTime}
-                      value={Stores.departmentStore.department?.closingTime}
+                      value={departmentStore.department?.closingTime}
                       onChange={(closingTime) => {
                         onChange(closingTime)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           closingTime,
                         })
                       }}
@@ -366,11 +370,11 @@ export const Department = observer(() => {
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Auto Release"
                         hasError={errors.autoRelease}
-                        value={Stores.departmentStore.department?.autoRelease}
+                        value={departmentStore.department?.autoRelease}
                         onChange={(autoRelease) => {
                           onChange(autoRelease)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             autoRelease,
                           })
                         }}
@@ -387,11 +391,11 @@ export const Department = observer(() => {
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Require receve in lab"
                         hasError={errors.requireReceveInLab}
-                        value={Stores.departmentStore.department?.requireReceveInLab}
+                        value={departmentStore.department?.requireReceveInLab}
                         onChange={(requireReceveInLab) => {
                           onChange(requireReceveInLab)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             requireReceveInLab,
                           })
                         }}
@@ -407,11 +411,11 @@ export const Department = observer(() => {
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Require Scain In"
                         hasError={errors.requireScainIn}
-                        value={Stores.departmentStore.department?.requireScainIn}
+                        value={departmentStore.department?.requireScainIn}
                         onChange={(requireScainIn) => {
                           onChange(requireScainIn)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             requireScainIn,
                           })
                         }}
@@ -427,11 +431,11 @@ export const Department = observer(() => {
                       <LibraryComponents.Atoms.Form.Toggle
                         label="Routing Dept"
                         hasError={errors.routingDept}
-                        value={Stores.departmentStore.department?.routingDept}
+                        value={departmentStore.department?.routingDept}
                         onChange={(routingDept) => {
                           onChange(routingDept)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             routingDept,
                           })
                         }}
@@ -459,11 +463,11 @@ export const Department = observer(() => {
                         errors.fyiLine ? "Please Enter fyiLine" : "fyiLine"
                       }
                       hasError={errors.fyiLine}
-                      value={Stores.departmentStore.department?.fyiLine}
+                      value={departmentStore.department?.fyiLine}
                       onChange={(fyiLine) => {
                         onChange(fyiLine)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           fyiLine,
                         })
                       }}
@@ -483,11 +487,11 @@ export const Department = observer(() => {
                         errors.workLine ? "Please Enter workLine" : "workLine"
                       }
                       hasError={errors.workLine}
-                      value={Stores.departmentStore.department?.workLine}
+                      value={departmentStore.department?.workLine}
                       onChange={(workLine) => {
                         onChange(workLine)
-                        Stores.departmentStore.updateDepartment({
-                          ...Stores.departmentStore.department,
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
                           workLine,
                         })
                       }}
@@ -505,22 +509,22 @@ export const Department = observer(() => {
                       hasError={errors.status}
                     >
                       <select
-                        value={Stores.departmentStore.department?.status}
+                        value={departmentStore.department?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.status ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const status = e.target.value
                           onChange(status)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             status,
                           })
                         }}
                       >
                         <option selected>Select</option>
                         {LibraryUtils.lookupItems(
-                          stores.routerStore.lookupItems,
+                          routerStore.lookupItems,
                           "STATUS"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -539,46 +543,43 @@ export const Department = observer(() => {
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                       <select
-                        value={Stores.departmentStore.department?.environment}
+                        value={departmentStore.department?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.environment ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         disabled={
-                          stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
+                          loginStore.login && loginStore.login.role !== "SYSADMIN"
                             ? true
                             : false
                         }
                         onChange={(e) => {
                           const environment = e.target.value
                           onChange(environment)
-                          Stores.departmentStore.updateDepartment({
-                            ...Stores.departmentStore.department,
+                          departmentStore.updateDepartment({
+                            ...departmentStore.department,
                             environment,
                           })
-                          Stores.departmentStore.DepartmentService.checkExitsLabEnvCode(
-                            Stores.departmentStore.department?.code || "",
+                          departmentStore.DepartmentService.checkExitsLabEnvCode(
+                            departmentStore.department?.code || "",
                             environment,
-                            Stores.departmentStore.department?.lab || ""
+                            departmentStore.department?.lab || ""
                           ).then((res) => {
                             if (res.success) {
-                              Stores.departmentStore.setExitsCode(true)
+                              departmentStore.setExitsCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else Stores.departmentStore.setExitsCode(false)
+                            } else departmentStore.setExitsCode(false)
                           })
                         }}
                       >
                         <option selected>
-                          {stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
                             ? `Select`
-                            : Stores.departmentStore.department?.environment ||
-                              `Select`}
+                            : departmentStore.department?.environment || `Select`}
                         </option>
                         {LibraryUtils.lookupItems(
-                          stores.routerStore.lookupItems,
+                          routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -621,17 +622,17 @@ export const Department = observer(() => {
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
             <FeatureComponents.Molecules.DepartmentList
-              data={Stores.departmentStore.listDepartment || []}
-              totalSize={Stores.departmentStore.listDepartmentCount}
+              data={departmentStore.listDepartment || []}
+              totalSize={departmentStore.listDepartmentCount}
               extraData={{
-                lookupItems: stores.routerStore.lookupItems,
+                lookupItems: routerStore.lookupItems,
               }}
               isDelete={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Edit/Modify"
               )}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -654,7 +655,7 @@ export const Department = observer(() => {
                 })
               }}
               onPageSizeChange={(page, limit) => {
-                Stores.departmentStore.fetchListDepartment(page, limit)
+                departmentStore.fetchListDepartment(page, limit)
               }}
             />
           </div>
@@ -662,7 +663,7 @@ export const Department = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                Stores.departmentStore.DepartmentService.deletedepartment(
+                departmentStore.DepartmentService.deletedepartment(
                   modalConfirm.id
                 ).then((res: any) => {
                   if (res.status === 200) {
@@ -670,11 +671,11 @@ export const Department = observer(() => {
                       message: `😊 Department deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.departmentStore.fetchListDepartment()
+                    departmentStore.fetchListDepartment()
                   }
                 })
               } else if (type === "Update") {
-                Stores.departmentStore.DepartmentService.updateSingleFiled(
+                departmentStore.DepartmentService.updateSingleFiled(
                   modalConfirm.data
                 ).then((res: any) => {
                   if (res.status === 200) {
@@ -682,7 +683,7 @@ export const Department = observer(() => {
                       message: `😊 Department updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.departmentStore.fetchListDepartment()
+                    departmentStore.fetchListDepartment()
                     window.location.reload()
                   }
                 })
