@@ -7,27 +7,27 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
-import { Stores } from "../stores"
-import { stores,useStores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const SalesTeam = observer(() => {
+  const { loginStore, userStore, salesTeamStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore,userStore } = useStores()
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.salesTeamStore.updateSalesTeam({
-        ...Stores.salesTeamStore.salesTeam,
+      salesTeamStore.updateSalesTeam({
+        ...salesTeamStore.salesTeam,
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
@@ -35,9 +35,9 @@ export const SalesTeam = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitSalesTeam = () => {
-    if (!Stores.salesTeamStore.checkExistsEnvCode) {
-      Stores.salesTeamStore.salesTeamService
-        .addSalesTeam({ input: { ...Stores.salesTeamStore.salesTeam } })
+    if (!salesTeamStore.checkExistsEnvCode) {
+      salesTeamStore.salesTeamService
+        .addSalesTeam({ input: { ...salesTeamStore.salesTeam } })
         .then((res) => {
           if (res.createSalesTeam.success) {
             LibraryComponents.Atoms.Toast.success({
@@ -96,8 +96,8 @@ export const SalesTeam = observer(() => {
                       onChange={(e) => {
                         const salesHierarchy = e.target.value
                         onChange(salesHierarchy)
-                        Stores.salesTeamStore.updateSalesTeam({
-                          ...Stores.salesTeamStore.salesTeam,
+                        salesTeamStore.updateSalesTeam({
+                          ...salesTeamStore.salesTeam,
                           salesHierarchy,
                         })
                       }}
@@ -134,8 +134,8 @@ export const SalesTeam = observer(() => {
                       onChange={(e) => {
                         const salesTerritory = JSON.parse(e.target.value)
                         onChange(salesTerritory)
-                        Stores.salesTeamStore.updateSalesTeam({
-                          ...Stores.salesTeamStore.salesTeam,
+                        salesTeamStore.updateSalesTeam({
+                          ...salesTeamStore.salesTeam,
                           salesTerritory,
                         })
                       }}
@@ -158,7 +158,7 @@ export const SalesTeam = observer(() => {
                 defaultValue=""
               />
 
-              {userStore.userList && (
+              {userStore && userStore.userList && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -174,29 +174,31 @@ export const SalesTeam = observer(() => {
                           const userDetials = JSON.parse(e.target.value) as any
                           onChange(userDetials)
                           setValue("empName", userDetials.empName)
-                          Stores.salesTeamStore.updateSalesTeam({
-                            ...Stores.salesTeamStore.salesTeam,
+                          salesTeamStore.updateSalesTeam({
+                            ...salesTeamStore.salesTeam,
                             empCode: userDetials.empCode,
                             empName: userDetials.empName,
                           })
-                          Stores.salesTeamStore.salesTeamService
-                            .checkExistsEnvCode(
-                              userDetials.empCode,
-                              Stores.salesTeamStore.salesTeam?.environment || ""
-                            )
+                          salesTeamStore.salesTeamService
+                            .checkExistsEnvCode({
+                              input: {
+                                code: userDetials.empCode,
+                                env: salesTeamStore.salesTeam?.environment,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.salesTeamStore.updateExistsEnvCode(true)
+                              if (res.checkSalesTeamsExistsRecord.success) {
+                                salesTeamStore.updateExistsEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                                 })
-                              } else Stores.salesTeamStore.updateExistsEnvCode(false)
+                              } else salesTeamStore.updateExistsEnvCode(false)
                             })
                         }}
                       >
                         <option selected>Select</option>
                         {Utils.filterUsersItems(
-                          toJS(userStore.userList),
+                          toJS(userStore && userStore.userList),
                           "role",
                           "code",
                           "SALES"
@@ -214,7 +216,7 @@ export const SalesTeam = observer(() => {
                 />
               )}
 
-              {Stores.salesTeamStore.checkExistsEnvCode && (
+              {salesTeamStore.checkExistsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -240,7 +242,7 @@ export const SalesTeam = observer(() => {
                     } rounded-md`}
                     hasError={errors.empName}
                     disabled={true}
-                    value={Stores.salesTeamStore.salesTeam?.empName}
+                    value={salesTeamStore.salesTeam?.empName}
                   />
                 )}
                 name="userDetials"
@@ -261,14 +263,15 @@ export const SalesTeam = observer(() => {
                       onChange={(e) => {
                         const userDetials = JSON.parse(e.target.value) as any
                         onChange(userDetials)
-                        Stores.salesTeamStore.updateSalesTeam({
-                          ...Stores.salesTeamStore.salesTeam,
+                        salesTeamStore.updateSalesTeam({
+                          ...salesTeamStore.salesTeam,
                           reportingTo: userDetials.empCode,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {userStore.userList &&
+                      {userStore &&
+                        userStore.userList &&
                         Utils.filterUsersItems(
                           userStore.userList,
                           "role",
@@ -291,7 +294,7 @@ export const SalesTeam = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.salesTeamStore.salesTeam?.environment}
+                      value={salesTeamStore.salesTeam?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -304,22 +307,24 @@ export const SalesTeam = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.salesTeamStore.updateSalesTeam({
-                          ...Stores.salesTeamStore.salesTeam,
+                        salesTeamStore.updateSalesTeam({
+                          ...salesTeamStore.salesTeam,
                           environment,
                         })
-                        Stores.salesTeamStore.salesTeamService
-                          .checkExistsEnvCode(
-                            Stores.salesTeamStore.salesTeam?.empCode || "",
-                            environment
-                          )
+                        salesTeamStore.salesTeamService
+                          .checkExistsEnvCode({
+                            input: {
+                              code: salesTeamStore.salesTeam?.empCode,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.salesTeamStore.updateExistsEnvCode(true)
+                            if (res.checkSalesTeamsExistsRecord.success) {
+                              salesTeamStore.updateExistsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
                               })
-                            } else Stores.salesTeamStore.updateExistsEnvCode(false)
+                            } else salesTeamStore.updateExistsEnvCode(false)
                           })
                       }}
                     >
@@ -327,7 +332,7 @@ export const SalesTeam = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.salesTeamStore.salesTeam?.environment || `Select`}
+                          : salesTeamStore.salesTeam?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -371,8 +376,8 @@ export const SalesTeam = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
           <SalesTeamList
-            data={Stores.salesTeamStore.listSalesTeam || []}
-            totalSize={Stores.salesTeamStore.listSalesTeamCount}
+            data={salesTeamStore.listSalesTeam || []}
+            totalSize={salesTeamStore.listSalesTeamCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -405,7 +410,7 @@ export const SalesTeam = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.salesTeamStore.fetchSalesTeam(page, limit)
+              salesTeamStore.fetchSalesTeam(page, limit)
             }}
           />
         </div>
@@ -413,7 +418,7 @@ export const SalesTeam = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.salesTeamStore.salesTeamService
+              salesTeamStore.salesTeamService
                 .deleteSalesTeam({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeSalesTeam.success) {
@@ -421,11 +426,11 @@ export const SalesTeam = observer(() => {
                       message: `😊 ${res.removeSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.salesTeamStore.fetchSalesTeam()
+                    salesTeamStore.fetchSalesTeam()
                   }
-                })  
-            } else if (type === "Update") {  
-              Stores.salesTeamStore.salesTeamService
+                })
+            } else if (type === "Update") {
+              salesTeamStore.salesTeamService
                 .updateSingleFiled({
                   input: {
                     _id: modalConfirm.data.id,

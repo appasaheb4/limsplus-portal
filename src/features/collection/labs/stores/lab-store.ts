@@ -35,12 +35,7 @@ export class LabStore {
   }
 
   @action fetchListLab(page?, limit?) {
-    this.LabService.listLabs(page, limit).then((res) => {
-      // console.log({res});
-      // if (!res.labs.success) return alert(res.labs.message)
-      // this.listLabs = res.labs.data
-      // this.listLabsCount = res.labs.paginatorInfo.count
-    })  
+    this.LabService.listLabs(page, limit)  
   }
   
   @action updateLabList(res: any) {

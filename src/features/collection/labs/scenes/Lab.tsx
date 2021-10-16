@@ -8,15 +8,17 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { useStores, stores } from "@lp/stores"
-import { Stores, Contexts } from "../stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
-import { Stores as SalesTeamStore } from "@lp/features/collection/salesTeam/stores"
+
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const Lab = observer(() => {
-  const { labStore } = useStores()
+  const { labStore,salesTeamStore,routerStore } = useStores()
+
+  console.log({salesTeamStore});
+  
 
   const {
     control,
@@ -28,18 +30,18 @@ const Lab = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.labStore.updateLabs({
-        ...Stores.labStore.labs,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      labStore.updateLabs({
+        ...labStore.labs,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitLab = () => {
-    if (!Stores.labStore.checkExitsEnvCode) {
-      Stores.labStore.LabService.addLab({ input: { ...Stores.labStore.labs } }).then(
+    if (!labStore.checkExitsEnvCode) {
+      labStore.LabService.addLab({ input: { ...labStore.labs } }).then(
         (res) => {
           if (res.createLab.success) {
             LibraryComponents.Atoms.Toast.success({
@@ -62,12 +64,12 @@ const Lab = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -94,27 +96,27 @@ const Lab = observer(() => {
                     id="code"
                     hasError={errors.code}
                     placeholder={errors.code ? "Please Enter Code" : "Code"}
-                    value={Stores.labStore.labs?.code}
+                    value={labStore.labs?.code}
                     onChange={(code) => {
                       onChange(code)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         code: code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.labStore.LabService.checkExitsEnvCode({
+                      labStore.LabService.checkExitsEnvCode({
                         input: {
                           code,
-                          env: Stores.labStore.labs?.environment,
+                          env: labStore.labs?.environment,
                         },
                       }).then((res) => {
                         if (res.checkLabExitsEnvCode.success) {
-                          Stores.labStore.setExitsEnvCode(true)
+                          labStore.setExitsEnvCode(true)
                           LibraryComponents.Atoms.Toast.error({
                             message: `😔 ${res.checkLabExitsEnvCode.message}`,
                           })
-                        } else Stores.labStore.setExitsEnvCode(false)
+                        } else labStore.setExitsEnvCode(false)
                       })
                     }}
                   />
@@ -123,7 +125,7 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.labStore.checkExitsEnvCode && (
+              {labStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -136,11 +138,11 @@ const Lab = observer(() => {
                     name="name"
                     hasError={errors.name}
                     placeholder={errors.name ? "Please Enter Name" : "Name"}
-                    value={Stores.labStore.labs?.name}
+                    value={labStore.labs?.name}
                     onChange={(name) => {
                       onChange(name)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         name: name.toUpperCase(),
                       })
                     }}
@@ -165,8 +167,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const country = e.target.value
                         onChange(country)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           country,
                         })
                       }}
@@ -202,8 +204,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const state = e.target.value
                         onChange(state)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           state,
                         })
                       }}
@@ -212,12 +214,12 @@ const Lab = observer(() => {
                       {Utils.stateList(
                         AdministrativeDivStore.administrativeDivStore
                           .listAdministrativeDiv,
-                        Stores.labStore.labs?.country
+                        labStore.labs?.country
                       ) &&
                         Utils.stateList(
                           AdministrativeDivStore.administrativeDivStore
                             .listAdministrativeDiv,
-                          Stores.labStore.labs?.country
+                          labStore.labs?.country
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}
@@ -244,8 +246,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const district = e.target.value
                         onChange(district)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           district,
                         })
                       }}
@@ -254,14 +256,14 @@ const Lab = observer(() => {
                       {Utils.districtList(
                         AdministrativeDivStore.administrativeDivStore
                           .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state
+                        labStore.labs?.country,
+                        labStore.labs?.state
                       ) &&
                         Utils.districtList(
                           AdministrativeDivStore.administrativeDivStore
                             .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state
+                          labStore.labs?.country,
+                          labStore.labs?.state
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}
@@ -288,8 +290,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const city = e.target.value
                         onChange(city)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           city,
                         })
                       }}
@@ -298,16 +300,16 @@ const Lab = observer(() => {
                       {Utils.cityList(
                         AdministrativeDivStore.administrativeDivStore
                           .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district
+                        labStore.labs?.country,
+                        labStore.labs?.state,
+                        labStore.labs?.district
                       ) &&
                         Utils.cityList(
                           AdministrativeDivStore.administrativeDivStore
                             .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district
+                          labStore.labs?.country,
+                          labStore.labs?.state,
+                          labStore.labs?.district
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}
@@ -334,8 +336,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const area = e.target.value
                         onChange(area)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           area,
                         })
                       }}
@@ -344,18 +346,18 @@ const Lab = observer(() => {
                       {Utils.areaList(
                         AdministrativeDivStore.administrativeDivStore
                           .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district,
-                        Stores.labStore.labs?.city
+                        labStore.labs?.country,
+                        labStore.labs?.state,
+                        labStore.labs?.district,
+                        labStore.labs?.city
                       ) &&
                         Utils.areaList(
                           AdministrativeDivStore.administrativeDivStore
                             .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district,
-                          Stores.labStore.labs?.city
+                          labStore.labs?.country,
+                          labStore.labs?.state,
+                          labStore.labs?.district,
+                          labStore.labs?.city
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}
@@ -382,8 +384,8 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const postalCode = e.target.value
                         onChange(postalCode)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           postalCode,
                         })
                       }}
@@ -392,18 +394,18 @@ const Lab = observer(() => {
                       {Utils.postCodeList(
                         AdministrativeDivStore.administrativeDivStore
                           .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district,
-                        Stores.labStore.labs?.city
+                        labStore.labs?.country,
+                        labStore.labs?.state,
+                        labStore.labs?.district,
+                        labStore.labs?.city
                       ) &&
                         Utils.postCodeList(
                           AdministrativeDivStore.administrativeDivStore
                             .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district,
-                          Stores.labStore.labs?.city
+                          labStore.labs?.country,
+                          labStore.labs?.state,
+                          labStore.labs?.district,
+                          labStore.labs?.city
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}
@@ -430,15 +432,15 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const deliveryType = e.target.value
                         onChange(deliveryType)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           deliveryType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -475,18 +477,18 @@ const Lab = observer(() => {
                       onChange={(e) => {
                         const salesTerritory = e.target.value
                         onChange(salesTerritory)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           salesTerritory,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {SalesTeamStore.salesTeamStore.listSalesTeam &&
-                        SalesTeamStore.salesTeamStore.listSalesTeam.map(
+                      {salesTeamStore.listSalesTeam &&
+                        salesTeamStore.listSalesTeam.map(
                           (item: any, index: number) => (
-                            <option key={index} value={item.salesTerritory.area}>
-                              {`${item.salesTerritory.area}`}
+                            <option key={index} value={item.salesTerritory}>
+                              {`${item.salesTerritory}`}
                             </option>
                           )
                         )}
@@ -506,11 +508,11 @@ const Lab = observer(() => {
                       errors.labLicence ? "Please Enter labLicence" : "Lab Licence"
                     }
                     hasError={errors.labLicence}
-                    value={Stores.labStore.labs?.labLicence}
+                    value={labStore.labs?.labLicence}
                     onChange={(labLicence) => {
                       onChange(labLicence)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         labLicence,
                       })
                     }}
@@ -529,11 +531,11 @@ const Lab = observer(() => {
                       errors.director ? "Please Enter director" : "Director"
                     }
                     hasError={errors.director}
-                    value={Stores.labStore.labs?.director}
+                    value={labStore.labs?.director}
                     onChange={(director) => {
                       onChange(director)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         director,
                       })
                     }}
@@ -552,11 +554,11 @@ const Lab = observer(() => {
                       errors.physician ? "Please Enter physician" : "Physician"
                     }
                     hasError={errors.physician}
-                    value={Stores.labStore.labs?.physician}
+                    value={labStore.labs?.physician}
                     onChange={(physician) => {
                       onChange(physician)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         physician,
                       })
                     }}
@@ -576,11 +578,11 @@ const Lab = observer(() => {
                       errors.mobileNo ? "Please Enter mobileNo" : "Mobile Number"
                     }
                     hasError={errors.mobileNo}
-                    value={Stores.labStore.labs?.mobileNo}
+                    value={labStore.labs?.mobileNo}
                     onChange={(mobileNo) => {
                       onChange(mobileNo)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         mobileNo,
                       })
                     }}
@@ -600,11 +602,11 @@ const Lab = observer(() => {
                       errors.contactNo ? "Please Enter contactNo" : "Contact Number"
                     }
                     hasError={errors.contactNo}
-                    value={Stores.labStore.labs?.contactNo}
+                    value={labStore.labs?.contactNo}
                     onChange={(contactNo) => {
                       onChange(contactNo)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         contactNo,
                       })
                     }}
@@ -623,11 +625,11 @@ const Lab = observer(() => {
                       errors.speciality ? "Please Enter speciality" : "Speciality"
                     }
                     hasError={errors.speciality}
-                    value={Stores.labStore.labs?.speciality}
+                    value={labStore.labs?.speciality}
                     onChange={(speciality) => {
                       onChange(speciality)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         speciality,
                       })
                     }}
@@ -645,22 +647,22 @@ const Lab = observer(() => {
                     hasError={errors.labType}
                   >
                     <select
-                      value={Stores.labStore.labs?.labType}
+                      value={labStore.labs?.labType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.labType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const labType = e.target.value
                         onChange(labType)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           labType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "LAB_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -688,11 +690,11 @@ const Lab = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="Opening Time"
                     hasError={errors.openingTime}
-                    value={Stores.labStore.labs?.openingTime}
+                    value={labStore.labs?.openingTime}
                     onChange={(openingTime) => {
                       onChange(openingTime)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         openingTime,
                       })
                     }}
@@ -708,11 +710,11 @@ const Lab = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="Closing Time"
                     hasError={errors.closingTime}
-                    value={Stores.labStore.labs?.closingTime}
+                    value={labStore.labs?.closingTime}
                     onChange={(closingTime) => {
                       onChange(closingTime)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         closingTime,
                       })
                     }}
@@ -729,11 +731,11 @@ const Lab = observer(() => {
                     label="Email"
                     placeholder={errors.email ? "Please Enter Email" : "Email"}
                     hasError={errors.email}
-                    value={Stores.labStore.labs?.email}
+                    value={labStore.labs?.email}
                     onChange={(email) => {
                       onChange(email)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         email,
                       })
                     }}
@@ -753,8 +755,8 @@ const Lab = observer(() => {
                     onChange={(e) => {
                       const labLog = e.target.files[0]
                       onChange(labLog)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         labLog,
                       })
                     }}
@@ -774,11 +776,11 @@ const Lab = observer(() => {
                       errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"
                     }
                     hasError={errors.fyiLine}
-                    value={Stores.labStore.labs?.fyiLine}
+                    value={labStore.labs?.fyiLine}
                     onChange={(fyiLine) => {
                       onChange(fyiLine)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         fyiLine,
                       })
                     }}
@@ -798,11 +800,11 @@ const Lab = observer(() => {
                       errors.workLine ? "Please Enter workLine" : "WorkLine"
                     }
                     hasError={errors.workLine}
-                    value={Stores.labStore.labs?.workLine}
+                    value={labStore.labs?.workLine}
                     onChange={(workLine) => {
                       onChange(workLine)
-                      Stores.labStore.updateLabs({
-                        ...Stores.labStore.labs,
+                      labStore.updateLabs({
+                        ...labStore.labs,
                         workLine,
                       })
                     }}
@@ -820,46 +822,46 @@ const Lab = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.labStore.labs?.environment}
+                      value={labStore.labs?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           environment,
                         })
-                        Stores.labStore.LabService.checkExitsEnvCode({
+                        labStore.LabService.checkExitsEnvCode({
                           input: {
-                            code: Stores.labStore.labs?.code,
+                            code: labStore.labs?.code,
                             env: environment,
                           },
                         }).then((res) => {
                           if (res.checkLabExitsEnvCode.success) {
-                            Stores.labStore.setExitsEnvCode(true)
+                            labStore.setExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.checkLabExitsEnvCode.message}`,
                             })
-                          } else Stores.labStore.setExitsEnvCode(false)
+                          } else labStore.setExitsEnvCode(false)
                         })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.labStore.labs?.environment || `Select`}
+                          : labStore.labs?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -881,11 +883,11 @@ const Lab = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Auto Release"
                       hasError={errors.autoRelease}
-                      value={Stores.labStore.labs?.autoRelease}
+                      value={labStore.labs?.autoRelease}
                       onChange={(autoRelease) => {
                         onChange(autoRelease)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           autoRelease,
                         })
                       }}
@@ -902,11 +904,11 @@ const Lab = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Require receve in lab"
                       hasError={errors.requireReceveInLab}
-                      value={Stores.labStore.labs?.requireReceveInLab}
+                      value={labStore.labs?.requireReceveInLab}
                       onChange={(requireReceveInLab) => {
                         onChange(requireReceveInLab)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           requireReceveInLab,
                         })
                       }}
@@ -922,11 +924,11 @@ const Lab = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Require Scain In"
                       hasError={errors.requireScainIn}
-                      value={Stores.labStore.labs?.requireScainIn}
+                      value={labStore.labs?.requireScainIn}
                       onChange={(requireScainIn) => {
                         onChange(requireScainIn)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           requireScainIn,
                         })
                       }}
@@ -942,11 +944,11 @@ const Lab = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Routing Dept"
                       hasError={errors.routingDept}
-                      value={Stores.labStore.labs?.routingDept}
+                      value={labStore.labs?.routingDept}
                       onChange={(routingDept) => {
                         onChange(routingDept)
-                        Stores.labStore.updateLabs({
-                          ...Stores.labStore.labs,
+                        labStore.updateLabs({
+                          ...labStore.labs,
                           routingDept,
                         })
                       }}
@@ -987,14 +989,14 @@ const Lab = observer(() => {
             data={labStore.listLabs || []}
             totalSize={labStore.listLabsCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -1026,7 +1028,7 @@ const Lab = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.labStore.fetchListLab(page, limit)
+              labStore.fetchListLab(page, limit)
             }}
           />
         </div>
@@ -1034,7 +1036,7 @@ const Lab = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.labStore.LabService.deleteLab({
+              labStore.LabService.deleteLab({
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeLab.success) {
@@ -1042,11 +1044,11 @@ const Lab = observer(() => {
                     message: `😊 ${res.removeLab.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.labStore.fetchListLab()
+                  labStore.fetchListLab()
                 }
               })
             } else if (type === "Update") {
-              Stores.labStore.LabService.updateSingleFiled({
+              labStore.LabService.updateSingleFiled({
                 input: {
                   _id: modalConfirm.data.id,
                   [modalConfirm.data.dataField]: modalConfirm.data.value,
@@ -1063,7 +1065,7 @@ const Lab = observer(() => {
                 }
               })
             } else {
-              Stores.labStore.LabService.updateLabImages({
+              labStore.LabService.updateLabImages({
                 input: {
                   _id: modalConfirm.data.id,
                   labLog: modalConfirm.data.value,

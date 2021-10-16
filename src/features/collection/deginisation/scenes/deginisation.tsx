@@ -6,37 +6,36 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
+import {  useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 const Deginisation = observer(() => {
+  const { loginStore,deginisationStore,routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+ 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDeginisation, setHideAddDeginisation] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.deginisationStore.updateDescription({
-        ...Stores.deginisationStore.deginisation,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      deginisationStore.updateDescription({
+        ...deginisationStore.deginisation,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitDesginiation = () => {
-    if (!Stores.deginisationStore.checkExitsCode) {
-      Stores.deginisationStore.DeginisationService.addDeginisation({
-        input: { ...Stores.deginisationStore.deginisation },
+    if (!deginisationStore.checkExitsCode) {
+      deginisationStore.DeginisationService.addDeginisation({
+        input: { ...deginisationStore.deginisation },
       }).then((res) => {
         if (res.createDesignation.success) {
           LibraryComponents.Atoms.Toast.success({
@@ -60,11 +59,11 @@ const Deginisation = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddDeginisation}
           onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
@@ -91,29 +90,29 @@ const Deginisation = observer(() => {
                     id="code"
                     placeholder={errors.code ? "Please Enter Code" : "Code"}
                     hasError={errors.code}
-                    value={Stores.deginisationStore.deginisation?.code}
+                    value={deginisationStore.deginisation?.code}
                     onChange={(code) => {
                       onChange(code)
-                      Stores.deginisationStore.updateDescription({
-                        ...Stores.deginisationStore.deginisation,
+                      deginisationStore.updateDescription({
+                        ...deginisationStore.deginisation,
                         code: code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
+                      deginisationStore.DeginisationService.checkExitsEnvCode(
                         {
                           input: {
                             code,
-                            env: Stores.deginisationStore.deginisation?.environment,
+                            env: deginisationStore.deginisation?.environment,
                           },
                         }
                       ).then((res) => {
                         if (res.checkDesignationsExistsRecord.success) {
-                          Stores.deginisationStore.setExitsCode(true)
+                          deginisationStore.setExitsCode(true)
                           LibraryComponents.Atoms.Toast.error({
                             message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                           })
-                        } else Stores.deginisationStore.setExitsCode(false)
+                        } else deginisationStore.setExitsCode(false)
                       })
                     }}
                   />
@@ -123,7 +122,7 @@ const Deginisation = observer(() => {
                 defaultValue=""
               />
 
-              {Stores.deginisationStore.checkExitsCode && (
+              {deginisationStore.checkExitsCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -139,11 +138,11 @@ const Deginisation = observer(() => {
                       errors.description ? "Please Enter Description" : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.deginisationStore.deginisation?.description}
+                    value={deginisationStore.deginisation?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.deginisationStore.updateDescription({
-                        ...Stores.deginisationStore.deginisation,
+                      deginisationStore.updateDescription({
+                        ...deginisationStore.deginisation,
                         description: description.toUpperCase(),
                       })
                     }}
@@ -158,10 +157,10 @@ const Deginisation = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.deginisationStore.deginisation?.environment}
+                      value={deginisationStore.deginisation?.environment}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -171,36 +170,36 @@ const Deginisation = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.deginisationStore.updateDescription({
-                          ...Stores.deginisationStore.deginisation,
+                        deginisationStore.updateDescription({
+                          ...deginisationStore.deginisation,
                           environment,
                         })
-                        Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
+                        deginisationStore.DeginisationService.checkExitsEnvCode(
                           {
                             input: {
-                              code: Stores.deginisationStore.deginisation?.code,
+                              code: deginisationStore.deginisation?.code,
                               env: environment,
                             },
                           }
                         ).then((res) => {
                           if (res.checkDesignationsExistsRecord.success) {
-                            Stores.deginisationStore.setExitsCode(true)
+                            deginisationStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                             })
-                          } else Stores.deginisationStore.setExitsCode(false)
+                          } else deginisationStore.setExitsCode(false)
                         })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.deginisationStore.deginisation?.environment ||
+                          : deginisationStore.deginisation?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -242,17 +241,17 @@ const Deginisation = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.DeginisationList
-            data={Stores.deginisationStore.listDeginisation || []}
-            totalSize={Stores.deginisationStore.listDeginisationCount}
+            data={deginisationStore.listDeginisation || []}
+            totalSize={deginisationStore.listDeginisationCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -275,7 +274,7 @@ const Deginisation = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.deginisationStore.fetchListDeginisation(page, limit)
+              deginisationStore.fetchListDeginisation(page, limit)
             }}
           />
         </div>
@@ -283,7 +282,7 @@ const Deginisation = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.deginisationStore.DeginisationService.deleteDeginisation({
+              deginisationStore.DeginisationService.deleteDeginisation({
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeDesignation.success) {
@@ -291,11 +290,11 @@ const Deginisation = observer(() => {
                     message: `😊 ${res.removeDesignation.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.deginisationStore.fetchListDeginisation()
+                  deginisationStore.fetchListDeginisation()
                 }
               })
             } else if (type === "Update") {
-              Stores.deginisationStore.DeginisationService.updateSingleFiled({
+              deginisationStore.DeginisationService.updateSingleFiled({
                 input: {
                   _id: modalConfirm.data.id,
                   [modalConfirm.data.dataField]: modalConfirm.data.value,
@@ -306,7 +305,7 @@ const Deginisation = observer(() => {
                     message: `😊 ${res.updateDesignation.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.deginisationStore.fetchListDeginisation()
+                  deginisationStore.fetchListDeginisation()
                 }
               })
             }

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DeginisationStore from './deginisation-store';
+import {DeginisationStore} from './deginisation-store';
 
 export const Stores = {
   deginisationStore: new DeginisationStore(),

@@ -4,12 +4,16 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
 
-import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  EXISTS_RECORD,
+} from "./mutation"
 
 export class SalesTeamService {
   listSalesTeam = (page = 0, limit = 10) =>
@@ -22,11 +26,12 @@ export class SalesTeamService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          console.log({ response })
+
+          stores.salesTeamStore.updateSalesTeamList(response.data)
           resolve(response.data)
         })
-        .catch((error) =>
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
+        .catch((error) => reject(error))
     })
   addSalesTeam = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -61,8 +66,23 @@ export class SalesTeamService {
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExistsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
       .mutate({
-        mutation: UPDATE_RECORD,
+        mutation: EXISTS_RECORD,
         variables,
       })
       .then((response: any) => {
@@ -71,18 +91,5 @@ export class SalesTeamService {
       .catch((error) =>
         reject(new ServiceResponse<any>(0, error.message, undefined))
       )
-    })
-
-  checkExistsEnvCode = (code: string, env: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/salesTeam/checkExistsEnvCode`, { code, env })
-        .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
     })
 }
