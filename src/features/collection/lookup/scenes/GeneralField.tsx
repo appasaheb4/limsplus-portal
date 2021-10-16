@@ -10,9 +10,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 
-import { Stores } from "../stores"
 import { stores, useStores } from "@lp/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import { toJS } from "mobx"
 
 interface GeneralFieldProps {
@@ -20,28 +18,27 @@ interface GeneralFieldProps {
 }
 
 export const GeneralField = observer((props: GeneralFieldProps) => {
-  const { loginStore, lookupStore } = useStores()
+  const { lookupStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-   
-  
+
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.lookupStore.LookupService.generalSettingsUpdate({
-        ...Stores.lookupStore.globalSettings,
+      lookupStore.LookupService.generalSettingsUpdate({
+        ...lookupStore.globalSettings,
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
-    }  
+    }
   }, [stores.loginStore.login])
 
   const onSubmitGeneralFiled = (data: any) => {
-    Stores.lookupStore.LookupService.generalSettingsUpdate({
-      ...Stores.lookupStore.globalSettings,
+    lookupStore.LookupService.generalSettingsUpdate({
+      ...lookupStore.globalSettings,
       router,
     }).then((res) => {
       if (res.success) {
@@ -76,14 +73,14 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   data={router}
                   defaultItem={
                     toJS(
-                      Stores.lookupStore.globalSettings &&
-                        Stores.lookupStore.globalSettings.documentList
+                      lookupStore.globalSettings &&
+                        lookupStore.globalSettings.documentList
                     ) || []
                   }
                   onChange={async (item: any) => {
                     onChange(item)
-                    Stores.lookupStore.updateGlobalSettings({
-                      ...Stores.lookupStore.globalSettings,
+                    lookupStore.updateGlobalSettings({
+                      ...lookupStore.globalSettings,
                       documentList: item,
                     })
                   }}
@@ -104,9 +101,9 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 <LibraryComponents.Molecules.AutoComplete
                   hasError={errors.filedName}
                   data={{
-                    list: toJS(LookupStore.lookupStore.listLookup).filter(
+                    list: toJS(lookupStore.listLookup).filter(
                       (a, i) =>
-                        toJS(LookupStore.lookupStore.listLookup).findIndex(
+                        toJS(lookupStore.listLookup).findIndex(
                           (s) => a.fieldName === s.fieldName
                         ) === i
                     ),
@@ -115,8 +112,8 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   }}
                   onChange={(item: any) => {
                     onChange(item.toUpperCase())
-                    Stores.lookupStore.updateGlobalSettings({
-                      ...Stores.lookupStore.globalSettings,
+                    lookupStore.updateGlobalSettings({
+                      ...lookupStore.globalSettings,
                       fieldName: item.toUpperCase(),
                     })
                   }}
@@ -135,11 +132,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Code"
                     hasError={errors.code}
-                    value={Stores.lookupStore.globalSettings?.code}
+                    value={lookupStore.globalSettings?.code}
                     onChange={(code) => {
                       onChange(code.toUpperCase())
-                      Stores.lookupStore.updateGlobalSettings({
-                        ...Stores.lookupStore.globalSettings,
+                      lookupStore.updateGlobalSettings({
+                        ...lookupStore.globalSettings,
                         code: code.toUpperCase(),
                       })
                     }}
@@ -156,11 +153,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Value"
                     hasError={errors.value}
-                    value={Stores.lookupStore.globalSettings?.value}
+                    value={lookupStore.globalSettings?.value}
                     onChange={(value) => {
                       onChange(value)
-                      Stores.lookupStore.updateGlobalSettings({
-                        ...Stores.lookupStore.globalSettings,
+                      lookupStore.updateGlobalSettings({
+                        ...lookupStore.globalSettings,
                         value,
                       })
                     }}
@@ -175,9 +172,9 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   size="medium"
                   type="solid"
                   onClick={() => {
-                    const value = Stores.lookupStore.globalSettings?.value
-                    const code = Stores.lookupStore.globalSettings?.code
-                    let arrValue = Stores.lookupStore.globalSettings?.arrValue || []
+                    const value = lookupStore.globalSettings?.value
+                    const code = lookupStore.globalSettings?.code
+                    let arrValue = lookupStore.globalSettings?.arrValue || []
                     if (value === undefined || code === undefined)
                       return alert("Please enter value and code.")
                     if (value !== undefined) {
@@ -193,12 +190,12 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                               code,
                             },
                           ])
-                      Stores.lookupStore.updateGlobalSettings({
-                        ...Stores.lookupStore.globalSettings,
+                      lookupStore.updateGlobalSettings({
+                        ...lookupStore.globalSettings,
                         arrValue,
                       })
-                      Stores.lookupStore.updateGlobalSettings({
-                        ...Stores.lookupStore.globalSettings,
+                      lookupStore.updateGlobalSettings({
+                        ...lookupStore.globalSettings,
                         value: "",
                         code: "",
                       })
@@ -212,7 +209,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
             </LibraryComponents.Atoms.Grid>
             <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
               <div className="mt-2">
-                {Stores.lookupStore.globalSettings?.arrValue?.map((item, index) => (
+                {lookupStore.globalSettings?.arrValue?.map((item, index) => (
                   <div className="mb-2" key={index}>
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
@@ -220,17 +217,13 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                       icon={LibraryComponents.Atoms.Icon.Remove}
                       onClick={() => {
                         const firstArr =
-                          Stores.lookupStore.globalSettings?.arrValue?.slice(
-                            0,
-                            index
-                          ) || []
+                          lookupStore.globalSettings?.arrValue?.slice(0, index) || []
                         const secondArr =
-                          Stores.lookupStore.globalSettings?.arrValue?.slice(
-                            index + 1
-                          ) || []
+                          lookupStore.globalSettings?.arrValue?.slice(index + 1) ||
+                          []
                         const finalArray = [...firstArr, ...secondArr]
-                        Stores.lookupStore.updateGlobalSettings({
-                          ...Stores.lookupStore.globalSettings,
+                        lookupStore.updateGlobalSettings({
+                          ...lookupStore.globalSettings,
                           arrValue: finalArray,
                         })
                       }}
@@ -262,16 +255,16 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                       },
                     ]
                     onChange(defaultItem)
-                    Stores.lookupStore.updateGlobalSettings({
-                      ...Stores.lookupStore.globalSettings,
+                    lookupStore.updateGlobalSettings({
+                      ...lookupStore.globalSettings,
                       defaultItem,
                     })
                   }}
                 >
                   <option selected>Select</option>
-                  {Stores.lookupStore.globalSettings &&
-                    Stores.lookupStore.globalSettings.arrValue &&
-                    Stores.lookupStore.globalSettings.arrValue.map(
+                  {lookupStore.globalSettings &&
+                    lookupStore.globalSettings.arrValue &&
+                    lookupStore.globalSettings.arrValue.map(
                       (item: any, index: number) => (
                         <option key={item.name} value={JSON.stringify(item)}>
                           {`${item.value} - ${item.code}`}
@@ -300,11 +293,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 label="Description"
                 name="txtDescription"
                 placeholder="Description"
-                value={Stores.lookupStore.globalSettings?.description}
+                value={lookupStore.globalSettings?.description}
                 onChange={(description) => {
                   onChange(description)
-                  Stores.lookupStore.updateGlobalSettings({
-                    ...Stores.lookupStore.globalSettings,
+                  lookupStore.updateGlobalSettings({
+                    ...lookupStore.globalSettings,
                     description,
                   })
                 }}
@@ -323,7 +316,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 hasError={errors.environment}
               >
                 <select
-                  value={Stores.lookupStore.globalSettings?.environment}
+                  value={lookupStore.globalSettings?.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
@@ -336,8 +329,8 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
-                    Stores.lookupStore.updateGlobalSettings({
-                      ...Stores.lookupStore.globalSettings,
+                    lookupStore.updateGlobalSettings({
+                      ...lookupStore.globalSettings,
                       environment,
                     })
                   }}
@@ -346,7 +339,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                     {stores.loginStore.login &&
                     stores.loginStore.login.role !== "SYSADMIN"
                       ? `Select`
-                      : Stores.lookupStore.globalSettings?.environment || `Select`}
+                      : lookupStore.globalSettings?.environment || `Select`}
                   </option>
                   {LibraryUtils.lookupItems(
                     stores.routerStore.lookupItems,

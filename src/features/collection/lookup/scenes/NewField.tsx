@@ -9,8 +9,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 let router = dashboardRoutes
 
-import { Stores } from "../stores"
-
 import { stores, useStores } from "@lp/stores"
 
 interface NewFieldProps {
@@ -18,32 +16,30 @@ interface NewFieldProps {
 }
 
 export const NewField = observer((props: NewFieldProps) => {
+  const { loginStore, lookupStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm()
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.lookupStore.updateLookup({
-        ...Stores.lookupStore.lookup,
-        environment: stores.loginStore.login.environment,
+    if (stores.loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      lookupStore.updateLookup({
+        ...lookupStore.lookup,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
   }, [stores.loginStore.login])
   const onSubmitNewField = (data: any) => {
-    if (
-      Stores.lookupStore.lookup?.value === "" &&
-      Stores.lookupStore.lookup.value === ""
-    ) {
-      Stores.lookupStore.LookupService.addLookup(Stores.lookupStore.lookup).then(
+    if (lookupStore.localInput.value === "" && lookupStore.localInput.value === "") {
+      lookupStore.LookupService.addLookup({ input: { ...lookupStore.lookup } }).then(
         (res) => {
-          if(res.success){
+          if (res.createLookup.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 ${res.message}`,
+              message: `😊 ${res.createLookup.message}`,
             })
             setTimeout(() => {
               window.location.reload()
@@ -85,8 +81,8 @@ export const NewField = observer((props: NewFieldProps) => {
                       children,
                     }
                     onChange(documentName)
-                    Stores.lookupStore.updateLookup({
-                      ...Stores.lookupStore.lookup,
+                    lookupStore.updateLookup({
+                      ...lookupStore.lookup,
                       documentName,
                     })
                   }}
@@ -104,11 +100,11 @@ export const NewField = observer((props: NewFieldProps) => {
                 label="Field Name"
                 placeholder="Field Name"
                 hasError={errors.fieldName}
-                value={Stores.lookupStore.lookup?.fieldName}
+                value={lookupStore.lookup?.fieldName}
                 onChange={(fieldName) => {
                   onChange(fieldName.toUpperCase())
-                  Stores.lookupStore.updateLookup({
-                    ...Stores.lookupStore.lookup,
+                  lookupStore.updateLookup({
+                    ...lookupStore.lookup,
                     fieldName: fieldName.toUpperCase(),
                   })
                 }}
@@ -125,15 +121,15 @@ export const NewField = observer((props: NewFieldProps) => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Code"
-                    value={Stores.lookupStore.lookup?.code}
+                    value={lookupStore.localInput.code}
                     onChange={(code) => {
                       onChange(code.toUpperCase())
-                      Stores.lookupStore.updateLookup({
-                        ...Stores.lookupStore.lookup,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         code: code.toUpperCase(),
                       })
                     }}
-                  />
+                  /> 
                 )}
                 name="code"
                 rules={{ required: false }}
@@ -145,11 +141,11 @@ export const NewField = observer((props: NewFieldProps) => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Value"
-                    value={Stores.lookupStore.lookup?.value}
+                    value={lookupStore.localInput.value || ""}
                     onChange={(value) => {
                       onChange(value)
-                      Stores.lookupStore.updateLookup({
-                        ...Stores.lookupStore.lookup,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         value,
                       })
                     }}
@@ -164,9 +160,9 @@ export const NewField = observer((props: NewFieldProps) => {
                   size="medium"
                   type="solid"
                   onClick={() => {
-                    const value = Stores.lookupStore.lookup?.value
-                    const code = Stores.lookupStore.lookup?.code
-                    let arrValue = Stores.lookupStore.lookup?.arrValue || []
+                    const value = lookupStore.localInput.value
+                    const code = lookupStore.localInput.code
+                    let arrValue = lookupStore.lookup?.arrValue || []
                     if (value === undefined || code === undefined)
                       return alert("Please enter value and code.")
                     if (value !== undefined) {
@@ -182,12 +178,12 @@ export const NewField = observer((props: NewFieldProps) => {
                               code,
                             },
                           ])
-                      Stores.lookupStore.updateLookup({
-                        ...Stores.lookupStore.lookup,
+                      lookupStore.updateLookup({
+                        ...lookupStore.lookup,
                         arrValue,
                       })
-                      Stores.lookupStore.updateLookup({
-                        ...Stores.lookupStore.lookup,
+                      lookupStore.updateLocalInput({
+                        ...lookupStore.localInput,
                         value: "",
                         code: "",
                       })
@@ -199,12 +195,11 @@ export const NewField = observer((props: NewFieldProps) => {
                 </LibraryComponents.Atoms.Buttons.Button>
               </div>
               <div className="clearfix"></div>
-            
             </LibraryComponents.Atoms.Grid>
-           
+
             <LibraryComponents.Atoms.List space={2} direction="row" justify="center">
               <div>
-                {Stores.lookupStore.lookup?.arrValue?.map((item, index) => (
+                {lookupStore.lookup?.arrValue?.map((item, index) => (
                   <div className="mb-2" key={index}>
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
@@ -212,12 +207,12 @@ export const NewField = observer((props: NewFieldProps) => {
                       icon={LibraryComponents.Atoms.Icon.Remove}
                       onClick={() => {
                         const firstArr =
-                          Stores.lookupStore.lookup?.arrValue?.slice(0, index) || []
+                          lookupStore.lookup?.arrValue?.slice(0, index) || []
                         const secondArr =
-                          Stores.lookupStore.lookup?.arrValue?.slice(index + 1) || []
+                          lookupStore.lookup?.arrValue?.slice(index + 1) || []
                         const finalArray = [...firstArr, ...secondArr]
-                        Stores.lookupStore.updateLookup({
-                          ...Stores.lookupStore.lookup,
+                        lookupStore.updateLookup({
+                          ...lookupStore.lookup,
                           arrValue: finalArray,
                         })
                       }}
@@ -230,41 +225,43 @@ export const NewField = observer((props: NewFieldProps) => {
             </LibraryComponents.Atoms.List>
           </LibraryComponents.Atoms.Form.InputWrapper>
           <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      hasError={errors.defaulItem}
-                      label="Default Item"
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.defaultLab ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          let defaultItem = JSON.parse(e.target.value)
-                          defaultItem = [{code:defaultItem.code,value:defaultItem.value}]
-                          onChange(defaultItem)
-                          Stores.lookupStore.updateLookup({
-                            ...Stores.lookupStore.lookup,
-                            defaultItem,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {Stores.lookupStore.lookup && Stores.lookupStore.lookup.arrValue && Stores.lookupStore.lookup.arrValue.map(
-                          (item: any, index: number) => (
-                            <option key={item.name} value={JSON.stringify(item)}>
-                              {`${item.value} - ${item.code}`}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="defaulItem"
-                  rules={{ required: false }}
-                  defaultValue=""
-                />
+            control={control}
+            render={({ field: { onChange } }) => (
+              <LibraryComponents.Atoms.Form.InputWrapper
+                hasError={errors.defaulItem}
+                label="Default Item"
+              >
+                <select
+                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                    errors.defaultLab ? "border-red-500" : "border-gray-300"
+                  } rounded-md`}
+                  onChange={(e) => {
+                    let defaultItem = JSON.parse(e.target.value)
+                    defaultItem = [
+                      { code: defaultItem.code, value: defaultItem.value },
+                    ]
+                    onChange(defaultItem)
+                    lookupStore.updateLookup({
+                      ...lookupStore.lookup,
+                      defaultItem,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupStore.lookup &&
+                    lookupStore.lookup.arrValue &&
+                    lookupStore.lookup.arrValue.map((item: any, index: number) => (
+                      <option key={item.name} value={JSON.stringify(item)}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            )}
+            name="defaulItem"
+            rules={{ required: false }}
+            defaultValue=""
+          />
         </LibraryComponents.Atoms.List>
 
         <LibraryComponents.Atoms.List
@@ -281,11 +278,11 @@ export const NewField = observer((props: NewFieldProps) => {
                 label="Description"
                 name="txtDescription"
                 placeholder="Description"
-                value={Stores.lookupStore.lookup?.description}
+                value={lookupStore.lookup?.description}
                 onChange={(description) => {
                   onChange(description)
-                  Stores.lookupStore.updateLookup({
-                    ...Stores.lookupStore.lookup,
+                  lookupStore.updateLookup({
+                    ...lookupStore.lookup,
                     description,
                   })
                 }}
@@ -301,38 +298,37 @@ export const NewField = observer((props: NewFieldProps) => {
             render={({ field: { onChange } }) => (
               <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                 <select
-                  value={Stores.lookupStore.lookup?.environment}
+                  value={lookupStore.lookup?.environment}
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                     errors.environment ? "border-red-500" : "border-gray-300"
                   } rounded-md`}
                   disabled={
-                    stores.loginStore.login &&
-                    stores.loginStore.login.role !== "SYSADMIN"
+                    loginStore.login && loginStore.login.role !== "SYSADMIN"
                       ? true
                       : false
                   }
                   onChange={(e) => {
                     const environment = e.target.value
                     onChange(environment)
-                    Stores.lookupStore.updateLookup({
-                      ...Stores.lookupStore.lookup,
+                    lookupStore.updateLookup({
+                      ...lookupStore.lookup,
                       environment,
                     })
                   }}
                 >
                   <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? `Select`
-                          : Stores.lookupStore.lookup?.environment || `Select`}
-                      </option>
-                  {LibraryUtils.lookupItems(stores.routerStore.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
+                    {stores.loginStore.login && loginStore.login.role !== "SYSADMIN"
+                      ? `Select`
+                      : lookupStore.lookup?.environment || `Select`}
+                  </option>
+                  {LibraryUtils.lookupItems(
+                    stores.routerStore.lookupItems,
+                    "ENVIRONMENT"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             )}

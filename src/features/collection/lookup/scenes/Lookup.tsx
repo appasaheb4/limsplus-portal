@@ -9,9 +9,7 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 let router = dashboardRoutes
@@ -20,7 +18,7 @@ import { NewField } from "./NewField"
 import { GeneralField } from "./GeneralField"
 
 const Lookup = observer(() => {
-  const { loginStore } = useStores()
+  const { loginStore, lookupStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -49,11 +47,11 @@ const Lookup = observer(() => {
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={stores.routerStore.selectedComponents?.title || ""}
+            title={routerStore.selectedComponents?.title || ""}
           />
           <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddLookup}
             onClick={() => setHideAddLookup(!hideAddLookup)}
@@ -61,46 +59,45 @@ const Lookup = observer(() => {
         )}
 
         <Accordion>
-          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map(
-            (item) => {
-              return (
-                <AccordionItem
-                  title={`${item.title}`}
-                  expanded={item.title === "DOCUMENT SETTING"}
-                >
-                  {item.title === "DOCUMENT SETTING" && (
-                    <>
-                      <NewField />
-                    </>
-                  )}
-                  {item.title === "GENERAL SETTING" && (
-                    <>
-                      <GeneralField />
-                    </>
-                  )}
-                </AccordionItem>
-              )
-            }
-          )}
+          {/* , { title: "GENERAL SETTING" } */}
+          {[{ title: "DOCUMENT SETTING" }].map((item) => {
+            return (
+              <AccordionItem
+                title={`${item.title}`}
+                expanded={item.title === "DOCUMENT SETTING"}
+              >
+                {item.title === "DOCUMENT SETTING" && (
+                  <>
+                    <NewField />
+                  </>
+                )}
+                {item.title === "GENERAL SETTING" && (
+                  <>
+                    <GeneralField />
+                  </>
+                )}
+              </AccordionItem>
+            )
+          })}
         </Accordion>
 
         <div className="mx-auto">
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <FeatureComponents.Molecules.LookupList
-              data={Stores.lookupStore.listLookup || []}
-              totalSize={Stores.lookupStore.listLookupCount}
+              data={lookupStore.listLookup || []}
+              totalSize={lookupStore.listLookupCount}
               extraData={{
-                lookup: Stores.lookupStore.lookup,
-                updateLookup: Stores.lookupStore.updateLookup,
-                lookupItems: stores.routerStore.lookupItems,
+                lookup: lookupStore.lookup,
+                updateLookup: lookupStore.updateLookup,
+                lookupItems: routerStore.lookupItems,
               }}
               isDelete={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Edit/Modify"
               )}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -124,7 +121,7 @@ const Lookup = observer(() => {
               }}
               onPageSizeChange={(page, size) => {
                 // console.log({page,size})
-                Stores.lookupStore.fetchListLookup(page, size)
+                lookupStore.fetchListLookup(page, size)
               }}
             />
           </div>
@@ -132,28 +129,30 @@ const Lookup = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                Stores.lookupStore.LookupService.deleteLookup(modalConfirm.id).then(
-                  (res: any) => {
-                    if (res.status === 200) {
-                      LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Lookup deleted.`,
-                      })
-                      setModalConfirm({ show: false })
-                      Stores.lookupStore.fetchListLookup()
-                    }
-                  }
-                )
-              } else if (type === "Update") {
-                Stores.lookupStore.LookupService.updateSingleFiled(
-                  modalConfirm.data
-                ).then((res: any) => {
-                  if (res.status === 200) {
+                lookupStore.LookupService.deleteLookup({
+                  input: { id: modalConfirm.id },
+                }).then((res: any) => {
+                  if (res.removeLookup.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Lookup updated.`,
+                      message: `😊 ${res.removeLookup.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.lookupStore.fetchListLookup()
-                    window.location.reload()
+                    lookupStore.fetchListLookup()
+                  }
+                })
+              } else if (type === "Update") {
+                lookupStore.LookupService.updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },  
+                }).then((res: any) => {
+                  if (res.updateLookup.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.updateLookup.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    lookupStore.fetchListLookup()
                   }
                 })
               }
