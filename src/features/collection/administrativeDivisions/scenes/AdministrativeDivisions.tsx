@@ -139,7 +139,8 @@ export const AdministrativeDivisions = observer(() => {
                         const state = Stores.administrativeDivStore.localState?.state
                         if (state === undefined) return alert("Please Enter State")
                         if (state !== undefined) {
-                          let arrState = Stores.administrativeDivStore.administrativeDiv && Stores.administrativeDivStore.administrativeDiv.state;
+                          let arrState = Stores.administrativeDivStore.administrativeDiv
+                           && Stores.administrativeDivStore.administrativeDiv.state;
                            Stores.administrativeDivStore.updateAdministrativeDiv({
                              ...Stores.administrativeDivStore.administrativeDiv,
                              state: arrState? arrState.concat(state): [state] 
