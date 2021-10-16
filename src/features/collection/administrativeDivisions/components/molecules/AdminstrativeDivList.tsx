@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-   
+import { Stores } from "../../stores"  
 interface AdminstrativeDivListProps {
   data: any
   totalSize: number
@@ -41,6 +41,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           text: "State",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerStyle: { minWidth: "230px" },
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -48,14 +49,14 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                 direction="row"
                 justify="center"
               >
-                {row.state.map((item) => (
-                  <div className="mb-2">
+                {row.state?.map((item,index) => (
+                  <div className="mb-2" key={index}>
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {}}
                     >
-                      {`${item.state}`}
+                      {`${item}`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
                 ))}
@@ -74,10 +75,13 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
               <LibraryComponents.Atoms.Grid cols={2}>
                       <LibraryComponents.Atoms.Form.Input
                         
-                        placeholder={"Please Enter state"}
-                        value={row.state || ""}
+                        // placeholder={"Please Enter state"}
+                        // value={row.state}
                         onChange={(state) => {
-                          props.onUpdateItem && props.onUpdateItem(state,column.dataField,row._id)
+                          props.extraData.updateLocalState({
+                              ...props.extraData.localState,
+                              state
+                            })
                         }}
                       />
                   <div className="mt-2">
@@ -88,12 +92,14 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                         const state = row.state
                         if (state === undefined) return alert("Please Enter State")
                         if (state !== undefined) {
-                          let arrState = props.extraData.administrativeDiv && row.state;
-                          props.onUpdateItem && props.onUpdateItem(arrState,"state",row._id)
-                          //  Stores.administrativeDivStore.updateAdministrativeDiv({
-                          //    ...Stores.administrativeDivStore.administrativeDiv,
-                          //    state: arrState? arrState.concat(state): [state] 
-                          //  })
+                          let arrState = props.extraData.administrativeDiv &&row.state ;
+                          console.log({arrState})
+                          
+                           props.extraData.updateAdministrativeDiv({
+                             ...props.extraData.administrativeDiv,
+                             state: arrState? arrState.concat(state): [state] 
+                           })
+                           props.onUpdateItem && props.onUpdateItem(arrState,"state",row._id)
                            props.extraData.updateLocalState({
                             ...props.extraData.localState,
                             state:''
@@ -156,6 +162,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           text: "District",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerStyle: { minWidth: "230px" },
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -170,7 +177,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       type="solid"
                       onClick={() => {}}
                     >
-                      {`${item.district}`}
+                      {`${item}`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
                 ))}
@@ -190,9 +197,12 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       <LibraryComponents.Atoms.Form.Input
                         
                         placeholder={"Please Enter district"}
-                        value={row.district || ""}
+                        // value={row.district || ""}
                         onChange={(district) => {
-                          props.onUpdateItem && props.onUpdateItem(district,column.dataField,row._id)
+                          props.extraData.updateLocalDistrict({
+                            ...props.extraData.localState,
+                            district
+                          })
                         }}
                       />
                   <div className="mt-2">
@@ -203,11 +213,11 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                         const district = row.district
                         if (district === undefined) return alert("Please Enter District")
                         if (district !== undefined) {
-                          let arrState = props.extraData.administrativeDiv && row.district;
+                          let arrState = row.district || [];
                           props.onUpdateItem && props.onUpdateItem(arrState,"district",row._id)
                           //  Stores.administrativeDivStore.updateAdministrativeDiv({
                           //    ...Stores.administrativeDivStore.administrativeDiv,
-                          //    state: arrState? arrState.concat(state): [state] 
+                          //    district: arrState? arrState.concat(district): [district] 
                           //  })
                            props.extraData.updateLocalDistrict({
                             ...props.extraData.localState,
@@ -271,6 +281,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           text: "City",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerStyle: { minWidth: "230px" },
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -285,7 +296,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       type="solid"
                       onClick={() => {}}
                     >
-                      {`${item.city}`}
+                      {`${item}`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
                 ))}
@@ -305,9 +316,12 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       <LibraryComponents.Atoms.Form.Input
                         
                         placeholder={"Please Enter City"}
-                        value={row.city || ""}
+                        // value={row.city || ""}
                         onChange={(city) => {
-                          props.onUpdateItem && props.onUpdateItem(city,column.dataField,row._id)
+                          props.extraData.updateLocalDistrict({
+                            ...props.extraData.localState,
+                            city
+                          })
                         }}
                       />
                   <div className="mt-2">
@@ -386,6 +400,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           text: "Area",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerStyle: { minWidth: "230px" },
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -400,7 +415,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       type="solid"
                       onClick={() => {}}
                     >
-                      {`${item.area}`}
+                      {`${item}`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
                 ))}
@@ -420,9 +435,12 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       <LibraryComponents.Atoms.Form.Input
                         
                         placeholder={"Please Enter Area"}
-                        value={row.area || ""}
+                        // value={row.area || ""}
                         onChange={(area) => {
-                          props.onUpdateItem && props.onUpdateItem(area,column.dataField,row._id)
+                          props.extraData.updateLocalCity({
+                            ...props.extraData.localState,
+                            area
+                          })
                         }}
                       />
                   <div className="mt-2">
@@ -501,6 +519,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
           text: "Postcode",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerStyle: { minWidth: "230px" },
           formatter: (cellContent, row) => (
             <>
               <LibraryComponents.Atoms.List
@@ -515,7 +534,7 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       type="solid"
                       onClick={() => {}}
                     >
-                      {`${item.postalCode}`}
+                      {`${item}`}
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>
                 ))}
@@ -535,9 +554,12 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
                       <LibraryComponents.Atoms.Form.Input
                         
                         placeholder={"Please Enter postcode"}
-                        value={row.postalCode || ""}
+                        // value={row.postalCode || ""}
                         onChange={(postalCode) => {
-                          props.onUpdateItem && props.onUpdateItem(postalCode,column.dataField,row._id)
+                          props.extraData.updateLocalCity({
+                            ...props.extraData.localState,
+                            postalCode
+                          })
                         }}
                       />
                   <div className="mt-2">
