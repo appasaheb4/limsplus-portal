@@ -16,13 +16,12 @@ import { useHistory } from "react-router-dom"
 
 import { Stores } from "@lp/features/login/stores"
 import { Stores as BannerStores } from "@lp/features/collection/banner/stores"
-import { stores } from "@lp/stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as UserStores } from "@lp/features/users/stores"
+import { stores, useStores } from "@lp/stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
 
 export const Login = observer(() => {
+  const {userStore} = useStores()
   const history = useHistory()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -88,7 +87,6 @@ export const Login = observer(() => {
         },
       })
         .then((res) => {
-          console.log({ res })
           if (res.login.success == 1) {
             Stores.loginStore.updateLoginFailedCount(0)
             if (res.login.data.user.passChanged !== true) {
@@ -186,7 +184,7 @@ export const Login = observer(() => {
                         }}
                         onBlur={(userId) => {
                           if (userId) {
-                            UserStore.userStore.UsersService.checkExitsUserId(
+                            userStore.UsersService.checkExitsUserId(
                               userId.trim()
                             ).then((res) => {
                               if (res.checkUserExitsUserId.success) {
@@ -454,13 +452,13 @@ export const Login = observer(() => {
             )
             let body = Object.assign(
               Stores.loginStore.inputLogin,
-              UserStores.userStore.changePassword
+              userStore.changePassword
             )
             body = {
               ...body,
               exipreDate: LibraryUtils.moment(exipreDate).unix(),
             }
-            UserStores.userStore.UsersService.changePassword(body).then((res) => {
+            userStore.UsersService.changePassword(body).then((res) => {
               console.log({ res })
               if (res.status === 200) {
                 Stores.loginStore.updateLogin({
@@ -468,8 +466,8 @@ export const Login = observer(() => {
                   exipreDate: LibraryUtils.moment(exipreDate).unix(),
                   passChanged: true,
                 })
-                UserStores.userStore.updateChangePassword({
-                  ...UserStores.userStore.changePassword,
+                userStore.updateChangePassword({
+                  ...userStore.changePassword,
                   tempHide: true,
                 })
                 LibraryComponents.Atoms.Toast.success({
@@ -493,8 +491,8 @@ export const Login = observer(() => {
               ...Stores.loginStore.login,
               passChanged: true,
             })
-            UserStores.userStore.updateChangePassword({
-              ...UserStores.userStore.changePassword,
+            userStore.updateChangePassword({
+              ...userStore.changePassword,
               tempHide: true,
             })
             setModalChangePassword({ show: false })

@@ -1,8 +1,7 @@
 /* eslint-disable no-prototype-builtins */
-import { stores } from "@lp/stores"
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios"
 import * as Config from "@lp/config"
-import Session from "@lp/library/modules/session"
+//import Session from "@lp/library/modules/session"
 import { ServiceResponse } from "./ServiceResponse"
 import _ from "lodash"
 
@@ -37,15 +36,15 @@ const injectToken = (config: AxiosRequestConfig): AxiosRequestConfig => {
 
 export class Http {
   private instance: AxiosInstance | null = null
-  seesion = Session.getSession()
+  //seesion = Session.getSession()
   accessToken!: string
 
   constructor() {
     if (!this.accessToken) {
-      this.seesion.then((val) => {
-        //        console.log({ val })
-        this.accessToken = val ? val.accessToken : undefined
-      })
+      // this.seesion.then((val) => {
+      //   //        console.log({ val })
+      //   this.accessToken = val ? val.accessToken : undefined
+      // })
     }
   }
 
@@ -70,13 +69,13 @@ export class Http {
       (config) => {
         //console.log("Axios Request: ", config)
         if (!blackList.includes(config.url ?? "")) {
-          stores.setLoading(true)
+          //stores.setLoading(true)
         }
         return injectToken(config)
         //return config
       },
       (error) => {
-        stores.setLoading(false)
+       // stores.setLoading(false)
         return Promise.reject(error)
       }
     )
@@ -84,21 +83,21 @@ export class Http {
     http.interceptors.response.use(
       (response) => {
         //console.log("Axios Response: ", response)
-        stores.setLoading(false)
+       // stores.setLoading(false)
         return response
       },
       (error) => {
         console.log("Axios Error: ", error)
-        stores.setLoading(false)
+       // stores.setLoading(false)
         const { response } = error
         return Http.handleError(response)
       }
     )
-    const token = localStorage.getItem("accessToken")
-    if (token || !this.instance) {
-      //localStorage.removeItem("accessToken")
-      this.instance = http
-    }
+    // const token = localStorage.getItem("accessToken")
+    // if (token || !this.instance) {
+    //   //localStorage.removeItem("accessToken")
+    //   this.instance = http
+    // }
 
     return http
   }

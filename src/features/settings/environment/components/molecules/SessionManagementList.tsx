@@ -11,7 +11,6 @@ import * as LibraryModels from "@lp/library/models"
 import * as Services from "../../services"
 
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
@@ -110,7 +109,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                   <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: toJS(row.user || []),
-                      list: UserStore.userStore.userList,
+                      //list: UserStore.userStore.userList,
                       displayKey: "fullName",
                       findKey: "_id",
                     }}

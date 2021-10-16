@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as UserStores } from "@lp/features/users/stores"
+
 
 import BarChart from "./BarChart"
 import Feed from "./Feed"
@@ -18,11 +18,12 @@ import moment from "moment"
 import { useHistory } from "react-router-dom"
 
 // registration
-
-import { stores } from "@lp/stores"
+ 
+import { stores, useStores } from "@lp/stores"
 import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
+  const {userStore} = useStores()
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const history = useHistory()
@@ -37,10 +38,10 @@ const Default = observer(() => {
       if (
         days >= 0 &&
         days <= 5 &&
-        UserStores.userStore.changePassword?.tempHide !== true
+        userStore.changePassword?.tempHide !== true
       ) {
-        UserStores.userStore.updateChangePassword({
-          ...UserStores.userStore.changePassword,
+        userStore.updateChangePassword({
+          ...userStore.changePassword,
           subTitle: `Please change you password. Your remaining exipre days ${days}`,
         })
         setModalChangePassword({ show: true })
@@ -87,13 +88,13 @@ const Default = observer(() => {
             exipreDate = dayjs(exipreDate).unix()
             let body: any = Object.assign(
               LoginStores.loginStore.login,
-              UserStores.userStore.changePassword
+              userStore.changePassword
             )
             body = {
               ...body,
               exipreDate,
             }
-            UserStores.userStore.UsersService.changePassword(body).then((res) => {
+            userStore.UsersService.changePassword(body).then((res) => {
               console.log({ res })
               if (res.status === 200) {
                 LoginStores.loginStore.updateLogin({
@@ -101,8 +102,8 @@ const Default = observer(() => {
                   exipreDate,
                   passChanged: true,
                 })
-                UserStores.userStore.updateChangePassword({
-                  ...UserStores.userStore.changePassword,
+                userStore.updateChangePassword({
+                  ...userStore.changePassword,
                   tempHide: true,
                 })
                 LibraryComponents.Atoms.Toast.success({
@@ -125,8 +126,8 @@ const Default = observer(() => {
               ...LoginStores.loginStore.login,
               passChanged: true,
             })
-            UserStores.userStore.updateChangePassword({
-              ...UserStores.userStore.changePassword,
+            userStore.updateChangePassword({
+              ...userStore.changePassword,
               tempHide: true,
             })
             setModalChangePassword({ show: false })

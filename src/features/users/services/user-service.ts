@@ -29,6 +29,7 @@ export class UserService {
           },
         })
         .then((response: any) => {
+          stores.userStore.updateUserList(response.data)
           resolve(response.data)
         })
         .catch((error) =>

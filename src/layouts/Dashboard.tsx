@@ -66,7 +66,7 @@ const Dashboard = observer(({ children }) => {
     //console.log({ beforeStore: stores })
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
-    //console.log({ pathname })
+    console.log({ pathname })
     if (pathname !== "/" && stores && stores.loginStore.login) {
       // common use api
       await Deginisation.startup()

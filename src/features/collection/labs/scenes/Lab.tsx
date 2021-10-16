@@ -8,15 +8,16 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { useStores, stores } from "@lp/stores"
-import { Stores } from "../stores"
+import { Stores, Contexts } from "../stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 import { Stores as SalesTeamStore } from "@lp/features/collection/salesTeam/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-import { AssetsService } from "@lp/features/assets/services"
 
 const Lab = observer(() => {
+  const { labStore } = useStores()
+
   const {
     control,
     handleSubmit,
@@ -980,11 +981,11 @@ const Lab = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
+        <br />  
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.LabList
-            data={Stores.labStore.listLabs || []}
-            totalSize={Stores.labStore.listLabsCount}
+            data={labStore.listLabs || []}
+            totalSize={labStore.listLabsCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
