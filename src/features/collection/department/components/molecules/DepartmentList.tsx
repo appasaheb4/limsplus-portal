@@ -7,7 +7,6 @@ import * as LibraryModels from "@lp/library/models"
 import Storage from "@lp/library/modules/storage"
 import { Stores } from "../../stores"
 import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 interface DepartmentListProps {
   data: any
@@ -121,12 +120,12 @@ const DepartmentList = observer((props: DepartmentListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {UserStore.userStore.userList &&
+                    {/* {UserStore.userStore.userList &&
                       UserStore.userStore.userList.map((item: any, key: number) => (
                         <option key={key} value={item.fullName}>
                           {item.fullName}
                         </option>
-                      ))}
+                      ))} */}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
             </>

@@ -11,14 +11,14 @@ import Routes from "./routes/Routes"
 import "react-toastify/dist/ReactToastify.css"
 
 import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
+//import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
 
 const App = observer(() => {
-  const loader = async () => {
-    await hydrateStore("loginStore", LoginStore.loginStore)
+  const loader = async () => {  
+    await hydrateStore("loginStore", stores.loginStore)
     await hydrateStore("routerStore", stores.routerStore)
     await hydrateStore("appStore", stores.appStore)
   }

@@ -34,19 +34,26 @@ export class LabStore {
     return new Services.LabService()
   }
 
-  fetchListLab(page?, limit?) {
+  @action fetchListLab(page?, limit?) {
     this.LabService.listLabs(page, limit).then((res) => {
-      if (!res.labs.success) return alert(res.labs.message)
-      this.listLabs = res.labs.data
-      this.listLabsCount = res.labs.paginatorInfo.count
-    })
+      // console.log({res});
+      // if (!res.labs.success) return alert(res.labs.message)
+      // this.listLabs = res.labs.data
+      // this.listLabsCount = res.labs.paginatorInfo.count
+    })  
+  }
+  
+  @action updateLabList(res: any) {
+    if (!res.labs.success) return alert(res.labs.message)
+    this.listLabs = res.labs.data
+    this.listLabsCount = res.labs.paginatorInfo.count
   }
 
-  setExitsEnvCode(status: boolean) {
+  @action setExitsEnvCode(status: boolean) {
     this.checkExitsEnvCode = status
   }
 
-  updateLabs = (labs: Models.Labs) => {
+  @action updateLabs = (labs: Models.Labs) => {
     this.labs = labs
   }
 }

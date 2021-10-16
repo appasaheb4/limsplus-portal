@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
+import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as Models from "@lp/features/users/models"
-// import * as Utils from "@lp/library/utils"
 import { FormHelper } from "@lp/helper"
 import { useForm, Controller } from "react-hook-form"
-import { Stores as UserStores } from "@lp/features/users/stores"
+import { useStores } from "@lp/stores"
 
 interface ModalProps {
   show: boolean
@@ -13,7 +12,8 @@ interface ModalProps {
   onClose: () => void
 }
 
-export default function ModalChangePassword(props: ModalProps) {
+const ModalChangePassword = observer((props: ModalProps) => {
+  const { userStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -23,7 +23,7 @@ export default function ModalChangePassword(props: ModalProps) {
   const [showModal, setShowModal] = React.useState(props.show)
 
   const onSubmitModalChangePassword = () => {
-    if (UserStores.userStore.changePassword) {
+    if (userStore.changePassword) {
       props.onClick()
     } else {
       LibraryComponents.Atoms.Toast.error({
@@ -48,7 +48,7 @@ export default function ModalChangePassword(props: ModalProps) {
                   <div className="flex-col">
                     <h3 className="text-3xl font-semibold">Change Password</h3>
                     <br />
-                    <h6>{UserStores.userStore.changePassword?.subTitle}</h6>
+                    <h6>{userStore.changePassword?.subTitle}</h6>
                   </div>
 
                   <button
@@ -82,11 +82,11 @@ export default function ModalChangePassword(props: ModalProps) {
                               ? "Please Enter Old Password"
                               : "Old Password"
                           }
-                          value={UserStores.userStore.changePassword?.oldPassword}
+                          value={userStore.changePassword?.oldPassword}
                           onChange={(oldPassword) => {
                             onChange(oldPassword)
-                            UserStores.userStore.updateChangePassword({
-                              ...UserStores.userStore.changePassword,
+                            userStore.updateChangePassword({
+                              ...userStore.changePassword,
                               oldPassword,
                             })
                           }}
@@ -112,11 +112,11 @@ export default function ModalChangePassword(props: ModalProps) {
                               : "New Password"
                           }
                           hasError={errors.newPassword}
-                          value={UserStores.userStore.changePassword?.newPassword}
+                          value={userStore.changePassword?.newPassword}
                           onChange={(newPassword) => {
                             onChange(newPassword)
-                            UserStores.userStore.updateChangePassword({
-                              ...UserStores.userStore.changePassword,
+                            userStore.updateChangePassword({
+                              ...userStore.changePassword,
                               newPassword,
                             })
                           }}
@@ -142,13 +142,11 @@ export default function ModalChangePassword(props: ModalProps) {
                               : "Confirm Password"
                           }
                           hasError={errors.confirmPassword}
-                          value={
-                            UserStores.userStore.changePassword?.confirmPassword
-                          }
+                          value={userStore.changePassword?.confirmPassword}
                           onChange={(confirmPassword) => {
                             onChange(confirmPassword)
-                            UserStores.userStore.updateChangePassword({
-                              ...UserStores.userStore.changePassword,
+                            userStore.updateChangePassword({
+                              ...userStore.changePassword,
                               confirmPassword,
                             })
                           }}
@@ -159,7 +157,7 @@ export default function ModalChangePassword(props: ModalProps) {
                         required: true,
                         pattern: FormHelper.patterns.password,
                         validate: (value) =>
-                          value === UserStores.userStore.changePassword?.newPassword,
+                          value === userStore.changePassword?.newPassword,
                       }}
                       defaultValue=""
                     />
@@ -192,4 +190,5 @@ export default function ModalChangePassword(props: ModalProps) {
       )}
     </>
   )
-}
+})
+export default ModalChangePassword

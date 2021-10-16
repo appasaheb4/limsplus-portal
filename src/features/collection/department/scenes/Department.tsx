@@ -7,26 +7,30 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import Storage from "@lp/library/modules/storage"
-import { useStores } from "@lp/stores"
+
+import { useStores, stores } from "@lp/stores"
 import { Stores } from "../stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 
 export const Department = observer(() => {
+  const { loginStore, labStore, userStore } = useStores()
+  console.log({ userStore })
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm()
-  const { loginStore } = useStores()
+
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
+
+  useEffect(() => {
+    reset()
+  }, [labStore.listLabs,userStore && userStore.userList])
+
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       Stores.departmentStore.updateDepartment({
@@ -126,7 +130,7 @@ export const Department = observer(() => {
                         }}
                       >
                         <option selected>Select</option>
-                        {LabStore.labStore.listLabs.map((item: any) => (
+                        {labStore.listLabs.map((item: any) => (
                           <option key={item.name} value={item.code}>
                             {item.name}
                           </option>
@@ -152,7 +156,7 @@ export const Department = observer(() => {
                         onChange(code)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          code:code.toUpperCase(),
+                          code: code.toUpperCase(),
                         })
                       }}
                       onBlur={(code) => {
@@ -194,7 +198,7 @@ export const Department = observer(() => {
                         onChange(name)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          name:name.toUpperCase(),
+                          name: name.toUpperCase(),
                         })
                       }}
                     />
@@ -218,7 +222,7 @@ export const Department = observer(() => {
                         onChange(shortName)
                         Stores.departmentStore.updateDepartment({
                           ...Stores.departmentStore.department,
-                          shortName:shortName.toUpperCase(),
+                          shortName: shortName.toUpperCase(),
                         })
                       }}
                     />
@@ -236,9 +240,7 @@ export const Department = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.hod
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.hod ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const hod = e.target.value
@@ -250,14 +252,12 @@ export const Department = observer(() => {
                         }}
                       >
                         <option selected>Select</option>
-                        {UserStore.userStore.userList &&
-                          UserStore.userStore.userList.map(
-                            (item: any, key: number) => (
-                              <option key={key} value={item.fullName}>
-                                {item.fullName}
-                              </option>
-                            )
-                          )}
+                        {userStore && userStore.userList &&
+                          userStore.userList.map((item: any, key: number) => (
+                            <option key={key} value={item.fullName}>
+                              {item.fullName}
+                            </option>
+                          ))}
                       </select>
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
@@ -507,9 +507,7 @@ export const Department = observer(() => {
                       <select
                         value={Stores.departmentStore.department?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.status
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.status ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const status = e.target.value
@@ -543,9 +541,7 @@ export const Department = observer(() => {
                       <select
                         value={Stores.departmentStore.department?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.environment ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         disabled={
                           stores.loginStore.login &&

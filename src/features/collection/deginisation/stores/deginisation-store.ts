@@ -27,9 +27,9 @@ class DeginisationStore {
 
   @action fetchListDeginisation(page?, limit?) {
     this.DeginisationService.listDeginisation(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listDeginisation = res.data.deginisation
-      this.listDeginisationCount = res.data.count
+      if (!res.designations.success) return alert(res.designations.message)
+      this.listDeginisation = res.designations.data
+      this.listDeginisationCount = res.designations.paginatorInfo.count
     })
   }
 

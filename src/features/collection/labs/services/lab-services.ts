@@ -27,6 +27,7 @@ export class LabService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
+          stores.labStore.updateLabList(response.data);
           resolve(response.data)
         })
         .catch((error) =>

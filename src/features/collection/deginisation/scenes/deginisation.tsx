@@ -35,12 +35,12 @@ const Deginisation = observer(() => {
 
   const onSubmitDesginiation = () => {
     if (!Stores.deginisationStore.checkExitsCode) {
-      Stores.deginisationStore.DeginisationService.addDeginisation(
-        Stores.deginisationStore.deginisation
-      ).then((res) => {
-        if (res.status === 200) {
+      Stores.deginisationStore.DeginisationService.addDeginisation({
+        input: { ...Stores.deginisationStore.deginisation },
+      }).then((res) => {
+        if (res.createDesignation.success) {
           LibraryComponents.Atoms.Toast.success({
-            message: `😊 Deginisation created.`,
+            message: `😊 ${res.createDesignation.message}`,
           })
           setTimeout(() => {
             window.location.reload()
@@ -96,18 +96,22 @@ const Deginisation = observer(() => {
                       onChange(code)
                       Stores.deginisationStore.updateDescription({
                         ...Stores.deginisationStore.deginisation,
-                        code:code.toUpperCase(),
+                        code: code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
                       Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
-                        code,
-                        Stores.deginisationStore.deginisation?.environment || ""
+                        {
+                          input: {
+                            code,
+                            env: Stores.deginisationStore.deginisation?.environment,
+                          },
+                        }
                       ).then((res) => {
-                        if (res.success) {
+                        if (res.checkDesignationsExistsRecord.success) {
                           Stores.deginisationStore.setExitsCode(true)
                           LibraryComponents.Atoms.Toast.error({
-                            message: `😔 ${res.message}`,
+                            message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                           })
                         } else Stores.deginisationStore.setExitsCode(false)
                       })
@@ -140,7 +144,7 @@ const Deginisation = observer(() => {
                       onChange(description)
                       Stores.deginisationStore.updateDescription({
                         ...Stores.deginisationStore.deginisation,
-                        description:description.toUpperCase(),
+                        description: description.toUpperCase(),
                       })
                     }}
                   />
@@ -162,9 +166,7 @@ const Deginisation = observer(() => {
                           : false
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value
@@ -174,13 +176,17 @@ const Deginisation = observer(() => {
                           environment,
                         })
                         Stores.deginisationStore.DeginisationService.checkExitsEnvCode(
-                          Stores.deginisationStore.deginisation?.code || "",
-                          environment
+                          {
+                            input: {
+                              code: Stores.deginisationStore.deginisation?.code,
+                              env: environment,
+                            },
+                          }
                         ).then((res) => {
-                          if (res.success) {
+                          if (res.checkDesignationsExistsRecord.success) {
                             Stores.deginisationStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkDesignationsExistsRecord.message}`,
                             })
                           } else Stores.deginisationStore.setExitsCode(false)
                         })
@@ -277,24 +283,27 @@ const Deginisation = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.deginisationStore.DeginisationService.deleteDeginisation(
-                modalConfirm.id
-              ).then((res: any) => {
-                if (res.status === 200) {
+              Stores.deginisationStore.DeginisationService.deleteDeginisation({
+                input: { id: modalConfirm.id },
+              }).then((res: any) => {
+                if (res.removeDesignation.success) {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊 Deginisation deleted.`,
+                    message: `😊 ${res.removeDesignation.message}`,
                   })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()
                 }
               })
             } else if (type === "Update") {
-              Stores.deginisationStore.DeginisationService.updateSingleFiled(
-                modalConfirm.data
-              ).then((res: any) => {
-                if (res.status === 200) {
+              Stores.deginisationStore.DeginisationService.updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              }).then((res: any) => {
+                if (res.updateDesignation.success) {
                   LibraryComponents.Atoms.Toast.success({
-                    message: `😊 Deginisation updated.`,
+                    message: `😊 ${res.updateDesignation.message}`,
                   })
                   setModalConfirm({ show: false })
                   Stores.deginisationStore.fetchListDeginisation()

@@ -22,14 +22,13 @@ import { stores } from "@lp/stores"
 import { useStores } from "@lp/stores"
 
 import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as UserStores } from "@lp/features/users/stores"
+
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Users = observer(() => {
-  const { loginStore, routerStore } = useStores()
+  const { loginStore, routerStore,userStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddUser, setAddUser] = useState<boolean>(true)
   const [modalChangePasswordByadmin, setModalChangePasswordByAdmin] = useState<any>()
@@ -1102,7 +1101,7 @@ export const Users = observer(() => {
                 email: modalChangePasswordByadmin.data.email,
                 exipreDate: LibraryUtils.moment(exipreDate).unix(),
               }
-              UserStores.userStore.UsersService.changepasswordByAdmin(body).then(
+              userStore.UsersService.changepasswordByAdmin(body).then(
                 (res) => {
                   if (res.success) {
                     setModalChangePasswordByAdmin({ show: false })

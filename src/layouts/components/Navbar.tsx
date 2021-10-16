@@ -10,8 +10,7 @@ import { Button } from "reactstrap"
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as UserStores } from "@lp/features/users/stores"
-import { stores } from "@lp/stores"
+import { stores,useStores } from "@lp/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
@@ -31,6 +30,7 @@ import {
 } from "reactstrap"
 
 const NavbarComponent = observer(({ dispatch }) => {
+  const {userStore} = useStores()
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
 
@@ -167,7 +167,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               size="medium"
               type="outline"
               onClick={() => {
-                UserStores.userStore.UsersService.loginActivityList({
+                userStore.UsersService.loginActivityList({
                   userId: LoginStores.loginStore.login.userId,
                   loginActivityId: LoginStores.loginStore.login.loginActivityId,
                 }).then((res) => {
@@ -254,13 +254,13 @@ const NavbarComponent = observer(({ dispatch }) => {
           )
           let body = Object.assign(
             LoginStores.loginStore.login,
-            UserStores.userStore.changePassword
+            userStore.changePassword
           )
           body = {
             ...body,
             exipreDate: LibraryUtils.moment(exipreDate).unix(),
           }
-          UserStores.userStore.UsersService.changePassword(body).then((res) => {
+          userStore.UsersService.changePassword(body).then((res) => {
             console.log({ res })
             if (res.status === 200) {
               LoginStores.loginStore.updateLogin({
@@ -268,8 +268,8 @@ const NavbarComponent = observer(({ dispatch }) => {
                 exipreDate: LibraryUtils.moment(exipreDate).unix(),
                 passChanged: true,
               })
-              UserStores.userStore.updateChangePassword({
-                ...UserStores.userStore.changePassword,
+              userStore.updateChangePassword({
+                ...userStore.changePassword,
                 tempHide: true,
               })
               LibraryComponents.Atoms.Toast.success({
@@ -292,8 +292,8 @@ const NavbarComponent = observer(({ dispatch }) => {
             ...LoginStores.loginStore.login,
             passChanged: true,
           })
-          UserStores.userStore.updateChangePassword({
-            ...UserStores.userStore.changePassword,
+          userStore.updateChangePassword({
+            ...userStore.changePassword,
             tempHide: true,
           })
           setModalChangePassword({ show: false })

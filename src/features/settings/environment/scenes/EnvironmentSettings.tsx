@@ -8,7 +8,6 @@ import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
 import { Stores } from "../stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { stores, useStores } from "@lp/stores"
@@ -27,7 +26,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     formState: { errors },
     setValue,
   } = useForm()
-  const { environmentStore } = useStores()
+  const { environmentStore,userStore } = useStores()
 
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
@@ -99,7 +98,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               defaultValue=""
             />
 
-            {UserStore.userStore.userList && (
+            {userStore.userList && (
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -111,7 +110,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     <LibraryComponents.Molecules.AutocompleteCheck
                       data={{
                         defulatValues: [],
-                        list: UserStore.userStore.userList,
+                        list: userStore.userList,
                         displayKey: "fullName",
                         findKey: "fullName",
                       }}

@@ -4,8 +4,7 @@ import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 
 import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as UserStores } from "@lp/features/users/stores"
-import { stores } from "@lp/stores"
+import { stores,useStores } from "@lp/stores"
 
 import { useHistory } from "react-router-dom"
 interface ModalAccountProps {
@@ -14,6 +13,7 @@ interface ModalAccountProps {
 }
 
 const ModalAccount = observer((props: ModalAccountProps) => {
+  const {userStore} = useStores()
   const history: any = useHistory()
   const [modalFileUpload, setModalFileUpload] = useState<any>()
   
@@ -83,8 +83,8 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                         message: `😊 Your lab change successfully`,
                       })
                       props.onClose && props.onClose()
-                      // 
-                      // UserStores.userStore.UsersService.switchAccess({
+                      
+                      // userStore.UsersService.switchAccess({
                       //   type: "lab",
                       //   lab,
                       //   id: LoginStores.loginStore.login?._id,
@@ -117,7 +117,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                     onChange={(e) => {
                       const role = e.target.value
                       
-                      UserStores.userStore.UsersService.switchAccess({
+                      userStore.UsersService.switchAccess({
                         type: "role",
                         role,
                         id: LoginStores.loginStore.login?._id,
@@ -162,7 +162,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
         onClick={(image: any) => {
           console.log({image});
           
-          UserStores.userStore.UsersService.uploadImage({
+          userStore.UsersService.uploadImage({
             image,    
             id: LoginStores.loginStore.login?._id,
             folder: "users",

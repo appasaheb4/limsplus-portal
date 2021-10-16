@@ -361,7 +361,7 @@ const communicationRoutes = {
       component: SegmentMapping,
     },
   ],
-}
+}  
 
 const settingsRoutes = {
   path: "/settings",

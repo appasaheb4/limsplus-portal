@@ -4,74 +4,94 @@
  
  * @author limsplus
  */
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  REMOVE_RECORDS,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  EXISTS_RECORD,
+} from "./mutation"
 
 class DeginisationService {
   listDeginisation = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`/deginisation/listDeginisation/${page}/${limit}/${env}/${role}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addDeginisation = (deginisation?: Models.Deginisation) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/deginisation/addDeginisation`, deginisation)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteDeginisation = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/deginisation/deleteDeginisation/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-    
 
-  checkExitsEnvCode = (code: string, env: string) =>
+  addDeginisation = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/deginisation/checkExitsEnvCode`, { code, env })
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {  
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
-    
-
-  updateSingleFiled = (newValue: any) =>
+  deleteDeginisation = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/deginisation/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORDS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+   
+  checkExitsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

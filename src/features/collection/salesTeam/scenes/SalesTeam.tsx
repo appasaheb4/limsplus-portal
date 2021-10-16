@@ -7,11 +7,9 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
 import { Stores } from "../stores"
-import { stores } from "@lp/stores"
+import { stores,useStores } from "@lp/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
-import { Stores as UserStore } from "@lp/features/users/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -23,7 +21,7 @@ export const SalesTeam = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore,userStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
@@ -160,7 +158,7 @@ export const SalesTeam = observer(() => {
                 defaultValue=""
               />
 
-              {UserStore.userStore.userList && (
+              {userStore.userList && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -198,7 +196,7 @@ export const SalesTeam = observer(() => {
                       >
                         <option selected>Select</option>
                         {Utils.filterUsersItems(
-                          toJS(UserStore.userStore.userList),
+                          toJS(userStore.userList),
                           "role",
                           "code",
                           "SALES"
@@ -270,9 +268,9 @@ export const SalesTeam = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {UserStore.userStore.userList &&
+                      {userStore.userList &&
                         Utils.filterUsersItems(
-                          UserStore.userStore.userList,
+                          userStore.userList,
                           "role",
                           "code",
                           "SALES"

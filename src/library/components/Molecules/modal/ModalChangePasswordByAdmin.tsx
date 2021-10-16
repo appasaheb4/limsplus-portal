@@ -1,11 +1,10 @@
 import React, { useEffect } from "react"
+import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-// import * as Models from "@lp/features/users/models"
-// import * as Utils from "@lp/library/utils"
 import { FormHelper } from "@lp/helper"
 import { Container } from "reactstrap"
 import { useForm, Controller } from "react-hook-form"
-import { Stores as UserStores } from "@lp/features/users/stores"
+import { useStores } from "@lp/stores"
 
 interface ModalProps {
   show: boolean
@@ -14,7 +13,8 @@ interface ModalProps {
   onClose: () => void
 }
 
-export default function ModalChangePasswordByAdmin(props: ModalProps) {
+const ModalChangePasswordByAdmin = observer((props: ModalProps) => {
+  const { userStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -24,7 +24,7 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
   const [showModal, setShowModal] = React.useState(props.show)
 
   const onSubmitModalChangePasswordByAdmin = () => {
-    if (UserStores.userStore.changePassword) {
+    if (userStore.changePassword) {
       props.onClick()
     } else {
       LibraryComponents.Atoms.Toast.error({
@@ -83,11 +83,11 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                               ? "Please Enter New Password"
                               : "New Password"
                           }
-                          value={UserStores.userStore.changePassword?.newPassword}
+                          value={userStore.changePassword?.newPassword}
                           onChange={(newPassword) => {
                             onChange(newPassword)
-                            UserStores.userStore.updateChangePassword({
-                              ...UserStores.userStore.changePassword,
+                            userStore.updateChangePassword({
+                              ...userStore.changePassword,
                               newPassword,
                             })
                           }}
@@ -113,13 +113,11 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                               ? "Please Enter Confirm Password"
                               : "Confirm Password"
                           }
-                          value={
-                            UserStores.userStore.changePassword?.confirmPassword
-                          }
+                          value={userStore.changePassword?.confirmPassword}
                           onChange={(confirmPassword) => {
                             onChange(confirmPassword)
-                            UserStores.userStore.updateChangePassword({
-                              ...UserStores.userStore.changePassword,
+                            userStore.updateChangePassword({
+                              ...userStore.changePassword,
                               confirmPassword,
                             })
                           }}
@@ -130,8 +128,8 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
                         required: true,
                         pattern: FormHelper.patterns.password,
                         validate: (value) =>
-                          value === UserStores.userStore.changePassword?.newPassword,
-                      }}    
+                          value === userStore.changePassword?.newPassword,
+                      }}
                       defaultValue=""
                     />
                   </LibraryComponents.Atoms.List>
@@ -163,4 +161,5 @@ export default function ModalChangePasswordByAdmin(props: ModalProps) {
       )}
     </Container>
   )
-}
+})
+export default ModalChangePasswordByAdmin
