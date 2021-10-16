@@ -59,8 +59,7 @@ const Lookup = observer(() => {
         )}
 
         <Accordion>
-          {/* , { title: "GENERAL SETTING" } */}
-          {[{ title: "DOCUMENT SETTING" }].map((item) => {
+          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map((item) => {
             return (
               <AccordionItem
                 title={`${item.title}`}
