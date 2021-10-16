@@ -50,3 +50,12 @@ export const UPDATE_RECORD = gql`
     }
   }
 `
+
+export const EXISTS_RECORD = gql`
+  mutation($input: SalemTeamsInput!) {
+    checkSalesTeamsExistsRecord(input: $input) {
+      success
+      message
+    }
+  }
+`

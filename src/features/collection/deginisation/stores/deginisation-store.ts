@@ -1,36 +1,38 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class DeginisationStore {
-  @observable listDeginisation: Models.Deginisation[] = []
+export class DeginisationStore {
+  @observable listDeginisation!: Models.Deginisation[]
   @observable listDeginisationCount: number = 0
-  @ignore @observable deginisation?: Models.Deginisation
-  @ignore @observable checkExitsCode?: boolean = false
+  @ignore @observable deginisation!: Models.Deginisation
+  @ignore @observable checkExitsCode: boolean = false
 
   constructor() {
-    makeAutoObservable(this)
+    this.listDeginisation = []
+    makeObservable<DeginisationStore, any>(this, {
+      listDeginisation: observable,
+      listDeginisationCount: observable,
+      deginisation: observable,
+      checkExitsCode: observable,
+    })
   }
 
-  private init() {
-    return {
-      code: "",
-      description: "",
-    }
-  }
 
   @computed get DeginisationService() {
     return new Services.DeginisationService()
   }
 
   @action fetchListDeginisation(page?, limit?) {
-    this.DeginisationService.listDeginisation(page, limit).then((res) => {
-      if (!res.designations.success) return alert(res.designations.message)
-      this.listDeginisation = res.designations.data
-      this.listDeginisationCount = res.designations.paginatorInfo.count
-    })
+    this.DeginisationService.listDeginisation(page, limit);
+  }
+
+  @action updateListDeginisation(res: any){
+    if (!res.designations.success) return alert(res.designations.message)
+    this.listDeginisation = res.designations.data
+    this.listDeginisationCount = res.designations.paginatorInfo.count
   }
 
   @action setExitsCode(status: boolean) {
@@ -40,10 +42,5 @@ class DeginisationStore {
   @action updateDescription = (deginisation: Models.Deginisation) => {
     this.deginisation = deginisation
   }
-
-  @action clear() {
-    this.deginisation = this.init()
-  }
 }
 
-export default DeginisationStore

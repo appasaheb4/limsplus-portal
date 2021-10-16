@@ -87,7 +87,6 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
                   onChange={(e) => {
                     const environment = e.target.value
                     props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                    
                   }}
                 >
                   <option selected>Select</option>

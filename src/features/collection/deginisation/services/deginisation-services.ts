@@ -27,6 +27,7 @@ class DeginisationService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          stores.deginisationStore.updateListDeginisation(response.data)
           resolve(response.data)
         })
         .catch((error) =>

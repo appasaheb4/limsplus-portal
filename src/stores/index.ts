@@ -11,6 +11,8 @@ import { InterfaceManagerStore } from "@lp/features/communication/stores/interfa
 
 // master
 import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
+import {SalesTeamStore} from '@lp/features/collection/salesTeam/stores/salesTeam-store'
+import {DeginisationStore} from '@lp/features/collection/deginisation/stores/deginisation-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -28,6 +30,8 @@ export class Stores extends Store {
   lookupStore!: LookupStore
   sectionStore!: SectionStore
   interfaceManagerStore!: InterfaceManagerStore
+  salesTeamStore!: SalesTeamStore
+  deginisationStore!: DeginisationStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -43,6 +47,8 @@ export class Stores extends Store {
     this.lookupStore = new LookupStore()
     this.sectionStore = new SectionStore()
     this.interfaceManagerStore = new InterfaceManagerStore()
+    this.salesTeamStore = new SalesTeamStore()
+    this.deginisationStore = new DeginisationStore()
      
     // settings
     this.environmentStore = new EnvironmentStore()
