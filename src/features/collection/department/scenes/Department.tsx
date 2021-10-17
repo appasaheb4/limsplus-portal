@@ -543,7 +543,7 @@ export const Department = observer(() => {
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="status"
-                  rules={{ required: false }}
+                  rules={{ required: true }}
                   defaultValue=""
                 />
                 <Controller
