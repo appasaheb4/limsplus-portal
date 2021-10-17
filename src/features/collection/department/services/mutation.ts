@@ -64,8 +64,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const EXISTS_RECORD = gql`
-  mutation($input: DesignationInput!) {
-    checkDesignationsExistsRecord(input: $input) {
+  mutation($input: DepartmentInput!) {
+    checkDepartmentExistsRecord(input: $input) {
       success
       message
     }

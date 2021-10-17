@@ -5,10 +5,14 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORDS,
+  UPDATE_RECORD,
+  EXISTS_RECORD,
+} from "./mutation"
 
 class DepartmentService {
   listDepartment = (page = 0, limit = 10) =>
@@ -45,17 +49,19 @@ class DepartmentService {
         )
     })
 
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+  checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/department/checkExitsLabEnvCode`, { code, env, lab })
+      client
+        .mutate({
+          mutation: EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   deletedepartment = (variables: any) =>
