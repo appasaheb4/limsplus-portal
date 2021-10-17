@@ -25,12 +25,14 @@ const authLink = setContext(async (_, { headers }) => {
     },
   }
 })
+// some changes
+
 const UploadLink = createUploadLink({
   //uri: "http://localhost:8080/graphql",
   uri: "https://limsplus-api.azurewebsites.net/graphql",
   fetch: customFetch,
 })
-
+ // s
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
