@@ -63,7 +63,7 @@ export class Stores extends Store {
     this.loginStore = new LoginStore()
   }
 }
-
+  
 export const stores = new Stores()
 export const StoresContext = React.createContext(stores)
 export const useStores = () => React.useContext(StoresContext)
