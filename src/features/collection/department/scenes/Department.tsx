@@ -8,7 +8,7 @@ import { Container } from "reactstrap"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores, stores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -48,12 +48,16 @@ export const Department = observer(() => {
   }, [loginStore.login])
   const onSubmitDepartment = () => {
     if (!departmentStore.checkExitsCode) {
-      departmentStore.DepartmentService.adddepartment(
-        departmentStore.department
-      ).then(() => {
-        LibraryComponents.Atoms.Toast.success({
-          message: `😊 Department created.`,
-        })
+      departmentStore.DepartmentService.adddepartment({
+        input: {
+          ...departmentStore.department,
+        },
+      }).then((res) => {
+        if (res.createDepartment.success) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 ${res.createDepartment.message}`,
+          })
+        }
       })
       setTimeout(() => {
         window.location.reload()
@@ -663,31 +667,33 @@ export const Department = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                departmentStore.DepartmentService.deletedepartment(
-                  modalConfirm.id
-                ).then((res: any) => {
-                  if (res.status === 200) {
+                departmentStore.DepartmentService.deletedepartment({
+                  input: { id: modalConfirm.id },
+                }).then((res: any) => {
+                  if (res.removeDepartment.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Department deleted.`,
+                      message: `😊 ${res.removeDepartment.message}`,
                     })
                     setModalConfirm({ show: false })
                     departmentStore.fetchListDepartment()
                   }
                 })
               } else if (type === "Update") {
-                departmentStore.DepartmentService.updateSingleFiled(
-                  modalConfirm.data
-                ).then((res: any) => {
-                  if (res.status === 200) {
+                departmentStore.DepartmentService.updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                }).then((res: any) => {  
+                  if (res.updateDepartment.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Department updated.`,
+                      message: `😊 ${res.updateDepartment.message}`,
                     })
                     setModalConfirm({ show: false })
                     departmentStore.fetchListDepartment()
-                    window.location.reload()
                   }
                 })
-              }
+              }  
             }}
             onClose={() => setModalConfirm({ show: false })}
           />

@@ -42,9 +42,9 @@ export class DepartmentStore {
   }
 
   @action updateDepartmentList(res: any) {
-    if (!res.success) return alert(res.message)
-    this.listDepartment = res.data.department
-    this.listDepartmentCount = res.data.count
+    if (!res.departments.success) return alert(res.departments.message)
+    this.listDepartment = res.departments.data
+    this.listDepartmentCount = res.departments.paginatorInfo.count
   }
 
   @action updateDepartment = (department: Models.Department) => {

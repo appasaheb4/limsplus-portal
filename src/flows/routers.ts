@@ -82,8 +82,6 @@ export const updateSelectedCategory = async (
 export const getLookupValues = async (path: string): Promise<any> => {
   let lookupItems: Array<any> = []
   await new LookupService().lookupItemsByPath(path).then((res) => {
-    console.log({res});
-    
     if (!res.lookupItemsByPath.success) return alert(res.lookupItemsByPath.message)
     lookupItems = res.lookupItemsByPath.data
   })  

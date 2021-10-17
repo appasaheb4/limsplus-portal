@@ -4,9 +4,11 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD } from "./mutation"
 
 class DepartmentService {
   listDepartment = (page = 0, limit = 10) =>
@@ -14,29 +16,33 @@ class DepartmentService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `/master/department/listDepartment/${page}/${limit}/${env}/${role}/${lab}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.departmentStore.updateDepartmentList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
-  adddepartment = (department?: Models.Department) =>
+  adddepartment = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/department/addDepartment`, department)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
@@ -52,27 +58,34 @@ class DepartmentService {
         })
     })
 
-  deletedepartment = (id: string) =>
+  deletedepartment = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/department/deleteDepartment/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORDS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  updateSingleFiled = (newValue: any) =>
+
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/department/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 
