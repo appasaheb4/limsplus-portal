@@ -14,6 +14,7 @@ import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
 import {SalesTeamStore} from '@lp/features/collection/salesTeam/stores/salesTeam-store'
 import {DeginisationStore} from '@lp/features/collection/deginisation/stores/deginisation-store'
 import {DepartmentStore} from '@lp/features/collection/department/stores/department-store'
+import {AdministrativeDivisionsStore} from '@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -34,6 +35,7 @@ export class Stores extends Store {
   salesTeamStore!: SalesTeamStore
   deginisationStore!: DeginisationStore
   departmentStore!: DepartmentStore
+  administrativeDivisions!: AdministrativeDivisionsStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -52,6 +54,7 @@ export class Stores extends Store {
     this.salesTeamStore = new SalesTeamStore()
     this.deginisationStore = new DeginisationStore()
     this.departmentStore = new DepartmentStore()
+    this.administrativeDivisions = new AdministrativeDivisionsStore()
      
     // settings
     this.environmentStore = new EnvironmentStore()

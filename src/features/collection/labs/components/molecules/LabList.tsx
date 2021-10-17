@@ -1,15 +1,12 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { observer } from "mobx-react"
 import { Stores } from "../../stores"
-import { Stores as SalesTeamStore } from "@lp/features/collection/salesTeam/stores"
-import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
-import Storage from "@lp/library/modules/storage"
 import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import {useStores} from '@lp/stores'
 
 interface LabListProps {
   data: any
@@ -25,6 +22,7 @@ interface LabListProps {
 }
 
 const LabList = observer((props: LabListProps) => {
+  const {administrativeDivisions,salesTeamStore} = useStores()
  
 
   return (
@@ -77,9 +75,9 @@ const LabList = observer((props: LabListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {AdministrativeDivStore.administrativeDivStore
+                      {administrativeDivisions
                         .listAdministrativeDiv &&
-                        AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
+                        administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.country}>
                               {`${item.country}`}
@@ -116,12 +114,12 @@ const LabList = observer((props: LabListProps) => {
                     >
                       <option selected>Select</option>
                       {Utils.stateList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         Stores.labStore.labs?.country
                       ) &&
                         Utils.stateList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           Stores.labStore.labs?.country
                         ).map((item: any, index: number) => (
@@ -159,13 +157,13 @@ const LabList = observer((props: LabListProps) => {
                     >
                       <option selected>Select</option>
                       {Utils.districtList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         Stores.labStore.labs?.country,
                         Stores.labStore.labs?.state
                       ) &&
                         Utils.districtList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           Stores.labStore.labs?.country,
                           Stores.labStore.labs?.state
@@ -204,14 +202,14 @@ const LabList = observer((props: LabListProps) => {
                     >
                       <option selected>Select</option>
                       {Utils.cityList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         Stores.labStore.labs?.country,
                         Stores.labStore.labs?.state,
                         Stores.labStore.labs?.district
                       ) &&
                         Utils.cityList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           Stores.labStore.labs?.country,
                           Stores.labStore.labs?.state,
@@ -251,7 +249,7 @@ const LabList = observer((props: LabListProps) => {
                     >
                       <option selected>Select</option>
                       {Utils.areaList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         Stores.labStore.labs?.country,
                         Stores.labStore.labs?.state,
@@ -259,7 +257,7 @@ const LabList = observer((props: LabListProps) => {
                         Stores.labStore.labs?.city
                       ) &&
                         Utils.areaList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           Stores.labStore.labs?.country,
                           Stores.labStore.labs?.state,
@@ -300,7 +298,7 @@ const LabList = observer((props: LabListProps) => {
                     >
                       <option selected>Select</option>
                       {Utils.postCodeList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         Stores.labStore.labs?.country,
                         Stores.labStore.labs?.state,
@@ -308,7 +306,7 @@ const LabList = observer((props: LabListProps) => {
                         Stores.labStore.labs?.city
                       ) &&
                         Utils.postCodeList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           Stores.labStore.labs?.country,
                           Stores.labStore.labs?.state,
@@ -395,8 +393,8 @@ const LabList = observer((props: LabListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SalesTeamStore.salesTeamStore.listSalesTeam &&
-                        SalesTeamStore.salesTeamStore.listSalesTeam.map(
+                      {salesTeamStore.listSalesTeam &&
+                        salesTeamStore.listSalesTeam.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.salesTerritory.area}>
                               {`${item.salesTerritory.area}`}

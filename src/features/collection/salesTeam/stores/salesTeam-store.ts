@@ -30,8 +30,6 @@ export class SalesTeamStore {
 
   @action updateSalesTeamList(res: any){
     if (!res.salesTeams.success) return alert(res.salesTeams.message)
-    console.log({res});
-    
     this.listSalesTeam = res.salesTeams.data
     this.listSalesTeamCount = res.salesTeams.paginatorInfo.count
   }

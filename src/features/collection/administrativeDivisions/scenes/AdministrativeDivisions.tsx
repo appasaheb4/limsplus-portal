@@ -7,9 +7,7 @@ import { AdminstrativeDivList } from "../components/molecules"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -20,14 +18,14 @@ export const AdministrativeDivisions = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, administrativeDivisions } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.administrativeDivStore.updateAdministrativeDiv({
-        ...Stores.administrativeDivStore.administrativeDiv,
+      administrativeDivisions.updateAdministrativeDiv({
+        ...administrativeDivisions.administrativeDiv,
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
@@ -35,10 +33,10 @@ export const AdministrativeDivisions = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitAdministrativeDivision = () => {
-    if (Stores.administrativeDivStore.administrativeDiv) {
-      Stores.administrativeDivStore.administrativeDivisionsService
+    if (administrativeDivisions.administrativeDiv) {
+      administrativeDivisions.administrativeDivisionsService
         .addAdministrativeDivisions({
-          input: { ...Stores.administrativeDivStore.administrativeDiv },
+          input: { ...administrativeDivisions.administrativeDiv },
         })
         .then((res) => {
           if (res.createAdministrativeDivision.success) {
@@ -93,11 +91,11 @@ export const AdministrativeDivisions = observer(() => {
                       errors.country ? "Please Enter Country " : "Country"
                     }
                     hasError={errors.country}
-                    value={Stores.administrativeDivStore.administrativeDiv?.country}
+                    value={administrativeDivisions.administrativeDiv?.country}
                     onChange={(country) => {
                       onChange(country)
-                      Stores.administrativeDivStore.updateAdministrativeDiv({
-                        ...Stores.administrativeDivStore.administrativeDiv,
+                      administrativeDivisions.updateAdministrativeDiv({
+                        ...administrativeDivisions.administrativeDiv,
                         country,
                       })
                     }}
@@ -108,204 +106,67 @@ export const AdministrativeDivisions = observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="State">
-                <LibraryComponents.Atoms.Grid cols={2}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <LibraryComponents.Atoms.Form.Input
-                        // label="State"
-                        placeholder={errors.state ? "Please Enter state" : "State"}
-                        hasError={errors.state}
-                        value={Stores.administrativeDivStore.localState?.state || ""}
-                        onChange={(state) => {
-                          onChange(state)
-                          Stores.administrativeDivStore.updateLocalState({
-                            ...Stores.administrativeDivStore.localState,
-                            state,
-                          })
-                        }}
-                      />
-                    )}
-                    name="state"
-                    rules={{ required: true }}
-                    defaultValue=""
-                  />
-                  <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="medium"
-                      type="solid"
-                      onClick={() => {
-                        const state = Stores.administrativeDivStore.localState?.state
-                        if (state === undefined) return alert("Please Enter State")
-                        if (state !== undefined) {
-                          let arrState = Stores.administrativeDivStore.administrativeDiv
-                           && Stores.administrativeDivStore.administrativeDiv.state;
-                           Stores.administrativeDivStore.updateAdministrativeDiv({
-                             ...Stores.administrativeDivStore.administrativeDiv,
-                             state: arrState? arrState.concat(state): [state] 
-                           })
-                           Stores.administrativeDivStore.updateLocalState({
-                            ...Stores.administrativeDivStore.localState,
-                            state:''
-                          })
-                        }
+              <LibraryComponents.Atoms.Form.InputWrapper label="State" hasError={errors.state}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      // label="State"
+                      placeholder={errors.state ? "Please Enter state" : "State"}
+                      hasError={errors.state}
+                      value={administrativeDivisions.localState?.state || ""}
+                      onChange={(state) => {
+                        onChange(state)
+                        administrativeDivisions.updateLocalState({
+                          ...administrativeDivisions.localState,
+                          state,
+                        })
                       }}
-                    >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
-                      {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </div>
-                </LibraryComponents.Atoms.Grid>
-                <br/>
-                <LibraryComponents.Atoms.List
-                    space={2}
-                    direction="row"
-                    justify="center"
-                  >
-                    <div>
-                      {Stores.administrativeDivStore.administrativeDiv?.state?.map(
-                        (item, index) => (
-                          <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
-                              size="medium"
-                              type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.state?.slice(
-                                    0,
-                                    index
-                                  ) || []
-                                const secondArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.state?.slice(
-                                    index + 1
-                                  ) || []
-                                const finalArray = [
-                                  ...firstArr,
-                                  ...secondArr,
-                                ]
-                                Stores.administrativeDivStore.updateAdministrativeDiv({
-                                  ...Stores.administrativeDivStore.administrativeDiv,
-                                  state: finalArray,
-                                })
-                              }}
-                            >
-                             {item}
-                            </LibraryComponents.Atoms.Buttons.Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </LibraryComponents.Atoms.List>
+                    />
+                  )}
+                  name="state"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label='District'>
-                  <LibraryComponents.Atoms.Grid cols={2}>
-                  <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          placeholder={
-                            errors.district ? "Please Enter District" : "District"
-                          }
-                          hasError={errors.district}
-                          value={Stores.administrativeDivStore.localState?.district || ""}
-                          onChange={(district) => {
-                            onChange(district)
-                            Stores.administrativeDivStore.updateLocalDistrict({
-                              ...Stores.administrativeDivStore.localState,
-                              district,
-                            })
-                          }}
-                        />
-                      )}
-                      name="district"
-                      rules={{ required: true }}
-                      defaultValue=""
-                    /> 
-                    <div className="mt-2">
-                      <LibraryComponents.Atoms.Buttons.Button
-                        size="medium"
-                        type="solid"
-                        onClick={() => {
-                          const district = Stores.administrativeDivStore.localState?.district
-                          if (district === undefined) return alert("Please Enter District")
-                          if (district !== undefined) {
-                            let arrState = Stores.administrativeDivStore.administrativeDiv 
-                            && Stores.administrativeDivStore.administrativeDiv.district;
-                            Stores.administrativeDivStore.updateAdministrativeDiv({
-                              ...Stores.administrativeDivStore.administrativeDiv,
-                              district: arrState? arrState.concat(district): [district] 
-                            })
-                            Stores.administrativeDivStore.updateLocalDistrict({
-                              ...Stores.administrativeDivStore.localState,
-                              district:''
-                            })
-                          }
-                        }}
-                      >
-                        <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
-                        {`Add`}
-                      </LibraryComponents.Atoms.Buttons.Button>
-                    </div>
-                  </LibraryComponents.Atoms.Grid>
-                  <br />
-                  <LibraryComponents.Atoms.List
-                    space={2}
-                    direction="row"
-                    justify="center"
-                  >
-                    <div>
-                      {Stores.administrativeDivStore.administrativeDiv?.district?.map(
-                        (item, index) => (
-                          <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
-                              size="medium"
-                              type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.district?.slice(
-                                    0,
-                                    index
-                                  ) || []
-                                const secondArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.district?.slice(
-                                    index + 1
-                                  ) || []
-                                const finalArray = [
-                                  ...firstArr,
-                                  ...secondArr,
-                                ]
-                                Stores.administrativeDivStore.updateAdministrativeDiv({
-                                  ...Stores.administrativeDivStore.administrativeDiv,
-                                  district: finalArray,
-                                })
-                              }}
-                            >
-                             {item}
-                            </LibraryComponents.Atoms.Buttons.Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </LibraryComponents.Atoms.List>  
+              <LibraryComponents.Atoms.Form.InputWrapper label="District" hasError={errors.district}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Input
+                      placeholder={
+                        errors.district ? "Please Enter District" : "District"
+                      }
+                      hasError={errors.district}
+                      value={administrativeDivisions.localState?.district || ""}
+                      onChange={(district) => {
+                        onChange(district)
+                        administrativeDivisions.updateLocalDistrict({
+                          ...administrativeDivisions.localState,
+                          district,
+                        })
+                      }}
+                    />
+                  )}
+                  name="district"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label='City'>
-                <LibraryComponents.Atoms.Grid cols={2}>
+              <LibraryComponents.Atoms.Form.InputWrapper label="City">
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       hasError={errors.city}
                       placeholder={errors.city ? "Please Enter City" : "City"}
-                      value={Stores.administrativeDivStore.localState?.city || ""}
+                      value={administrativeDivisions.localState?.city || ""}
                       onChange={(city) => {
                         onChange(city)
-                        Stores.administrativeDivStore.updateLocalCity({
-                          ...Stores.administrativeDivStore.localState,
+                        administrativeDivisions.updateLocalCity({
+                          ...administrativeDivisions.localState,
                           city,
                         })
                       }}
@@ -315,88 +176,20 @@ export const AdministrativeDivisions = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="medium"
-                      type="solid"
-                      onClick={() => {
-                        const city = Stores.administrativeDivStore.localState?.city
-                        if (city === undefined) return alert("Please Enter city")
-                        if (city !== undefined) {
-                          let arrState = Stores.administrativeDivStore.administrativeDiv 
-                          && Stores.administrativeDivStore.administrativeDiv.city;
-                           Stores.administrativeDivStore.updateAdministrativeDiv({
-                             ...Stores.administrativeDivStore.administrativeDiv,
-                             city: arrState? arrState.concat(city): [city] 
-                           })
-                           Stores.administrativeDivStore.updateLocalCity({
-                            ...Stores.administrativeDivStore.localState,
-                            city:''
-                          })
-                        }
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
-                      {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </div>
-                </LibraryComponents.Atoms.Grid>
-                <br />
-                  <LibraryComponents.Atoms.List
-                    space={2}
-                    direction="row"
-                    justify="center"
-                  >
-                    <div>
-                      {Stores.administrativeDivStore.administrativeDiv?.city?.map(
-                        (item, index) => (
-                          <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
-                              size="medium"
-                              type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.city?.slice(
-                                    0,
-                                    index
-                                  ) || []
-                                const secondArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.city?.slice(
-                                    index + 1
-                                  ) || []
-                                const finalArray = [
-                                  ...firstArr,
-                                  ...secondArr,
-                                ]
-                                Stores.administrativeDivStore.updateAdministrativeDiv({
-                                  ...Stores.administrativeDivStore.administrativeDiv,
-                                  city: finalArray,
-                                })
-                              }}
-                            >
-                             {item}
-                            </LibraryComponents.Atoms.Buttons.Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </LibraryComponents.Atoms.List>  
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <LibraryComponents.Atoms.Form.InputWrapper label="Area">
-                <LibraryComponents.Atoms.Grid cols={2}>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
                       placeholder={errors.area ? "Please Enter Area" : "Area"}
                       hasError={errors.area}
-                      value={Stores.administrativeDivStore.localState?.area || ""}
+                      value={administrativeDivisions.localState?.area || ""}
                       onChange={(area) => {
                         onChange(area)
-                        Stores.administrativeDivStore.updateLocalArea({
-                          ...Stores.administrativeDivStore.localState,
+                        administrativeDivisions.updateLocalArea({
+                          ...administrativeDivisions.localState,
                           area,
                         })
                       }}
@@ -405,74 +198,7 @@ export const AdministrativeDivisions = observer(() => {
                   name="area"
                   rules={{ required: false }}
                   defaultValue=""
-                />            
-                <div className="mt-2">
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="medium"
-                      type="solid"
-                      onClick={() => {
-                        const area = Stores.administrativeDivStore.localState?.area
-                        if (area === undefined) return alert("Please Enter area")
-                        if (area !== undefined) {
-                          let arrState = Stores.administrativeDivStore.administrativeDiv 
-                          && Stores.administrativeDivStore.administrativeDiv.area;
-                           Stores.administrativeDivStore.updateAdministrativeDiv({
-                             ...Stores.administrativeDivStore.administrativeDiv,
-                             area: arrState? arrState.concat(area): [area] 
-                           })
-                           Stores.administrativeDivStore.updateLocalArea({
-                            ...Stores.administrativeDivStore.localState,
-                            area:''
-                          })
-                        }
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
-                      {`Add`}
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </div>
-                </LibraryComponents.Atoms.Grid>
-                <br />
-                  <LibraryComponents.Atoms.List
-                    space={2}
-                    direction="row"
-                    justify="center"
-                  >
-                    <div>
-                      {Stores.administrativeDivStore.administrativeDiv?.area?.map(
-                        (item, index) => (
-                          <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
-                              size="medium"
-                              type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.area?.slice(
-                                    0,
-                                    index
-                                  ) || []
-                                const secondArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.area?.slice(
-                                    index + 1
-                                  ) || []
-                                const finalArray = [
-                                  ...firstArr,
-                                  ...secondArr,
-                                ]
-                                Stores.administrativeDivStore.updateAdministrativeDiv({
-                                  ...Stores.administrativeDivStore.administrativeDiv,
-                                  area: finalArray,
-                                })
-                              }}
-                            >
-                             {item}
-                            </LibraryComponents.Atoms.Buttons.Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </LibraryComponents.Atoms.List>
+                />
               </LibraryComponents.Atoms.Form.InputWrapper>
             </LibraryComponents.Atoms.List>
             <LibraryComponents.Atoms.List
@@ -481,50 +207,55 @@ export const AdministrativeDivisions = observer(() => {
               justify="stretch"
               fill
             >
-              <LibraryComponents.Atoms.Form.InputWrapper label='Postal Code'>
-                <LibraryComponents.Atoms.Grid cols={2}>
-                      <Controller
-                      control={control}
-                      render={({ field: { onChange } }) => (
-                        <LibraryComponents.Atoms.Form.Input
-                          type="number"
-                          placeholder={
-                            errors.postalCode ? "Please Enter PostalCode" : "PostalCode"
-                          }
-                          hasError={errors.postalCode}
-                          value={
-                            Stores.administrativeDivStore.localState?.postalCode || ""
-                          }
-                          onChange={(postalCode) => {
-                            onChange(postalCode)
-                            Stores.administrativeDivStore.updateLocalPostalCode({
-                              ...Stores.administrativeDivStore.localState,
-                              postalCode,
-                            })
-                          }}
-                        />
-                      )}
-                      name="postalCode"
-                      rules={{ required: false }}
-                      defaultValue=""
-                    /> 
-                    <div className="mt-2">
+              <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code">
+                <div className="flex flex-row">
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <LibraryComponents.Atoms.Form.Input
+                        type="number"
+                        placeholder={
+                          errors.postalCode
+                            ? "Please Enter PostalCode"
+                            : "PostalCode"
+                        }
+                        hasError={errors.postalCode}
+                        value={administrativeDivisions.localState?.postalCode || ""}
+                        onChange={(postalCode) => {
+                          onChange(postalCode)
+                          administrativeDivisions.updateLocalPostalCode({
+                            ...administrativeDivisions.localState,
+                            postalCode,
+                          })
+                        }}
+                      />
+                    )}
+                    name="postalCode"
+                    rules={{ required: false }}
+                    defaultValue=""
+                  />
+                  <div className="w-4 mt-2 ml-2">
                     <LibraryComponents.Atoms.Buttons.Button
                       size="medium"
                       type="solid"
                       onClick={() => {
-                        const postalCode = Stores.administrativeDivStore.localState?.postalCode
-                        if (postalCode === undefined) return alert("Please Enter PostalCode")
+                        const postalCode =
+                          administrativeDivisions.localState?.postalCode
+                        if (postalCode === undefined)
+                          return alert("Please Enter PostalCode")
                         if (postalCode !== undefined) {
-                          let arrState = Stores.administrativeDivStore.administrativeDiv 
-                          && Stores.administrativeDivStore.administrativeDiv.postalCode;
-                           Stores.administrativeDivStore.updateAdministrativeDiv({
-                             ...Stores.administrativeDivStore.administrativeDiv,
-                             postalCode: arrState? arrState.concat(postalCode): [postalCode] 
-                           })
-                           Stores.administrativeDivStore.updateLocalPostalCode({
-                            ...Stores.administrativeDivStore.localState,
-                            postalCode:""
+                          let arrState =
+                            administrativeDivisions.administrativeDiv &&
+                            administrativeDivisions.administrativeDiv.postalCode
+                          administrativeDivisions.updateAdministrativeDiv({
+                            ...administrativeDivisions.administrativeDiv,
+                            postalCode: arrState
+                              ? arrState.concat(postalCode)
+                              : [postalCode],
+                          })
+                          administrativeDivisions.updateLocalPostalCode({
+                            ...administrativeDivisions.localState,
+                            postalCode: "",
                           })
                         }
                       }}
@@ -532,49 +263,45 @@ export const AdministrativeDivisions = observer(() => {
                       <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
                     </LibraryComponents.Atoms.Buttons.Button>
+                  </div>  
+                </div>
+                <LibraryComponents.Atoms.List
+                  space={2}
+                  direction="row"
+                  justify="center"
+                >
+                  <div>
+                    {administrativeDivisions.administrativeDiv?.postalCode?.map(
+                      (item, index) => (
+                        <div className="mb-2" key={index}>
+                          <LibraryComponents.Atoms.Buttons.Button
+                            size="medium"
+                            type="solid"
+                            icon={LibraryComponents.Atoms.Icon.Remove}
+                            onClick={() => {
+                              const firstArr =
+                                administrativeDivisions.administrativeDiv?.postalCode?.slice(
+                                  0,
+                                  index
+                                ) || []
+                              const secondArr =
+                                administrativeDivisions.administrativeDiv?.postalCode?.slice(
+                                  index + 1
+                                ) || []
+                              const finalArray = [...firstArr, ...secondArr]
+                              administrativeDivisions.updateAdministrativeDiv({
+                                ...administrativeDivisions.administrativeDiv,
+                                postalCode: finalArray,
+                              })
+                            }}
+                          >
+                            {item}
+                          </LibraryComponents.Atoms.Buttons.Button>
+                        </div>
+                      )
+                    )}
                   </div>
-                </LibraryComponents.Atoms.Grid>
-                <br />
-                  <LibraryComponents.Atoms.List
-                    space={2}
-                    direction="row"
-                    justify="center"
-                  >
-                    <div>
-                      {Stores.administrativeDivStore.administrativeDiv?.postalCode?.map(
-                        (item, index) => (
-                          <div className="mb-2" key={index}>
-                            <LibraryComponents.Atoms.Buttons.Button
-                              size="medium"
-                              type="solid"
-                              icon={LibraryComponents.Atoms.Icon.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.postalCode?.slice(
-                                    0,
-                                    index
-                                  ) || []
-                                const secondArr =
-                                  Stores.administrativeDivStore.administrativeDiv?.postalCode?.slice(
-                                    index + 1
-                                  ) || []
-                                const finalArray = [
-                                  ...firstArr,
-                                  ...secondArr,
-                                ]
-                                Stores.administrativeDivStore.updateAdministrativeDiv({
-                                  ...Stores.administrativeDivStore.administrativeDiv,
-                                  postalCode: finalArray,
-                                })
-                              }}
-                            >
-                             {item}
-                            </LibraryComponents.Atoms.Buttons.Button>
-                          </div>
-                        )
-                      )}
-                    </div>
-                  </LibraryComponents.Atoms.List>
+                </LibraryComponents.Atoms.List>
               </LibraryComponents.Atoms.Form.InputWrapper>
 
               <Controller
@@ -591,8 +318,8 @@ export const AdministrativeDivisions = observer(() => {
                       onChange={(e) => {
                         const sbu = e.target.value
                         onChange(sbu)
-                        Stores.administrativeDivStore.updateAdministrativeDiv({
-                          ...Stores.administrativeDivStore.administrativeDiv,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           sbu,
                         })
                       }}
@@ -628,8 +355,8 @@ export const AdministrativeDivisions = observer(() => {
                       onChange={(e) => {
                         const zone = e.target.value
                         onChange(zone)
-                        Stores.administrativeDivStore.updateAdministrativeDiv({
-                          ...Stores.administrativeDivStore.administrativeDiv,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           zone,
                         })
                       }}
@@ -653,11 +380,9 @@ export const AdministrativeDivisions = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
                     <select
-                      value={
-                        Stores.administrativeDivStore.administrativeDiv?.environment
-                      }
+                      value={administrativeDivisions.administrativeDiv?.environment}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -670,8 +395,8 @@ export const AdministrativeDivisions = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.administrativeDivStore.updateAdministrativeDiv({
-                          ...Stores.administrativeDivStore.administrativeDiv,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           environment,
                         })
                       }}
@@ -680,8 +405,8 @@ export const AdministrativeDivisions = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.administrativeDivStore.administrativeDiv
-                              ?.environment || `Select`}
+                          : administrativeDivisions.administrativeDiv?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -723,20 +448,21 @@ export const AdministrativeDivisions = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <br />
-        <div className="p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <AdminstrativeDivList
-            data={Stores.administrativeDivStore.listAdministrativeDiv || []}
-            totalSize={Stores.administrativeDivStore.listAdministrativeDivCount}
+            data={administrativeDivisions.listAdministrativeDiv || []}
+            totalSize={administrativeDivisions.listAdministrativeDivCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
-              updateAdministrativeDiv: Stores.administrativeDivStore.updateAdministrativeDiv,
-              administrativeDiv: Stores.administrativeDivStore.administrativeDiv,
-              updateLocalState: Stores.administrativeDivStore.updateLocalState,
-              localState: Stores.administrativeDivStore.localState,
-              updateLocalDistrict: Stores.administrativeDivStore.updateLocalDistrict,
-              updateLocalCity: Stores.administrativeDivStore.updateLocalCity,
-              updateLocalArea: Stores.administrativeDivStore.updateLocalArea,
-              updateLocalPostalCode: Stores.administrativeDivStore.updateLocalPostalCode
+              updateAdministrativeDiv:
+                administrativeDivisions.updateAdministrativeDiv,
+              administrativeDiv: administrativeDivisions.administrativeDiv,
+              updateLocalState: administrativeDivisions.updateLocalState,
+              localState: administrativeDivisions.localState,
+              updateLocalDistrict: administrativeDivisions.updateLocalDistrict,
+              updateLocalCity: administrativeDivisions.updateLocalCity,
+              updateLocalArea: administrativeDivisions.updateLocalArea,
+              updateLocalPostalCode: administrativeDivisions.updateLocalPostalCode,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -767,7 +493,7 @@ export const AdministrativeDivisions = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.administrativeDivStore.fetchAdministrativeDiv(page, limit)
+              administrativeDivisions.fetchAdministrativeDiv(page, limit)
             }}
           />
         </div>
@@ -775,7 +501,7 @@ export const AdministrativeDivisions = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.administrativeDivStore.administrativeDivisionsService
+              administrativeDivisions.administrativeDivisionsService
                 .deleteAdministrativeDivisions({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
                   if (res.removeAdministrativeDivision.success) {
@@ -783,11 +509,11 @@ export const AdministrativeDivisions = observer(() => {
                       message: `😊 ${res.removeAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.administrativeDivStore.fetchAdministrativeDiv()
+                    administrativeDivisions.fetchAdministrativeDiv()
                   }
                 })
             } else if (type === "Update") {
-              Stores.administrativeDivStore.administrativeDivisionsService
+              administrativeDivisions.administrativeDivisionsService
                 .updateSingleFiled({
                   input: {
                     _id: modalConfirm.data.id,
