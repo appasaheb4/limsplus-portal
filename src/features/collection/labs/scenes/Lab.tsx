@@ -7,14 +7,13 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
-import { useStores, stores } from "@lp/stores"
-import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const Lab = observer(() => {
-  const { labStore, salesTeamStore, routerStore } = useStores()
+  const { labStore, salesTeamStore, routerStore, administrativeDivisions } = useStores()
 
   const {
     control,
@@ -165,9 +164,9 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {AdministrativeDivStore.administrativeDivStore
+                      {administrativeDivisions
                         .listAdministrativeDiv &&
-                        AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
+                        administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.country}>
                               {`${item.country}`}
@@ -203,12 +202,12 @@ const Lab = observer(() => {
                     >
                       <option selected>Select</option>
                       {Utils.stateList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         labStore.labs?.country
                       ) &&
                         Utils.stateList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           labStore.labs?.country
                         ).map((item: any, index: number) => (
@@ -245,13 +244,13 @@ const Lab = observer(() => {
                     >
                       <option selected>Select</option>
                       {Utils.districtList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         labStore.labs?.country,
                         labStore.labs?.state
                       ) &&
                         Utils.districtList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           labStore.labs?.country,
                           labStore.labs?.state
@@ -289,14 +288,14 @@ const Lab = observer(() => {
                     >
                       <option selected>Select</option>
                       {Utils.cityList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         labStore.labs?.country,
                         labStore.labs?.state,
                         labStore.labs?.district
                       ) &&
                         Utils.cityList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           labStore.labs?.country,
                           labStore.labs?.state,
@@ -335,7 +334,7 @@ const Lab = observer(() => {
                     >
                       <option selected>Select</option>
                       {Utils.areaList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         labStore.labs?.country,
                         labStore.labs?.state,
@@ -343,7 +342,7 @@ const Lab = observer(() => {
                         labStore.labs?.city
                       ) &&
                         Utils.areaList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           labStore.labs?.country,
                           labStore.labs?.state,
@@ -383,7 +382,7 @@ const Lab = observer(() => {
                     >
                       <option selected>Select</option>
                       {Utils.postCodeList(
-                        AdministrativeDivStore.administrativeDivStore
+                        administrativeDivisions
                           .listAdministrativeDiv,
                         labStore.labs?.country,
                         labStore.labs?.state,
@@ -391,7 +390,7 @@ const Lab = observer(() => {
                         labStore.labs?.city
                       ) &&
                         Utils.postCodeList(
-                          AdministrativeDivStore.administrativeDivStore
+                          administrativeDivisions
                             .listAdministrativeDiv,
                           labStore.labs?.country,
                           labStore.labs?.state,

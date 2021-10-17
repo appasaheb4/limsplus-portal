@@ -8,13 +8,12 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { stores, useStores } from "@lp/stores"
-import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const SalesTeam = observer(() => {
-  const { loginStore, userStore, salesTeamStore } = useStores()
+  const { loginStore, userStore, salesTeamStore,administrativeDivisions } = useStores()
   const {
     control,
     handleSubmit,
@@ -141,9 +140,9 @@ export const SalesTeam = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {AdministrativeDivStore.administrativeDivStore
+                      {administrativeDivisions
                         .listAdministrativeDiv &&
-                        AdministrativeDivStore.administrativeDivStore.listAdministrativeDiv.map(
+                        administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.area}`}
