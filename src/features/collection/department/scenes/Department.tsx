@@ -122,15 +122,17 @@ export const Department = observer(() => {
                             ...departmentStore.department,
                             lab,
                           })
-                          departmentStore.DepartmentService.checkExitsLabEnvCode(
-                            departmentStore.department?.code || "",
-                            departmentStore.department?.environment || "",
-                            lab
-                          ).then((res) => {
-                            if (res.success) {
+                          departmentStore.DepartmentService.checkExitsLabEnvCode({
+                            input: {
+                              code: departmentStore.department?.code,
+                              env: departmentStore.department?.environment,
+                              lab,
+                            },
+                          }).then((res) => {
+                            if (res.checkDepartmentExistsRecord.success) {
                               departmentStore.setExitsCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                               })
                             } else departmentStore.setExitsCode(false)
                           })
@@ -167,15 +169,17 @@ export const Department = observer(() => {
                         })
                       }}
                       onBlur={(code) => {
-                        departmentStore.DepartmentService.checkExitsLabEnvCode(
-                          code,
-                          departmentStore.department?.environment || "",
-                          departmentStore.department?.lab || ""
-                        ).then((res) => {
-                          if (res.success) {
+                        departmentStore.DepartmentService.checkExitsLabEnvCode({
+                          input: {
+                            code,
+                            env: departmentStore.department?.environment,
+                            lab: departmentStore.department?.lab,
+                          },
+                        }).then((res) => {
+                          if (res.checkDepartmentExistsRecord.success) {
                             departmentStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                             })
                           } else departmentStore.setExitsCode(false)
                         })
@@ -563,15 +567,17 @@ export const Department = observer(() => {
                             ...departmentStore.department,
                             environment,
                           })
-                          departmentStore.DepartmentService.checkExitsLabEnvCode(
-                            departmentStore.department?.code || "",
-                            environment,
-                            departmentStore.department?.lab || ""
-                          ).then((res) => {
-                            if (res.success) {
+                          departmentStore.DepartmentService.checkExitsLabEnvCode({
+                            input: {
+                              code: departmentStore.department?.code,
+                              env: environment,
+                              lab: departmentStore.department?.lab,
+                            },
+                          }).then((res) => {
+                            if (res.checkDepartmentExistsRecord.success) {
                               departmentStore.setExitsCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkDepartmentExistsRecord.message}`,
                               })
                             } else departmentStore.setExitsCode(false)
                           })
@@ -684,7 +690,7 @@ export const Department = observer(() => {
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
-                }).then((res: any) => {  
+                }).then((res: any) => {
                   if (res.updateDepartment.success) {
                     LibraryComponents.Atoms.Toast.success({
                       message: `😊 ${res.updateDepartment.message}`,
@@ -693,7 +699,7 @@ export const Department = observer(() => {
                     departmentStore.fetchListDepartment()
                   }
                 })
-              }  
+              }
             }}
             onClose={() => setModalConfirm({ show: false })}
           />
