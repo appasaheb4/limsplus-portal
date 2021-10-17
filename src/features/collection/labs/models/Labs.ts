@@ -29,11 +29,9 @@ export class Labs {
     routingDept: boolean
     fyiLine: string
     workLine: string
+    status: string
     environment: string
 
-
-
-    
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.code = rawData.code
@@ -65,6 +63,7 @@ export class Labs {
         this.routingDept = rawData.routingDept
         this.fyiLine = rawData.fyiLine
         this.workLine = rawData.workLine
+        this.status = rawData.status
         this.environment = rawData.environment
     }
   }

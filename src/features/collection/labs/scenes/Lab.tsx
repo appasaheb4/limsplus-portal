@@ -10,15 +10,11 @@ import { useForm, Controller } from "react-hook-form"
 import { useStores, stores } from "@lp/stores"
 import { Stores as AdministrativeDivStore } from "@lp/features/collection/administrativeDivisions/stores"
 
-
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const Lab = observer(() => {
-  const { labStore,salesTeamStore,routerStore } = useStores()
-
-  console.log({salesTeamStore});
-  
+  const { labStore, salesTeamStore, routerStore } = useStores()
 
   const {
     control,
@@ -41,15 +37,13 @@ const Lab = observer(() => {
 
   const onSubmitLab = () => {
     if (!labStore.checkExitsEnvCode) {
-      labStore.LabService.addLab({ input: { ...labStore.labs } }).then(
-        (res) => {
-          if (res.createLab.success) {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 ${res.createLab.message}`,
-            })
-          }
+      labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
+        if (res.createLab.success) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 ${res.createLab.message}`,
+          })
         }
-      )
+      })
       setTimeout(() => {
         window.location.reload()
       }, 2000)
@@ -68,10 +62,7 @@ const Lab = observer(() => {
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -814,6 +805,45 @@ const Lab = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Status"
+                    hasError={errors.status}
+                  >
+                    <select
+                      value={labStore.labs.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const status = e.target.value
+                        onChange(status)
+                        labStore.updateLabs({
+                          ...labStore.labs,
+                          status,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        routerStore.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="status"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -827,8 +857,7 @@ const Lab = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -855,8 +884,7 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : labStore.labs?.environment || `Select`}
                       </option>
@@ -983,7 +1011,7 @@ const Lab = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />  
+        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.LabList
             data={labStore.listLabs || []}
