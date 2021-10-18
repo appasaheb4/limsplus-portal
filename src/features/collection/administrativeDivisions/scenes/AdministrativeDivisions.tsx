@@ -45,9 +45,9 @@ export const AdministrativeDivisions = observer(() => {
             })
           }
         })
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter all information!`,
@@ -111,14 +111,13 @@ export const AdministrativeDivisions = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
-                      // label="State"
                       placeholder={errors.state ? "Please Enter state" : "State"}
                       hasError={errors.state}
-                      value={administrativeDivisions.localState?.state || ""}
+                      value={administrativeDivisions.administrativeDiv?.state || ""}
                       onChange={(state) => {
                         onChange(state)
-                        administrativeDivisions.updateLocalState({
-                          ...administrativeDivisions.localState,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           state,
                         })
                       }}
@@ -139,11 +138,11 @@ export const AdministrativeDivisions = observer(() => {
                         errors.district ? "Please Enter District" : "District"
                       }
                       hasError={errors.district}
-                      value={administrativeDivisions.localState?.district || ""}
+                      value={administrativeDivisions.administrativeDiv?.district || ""}
                       onChange={(district) => {
                         onChange(district)
-                        administrativeDivisions.updateLocalDistrict({
-                          ...administrativeDivisions.localState,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           district,
                         })
                       }}
@@ -162,11 +161,11 @@ export const AdministrativeDivisions = observer(() => {
                     <LibraryComponents.Atoms.Form.Input
                       hasError={errors.city}
                       placeholder={errors.city ? "Please Enter City" : "City"}
-                      value={administrativeDivisions.localState?.city || ""}
+                      value={administrativeDivisions.administrativeDiv?.city || ""}
                       onChange={(city) => {
                         onChange(city)
-                        administrativeDivisions.updateLocalCity({
-                          ...administrativeDivisions.localState,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           city,
                         })
                       }}
@@ -185,11 +184,11 @@ export const AdministrativeDivisions = observer(() => {
                     <LibraryComponents.Atoms.Form.Input
                       placeholder={errors.area ? "Please Enter Area" : "Area"}
                       hasError={errors.area}
-                      value={administrativeDivisions.localState?.area || ""}
+                      value={administrativeDivisions.administrativeDiv?.area || ""}
                       onChange={(area) => {
                         onChange(area)
-                        administrativeDivisions.updateLocalArea({
-                          ...administrativeDivisions.localState,
+                        administrativeDivisions.updateAdministrativeDiv({
+                          ...administrativeDivisions.administrativeDiv,
                           area,
                         })
                       }}
@@ -265,6 +264,7 @@ export const AdministrativeDivisions = observer(() => {
                     </LibraryComponents.Atoms.Buttons.Button>
                   </div>  
                 </div>
+                <br/>
                 <LibraryComponents.Atoms.List
                   space={2}
                   direction="row"
