@@ -20,6 +20,8 @@ class AdministrativeDivisionsService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          console.log({response});
+          
           stores.administrativeDivisions.updateAdministrativeDivList(response.data)
           resolve(response.data)
         })
