@@ -10,12 +10,9 @@ export const LIST = gql`
       message
       data {
         _id
-        country
-        state
-        district
-        city
-        area
-        postalCode
+        location{
+          address
+        }
         sbu
         zone
         environment
