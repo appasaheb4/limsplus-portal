@@ -1,10 +1,10 @@
 export class AdministrativeDivisions {
     _id: string
     country: string
-    state: Array<string>
-    district: Array<string>   
-    city: Array<string>
-    area: Array<string>
+    state: string
+    district: string 
+    city: string
+    area: string
     postalCode: Array<string>
     sbu: string
     zone: string
