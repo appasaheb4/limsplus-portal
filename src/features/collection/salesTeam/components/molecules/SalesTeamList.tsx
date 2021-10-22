@@ -45,7 +45,7 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           formatter: (cell, row) => {
-            return <>{row.salesTerritory?.area || ""}</>
+            return <>{row.salesTerritory.area || ""}</>
           },
         },
         {

@@ -7,7 +7,13 @@
 
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST, REMOVE_RECORDS, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORDS,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  FILTER_RECORD,
+} from "./mutation"
 
 class AdministrativeDivisionsService {
   listAdministrativeDivisions = (page = 0, limit = 10) =>
@@ -20,8 +26,8 @@ class AdministrativeDivisionsService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({response});
-          
+          console.log({ response })
+
           stores.administrativeDivisions.updateAdministrativeDivList(response.data)
           resolve(response.data)
         })
@@ -31,8 +37,8 @@ class AdministrativeDivisionsService {
     })
   addAdministrativeDivisions = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
-      
+      console.log({ variables })
+
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -68,6 +74,25 @@ class AdministrativeDivisionsService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filterRecord = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({ data: response.data })
+
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

@@ -40,63 +40,65 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
             csvExport: false,
           },
           {
-            dataField: "location",
-            text: "Address",
+            dataField: "country",
+            text: "Country",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             headerStyle: { minWidth: "230px" },
-            formatter: (cellContent, row) => (
-              <> 
-                <ul>
-                  {row.location.address.map((item) => (
-                    <li>
-                      {`${item.country}`}
-                      <ul>
-                        {item[item.country].map((country: any) => (
-                          <>
-                            <li className="ml-2">
-                              {`${country.state}`}
-                              <ul>
-                                {country[country.state].map((state: any) => (
-                                  <li className="ml-2.5">
-                                    {`${state.district}`}
-                                    <ul>
-                                      {state[state.district].map((district: any) => (
-                                        <li className="ml-3">
-                                          {`${district.city}`}
-                                          <ul>
-                                            {district[district.city].map(
-                                              (city: any) => (
-                                                <li className="ml-3.5">
-                                                  {`${city.area}`}
-                                                  <ul>
-                                                    {city[city.area].map(
-                                                      (area: any) => (
-                                                        <ul className="ml-4">
-                                                          {area.postalCode.map(
-                                                            (code) => <li>{code}</li>
-                                                          )}
-                                                        </ul>
-                                                      )
-                                                    )}
-                                                  </ul>
-                                                </li>
-                                              )
-                                            )}
-                                          </ul>
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </li>
-                                ))}
-                              </ul>
-                            </li>
-                          </>
-                        ))}
-                      </ul>
-                    </li>
+          },
+          {
+            dataField: "state",
+            text: "State",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
+          },
+          {
+            dataField: "district",
+            text: "District",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
+          },
+          {
+            dataField: "city",
+            text: "City",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
+          },
+          {
+            dataField: "area",
+            text: "Area",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
+          },
+          {
+            dataField: "postalCode",
+            text: "Postcode",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
+            formatter: (cellContent, row) => (   
+              <>
+                <LibraryComponents.Atoms.List
+                  space={2}
+                  direction="row"
+                  justify="center"
+                >  
+                  {row.postalCode.map((item) => (
+                    <div className="mb-2">
+                      <LibraryComponents.Atoms.Buttons.Button
+                        size="medium"
+                        type="solid"
+                        onClick={() => {}}
+                      >
+                        {`${item}`}
+                      </LibraryComponents.Atoms.Buttons.Button>
+                    </div>
                   ))}
-                </ul>
+                </LibraryComponents.Atoms.List>
               </>
             ),
           },

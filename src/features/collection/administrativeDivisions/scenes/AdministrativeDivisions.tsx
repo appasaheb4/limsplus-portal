@@ -97,7 +97,12 @@ export const AdministrativeDivisions = observer(() => {
                       administrativeDivisions.updateAdministrativeDiv({
                         ...administrativeDivisions.administrativeDiv,
                         country,
-                      })
+                      })    
+                      // administrativeDivisions.administrativeDivisionsService.filterRecord(
+                      //   {
+                      //     filter: { country },
+                      //   }
+                      // )
                     }}
                   />
                 )}
@@ -106,7 +111,10 @@ export const AdministrativeDivisions = observer(() => {
                 defaultValue=""
               />
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="State" hasError={errors.state}>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="State"
+                hasError={errors.state}
+              >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -129,7 +137,10 @@ export const AdministrativeDivisions = observer(() => {
                 />
               </LibraryComponents.Atoms.Form.InputWrapper>
 
-              <LibraryComponents.Atoms.Form.InputWrapper label="District" hasError={errors.district}>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                label="District"
+                hasError={errors.district}
+              >
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -138,7 +149,9 @@ export const AdministrativeDivisions = observer(() => {
                         errors.district ? "Please Enter District" : "District"
                       }
                       hasError={errors.district}
-                      value={administrativeDivisions.administrativeDiv?.district || ""}
+                      value={
+                        administrativeDivisions.administrativeDiv?.district || ""
+                      }
                       onChange={(district) => {
                         onChange(district)
                         administrativeDivisions.updateAdministrativeDiv({
@@ -262,9 +275,9 @@ export const AdministrativeDivisions = observer(() => {
                       <LibraryComponents.Atoms.Icon.EvaIcon icon="plus-circle-outline" />
                       {`Add`}
                     </LibraryComponents.Atoms.Buttons.Button>
-                  </div>  
+                  </div>
                 </div>
-                <br/>
+                <br />
                 <LibraryComponents.Atoms.List
                   space={2}
                   direction="row"
@@ -380,7 +393,10 @@ export const AdministrativeDivisions = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Environment" hasError={errors.environment}>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Environment"
+                    hasError={errors.environment}
+                  >
                     <select
                       value={administrativeDivisions.administrativeDiv?.environment}
                       disabled={
