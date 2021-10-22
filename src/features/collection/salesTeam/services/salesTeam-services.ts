@@ -26,6 +26,8 @@ export class SalesTeamService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          console.log({data:response.data});
+          
           stores.salesTeamStore.updateSalesTeamList(response.data)
           resolve(response.data)
         })

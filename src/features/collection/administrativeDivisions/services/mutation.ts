@@ -10,9 +10,12 @@ export const LIST = gql`
       message
       data {
         _id
-        location{
-          address
-        }
+        country
+        state
+        district
+        city
+        area
+        postalCode
         sbu
         zone
         environment
@@ -29,7 +32,7 @@ export const REMOVE_RECORDS = gql`
     }
   }
 `
-   
+
 export const CREATE_RECORD = gql`
   mutation($input: CreateAdministrativeDivisionInput!) {
     createAdministrativeDivision(input: $input) {
@@ -44,6 +47,27 @@ export const UPDATE_RECORD = gql`
     updateAdministrativeDivision(input: $input) {
       success
       message
+    }
+  }
+`
+      
+export const FILTER_RECORD = gql`
+  mutation($filter: AdministrativeDevisionFilterInput!) {
+    filterAdministrativeDivision(filter: $filter) {
+      success
+      message
+      data{
+        _id
+        country
+        state
+        district
+        city
+        area
+        postalCode
+        sbu
+        zone
+        environment
+      }
     }
   }
 `

@@ -5,7 +5,7 @@ import { setContext } from "@apollo/client/link/context"
 import { createUploadLink } from "apollo-upload-client"
 
 const customFetch = (uri, options): Promise<any> => {
-  stores.setLoading(true)
+  if(stores.flagLoading) stores.setLoading(true)
   const response = fetch(uri, options).then((response) => {
     stores.setLoading(false)
     if (response.status >= 500) {
@@ -27,8 +27,8 @@ const authLink = setContext(async (_, { headers }) => {
 })
 
 const UploadLink = createUploadLink({
-  uri: "http://localhost:8080/graphql",
-  //uri: "https://limsplus-api.azurewebsites.net/graphql",
+  //uri: "http://localhost:8080/graphql",
+  uri: "https://limsplus-api.azurewebsites.net/graphql",   
   fetch: customFetch,
 })
  
@@ -44,7 +44,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
           alert(extensions.validation[firstMessageKey][0])
         }
       } else {
-        alert("Something went wrong! Please try again.")
+        alert("!Please try again.")
       }
     })
   }

@@ -13,7 +13,12 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const Lab = observer(() => {
-  const { labStore, salesTeamStore, routerStore, administrativeDivisions } = useStores()
+  const {
+    labStore,
+    salesTeamStore,
+    routerStore,
+    administrativeDivisions,
+  } = useStores()
 
   const {
     control,
@@ -164,8 +169,7 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {administrativeDivisions
-                        .listAdministrativeDiv &&
+                      {administrativeDivisions.listAdministrativeDiv &&
                         administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.country}>
@@ -201,20 +205,14 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Utils.stateList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        labStore.labs?.country
-                      ) &&
-                        Utils.stateList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          labStore.labs?.country
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
+                      {administrativeDivisions.listAdministrativeDiv &&
+                        administrativeDivisions.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.state}>
+                              {`${item.state}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -243,22 +241,14 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Utils.districtList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        labStore.labs?.country,
-                        labStore.labs?.state
-                      ) &&
-                        Utils.districtList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          labStore.labs?.country,
-                          labStore.labs?.state
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
+                      {administrativeDivisions.listAdministrativeDiv &&
+                        administrativeDivisions.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.district}>
+                              {`${item.district}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -287,24 +277,14 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Utils.cityList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        labStore.labs?.country,
-                        labStore.labs?.state,
-                        labStore.labs?.district
-                      ) &&
-                        Utils.cityList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          labStore.labs?.country,
-                          labStore.labs?.state,
-                          labStore.labs?.district
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
+                      {administrativeDivisions.listAdministrativeDiv &&
+                        administrativeDivisions.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.city}>
+                              {`${item.city}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -333,26 +313,14 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Utils.areaList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        labStore.labs?.country,
-                        labStore.labs?.state,
-                        labStore.labs?.district,
-                        labStore.labs?.city
-                      ) &&
-                        Utils.areaList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          labStore.labs?.country,
-                          labStore.labs?.state,
-                          labStore.labs?.district,
-                          labStore.labs?.city
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
+                      {administrativeDivisions.listAdministrativeDiv &&
+                        administrativeDivisions.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item.area}>
+                              {`${item.area}`}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -381,26 +349,15 @@ const Lab = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Utils.postCodeList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        labStore.labs?.country,
-                        labStore.labs?.state,
-                        labStore.labs?.district,
-                        labStore.labs?.city
-                      ) &&
-                        Utils.postCodeList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          labStore.labs?.country,
-                          labStore.labs?.state,
-                          labStore.labs?.district,
-                          labStore.labs?.city
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
+                      {administrativeDivisions.listAdministrativeDiv &&
+                        administrativeDivisions.listAdministrativeDiv.map(
+                          (item: any, index: number) =>
+                            item.postalCode.map((codeList) => (
+                              <option key={index} value={codeList}>
+                                {`${codeList}`}
+                              </option>
+                            ))
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -478,7 +435,7 @@ const Lab = observer(() => {
                         salesTeamStore.listSalesTeam.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.salesTerritory}>
-                              {`${item.salesTerritory}`}
+                              {`${item.salesTerritory.area}`}
                             </option>
                           )
                         )}
