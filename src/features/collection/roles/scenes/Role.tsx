@@ -5,9 +5,8 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
+
+import { stores, useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -18,22 +17,26 @@ const Role = observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, roleStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.roleStore.updateRole({
-        ...Stores.roleStore.role,
+      roleStore.updateRole({
+        ...roleStore.role,
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
   const onSubmitRoles = () => {
-    if (!Stores.roleStore.checkExitsCode) {
-      Stores.roleStore.RoleService.addrole(Stores.roleStore.role).then(() => {
-        LibraryComponents.Atoms.Toast.success({ message: `😊 Role created.` })
+    if (!roleStore.checkExitsCode) {
+      roleStore.RoleService.addrole({ input: { ...roleStore.role } }).then((res) => {
+        if (res.createRole.success) {
+          LibraryComponents.Atoms.Toast.success({
+            message: `😊 ${res.createRole.message}`,
+          })
+        }
         setTimeout(() => {
           window.location.reload()
         }, 2000)
@@ -81,25 +84,25 @@ const Role = observer(() => {
                     id="code"
                     hasError={errors.code}
                     placeholder={errors.code ? "Please Enter Code " : "Code"}
-                    value={Stores.roleStore.role?.code}
+                    value={roleStore.role?.code}
                     onChange={(code) => {
                       onChange(code)
-                      Stores.roleStore.updateRole({
-                        ...Stores.roleStore.role,
-                        code:code.toUpperCase(),
+                      roleStore.updateRole({
+                        ...roleStore.role,
+                        code: code.toUpperCase(),
                       })
-                    }}   
+                    }}
                     onBlur={(code) => {
-                      Stores.roleStore.RoleService.checkExitsEnvCode(
+                      roleStore.RoleService.checkExitsEnvCode(
                         code,
-                        Stores.roleStore.role?.environment
+                        roleStore.role?.environment
                       ).then((res) => {
                         if (res.success) {
-                          Stores.roleStore.setExitsCode(true)
+                          roleStore.setExitsCode(true)
                           LibraryComponents.Atoms.Toast.error({
                             message: `😔 ${res.message}`,
                           })
-                        } else Stores.roleStore.setExitsCode(false)
+                        } else roleStore.setExitsCode(false)
                       })
                     }}
                   />
@@ -108,7 +111,7 @@ const Role = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.roleStore.checkExitsCode && (
+              {roleStore.checkExitsCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -123,12 +126,12 @@ const Role = observer(() => {
                     placeholder={
                       errors.description ? "Please Enter Description" : "Description"
                     }
-                    value={Stores.roleStore.role?.description}
+                    value={roleStore.role?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.roleStore.updateRole({
-                        ...Stores.roleStore.role,
-                        description:description.toUpperCase(),
+                      roleStore.updateRole({
+                        ...roleStore.role,
+                        description: description.toUpperCase(),
                       })
                     }}
                   />
@@ -142,11 +145,9 @@ const Role = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.roleStore.role?.environment}
+                      value={roleStore.role?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -157,20 +158,20 @@ const Role = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.roleStore.updateRole({
-                          ...Stores.roleStore.role,
+                        roleStore.updateRole({
+                          ...roleStore.role,
                           environment,
-                        })      
-                        Stores.roleStore.RoleService.checkExitsEnvCode(
-                          Stores.roleStore.role?.code || "",
+                        })
+                        roleStore.RoleService.checkExitsEnvCode(
+                          roleStore.role?.code || "",
                           environment
                         ).then((res) => {
                           if (res.success) {
-                            Stores.roleStore.setExitsCode(true)
+                            roleStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.message}`,
                             })
-                          } else Stores.roleStore.setExitsCode(false)
+                          } else roleStore.setExitsCode(false)
                         })
                       }}
                     >
@@ -178,7 +179,7 @@ const Role = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.roleStore.role?.environment || `Select`}
+                          : roleStore.role?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -224,8 +225,8 @@ const Role = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.RoleList
-            data={Stores.roleStore.listRole || []}
-            totalSize={Stores.roleStore.listRoleCount}
+            data={roleStore.listRole || []}
+            totalSize={roleStore.listRoleCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -257,7 +258,7 @@ const Role = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.roleStore.fetchListRole(page, limit)
+              roleStore.fetchListRole(page, limit)
             }}
           />
         </div>
@@ -265,29 +266,32 @@ const Role = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.roleStore.RoleService.deleterole(modalConfirm.id).then(
-                (res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Role deleted.`,
-                    })
-                    setModalConfirm({ show: false })
-                    Stores.roleStore.fetchListRole()
-                  }
+              roleStore.RoleService.deleterole({
+                input: { id: modalConfirm.id },
+              }).then((res: any) => {
+                if (res.removeRole.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.removeRole.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  roleStore.fetchListRole()
                 }
-              )
+              })  
             } else if (type === "Update") {
-              Stores.roleStore.RoleService.updateSingleFiled(modalConfirm.data).then(
-                (res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Role updated.`,
-                    })
-                    setModalConfirm({ show: false })
-                    Stores.roleStore.fetchListRole()
-                  }
+              roleStore.RoleService.updateSingleFiled({
+                input: {
+                  _id: modalConfirm.data.id,
+                  [modalConfirm.data.dataField]: modalConfirm.data.value,
+                },
+              }).then((res: any) => {
+                if (res.updateRole.success) {
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.updateRole.message}`,
+                  })
+                  setModalConfirm({ show: false })
+                  roleStore.fetchListRole()
                 }
-              )
+              })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

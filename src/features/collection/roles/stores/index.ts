@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RoleStore from './role-store';
+import {RoleStore} from './role-store';
 
 export const Stores = {
   roleStore: new RoleStore(),

@@ -1,35 +1,38 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class RoleStore {
+export class RoleStore {
   @observable listRole: Models.Role[] = []
   @observable listRoleCount: number = 0
   @ignore @observable role?: Models.Role
   @ignore @observable checkExitsCode?: boolean = false
 
   constructor() {
-    makeAutoObservable(this)
+    makeObservable<RoleStore, any>(this, {
+      listRole: observable,
+      listRoleCount: observable,
+      role: observable,
+      checkExitsCode: observable,
+    })
   }
 
-  private init() {
-    return {
-      code: "",
-      name: "",
-    }
-  }
   @computed get RoleService() {
     return new Services.RoleService()
   }
+
   @action fetchListRole(page?, limit?) {
-    this.RoleService.listRole(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listRole = res.data.roles
-      this.listRoleCount = res.data.count
-    })
+    this.RoleService.listRole(page, limit)
   }
+
+  @action updateRoleList(res: any) {
+    if (!res.roles.success) return alert(res.roles.message)
+    this.listRole = res.roles.data
+    this.listRoleCount = res.roles.paginatorInfo.count
+  }
+
   @action setExitsCode(status: boolean) {
     this.checkExitsCode = status
   }
@@ -38,9 +41,4 @@ class RoleStore {
     this.role = role
   }
 
-  @action clear() {
-    this.role = this.init()
-  }
 }
-
-export default RoleStore

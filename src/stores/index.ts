@@ -11,10 +11,11 @@ import { InterfaceManagerStore } from "@lp/features/communication/stores/interfa
 
 // master
 import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
-import {SalesTeamStore} from '@lp/features/collection/salesTeam/stores/salesTeam-store'
-import {DeginisationStore} from '@lp/features/collection/deginisation/stores/deginisation-store'
-import {DepartmentStore} from '@lp/features/collection/department/stores/department-store'
-import {AdministrativeDivisionsStore} from '@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store'
+import { SalesTeamStore } from "@lp/features/collection/salesTeam/stores/salesTeam-store"
+import { DeginisationStore } from "@lp/features/collection/deginisation/stores/deginisation-store"
+import { DepartmentStore } from "@lp/features/collection/department/stores/department-store"
+import { AdministrativeDivisionsStore } from "@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store"
+import { RoleStore } from "@lp/features/collection/roles/stores/role-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -36,6 +37,7 @@ export class Stores extends Store {
   deginisationStore!: DeginisationStore
   departmentStore!: DepartmentStore
   administrativeDivisions!: AdministrativeDivisionsStore
+  roleStore!: RoleStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -55,8 +57,9 @@ export class Stores extends Store {
     this.deginisationStore = new DeginisationStore()
     this.departmentStore = new DepartmentStore()
     this.administrativeDivisions = new AdministrativeDivisionsStore()
-     
-    // settings
+    this.roleStore = new RoleStore()
+
+    // settings   
     this.environmentStore = new EnvironmentStore()
     setTimeout(() => {
       this.userStore = new UserStore()
@@ -66,7 +69,7 @@ export class Stores extends Store {
     this.loginStore = new LoginStore()
   }
 }
-  
+
 export const stores = new Stores()
 export const StoresContext = React.createContext(stores)
 export const useStores = () => React.useContext(StoresContext)
