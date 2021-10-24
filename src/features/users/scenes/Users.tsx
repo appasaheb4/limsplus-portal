@@ -12,7 +12,7 @@ import { useForm, Controller } from "react-hook-form"
 
 import { AssetsService } from "@lp/features/assets/services"
 
-import { stores, useStores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -46,42 +46,48 @@ export const Users = observer(() => {
       })
       ?.arrValue?.find((statusItem) => statusItem.code === "A")
     if (status) {
-      userStore &&  userStore.updateUser({
-        ...userStore.user,
-        status: status.code as string,
-      })
+      userStore &&
+        userStore.updateUser({
+          ...userStore.user,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
     }
   }, [routerStore.lookupItems])
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      userStore && userStore.updateUser({
-        ...userStore.user,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      userStore &&
+        userStore.updateUser({
+          ...userStore.user,
+          environment: loginStore.login.environment,
+        })
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitUser = (data: any) => {
     if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
-      userStore && userStore.UsersService.addUser({
-        ...userStore.user,
-        createdBy: loginStore.login?._id,
-      }).then((res: any) => {
-        if (res.success) {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 ${res.message}`,
-          })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-        } else {
-          LibraryComponents.Atoms.Toast.error({
-            message: `😔 ${res.message}`,
-          })
-        }
-      })
+      userStore &&
+        userStore.UsersService.addUser({
+          input: {
+            ...userStore.user,
+            createdBy: loginStore.login.userId,
+          },
+        }).then((res: any) => {
+          if (res.createUser.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createUser.message}`,
+            })
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 2000)
+          } else {
+            LibraryComponents.Atoms.Toast.error({
+              message: `😔 ${res.createUser.message}`,
+            })
+          }
+        })
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: "😔 Please enter userid or emp code!",
@@ -94,14 +100,11 @@ export const Users = observer(() => {
       <Container fluid>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={stores.routerStore.selectedComponents?.title || ""}
+            title={routerStore.selectedComponents?.title || ""}
           />
           <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(
-          toJS(stores.routerStore.userPermission),
-          "Add"
-        ) && (
+        {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddUser}
             onClick={(status) => setAddUser(!hideAddUser)}
@@ -139,7 +142,8 @@ export const Users = observer(() => {
                         if (userId) {
                           userStore.UsersService.checkExitsUserId(userId).then(
                             (res) => {
-                              if (res.success) userStore.setExitsUserId(true)
+                              if (res.checkUserExitsUserId.success)
+                                userStore.setExitsUserId(true)
                               else userStore.setExitsUserId(false)
                             }
                           )
@@ -177,7 +181,8 @@ export const Users = observer(() => {
                         if (empCode) {
                           userStore.UsersService.findUserByEmpCode(empCode)
                             .then((res) => {
-                              if (res.success) userStore.setExistsEmpCodeStatus(true)
+                              if (res.checkUserByEmpCode.success)
+                                userStore.setExistsEmpCodeStatus(true)
                               else userStore.setExistsEmpCodeStatus(false)
                             })
                             .catch((error) => {
@@ -674,7 +679,7 @@ export const Users = observer(() => {
                       />
                     )}
                     name="expireDays"
-                    rules={{ required: true }}
+                    rules={{ required: false }}
                     defaultValue={userStore && userStore.user.expireDays}
                   />
 
@@ -835,7 +840,10 @@ export const Users = observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Status"
+                      hasError={errors.status}
+                    >
                       <select
                         value={userStore && userStore.user?.status}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
@@ -863,45 +871,57 @@ export const Users = observer(() => {
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="status"
-                  rules={{ required: false }}
+                  rules={{ required: true }}
                   defaultValue=""
                 />
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  <select
-                    value={userStore && userStore.user?.environment}
-                    disabled={
-                      stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
-                        ? true
-                        : false
-                    }
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.environment ? "border-red-500  " : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      userStore.updateUser({
-                        ...userStore.user,
-                        environment,
-                      })
-                    }}
-                  >
-                    <option selected>
-                      {stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
-                        ? `Select`
-                        : (userStore && userStore.user?.environment) || `Select`}
-                    </option>
-                    {LibraryUtils.lookupItems(
-                      routerStore.lookupItems,
-                      "ENVIRONMENT"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Environment"
+                      hasError={errors.environment}
+                    >
+                      <select
+                        value={userStore && userStore.user?.environment}
+                        disabled={
+                          loginStore.login && loginStore.login.role !== "SYSADMIN"
+                            ? true
+                            : false
+                        }
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.environment ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const environment = e.target.value
+                          onChange(environment)
+                          userStore.updateUser({
+                            ...userStore.user,
+                            environment,
+                          })
+                        }}
+                      >
+                        <option selected>
+                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
+                            ? `Select`
+                            : (userStore && userStore.user?.environment) || `Select`}
+                        </option>
+                        {LibraryUtils.lookupItems(
+                          routerStore.lookupItems,
+                          "ENVIRONMENT"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="environment"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -952,7 +972,7 @@ export const Users = observer(() => {
             style={{ overflowX: "scroll" }}
           >
             <UserList
-              data={ userStore && userStore.userList || []}
+              data={(userStore && userStore.userList) || []}
               totalSize={userStore && userStore.userListCount}
               extraData={{
                 lookupItems: routerStore.lookupItems,
@@ -960,13 +980,14 @@ export const Users = observer(() => {
                 listDeginisation: deginisationStore.listDeginisation,
                 listDepartment: departmentStore.listDepartment,
                 listRole: roleStore.listRole,
+                userStore,
               }}
               isDelete={RouterFlow.checkPermission(
-                toJS(stores.routerStore.userPermission),
+                toJS(routerStore.userPermission),
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                toJS(stores.routerStore.userPermission),
+                toJS(routerStore.userPermission),
                 "Edit/Modify"
               )}
               onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -1015,62 +1036,52 @@ export const Users = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                userStore && userStore.UsersService.deleteUser({
-                  input: { id: modalConfirm.id },
-                }).then((res: any) => {
-                  if (res.removeUser.success) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.removeUser.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    userStore.loadUser()
-                  }
-                })
-              } else if (type === "Update") {
-                console.log({ data: modalConfirm.data })
-
-                userStore && userStore.UsersService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateUser.success) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.updateUser.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 1000)
-                  }
-                })
-              } else {
-                const path = `https://limsplus.blob.core.windows.net/users/${modalConfirm.data.value.name}`
-                new AssetsService()
-                  .uploadFile(
-                    modalConfirm.data.value,
-                    "users",
-                    modalConfirm.data.value.name
-                  )
-                  .then((res) => {
-                    if (res.success) {
-                      userStore && userStore.UsersService.updateSingleFiled({
-                        ...modalConfirm.data,
-                        value: path,
-                      }).then((res: any) => {
-                        if (res.status === 200) {
-                          LibraryComponents.Atoms.Toast.success({
-                            message: `😊 ${res.message}`,
-                          })
-                          setModalConfirm({ show: false })
-                          setTimeout(() => {
-                            window.location.reload()
-                          }, 2000)
-                        }
+                userStore &&
+                  userStore.UsersService.deleteUser({
+                    input: { id: modalConfirm.id },
+                  }).then((res: any) => {
+                    if (res.removeUser.success) {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.removeUser.message}`,
                       })
-                    } else {
-                      alert(res.message)
+                      setModalConfirm({ show: false })
+                      userStore.loadUser()
+                    }
+                  })
+              } else if (type === "Update") {
+                userStore &&
+                  userStore.UsersService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateUser.success) {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.updateUser.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      setTimeout(() => {
+                        window.location.reload()
+                      }, 1000)
+                    }
+                  })
+              } else {
+                userStore &&
+                  userStore.UsersService.uploadImage({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateUserImages.success) {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.updateUserImages.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      setTimeout(() => {
+                        window.location.reload()
+                      }, 1000)
                     }
                   })
               }
@@ -1090,21 +1101,24 @@ export const Users = observer(() => {
                 email: modalChangePasswordByadmin.data.email,
                 exipreDate: LibraryUtils.moment(exipreDate).unix(),
               }
-              userStore &&userStore.UsersService.changepasswordByAdmin(body).then((res) => {
-                if (res.success) {
-                  setModalChangePasswordByAdmin({ show: false })
-                  LibraryComponents.Atoms.Toast.success({
-                    message: `😊 ${res.message}`,
-                  })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
-                } else {
-                  LibraryComponents.Atoms.Toast.error({
-                    message: `😔 ${res.message}`,
-                  })
-                }
-              })
+              userStore &&
+                userStore.UsersService.changepasswordByAdmin({
+                  input: { ...body },
+                }).then((res) => {
+                  if (res.userChnagePasswordByAdmin.success) {
+                    setModalChangePasswordByAdmin({ show: false })
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.userChnagePasswordByAdmin.message}`,
+                    })
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
+                  } else {    
+                    LibraryComponents.Atoms.Toast.error({
+                      message: `😔 ${res.userChnagePasswordByAdmin.message}`,
+                    })
+                  }
+                })
             }}
             onClose={() => {
               setModalChangePasswordByAdmin({ show: false })

@@ -11,7 +11,6 @@ import Routes from "./routes/Routes"
 import "react-toastify/dist/ReactToastify.css"
 
 import { stores } from "@lp/stores"
-//import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"

@@ -5,7 +5,6 @@ import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import { useHistory } from "react-router-dom"
 
-import { Stores as LoginStores } from "@lp/features/login/stores"
 
 import { Badge, Collapse } from "reactstrap"
 import PerfectScrollbar from "react-perfect-scrollbar"
@@ -260,14 +259,14 @@ const Sidebar = observer(({ location, sidebar, layout }) => {
                 <div className="media">
                   <img
                     className="rounded-circle mr-3"
-                    src={LoginStores.loginStore.login?.picture || Assets.defaultAvatar}
-                    alt={LoginStores.loginStore.login?.fullName}
+                    src={stores.loginStore.login?.picture || Assets.defaultAvatar}
+                    alt={stores.loginStore.login?.fullName}
                     width="40"
                     height="40"
                   />
                   <div className="media-body">
                     <h5 className="mb-1">
-                      {LoginStores.loginStore.login?.fullName}
+                      {stores.loginStore.login?.fullName}
                     </h5>
                     <div>
                       <FontAwesomeIcon icon={faCircle} className="text-success" />{" "}

@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, runInAction, computed } from "mobx"
+import { makeObservable, action, observable, runInAction, computed } from "mobx"
 import Session from "@lp/library/modules/session"
 import { Login, ForgotPassword } from "../models"
 import * as Services from "../services"
@@ -14,7 +14,12 @@ export class LoginStore {
   @ignore @observable forgotPassword!: ForgotPassword
 
   constructor() {
-    makeAutoObservable(this)
+    makeObservable<LoginStore, any>(this, {
+      inputLogin: observable,
+      login: observable,
+      loginFailedCount: observable,
+      forgotPassword: observable,
+    })
     Session.initialize({ name: "limsplus" })
     runInAction(async () => {
       const session = await Session.getSession()
@@ -46,7 +51,7 @@ export class LoginStore {
             accessToken: this.login?.accessToken,
           },
         }).then(async (res) => {
-          if (res.logout.success) {  
+          if (res.logout.success) {
             await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
             await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
             await Storage.removeItem(

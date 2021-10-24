@@ -14,14 +14,11 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import { useHistory } from "react-router-dom"
 
-import { Stores } from "@lp/features/login/stores"
 import { Stores as BannerStores } from "@lp/features/collection/banner/stores"
-import { stores, useStores } from "@lp/stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as RoleStores } from "@lp/features/collection/roles/stores"
+import { useStores } from "@lp/stores"
 
 export const Login = observer(() => {
-  const {userStore} = useStores()
+  const { userStore, loginStore, rootStore, labStore, roleStore } = useStores()
   const history = useHistory()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -48,7 +45,7 @@ export const Login = observer(() => {
   }, [])
 
   useEffect(() => {
-    stores.rootStore.isLogin().then((isLogin) => {
+    rootStore.isLogin().then((isLogin) => {
       if (isLogin) {
         history.push("/dashboard/default")
       } else {
@@ -59,14 +56,14 @@ export const Login = observer(() => {
     return () => {
       window.removeEventListener("resize", handleWindowSizeChange)
     }
-  }, [Stores.loginStore.login])
+  }, [loginStore.login])
 
   const onLogin = async (data: any) => {
-    const loginFailedCount = Stores.loginStore.loginFailedCount || 0
+    const loginFailedCount = loginStore.loginFailedCount || 0
     if (loginFailedCount > 4) {
-      Stores.loginStore.LoginService.accountStatusUpdate({
+      loginStore.LoginService.accountStatusUpdate({
         input: {
-          userId: Stores.loginStore.inputLogin?.userId,
+          userId: loginStore.inputLogin?.userId,
           status: "I",
         },
       }).then((res) => {
@@ -74,13 +71,13 @@ export const Login = observer(() => {
           LibraryComponents.Atoms.Toast.error({
             message: `😔 ${res.userAccountStatusUpdate.message}`,
           })
-          Stores.loginStore.updateLoginFailedCount(0)
+          loginStore.updateLoginFailedCount(0)
         }
       })
     } else {
-      Stores.loginStore.LoginService.onLogin({
+      loginStore.LoginService.onLogin({
         input: {
-          user: Stores.loginStore.inputLogin,
+          user: loginStore.inputLogin,
           loginActivity: {
             device: width <= 768 ? "Mobile" : "Desktop",
           },
@@ -88,7 +85,7 @@ export const Login = observer(() => {
       })
         .then((res) => {
           if (res.login.success == 1) {
-            Stores.loginStore.updateLoginFailedCount(0)
+            loginStore.updateLoginFailedCount(0)
             if (res.login.data.user.passChanged !== true) {
               setModalChangePassword({ show: true })
             } else {
@@ -102,8 +99,8 @@ export const Login = observer(() => {
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.login.message}`,
                 })
-                Stores.loginStore.saveLogin(res.login.data.user)
-                Stores.loginStore.clearInputUser()
+                loginStore.saveLogin(res.login.data.user)
+                loginStore.clearInputUser()
                 setTimeout(() => {
                   history.push("/dashboard/default")
                 }, 1000)
@@ -115,14 +112,14 @@ export const Login = observer(() => {
               data: res.login.data.loginActivityListByUserId,
             })
           } else {
-            Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
+            loginStore.updateLoginFailedCount(loginFailedCount + 1)
             LibraryComponents.Atoms.Toast.error({
               message: `😔 ${res.login.message}`,
             })
           }
         })
         .catch((error) => {
-          Stores.loginStore.updateLoginFailedCount(loginFailedCount + 1)
+          loginStore.updateLoginFailedCount(loginFailedCount + 1)
           LibraryComponents.Atoms.Toast.error({
             message: `😔 ${error.message}`,
           })
@@ -174,11 +171,11 @@ export const Login = observer(() => {
                           errors.userId ? "Please enter userId" : "UserId"
                         }
                         hasError={errors.userId}
-                        value={Stores.loginStore.inputLogin?.userId}
+                        value={loginStore.inputLogin?.userId}
                         onChange={(userId) => {
                           onChange(userId)
-                          Stores.loginStore.updateInputUser({
-                            ...Stores.loginStore.inputLogin,
+                          loginStore.updateInputUser({
+                            ...loginStore.inputLogin,
                             userId,
                           })
                         }}
@@ -196,14 +193,14 @@ export const Login = observer(() => {
                                 if (user.role.length == 1)
                                   setValue("role", user.role[0].code)
                                 clearErrors("role")
-                                Stores.loginStore.updateInputUser({
-                                  ...Stores.loginStore.inputLogin,
+                                loginStore.updateInputUser({
+                                  ...loginStore.inputLogin,
                                   lab: user.defaultLab,
                                   role:
                                     user.role.length == 1 ? user.role[0].code : "",
                                 })
-                                LabStores.labStore.fetchListLab()
-                                RoleStores.roleStore.fetchListRole()
+                                labStore.fetchListLab()
+                                roleStore.fetchListRole()
                                 setlabRoleList({
                                   labList: user.lab,
                                   roleList: user.role,
@@ -220,7 +217,7 @@ export const Login = observer(() => {
                     )}
                     name="userId"
                     rules={{ required: true }}
-                    defaultValue={Stores.loginStore.inputLogin?.userId}
+                    defaultValue={loginStore.inputLogin?.userId}
                   />
 
                   <Controller
@@ -233,11 +230,11 @@ export const Login = observer(() => {
                           errors.password ? "Please enter password" : "Password"
                         }
                         hasError={errors.password}
-                        value={Stores.loginStore.inputLogin?.password}
+                        value={loginStore.inputLogin?.password}
                         onChange={(password) => {
                           onChange(password)
-                          Stores.loginStore.updateInputUser({
-                            ...Stores.loginStore.inputLogin,
+                          loginStore.updateInputUser({
+                            ...loginStore.inputLogin,
                             password,
                           })
                         }}
@@ -245,7 +242,7 @@ export const Login = observer(() => {
                     )}
                     name="password"
                     rules={{ required: true, pattern: FormHelper.patterns.password }}
-                    defaultValue={Stores.loginStore.inputLogin?.password}
+                    defaultValue={loginStore.inputLogin?.password}
                   />
 
                   <Controller
@@ -256,15 +253,15 @@ export const Login = observer(() => {
                         hasError={errors.lab}
                       >
                         <select
-                          value={Stores.loginStore.inputLogin?.lab}
+                          value={loginStore.inputLogin?.lab}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.lab ? "border-red-500" : "border-gray-300"
                           } rounded-md`}
                           onChange={(e) => {
                             const lab = e.target.value
                             onChange(lab)
-                            Stores.loginStore.updateInputUser({
-                              ...Stores.loginStore.inputLogin,
+                            loginStore.updateInputUser({
+                              ...loginStore.inputLogin,
                               lab,
                             })
                           }}
@@ -280,7 +277,7 @@ export const Login = observer(() => {
                     )}
                     name="lab"
                     rules={{ required: true }}
-                    defaultValue={Stores.loginStore.inputLogin?.lab}
+                    defaultValue={loginStore.inputLogin?.lab}
                   />
 
                   <Controller
@@ -291,15 +288,15 @@ export const Login = observer(() => {
                         hasError={errors.role}
                       >
                         <select
-                          value={Stores.loginStore.inputLogin?.role}
+                          value={loginStore.inputLogin?.role}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.role ? "border-red-500" : "border-gray-300"
                           } rounded-md`}
                           onChange={(e) => {
                             const role = e.target.value
                             onChange(role)
-                            Stores.loginStore.updateInputUser({
-                              ...Stores.loginStore.inputLogin,
+                            loginStore.updateInputUser({
+                              ...loginStore.inputLogin,
                               role,
                             })
                           }}
@@ -315,7 +312,7 @@ export const Login = observer(() => {
                     )}
                     name="role"
                     rules={{ required: true }}
-                    defaultValue={Stores.loginStore.inputLogin?.role}
+                    defaultValue={loginStore.inputLogin?.role}
                   />
                 </LibraryComponents.Atoms.List>
 
@@ -409,8 +406,8 @@ export const Login = observer(() => {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 Welcome ${noticeBoard.userInfo.fullName}`,
               })
-              Stores.loginStore.saveLogin(noticeBoard.userInfo)
-              Stores.loginStore.clearInputUser()
+              loginStore.saveLogin(noticeBoard.userInfo)
+              loginStore.clearInputUser()
               setTimeout(() => {
                 history.push("/dashboard/default")
               }, 1000)
@@ -426,10 +423,10 @@ export const Login = observer(() => {
         <FeatureComponents.Molecules.ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
-            Stores.loginStore.LoginService.forgotPassword(userInfo).then((res) => {
+            loginStore.LoginService.forgotPassword(userInfo).then((res) => {
               if (res.success) {
                 setModalForgotPassword({ show: false })
-                Stores.loginStore.updateForgotPassword(undefined)
+                loginStore.updateForgotPassword(undefined)
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.message}`,
                 })
@@ -450,45 +447,39 @@ export const Login = observer(() => {
             const exipreDate = new Date(
               moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
             )
-            let body = Object.assign(
-              Stores.loginStore.inputLogin,
-              userStore.changePassword
-            )
+            let body = Object.assign(loginStore.inputLogin, userStore.changePassword)
             body = {
               ...body,
               exipreDate: LibraryUtils.moment(exipreDate).unix(),
             }
-            userStore.UsersService.changePassword(body).then((res) => {
-              console.log({ res })
-              if (res.status === 200) {
-                Stores.loginStore.updateLogin({
-                  ...Stores.loginStore.login,
-                  exipreDate: LibraryUtils.moment(exipreDate).unix(),
-                  passChanged: true,
-                })
-                userStore.updateChangePassword({
-                  ...userStore.changePassword,
-                  tempHide: true,
-                })
-                LibraryComponents.Atoms.Toast.success({
-                  message: `😊 Password changed!`,
-                })
-                setModalChangePassword({ show: false })
-                window.location.reload()
-              } else if (res.status === 203) {
-                LibraryComponents.Atoms.Toast.error({
-                  message: `😔 ${res.data.data.message}`,
-                })
-              } else {
-                LibraryComponents.Atoms.Toast.error({
-                  message: `😔 Please enter correct old password`,
-                })
+            userStore.UsersService.changePassword({ input: { ...body } }).then(
+              (res) => {
+                if (res.userChnagePassword.success) {
+                  loginStore.updateLogin({
+                    ...loginStore.login,
+                    exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                    passChanged: true,
+                  })
+                  userStore.updateChangePassword({
+                    ...userStore.changePassword,
+                    tempHide: true,
+                  })
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.userChnagePassword.message}`,
+                  })
+                  setModalChangePassword({ show: false })
+                  window.location.reload()
+                } else {
+                  LibraryComponents.Atoms.Toast.error({
+                    message: `😔 ${res.userChnagePassword.message}`,
+                  })  
+                }
               }
-            })
+            )
           }}
           onClose={() => {
-            Stores.loginStore.updateLogin({
-              ...Stores.loginStore.login,
+            loginStore.updateLogin({
+              ...loginStore.login,
               passChanged: true,
             })
             userStore.updateChangePassword({
@@ -501,9 +492,9 @@ export const Login = observer(() => {
         <LibraryComponents.Molecules.ModalSessionAllowed
           {...modalSessionAllowed}
           onClick={(data: any, item: any, index: number) => {
-            Stores.loginStore.LoginService.sessionAllowedLogout({
+            loginStore.LoginService.sessionAllowedLogout({
               id: item._id,
-              userId: Stores.loginStore.inputLogin?.userId,
+              userId: loginStore.inputLogin?.userId,
               accessToken: item.user.accessToken,
             }).then(async (res) => {
               if (res.success) {
