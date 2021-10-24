@@ -26,8 +26,8 @@ class AdministrativeDivisionsService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({ response })
-
+          console.log({response});
+          
           stores.administrativeDivisions.updateAdministrativeDivList(response.data)
           resolve(response.data)
         })
@@ -90,8 +90,6 @@ class AdministrativeDivisionsService {
           variables,
         })
         .then((response: any) => {
-          console.log({ data: response.data })
-
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

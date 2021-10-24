@@ -4,11 +4,15 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD, REMOVE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 export class RoleService {
   listRole = (page = 0, limit = 10) =>
@@ -26,11 +30,11 @@ export class RoleService {
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
-    })
+        )  
+    })   
 
   addrole = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {  
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -44,17 +48,19 @@ export class RoleService {
         )
     })
 
-  checkExitsEnvCode = (code: string, env) =>
+  checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/role/checkExitsEnvCode`, { code, env })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   deleterole = (variables: any) =>
@@ -71,7 +77,7 @@ export class RoleService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

@@ -303,7 +303,8 @@ const LabList = observer((props: LabListProps) => {
                         Stores.labStore.labs?.country,
                         Stores.labStore.labs?.state,
                         Stores.labStore.labs?.district,
-                        Stores.labStore.labs?.city
+                        Stores.labStore.labs?.city,
+                        Stores.labStore.labs?.area
                       ) &&
                         Utils.postCodeList(
                           administrativeDivisions
@@ -311,7 +312,8 @@ const LabList = observer((props: LabListProps) => {
                           Stores.labStore.labs?.country,
                           Stores.labStore.labs?.state,
                           Stores.labStore.labs?.district,
-                          Stores.labStore.labs?.city
+                          Stores.labStore.labs?.city,
+                          Stores.labStore.labs?.area
                         ).map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {`${item}`}

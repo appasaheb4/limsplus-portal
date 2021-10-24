@@ -1,68 +1,65 @@
 /* eslint-disable */
+import _ from "lodash"
 export const stateList = (arr, countryName): any => {
-  const result = arr.find((item) => {
+  const result = arr.filter((item) => {
     return item.country === countryName
   })
-  if (result) return result.state
-}
-export const districtList = (arr, countryName, stateName): any => {
-  const result = arr.find((item) => {
-    if (item.country === countryName) {
-      return item.state.find((state) => {
-        return state === stateName
-      })
-    }
-  })
-  if (result) return result.district
-}
-export const cityList = (arr, countryName, stateName, districtName): any => {
-  const result = arr.find((item) => {
-    if (item.country === countryName) {
-      return item.state.find((state) => {
-        if (state === stateName) {
-          return item.district.find((district) => {
-            return district === districtName
-          })
-        }
-      })
-    }
-  })
-  if (result) return result.city
+  if (result) return _.uniq(_.map(result, "state"))
 }
 
-export const areaList = (arr, countryName, stateName, districtName, cityName): any => {
-  const result = arr.find((item) => {
-    if (item.country === countryName) {
-      return item.state.find((state) => {
-        if (state === stateName) {
-          return item.district.find((district) => {
-            if (district === districtName) {
-              return item.city.find((city) => {
-                return city === cityName
-              })
-            }
-          })
-        }
-      })
-    }
+export const districtList = (arr, countryName, stateName): any => {
+  const result = arr.filter((item) => {
+    return item.country === countryName && item.state === stateName
   })
-  if (result) return result.area
+  if (result) return _.uniq(_.map(result, "district"))
 }
-export const postCodeList = (arr, countryName, stateName, districtName, cityName): any => {
-    const result = arr.find((item) => {
-      if (item.country === countryName) {
-        return item.state.find((state) => {
-          if (state === stateName) {
-            return item.district.find((district) => {
-              if (district === districtName) {
-                return item.city.find((city) => {
-                  return city === cityName
-                })
-              }
-            })
-          }
-        })
-      }
-    })
-    if (result) return result.postalCode
-  }
+
+export const cityList = (arr, countryName, stateName, districtName): any => {
+  const result = arr.filter((item) => {
+    return (
+      item.country === countryName &&
+      item.state === stateName &&
+      item.district === districtName
+    )
+  })
+  if (result) return _.uniq(_.map(result, "city"))
+}
+
+export const areaList = (
+  arr,
+  countryName,
+  stateName,
+  districtName,
+  cityName
+): any => {
+  const result = arr.filter((item) => {
+    return (
+      item.country === countryName &&
+      item.state === stateName &&
+      item.district === districtName &&
+      item.city === cityName
+    )
+  })
+  if (result) return _.uniq(_.map(result, "area"))
+}
+
+export const postCodeList = (
+  arr,
+  countryName,
+  stateName,
+  districtName,
+  cityName,
+  areaName
+): any => {
+  const result = arr.filter((item) => {
+    return (
+      item.country === countryName &&
+      item.state === stateName &&
+      item.district === districtName &&
+      item.city === cityName &&
+      item.area === areaName
+    )
+  })
+  if (result && result.length > 0) return result[0].postalCode
+  return []
+}

@@ -6,8 +6,8 @@
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-
-import {
+     
+import {  
   LIST,
   REMOVE_RECORD,
   CREATE_RECORD,
@@ -26,8 +26,6 @@ export class SalesTeamService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({data:response.data});
-          
           stores.salesTeamStore.updateSalesTeamList(response.data)
           resolve(response.data)
         })
