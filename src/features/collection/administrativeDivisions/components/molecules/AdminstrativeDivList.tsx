@@ -4,15 +4,8 @@ import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from "react-accessible-accordion"
 import "react-accessible-accordion/dist/fancy-example.css"
-
+   
 interface AdminstrativeDivListProps {
   data: any
   totalSize: number

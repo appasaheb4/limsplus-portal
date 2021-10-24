@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -29,6 +30,7 @@ const Lab = observer(() => {
   const { loginStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
       labStore.updateLabs({
@@ -147,224 +149,251 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Country"
-                    hasError={errors.country}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.country ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const country = e.target.value
-                        onChange(country)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          country,
-                        })
-                      }}
+              {administrativeDivisions.listAdministrativeDiv && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Country"
+                      hasError={errors.country}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.country}>
-                              {`${item.country}`}
-                            </option>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.country ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const country = e.target.value
+                          onChange(country)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            country,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {_.uniq(
+                          _.map(
+                            administrativeDivisions.listAdministrativeDiv,
+                            "country"
                           )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="country"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="State"
-                    hasError={errors.state}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.state ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const state = e.target.value
-                        onChange(state)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          state,
-                        })
-                      }}
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {`${item}`}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="country"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {(labStore.labs.country || administrativeDivisions.listAdministrativeDiv)  && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="State"
+                      hasError={errors.state}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.state}>
-                              {`${item.state}`}
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.state ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const state = e.target.value
+                          onChange(state)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            state,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {administrativeDivisions.listAdministrativeDiv &&
+                          Utils.stateList(
+                            administrativeDivisions.listAdministrativeDiv,
+                            labStore.labs.country
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
                             </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="state"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="District"
-                    hasError={errors.district}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.district ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const district = e.target.value
-                        onChange(district)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          district,
-                        })
-                      }}
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="state"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {(labStore.labs.state ||  administrativeDivisions.listAdministrativeDiv) && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="District"
+                      hasError={errors.district}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.district}>
-                              {`${item.district}`}
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.district ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const district = e.target.value
+                          onChange(district)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            district,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {administrativeDivisions.listAdministrativeDiv &&
+                          Utils.districtList(
+                            administrativeDivisions.listAdministrativeDiv,
+                            labStore.labs.country,
+                            labStore.labs.state
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
                             </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="district"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="City"
-                    hasError={errors.city}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.city ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const city = e.target.value
-                        onChange(city)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          city,
-                        })
-                      }}
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="district"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {(labStore.labs.district || administrativeDivisions.listAdministrativeDiv) && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="City"
+                      hasError={errors.city}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.city}>
-                              {`${item.city}`}
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.city ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const city = e.target.value
+                          onChange(city)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            city,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {administrativeDivisions.listAdministrativeDiv &&
+                          Utils.cityList(
+                            administrativeDivisions.listAdministrativeDiv,
+                            labStore.labs.country,
+                            labStore.labs.state,
+                            labStore.labs.district
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
                             </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="city"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Area"
-                    hasError={errors.area}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.area ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const area = e.target.value
-                        onChange(area)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          area,
-                        })
-                      }}
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="city"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {(labStore.labs.city || administrativeDivisions.listAdministrativeDiv) && (
+                <Controller  
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Area"
+                      hasError={errors.area}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.area}>
-                              {`${item.area}`}
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.area ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const area = e.target.value
+                          onChange(area)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            area,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {administrativeDivisions.listAdministrativeDiv &&
+                          Utils.areaList(
+                            administrativeDivisions.listAdministrativeDiv,
+                            labStore.labs.country,
+                            labStore.labs.state,
+                            labStore.labs.district,
+                            labStore.labs.city
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
                             </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="area "
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Postal Code"
-                    hasError={errors.postalCode}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.postalCode ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const postalCode = e.target.value
-                        onChange(postalCode)
-                        labStore.updateLabs({
-                          ...labStore.labs,
-                          postalCode,
-                        })
-                      }}
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="area "
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {(labStore.labs.area || administrativeDivisions.listAdministrativeDiv) && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Postal Code"
+                      hasError={errors.postalCode}
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) =>
-                            item.postalCode.map((codeList) => (
-                              <option key={index} value={codeList}>
-                                {`${codeList}`}
-                              </option>
-                            ))
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="postalCode "
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.postalCode ? "border-red-500  " : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const postalCode = e.target.value
+                          onChange(postalCode)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            postalCode,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {administrativeDivisions.listAdministrativeDiv &&
+                          Utils.postCodeList(
+                            administrativeDivisions.listAdministrativeDiv,
+                            labStore.labs.country,
+                            labStore.labs.state,
+                            labStore.labs.district,
+                            labStore.labs.city,
+                            labStore.labs.area
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="postalCode "
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (

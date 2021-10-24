@@ -48,8 +48,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: LabInput!) {
-    checkLabExitsEnvCode(input: $input) {
+  mutation($input: RoleInput!) {
+    checkRoleExistsEnvCode(input: $input) {
       success
       message
     }

@@ -34,6 +34,10 @@ export const AdministrativeDivisions = observer(() => {
 
   const onSubmitAdministrativeDivision = () => {
     if (administrativeDivisions.administrativeDiv) {
+      if (!administrativeDivisions.administrativeDiv.postalCode)
+        return LibraryComponents.Atoms.Toast.warning({
+          message: `😔 Please enter postal code!`,
+        })
       administrativeDivisions.administrativeDivisionsService
         .addAdministrativeDivisions({
           input: { ...administrativeDivisions.administrativeDiv },
@@ -45,9 +49,9 @@ export const AdministrativeDivisions = observer(() => {
             })
           }
         })
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 2000)
+      setTimeout(() => {
+        window.location.reload()
+      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please enter all information!`,
@@ -96,8 +100,8 @@ export const AdministrativeDivisions = observer(() => {
                       onChange(country)
                       administrativeDivisions.updateAdministrativeDiv({
                         ...administrativeDivisions.administrativeDiv,
-                        country,
-                      })    
+                        country: country.toUpperCase(),
+                      })
                       // administrativeDivisions.administrativeDivisionsService.filterRecord(
                       //   {
                       //     filter: { country },
@@ -126,7 +130,7 @@ export const AdministrativeDivisions = observer(() => {
                         onChange(state)
                         administrativeDivisions.updateAdministrativeDiv({
                           ...administrativeDivisions.administrativeDiv,
-                          state,
+                          state: state.toUpperCase(),
                         })
                       }}
                     />
@@ -156,7 +160,7 @@ export const AdministrativeDivisions = observer(() => {
                         onChange(district)
                         administrativeDivisions.updateAdministrativeDiv({
                           ...administrativeDivisions.administrativeDiv,
-                          district,
+                          district: district.toUpperCase(),
                         })
                       }}
                     />
@@ -179,7 +183,7 @@ export const AdministrativeDivisions = observer(() => {
                         onChange(city)
                         administrativeDivisions.updateAdministrativeDiv({
                           ...administrativeDivisions.administrativeDiv,
-                          city,
+                          city: city.toUpperCase(),
                         })
                       }}
                     />
@@ -202,7 +206,7 @@ export const AdministrativeDivisions = observer(() => {
                         onChange(area)
                         administrativeDivisions.updateAdministrativeDiv({
                           ...administrativeDivisions.administrativeDiv,
-                          area,
+                          area: area.toUpperCase(),
                         })
                       }}
                     />

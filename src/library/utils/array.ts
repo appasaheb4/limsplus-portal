@@ -2,7 +2,7 @@
 export function flatten<T>(array: T[][]) {
   return ([] as T[]).concat(...array)
 }
-
+  ``
 export function unique<T>(array: T[]) {
   return Array.from<T>(new Set(array))
 }
@@ -14,7 +14,7 @@ export const uniqArrayByKeepFirst = (a, key) => {
     return seen.has(k) ? false : seen.add(k)
   })
 }
-
+   
 export const findArrayKeyArrayWise = (
   arrMain: Array<any>,
   arrKeys: Array<any>
@@ -47,6 +47,7 @@ export const lookupValue = (item: any): string => {
       : item.value + "-" + item.code
   }`
 }
+
 
 export const findArrayItems = (arr, key, value): any => {
   const result = arr.find((item) => {

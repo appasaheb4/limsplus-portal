@@ -137,15 +137,15 @@ export const SalesTeam = observer(() => {
                           ...salesTeamStore.salesTeam,
                           salesTerritory,
                         })
-                      }}
+                      }} 
                     >
                       <option selected>Select</option>
-                      {administrativeDivisions
+                      { administrativeDivisions
                         .listAdministrativeDiv &&
                         administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
-                              {`${item.area}`}
+                              {`${item.country}-${item.state}-${item.district}-${item.city}-${item.area}`}
                             </option>
                           )
                         )}

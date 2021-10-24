@@ -1,5 +1,5 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import moment from "moment"
 import { UserService } from "../services"
@@ -8,15 +8,25 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 export class UserStore {
   @ignore @observable user!: Models.Users
-   @observable userList?: Models.Users[] = []
-   @observable userListCount: number = 0
-   @ignore @observable changePassword!: Models.ChangePassword 
-   @ignore @observable checkExitsUserId: boolean = false
-   @ignore @observable checkExistsEmpCode: boolean = false
+  @observable userList!: Models.Users[]
+  @observable userListCount: number = 0
+  @ignore @observable changePassword!: Models.ChangePassword
+  @ignore @observable checkExitsUserId: boolean
+  @ignore @observable checkExistsEmpCode: boolean
    
   constructor() {
-   makeAutoObservable(this)
-   let date: Date = new Date()
+    this.userList = []
+    this.checkExitsUserId = false
+    this.checkExistsEmpCode = false
+    makeObservable<UserStore, any>(this, {
+      user: observable,
+      userList: observable,
+      userListCount: observable,
+      changePassword: observable,
+      checkExitsUserId: observable,
+      checkExistsEmpCode: observable,
+    })
+    let date: Date = new Date()
     date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
     this.user = new Models.Users({
       ...this.user,
@@ -39,10 +49,10 @@ export class UserStore {
   }
 
   @action loadUser(page?, limit?) {
-    this.UsersService.userList(page, limit);
+    this.UsersService.userList(page, limit)
   }
 
-  @action updateUserList(res: any){
+  @action updateUserList(res: any) {
     if (!res.users.success) alert(res.users.message)
     this.userList = res.users.data
     this.userListCount = res.users.paginatorInfo.count

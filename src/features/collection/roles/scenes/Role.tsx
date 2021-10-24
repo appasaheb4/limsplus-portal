@@ -93,14 +93,16 @@ const Role = observer(() => {
                       })
                     }}
                     onBlur={(code) => {
-                      roleStore.RoleService.checkExitsEnvCode(
-                        code,
-                        roleStore.role?.environment
-                      ).then((res) => {
-                        if (res.success) {
+                      roleStore.RoleService.checkExitsEnvCode({
+                        input: {
+                          code,
+                          env: roleStore.role?.environment,
+                        },
+                      }).then((res) => {
+                        if (res.checkRoleExistsEnvCode.success) {
                           roleStore.setExitsCode(true)
                           LibraryComponents.Atoms.Toast.error({
-                            message: `😔 ${res.message}`,
+                            message: `😔 ${res.checkRoleExistsEnvCode.message}`,
                           })
                         } else roleStore.setExitsCode(false)
                       })
@@ -162,14 +164,16 @@ const Role = observer(() => {
                           ...roleStore.role,
                           environment,
                         })
-                        roleStore.RoleService.checkExitsEnvCode(
-                          roleStore.role?.code || "",
-                          environment
-                        ).then((res) => {
-                          if (res.success) {
+                        roleStore.RoleService.checkExitsEnvCode({
+                          input: {
+                            code: roleStore.role?.code,
+                            env: environment,
+                          },
+                        }).then((res) => {
+                          if (res.checkRoleExistsEnvCode.success) {
                             roleStore.setExitsCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkRoleExistsEnvCode.message}`,
                             })
                           } else roleStore.setExitsCode(false)
                         })
@@ -276,7 +280,7 @@ const Role = observer(() => {
                   setModalConfirm({ show: false })
                   roleStore.fetchListRole()
                 }
-              })  
+              })
             } else if (type === "Update") {
               roleStore.RoleService.updateSingleFiled({
                 input: {
