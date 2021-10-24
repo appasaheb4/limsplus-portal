@@ -4,12 +4,21 @@
  * @author limsplus
  */
 
-import * as Models from "../models"
 import { Http, http } from "@lp/library/modules/http"
-import { AssetsService } from "@lp/features/assets/services"
 import { stores } from "@lp/stores"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { CHECK_EXISTS_USERID, USER_LIST, UPDATE_USER, REMOVE_USER } from "./mutation"
+import {
+  CHECK_EXISTS_USERID,
+  USER_LIST,
+  UPDATE_USER,
+  REMOVE_USER,
+  CREATE_USER,
+  CHECK_EXISTS_EMPCODE,
+  UPDATE_IMAGE,
+  PASSWORD_RESEND,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_BY_ADMIN,
+} from "./mutation"
 
 export class UserService {
   userList = (page = 0, limit = 10) =>
@@ -35,27 +44,6 @@ export class UserService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-
-      // http
-      //   .get(`/auth/listUser/${page}/${limit}/${env}/${role}`)
-      //   .then((response) => {
-      //     const serviceResponse = Http.handleResponse<any>(response)
-      //     resolve(serviceResponse)
-      //   })
-      //   .catch((error) => {
-      //     reject(new ServiceResponse<any>(0, error.message, undefined))
-      //   })
-    })
-  reSendPassword = (userInfo: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/reSendPassword`, userInfo)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
 
   checkExitsUserId = (userId: string) =>
@@ -73,63 +61,25 @@ export class UserService {
         )
     })
 
-  addUser = async (user: Models.Users) =>
+  addUser = async (variables: any) =>
     new Promise((resolve, reject) => {
-      let signaturePath: string | undefined
-      let picturePath: string | undefined
-      if (user.signature) {
-        signaturePath = `https://limsplus.blob.core.windows.net/users/${user.signature.name}`
-        new AssetsService().uploadFile(user.signature, "users", user.signature.name)
-      }
-      if (user.picture) {
-        picturePath = `https://limsplus.blob.core.windows.net/users/${user.picture.name}`
-        new AssetsService().uploadFile(user.signature, "users", user.picture.name)
-      }
-      const form = new FormData()
-      form.append("userId", user.userId)
-      form.append("empCode", user.empCode)
-      form.append("defaultLab", user.defaultLab)
-      form.append("lab", JSON.stringify(user.lab))
-      form.append("password", user.password)
-      form.append("passChanged", JSON.stringify(user.passChanged) || "")
-      form.append("deginisation", user.deginisation)
-      form.append("fullName", user.fullName)
-      form.append("mobileNo", user.mobileNo)
-      form.append("contactNo", user.contactNo || "")
-      form.append("email", user.email)
-      form.append("dateOfBirth", JSON.stringify(user.dateOfBirth))
-      form.append("marriageAnniversary", JSON.stringify(user.marriageAnniversary))
-      form.append("userDegree", user.userDegree)
-      form.append("department", JSON.stringify(user.department))
-      form.append("exipreDate", JSON.stringify(user.exipreDate))
-      form.append("expireDays", JSON.stringify(user.expireDays))
-      form.append("role", JSON.stringify(user.role))
-      form.append("validationLevel", JSON.stringify(user.validationLevel) || "")
-      form.append("workstation", user.workstation || "")
-      form.append("ipAddress", user.ipAddress || "")
-      form.append("dateOfEntry", JSON.stringify(user.dateOfEntry))
-      form.append("createdBy", user.createdBy)
-      form.append("confidential", JSON.stringify(user.confidential))
-      form.append("signature", signaturePath || "")
-      form.append("picture", picturePath || "")
-      form.append("status", user.status)
-      form.append("environment", user.environment)
-      form.append("confirguration", JSON.stringify(user.confirguration))
-      http
-        .post(`/auth/addUser`, form)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: CREATE_USER,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   deleteUser = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      client     
-        .mutate({  
+      client
+        .mutate({
           mutation: REMOVE_USER,
           variables,
         })
@@ -149,6 +99,36 @@ export class UserService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  findUserByEmpCode = (empCode: string) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_EMPCODE,
+          variables: { empCode },
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  uploadImage = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_IMAGE,
+          variables,
+        })
+        .then((response: any) => {
           console.log({ response })
           resolve(response.data)
         })
@@ -157,74 +137,56 @@ export class UserService {
         )
     })
 
-  changePassword = (body: any) =>
+  reSendPassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/changePassword`, body)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: PASSWORD_RESEND,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          console.log({ response })
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  changepasswordByAdmin = (body: any) =>
+  changePassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/changepasswordByAdmin`, body)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: CHANGE_PASSWORD,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  changepasswordByAdmin = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHANGE_PASSWORD_BY_ADMIN,
+          variables,
+        })  
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   switchAccess = (accessInfo: any) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/auth/switchAccess`, accessInfo)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-
-  findUserByEmpCode = (empCode: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/findUserByEmpcode`, { empCode })
-        .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
-    })
-
-  uploadImage = (deatils: any) =>
-    new Promise<any>((resolve, reject) => {
-      const formData = new FormData()
-      formData.append("id", deatils.id)
-      formData.append("file", deatils.image)
-      formData.append("folder", deatils.folder)
-      formData.append("fileName", deatils.image.name)
-      formData.append(
-        "image",
-        `https://limsplus.blob.core.windows.net/${deatils.folder}/${deatils.image.name}`
-      )
-      http
-        .post(`/auth/uploadImage`, formData, {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-          },
-        })
         .then((res) => {
           resolve(res)
         })

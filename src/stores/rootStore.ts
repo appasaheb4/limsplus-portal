@@ -1,10 +1,10 @@
 import { makeAutoObservable, action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import Session from "@lp/library/modules/session"
-import { Stores as LoginStore } from "@lp/features/login/stores"
+import { stores } from "@lp/stores"
 
 @version(1.0)
-export class RootStore  {
+export class RootStore {
   @ignore @observable processLoading: boolean = false
   @ignore @observable session?: any
 
@@ -13,7 +13,7 @@ export class RootStore  {
   constructor() {
     makeAutoObservable(this)
   }
-
+   
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading
   }
@@ -22,7 +22,7 @@ export class RootStore  {
       await Session.getSession()
       try {
         if (Session.initialized) {
-          if (Session.hasSession && LoginStore.loginStore.login) {
+          if (Session.hasSession && stores.loginStore.login) {
             resolve(true)
           }
           resolve(false)

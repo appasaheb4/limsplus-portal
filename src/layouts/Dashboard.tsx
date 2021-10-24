@@ -12,15 +12,12 @@ import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
 import { useIdleTimer } from "react-idle-timer"
    
-import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { toJS } from "mobx"
-
+  
 import Storage from "@lp/library/modules/storage"
 
-import { stores } from "@lp/stores"
-import { useStores } from "@lp/stores"
+import { stores,useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -67,7 +64,7 @@ const Dashboard = observer(({ children }) => {
     const currentLocation = window.location
     pathname = pathname || currentLocation.pathname
     //console.log({ pathname })
-    if (pathname !== "/" && stores && stores.loginStore.login) {
+    if (pathname !== "/" && stores && loginStore.login) {
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -167,11 +164,9 @@ const Dashboard = observer(({ children }) => {
   }
 
   const router = async () => {
-    let router: any = toJS(LoginStore.loginStore.login)
+    let router: any = toJS(loginStore.login)
     if (router && !stores.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
-      //await hydrateStore("loginStore", LoginStore.loginStore)
-      //await hydrateStore("routerStore", stores.routerStore)
       stores.routerStore.updateUserRouter(router)
     }
   }
@@ -231,14 +226,14 @@ const Dashboard = observer(({ children }) => {
         }
       })
     }, 1000)
-  }, [LoginStores.loginStore.login])
+  }, [loginStore.login])
 
   // idel time
   const handleOnIdle = (event) => {
     // console.log("user is idle", event)
     console.log("last active", getLastActiveTime())
     setIsLogined(true)
-    LoginStores.loginStore
+    loginStore
       .removeUser()
       .then(async (res) => {
         if (res.logout.success) {
@@ -264,7 +259,7 @@ const Dashboard = observer(({ children }) => {
   // }
 
   const { getLastActiveTime } = useIdleTimer({
-    timeout: 1000 * 60 * (LoginStore.loginStore.login?.sessionTimeoutCount || 10),
+    timeout: 1000 * 60 * (loginStore.login?.sessionTimeoutCount || 10),
     onIdle: handleOnIdle,
     // onActive: handleOnActive,
     // onAction: handleOnAction,
@@ -288,14 +283,6 @@ const Dashboard = observer(({ children }) => {
           history.push("/")
         }}
       />
-      {/* <LibraryComponents.Molecules.ModalTokenExpire
-        {...stores.rootStore.modalTokenExpire}
-        onClick={() => {
-          LoginStore.loginStore.removeLocalSession().then(() => {
-            history.push("/")
-          })
-        }}
-      /> */}
     </React.Fragment>
   )
 })

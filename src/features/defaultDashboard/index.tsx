@@ -5,9 +5,6 @@ import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 
-import { Stores as LoginStores } from "@lp/features/login/stores"
-
-
 import BarChart from "./BarChart"
 import Feed from "./Feed"
 import Header from "./Header"
@@ -18,28 +15,23 @@ import moment from "moment"
 import { useHistory } from "react-router-dom"
 
 // registration
- 
+
 import { stores, useStores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
 
 const Default = observer(() => {
-  const {userStore} = useStores()
+  const { userStore, loginStore } = useStores()
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const history = useHistory()
 
   useEffect(() => {
-    if (LoginStores.loginStore.login) {
-      const date1 = dayjs.unix(LoginStores.loginStore.login?.exipreDate)
+    if (loginStore.login) {
+      const date1 = dayjs.unix(loginStore.login?.exipreDate)
       const date2 = dayjs.unix(dayjs(new Date()).unix())
       let days = date1.diff(date2, "day")
-     // console.log({ days })
+      // console.log({ days })
 
-      if (
-        days >= 0 &&
-        days <= 5 &&
-        userStore.changePassword?.tempHide !== true
-      ) {
+      if (days >= 0 && days <= 5 && userStore.changePassword?.tempHide !== true) {
         userStore.updateChangePassword({
           ...userStore.changePassword,
           subTitle: `Please change you password. Your remaining exipre days ${days}`,
@@ -54,7 +46,7 @@ const Default = observer(() => {
         })
       }
     }
-  }, [LoginStores.loginStore])
+  }, [loginStore])
 
   return (
     <>
@@ -86,10 +78,7 @@ const Default = observer(() => {
               moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
             )
             exipreDate = dayjs(exipreDate).unix()
-            let body: any = Object.assign(
-              LoginStores.loginStore.login,
-              userStore.changePassword
-            )
+            let body: any = Object.assign(loginStore.login, userStore.changePassword)
             body = {
               ...body,
               exipreDate,
@@ -97,8 +86,8 @@ const Default = observer(() => {
             userStore.UsersService.changePassword(body).then((res) => {
               console.log({ res })
               if (res.status === 200) {
-                LoginStores.loginStore.updateLogin({
-                  ...LoginStores.loginStore.login,
+                loginStore.updateLogin({
+                  ...loginStore.login,
                   exipreDate,
                   passChanged: true,
                 })
@@ -122,8 +111,8 @@ const Default = observer(() => {
             })
           }}
           onClose={() => {
-            LoginStores.loginStore.updateLogin({
-              ...LoginStores.loginStore.login,
+            loginStore.updateLogin({
+              ...loginStore.login,
               passChanged: true,
             })
             userStore.updateChangePassword({
@@ -138,7 +127,7 @@ const Default = observer(() => {
         {...modalConfirm}
         click={(type) => {
           if (type === "accountexpire") {
-            LoginStore.loginStore.LoginService.accountStatusUpdate({
+            loginStore.LoginService.accountStatusUpdate({
               input: {
                 userId: stores.loginStore.login.userId,
                 status: "I",
