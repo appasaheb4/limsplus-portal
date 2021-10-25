@@ -89,13 +89,13 @@ export class LoginStore {
 
   @action updateInputUser(user: Login) {
     this.inputLogin = user
-  }
+  }   
 
   @action clearInputUser() {
     this.inputLogin = new Login({})
   }
 
-  @action updateLogin = (login: Login) => {
+  @action updateLogin = async (login: Login) => {
     this.login = login
   }
 

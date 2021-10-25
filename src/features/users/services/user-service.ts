@@ -18,6 +18,7 @@ import {
   PASSWORD_RESEND,
   CHANGE_PASSWORD,
   CHANGE_PASSWORD_BY_ADMIN,
+  SWITCH_ACCESS,
 } from "./mutation"
 
 export class UserService {
@@ -174,7 +175,7 @@ export class UserService {
         .mutate({
           mutation: CHANGE_PASSWORD_BY_ADMIN,
           variables,
-        })  
+        })
         .then((response: any) => {
           resolve(response.data)
         })
@@ -183,17 +184,20 @@ export class UserService {
         )
     })
 
-  switchAccess = (accessInfo: any) =>
+  switchAccess = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/auth/switchAccess`, accessInfo)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: SWITCH_ACCESS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
-    })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })    
 
   loginActivityList = (details: any) =>
     new Promise<any>((resolve, reject) => {

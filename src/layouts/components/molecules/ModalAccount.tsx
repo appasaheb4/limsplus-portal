@@ -3,8 +3,7 @@ import { observer } from "mobx-react"
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
 
-import { Stores as LoginStores } from "@lp/features/login/stores"
-import { stores,useStores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 
 import { useHistory } from "react-router-dom"
 interface ModalAccountProps {
@@ -13,10 +12,10 @@ interface ModalAccountProps {
 }
 
 const ModalAccount = observer((props: ModalAccountProps) => {
-  const {userStore} = useStores()
+  const { userStore, loginStore } = useStores()
   const history: any = useHistory()
   const [modalFileUpload, setModalFileUpload] = useState<any>()
-  
+
   return (
     <>
       <LibraryComponents.Molecules.Modals.SlideIn
@@ -30,17 +29,14 @@ const ModalAccount = observer((props: ModalAccountProps) => {
         <LibraryComponents.Atoms.Image
           widht={200}
           height={200}
-          source={LoginStores.loginStore.login?.picture || Assets.defaultAvatar}
+          source={loginStore.login?.picture || Assets.defaultAvatar}
           onClick={() =>
             setModalFileUpload({ show: true, title: "Profile image select" })
           }
         />
 
         <div className="flex justify-center">
-          <label className="font-bold text-1xl">
-            {" "}
-            {LoginStores.loginStore.login?.fullName}
-          </label>
+          <label className="font-bold text-1xl"> {loginStore.login?.fullName}</label>
         </div>
         <div className="p-2">
           <LibraryComponents.Atoms.List
@@ -50,32 +46,28 @@ const ModalAccount = observer((props: ModalAccountProps) => {
             fill
           >
             <div className="bg-gray-500 rounded-md p-2 items-stretch">
-              <label className="text-white">
-                Lab : {LoginStores.loginStore.login?.lab}
-              </label>
+              <label className="text-white">Lab : {loginStore.login?.lab}</label>
+              <br />
+              <label className="text-white">Role: {loginStore.login?.role}</label>
               <br />
               <label className="text-white">
-                Role: {LoginStores.loginStore.login?.role}
-              </label>
-              <br/>
-              <label className="text-white">
-                Environment: {LoginStores.loginStore.login?.environment}
+                Environment: {loginStore.login?.environment}
               </label>
             </div>
-            {LoginStores.loginStore.login?.labList !== undefined &&
-              LoginStores.loginStore.login?.labList?.length > 1 && (
+            {loginStore.login?.labList !== undefined &&
+              loginStore.login?.labList?.length > 1 && (
                 <LibraryComponents.Atoms.Form.InputWrapper
                   label={`Switch Lab`}
                   id="labChange"
                 >
                   <select
                     name="defualtLab"
-                    value={LoginStores.loginStore.login?.lab}
+                    value={loginStore.login?.lab}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const lab = e.target.value
-                      LoginStores.loginStore.updateLogin({
-                        ...LoginStores.loginStore.login,
+                      loginStore.updateLogin({
+                        ...loginStore.login,
                         lab,
                       })
                       history.push("/dashboard/default")
@@ -83,74 +75,58 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                         message: `😊 Your lab change successfully`,
                       })
                       props.onClose && props.onClose()
-                      
-                      // userStore.UsersService.switchAccess({
-                      //   type: "lab",
-                      //   lab,
-                      //   id: LoginStores.loginStore.login?._id,
-                      // }).then((res: any) => {
-                      //   
-                      //   console.log({ res })
-                      // })
                     }}
                   >
-                    {LoginStores.loginStore.login?.labList?.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
+                    {loginStore.login?.labList?.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
-            {LoginStores.loginStore.login?.roleList !== undefined &&
-              LoginStores.loginStore.login?.roleList?.length > 1 && (
+            {loginStore.login?.roleList !== undefined &&
+              loginStore.login?.roleList?.length > 1 && (
                 <LibraryComponents.Atoms.Form.InputWrapper
                   label={`Switch Role`}
                   id="roleChange"
                 >
                   <select
                     name="roleChange"
-                    value={LoginStores.loginStore.login?.role}
+                    value={loginStore.login?.role}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const role = e.target.value
-                      
                       userStore.UsersService.switchAccess({
-                        type: "role",
-                        role,
-                        id: LoginStores.loginStore.login?._id,
+                        input: {
+                          role,
+                        },
                       }).then((res: any) => {
-                        
-                        if (res.status === 200) {
-                          LoginStores.loginStore.updateLogin({
-                            ...LoginStores.loginStore.login,
+                         if (res.userSwitchAccess.success) {
+                          loginStore.updateLogin({
+                            ...loginStore.login,
                             role,
                           })
-                          const router = JSON.parse(res.data.data.router[0])
-                          console.log({ router })
+                          const router = JSON.parse(res.userSwitchAccess.data.roleMapping.router[0])
                           stores.routerStore.updateUserRouter(router)
                           LibraryComponents.Atoms.Toast.success({
-                            message: `😊 Your role change successfully`,
+                            message: `😊 ${res.userSwitchAccess.message}`,
                           })
                           history.push("/dashboard/default")
                           props.onClose && props.onClose()
                         } else {
                           LibraryComponents.Atoms.Toast.error({
-                            message: `😔 ${res.data.data.errorMessage}`,
+                            message: `😔 ${res.userSwitchAccess.message}`,
                           })
                         }
                       })
                     }}
                   >
-                    {LoginStores.loginStore.login?.roleList?.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.description}
-                        </option>
-                      )
-                    )}
+                    {loginStore.login?.roleList?.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.description}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
@@ -160,20 +136,20 @@ const ModalAccount = observer((props: ModalAccountProps) => {
       <LibraryComponents.Molecules.ModalFileUpload
         {...modalFileUpload}
         onClick={(image: any) => {
-          console.log({image});
-          
+          console.log({ image })
+
           userStore.UsersService.uploadImage({
-            image,    
-            id: LoginStores.loginStore.login?._id,
+            image,
+            id: loginStore.login?._id,
             folder: "users",
-          }).then((res: any) => {  
-            console.log({res});
+          }).then((res: any) => {
+            console.log({ res })
             setModalFileUpload({ show: false })
             if (res.status === 200) {
-              LoginStores.loginStore.updateLogin({
-                ...LoginStores.loginStore.login,
+              loginStore.updateLogin({
+                ...loginStore.login,
                 picture: res.data.data.image,
-              })  
+              })
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 Image upload successfully!`,
               })

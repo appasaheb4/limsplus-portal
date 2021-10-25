@@ -75,7 +75,7 @@ export const PASSWORD_RESEND = gql`
       message
     }
   }
-`   
+`
 
 export const CHANGE_PASSWORD = gql`
   mutation($input: UserInput!) {
@@ -91,6 +91,17 @@ export const CHANGE_PASSWORD_BY_ADMIN = gql`
     userChnagePasswordByAdmin(input: $input) {
       success
       message
+    }
+  }
+`
+
+
+export const SWITCH_ACCESS = gql`
+  mutation($input: UserInput!) {
+    userSwitchAccess(input: $input) {
+      success
+      message
+      data
     }
   }
 `
