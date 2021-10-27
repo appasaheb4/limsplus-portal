@@ -1061,21 +1061,6 @@ const MasterAnalyte = observer(() => {
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Environment"
                     hasError={errors.environment}
@@ -1243,7 +1228,7 @@ const MasterAnalyte = observer(() => {
                       message: `😊 Analyte master deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterAnalyteStore.fetchAnalyteMaster()
+                    //Stores.masterAnalyteStore.fetchAnalyteMaster()
                   }
                 })
             } else if (type === "Update") {

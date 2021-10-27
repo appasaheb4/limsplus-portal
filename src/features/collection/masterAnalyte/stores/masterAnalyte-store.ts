@@ -1,42 +1,46 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class MasterAnalyteStore {
-  @ignore @observable masterAnalyte?: Models.MasterAnalyte
-  @observable listMasterAnalyte?: Models.MasterAnalyte[] = []
+export class MasterAnalyteStore {
+  @ignore @observable masterAnalyte!: Models.MasterAnalyte
+  @observable listMasterAnalyte: Models.MasterAnalyte[] = []
   @observable listMasterAnalyteCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+  @ignore @observable checkExitsLabEnvCode: boolean = false
 
   constructor() {
-    makeAutoObservable(this)
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: LibraryUtils.moment().unix(),
       dateActiveFrom: LibraryUtils.moment().unix(),
       dateActiveTo: LibraryUtils.moment().unix(),
       version: 1,
-      keyNum: "1",
       schedule: LibraryUtils.moment().unix(),
       bill: false,
       autoRelease: false,
       holdOOS: false,
       instantResult: false,
-      // pageBreak: false,
       method: false,
       display: true,
       calculationFlag: false,
       repetition: false,
-    }
+    }   
+    makeObservable<MasterAnalyteStore, any>(this, {
+      masterAnalyte: observable,
+      listMasterAnalyte: observable,
+      listMasterAnalyteCount: observable,
+      checkExitsLabEnvCode: observable,
+    })
   }
+     
   @computed get masterAnalyteService() {
     return new Services.MasterAnalyteService()
   }
 
-  @action fetchAnalyteMaster(page?, limit?) {
+  @action fetchAnalyteMaster(page, limit) {
     this.masterAnalyteService.listAnalyteMaster(page, limit).then((res) => {
       if (!res.success) return alert(res.message)
       this.listMasterAnalyte = res.data.analyteMaster
@@ -52,5 +56,3 @@ class MasterAnalyteStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default MasterAnalyteStore

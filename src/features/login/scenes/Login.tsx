@@ -472,7 +472,7 @@ export const Login = observer(() => {
                 } else {
                   LibraryComponents.Atoms.Toast.error({
                     message: `😔 ${res.userChnagePassword.message}`,
-                  })  
+                  })
                 }
               }
             )

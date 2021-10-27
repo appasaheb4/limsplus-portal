@@ -1,6 +1,6 @@
 import React from "react"
     
-import MasterAnalyteStore from "./masterAnalyte-store"
+import {MasterAnalyteStore} from "./masterAnalyte-store"
    
 export const Stores = {
   masterAnalyteStore: new MasterAnalyteStore(),

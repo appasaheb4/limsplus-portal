@@ -18,7 +18,7 @@ export const LIST = gql`
       }
     }
   }
-`
+`  
 
 export const REMOVE_RECORD = gql`
   mutation($input: RoleRemoveInput!) {
