@@ -16,6 +16,7 @@ import { DeginisationStore } from "@lp/features/collection/deginisation/stores/d
 import { DepartmentStore } from "@lp/features/collection/department/stores/department-store"
 import { AdministrativeDivisionsStore } from "@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store"
 import { RoleStore } from "@lp/features/collection/roles/stores/role-store"
+import {MasterAnalyteStore} from '@lp/features/collection/masterAnalyte/stores/masterAnalyte-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -38,6 +39,7 @@ export class Stores extends Store {
   departmentStore!: DepartmentStore
   administrativeDivisions!: AdministrativeDivisionsStore
   roleStore!: RoleStore
+  masterAnalyteStore!: MasterAnalyteStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -58,6 +60,7 @@ export class Stores extends Store {
     this.departmentStore = new DepartmentStore()
     this.administrativeDivisions = new AdministrativeDivisionsStore()
     this.roleStore = new RoleStore()
+    this.masterAnalyteStore = new MasterAnalyteStore()
 
     // settings   
     this.environmentStore = new EnvironmentStore()

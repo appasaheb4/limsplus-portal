@@ -15,7 +15,7 @@ const PageHeadingLabDetails = (props: PageHeadingLabDetailsProps) => {
         className="object-fill h-10 w-12 rounded-md mr-2"
       />  
       <h2 className="text-base  leading-4 text-gray-900 mt-0">
-        {(loginStore.login &&
+        {(loginStore.login && loginStore.login.labList && 
           loginStore.login.labList.find(
             (item) => item.code === loginStore.login.lab
           ).name) ||  

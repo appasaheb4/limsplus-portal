@@ -7,11 +7,12 @@ import * as Services from "../services"
 @version(0.1)
 export class MasterAnalyteStore {
   @ignore @observable masterAnalyte!: Models.MasterAnalyte
-  @observable listMasterAnalyte: Models.MasterAnalyte[] = []
+  @observable listMasterAnalyte!: Models.MasterAnalyte[]
   @observable listMasterAnalyteCount: number = 0
   @ignore @observable checkExitsLabEnvCode: boolean = false
 
   constructor() {
+    this.listMasterAnalyte = []
     this.masterAnalyte = {
       ...this.masterAnalyte,
       dateCreation: LibraryUtils.moment().unix(),
@@ -27,7 +28,7 @@ export class MasterAnalyteStore {
       display: true,
       calculationFlag: false,
       repetition: false,
-    }   
+    }
     makeObservable<MasterAnalyteStore, any>(this, {
       masterAnalyte: observable,
       listMasterAnalyte: observable,
@@ -35,17 +36,19 @@ export class MasterAnalyteStore {
       checkExitsLabEnvCode: observable,
     })
   }
-     
+
   @computed get masterAnalyteService() {
     return new Services.MasterAnalyteService()
   }
 
-  @action fetchAnalyteMaster(page, limit) {
-    this.masterAnalyteService.listAnalyteMaster(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listMasterAnalyte = res.data.analyteMaster
-      this.listMasterAnalyteCount = res.data.count
-    })
+  @action fetchAnalyteMaster(page?, limit?) {
+    this.masterAnalyteService.listAnalyteMaster(page, limit)
+  }
+
+  @action updateMasterAnalyteList(res: any) {
+    if (!res.analyteMasters.success) return alert(res.analyteMasters.message)
+    this.listMasterAnalyte = res.analyteMasters.data
+    this.listMasterAnalyteCount = res.data.count
   }
 
   @action updateMasterAnalyte(analyte: Models.MasterAnalyte) {
