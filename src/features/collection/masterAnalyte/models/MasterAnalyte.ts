@@ -32,7 +32,7 @@ export class MasterAnalyte {
     repetition: boolean
     picture: string
     units: string
-    usage: string
+    usage: string   
     cptCode: string
     resultType: string
     analyteType: string

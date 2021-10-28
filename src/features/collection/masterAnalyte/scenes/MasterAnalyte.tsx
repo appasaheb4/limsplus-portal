@@ -5,11 +5,8 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
+
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -22,14 +19,14 @@ const MasterAnalyte = observer(() => {
     setValue,
     clearErrors,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, masterAnalyteStore, labStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.masterAnalyteStore.updateMasterAnalyte({
-        ...Stores.masterAnalyteStore.masterAnalyte,
+      masterAnalyteStore.updateMasterAnalyte({
+        ...masterAnalyteStore.masterAnalyte,
         lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
@@ -39,15 +36,15 @@ const MasterAnalyte = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitMasterAnalyte = () => {
-    if (!Stores.masterAnalyteStore.checkExitsLabEnvCode) {
+    if (!masterAnalyteStore.checkExitsLabEnvCode) {
       if (
-        !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-        !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
+        !masterAnalyteStore.masterAnalyte?.existsVersionId &&
+        !masterAnalyteStore.masterAnalyte?.existsRecordId
       ) {
-        Stores.masterAnalyteStore.masterAnalyteService
+        masterAnalyteStore.masterAnalyteService
           .addAnalyteMaster({
-            ...Stores.masterAnalyteStore.masterAnalyte,
-            enteredBy: LoginStore.loginStore.login?._id,
+            ...masterAnalyteStore.masterAnalyte,
+            enteredBy: loginStore.login?._id,
           })
           .then(() => {
             LibraryComponents.Atoms.Toast.success({
@@ -55,12 +52,12 @@ const MasterAnalyte = observer(() => {
             })
           })
       } else if (
-        Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-        !Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
+        masterAnalyteStore.masterAnalyte?.existsVersionId &&
+        !masterAnalyteStore.masterAnalyte?.existsRecordId
       ) {
-        Stores.masterAnalyteStore.masterAnalyteService
+        masterAnalyteStore.masterAnalyteService
           .versionUpgradeAnalyteMaster({
-            ...Stores.masterAnalyteStore.masterAnalyte,
+            ...masterAnalyteStore.masterAnalyte,
             enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
@@ -69,12 +66,12 @@ const MasterAnalyte = observer(() => {
             })
           })
       } else if (
-        !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId &&
-        Stores.masterAnalyteStore.masterAnalyte?.existsRecordId
+        !masterAnalyteStore.masterAnalyte?.existsVersionId &&
+        masterAnalyteStore.masterAnalyte?.existsRecordId
       ) {
-        Stores.masterAnalyteStore.masterAnalyteService
+        masterAnalyteStore.masterAnalyteService
           .duplicateAnalyteMaster({
-            ...Stores.masterAnalyteStore.masterAnalyte,
+            ...masterAnalyteStore.masterAnalyte,
             enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
@@ -129,7 +126,7 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.lab}
+                      value={masterAnalyteStore.masterAnalyte?.lab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -142,45 +139,34 @@ const MasterAnalyte = observer(() => {
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           lab,
                         })
-                        if (
-                          !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
-                        ) {
-                          Stores.masterAnalyteStore.masterAnalyteService
+                        if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
+                          masterAnalyteStore.masterAnalyteService
                             .checkExitsLabEnvCode(
-                              Stores.masterAnalyteStore.masterAnalyte?.analyteCode ||
-                                "",
-                              Stores.masterAnalyteStore.masterAnalyte?.environment ||
-                                "",
+                              masterAnalyteStore.masterAnalyte?.analyteCode || "",
+                              masterAnalyteStore.masterAnalyte?.environment || "",
                               lab
                             )
                             .then((res) => {
                               if (res.success) {
-                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                                masterAnalyteStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.message}`,
                                 })
-                              } else
-                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                              } else masterAnalyteStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -200,33 +186,29 @@ const MasterAnalyte = observer(() => {
                         ? "Please Enter Analyte Code"
                         : "Analyte Code"
                     }
-                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteCode}
+                    value={masterAnalyteStore.masterAnalyte?.analyteCode}
                     onChange={(analyteCode) => {
                       onChange(analyteCode)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         analyteCode: analyteCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      if (
-                        !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
-                      ) {
-                        Stores.masterAnalyteStore.masterAnalyteService
+                      if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
+                        masterAnalyteStore.masterAnalyteService
                           .checkExitsLabEnvCode(
                             code,
-                            Stores.masterAnalyteStore.masterAnalyte?.environment ||
-                              "",
-                            Stores.masterAnalyteStore.masterAnalyte?.lab || ""
+                            masterAnalyteStore.masterAnalyte?.environment || "",
+                            masterAnalyteStore.masterAnalyte?.lab || ""
                           )
                           .then((res) => {
                             if (res.success) {
-                              Stores.masterAnalyteStore.updateExistsLabEnvCode(true)
+                              masterAnalyteStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else
-                              Stores.masterAnalyteStore.updateExistsLabEnvCode(false)
+                            } else masterAnalyteStore.updateExistsLabEnvCode(false)
                           })
                       }
                     }}
@@ -236,7 +218,7 @@ const MasterAnalyte = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.masterAnalyteStore.checkExitsLabEnvCode && (
+              {masterAnalyteStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -249,11 +231,11 @@ const MasterAnalyte = observer(() => {
                     name="txtAnalyteName"
                     placeholder="Analyte Name"
                     hasError={errors.analyteName}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteName}
+                    value={masterAnalyteStore.masterAnalyte?.analyteName}
                     onChange={(analyteName) => {
                       onChange(analyteName)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         analyteName: analyteName.toUpperCase(),
                       })
                     }}
@@ -276,11 +258,11 @@ const MasterAnalyte = observer(() => {
                         : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.description}
+                    value={masterAnalyteStore.masterAnalyte?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         description,
                       })
                     }}
@@ -302,11 +284,11 @@ const MasterAnalyte = observer(() => {
                         : "Analyte Method"
                     }
                     hasError={errors.analyteMethod}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.analyteMethod}
+                    value={masterAnalyteStore.masterAnalyte?.analyteMethod}
                     onChange={(analyteMethod) => {
                       onChange(analyteMethod)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         analyteMethod,
                       })
                     }}
@@ -326,11 +308,11 @@ const MasterAnalyte = observer(() => {
                       errors.shortName ? "Please Enter Short Name" : "Short Name"
                     }
                     hasError={errors.shortName}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.shortName}
+                    value={masterAnalyteStore.masterAnalyte?.shortName}
                     onChange={(shortName) => {
                       onChange(shortName)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         shortName: shortName.toUpperCase(),
                       })
                     }}
@@ -349,11 +331,11 @@ const MasterAnalyte = observer(() => {
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
                     type="number"
                     hasError={errors.price}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.price}
+                    value={masterAnalyteStore.masterAnalyte?.price}
                     onChange={(price) => {
                       onChange(price)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         price,
                       })
                     }}
@@ -371,11 +353,11 @@ const MasterAnalyte = observer(() => {
                     name="txtHigh"
                     placeholder={errors.high ? "Please Enter High" : "High"}
                     hasError={errors.high}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.high}
+                    value={masterAnalyteStore.masterAnalyte?.high}
                     onChange={(high) => {
                       onChange(high)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         high: high.toUpperCase(),
                       })
                     }}
@@ -393,11 +375,11 @@ const MasterAnalyte = observer(() => {
                     name="txtLow"
                     placeholder={errors.low ? "Please Enter low" : "Low"}
                     hasError={errors.low}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.low}
+                    value={masterAnalyteStore.masterAnalyte?.low}
                     onChange={(low) => {
                       onChange(low)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         low: low.toUpperCase(),
                       })
                     }}
@@ -416,11 +398,11 @@ const MasterAnalyte = observer(() => {
                       label="Method"
                       id="modeMethod"
                       hasError={errors.method}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.method}
+                      value={masterAnalyteStore.masterAnalyte?.method}
                       onChange={(method) => {
                         onChange(method)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           method,
                         })
                       }}
@@ -437,11 +419,11 @@ const MasterAnalyte = observer(() => {
                       label="Bill"
                       id="modeBill"
                       hasError={errors.bill}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.bill}
+                      value={masterAnalyteStore.masterAnalyte?.bill}
                       onChange={(bill) => {
                         onChange(bill)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           bill,
                         })
                       }}
@@ -458,11 +440,11 @@ const MasterAnalyte = observer(() => {
                       label="Display"
                       id="modeDisplay"
                       hasError={errors.display}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.display}
+                      value={masterAnalyteStore.masterAnalyte?.display}
                       onChange={(display) => {
                         onChange(display)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           display,
                         })
                       }}
@@ -479,13 +461,11 @@ const MasterAnalyte = observer(() => {
                       label="Calculation Flag"
                       id="modeCalculationFlag"
                       hasError={errors.calculationFlag}
-                      value={
-                        Stores.masterAnalyteStore.masterAnalyte?.calculationFlag
-                      }
+                      value={masterAnalyteStore.masterAnalyte?.calculationFlag}
                       onChange={(calculationFlag) => {
                         onChange(calculationFlag)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           calculationFlag,
                         })
                       }}
@@ -512,17 +492,15 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.resultType}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.resultType}
+                      value={masterAnalyteStore.masterAnalyte?.resultType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.resultType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.resultType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const resultType = e.target.value
                         onChange(resultType)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           resultType,
                         })
                       }}
@@ -551,17 +529,15 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.analyteType}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.analyteType}
+                      value={masterAnalyteStore.masterAnalyte?.analyteType}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.analyteType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.analyteType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const analyteType = e.target.value
                         onChange(analyteType)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           analyteType,
                         })
                       }}
@@ -590,17 +566,15 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.units}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.units}
+                      value={masterAnalyteStore.masterAnalyte?.units}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.units
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.units ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const units = e.target.value as string
                         onChange(units)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           units,
                         })
                       }}
@@ -629,17 +603,15 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.usage}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.usage}
+                      value={masterAnalyteStore.masterAnalyte?.usage}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.usage
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.usage ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const usage = e.target.value
                         onChange(usage)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           usage,
                         })
                       }}
@@ -669,18 +641,16 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.picture}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.picture}
+                      value={masterAnalyteStore.masterAnalyte?.picture}
                       name="optionPicture"
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.picture
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.picture ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const picture = e.target.value as "0" | "1" | "2" | "3"
                         onChange(picture)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           picture,
                         })
                       }}
@@ -703,15 +673,15 @@ const MasterAnalyte = observer(() => {
                 name="txtSchedule"
                 placeholder="Schedule"
                 value={LibraryUtils.moment
-                  .unix(Stores.masterAnalyteStore.masterAnalyte?.schedule || 0)
+                  .unix(masterAnalyteStore.masterAnalyte?.schedule || 0)
                   .format("YYYY-MM-DD")}
                 onChange={(e) => {
                   const schedule = new Date(e.target.value)
                   const formatDate = LibraryUtils.moment(schedule).format(
                     "YYYY-MM-DD HH:mm"
                   )
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
+                  masterAnalyteStore.updateMasterAnalyte({
+                    ...masterAnalyteStore.masterAnalyte,
                     schedule: LibraryUtils.moment(formatDate).unix(),
                   })
                 }}
@@ -720,10 +690,10 @@ const MasterAnalyte = observer(() => {
                 label="Tube Groups"
                 name="txtTubeGroups"
                 placeholder="Tube Groups"
-                value={Stores.masterAnalyteStore.masterAnalyte?.tubeGroups}
+                value={masterAnalyteStore.masterAnalyte?.tubeGroups}
                 onChange={(tubeGroups) => {
-                  Stores.masterAnalyteStore.updateMasterAnalyte({
-                    ...Stores.masterAnalyteStore.masterAnalyte,
+                  masterAnalyteStore.updateMasterAnalyte({
+                    ...masterAnalyteStore.masterAnalyte,
                     tubeGroups,
                   })
                 }}
@@ -734,8 +704,8 @@ const MasterAnalyte = observer(() => {
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const workflow = e.target.value as string
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    masterAnalyteStore.updateMasterAnalyte({
+                      ...masterAnalyteStore.masterAnalyte,
                       workflow,
                     })
                   }}
@@ -762,8 +732,8 @@ const MasterAnalyte = observer(() => {
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
-                    Stores.masterAnalyteStore.updateMasterAnalyte({
-                      ...Stores.masterAnalyteStore.masterAnalyte,
+                    masterAnalyteStore.updateMasterAnalyte({
+                      ...masterAnalyteStore.masterAnalyte,
                       sampleType,
                     })
                   }}
@@ -786,11 +756,11 @@ const MasterAnalyte = observer(() => {
                       errors.calcyName ? "Please Enter Calcy Name" : "Calcy Name"
                     }
                     hasError={errors.calcyName}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.calcyName}
+                    value={masterAnalyteStore.masterAnalyte?.calcyName}
                     onChange={(calcyName) => {
                       onChange(calcyName)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         calcyName: calcyName.toUpperCase(),
                       })
                     }}
@@ -810,11 +780,11 @@ const MasterAnalyte = observer(() => {
                       errors.cptCode ? "Please Enter CPT Code" : "CPT Code"
                     }
                     hasError={errors.cptCode}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.cptCode}
+                    value={masterAnalyteStore.masterAnalyte?.cptCode}
                     onChange={(cptCode) => {
                       onChange(cptCode)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         cptCode: cptCode.toUpperCase(),
                       })
                     }}
@@ -832,17 +802,15 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.status}
+                      value={masterAnalyteStore.masterAnalyte?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           status,
                         })
                       }}
@@ -872,11 +840,11 @@ const MasterAnalyte = observer(() => {
                       label="AutoRelease"
                       id="modeAutoRelease"
                       hasError={errors.autoRelease}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.autoRelease}
+                      value={masterAnalyteStore.masterAnalyte?.autoRelease}
                       onChange={(autoRelease) => {
                         onChange(autoRelease)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           autoRelease,
                         })
                       }}
@@ -893,11 +861,11 @@ const MasterAnalyte = observer(() => {
                       label="Hold OOS"
                       id="modeHoldOOS"
                       hasError={errors.holdOOS}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.holdOOS}
+                      value={masterAnalyteStore.masterAnalyte?.holdOOS}
                       onChange={(holdOOS) => {
                         onChange(holdOOS)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           holdOOS,
                         })
                       }}
@@ -914,11 +882,11 @@ const MasterAnalyte = observer(() => {
                       label="InstantResult"
                       id="modeInstantResult"
                       hasError={errors.instantResult}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.instantResult}
+                      value={masterAnalyteStore.masterAnalyte?.instantResult}
                       onChange={(instantResult) => {
                         onChange(instantResult)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           instantResult,
                         })
                       }}
@@ -935,11 +903,11 @@ const MasterAnalyte = observer(() => {
                       label="Repitation"
                       id="modeRepitation"
                       hasError={errors.repetition}
-                      value={Stores.masterAnalyteStore.masterAnalyte?.repetition}
+                      value={masterAnalyteStore.masterAnalyte?.repetition}
                       onChange={(repetition) => {
                         onChange(repetition)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           repetition,
                         })
                       }}
@@ -966,7 +934,7 @@ const MasterAnalyte = observer(() => {
                       errors.keyNum ? "Please Enter Entered By" : "Entered By"
                     }
                     hasError={errors.keyNum}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -984,9 +952,7 @@ const MasterAnalyte = observer(() => {
                     }
                     hasError={errors.keyNum}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterAnalyteStore.masterAnalyte?.dateCreation || 0
-                      )
+                      .unix(masterAnalyteStore.masterAnalyte?.dateCreation || 0)
                       .format("YYYY-MM-DD")}
                     disabled={true}
                   />
@@ -1005,9 +971,7 @@ const MasterAnalyte = observer(() => {
                     }
                     hasError={errors.keyNum}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0
-                      )
+                      .unix(masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0)
                       .format("YYYY-MM-DD")}
                     disabled={true}
                   />
@@ -1026,14 +990,12 @@ const MasterAnalyte = observer(() => {
                     }
                     hasError={errors.keyNum}
                     value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterAnalyteStore.masterAnalyte?.dateActiveTo || 0
-                      )
+                      .unix(masterAnalyteStore.masterAnalyte?.dateActiveTo || 0)
                       .format("YYYY-MM-DD")}
                     onChange={(e) => {
                       const schedule = new Date(e.target.value)
-                      Stores.masterAnalyteStore.updateMasterAnalyte({
-                        ...Stores.masterAnalyteStore.masterAnalyte,
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
                         dateActiveTo: LibraryUtils.moment(schedule).unix(),
                       })
                     }}
@@ -1050,7 +1012,7 @@ const MasterAnalyte = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.masterAnalyteStore.masterAnalyte?.version}
+                    value={masterAnalyteStore.masterAnalyte?.version}
                     disabled={true}
                   />
                 )}
@@ -1066,11 +1028,9 @@ const MasterAnalyte = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.masterAnalyteStore.masterAnalyte?.environment}
+                      value={masterAnalyteStore.masterAnalyte?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -1081,32 +1041,24 @@ const MasterAnalyte = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.masterAnalyteStore.updateMasterAnalyte({
-                          ...Stores.masterAnalyteStore.masterAnalyte,
+                        masterAnalyteStore.updateMasterAnalyte({
+                          ...masterAnalyteStore.masterAnalyte,
                           environment,
                         })
-                        if (
-                          !Stores.masterAnalyteStore.masterAnalyte?.existsVersionId
-                        ) {
-                          Stores.masterAnalyteStore.masterAnalyteService
+                        if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
+                          masterAnalyteStore.masterAnalyteService
                             .checkExitsLabEnvCode(
-                              Stores.masterAnalyteStore.masterAnalyte?.analyteCode ||
-                                "",
+                              masterAnalyteStore.masterAnalyte?.analyteCode || "",
                               environment,
-                              Stores.masterAnalyteStore.masterAnalyte?.lab || ""
+                              masterAnalyteStore.masterAnalyte?.lab || ""
                             )
                             .then((res) => {
                               if (res.success) {
-                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                                masterAnalyteStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.message}`,
                                 })
-                              } else
-                                Stores.masterAnalyteStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                              } else masterAnalyteStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -1115,7 +1067,7 @@ const MasterAnalyte = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterAnalyteStore.masterAnalyte?.environment ||
+                          : masterAnalyteStore.masterAnalyte?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
@@ -1161,8 +1113,8 @@ const MasterAnalyte = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.MasterAnalyteList
-            data={Stores.masterAnalyteStore.listMasterAnalyte || []}
-            totalSize={Stores.masterAnalyteStore.listMasterAnalyteCount}
+            data={masterAnalyteStore.listMasterAnalyte || []}
+            totalSize={masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -1212,27 +1164,27 @@ const MasterAnalyte = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.masterAnalyteStore.fetchAnalyteMaster(page, limit)
+              masterAnalyteStore.fetchAnalyteMaster(page, limit)
             }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "Delete") {
-              Stores.masterAnalyteStore.masterAnalyteService
-                .deleteAnalyteMaster(modalConfirm.id)
-                .then((res: any) => {
-                  if (res.status === 200) {
+            if (type === "Delete") {  
+              masterAnalyteStore.masterAnalyteService
+                .deleteAnalyteMaster({ input: { id: modalConfirm.id } })
+                .then((res) => {
+                  if (res.removeAnalyteMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master deleted.`,
+                      message: `😊 ${res.removeAnalyteMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    //Stores.masterAnalyteStore.fetchAnalyteMaster()
+                    masterAnalyteStore.fetchAnalyteMaster()
                   }
                 })
             } else if (type === "Update") {
-              Stores.masterAnalyteStore.masterAnalyteService
+              masterAnalyteStore.masterAnalyteService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -1244,21 +1196,21 @@ const MasterAnalyte = observer(() => {
                   }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.masterAnalyteStore.updateMasterAnalyte({
+              masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
-              })  
-              setValue("lab",modalConfirm.data.lab)
-              setValue("analyteCode",modalConfirm.data.analyteCode)
-              setValue("analyteName",modalConfirm.data.analyteName)
-              setValue("environment",modalConfirm.data.environment)
+              })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("analyteCode", modalConfirm.data.analyteCode)
+              setValue("analyteName", modalConfirm.data.analyteName)
+              setValue("environment", modalConfirm.data.environment)
               //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
             } else if (type === "duplicate") {
-              Stores.masterAnalyteStore.updateMasterAnalyte({
+              masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
