@@ -8,48 +8,48 @@ export const LIST = gql`
       }
       success
       message
-      data{
-          _id
-          existsVersionId
-          existsRecordId
-          dateCreation
-          dateActiveFrom
-          dateActiveTo
-          version
-          enteredBy
-          lab
-          analyteCode
-          analyteName
-          description
-          shortName
-          bill
-          price
-          schedule
-          autoRelease
-          holdOOS
-          instantResult
-          tubeGroups
-          pageBreak
-          method
-          analyteMethod
-          workflow
-          sampleType
-          display
-          calculationFlag
-          calcyName
-          high
-          low
-          repetition
-          picture
-          units
-          usage
-          cptCode
-          resultType
-          analyteType
-          status  
-          environment
-          dateOfEntry
-          lastUpdated
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateActiveTo
+        version
+        enteredBy
+        lab
+        analyteCode
+        analyteName
+        description
+        shortName
+        bill
+        price
+        schedule
+        autoRelease
+        holdOOS
+        instantResult
+        tubeGroups
+        pageBreak
+        method
+        analyteMethod
+        workflow
+        sampleType
+        display
+        calculationFlag
+        calcyName
+        high
+        low
+        repetition
+        picture
+        units
+        usage
+        cptCode
+        resultType
+        analyteType
+        status
+        environment
+        dateOfEntry
+        lastUpdated
       }
     }
   }
@@ -65,8 +65,26 @@ export const REMOVE_RECORD = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateLabInput!) {
-    createLab(input: $input) {
+  mutation($input: CreateAnalyteMasterInput!) {
+    createAnalyteMaster(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const VERSION_UPGRADE = gql`
+  mutation($input: CreateAnalyteMasterInput!) {
+    versionUpgradeAnalyteMaster(input: $input) {
+      success
+      message
+    }
+  }
+`
+  
+export const DUPLICATE_RECORD = gql`
+  mutation($input: CreateAnalyteMasterInput!) {
+    duplicateAnalyteMaster(input: $input) {
       success
       message
     }
@@ -74,8 +92,8 @@ export const CREATE_RECORD = gql`
 `
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateLabInput!) {
-    updateLab(input: $input) {
+  mutation($input: UpdateAnalyteMasterInput!) {
+    updateAnalyteMaster(input: $input) {
       success
       message
     }

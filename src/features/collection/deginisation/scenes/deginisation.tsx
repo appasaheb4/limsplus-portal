@@ -72,7 +72,7 @@ const Deginisation = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddDeginisation ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
