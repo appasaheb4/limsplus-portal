@@ -53,8 +53,20 @@ export const Users = observer(() => {
         })
       setValue("status", status.code as string)
     }
-  }, [routerStore.lookupItems])
 
+  }, [routerStore.lookupItems])
+  useEffect(()=>{
+      const environment = routerStore.lookupItems.find((fileds)=>{
+        return fileds.fieldName === 'ENVIRONMENT'
+      })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+      if(environment){
+        userStore && userStore.updateUser({
+          ...userStore.user,
+          environment: environment.code as string
+        })
+        setValue("environment",environment.code as string)
+      }
+  },[routerStore.lookupItems])
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
       userStore &&
