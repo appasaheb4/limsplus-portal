@@ -87,7 +87,7 @@ export const Department = observer(() => {
         <div className="mx-auto">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddDepartment ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddDepartment ? "hidden" : "shown")
             }
           >
             <LibraryComponents.Atoms.Grid cols={3}>

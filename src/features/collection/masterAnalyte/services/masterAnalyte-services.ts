@@ -5,10 +5,16 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Models from "../models"
 import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST, REMOVE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+} from "./mutation"
 
 class MasterAnalyteService {
   listAnalyteMaster = (page = 0, limit = 10) =>
@@ -29,40 +35,49 @@ class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  addAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/addAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  versionUpgradeAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  versionUpgradeAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/versionUpgradeAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  duplicateAnalyteMaster = (analyte?: Models.MasterAnalyte) =>
+  duplicateAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/duplicateAnalyteMaster`, analyte)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  
+
   deleteAnalyteMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -78,16 +93,19 @@ class MasterAnalyteService {
         )
     })
 
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/analyteMaster/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   checkExitsLabEnvCode = (code: string, env: string, lab: string) =>

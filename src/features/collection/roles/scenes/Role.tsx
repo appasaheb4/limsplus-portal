@@ -66,7 +66,7 @@ const Role = observer(() => {
         <div
           className={
             "p-2 rounded-lg shadow-xl overflow-auto " +
-            (hideAddRole ? "shown" : "shown")
+            (hideAddRole ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>

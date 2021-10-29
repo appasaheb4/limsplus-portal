@@ -43,13 +43,17 @@ const MasterAnalyte = observer(() => {
       ) {
         masterAnalyteStore.masterAnalyteService
           .addAnalyteMaster({
-            ...masterAnalyteStore.masterAnalyte,
-            enteredBy: loginStore.login?._id,
+            input: {
+              ...masterAnalyteStore.masterAnalyte,
+              enteredBy: loginStore.login.userId,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Analyte master created.`,
-            })
+          .then((res) => {
+            if (res.createAnalyteMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createAnalyteMaster.message}`,
+              })
+            }
           })
       } else if (
         masterAnalyteStore.masterAnalyte?.existsVersionId &&
@@ -57,13 +61,18 @@ const MasterAnalyte = observer(() => {
       ) {
         masterAnalyteStore.masterAnalyteService
           .versionUpgradeAnalyteMaster({
-            ...masterAnalyteStore.masterAnalyte,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterAnalyteStore.masterAnalyte,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Analyte master version upgrade.`,
-            })
+          .then((res) => {
+            if (res.versionUpgradeAnalyteMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeAnalyteMaster.message}`,
+              })
+            }
           })
       } else if (
         !masterAnalyteStore.masterAnalyte?.existsVersionId &&
@@ -71,13 +80,18 @@ const MasterAnalyte = observer(() => {
       ) {
         masterAnalyteStore.masterAnalyteService
           .duplicateAnalyteMaster({
-            ...masterAnalyteStore.masterAnalyte,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterAnalyteStore.masterAnalyte,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Analyte master duplicate created.`,
-            })
+          .then((res) => {  
+            if (res.duplicateAnalyteMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateAnalyteMaster.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -109,7 +123,7 @@ const MasterAnalyte = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -828,7 +842,7 @@ const MasterAnalyte = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
 
@@ -1171,7 +1185,7 @@ const MasterAnalyte = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "Delete") {  
+            if (type === "Delete") {
               masterAnalyteStore.masterAnalyteService
                 .deleteAnalyteMaster({ input: { id: modalConfirm.id } })
                 .then((res) => {
@@ -1185,14 +1199,21 @@ const MasterAnalyte = observer(() => {
                 })
             } else if (type === "Update") {
               masterAnalyteStore.masterAnalyteService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateAnalyteMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Analyte master updated.`,
+                      message: `😊 ${res.updateAnalyteMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    window.location.reload()
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
                   }
                 })
             } else if (type === "versionUpgrade") {
@@ -1208,7 +1229,7 @@ const MasterAnalyte = observer(() => {
               setValue("analyteCode", modalConfirm.data.analyteCode)
               setValue("analyteName", modalConfirm.data.analyteName)
               setValue("environment", modalConfirm.data.environment)
-              //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
               masterAnalyteStore.updateMasterAnalyte({
                 ...modalConfirm.data,
@@ -1218,6 +1239,11 @@ const MasterAnalyte = observer(() => {
                 version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("analyteCode", modalConfirm.data.analyteCode)
+              setValue("analyteName", modalConfirm.data.analyteName)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {
