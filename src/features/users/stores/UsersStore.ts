@@ -1,9 +1,8 @@
 import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
-import moment from "moment"
+import dayjs from "dayjs"
 import { UserService } from "../services"
-import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 export class UserStore {
@@ -13,11 +12,23 @@ export class UserStore {
   @ignore @observable changePassword!: Models.ChangePassword
   @ignore @observable checkExitsUserId: boolean
   @ignore @observable checkExistsEmpCode: boolean
-   
+
   constructor() {
     this.userList = []
     this.checkExitsUserId = false
     this.checkExistsEmpCode = false
+    this.user = new Models.Users({
+      ...this.user,
+      exipreDate: dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"),
+      expireDays: 30,
+      dateOfEntry: new Date(),
+      dateOfBirth: dayjs(new Date()).add(-30, "years").format("YYYY-MM-DD"),
+      marriageAnniversary: dayjs(new Date())
+        .add(-5, "years")
+        .format("YYYY-MM-DD HH:mm:ss"),
+      confidential: false,
+      confirguration: false,
+    })
     makeObservable<UserStore, any>(this, {
       user: observable,
       userList: observable,
@@ -25,22 +36,6 @@ export class UserStore {
       changePassword: observable,
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
-    })
-    let date: Date = new Date()
-    date = new Date(moment(date).add(30, "days").format("YYYY-MM-DD HH:mm:ss"))
-    this.user = new Models.Users({
-      ...this.user,
-      exipreDate: LibraryUtils.moment(date).unix(),
-      expireDays: 30,
-      dateOfEntry: LibraryUtils.moment(new Date()).unix(),
-      dateOfBirth: LibraryUtils.moment(
-        new Date(moment(date).add(-30, "years").format("YYYY-MM-DD HH:mm:ss"))
-      ).unix(),
-      marriageAnniversary: LibraryUtils.moment(
-        new Date(moment(date).add(-5, "years").format("YYYY-MM-DD HH:mm:ss"))
-      ).unix(),
-      confidential: false,
-      confirguration: false,
     })
   }
 

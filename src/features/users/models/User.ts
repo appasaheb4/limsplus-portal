@@ -5,7 +5,7 @@ export class Users {
   _id: string
   userId: string
   empCode: string
-  defaultLab: string   
+  defaultLab: string
   lab: ModelsLab.Labs[]
   password: string
   passChanged: boolean
@@ -14,17 +14,16 @@ export class Users {
   mobileNo: string
   contactNo: string
   email: string
-  dateOfBirth: number
-  marriageAnniversary: number
+  dateOfBirth: Date
+  marriageAnniversary: Date
   userDegree: string
   department: ModelsDepartment.Department[]
-  exipreDate: number
+  exipreDate: Date
   expireDays: number
   role: ModelsRole.Role[]
   validationLevel: number
   workstation: string
   ipAddress: string
-  dateOfEntry: number
   createdBy: string
   confidential: boolean
   signature: any
@@ -32,6 +31,8 @@ export class Users {
   status: string
   environment: string
   confirguration: boolean
+  dateOfEntry: Date
+  lastUpdated: Date
 
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
@@ -54,15 +55,16 @@ export class Users {
     this.role = rawData.role
     this.validationLevel = rawData.validationLevel
     this.workstation = rawData.workstation
-    this.ipAddress = rawData.ipAddress  
-    this.dateOfEntry = rawData.dateOfEntry
+    this.ipAddress = rawData.ipAddress
     this.createdBy = rawData.createdBy
     this.confidential = rawData.confidential
-    this.signature = rawData.signature   
+    this.signature = rawData.signature
     this.picture = rawData.picture
     this.marriageAnniversary = rawData.marriageAnniversary
     this.status = rawData.status
     this.environment = rawData.environment
     this.confirguration = rawData.confirguration
-  }
+    this.dateOfEntry = rawData.dateOfEntry
+    this.lastUpdated = rawData.lastUpdated
+  }   
 }

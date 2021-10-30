@@ -26,10 +26,10 @@ const Default = observer(() => {
 
   useEffect(() => {
     if (loginStore.login) {
-      const date1 = dayjs.unix(loginStore.login?.exipreDate)
-      const date2 = dayjs.unix(dayjs(new Date()).unix())
+      const date1 = dayjs(loginStore.login.exipreDate)
+      const date2 = dayjs(new Date())
       let days = date1.diff(date2, "day")
-      // console.log({ days })
+      console.log({ days })   
 
       if (days >= 0 && days <= 5 && userStore.changePassword?.tempHide !== true) {
         userStore.updateChangePassword({

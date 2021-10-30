@@ -7,7 +7,7 @@ import * as FeatureComponents from "../components"
 import { Col, Container, Row } from "reactstrap"
 import * as Assets from "@lp/library/assets"
 import * as Bootstrap from "react-bootstrap"
-import moment from "moment"
+import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
 import * as LibraryUtils from "@lp/library/utils"
@@ -444,20 +444,18 @@ export const Login = observer(() => {
         <LibraryComponents.Molecules.ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            const exipreDate = new Date(
-              moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
-            )
+            const exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
             let body = Object.assign(loginStore.inputLogin, userStore.changePassword)
             body = {
               ...body,
-              exipreDate: LibraryUtils.moment(exipreDate).unix(),
-            }
+              exipreDate,
+            }  
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               (res) => {
                 if (res.userChnagePassword.success) {
                   loginStore.updateLogin({
                     ...loginStore.login,
-                    exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                    exipreDate,
                     passChanged: true,
                   })
                   userStore.updateChangePassword({

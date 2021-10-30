@@ -11,7 +11,7 @@ export class Login {
   passChanged: boolean
   loginActivityId: string
   loginActivityList: any
-  exipreDate: number
+  exipreDate: Date
   accessToken: string
   refreshToken: string
   roleMapping: any

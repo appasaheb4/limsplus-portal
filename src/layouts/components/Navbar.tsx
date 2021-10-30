@@ -2,10 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
-import moment from "moment"
-import * as LibraryUtils from "@lp/library/utils"
-
-import { Button } from "reactstrap"
+import dayjs from "dayjs"
 
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
@@ -249,7 +246,7 @@ const NavbarComponent = observer(({ dispatch }) => {
         {...modalChangePassword}
         onClick={() => {
           const exipreDate = new Date(
-            moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+            dayjs(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
           )
           let body = Object.assign(
             loginStore.login,
@@ -257,14 +254,14 @@ const NavbarComponent = observer(({ dispatch }) => {
           )
           body = {
             ...body,
-            exipreDate: LibraryUtils.moment(exipreDate).unix(),
+            exipreDate,
           }
           userStore.UsersService.changePassword(body).then((res) => {
             console.log({ res })
             if (res.status === 200) {
               loginStore.updateLogin({
                 ...loginStore.login,
-                exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                exipreDate,
                 passChanged: true,
               })
               userStore.updateChangePassword({

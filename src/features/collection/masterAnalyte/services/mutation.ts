@@ -81,7 +81,7 @@ export const VERSION_UPGRADE = gql`
     }
   }
 `
-  
+
 export const DUPLICATE_RECORD = gql`
   mutation($input: CreateAnalyteMasterInput!) {
     duplicateAnalyteMaster(input: $input) {
@@ -101,8 +101,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: LabInput!) {
-    checkLabExitsEnvCode(input: $input) {
+  mutation($input: AnalyteMasterInput!) {
+    checkAnalyteMasterExistsRecord(input: $input) {
       success
       message
     }
