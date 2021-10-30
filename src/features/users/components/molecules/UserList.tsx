@@ -295,14 +295,14 @@ export const UserList = observer((props: UserListProps) => {
               headerStyle: { minWidth: "200px" },
             },
             {
-              dataField: "birthDay",
-              text: "BirthDay",
+              dataField: "dateOfBirth",
+              text: "Date Of Birth",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cell, row) => {
-                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
-              },
+                return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
+              },  
               editorRenderer: (
                 editorProps,
                 value,
@@ -310,12 +310,12 @@ export const UserList = observer((props: UserListProps) => {
                 column,
                 rowIndex,
                 columnIndex
-              ) => (
+              ) => (  
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Birthday Date"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
-                    value={dayjs.unix(row.dateOfBirth || 0).format("YYYY-MM-DD")}
+                    value={dayjs(row.dateOfBirth).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
                       props.onUpdateItem &&
@@ -326,13 +326,13 @@ export const UserList = observer((props: UserListProps) => {
               ),
             },
             {
-              dataField: "marriageAnniversyDate",
+              dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cell, row) => {
-                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
+                return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
               },
               editorRenderer: (
                 editorProps,
@@ -345,7 +345,7 @@ export const UserList = observer((props: UserListProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Marriage Anniversary Date"
-                    value={dayjs.unix(row.dateOfBirth || 0).format("YYYY-MM-DD")}
+                    value={dayjs(row.marriageAnniversary).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
                       props.onUpdateItem &&
@@ -363,7 +363,7 @@ export const UserList = observer((props: UserListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cell, row) => {
-                return dayjs.unix(row.exipreDate).format("YYYY-MM-DD")
+                return dayjs(row.exipreDate).format("YYYY-MM-DD")
               },
               editorRenderer: (
                 editorProps,
@@ -377,12 +377,12 @@ export const UserList = observer((props: UserListProps) => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Exipre Date"
                     id="exipreData"
-                    value={dayjs.unix(row.exipreDate).format("YYYY-MM-DD")}
+                    value={dayjs(row.exipreDate).format("YYYY-MM-DD")}
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          dayjs(new Date(date)).unix(),
+                          new Date(date),
                           column.dataField,
                           row._id
                         )
@@ -447,15 +447,15 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            {
-              dataField: "dateCreation",
+            {  
+              dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               editable: false,
               formatter: (cell, row) => {
-                return <>{dayjs.unix(row.dateOfEntry || 0).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -508,11 +508,11 @@ export const UserList = observer((props: UserListProps) => {
               csvExport: false,
               formatter: (cell, row) => {
                 return (
-                  <>
+                  <>  
                     <img
                       src={row.picture}
                       alt="picture"
-                      className="object-fill h-35 w-40 rounded-md"
+                      className="object-cover h-20 w-20 rounded-md"
                     />
                   </>
                 )

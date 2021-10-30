@@ -5,7 +5,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import dayjs from "dayjs"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -86,7 +86,7 @@ const MasterAnalyte = observer(() => {
               __typename: undefined,
             },
           })
-          .then((res) => {  
+          .then((res) => {
             if (res.duplicateAnalyteMaster.success) {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 ${res.duplicateAnalyteMaster.message}`,
@@ -159,16 +159,18 @@ const MasterAnalyte = observer(() => {
                         })
                         if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
                           masterAnalyteStore.masterAnalyteService
-                            .checkExitsLabEnvCode(
-                              masterAnalyteStore.masterAnalyte?.analyteCode || "",
-                              masterAnalyteStore.masterAnalyte?.environment || "",
-                              lab
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterAnalyteStore.masterAnalyte?.analyteCode,
+                                env: masterAnalyteStore.masterAnalyte?.environment,
+                                lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkAnalyteMasterExistsRecord.success) {
                                 masterAnalyteStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                                 })
                               } else masterAnalyteStore.updateExistsLabEnvCode(false)
                             })
@@ -211,16 +213,18 @@ const MasterAnalyte = observer(() => {
                     onBlur={(code) => {
                       if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
                         masterAnalyteStore.masterAnalyteService
-                          .checkExitsLabEnvCode(
-                            code,
-                            masterAnalyteStore.masterAnalyte?.environment || "",
-                            masterAnalyteStore.masterAnalyte?.lab || ""
-                          )
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code,
+                              env: masterAnalyteStore.masterAnalyte?.environment,
+                              lab: masterAnalyteStore.masterAnalyte?.lab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkAnalyteMasterExistsRecord.success) {
                               masterAnalyteStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                               })
                             } else masterAnalyteStore.updateExistsLabEnvCode(false)
                           })
@@ -965,9 +969,9 @@ const MasterAnalyte = observer(() => {
                       errors.keyNum ? "Please Enter Date Creation" : "Date Creation"
                     }
                     hasError={errors.keyNum}
-                    value={LibraryUtils.moment
-                      .unix(masterAnalyteStore.masterAnalyte?.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterAnalyteStore.masterAnalyte?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -984,9 +988,9 @@ const MasterAnalyte = observer(() => {
                       errors.keyNum ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.keyNum}
-                    value={LibraryUtils.moment
-                      .unix(masterAnalyteStore.masterAnalyte?.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterAnalyteStore.masterAnalyte?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -1003,14 +1007,12 @@ const MasterAnalyte = observer(() => {
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.keyNum}
-                    value={LibraryUtils.moment
-                      .unix(masterAnalyteStore.masterAnalyte?.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(masterAnalyteStore.masterAnalyte?.dateActiveTo).format("YYYY-MM-DD")}
                     onChange={(e) => {
                       const schedule = new Date(e.target.value)
                       masterAnalyteStore.updateMasterAnalyte({
                         ...masterAnalyteStore.masterAnalyte,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                        dateActiveTo: schedule,
                       })
                     }}
                   />
@@ -1061,16 +1063,18 @@ const MasterAnalyte = observer(() => {
                         })
                         if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
                           masterAnalyteStore.masterAnalyteService
-                            .checkExitsLabEnvCode(
-                              masterAnalyteStore.masterAnalyte?.analyteCode || "",
-                              environment,
-                              masterAnalyteStore.masterAnalyte?.lab || ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterAnalyteStore.masterAnalyte?.analyteCode,
+                                env: environment,
+                                lab: masterAnalyteStore.masterAnalyte?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkAnalyteMasterExistsRecord.success) {
                                 masterAnalyteStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
                                 })
                               } else masterAnalyteStore.updateExistsLabEnvCode(false)
                             })
@@ -1142,7 +1146,7 @@ const MasterAnalyte = observer(() => {
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
-              setModalConfirm({
+              setModalConfirm({   
                 show: true,
                 type: "Delete",
                 id: rows,

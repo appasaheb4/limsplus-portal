@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-
-import Storage from "@lp/library/modules/storage"
+import dayjs from "dayjs"
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -21,12 +19,10 @@ interface MasterAnalyteProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
 const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
- 
-
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -110,15 +106,18 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.method}
-                onChange={(method) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(method, 'method', row._id)
-                }}
-              /></>
-              }
-              
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.method}
+                      onChange={(method) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(method, "method", row._id)
+                      }}
+                    />
+                  </>
+                )
+              },
             },
             {
               dataField: "analyteMethod",
@@ -170,15 +169,18 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.bill}
-                onChange={(bill) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(bill, 'bill', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.bill}
+                      onChange={(bill) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(bill, "bill", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
-             
             },
             {
               dataField: "high",
@@ -201,15 +203,18 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.display}
-                onChange={(display) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(display, 'display', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.display}
+                      onChange={(display) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(display, "display", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
-              
             },
             {
               dataField: "resultType",
@@ -227,24 +232,25 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const resultType = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(resultType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "RESULT_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const resultType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(resultType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "RESULT_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -255,19 +261,22 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.calculationFlag}
-                onChange={(calculationFlag) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(
-                      calculationFlag,
-                      'calculationFlag',
-                      row._id
-                    )
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.calculationFlag}
+                      onChange={(calculationFlag) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            calculationFlag,
+                            "calculationFlag",
+                            row._id
+                          )
+                      }}
+                    />
+                  </>
+                )
               },
-             
             },
             {
               dataField: "analyteType",
@@ -285,24 +294,25 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const analyteType = e.target.value
-                      props.onUpdateItem && 
-                        props.onUpdateItem(analyteType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ANALYTE_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const analyteType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(analyteType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ANALYTE_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -331,13 +341,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "UNITS").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "UNITS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -368,13 +379,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "USAGE").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "USAGE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -422,13 +434,17 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.repetition}
-                onChange={(repetition) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(repetition, 'repetition', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.repetition}
+                      onChange={(repetition) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(repetition, "repetition", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
             },
             {
@@ -438,13 +454,17 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.autoRelease}
-                onChange={(autoRelease) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(autoRelease, 'autoRelease', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.autoRelease}
+                      onChange={(autoRelease) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(autoRelease, "autoRelease", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
             },
             {
@@ -454,13 +474,17 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.holdOOS}
-                onChange={(holdOOS) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(holdOOS, 'holdOOS', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.holdOOS}
+                      onChange={(holdOOS) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(holdOOS, "holdOOS", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
             },
             {
@@ -470,31 +494,20 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <> <LibraryComponents.Atoms.Form.Toggle
-                value={row.instantResult}
-                onChange={(instantResult) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(instantResult, 'instantResult', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    {" "}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.instantResult}
+                      onChange={(instantResult) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(instantResult, "instantResult", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
-              
             },
-            // {
-            //   dataField: "schedule",
-            //   text: "Schedule",
-            //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
-            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            // },
-           
-            // {
-            //   dataField: "tubeGroups",
-            //   text: "Tube Groups",
-            //   sort: true,
-            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
-            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            // },
             {
               dataField: "pageBreak",
               text: "Page Break",
@@ -502,18 +515,20 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
-                return <><LibraryComponents.Atoms.Form.Toggle
-                value={row.pageBreak}
-                onChange={(pageBreak) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(pageBreak,'pageBreak', row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.pageBreak}
+                      onChange={(pageBreak) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(pageBreak, "pageBreak", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
-              
             },
-            
-           
+
             // {
             //   dataField: "workflow",
             //   text: "Workflow",
@@ -590,15 +605,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
             //     </>
             //   ),
             // },
-            
-           
+
             {
               dataField: "calcyName",
               text: "Calcy Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            },   
+            },
             {
               dataField: "cptCode",
               text: "CPT Code",
@@ -631,13 +645,14 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -657,13 +672,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -673,13 +682,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -691,9 +694,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
+                    {dayjs(row.dateActiveTo).format("YYYY-MM-DD")}
                   </>
                 )
               },
@@ -727,29 +728,30 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  <select
-                  value={row.environment}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const environment = e.target.value
-                      props.onUpdateItem &&
-                      props.onUpdateItem(environment,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      value={row.environment}
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const environment = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(environment, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
-            
+
             {
               dataField: "opration",
               text: "Action",
@@ -830,8 +832,8 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
         />
       </div>

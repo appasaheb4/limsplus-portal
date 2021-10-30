@@ -1,6 +1,5 @@
 import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
-import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../models"
 import * as Services from "../services"
 
@@ -15,11 +14,11 @@ export class MasterAnalyteStore {
     this.listMasterAnalyte = []
     this.masterAnalyte = {
       ...this.masterAnalyte,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateActiveTo: new Date(),
       version: 1,
-      schedule: LibraryUtils.moment().unix(),
+      schedule: new Date(),
       bill: false,
       autoRelease: false,
       holdOOS: false,

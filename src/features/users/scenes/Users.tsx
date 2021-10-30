@@ -4,13 +4,11 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import { UserList } from "../components"
-import moment from "moment"
+import dayjs from "dayjs"
 import { Container } from "reactstrap"
 import { FormHelper } from "@lp/helper"
 
 import { useForm, Controller } from "react-hook-form"
-
-import { AssetsService } from "@lp/features/assets/services"
 
 import { useStores } from "@lp/stores"
 
@@ -79,9 +77,9 @@ export const Users = observer(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 ${res.createUser.message}`,
             })
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 2000)
+            setTimeout(() => {
+              window.location.reload()
+            }, 2000)
           } else {
             LibraryComponents.Atoms.Toast.error({
               message: `😔 ${res.createUser.message}`,
@@ -110,11 +108,11 @@ export const Users = observer(() => {
             onClick={(status) => setAddUser(!hideAddUser)}
           />
         )}
-        <div className=" mx-auto  flex-wrap">
+        <div className=" mx-auto flex-wrap">
           <div
             className={
               "p-2 rounded-lg shadow-xl " + (hideAddUser ? "hidden" : "shown")
-            }
+            }   
           >
             <LibraryComponents.Atoms.Grid cols={3}>
               <LibraryComponents.Atoms.List
@@ -135,7 +133,7 @@ export const Users = observer(() => {
                         onChange(userId)
                         userStore.updateUser({
                           ...userStore.user,
-                          userId,
+                          userId: userId.toUpperCase(),
                         })
                       }}
                       onBlur={(userId) => {
@@ -174,7 +172,7 @@ export const Users = observer(() => {
                         onChange(empCode)
                         userStore.updateUser({
                           ...userStore.user,
-                          empCode,
+                          empCode: empCode.toUpperCase(),
                         })
                       }}
                       onBlur={(empCode) => {
@@ -414,7 +412,7 @@ export const Users = observer(() => {
                         onChange(workstation)
                         userStore.updateUser({
                           ...userStore.user,
-                          workstation,
+                          workstation: workstation.toUpperCase(),
                         })
                       }}
                     />
@@ -467,7 +465,7 @@ export const Users = observer(() => {
                         onChange(fullName)
                         userStore.updateUser({
                           ...userStore.user,
-                          fullName,
+                          fullName: fullName.toUpperCase(),
                         })
                       }}
                     />
@@ -561,13 +559,13 @@ export const Users = observer(() => {
                         onChange(userDegree)
                         userStore.updateUser({
                           ...userStore.user,
-                          userDegree,
+                          userDegree: userDegree.toUpperCase(),
                         })
                       }}
                     />
                   )}
                   name="userDegree"
-                  rules={{ required: true }}
+                  rules={{ required: false }}
                   defaultValue=""
                 />
 
@@ -577,23 +575,22 @@ export const Users = observer(() => {
                     <LibraryComponents.Atoms.Form.InputDate
                       label="Birthday Date"
                       hasError={errors.dateOfBirth}
-                      value={LibraryUtils.moment
-                        .unix((userStore && userStore.user.dateOfBirth) || 0)
-                        .format("YYYY-MM-DD")}
+                      value={dayjs(userStore && userStore.user.dateOfBirth).format(
+                        "YYYY-MM-DD"
+                      )}
                       onChange={(e: any) => {
                         let date = new Date(e.target.value)
-                        date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
-                        onChange(LibraryUtils.moment(date).unix())
+                        onChange(date)
                         userStore.updateUser({
                           ...userStore.user,
-                          dateOfBirth: LibraryUtils.moment(date).unix(),
+                          dateOfBirth: date,
                         })
                       }}
                     />
                   )}
                   name="dateOfBirth"
                   rules={{ required: true }}
-                  defaultValue={moment(
+                  defaultValue={dayjs(
                     userStore && userStore.user.dateOfBirth
                   ).format("YYYY-MM-DD")}
                 />
@@ -603,23 +600,22 @@ export const Users = observer(() => {
                     <LibraryComponents.Atoms.Form.InputDate
                       label="Marriage Anniversary Date"
                       hasError={errors.marriageAnniversary}
-                      value={LibraryUtils.moment
-                        .unix((userStore && userStore.user.marriageAnniversary) || 0)
-                        .format("YYYY-MM-DD")}
+                      value={dayjs(
+                        userStore && userStore.user.marriageAnniversary
+                      ).format("YYYY-MM-DD")}
                       onChange={(e: any) => {
                         let date = new Date(e.target.value)
-                        date = new Date(moment(date).format("YYYY-MM-DD HH:mm"))
-                        onChange(LibraryUtils.moment(date).unix())
+                        onChange(date)
                         userStore.updateUser({
                           ...userStore.user,
-                          marriageAnniversary: LibraryUtils.moment(date).unix(),
+                          marriageAnniversary: date,
                         })
                       }}
                     />
                   )}
                   name="marriageAnniversary"
                   rules={{ required: true }}
-                  defaultValue={moment(
+                  defaultValue={dayjs(
                     userStore && userStore.user.marriageAnniversary
                   ).format("YYYY-MM-DD")}
                 />
@@ -631,27 +627,22 @@ export const Users = observer(() => {
                       <LibraryComponents.Atoms.Form.InputDate
                         label="Exipre Date"
                         hasError={errors.exipreDate}
-                        value={LibraryUtils.moment
-                          .unix((userStore && userStore.user.exipreDate) || 0)
-                          .format("YYYY-MM-DD")}
+                        value={dayjs(userStore && userStore.user.exipreDate).format(
+                          "YYYY-MM-DD"
+                        )}
                         onChange={(e: any) => {
                           let date = new Date(e.target.value)
-                          date = new Date(
-                            moment(date)
-                              .add(userStore && userStore.user.expireDays, "days")
-                              .format("YYYY-MM-DD HH:mm")
-                          )
-                          onChange(LibraryUtils.moment(date).unix())
+                          onChange(date)
                           userStore.updateUser({
                             ...userStore.user,
-                            exipreDate: LibraryUtils.moment(date).unix(),
+                            exipreDate: date,
                           })
                         }}
                       />
                     )}
                     name="exipreDate"
                     rules={{ required: true }}
-                    defaultValue={moment(
+                    defaultValue={dayjs(
                       userStore && userStore.user.exipreDate
                     ).format("YYYY-MM-DD")}
                   />
@@ -688,17 +679,13 @@ export const Users = observer(() => {
                     type="solid"
                     onClick={() => {
                       const date = new Date(
-                        moment(
-                          LibraryUtils.moment
-                            .unix((userStore && userStore.user.exipreDate) || 0)
-                            .format("YYYY-MM-DD")
-                        )
+                        dayjs(userStore && userStore.user.exipreDate)
                           .add(userStore && userStore.user.expireDays, "days")
                           .format("YYYY-MM-DD HH:mm")
                       )
                       userStore.updateUser({
                         ...userStore.user,
-                        exipreDate: LibraryUtils.moment(date).unix(),
+                        exipreDate: date,
                       })
                     }}
                   >
@@ -768,14 +755,14 @@ export const Users = observer(() => {
                     <LibraryComponents.Atoms.Form.InputDate
                       label="Date Creation"
                       disabled={true}
-                      value={LibraryUtils.moment
-                        .unix((userStore && userStore.user.dateOfEntry) || 0)
-                        .format("YYYY-MM-DD")}
+                      value={dayjs(userStore && userStore.user.dateOfEntry).format(
+                        "YYYY-MM-DD"
+                      )}
                     />
                   )}
                   name="dateOfEntry"
                   rules={{ required: false }}
-                  defaultValue={moment(
+                  defaultValue={dayjs(
                     userStore && userStore.user.dateOfEntry
                   ).format("YYYY-MM-DD")}
                 />
@@ -1093,13 +1080,13 @@ export const Users = observer(() => {
             {...modalChangePasswordByadmin}
             onClick={() => {
               const exipreDate = new Date(
-                moment(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
+                dayjs(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
               )
               const body = {
                 userId: modalChangePasswordByadmin.data.userId,
                 password: userStore.changePassword?.confirmPassword,
                 email: modalChangePasswordByadmin.data.email,
-                exipreDate: LibraryUtils.moment(exipreDate).unix(),
+                exipreDate: exipreDate,
               }
               userStore &&
                 userStore.UsersService.changepasswordByAdmin({
@@ -1113,7 +1100,7 @@ export const Users = observer(() => {
                     setTimeout(() => {
                       window.location.reload()
                     }, 2000)
-                  } else {    
+                  } else {
                     LibraryComponents.Atoms.Toast.error({
                       message: `😔 ${res.userChnagePasswordByAdmin.message}`,
                     })
