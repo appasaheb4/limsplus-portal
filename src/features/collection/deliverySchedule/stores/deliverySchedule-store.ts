@@ -5,7 +5,7 @@ import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
-class DeliveryScheduleStore {
+export class DeliveryScheduleStore {
   @ignore @observable deliverySchedule?: Models.DeliverySchedule
   @observable listDeliverySchedule?: Models.DeliverySchedule[] = []
   @observable listDeliveryScheduleCount: number = 0
@@ -48,5 +48,3 @@ class DeliveryScheduleStore {
     this.checkExistsEnvCode = status
   }
 }
-
-export default DeliveryScheduleStore

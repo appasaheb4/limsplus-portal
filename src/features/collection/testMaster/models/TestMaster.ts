@@ -1,64 +1,66 @@
 export class TestMaster {
-    _id?: string
-    existsVersionId?: string
-    existsRecordId?: string
-    dateCreation?: number  
-    dateActiveFrom?: number  
-    dateActiveTo?: number  
-    version?: number
-    keyNum?: string
-    enteredBy?: string
-    rLab?: string
-    pLab?: string
-    department?: string
-    section?: Record<string, any>
-    testCode?: string
-    testName?: string
-    description?: string
-    shortName?: string
-    bill?: boolean
-    price?: number
-    schedule?: string
-    tat?: string
-    autoFinish?: boolean
-    holdOOS?: boolean
-    validationLevel?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-    confidential?: boolean
-    urgent?: boolean
-    instantResult?: boolean
-    reportGroup?: string
-    resultOrder?: string
-    accredited?: boolean
-    cretical?: boolean
-    processing?: "MANUAL" | "AEMI" | "AUTOMATIC"
-    repitation?: boolean
-    tubeGroup?: string
-    printLabel?: boolean
-    labelInstruction?: string
-    method?: boolean
-    panelMethod?: string
-    sampleRunOn?: "LABID" | "SAMPLEID"
-    workflow?: string
-    cumulative?: boolean
-    sampleType?: string
-    speicalInstructions?: string
-    disease?: string
-    category?: string
-    testType?: string
-    workflowCode?: string
-    worklistCode?: string
-    cptCode?: string
-    qcHold?: boolean
-    oosHold?: boolean
-    deltaHold?: boolean
-    prefix?: string
-    sufix?: string
-    deleverySchedule?: string
-    allowPartial?: boolean
-    collectionContainer?: string
-    holdingDays?: string
-    status?: string
-    environment?: string
+    _id: string
+    existsVersionId: string
+    existsRecordId: string
+    dateCreation: Date  
+    dateActiveFrom: Date  
+    dateActiveTo: Date  
+    version: number
+    enteredBy: string
+    rLab: string
+    pLab: string
+    department: string
+    section: Record<string, any>
+    testCode: string
+    testName: string
+    description: string
+    shortName: string
+    bill: boolean
+    price: number
+    schedule: string
+    tat: string
+    autoFinish: boolean
+    holdOOS: boolean
+    validationLevel: number
+    confidential: boolean
+    urgent: boolean
+    instantResult: boolean
+    reportGroup: string
+    resultOrder: string
+    accredited: boolean
+    cretical: boolean
+    processing: string
+    repitation: boolean
+    tubeGroup: string
+    printLabel: boolean
+    labelInstruction: string
+    method: boolean
+    panelMethod: string
+    sampleRunOn: string
+    workflow: string
+    cumulative: boolean
+    sampleType: string
+    speicalInstructions: string
+    disease: string
+    category: string  
+    testType: string
+    workflowCode: string
+    worklistCode: string
+    cptCode: string
+    qcHold: boolean
+    oosHold: boolean
+    deltaHold: boolean
+    prefix: string
+    sufix: string
+    deleverySchedule: string
+    allowPartial: boolean
+    collectionContainer: string
+    holdingDays: string
+    status: string
+    environment: string
+    dateOfEntry: Date
+    lastUpdated: Date  
+
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.existsVersionId = rawData.existsVersionId
@@ -67,7 +69,6 @@ export class TestMaster {
         this.dateActiveFrom = rawData.dateActiveFrom
         this.dateActiveTo = rawData.dateActiveTo
         this.version = rawData.version
-        this.keyNum = rawData.keyNum
         this.enteredBy = rawData.enteredBy
         this.rLab = rawData.rLab
         this.pLab = rawData.pLab
@@ -123,6 +124,8 @@ export class TestMaster {
         this.status = rawData.status
         this.holdingDays = rawData.holdingDays
         this.environment = rawData.environment
+        this.dateOfEntry = rawData.dateOfEntry
+        this.lastUpdated = rawData.lastUpdated
     }
   }
   

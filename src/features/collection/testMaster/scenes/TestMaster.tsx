@@ -2,24 +2,16 @@
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-//import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/stores"
+
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
-import { has, toJS } from "mobx"
+import { toJS } from "mobx"
 
 const TestMater = observer(() => {
   const {
@@ -28,13 +20,19 @@ const TestMater = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    testMasterStore,
+    labStore,
+    departmentStore,
+    deliveryScheduleStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.testMasterStore.updateTestMaster({
-        ...Stores.testMasterStore.testMaster,
+      testMasterStore.updateTestMaster({
+        ...testMasterStore.testMaster,
         rLab: stores.loginStore.login.lab,
         pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
@@ -46,14 +44,14 @@ const TestMater = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitTestMaster = () => {
-    if (!Stores.testMasterStore.checkExitsLabEnvCode) {
+    if (!testMasterStore.checkExitsLabEnvCode) {
       if (
-        !Stores.testMasterStore.testMaster?.existsVersionId &&
-        !Stores.testMasterStore.testMaster?.existsRecordId
+        !testMasterStore.testMaster?.existsVersionId &&
+        !testMasterStore.testMaster?.existsRecordId
       ) {
-        Stores.testMasterStore.testMasterService
+        testMasterStore.testMasterService
           .addTestMaster({
-            ...Stores.testMasterStore.testMaster,
+            ...testMasterStore.testMaster,
             enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
@@ -62,12 +60,12 @@ const TestMater = observer(() => {
             })
           })
       } else if (
-        Stores.testMasterStore.testMaster?.existsVersionId &&
-        !Stores.testMasterStore.testMaster?.existsRecordId
+        testMasterStore.testMaster?.existsVersionId &&
+        !testMasterStore.testMaster?.existsRecordId
       ) {
-        Stores.testMasterStore.testMasterService
+        testMasterStore.testMasterService
           .versionUpgradeTestMaster({
-            ...Stores.testMasterStore.testMaster,
+            ...testMasterStore.testMaster,
             enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
@@ -76,12 +74,12 @@ const TestMater = observer(() => {
             })
           })
       } else if (
-        !Stores.testMasterStore.testMaster?.existsVersionId &&
-        Stores.testMasterStore.testMaster?.existsRecordId
+        !testMasterStore.testMaster?.existsVersionId &&
+        testMasterStore.testMaster?.existsRecordId
       ) {
-        Stores.testMasterStore.testMasterService
+        testMasterStore.testMasterService
           .duplicateTestMaster({
-            ...Stores.testMasterStore.testMaster,
+            ...testMasterStore.testMaster,
             enteredBy: stores.loginStore.login.userId,
           })
           .then(() => {
@@ -136,7 +134,7 @@ const TestMater = observer(() => {
                     hasError={errors.rLab}
                   >
                     <select
-                      value={Stores.testMasterStore.testMaster?.rLab}
+                      value={testMasterStore.testMaster?.rLab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -149,38 +147,35 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const rLab = e.target.value as string
                         onChange(rLab)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           rLab,
                         })
-                        if (!Stores.testMasterStore.testMaster?.existsVersionId) {
-                          Stores.testMasterStore.testMasterService
+                        if (!testMasterStore.testMaster?.existsVersionId) {
+                          testMasterStore.testMasterService
                             .checkExitsLabEnvCode(
-                              Stores.testMasterStore.testMaster?.testCode || "",
-                              Stores.testMasterStore.testMaster?.environment || "",
+                              testMasterStore.testMaster?.testCode || "",
+                              testMasterStore.testMaster?.environment || "",
                               rLab
                             )
                             .then((res) => {
                               if (res.success) {
-                                Stores.testMasterStore.updateExistsLabEnvCode(true)
+                                testMasterStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.message}`,
                                 })
-                              } else
-                                Stores.testMasterStore.updateExistsLabEnvCode(false)
+                              } else testMasterStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LoginStores.loginStore.login?.labList &&
-                        LoginStores.loginStore.login?.labList.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {item.name}
-                            </option>
-                          )
-                        )}
+                      {loginStore.login?.labList &&
+                        loginStore.login?.labList.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -197,7 +192,7 @@ const TestMater = observer(() => {
                     hasError={errors.pLab}
                   >
                     <select
-                      value={Stores.testMasterStore.testMaster?.pLab}
+                      value={testMasterStore.testMaster?.pLab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -210,14 +205,14 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const pLab = e.target.value as string
                         onChange(pLab)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           pLab,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                      {labStore.listLabs.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {item.name}
                         </option>
@@ -244,15 +239,15 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const department = e.target.value as string
                         onChange(department)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           department,
                         })
-                        Stores.testMasterStore.findSectionListByDeptCode(department)
+                        testMasterStore.findSectionListByDeptCode(department)
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment.map(
+                      {departmentStore.listDepartment.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -266,7 +261,7 @@ const TestMater = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.testMasterStore.sectionListByDeptCode && (
+              {testMasterStore.sectionListByDeptCode && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -276,25 +271,23 @@ const TestMater = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.section
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.section ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const section = e.target.value as Object
                           onChange(section)
-                          Stores.testMasterStore.updateTestMaster({
-                            ...Stores.testMasterStore.testMaster,
+                          testMasterStore.updateTestMaster({
+                            ...testMasterStore.testMaster,
                             section,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {Stores.testMasterStore.sectionListByDeptCode &&
-                          Stores.testMasterStore.sectionListByDeptCode.map(
+                        {testMasterStore.sectionListByDeptCode &&
+                          testMasterStore.sectionListByDeptCode.map(
                             (item: any, index: number) => (
                               <option key={index} value={item}>
-                               {`${item.code} -${item.name}`}
+                                {`${item.code} -${item.name}`}
                               </option>
                             )
                           )}
@@ -315,30 +308,29 @@ const TestMater = observer(() => {
                       errors.testCode ? "Please Enter testCode" : "Test Code"
                     }
                     hasError={errors.testCode}
-                    value={Stores.testMasterStore.testMaster?.testCode}
+                    value={testMasterStore.testMaster?.testCode}
                     onChange={(testCode) => {
                       onChange(testCode)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         testCode: testCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      if (!Stores.testMasterStore.testMaster?.existsVersionId) {
-                        Stores.testMasterStore.testMasterService
+                      if (!testMasterStore.testMaster?.existsVersionId) {
+                        testMasterStore.testMasterService
                           .checkExitsLabEnvCode(
                             code,
-                            Stores.testMasterStore.testMaster?.environment || "",
-                            Stores.testMasterStore.testMaster?.rLab || ""
+                            testMasterStore.testMaster?.environment || "",
+                            testMasterStore.testMaster?.rLab || ""
                           )
                           .then((res) => {
                             if (res.success) {
-                              Stores.testMasterStore.updateExistsLabEnvCode(true)
+                              testMasterStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else
-                              Stores.testMasterStore.updateExistsLabEnvCode(false)
+                            } else testMasterStore.updateExistsLabEnvCode(false)
                           })
                       }
                     }}
@@ -348,7 +340,7 @@ const TestMater = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.testMasterStore.checkExitsLabEnvCode && (
+              {testMasterStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -362,11 +354,11 @@ const TestMater = observer(() => {
                       errors.testName ? "Please Enter testName" : "Test Name"
                     }
                     hasError={errors.testName}
-                    value={Stores.testMasterStore.testMaster?.testName}
+                    value={testMasterStore.testMaster?.testName}
                     onChange={(testName) => {
                       onChange(testName)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         testName: testName.toUpperCase(),
                       })
                     }}
@@ -386,11 +378,11 @@ const TestMater = observer(() => {
                       errors.description ? "Please Enter description" : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.testMasterStore.testMaster?.description}
+                    value={testMasterStore.testMaster?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         description,
                       })
                     }}
@@ -409,11 +401,11 @@ const TestMater = observer(() => {
                       errors.shortName ? "Please Enter shortName" : "Short Name"
                     }
                     hasError={errors.shortName}
-                    value={Stores.testMasterStore.testMaster?.shortName}
+                    value={testMasterStore.testMaster?.shortName}
                     onChange={(shortName) => {
                       onChange(shortName)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         shortName: shortName.toUpperCase(),
                       })
                     }}
@@ -431,11 +423,11 @@ const TestMater = observer(() => {
                     placeholder={errors.price ? "Please Enter price" : "Price"}
                     type="number"
                     hasError={errors.price}
-                    value={Stores.testMasterStore.testMaster?.price}
+                    value={testMasterStore.testMaster?.price}
                     onChange={(price) => {
                       onChange(price)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         price,
                       })
                     }}
@@ -454,25 +446,21 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.schedule ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const schedule = e.target.value as string
                         onChange(schedule)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           schedule,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {DeliveryScheduleStore.deliveryScheduleStore
-                        .listDeliverySchedule &&
-                        DeliveryScheduleStore.deliveryScheduleStore
-                          .listDeliverySchedule?.length > 0 &&
-                        DeliveryScheduleStore.deliveryScheduleStore.listDeliverySchedule?.map(
+                      {deliveryScheduleStore.listDeliverySchedule &&
+                        deliveryScheduleStore.listDeliverySchedule?.length > 0 &&
+                        deliveryScheduleStore.listDeliverySchedule?.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.schCode}>
                               {`${item.schCode}`}
@@ -492,11 +480,11 @@ const TestMater = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="TAT"
                     placeholder={errors.tat ? "Please Enter tat" : "TAT"}
-                    value={Stores.testMasterStore.testMaster?.tat}
+                    value={testMasterStore.testMaster?.tat}
                     onChange={(tat) => {
                       onChange(tat)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         tat: tat.toUpperCase(),
                       })
                     }}
@@ -522,8 +510,8 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const validationLevel: any = e.target.value
                         onChange(validationLevel)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           validationLevel,
                         })
                       }}
@@ -554,11 +542,11 @@ const TestMater = observer(() => {
                         : "Result Order"
                     }
                     hasError={errors.resultOrder}
-                    value={Stores.testMasterStore.testMaster?.resultOrder}
+                    value={testMasterStore.testMaster?.resultOrder}
                     onChange={(resultOrder) => {
                       onChange(resultOrder)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         resultOrder: resultOrder.toUpperCase(),
                       })
                     }}
@@ -577,9 +565,7 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.processing
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.processing ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const processing = e.target.value as
@@ -587,8 +573,8 @@ const TestMater = observer(() => {
                           | "AEMI"
                           | "AUTOMATIC"
                         onChange(processing)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           processing,
                         })
                       }}
@@ -616,11 +602,11 @@ const TestMater = observer(() => {
                       label="Bill"
                       id="modeBill"
                       hasError={errors.bill}
-                      value={Stores.testMasterStore.testMaster?.bill}
+                      value={testMasterStore.testMaster?.bill}
                       onChange={(bill) => {
                         onChange(bill)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           bill,
                         })
                       }}
@@ -637,11 +623,11 @@ const TestMater = observer(() => {
                       label="AutoFinish"
                       id="modeAutoFinish"
                       hasError={errors.autoFinish}
-                      value={Stores.testMasterStore.testMaster?.autoFinish}
+                      value={testMasterStore.testMaster?.autoFinish}
                       onChange={(autoFinish) => {
                         onChange(autoFinish)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           autoFinish,
                         })
                       }}
@@ -658,11 +644,11 @@ const TestMater = observer(() => {
                       label="Hold OOS"
                       id="modeHoldOOS"
                       hasError={errors.holdOOS}
-                      value={Stores.testMasterStore.testMaster?.holdOOS}
+                      value={testMasterStore.testMaster?.holdOOS}
                       onChange={(holdOOS) => {
                         onChange(holdOOS)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           holdOOS,
                         })
                       }}
@@ -678,11 +664,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
-                      value={Stores.testMasterStore.testMaster?.confidential}
+                      value={testMasterStore.testMaster?.confidential}
                       onChange={(confidential) => {
                         onChange(confidential)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           confidential,
                         })
                       }}
@@ -698,11 +684,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
-                      value={Stores.testMasterStore.testMaster?.urgent}
+                      value={testMasterStore.testMaster?.urgent}
                       onChange={(urgent) => {
                         onChange(urgent)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           urgent,
                         })
                       }}
@@ -724,10 +710,10 @@ const TestMater = observer(() => {
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Report Group"
                 placeholder="Report Group"
-                value={Stores.testMasterStore.testMaster?.reportGroup}
+                value={testMasterStore.testMaster?.reportGroup}
                 onChange={(reportGroup) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
                     reportGroup,
                   })
                 }}
@@ -736,10 +722,10 @@ const TestMater = observer(() => {
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
-                value={Stores.testMasterStore.testMaster?.tubeGroup}
+                value={testMasterStore.testMaster?.tubeGroup}
                 onChange={(tubeGroup) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
                     tubeGroup,
                   })
                 }}
@@ -747,10 +733,10 @@ const TestMater = observer(() => {
               <LibraryComponents.Atoms.Form.Input
                 label="Label Instruction"
                 placeholder="Label Instruction"
-                value={Stores.testMasterStore.testMaster?.labelInstruction}
+                value={testMasterStore.testMaster?.labelInstruction}
                 onChange={(labelInstruction) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
                     labelInstruction,
                   })
                 }}
@@ -766,11 +752,11 @@ const TestMater = observer(() => {
                         : "Panel Method"
                     }
                     hasError={errors.panelMethod}
-                    value={Stores.testMasterStore.testMaster?.panelMethod}
+                    value={testMasterStore.testMaster?.panelMethod}
                     onChange={(panelMethod) => {
                       onChange(panelMethod)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         panelMethod,
                       })
                     }}
@@ -789,15 +775,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sampleRunOn
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.sampleRunOn ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sampleRunOn = e.target.value as "LABID" | "SAMPLEID"
                         onChange(sampleRunOn)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           sampleRunOn,
                         })
                       }}
@@ -824,15 +808,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.workflow
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.workflow ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const workflow = e.target.value as string
                         onChange(workflow)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           workflow,
                         })
                       }}
@@ -856,10 +838,10 @@ const TestMater = observer(() => {
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Sample Type"
                 placeholder="Sample Type"
-                value={Stores.testMasterStore.testMaster?.sampleType}
+                value={testMasterStore.testMaster?.sampleType}
                 onChange={(sampleType) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
                     sampleType,
                   })
                 }}
@@ -875,11 +857,11 @@ const TestMater = observer(() => {
                         ? "Please Enter speicalInstructions"
                         : "Speical Instrcution"
                     }
-                    value={Stores.testMasterStore.testMaster?.speicalInstructions}
+                    value={testMasterStore.testMaster?.speicalInstructions}
                     onChange={(speicalInstructions) => {
                       onChange(speicalInstructions)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         speicalInstructions: speicalInstructions.toUpperCase(),
                       })
                     }}
@@ -892,10 +874,10 @@ const TestMater = observer(() => {
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Disease"
                 placeholder="Disease"
-                value={Stores.testMasterStore.testMaster?.disease}
+                value={testMasterStore.testMaster?.disease}
                 onChange={(disease) => {
-                  Stores.testMasterStore.updateTestMaster({
-                    ...Stores.testMasterStore.testMaster,
+                  testMasterStore.updateTestMaster({
+                    ...testMasterStore.testMaster,
                     disease,
                   })
                 }}
@@ -912,8 +894,8 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const disease = e.target.value as string
                         onChange(disease)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           disease,
                         })
                       }}
@@ -946,8 +928,8 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const category = e.target.value as string
                         onChange(category)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           category,
                         })
                       }}
@@ -977,15 +959,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.testType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.testType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const testType = e.target.value as string
                         onChange(testType)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           testType,
                         })
                       }}
@@ -1015,15 +995,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.workflowCode
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.workflowCode ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const workflowCode = e.target.value as string
                         onChange(workflowCode)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           workflowCode,
                         })
                       }}
@@ -1046,8 +1024,8 @@ const TestMater = observer(() => {
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const worklistCode = e.target.value as string
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
+                    testMasterStore.updateTestMaster({
+                      ...testMasterStore.testMaster,
                       worklistCode,
                     })
                   }}
@@ -1069,11 +1047,11 @@ const TestMater = observer(() => {
                       errors.cptCode ? "Please Enter cptCode" : "CPT Code"
                     }
                     hasError={errors.cptCode}
-                    value={Stores.testMasterStore.testMaster?.cptCode}
+                    value={testMasterStore.testMaster?.cptCode}
                     onChange={(cptCode) => {
                       onChange(cptCode)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         cptCode: cptCode.toUpperCase(),
                       })
                     }}
@@ -1092,15 +1070,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.prefix
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.prefix ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const prefix = e.target.value
                         onChange(prefix)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           prefix,
                         })
                       }}
@@ -1130,15 +1106,13 @@ const TestMater = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sufix
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.sufix ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sufix = e.target.value
                         onChange(sufix)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           sufix,
                         })
                       }}
@@ -1170,11 +1144,11 @@ const TestMater = observer(() => {
                         : "Delevery Schedule"
                     }
                     hasError={errors.deleverySchedule}
-                    value={Stores.testMasterStore.testMaster?.deleverySchedule}
+                    value={testMasterStore.testMaster?.deleverySchedule}
                     onChange={(deleverySchedule) => {
                       onChange(deleverySchedule)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         deleverySchedule: deleverySchedule.toUpperCase(),
                       })
                     }}
@@ -1192,11 +1166,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Instant Result"
                       hasError={errors.instantResult}
-                      value={Stores.testMasterStore.testMaster?.instantResult}
+                      value={testMasterStore.testMaster?.instantResult}
                       onChange={(instantResult) => {
                         onChange(instantResult)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           instantResult,
                         })
                       }}
@@ -1212,11 +1186,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Accredited"
                       hasError={errors.accredited}
-                      value={Stores.testMasterStore.testMaster?.accredited}
+                      value={testMasterStore.testMaster?.accredited}
                       onChange={(accredited) => {
                         onChange(accredited)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           accredited,
                         })
                       }}
@@ -1232,11 +1206,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Cretical"
                       hasError={errors.cretical}
-                      value={Stores.testMasterStore.testMaster?.cretical}
+                      value={testMasterStore.testMaster?.cretical}
                       onChange={(cretical) => {
                         onChange(cretical)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           cretical,
                         })
                       }}
@@ -1252,11 +1226,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Repetition"
                       hasError={errors.repitation}
-                      value={Stores.testMasterStore.testMaster?.repitation}
+                      value={testMasterStore.testMaster?.repitation}
                       onChange={(repitation) => {
                         onChange(repitation)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           repitation,
                         })
                       }}
@@ -1272,11 +1246,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Print Label"
                       hasError={errors.printLabel}
-                      value={Stores.testMasterStore.testMaster?.printLabel}
+                      value={testMasterStore.testMaster?.printLabel}
                       onChange={(printLabel) => {
                         onChange(printLabel)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           printLabel,
                         })
                       }}
@@ -1299,8 +1273,8 @@ const TestMater = observer(() => {
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const collectionContainer = e.target.value
-                    Stores.testMasterStore.updateTestMaster({
-                      ...Stores.testMasterStore.testMaster,
+                    testMasterStore.updateTestMaster({
+                      ...testMasterStore.testMaster,
                       collectionContainer,
                     })
                   }}
@@ -1324,11 +1298,11 @@ const TestMater = observer(() => {
                         : "Holding Days"
                     }
                     hasError={errors.holdingDays}
-                    value={Stores.testMasterStore.testMaster?.holdingDays}
+                    value={testMasterStore.testMaster?.holdingDays}
                     onChange={(holdingDays) => {
                       onChange(holdingDays)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
                         holdingDays: holdingDays.toUpperCase(),
                       })
                     }}
@@ -1346,17 +1320,15 @@ const TestMater = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.testMasterStore.testMaster?.status}
+                      value={testMasterStore.testMaster?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           status,
                         })
                       }}
@@ -1388,7 +1360,7 @@ const TestMater = observer(() => {
                         : "Entered By"
                     }
                     hasError={errors.dateCreation}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -1407,9 +1379,9 @@ const TestMater = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(Stores.testMasterStore.testMaster?.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(testMasterStore.testMaster?.dateCreation).format(
+                      "YYYY-MM-DD"
+                    )}
                     disabled={true}
                   />
                 )}
@@ -1428,9 +1400,9 @@ const TestMater = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActiveFrom}
-                    value={LibraryUtils.moment
-                      .unix(Stores.testMasterStore.testMaster?.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(testMasterStore.testMaster?.dateActiveFrom).format(
+                      "YYYY-MM-DD"
+                    )}
                     disabled={true}
                   />
                 )}
@@ -1449,15 +1421,15 @@ const TestMater = observer(() => {
                         : "Date Expire"
                     }
                     hasError={errors.dateActiveTo}
-                    value={LibraryUtils.moment
-                      .unix(Stores.testMasterStore.testMaster?.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(testMasterStore.testMaster?.dateActiveTo).format(
+                      "YYYY-MM-DD"
+                    )}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
-                      onChange(schedule)
-                      Stores.testMasterStore.updateTestMaster({
-                        ...Stores.testMasterStore.testMaster,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      const dateActiveTo = new Date(e.target.value)
+                      onChange(dateActiveTo)
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
+                        dateActiveTo,
                       })
                     }}
                   />
@@ -1473,26 +1445,11 @@ const TestMater = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.testMasterStore.testMaster?.version}
+                    value={testMasterStore.testMaster?.version}
                     disabled={true}
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter keyNum" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.testMasterStore.testMaster?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1504,11 +1461,9 @@ const TestMater = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.testMasterStore.testMaster?.environment}
+                      value={testMasterStore.testMaster?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -1519,25 +1474,24 @@ const TestMater = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           environment,
                         })
-                        if (!Stores.testMasterStore.testMaster?.existsVersionId) {
-                          Stores.testMasterStore.testMasterService
+                        if (!testMasterStore.testMaster?.existsVersionId) {
+                          testMasterStore.testMasterService
                             .checkExitsLabEnvCode(
-                              Stores.testMasterStore.testMaster?.testCode || "",
+                              testMasterStore.testMaster?.testCode || "",
                               environment,
-                              Stores.testMasterStore.testMaster?.rLab || ""
+                              testMasterStore.testMaster?.rLab || ""
                             )
                             .then((res) => {
                               if (res.success) {
-                                Stores.testMasterStore.updateExistsLabEnvCode(true)
+                                testMasterStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.message}`,
                                 })
-                              } else
-                                Stores.testMasterStore.updateExistsLabEnvCode(false)
+                              } else testMasterStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -1546,8 +1500,7 @@ const TestMater = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.testMasterStore.testMaster?.environment ||
-                            `Select`}
+                          : testMasterStore.testMaster?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -1571,11 +1524,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Method"
                       hasError={errors.method}
-                      value={Stores.testMasterStore.testMaster?.method}
+                      value={testMasterStore.testMaster?.method}
                       onChange={(method) => {
                         onChange(method)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           method,
                         })
                       }}
@@ -1591,11 +1544,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Cumulative"
                       hasError={errors.cumulative}
-                      value={Stores.testMasterStore.testMaster?.cumulative}
+                      value={testMasterStore.testMaster?.cumulative}
                       onChange={(cumulative) => {
                         onChange(cumulative)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           cumulative,
                         })
                       }}
@@ -1611,11 +1564,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="QC Hold"
                       hasError={errors.qcHold}
-                      value={Stores.testMasterStore.testMaster?.qcHold}
+                      value={testMasterStore.testMaster?.qcHold}
                       onChange={(qcHold) => {
                         onChange(qcHold)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           qcHold,
                         })
                       }}
@@ -1631,11 +1584,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="OOS Hold"
                       hasError={errors.oosHold}
-                      value={Stores.testMasterStore.testMaster?.oosHold}
+                      value={testMasterStore.testMaster?.oosHold}
                       onChange={(oosHold) => {
                         onChange(oosHold)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           oosHold,
                         })
                       }}
@@ -1651,11 +1604,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Delta Hold"
                       hasError={errors.deltaHold}
-                      value={Stores.testMasterStore.testMaster?.deltaHold}
+                      value={testMasterStore.testMaster?.deltaHold}
                       onChange={(deltaHold) => {
                         onChange(deltaHold)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           deltaHold,
                         })
                       }}
@@ -1671,11 +1624,11 @@ const TestMater = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Allow Partial"
                       hasError={errors.allowPartial}
-                      value={Stores.testMasterStore.testMaster?.allowPartial}
+                      value={testMasterStore.testMaster?.allowPartial}
                       onChange={(allowPartial) => {
                         onChange(allowPartial)
-                        Stores.testMasterStore.updateTestMaster({
-                          ...Stores.testMasterStore.testMaster,
+                        testMasterStore.updateTestMaster({
+                          ...testMasterStore.testMaster,
                           allowPartial,
                         })
                       }}
@@ -1713,8 +1666,8 @@ const TestMater = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestMasterList
-            data={Stores.testMasterStore.listTestMaster || []}
-            totalSize={Stores.testMasterStore.listTestMasterCount}
+            data={testMasterStore.listTestMaster || []}
+            totalSize={testMasterStore.listTestMasterCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -1765,7 +1718,7 @@ const TestMater = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.testMasterStore.fetchTestMaster(page, limit)
+              testMasterStore.fetchTestMaster(page, limit)
             }}
           />
         </div>
@@ -1773,7 +1726,7 @@ const TestMater = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.testMasterStore.testMasterService
+              testMasterStore.testMasterService
                 .deleteTestMaster(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -1781,11 +1734,11 @@ const TestMater = observer(() => {
                       message: `😊 Test master deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testMasterStore.fetchTestMaster()
+                    testMasterStore.fetchTestMaster()
                   }
                 })
             } else if (type === "Update") {
-              Stores.testMasterStore.testMasterService
+              testMasterStore.testMasterService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -1793,12 +1746,12 @@ const TestMater = observer(() => {
                       message: `😊 Test master updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testMasterStore.fetchTestMaster()
+                    testMasterStore.fetchTestMaster()
                     window.location.reload()
                   }
-                })
-            } else if (type === "versionUpgrade") {
-              Stores.testMasterStore.updateTestMaster({
+                })  
+            } else if (type === "versionUpgrade") {  
+              testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
@@ -1807,7 +1760,7 @@ const TestMater = observer(() => {
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
             } else if (type === "duplicate") {
-              Stores.testMasterStore.updateTestMaster({
+              testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,

@@ -1,40 +1,45 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
-class TestAnalyteMappingStore {
-  @ignore @observable testAnalyteMapping?: Models.TestAnalyteMapping
-  @observable listTestAnalyteMapping?: Models.TestAnalyteMapping[] = []
+export class TestAnalyteMappingStore {
+  @ignore @observable testAnalyteMapping!: Models.TestAnalyteMapping
+  @observable listTestAnalyteMapping!: Models.TestAnalyteMapping[]
   @observable listTestAnalyteMappingCount: number = 0
   @ignore @observable checkExitsLabEnvCode?: boolean = false
 
-  constructor() {
-    makeAutoObservable(this)
+  constructor() {   
+    this.listTestAnalyteMapping = []
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateActiveTo: new Date(),
       version: 1,
-      keyNum: "1",
-      bill:false
+      bill: false,
     }
+    makeObservable<TestAnalyteMappingStore, any>(this, {
+      testAnalyteMapping: observable,
+      listTestAnalyteMapping: observable,
+      listTestAnalyteMappingCount: observable,
+      checkExitsLabEnvCode: observable,
+    })
   }
 
   @computed get testAnalyteMappingService() {
-    return new Services.TestAnalyteMappingService(
-    )
+    return new Services.TestAnalyteMappingService()
   }
 
-  @action fetchTestAnalyteMapping(page?,limit?) {
-    this.testAnalyteMappingService.listTestAnalyteMapping(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listTestAnalyteMapping = res.data.testAnalyteMapping
-      this.listTestAnalyteMappingCount = res.data.count
-    })
+  @action fetchTestAnalyteMapping(page?, limit?) {
+    this.testAnalyteMappingService.listTestAnalyteMapping(page, limit)
+  }
+
+  @action updateTestAnalyteMappingList(res: any) {
+    if (!res.testAnalyteMappings.success) return alert(res.testAnalyteMappings.message)
+    this.listTestAnalyteMapping = res.testAnalyteMappings.data
+    this.listTestAnalyteMappingCount = res.testAnalyteMappings.paginatorInfo.count
   }
 
   @action updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
@@ -45,5 +50,3 @@ class TestAnalyteMappingStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default TestAnalyteMappingStore

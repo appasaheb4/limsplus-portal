@@ -4,24 +4,29 @@
  
  * @author limsplus
  */
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import { LIST } from "./mutation"
 
 export class SectionService {
   listSection = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`/master/section/listSection/${page}/${limit}/${env}/${role}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.sectionStore.updateSectionList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
   addSection = (section?: Models.Section) =>
     new Promise<any>((resolve, reject) => {
@@ -58,10 +63,10 @@ export class SectionService {
         })
     })
 
-  checkExitsEnvCode = (code: string,env: string) =>
+  checkExitsEnvCode = (code: string, env: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .post(`/master/section/checkExitsEnvCode`, { code,env })
+        .post(`/master/section/checkExitsEnvCode`, { code, env })
         .then((response: any) => {
           const serviceResponse = Http.handleResponse<any>(response)
           resolve(serviceResponse)
@@ -69,9 +74,9 @@ export class SectionService {
         .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
-    })  
+    })
 
-    findSectionListByDeptCode = (code: string) =>
+  findSectionListByDeptCode = (code: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/section/findSectionListByDeptCode`, { code })
@@ -82,5 +87,5 @@ export class SectionService {
         .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
-    })  
+    })
 }
