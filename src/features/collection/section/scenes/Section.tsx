@@ -4,13 +4,12 @@ import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
+import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components/molecules"
-import { useStores } from "@lp/stores"
-import { useForm, Controller } from "react-hook-form"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
+
+
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -22,13 +21,13 @@ const Section = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const { loginStore, sectionStore, departmentStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.sectionStore.updateSection({
-        ...Stores.sectionStore.section,
+      sectionStore.updateSection({
+        ...sectionStore.section,
         environment: stores.loginStore.login.environment,
       })
       setValue("environment", stores.loginStore.login.environment)
@@ -36,9 +35,9 @@ const Section = observer(() => {
   }, [stores.loginStore.login])
    
   const onSubmitSection = () => {
-    if (!Stores.sectionStore.checkExitsEnvCode) {
-      Stores.sectionStore.sectionService
-        .addSection(Stores.sectionStore.section)
+    if (!sectionStore.checkExitsEnvCode) {
+      sectionStore.sectionService
+        .addSection(sectionStore.section)
         .then((res) => {
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
@@ -101,15 +100,15 @@ const Section = observer(() => {
                       onChange={(e) => {
                         const departmentCode = e.target.value as string
                         onChange(departmentCode)
-                        Stores.sectionStore.updateSection({
-                          ...Stores.sectionStore.section,
+                        sectionStore.updateSection({
+                          ...sectionStore.section,
                           departmentCode,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment &&
-                        DepartmentStore.departmentStore.listDepartment.map(
+                      {departmentStore.listDepartment &&
+                        departmentStore.listDepartment.map(
                           (item: any, key: number) => (
                             <option key={key} value={item.code}>
                               {`${item.code} - ${item.name}`}
@@ -132,27 +131,27 @@ const Section = observer(() => {
                     id="code"
                     hasError={errors.code}
                     placeholder={errors.code ? "Please Enter Code" : "Code"}
-                    value={Stores.sectionStore.section?.code}
+                    value={sectionStore.section?.code}
                     onChange={(code) => {
                       onChange(code)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         code:code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.sectionStore.sectionService
+                      sectionStore.sectionService
                         .checkExitsEnvCode(
                           code,
-                          Stores.sectionStore.section?.environment || ""
+                          sectionStore.section?.environment || ""
                         )
                         .then((res) => {
                           if (res.success) {
-                            Stores.sectionStore.setExitsEnvCode(true)
+                            sectionStore.setExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.message}`,
                             })
-                          } else Stores.sectionStore.setExitsEnvCode(false)
+                          } else sectionStore.setExitsEnvCode(false)
                         })
                     }}
                   />
@@ -161,7 +160,7 @@ const Section = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.sectionStore.checkExitsEnvCode && (
+              {sectionStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -173,11 +172,11 @@ const Section = observer(() => {
                     label="Name"
                     hasError={errors.name}
                     placeholder={errors.name ? "Please Enter Name" : "Name"}
-                    value={Stores.sectionStore.section?.name}
+                    value={sectionStore.section?.name}
                     onChange={(name) => {
                       onChange(name)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         name,
                       })
                     }}
@@ -197,11 +196,11 @@ const Section = observer(() => {
                       errors.shortName ? "Please Enter shortName" : "Short Name"
                     }
                     hasError={errors.shortName}
-                    value={Stores.sectionStore.section?.shortName}
+                    value={sectionStore.section?.shortName}
                     onChange={(shortName) => {
                       onChange(shortName)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         shortName:shortName.toUpperCase(),
                       })
                     }}
@@ -222,11 +221,11 @@ const Section = observer(() => {
                         : "Section In Charge"
                     }
                     hasError={errors.sectionInCharge}
-                    value={Stores.sectionStore.section?.sectionInCharge}
+                    value={sectionStore.section?.sectionInCharge}
                     onChange={(sectionInCharge) => {
                       onChange(sectionInCharge)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         sectionInCharge,
                       })
                     }}
@@ -245,12 +244,12 @@ const Section = observer(() => {
                     placeholder={
                       errors.mobieNo ? "Please Enter mobieNo" : "Mobile No"
                     }
-                    value={Stores.sectionStore.section?.mobieNo}
+                    value={sectionStore.section?.mobieNo}
                     hasError={errors.mobieNo}
                     onChange={(mobieNo) => {
                       onChange(mobieNo)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         mobieNo,
                       })
                     }}
@@ -270,11 +269,11 @@ const Section = observer(() => {
                       errors.contactNo ? "Please Enter contactNo" : "Contact No"
                     }
                     hasError={errors.contactNo}
-                    value={Stores.sectionStore.section?.contactNo}
+                    value={sectionStore.section?.contactNo}
                     onChange={(contactNo) => {
                       onChange(contactNo)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         contactNo,
                       })
                     }}
@@ -300,11 +299,11 @@ const Section = observer(() => {
                     placeholder={
                       errors.fyiLine ? "Please Enter fyiLine" : "FYI line"
                     }
-                    value={Stores.sectionStore.section?.fyiLine}
+                    value={sectionStore.section?.fyiLine}
                     onChange={(fyiLine) => {
                       onChange(fyiLine)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         fyiLine,
                       })
                     }}
@@ -324,11 +323,11 @@ const Section = observer(() => {
                       errors.workLine ? "Please Enter workLine" : "Work line"
                     }
                     hasError={errors.workLine}
-                    value={Stores.sectionStore.section?.workLine}
+                    value={sectionStore.section?.workLine}
                     onChange={(workLine) => {
                       onChange(workLine)
-                      Stores.sectionStore.updateSection({
-                        ...Stores.sectionStore.section,
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
                         workLine,
                       })
                     }}
@@ -346,7 +345,7 @@ const Section = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.sectionStore.section?.status}
+                      value={sectionStore.section?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status
                           ? "border-red-500  "
@@ -355,8 +354,8 @@ const Section = observer(() => {
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.sectionStore.updateSection({
-                          ...Stores.sectionStore.section,
+                        sectionStore.updateSection({
+                          ...sectionStore.section,
                           status,
                         })
                       }}
@@ -382,7 +381,7 @@ const Section = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.sectionStore.section?.environment}
+                      value={sectionStore.section?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
                           ? "border-red-500  "
@@ -397,22 +396,22 @@ const Section = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.sectionStore.updateSection({
-                          ...Stores.sectionStore.section,
+                        sectionStore.updateSection({
+                          ...sectionStore.section,
                           environment,
                         })
-                        Stores.sectionStore.sectionService
+                        sectionStore.sectionService
                           .checkExitsEnvCode(
-                            Stores.sectionStore.section?.code || "",
+                            sectionStore.section?.code || "",
                             environment
                           )
                           .then((res) => {
                             if (res.success) {
-                              Stores.sectionStore.setExitsEnvCode(true)
+                              sectionStore.setExitsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else Stores.sectionStore.setExitsEnvCode(false)
+                            } else sectionStore.setExitsEnvCode(false)
                           })
                       }}
                     >
@@ -420,7 +419,7 @@ const Section = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.sectionStore.section?.environment || `Select`}
+                          : sectionStore.section?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -465,8 +464,8 @@ const Section = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <SectionList
-            data={Stores.sectionStore.listSection || []}
-            totalSize={Stores.sectionStore.listSectionCount}
+            data={sectionStore.listSection || []}
+            totalSize={sectionStore.listSectionCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -498,7 +497,7 @@ const Section = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.sectionStore.fetchSections(page, limit)
+              sectionStore.fetchSections(page, limit)
             }}
           />
         </div>
@@ -506,7 +505,7 @@ const Section = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.sectionStore.sectionService
+              sectionStore.sectionService
                 .deleteSection(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -514,11 +513,11 @@ const Section = observer(() => {
                       message: `😊 Section deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.sectionStore.fetchSections()
+                    sectionStore.fetchSections()
                   }
                 })
             } else if (type === "Update") {
-              Stores.sectionStore.sectionService
+              sectionStore.sectionService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {

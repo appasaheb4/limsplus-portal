@@ -16,7 +16,10 @@ import { DeginisationStore } from "@lp/features/collection/deginisation/stores/d
 import { DepartmentStore } from "@lp/features/collection/department/stores/department-store"
 import { AdministrativeDivisionsStore } from "@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store"
 import { RoleStore } from "@lp/features/collection/roles/stores/role-store"
-import {MasterAnalyteStore} from '@lp/features/collection/masterAnalyte/stores/masterAnalyte-store'
+import { MasterAnalyteStore } from "@lp/features/collection/masterAnalyte/stores/masterAnalyte-store"
+import { TestAnalyteMappingStore } from "@lp/features/collection/testAnalyteMapping/stores/testAnalyteMapping-store"
+import { TestMasterStore } from "@lp/features/collection/testMaster/stores/testMaster-store"
+import { DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/stores/deliverySchedule-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -40,6 +43,9 @@ export class Stores extends Store {
   administrativeDivisions!: AdministrativeDivisionsStore
   roleStore!: RoleStore
   masterAnalyteStore!: MasterAnalyteStore
+  testAnalyteMappingStore!: TestAnalyteMappingStore
+  testMasterStore!: TestMasterStore
+  deliveryScheduleStore!: DeliveryScheduleStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -61,11 +67,14 @@ export class Stores extends Store {
     this.administrativeDivisions = new AdministrativeDivisionsStore()
     this.roleStore = new RoleStore()
     this.masterAnalyteStore = new MasterAnalyteStore()
+    this.testAnalyteMappingStore = new TestAnalyteMappingStore()
+    this.deliveryScheduleStore = new DeliveryScheduleStore()
 
-    // settings   
+    // settings
     this.environmentStore = new EnvironmentStore()
     setTimeout(() => {
       this.userStore = new UserStore()
+      this.testMasterStore = new TestMasterStore()
     }, 100)
   }
   updateLoginStore() {

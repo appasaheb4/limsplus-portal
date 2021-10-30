@@ -4,9 +4,11 @@
  
  * @author limsplus
  */
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import { LIST, REMOVE_RECORD } from "./mutation"
 
 class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
@@ -14,17 +16,18 @@ class TestAnalyteMappingService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `master/testAnalyteMapping/listTestAnalyteMapping/${page}/${limit}/${env}/${role}/${lab}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.testAnalyteMappingStore.updateTestAnalyteMappingList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
   addTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
     new Promise<any>((resolve, reject) => {
@@ -65,18 +68,23 @@ class TestAnalyteMappingService {
           reject({ error })
         })
     })
-
-  deleteTestAnalyteMapping = (id: string) =>
+     
+  deleteTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/testAnalyteMapping/deleteTestAnalyteMapping/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
+
+
   updateSingleFiled = (newValue: any) =>
     new Promise<any>((resolve, reject) => {
       http
@@ -88,7 +96,7 @@ class TestAnalyteMappingService {
           reject({ error })
         })
     })
-  
+
   checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
     new Promise<any>((resolve, reject) => {
       http
