@@ -5,9 +5,17 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { Http, http } from "@lp/library/modules/http"
+import { SectionService } from "@lp/features/collection/section/services"
 import { stores } from "@lp/stores"
-import { LIST } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class TestMasterService {
   listTestMaster = (page = 0, limit = 10) =>
@@ -23,77 +31,108 @@ class TestMasterService {
         .then((response: any) => {
           stores.testMasterStore.updateTestMasterList(response.data)
           resolve(response.data)
-        })  
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addTestMaster = (test?: any) =>
+  addTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testMaster/addTestMaster`, test)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
-    })
-  versionUpgradeTestMaster = (test?: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testMaster/versionUpgradeTestMaster`, test)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  duplicateTestMaster = (test?: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testMaster/duplicateTestMaster`, test)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteTestMaster = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/testMaster/deleteTestMaster/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testMaster/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+  versionUpgradeTestMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testMaster/checkExitsLabEnvCode`, { code, env, lab })
-        .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  duplicateTestMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  deleteTestMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsLabEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  findSectionListByDeptCode = (code: string) =>
+    new Promise<any>((resolve, reject) => {
+      new SectionService()
+        .findSectionListByDeptCode({ input: { code } })
+        .then((res) => {
+          stores.testMasterStore.updateSectionListByDeptCode(res)
+          resolve(res)
         })
     })
 }

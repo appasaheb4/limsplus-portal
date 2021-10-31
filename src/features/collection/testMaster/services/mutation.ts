@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-   
+
 export const LIST = gql`
   mutation($input: TestMasterInput!) {
     testMasters(input: $input) {
@@ -66,27 +66,27 @@ export const LIST = gql`
         allowPartial
         collectionContainer
         holdingDays
-        status   
+        status
         environment
         dateOfEntry
-        lastUpdated  
+        lastUpdated
       }
     }
   }
 `
 
 export const REMOVE_RECORD = gql`
-  mutation($input: TestAnalyteMappingRemoveInput!) {
-    removeTestAnalyteMapping(input: $input) {
+  mutation($input: TestMasterRemoveInput!) {
+    removeTestMaster(input: $input) {
       success
       message
     }
   }
 `
-
+   
 export const CREATE_RECORD = gql`
-  mutation($input: CreateAnalyteMasterInput!) {
-    createAnalyteMaster(input: $input) {
+  mutation($input: CreateTestMasterInput!) {
+    createTestMaster(input: $input) {
       success
       message
     }
@@ -94,8 +94,8 @@ export const CREATE_RECORD = gql`
 `
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateAnalyteMasterInput!) {
-    versionUpgradeAnalyteMaster(input: $input) {
+  mutation($input: CreateTestMasterInput!) {
+    versionUpgradeTestMaster(input: $input) {
       success
       message
     }
@@ -103,8 +103,8 @@ export const VERSION_UPGRADE = gql`
 `
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateAnalyteMasterInput!) {
-    duplicateAnalyteMaster(input: $input) {
+  mutation($input: CreateTestMasterInput!) {
+    duplicateTestMaster(input: $input) {
       success
       message
     }
@@ -112,8 +112,8 @@ export const DUPLICATE_RECORD = gql`
 `
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateAnalyteMasterInput!) {
-    updateAnalyteMaster(input: $input) {
+  mutation($input: UpdateTestMasterInput!) {
+    updateTestMaster(input: $input) {
       success
       message
     }
@@ -121,8 +121,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: AnalyteMasterInput!) {
-    checkAnalyteMasterExistsRecord(input: $input) {
+  mutation($input: TestMasterInput!) {
+    checkTestMasterExistsRecord(input: $input) {
       success
       message
     }

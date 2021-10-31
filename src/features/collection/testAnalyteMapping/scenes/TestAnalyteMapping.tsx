@@ -29,8 +29,6 @@ const TestAnalyteMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
-  console.log({ labStore })
-
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -51,13 +49,17 @@ const TestAnalyteMapping = observer(() => {
       ) {
         testAnalyteMappingStore.testAnalyteMappingService
           .addTestAnalyteMapping({
-            ...testAnalyteMappingStore.testAnalyteMapping,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testAnalyteMappingStore.testAnalyteMapping,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test analyte mapping created.`,
-            })
+          .then((res) => {
+            if (res.createTestAnalyteMapping.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createTestAnalyteMapping.message}`,
+              })
+            }
           })
       } else if (
         testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
@@ -65,13 +67,18 @@ const TestAnalyteMapping = observer(() => {
       ) {
         testAnalyteMappingStore.testAnalyteMappingService
           .versionUpgradeTestAnalyteMapping({
-            ...testAnalyteMappingStore.testAnalyteMapping,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testAnalyteMappingStore.testAnalyteMapping,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test analyte version upgrade.`,
-            })
+          .then((res) => {
+            if (res.versionUpgradeTestAnalyteMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeTestAnalyteMappings.message}`,
+              })
+            }
           })
       } else if (
         !testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
@@ -79,13 +86,18 @@ const TestAnalyteMapping = observer(() => {
       ) {
         testAnalyteMappingStore.testAnalyteMappingService
           .duplicateTestAnalyteMapping({
-            ...testAnalyteMappingStore.testAnalyteMapping,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testAnalyteMappingStore.testAnalyteMapping,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test analyte duplicate created.`,
-            })
+          .then((res) => {
+            if (res.duplicateTestAnalyteMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateTestAnalyteMappings.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -117,7 +129,7 @@ const TestAnalyteMapping = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -157,20 +169,26 @@ const TestAnalyteMapping = observer(() => {
                               ?.existsVersionId
                           ) {
                             testAnalyteMappingStore.testAnalyteMappingService
-                              .checkExitsLabEnvCode(
-                                testAnalyteMappingStore.testAnalyteMapping
-                                  ?.testCode || "",
-                                testAnalyteMappingStore.testAnalyteMapping
-                                  ?.environment || "",
-                                lab
-                              )
+                              .checkExitsLabEnvCode({
+                                input: {
+                                  code:
+                                    testAnalyteMappingStore.testAnalyteMapping
+                                      ?.testCode,
+                                  env:
+                                    testAnalyteMappingStore.testAnalyteMapping
+                                      ?.environment,
+                                  lab,
+                                },
+                              })
                               .then((res) => {
-                                if (res.success) {
+                                if (
+                                  res.checkTestAnalyteMappingsExistsRecord.success
+                                ) {
                                   testAnalyteMappingStore.updateExistsLabEnvCode(
                                     true
                                   )
                                   LibraryComponents.Atoms.Toast.error({
-                                    message: `😔 ${res.message}`,
+                                    message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                                   })
                                 } else
                                   testAnalyteMappingStore.updateExistsLabEnvCode(
@@ -245,17 +263,20 @@ const TestAnalyteMapping = observer(() => {
                             ?.existsVersionId
                         ) {
                           testAnalyteMappingStore.testAnalyteMappingService
-                            .checkExitsLabEnvCode(
-                              testMasteritem.testCode,
-                              testAnalyteMappingStore.testAnalyteMapping
-                                ?.environment || "",
-                              testAnalyteMappingStore.testAnalyteMapping?.lab || ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: testMasteritem.testCode,
+                                env:
+                                  testAnalyteMappingStore.testAnalyteMapping
+                                    ?.environment,
+                                lab: testAnalyteMappingStore.testAnalyteMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkTestAnalyteMappingsExistsRecord.success) {
                                 testAnalyteMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                                 })
                               } else
                                 testAnalyteMappingStore.updateExistsLabEnvCode(false)
@@ -406,7 +427,7 @@ const TestAnalyteMapping = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -576,17 +597,20 @@ const TestAnalyteMapping = observer(() => {
                             ?.existsVersionId
                         ) {
                           testAnalyteMappingStore.testAnalyteMappingService
-                            .checkExitsLabEnvCode(
-                              testAnalyteMappingStore.testAnalyteMapping?.testCode ||
-                                "",
-                              environment,
-                              testAnalyteMappingStore.testAnalyteMapping?.lab || ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  testAnalyteMappingStore.testAnalyteMapping
+                                    ?.testCode,
+                                env: environment,
+                                lab: testAnalyteMappingStore.testAnalyteMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkTestAnalyteMappingsExistsRecord.success) {
                                 testAnalyteMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                                 })
                               } else
                                 testAnalyteMappingStore.updateExistsLabEnvCode(false)
@@ -706,7 +730,7 @@ const TestAnalyteMapping = observer(() => {
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
-            if (type === "Delete") {  
+            if (type === "Delete") {
               testAnalyteMappingStore.testAnalyteMappingService
                 .deleteTestAnalyteMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
@@ -720,15 +744,19 @@ const TestAnalyteMapping = observer(() => {
                 })
             } else if (type === "Update") {
               testAnalyteMappingStore.testAnalyteMappingService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateTestAnalyteMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updateTestAnalyteMapping.message}`,
                     })
                     setModalConfirm({ show: false })
                     testAnalyteMappingStore.fetchTestAnalyteMapping()
-                    window.location.reload()
                   }
                 })
             } else if (type === "versionUpgrade") {
@@ -745,6 +773,7 @@ const TestAnalyteMapping = observer(() => {
               setValue("testName", modalConfirm.data.testName)
               setValue("analyteCode", "default")
               setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
               testAnalyteMappingStore.updateTestAnalyteMapping({
                 ...modalConfirm.data,
@@ -754,6 +783,12 @@ const TestAnalyteMapping = observer(() => {
                 version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
+              setValue("analyteCode", "default")
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {

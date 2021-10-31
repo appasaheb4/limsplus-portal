@@ -5,10 +5,16 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Models from "../models"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST, REMOVE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
@@ -29,46 +35,49 @@ class TestAnalyteMappingService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
+  addTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testAnalyteMapping/addTestAnalyteMapping`, analyteMapping)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
-    })
-  versionUpgradeTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(
-          `master/testAnalyteMapping/versionUpgradeTestAnalyteMapping`,
-          analyteMapping
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
-  duplicateTestAnalyteMapping = (analyteMapping?: Models.TestAnalyteMapping) =>
+  versionUpgradeTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(
-          `master/testAnalyteMapping/duplicateTestAnalyteMapping`,
-          analyteMapping
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
-     
+  duplicateTestAnalyteMapping = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
   deleteTestAnalyteMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -84,30 +93,34 @@ class TestAnalyteMappingService {
         )
     })
 
-
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testAnalyteMapping/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+  checkExitsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testAnalyteMapping/checkExitsLabEnvCode`, { code, env, lab })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 }
 

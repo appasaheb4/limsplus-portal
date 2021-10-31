@@ -1,13 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import Storage from "@lp/library/modules/storage"
+import dayjs from 'dayjs'
 
-import * as Config from "@lp/config"
-
-import { Stores } from "../../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
@@ -102,14 +98,14 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               text: "Analyte Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
             },
             {
               dataField: "analyteName",
               text: "Analyte Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
             },
             {
               dataField: "description",
@@ -194,9 +190,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               formatter: (cell, row) => {
                 return (
                   <>
-                    {LibraryUtils.moment
-                      .unix(row.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
+                    {dayjs(row.dateCreation).format("YYYY-MM-DD")}
                   </>
                 )
               },
@@ -207,6 +201,13 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}
+                  </>
+                )
+              },
             },
             {
               dataField: "version",
