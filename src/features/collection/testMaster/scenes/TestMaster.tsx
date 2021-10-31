@@ -51,13 +51,17 @@ const TestMater = observer(() => {
       ) {
         testMasterStore.testMasterService
           .addTestMaster({
-            ...testMasterStore.testMaster,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testMasterStore.testMaster,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test master created.`,
-            })
+          .then((res) => {
+            if (res.createTestMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createTestMaster.message}`,
+              })
+            }
           })
       } else if (
         testMasterStore.testMaster?.existsVersionId &&
@@ -65,13 +69,18 @@ const TestMater = observer(() => {
       ) {
         testMasterStore.testMasterService
           .versionUpgradeTestMaster({
-            ...testMasterStore.testMaster,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testMasterStore.testMaster,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test master version upgrade.`,
-            })
+          .then((res) => {
+            if (res.versionUpgradeTestMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeTestMaster.message}`,
+              })
+            }
           })
       } else if (
         !testMasterStore.testMaster?.existsVersionId &&
@@ -79,13 +88,18 @@ const TestMater = observer(() => {
       ) {
         testMasterStore.testMasterService
           .duplicateTestMaster({
-            ...testMasterStore.testMaster,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...testMasterStore.testMaster,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test master duplicate created.`,
-            })
+          .then((res) => {
+            if (res.duplicateTestMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateTestMaster.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -117,7 +131,7 @@ const TestMater = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -153,16 +167,18 @@ const TestMater = observer(() => {
                         })
                         if (!testMasterStore.testMaster?.existsVersionId) {
                           testMasterStore.testMasterService
-                            .checkExitsLabEnvCode(
-                              testMasterStore.testMaster?.testCode || "",
-                              testMasterStore.testMaster?.environment || "",
-                              rLab
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: testMasterStore.testMaster?.testCode,
+                                env: testMasterStore.testMaster?.environment,
+                                lab: rLab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkTestMasterExistsRecord.success) {
                                 testMasterStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestMasterExistsRecord.message}`,
                                 })
                               } else testMasterStore.updateExistsLabEnvCode(false)
                             })
@@ -274,7 +290,9 @@ const TestMater = observer(() => {
                           errors.section ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const section = e.target.value as Object
+                          const section = JSON.parse(e.target.value) as any
+                          console.log({ section })
+
                           onChange(section)
                           testMasterStore.updateTestMaster({
                             ...testMasterStore.testMaster,
@@ -286,7 +304,7 @@ const TestMater = observer(() => {
                         {testMasterStore.sectionListByDeptCode &&
                           testMasterStore.sectionListByDeptCode.map(
                             (item: any, index: number) => (
-                              <option key={index} value={item}>
+                              <option key={index} value={JSON.stringify(item)}>
                                 {`${item.code} -${item.name}`}
                               </option>
                             )
@@ -319,16 +337,18 @@ const TestMater = observer(() => {
                     onBlur={(code) => {
                       if (!testMasterStore.testMaster?.existsVersionId) {
                         testMasterStore.testMasterService
-                          .checkExitsLabEnvCode(
-                            code,
-                            testMasterStore.testMaster?.environment || "",
-                            testMasterStore.testMaster?.rLab || ""
-                          )
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code,
+                              env: testMasterStore.testMaster?.environment,
+                              lab: testMasterStore.testMaster?.rLab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkTestMasterExistsRecord.success) {
                               testMasterStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkTestMasterExistsRecord.message}`,
                               })
                             } else testMasterStore.updateExistsLabEnvCode(false)
                           })
@@ -1346,7 +1366,7 @@ const TestMater = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1480,16 +1500,18 @@ const TestMater = observer(() => {
                         })
                         if (!testMasterStore.testMaster?.existsVersionId) {
                           testMasterStore.testMasterService
-                            .checkExitsLabEnvCode(
-                              testMasterStore.testMaster?.testCode || "",
-                              environment,
-                              testMasterStore.testMaster?.rLab || ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: testMasterStore.testMaster?.testCode,
+                                env: environment,
+                                lab: testMasterStore.testMaster?.rLab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkTestMasterExistsRecord.success) {
                                 testMasterStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestMasterExistsRecord.message}`,
                                 })
                               } else testMasterStore.updateExistsLabEnvCode(false)
                             })
@@ -1727,11 +1749,11 @@ const TestMater = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               testMasterStore.testMasterService
-                .deleteTestMaster(modalConfirm.id)
+                .deleteTestMaster({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeTestMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Test master deleted.`,
+                      message: `😊 ${res.removeTestMaster.message}`,
                     })
                     setModalConfirm({ show: false })
                     testMasterStore.fetchTestMaster()
@@ -1739,18 +1761,22 @@ const TestMater = observer(() => {
                 })
             } else if (type === "Update") {
               testMasterStore.testMasterService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateTestMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Test master updated.`,
+                      message: `😊 ${res.updateTestMaster.message}`,
                     })
                     setModalConfirm({ show: false })
                     testMasterStore.fetchTestMaster()
-                    window.location.reload()
                   }
-                })  
-            } else if (type === "versionUpgrade") {  
+                })
+            } else if (type === "versionUpgrade") {
               testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
                 _id: undefined,
@@ -1759,6 +1785,14 @@ const TestMater = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("rLab", modalConfirm.data.rLab)
+              setValue("pLab", modalConfirm.data.pLab)
+              setValue("department", modalConfirm.data.department)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
+              setValue("department", modalConfirm.data.department)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
               testMasterStore.updateTestMaster({
                 ...modalConfirm.data,
@@ -1768,6 +1802,14 @@ const TestMater = observer(() => {
                 version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("rLab", modalConfirm.data.rLab)
+              setValue("pLab", modalConfirm.data.pLab)
+              setValue("department", modalConfirm.data.department)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
+              setValue("department", modalConfirm.data.department)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {

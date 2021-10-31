@@ -69,13 +69,13 @@ export class Stores extends Store {
     this.masterAnalyteStore = new MasterAnalyteStore()
     this.testAnalyteMappingStore = new TestAnalyteMappingStore()
     this.deliveryScheduleStore = new DeliveryScheduleStore()
+    this.testMasterStore = new TestMasterStore()
 
     // settings
     this.environmentStore = new EnvironmentStore()
     setTimeout(() => {
       this.userStore = new UserStore()
-      this.testMasterStore = new TestMasterStore()
-    }, 100)
+    }, 100)  
   }
   updateLoginStore() {
     this.loginStore = new LoginStore()

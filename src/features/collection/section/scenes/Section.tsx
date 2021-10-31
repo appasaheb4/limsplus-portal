@@ -8,7 +8,6 @@ import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components/molecules"
 
-
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -33,15 +32,15 @@ const Section = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
-   
+
   const onSubmitSection = () => {
     if (!sectionStore.checkExitsEnvCode) {
       sectionStore.sectionService
-        .addSection(sectionStore.section)
+        .addSection({ input: { ...sectionStore.section } })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createSection.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Section created.`,
+              message: `😊 ${res.createSection.message}`,
             })
           } else {
             LibraryComponents.Atoms.Toast.error({
@@ -76,7 +75,7 @@ const Section = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -136,20 +135,22 @@ const Section = observer(() => {
                       onChange(code)
                       sectionStore.updateSection({
                         ...sectionStore.section,
-                        code:code.toUpperCase(),
+                        code: code.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
                       sectionStore.sectionService
-                        .checkExitsEnvCode(
-                          code,
-                          sectionStore.section?.environment || ""
-                        )
+                        .checkExitsEnvCode({
+                          input: {
+                            code,
+                            env: sectionStore.section?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
+                          if (res.checkSectionExistsRecord.success) {
                             sectionStore.setExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkSectionExistsRecord.message}`,
                             })
                           } else sectionStore.setExitsEnvCode(false)
                         })
@@ -201,7 +202,7 @@ const Section = observer(() => {
                       onChange(shortName)
                       sectionStore.updateSection({
                         ...sectionStore.section,
-                        shortName:shortName.toUpperCase(),
+                        shortName: shortName.toUpperCase(),
                       })
                     }}
                   />
@@ -242,15 +243,15 @@ const Section = observer(() => {
                     type="number"
                     label="Mobile No"
                     placeholder={
-                      errors.mobieNo ? "Please Enter mobieNo" : "Mobile No"
+                      errors.mobieNo ? "Please Enter mobile no" : "Mobile No"
                     }
-                    value={sectionStore.section?.mobieNo}
+                    value={sectionStore.section?.mobileNo}
                     hasError={errors.mobieNo}
-                    onChange={(mobieNo) => {
-                      onChange(mobieNo)
+                    onChange={(mobileNo) => {
+                      onChange(mobileNo)
                       sectionStore.updateSection({
                         ...sectionStore.section,
-                        mobieNo,
+                        mobileNo,
                       })
                     }}
                   />
@@ -347,9 +348,7 @@ const Section = observer(() => {
                     <select
                       value={sectionStore.section?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
@@ -373,7 +372,7 @@ const Section = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -383,9 +382,7 @@ const Section = observer(() => {
                     <select
                       value={sectionStore.section?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -401,15 +398,17 @@ const Section = observer(() => {
                           environment,
                         })
                         sectionStore.sectionService
-                          .checkExitsEnvCode(
-                            sectionStore.section?.code || "",
-                            environment
-                          )
+                          .checkExitsEnvCode({
+                            input: {
+                              code: sectionStore.section?.code,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkSectionExistsRecord.success) {
                               sectionStore.setExitsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkSectionExistsRecord.message}`,
                               })
                             } else sectionStore.setExitsEnvCode(false)
                           })
@@ -462,7 +461,7 @@ const Section = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <br />
-        <div className="p-2 rounded-lg shadow-xl">
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <SectionList
             data={sectionStore.listSection || []}
             totalSize={sectionStore.listSectionCount}
@@ -506,11 +505,11 @@ const Section = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               sectionStore.sectionService
-                .deleteSection(modalConfirm.id)
+                .deleteSection({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeSection.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Section deleted.`,
+                      message: `😊 ${res.removeSection.message}`,
                     })
                     setModalConfirm({ show: false })
                     sectionStore.fetchSections()
@@ -518,11 +517,16 @@ const Section = observer(() => {
                 })
             } else if (type === "Update") {
               sectionStore.sectionService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateSection.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Section updated.`,
+                      message: `😊 ${res.updateSection.message}`,
                     })
                     setModalConfirm({ show: false })
                     setTimeout(() => {

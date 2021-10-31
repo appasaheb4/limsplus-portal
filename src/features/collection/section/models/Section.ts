@@ -5,7 +5,7 @@ export class Section {
   name: string
   shortName: string
   sectionInCharge: string
-  mobieNo: string
+  mobileNo: string
   contactNo: string
   fyiLine: string
   workLine: string
@@ -21,7 +21,7 @@ export class Section {
     this.name = rawData.name
     this.shortName = rawData.shortName
     this.sectionInCharge = rawData.sectionInCharge
-    this.mobieNo = rawData.mobieNo
+    this.mobileNo = rawData.mobileNo
     this.contactNo = rawData.contactNo
     this.fyiLine = rawData.fyiLine
     this.workLine = rawData.workLine

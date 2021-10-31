@@ -5,10 +5,15 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Models from "../models"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+  FIND_SECTIONLISTBY_DEPTCODE,
+} from "./mutation"
 
 export class SectionService {
   listSection = (page = 0, limit = 10) =>
@@ -28,64 +33,79 @@ export class SectionService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addSection = (section?: Models.Section) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/section/addSection`, section)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteSection = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/section/deleteSection/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
 
-  updateSingleFiled = (newValue: any) =>
+  addSection = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/section/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-
-  checkExitsEnvCode = (code: string, env: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/section/checkExitsEnvCode`, { code, env })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
-  findSectionListByDeptCode = (code: string) =>
+  deleteSection = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/section/findSectionListByDeptCode`, { code })
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  findSectionListByDeptCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_SECTIONLISTBY_DEPTCODE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })   
 }
