@@ -1,15 +1,10 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from "dayjs"
 
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-
 interface TestMasterProps {
   data: any
   totalSize: number
@@ -24,7 +19,7 @@ interface TestMasterProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const TestMasterList = observer((props: TestMasterProps) => {
+const TestMasterList = (props: TestMasterProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -68,7 +63,8 @@ const TestMasterList = observer((props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                      {props.extraData.labList && 
+                      props.extraData.labList.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {item.name}
                         </option>
@@ -103,7 +99,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                      {props.extraData.listLabs.map((item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {item.name}
                         </option>
@@ -138,7 +134,7 @@ const TestMasterList = observer((props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment.map(
+                      {props.extraData.listDepartment.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -178,7 +174,8 @@ const TestMasterList = observer((props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {["Section 1"].map((item: any, index: number) => (
+                      {props.extraData.sectionListByDeptCode&&
+                      props.extraData.sectionListByDeptCode.map((item: any, index: number) => (
                         <option key={index} value={item}>
                           {item}
                         </option>
@@ -1239,5 +1236,5 @@ const TestMasterList = observer((props: TestMasterProps) => {
       </div>
     </>
   )
-})
+}
 export default TestMasterList
