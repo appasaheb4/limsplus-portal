@@ -1227,7 +1227,7 @@ const MasterAnalyte = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
@@ -1241,7 +1241,7 @@ const MasterAnalyte = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)

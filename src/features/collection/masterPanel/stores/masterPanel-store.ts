@@ -1,31 +1,26 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
-
-import { SectionService } from "@lp/features/collection/section/services"
 import * as ModelsSection from "@lp/features/collection/section/models"
-import * as LibraryComponents from "@lp/library/components"
 
 @version(0.1)
-class MasterPanelStore {
-  @ignore @observable masterPanel?: Models.MasterPanel
-  @observable listMasterPanel?: Models.MasterPanel[] = []
-  @observable listMasterPanelCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+export class MasterPanelStore {
+  @ignore @observable masterPanel!: Models.MasterPanel
+  @observable listMasterPanel: Models.MasterPanel[]
+  @observable listMasterPanelCount!: number
+  @ignore @observable checkExitsLabEnvCode!: boolean
   @observable sectionListByDeptCode!: ModelsSection.Section[]
 
   constructor() {
-    makeAutoObservable(this)
-
+    this.listMasterPanel = []
+    this.checkExitsLabEnvCode = false
     this.masterPanel = {
       ...this.masterPanel,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateActiveTo: new Date(),
       version: 1,
-      keyNum: "1",
       bill: false,
       autoRelease: false,
       holdOOS: false,
@@ -38,6 +33,13 @@ class MasterPanelStore {
       method: false,
       cumulative: false,
     }
+    makeObservable<MasterPanelStore, any>(this, {
+      masterPanel: observable,
+      listMasterPanel: observable,
+      listMasterPanelCount: observable,
+      checkExitsLabEnvCode: observable,
+      sectionListByDeptCode: observable,
+    })
   }
 
   @computed get masterPanelService() {
@@ -45,23 +47,23 @@ class MasterPanelStore {
   }
 
   @action fetchPanelMaster(page?, limit?) {
-    this.masterPanelService.listPanelMaster(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listMasterPanel = res.data.masterPanel
-      this.listMasterPanelCount = res.data.count
-    })
+    this.masterPanelService.listPanelMaster(page, limit)
   }
-   
+
+  @action updatePanelMasterList(res: any) {
+    if (!res.panelMasters.success) return alert(res.panelMasters.message)
+    this.listMasterPanel = res.panelMasters.data
+    this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+  }
+
   @action findSectionListByDeptCode = (code: string) => {
-    new SectionService()
-      .findSectionListByDeptCode({ input: { code } })
-      .then((res) => {
-        if (!res.findSectionListByDeptCode.success)
-          return LibraryComponents.Atoms.Toast.error({
-            message: `😔 ${res.findSectionListByDeptCode.message}`,
-          })
-        this.sectionListByDeptCode = res.data.sectionList
-      })
+    this.masterPanelService.findSectionListByDeptCode(code)
+  }
+
+  @action updateSectionListByDeptCode(res: any) {   
+    if (!res.findSectionListByDeptCode.success)
+      return alert(`${res.findSectionListByDeptCode.message}`)
+    this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 
   @action updateMasterPanel(analyte: Models.MasterPanel) {
@@ -72,5 +74,3 @@ class MasterPanelStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default MasterPanelStore

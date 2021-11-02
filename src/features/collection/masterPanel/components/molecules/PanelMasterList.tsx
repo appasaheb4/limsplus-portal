@@ -1,13 +1,10 @@
 /* eslint-disable */
 import React, { useState ,useEffect} from "react"
 import { observer } from "mobx-react"
-
-import * as Config from "@lp/config"
+import daysjs from 'dayjs'
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-import Storage from "@lp/library/modules/storage"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -869,8 +866,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateCreation || 0)
+                  {daysjs(row.dateCreation)
                     .format("YYYY-MM-DD")}
                 </>
               )
@@ -885,8 +881,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateActive || 0)
+                  {daysjs(row.dateActive || 0)
                     .format("YYYY-MM-DD")}
                 </>
               )
@@ -895,13 +890,6 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
           {
             dataField: "version",
             text: "Version",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false,
-          },
-          {
-            dataField: "keyNum",
-            text: "Key Num",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
