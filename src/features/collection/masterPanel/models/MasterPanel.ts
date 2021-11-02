@@ -1,56 +1,58 @@
 export class MasterPanel {
-    _id?: string
-    existsVersionId?: string
-    existsRecordId?: string
-    dateCreation?: number
-    dateActiveFrom?: number
-    dateActiveTo?: number
-    version?: number
-    keyNum?: string
-    enteredBy?: string
-    rLab?: string
-    pLab?: string
-    department?: string
-    section?: Record<string, any>
-    panelCode?: string
-    panelName?: string
-    description?: string
-    shortName?: string
-    bill?: boolean
-    price?: number
-    schedule?: string
-    tat?: string
-    autoRelease?: boolean
-    holdOOS?: boolean
-    validationLevel?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-    confidential?: boolean
-    urgent?: boolean
-    instantResult?: boolean
-    reportGroup?: string
-    reportOrder?: string
-    sex?: string
-    sexAction?: boolean
-    hiAge?: string
-    loAge?: string
-    processing?: "MANUAL" | "AEMI" | "AUTOMATIC" | string
-    category?: string
-    suffix?: string
-    serviceType?: string
-    panelType?: string
-    repitation?: boolean
-    tubeGroup?: string
-    printLabel?: boolean
-    labelInstruction?: string
-    pageBreak?: string
-    method?: boolean
-    panelMethod?: string
-    workflow?: string
-    cumulative?: boolean
-    reportTemplate?: string
-    sampleType?: string
-    specalInstructions?: string
-    status?: string
-    environment?: string
+    _id: string
+    existsVersionId: string
+    existsRecordId: string
+    dateCreation: Date
+    dateActiveFrom: Date
+    dateActiveTo: Date
+    version: number
+    enteredBy: string
+    rLab: string
+    pLab: string
+    department: string
+    section: Record<string, any>
+    panelCode: string
+    panelName: string
+    description: string
+    shortName: string
+    bill: boolean
+    price: number
+    schedule: string
+    tat: string
+    autoRelease: boolean
+    holdOOS: boolean
+    validationLevel: number
+    confidential: boolean
+    urgent: boolean
+    instantResult: boolean
+    reportGroup: string
+    reportOrder: string
+    sex: string
+    sexAction: boolean
+    hiAge: string
+    loAge: string
+    processing:  string
+    category: string
+    suffix: string
+    serviceType: string
+    panelType: string
+    repitation: boolean
+    tubeGroup: string
+    printLabel: boolean
+    labelInstruction: string
+    pageBreak: string
+    method: boolean
+    panelMethod: string
+    workflow: string
+    cumulative: boolean
+    reportTemplate: string
+    sampleType: string
+    specalInstructions: string
+    status: string
+    environment: string
+    dateOfEntry: Date
+    lastUpdated: Date  
+
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.existsVersionId = rawData.existsVersionId
@@ -59,7 +61,6 @@ export class MasterPanel {
         this.dateActiveFrom = rawData.dateActiveFrom
         this.dateActiveTo = rawData.dateActiveTo
         this.version = rawData.version
-        this.keyNum = rawData.keyNum
         this.enteredBy = rawData.enteredBy
         this.rLab = rawData.rLab
         this.pLab = rawData.pLab
@@ -105,6 +106,8 @@ export class MasterPanel {
         this.status = rawData.status
         this.serviceType = rawData.serviceType
         this.environment = rawData.environment
+        this.dateOfEntry = rawData.dateOfEntry
+        this.lastUpdated = rawData.lastUpdated
     }
   }
   

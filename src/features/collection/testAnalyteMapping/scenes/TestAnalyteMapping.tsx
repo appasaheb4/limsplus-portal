@@ -793,7 +793,7 @@ const TestAnalyteMapping = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("testCode", modalConfirm.data.testCode)
@@ -808,7 +808,7 @@ const TestAnalyteMapping = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("testCode", modalConfirm.data.testCode)

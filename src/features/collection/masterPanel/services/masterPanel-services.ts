@@ -5,8 +5,18 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { SectionService } from "@lp/features/collection/section/services"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class MasterPanelService {
   listPanelMaster = (page = 0, limit = 10) =>
@@ -14,86 +24,120 @@ class MasterPanelService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `/master/panelMaster/listPanelMaster/${page}/${limit}/${env}/${role}/${lab}`
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
+        .then((response: any) => {
+          stores.masterPanelStore.updatePanelMasterList(response.data)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-        .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
     })
-  addPanelMaster = (panel?: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/panelMaster/addPanelMaster`, panel)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  versionUpgradePanelMaster = (panel?: any) =>
-    new Promise<any>((resolve, reject) => {
-      console.log({ panel })
 
-      http
-        .post(`/master/panelMaster/versionUpgradePanelMaster`, panel)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  duplicatePanelMaster = (panel?: any) =>
+  addPanelMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/panelMaster/duplicatePanelMaster`, panel)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deletePanelMaster = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/panelMaster/deletePanelMaster/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/panelMaster/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-     
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/panelMaster/checkExitsLabEnvCode`, { code, env, lab })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  versionUpgradePanelMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  duplicatePanelMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  deletePanelMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsLabEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      console.log({variables});
+      
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+
+  findSectionListByDeptCode = (code: string) =>
+    new Promise<any>((resolve, reject) => {
+      new SectionService()
+        .findSectionListByDeptCode({ input: { code } })
+        .then((res) => {
+          stores.masterPanelStore.updateSectionListByDeptCode(res)
+          resolve(res)
         })
     })
 }

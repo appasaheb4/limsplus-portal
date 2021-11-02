@@ -1787,7 +1787,7 @@ const TestMater = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)
@@ -1804,7 +1804,7 @@ const TestMater = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)
