@@ -467,6 +467,7 @@ const Section = observer(() => {
             totalSize={sectionStore.listSectionCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              listDepartment:departmentStore.listDepartment
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,

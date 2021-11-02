@@ -1,10 +1,6 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from 'dayjs'
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -23,7 +19,7 @@ interface TestAnalyteMappingListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => {
+const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -67,7 +63,7 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.listsLabs.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -349,5 +345,5 @@ const TestAnalyteMappingList = observer((props: TestAnalyteMappingListProps) => 
       </div>
     </>
   )
-})
+}
 export default TestAnalyteMappingList
