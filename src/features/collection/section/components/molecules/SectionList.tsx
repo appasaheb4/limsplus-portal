@@ -1,13 +1,8 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import Storage from "@lp/library/modules/storage"
-import { Stores } from "../../stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 interface SectionListProps {
   data: any
   totalSize: number
@@ -20,7 +15,7 @@ interface SectionListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-export const SectionList = observer((props: SectionListProps) => {
+export const SectionList = (props: SectionListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -62,8 +57,8 @@ export const SectionList = observer((props: SectionListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {DepartmentStore.departmentStore.listDepartment &&
-                      DepartmentStore.departmentStore.listDepartment.map(
+                    {props.extraData.listDepartment &&
+                      props.extraData.listDepartment.map(
                         (item: any, key: number) => (
                           <option key={key} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -257,4 +252,4 @@ export const SectionList = observer((props: SectionListProps) => {
       />   
     </div>
   )
-})
+}

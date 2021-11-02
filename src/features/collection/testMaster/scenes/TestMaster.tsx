@@ -1692,6 +1692,10 @@ const TestMater = observer(() => {
             totalSize={testMasterStore.listTestMasterCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              labList:loginStore.login?.labList,
+              listLabs:labStore.listLabs,
+              listDepartment:departmentStore.listDepartment,
+              sectionListByDeptCode:testMasterStore.sectionListByDeptCode
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
