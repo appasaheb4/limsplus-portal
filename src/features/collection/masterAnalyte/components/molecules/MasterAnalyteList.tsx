@@ -66,7 +66,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.listLabs.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -91,6 +91,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              headerStyle: { minWidth: "200px" }
             },
             {
               dataField: "description",
@@ -98,6 +99,26 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              headerStyle: { minWidth: "200px" },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.MultilineInput
+                    rows={3}
+                    value={row.description}
+                    onChange={(description) => {
+                     props.onUpdateItem && props.onUpdateItem
+                     (description,column.dataField,row._id)
+                    }}
+                  />
+                </>
+              ),
             },
             {
               dataField: "method",

@@ -17,7 +17,7 @@ const Role = observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  const { loginStore, roleStore } = useStores()
+  const { loginStore, roleStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
   useEffect(() => {
@@ -29,6 +29,18 @@ const Role = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      roleStore && roleStore.updateRole({
+        ...roleStore.role,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitRoles = () => {
     if (!roleStore.checkExitsCode) {
       roleStore.RoleService.addrole({ input: { ...roleStore.role } }).then((res) => {
