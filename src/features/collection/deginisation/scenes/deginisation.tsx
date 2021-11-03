@@ -32,6 +32,19 @@ const Deginisation = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      deginisationStore && deginisationStore.updateDescription({
+        ...deginisationStore.deginisation,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitDesginiation = () => {
     if (!deginisationStore.checkExitsCode) {
       deginisationStore.DeginisationService.addDeginisation({
@@ -41,9 +54,10 @@ const Deginisation = observer(() => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.createDesignation.message}`,
           })
-          setTimeout(() => {
+          setTimeout(()=>{
+            deginisationStore.fetchListDeginisation()
             window.location.reload()
-          }, 2000)
+          },1000)
         } else {
           LibraryComponents.Atoms.Toast.error({ message: "😔 Please try again" })
         }

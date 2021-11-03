@@ -26,6 +26,7 @@ const TestMater = observer(() => {
     labStore,
     departmentStore,
     deliveryScheduleStore,
+    routerStore
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -43,6 +44,30 @@ const TestMater = observer(() => {
     }
   }, [stores.loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    testMasterStore && testMasterStore.updateTestMaster({
+        ...testMasterStore.testMaster,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    testMasterStore && testMasterStore.updateTestMaster({
+      ...testMasterStore.testMaster,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
   const onSubmitTestMaster = () => {
     if (!testMasterStore.checkExitsLabEnvCode) {
       if (
@@ -103,7 +128,8 @@ const TestMater = observer(() => {
           })
       }
       setTimeout(() => {
-        window.location.reload()
+        testMasterStore.fetchTestMaster()
+        // window.location.reload()
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({

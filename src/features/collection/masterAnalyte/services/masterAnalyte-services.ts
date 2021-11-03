@@ -6,6 +6,7 @@
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import * as Model from '../models'
 import {
   LIST,
   REMOVE_RECORD,
@@ -43,6 +44,7 @@ class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
+          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
           resolve(response.data)
         })
         .catch((error) =>
