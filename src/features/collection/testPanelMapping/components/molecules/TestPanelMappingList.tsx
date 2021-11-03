@@ -1,17 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import dayjs from "dayjs"
 
-import * as Config from "@lp/config"
-
-import Storage from "@lp/library/modules/storage"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface TestPanelMappingListProps {
   data: any
@@ -24,12 +21,10 @@ interface TestPanelMappingListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
 const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
-  
-
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -98,25 +93,25 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             ) => (
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const panelCode = e.target.value
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const panelCode = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(panelCode,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {MasterPanelStore.masterPanelStore.listMasterPanel &&
-                    MasterPanelStore.masterPanelStore.listMasterPanel.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.panelCode}>
-                          {`${item.panelName} - ${item.panelCode}`}
-                        </option>
-                      )
-                    )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                        props.onUpdateItem(panelCode, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {MasterPanelStore.masterPanelStore.listMasterPanel &&
+                      MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.panelCode}>
+                            {`${item.panelName} - ${item.panelCode}`}
+                          </option>
+                        )
+                      )}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </>
             ),
           },
@@ -125,14 +120,14 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             text: "Test Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "testName",
             text: "Test Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "description",
@@ -148,16 +143,17 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
-              return <><LibraryComponents.Atoms.Form.Toggle
-             
-              value={row.bill}
-              onChange={(bill) => {
-                props.onUpdateItem &&
-                  props.onUpdateItem(bill, 'bill', row._id)
-              }}
-            /></>
+              return (
+                <>
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.bill}
+                    onChange={(bill) => {
+                      props.onUpdateItem && props.onUpdateItem(bill, "bill", row._id)
+                    }}
+                  />
+                </>
+              )
             },
-            
           },
           {
             dataField: "status",
@@ -184,11 +180,14 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        ))}
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "STATUS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               </>
@@ -214,18 +213,19 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                     onChange={(e) => {
                       const environment = e.target.value
-                      props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                      
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               </>
@@ -245,13 +245,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return (
-                <>
-                  {LibraryUtils.moment
-                    .unix(row.dateCreation || 0)
-                    .format("YYYY-MM-DD")}
-                </>
-              )
+              return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
             },
           },
           {
@@ -290,28 +284,29 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             ) => (
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    props.onUpdateItem &&
-                    props.onUpdateItem(environment,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const environment = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {`${item.value} - ${item.code}`}
                       </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </>
             ),
           },
-         
+
           {
             dataField: "opration",
             text: "Action",
@@ -320,65 +315,63 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
-              <div className="flex flex-row">
-                <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
-                  <LibraryComponents.Atoms.Icons.IconContext
-                    color="#000"
-                    size="20"
-                    onClick={() =>
-                      props.onDelete &&
-                      props.onDelete({
-                        type: "Delete",
-                        show: true,
-                        id: [row._id],
-                        title: "Are you sure?",
-                        body: `Delete item`,
-                      })
-                    }
-                  >
-                    {LibraryComponents.Atoms.Icons.getIconTag(
-                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                    )}
-                  </LibraryComponents.Atoms.Icons.IconContext>
-                </LibraryComponents.Atoms.Tooltip>
-                {row.status !== "I" && (
-                  <>
-                    <LibraryComponents.Atoms.Tooltip
-                      className="ml-2"
-                      tooltipText="Version Upgrade"
+                <div className="flex flex-row">
+                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#000"
+                      size="20"
+                      onClick={() =>
+                        props.onDelete &&
+                        props.onDelete({
+                          type: "Delete",
+                          show: true,
+                          id: [row._id],
+                          title: "Are you sure?",
+                          body: `Delete item`,
+                        })
+                      }
                     >
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="20"
-                        onClick={() =>
-                          props.onVersionUpgrade && props.onVersionUpgrade(row)
-                        }
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
+                  </LibraryComponents.Atoms.Tooltip>
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Tooltip
+                        className="ml-2"
+                        tooltipText="Version Upgrade"
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                    <LibraryComponents.Atoms.Tooltip
-                      className="ml-2"
-                      tooltipText="Duplicate"
-                    >
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="20"
-                        onClick={() =>
-                          props.onDuplicate && props.onDuplicate(row)
-                        }
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                          onClick={() =>
+                            props.onVersionUpgrade && props.onVersionUpgrade(row)
+                          }
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                      </LibraryComponents.Atoms.Tooltip>
+                      <LibraryComponents.Atoms.Tooltip
+                        className="ml-2"
+                        tooltipText="Duplicate"
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </>
-                )}
-              </div>
-            </>
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="20"
+                          onClick={() => props.onDuplicate && props.onDuplicate(row)}
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                      </LibraryComponents.Atoms.Tooltip>
+                    </>
+                  )}
+                </div>
+              </>
             ),
           },
         ]}
@@ -392,8 +385,8 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
         }}
-        onPageSizeChange={(page,size)=>{
-          props.onPageSizeChange && props.onPageSizeChange(page,size)
+        onPageSizeChange={(page, size) => {
+          props.onPageSizeChange && props.onPageSizeChange(page, size)
         }}
       />
     </>

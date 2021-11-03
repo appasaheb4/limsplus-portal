@@ -21,6 +21,7 @@ import { TestAnalyteMappingStore } from "@lp/features/collection/testAnalyteMapp
 import { TestMasterStore } from "@lp/features/collection/testMaster/stores/testMaster-store"
 import { DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/stores/deliverySchedule-store"
 import {MasterPanelStore} from '@lp/features/collection/masterPanel/stores/masterPanel-store'
+import {TestPanelMappingStore} from '@lp/features/collection/testPanelMapping/stores/testPanelMapping-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -48,6 +49,7 @@ export class Stores extends Store {
   testMasterStore!: TestMasterStore
   deliveryScheduleStore!: DeliveryScheduleStore
   masterPanelStore!: MasterPanelStore
+  testPanelMappingStore!: TestPanelMappingStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -73,6 +75,7 @@ export class Stores extends Store {
     this.deliveryScheduleStore = new DeliveryScheduleStore()
     this.testMasterStore = new TestMasterStore()
     this.masterPanelStore = new MasterPanelStore()
+    this.testPanelMappingStore = new TestPanelMappingStore()
 
     // settings
     this.environmentStore = new EnvironmentStore()

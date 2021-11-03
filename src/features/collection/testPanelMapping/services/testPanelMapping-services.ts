@@ -5,8 +5,10 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import {LIST} from './mutation'
 
 class TestPanelMappingService {
   listTestPanelMapping = (page = 0, limit = 10) =>
@@ -14,17 +16,18 @@ class TestPanelMappingService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `master/testPanelMapping/listTestPanelMapping/${page}/${limit}/${env}/${role}/${lab}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })
-        .catch((error) => {
+          stores.testPanelMappingStore.updateTestPanelMappingList(response.data)
+          resolve(response.data)
+        })  
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
   addTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
     new Promise<any>((resolve, reject) => {
