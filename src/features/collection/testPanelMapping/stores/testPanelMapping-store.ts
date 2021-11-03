@@ -1,42 +1,49 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
-class TestPanelMappingStore {
-  @ignore @observable testPanelMapping?: Models.TestPanelMapping
-  @observable listTestPanelMapping?: Models.TestPanelMapping[] = []
-  @observable listTestPanelMappingCount: number = 0 
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+export class TestPanelMappingStore {
+  @ignore @observable testPanelMapping!: Models.TestPanelMapping
+  @observable listTestPanelMapping: Models.TestPanelMapping[]
+  @observable listTestPanelMappingCount: number
+  @ignore @observable checkExitsLabEnvCode!: boolean
 
   constructor() {
-    makeAutoObservable(this)
+    this.listTestPanelMapping = []
+    this.listTestPanelMappingCount = 0
+    this.checkExitsLabEnvCode = false
     this.testPanelMapping = {
       ...this.testPanelMapping,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateActiveTo: new Date(),
       version: 1,
-      keyNum: "1",
       bill: false,
     }
-  }
-
-  @computed get testPanelMappingService() {
-    return new Services.TestPanelMappingService(
-    )
-  }
-
-  @action fetchTestPanelMapping(page?,limit?) {
-    this.testPanelMappingService.listTestPanelMapping(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listTestPanelMapping = res.data.testPanelMapping
-      this.listTestPanelMappingCount = res.data.count
+    makeObservable<TestPanelMappingStore, any>(this, {
+      testPanelMapping: observable,
+      listTestPanelMapping: observable,
+      listTestPanelMappingCount: observable,
+      checkExitsLabEnvCode: observable,
     })
   }
 
+  @computed get testPanelMappingService() {
+    return new Services.TestPanelMappingService()
+  }
+
+  @action fetchTestPanelMapping(page?, limit?) {
+    this.testPanelMappingService.listTestPanelMapping(page, limit)
+  }
+
+  @action updateTestPanelMappingList(res: any) {
+    if (!res.testPanelMappings.success) return alert(res.testPanelMappings.message)
+    this.listTestPanelMapping = res.testPanelMappings.data
+    this.listTestPanelMappingCount = res.testPanelMappings.paginatorInfo.count
+  }
+    
   @action updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
     this.testPanelMapping = testPanel
   }
@@ -45,5 +52,3 @@ class TestPanelMappingStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default TestPanelMappingStore
