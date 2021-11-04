@@ -29,7 +29,7 @@ export class Department {
         this.autoRelease = rawData.autoRelease
         this.requireReceveInLab = rawData.requireReceveInLab
         this.requireScainIn = rawData.requireScainIn
-        this.routingDept = rawData.routingDept
+        this.routingDept = rawData.routingDept || false
         this.openingTime = rawData.openingTime
         this.closingTime = rawData.closingTime
         this.fyiLine = rawData.fyiLine

@@ -4,15 +4,11 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
+import dayjs from "dayjs"
 
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as PanelMasterStore } from "@lp/features/collection/masterPanel/stores"
-
+import { useStores, stores } from "@lp/stores"
+  
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -24,7 +20,7 @@ const MasterPackage = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const { loginStore, masterPackageStore, labStore, masterPanelStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
@@ -41,8 +37,8 @@ const MasterPackage = observer(() => {
   }
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.masterPackageStore.updateMasterPackage({
-        ...Stores.masterPackageStore.masterPackage,
+      masterPackageStore.updateMasterPackage({
+        ...masterPackageStore.masterPackage,
         lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
@@ -52,42 +48,62 @@ const MasterPackage = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitMasterPackage = () => {
-    if (!Stores.masterPackageStore.checkExitsLabEnvCode) {
+    if (!masterPackageStore.checkExitsLabEnvCode) {
       if (
-        !Stores.masterPackageStore.masterPackage?.existsVersionId &&
-        !Stores.masterPackageStore.masterPackage?.existsRecordId
+        !masterPackageStore.masterPackage?.existsVersionId &&
+        !masterPackageStore.masterPackage?.existsRecordId
       ) {
-        Stores.masterPackageStore.masterPackageService
+        masterPackageStore.masterPackageService
           .addPackageMaster({
-            ...Stores.masterPackageStore.masterPackage,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterPackageStore.masterPackage,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Package master created.`,
-            })
-          })
-      } else if (
-        Stores.masterPackageStore.masterPackage?.existsVersionId &&
-        !Stores.masterPackageStore.masterPackage?.existsRecordId
-      ) {
-        Stores.masterPackageStore.masterPackageService
-          .versionUpgradePackageMaster(Stores.masterPackageStore.masterPackage)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Package master version upgrade.`,
-            })
+          .then((res) => {
+            if (res.createPackageMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createPackageMaster.message}`,
+              })
+            }
           })
       } else if (
-        !Stores.masterPackageStore.masterPackage?.existsVersionId &&
-        Stores.masterPackageStore.masterPackage?.existsRecordId
+        masterPackageStore.masterPackage?.existsVersionId &&
+        !masterPackageStore.masterPackage?.existsRecordId
       ) {
-        Stores.masterPackageStore.masterPackageService
-          .duplicatePackageMaster(Stores.masterPackageStore.masterPackage)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Package master duplicate created.`,
-            })
+        masterPackageStore.masterPackageService
+          .versionUpgradePackageMaster({
+            input: {
+              ...masterPackageStore.masterPackage,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.versionUpgradePackageMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradePackageMaster.message}`,
+              })
+            }
+          })
+      } else if (
+        !masterPackageStore.masterPackage?.existsVersionId &&
+        masterPackageStore.masterPackage?.existsRecordId
+      ) {
+        masterPackageStore.masterPackageService
+          .duplicatePackageMaster({
+            input: {
+              ...masterPackageStore.masterPackage,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.duplicatePackageMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicatePackageMaster.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -136,7 +152,7 @@ const MasterPackage = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.masterPackageStore.masterPackage?.lab}
+                      value={masterPackageStore.masterPackage?.lab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -149,45 +165,36 @@ const MasterPackage = observer(() => {
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.masterPackageStore.updateMasterPackage({
-                          ...Stores.masterPackageStore.masterPackage,
+                        masterPackageStore.updateMasterPackage({
+                          ...masterPackageStore.masterPackage,
                           lab,
                         })
-                        if (
-                          !Stores.masterPackageStore.masterPackage?.existsVersionId
-                        ) {
-                          Stores.masterPackageStore.masterPackageService
-                            .checkExitsLabEnvCode(
-                              Stores.masterPackageStore.masterPackage?.packageCode ||
-                                "",
-                              Stores.masterPackageStore.masterPackage?.environment ||
-                                "",
-                              lab
-                            )
+                        if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          masterPackageStore.masterPackageService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterPackageStore.masterPackage?.packageCode,
+                                env: masterPackageStore.masterPackage?.environment,
+                                lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkPackageMasterExistsRecord.success) {
+                                masterPackageStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                              } else masterPackageStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -210,17 +217,17 @@ const MasterPackage = observer(() => {
                       onChange={(e) => {
                         const serviceItem = JSON.parse(e.target.value)
                         onChange(serviceItem)
-                        if (PanelMasterStore.masterPanelStore.listMasterPanel) {
+                        if (masterPanelStore.listMasterPanel) {
                           console.log({
-                            items: PanelMasterStore.masterPanelStore.listMasterPanel,
+                            items: masterPanelStore.listMasterPanel,
                           })
-                          const listPackageItems: any = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                          const listPackageItems: any = masterPanelStore.listMasterPanel.filter(
                             (item) => {
                               return item.serviceType === serviceItem.code
                             }
                           )
                           setArrPackageItems(listPackageItems)
-                          const listPanelItems = PanelMasterStore.masterPanelStore.listMasterPanel.filter(
+                          const listPanelItems = masterPanelStore.listMasterPanel.filter(
                             (item) => {
                               return (
                                 item.serviceType ===
@@ -231,11 +238,11 @@ const MasterPackage = observer(() => {
                           setArrPanelItems(listPanelItems)
                         }
 
-                        Stores.masterPackageStore.updateMasterPackage({
-                          ...Stores.masterPackageStore.masterPackage,
+                        masterPackageStore.updateMasterPackage({
+                          ...masterPackageStore.masterPackage,
                           serviceType: serviceItem.code,
                           packageName: undefined,
-                          panelName: undefined,
+                          panelName: [],
                         })
                       }}
                     >
@@ -272,33 +279,27 @@ const MasterPackage = observer(() => {
                         const packageItem = JSON.parse(e.target.value)
                         console.log({ packageItem })
                         onChange(packageItem.panelCode)
-                        Stores.masterPackageStore.updateMasterPackage({
-                          ...Stores.masterPackageStore.masterPackage,
+                        masterPackageStore.updateMasterPackage({
+                          ...masterPackageStore.masterPackage,
                           packageCode: packageItem.panelCode,
                           packageName: packageItem.panelName,
                         })
-                        if (
-                          !Stores.masterPackageStore.masterPackage?.existsVersionId
-                        ) {
-                          Stores.masterPackageStore.masterPackageService
-                            .checkExitsLabEnvCode(
-                              packageItem.panelCode,
-                              Stores.masterPackageStore.masterPackage?.environment ||
-                                "",
-                              Stores.masterPackageStore.masterPackage.lab || ""
-                            )
+                        if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          masterPackageStore.masterPackageService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: packageItem.panelCode,
+                                env: masterPackageStore.masterPackage?.environment,
+                                lab: masterPackageStore.masterPackage.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkPackageMasterExistsRecord.success) {
+                                masterPackageStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                              } else masterPackageStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -317,20 +318,20 @@ const MasterPackage = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.masterPackageStore.checkExitsLabEnvCode && (
+              {masterPackageStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
               )}
               <label className="hidden">
                 {" "}
-                {`${Stores.masterPackageStore.masterPackage?.packageName}`}
+                {`${masterPackageStore.masterPackage?.packageName}`}
               </label>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    value={Stores.masterPackageStore.masterPackage?.packageName}
+                    value={masterPackageStore.masterPackage?.packageName}
                     label="Package Name"
                     placeholder="Package Name"
                     disabled={true}
@@ -371,8 +372,8 @@ const MasterPackage = observer(() => {
                               panelCode.push(item.panelCode)
                               panelName.push(item.panelName)
                             })
-                            Stores.masterPackageStore.updateMasterPackage({
-                              ...Stores.masterPackageStore.masterPackage,
+                            masterPackageStore.updateMasterPackage({
+                              ...masterPackageStore.masterPackage,
                               panelCode,
                               panelName,
                             })
@@ -394,13 +395,11 @@ const MasterPackage = observer(() => {
                         <select
                           disabled={true}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.panelName
-                              ? "border-red-500  "
-                              : "border-gray-300"
+                            errors.panelName ? "border-red-500  " : "border-gray-300"
                           } rounded-md`}
                         >
                           <option selected>
-                            {Stores.masterPackageStore.masterPackage?.panelName?.join(
+                            {masterPackageStore.masterPackage?.panelName?.join(
                               ","
                             ) || `Select`}
                           </option>
@@ -421,17 +420,15 @@ const MasterPackage = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.masterPackageStore.masterPackage?.status}
+                      value={masterPackageStore.masterPackage?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.masterPackageStore.updateMasterPackage({
-                          ...Stores.masterPackageStore.masterPackage,
+                        masterPackageStore.updateMasterPackage({
+                          ...masterPackageStore.masterPackage,
                           status,
                         })
                       }}
@@ -449,7 +446,7 @@ const MasterPackage = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -461,7 +458,7 @@ const MasterPackage = observer(() => {
                       errors.userId ? "Please Enter Entered By " : "Entered By"
                     }
                     hasError={errors.userId}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -480,11 +477,9 @@ const MasterPackage = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterPackageStore.masterPackage?.dateCreation || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterPackageStore.masterPackage?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -499,10 +494,10 @@ const MasterPackage = observer(() => {
                     label="Bill"
                     id="modeBill"
                     hasError={errors.bill}
-                    value={Stores.masterPackageStore.masterPackage?.bill}
+                    value={masterPackageStore.masterPackage?.bill}
                     onChange={(bill) => {
-                      Stores.masterPackageStore.updateMasterPackage({
-                        ...Stores.masterPackageStore.masterPackage,
+                      masterPackageStore.updateMasterPackage({
+                        ...masterPackageStore.masterPackage,
                         bill,
                       })
                     }}
@@ -531,11 +526,9 @@ const MasterPackage = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActiveFrom}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterPackageStore.masterPackage?.dateActiveFrom || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterPackageStore.masterPackage?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -553,17 +546,15 @@ const MasterPackage = observer(() => {
                       errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
                     }
                     hasError={errors.dateExpire}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.masterPackageStore.masterPackage?.dateActiveTo || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterPackageStore.masterPackage?.dateActiveTo
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
-                      onChange(schedule)
-                      Stores.masterPackageStore.updateMasterPackage({
-                        ...Stores.masterPackageStore.masterPackage,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      const dateActiveTo = new Date(e.target.value)
+                      onChange(dateActiveTo)
+                      masterPackageStore.updateMasterPackage({
+                        ...masterPackageStore.masterPackage,
+                        dateActiveTo,
                       })
                     }}
                   />
@@ -581,26 +572,11 @@ const MasterPackage = observer(() => {
                       errors.version ? "Please Enter Version " : "Version"
                     }
                     hasError={errors.version}
-                    value={Stores.masterPackageStore.masterPackage?.version}
+                    value={masterPackageStore.masterPackage?.version}
                     disabled={true}
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.masterPackageStore.masterPackage?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -612,11 +588,9 @@ const MasterPackage = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.masterPackageStore.masterPackage?.environment}
+                      value={masterPackageStore.masterPackage?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -627,32 +601,26 @@ const MasterPackage = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.masterPackageStore.updateMasterPackage({
-                          ...Stores.masterPackageStore.masterPackage,
+                        masterPackageStore.updateMasterPackage({
+                          ...masterPackageStore.masterPackage,
                           environment,
                         })
-                        if (
-                          !Stores.masterPackageStore.masterPackage?.existsVersionId
-                        ) {
-                          Stores.masterPackageStore.masterPackageService
-                            .checkExitsLabEnvCode(
-                              Stores.masterPackageStore.masterPackage.packageCode ||
-                                "",
-                              environment,
-                              Stores.masterPackageStore.masterPackage.lab || ""
-                            )
+                        if (!masterPackageStore.masterPackage?.existsVersionId) {
+                          masterPackageStore.masterPackageService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterPackageStore.masterPackage.packageCode,
+                                env: environment,
+                                lab: masterPackageStore.masterPackage.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkPackageMasterExistsRecord.success) {
+                                masterPackageStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
-                                })
-                              } else
-                                Stores.masterPackageStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                  message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
+                                })  
+                              } else masterPackageStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -661,7 +629,7 @@ const MasterPackage = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterPackageStore.masterPackage?.environment ||
+                          : masterPackageStore.masterPackage?.environment ||
                             `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
@@ -706,8 +674,8 @@ const MasterPackage = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PackageMasterList
-            data={Stores.masterPackageStore.listMasterPackage || []}
-            totalSize={Stores.masterPackageStore.listMasterPackageCount}
+            data={masterPackageStore.listMasterPackage || []}
+            totalSize={masterPackageStore.listMasterPackageCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -758,7 +726,7 @@ const MasterPackage = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.masterPackageStore.fetchPackageMaster(page, limit)
+              masterPackageStore.fetchPackageMaster(page, limit)
             }}
           />
         </div>
@@ -767,32 +735,36 @@ const MasterPackage = observer(() => {
           click={(type?: string) => {
             console.log({ type })
             if (type === "Delete") {
-              Stores.masterPackageStore.masterPackageService
-                .deletePackageMaster(modalConfirm.id)
+              masterPackageStore.masterPackageService
+                .deletePackageMaster({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removePackageMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Package master deleted.`,
+                      message: `😊 ${res.removePackageMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterPackageStore.fetchPackageMaster()
+                    masterPackageStore.fetchPackageMaster()
                   }
                 })
             } else if (type === "Update") {
-              Stores.masterPackageStore.masterPackageService
-                .updateSingleFiled(modalConfirm.data)
+              masterPackageStore.masterPackageService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updatePackageMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Package master updated.`,
+                      message: `😊 ${res.updatePackageMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterPackageStore.fetchPackageMaster()
-                    window.location.reload()
+                    masterPackageStore.fetchPackageMaster()
                   }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.masterPackageStore.updateMasterPackage({
+              masterPackageStore.updateMasterPackage({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
@@ -800,10 +772,11 @@ const MasterPackage = observer(() => {
                 version: modalConfirm.data.version + 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
-              setValue("lab",modalConfirm.data.lab)
-              setValue("environment",modalConfirm.data.environment)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
-              Stores.masterPackageStore.updateMasterPackage({
+              masterPackageStore.updateMasterPackage({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
@@ -811,6 +784,9 @@ const MasterPackage = observer(() => {
                 version: 1,
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {
