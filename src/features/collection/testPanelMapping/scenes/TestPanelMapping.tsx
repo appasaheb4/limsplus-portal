@@ -8,7 +8,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 
-
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -21,7 +20,13 @@ const TestPanelMapping = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, labStore, masterPanelStore, testMasterStore,testPanelMappingStore } = useStores()
+  const {
+    loginStore,
+    labStore,
+    masterPanelStore,
+    testMasterStore,
+    testPanelMappingStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -35,8 +40,8 @@ const TestPanelMapping = observer(() => {
       setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
-
+  }, [stores.loginStore.login])  
+   
   const onSubmitTestPanelMapping = () => {
     if (!testPanelMappingStore.checkExitsLabEnvCode) {
       if (
@@ -44,35 +49,56 @@ const TestPanelMapping = observer(() => {
         !testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
         testPanelMappingStore.testPanelMappingService
-          .addTestPanelMapping(testPanelMappingStore.testPanelMapping)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel mapping created.`,
-            })
+          .addTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+            },
+          })
+          .then((res) => {
+            if (res.createTestPanelMapping.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createTestPanelMapping.message}`,
+              })
+            }
           })
       } else if (
         testPanelMappingStore.testPanelMapping?.existsVersionId &&
         !testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
         testPanelMappingStore.testPanelMappingService
-          .versionUpgradeTestPanelMapping(
-            testPanelMappingStore.testPanelMapping
-          )
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel version upgrade.`,
-            })
+          .versionUpgradeTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.versionUpgradeTestPanelMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeTestPanelMappings.message}`,
+              })
+            }
           })
       } else if (
         !testPanelMappingStore.testPanelMapping?.existsVersionId &&
         testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
         testPanelMappingStore.testPanelMappingService
-          .duplicateTestPanelMapping(testPanelMappingStore.testPanelMapping)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel duplicate created.`,
-            })
+          .duplicateTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.duplicateTestPanelMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateTestPanelMappings.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -139,41 +165,37 @@ const TestPanelMapping = observer(() => {
                           lab,
                         })
                         if (
-                          !testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
                           testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              testPanelMappingStore.testPanelMapping
-                                ?.panelCode || "",
-                              testPanelMappingStore.testPanelMapping
-                                ?.environment || "",
-                              lab
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  testPanelMappingStore.testPanelMapping?.panelCode,
+                                env:
+                                  testPanelMappingStore.testPanelMapping
+                                    ?.environment,
+                                lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -201,29 +223,26 @@ const TestPanelMapping = observer(() => {
                           panelCode: panelCode,
                         })
                         if (
-                          !testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
                           testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              panelCode,
-                              testPanelMappingStore.testPanelMapping
-                                ?.environment || "",
-                              testPanelMappingStore.testPanelMapping?.lab ||
-                                ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: panelCode,
+                                env:
+                                  testPanelMappingStore.testPanelMapping
+                                    ?.environment,
+                                lab: testPanelMappingStore.testPanelMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -322,9 +341,7 @@ const TestPanelMapping = observer(() => {
                       errors.description ? "Please Enter Description" : "Description"
                     }
                     hasError={errors.description}
-                    value={
-                      testPanelMappingStore.testPanelMapping?.description
-                    }
+                    value={testPanelMappingStore.testPanelMapping?.description}
                     onChange={(description) => {
                       onChange(description)
                       testPanelMappingStore.updateTestPanelMapping({
@@ -347,7 +364,9 @@ const TestPanelMapping = observer(() => {
                   >
                     <select
                       value={testPanelMappingStore.testPanelMapping?.status}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
@@ -370,7 +389,7 @@ const TestPanelMapping = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -510,7 +529,7 @@ const TestPanelMapping = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -519,9 +538,7 @@ const TestPanelMapping = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={
-                        testPanelMappingStore.testPanelMapping?.environment
-                      }
+                      value={testPanelMappingStore.testPanelMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -539,29 +556,25 @@ const TestPanelMapping = observer(() => {
                           environment,
                         })
                         if (
-                          !testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
                           testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              testPanelMappingStore.testPanelMapping
-                                ?.panelCode || "",
-                              environment,
-                              testPanelMappingStore.testPanelMapping?.lab ||
-                                ""
-                            )
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  testPanelMappingStore.testPanelMapping?.panelCode,
+                                env: environment,
+                                lab: testPanelMappingStore.testPanelMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -570,8 +583,8 @@ const TestPanelMapping = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : testPanelMappingStore.testPanelMapping
-                              ?.environment || `Select`}
+                          : testPanelMappingStore.testPanelMapping?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -679,11 +692,11 @@ const TestPanelMapping = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               testPanelMappingStore.testPanelMappingService
-                .deleteTestPanelMapping(modalConfirm.id)
+                .deleteTestPanelMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeTestPanelMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record deleted.`,
+                      message: `😊 ${res.removeTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })
                     testPanelMappingStore.fetchTestPanelMapping()
@@ -691,15 +704,19 @@ const TestPanelMapping = observer(() => {
                 })
             } else if (type === "Update") {
               testPanelMappingStore.testPanelMappingService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateTestPanelMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updateTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })
                     testPanelMappingStore.fetchTestPanelMapping()
-                    window.location.reload()
                   }
                 })
             } else if (type === "versionUpgrade") {
@@ -713,7 +730,10 @@ const TestPanelMapping = observer(() => {
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
               setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
               testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,
@@ -723,6 +743,12 @@ const TestPanelMapping = observer(() => {
                 version: 1,
                 dateActiveFrom: new Date(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {
@@ -733,5 +759,5 @@ const TestPanelMapping = observer(() => {
     </>
   )
 })
-   
+
 export default TestPanelMapping

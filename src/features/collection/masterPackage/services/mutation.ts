@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client"
 
 export const LIST = gql`
-  mutation($input: TestPanelMappingInput!) {
-    testPanelMappings(input: $input) {
+  mutation($input: PackageMasterInput!) {
+    packageMasters(input: $input) {
       paginatorInfo {
         count
-      }  
+      }
       success
       message
-      data {  
+      data {
         _id
         existsVersionId
         existsRecordId
@@ -18,12 +18,13 @@ export const LIST = gql`
         version
         enteredBy
         lab
+        packageCode
+        packageName
         panelCode
-        testCode
-        testName
-        description
+        panelName
         bill
         status
+        serviceType
         environment
         dateOfEntry
         lastUpdated
@@ -33,8 +34,8 @@ export const LIST = gql`
 `
 
 export const REMOVE_RECORD = gql`
-  mutation($input: TestPanelMappingRemoveInput!) {
-    removeTestPanelMapping(input: $input) {
+  mutation($input: PackageMasterRemoveInput!) {
+    removePackageMaster(input: $input) {
       success
       message
     }
@@ -42,8 +43,8 @@ export const REMOVE_RECORD = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateTestPanelMappingInput!) {
-    createTestPanelMapping(input: $input) {
+  mutation($input: CreatePackageMasterInput!) {
+    createPackageMaster(input: $input) {
       success
       message
     }
@@ -51,26 +52,26 @@ export const CREATE_RECORD = gql`
 `
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: CreateTestPanelMappingInput!) {
-    versionUpgradeTestPanelMappings(input: $input) {
+  mutation($input: CreatePackageMasterInput!) {
+    versionUpgradePackageMaster(input: $input) {
       success
       message
     }
   }
 `
-    
+   
 export const DUPLICATE_RECORD = gql`
-  mutation($input: CreateTestPanelMappingInput!) {
-    duplicateTestPanelMappings(input: $input) {
+  mutation($input: CreatePackageMasterInput!) {
+    duplicatePackageMaster(input: $input) {
       success
       message
     }
   }
-`   
-
+`
+   
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateTestPanelMappingInput!) {
-    updateTestPanelMapping(input: $input) {
+  mutation($input: UpdatePackageMasterInput!) {
+    updatePackageMaster(input: $input) {
       success
       message
     }
@@ -78,8 +79,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: TestPanelMappingInput!) {
-    checkTestPanelMappingsExistsRecord(input: $input) {
+  mutation($input: PackageMasterInput!) {
+    checkPackageMasterExistsRecord(input: $input) {
       success
       message
     }

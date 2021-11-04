@@ -1,39 +1,47 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
-class MasterPackageStore {
+export class MasterPackageStore {
   @ignore @observable masterPackage!: Models.MasterPackage
-  @observable listMasterPackage?: Models.MasterPackage[] = []
-  @observable listMasterPackageCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+  @observable listMasterPackage!: Models.MasterPackage[]
+  @observable listMasterPackageCount!: number
+  @ignore @observable checkExitsLabEnvCode!: boolean
 
   constructor() {
-    makeAutoObservable(this)
+    this.listMasterPackage = []
+    this.listMasterPackageCount = 0
+    this.checkExitsLabEnvCode = false
     this.masterPackage = {
       ...this.masterPackage,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateActiveTo: new Date(),
       version: 1,
-      keyNum: "1",
       bill: false,
     }
+    makeObservable<MasterPackageStore, any>(this, {
+      masterPackage: observable,
+      listMasterPackage: observable,
+      listMasterPackageCount: observable,
+      checkExitsLabEnvCode: observable,
+    })
   }
 
   @computed get masterPackageService() {
     return new Services.MasterPackageService()
-  }
-
+  }  
+  
   @action fetchPackageMaster(page?, limit?) {
-    this.masterPackageService.listPackageMaster(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listMasterPackage = res.data.packageMaster
-      this.listMasterPackageCount = res.data.count
-    })
+    this.masterPackageService.listPackageMaster(page, limit)
+  }
+  
+  @action updatePackageMasterList(res: any) {
+    if (!res.packageMasters.success) return alert(res.packageMasters.message)
+    this.listMasterPackage = res.packageMasters.data
+    this.listMasterPackageCount = res.packageMasters.paginatorInfo.count
   }
 
   @action updateMasterPackage(pacakge: Models.MasterPackage) {
@@ -44,5 +52,3 @@ class MasterPackageStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default MasterPackageStore

@@ -7,7 +7,7 @@ export class TestPanelMapping {
   dateActiveTo: Date
   version: number
   enteredBy: string
-  lab: string
+  lab: string  
   panelCode: string
   testCode: Array<string>
   testName: Array<string>

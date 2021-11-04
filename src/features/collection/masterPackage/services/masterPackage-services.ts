@@ -5,8 +5,18 @@
  * @author limsplus
  */
 // import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { Http, http } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class MasterPackageService {
   listPackageMaster = (page = 0, limit = 10) =>
@@ -14,85 +24,105 @@ class MasterPackageService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `master/packageMaster/listPackageMaster/${page}/${limit}/${env}/${role}/${lab}`
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
+        .then((response: any) => {
+          stores.masterPackageStore.updatePackageMasterList(response.data)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
+    })
+  addPackageMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addPackageMaster = (packageMaster?: any) =>
+  versionUpgradePackageMaster = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/packageMaster/addPackageMaster`, packageMaster)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  versionUpgradePackageMaster = (packageMaster?: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/packageMaster/versionUpgradePackageMaster`, packageMaster)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  duplicatePackageMaster = (packageMaster?: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/packageMaster/duplicatePackageMaster`, packageMaster)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deletePackageMaster = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/packageMaster/deletePackageMaster/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/packageMaster/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-         
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/packageMaster/checkExitsLabEnvCode`, { code, env, lab })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  duplicatePackageMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  deletePackageMaster = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+   
+  checkExitsLabEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 
