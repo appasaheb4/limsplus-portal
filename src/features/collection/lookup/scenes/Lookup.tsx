@@ -19,13 +19,13 @@ import { GeneralField } from "./GeneralField"
 
 const Lookup = observer(() => {
   const { loginStore, lookupStore, routerStore } = useStores()
+  const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm()
   const [modalConfirm, setModalConfirm] = useState<any>()
-  const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
   useEffect(() => {
     router = router.filter((item: any) => {
@@ -53,111 +53,120 @@ const Lookup = observer(() => {
         </LibraryComponents.Atoms.Header>
         {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
-            show={hideAddLookup}
-            onClick={() => setHideAddLookup(!hideAddLookup)}
+            show={hideAddLab}
+            onClick={() => setHideAddLab(!hideAddLab)}
           />
         )}
-
-        <Accordion>
-          {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map((item) => {
-            return (
-              <AccordionItem
-                title={`${item.title}`}
-                expanded={item.title === "DOCUMENT SETTING"}
-              >
-                {item.title === "DOCUMENT SETTING" && (
-                  <>
-                    <NewField />
-                  </>
-                )}
-                {item.title === "GENERAL SETTING" && (
-                  <>
-                    <GeneralField />
-                  </>
-                )}
-              </AccordionItem>
-            )
-          })}
-        </Accordion>
-
-        <div className="mx-auto">
-          <br />
-          <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-            <FeatureComponents.Molecules.LookupList
-              data={lookupStore.listLookup || []}
-              totalSize={lookupStore.listLookupCount}
-              extraData={{
-                lookup: lookupStore.lookup,
-                updateLookup: lookupStore.updateLookup,
-                lookupItems: routerStore.lookupItems,
-              }}
-              isDelete={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                "Delete"
+  
+        <div className="mx-auto flex-wrap">
+          <div
+            className={
+              "p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")
+            }
+          >
+            <Accordion>
+              {[{ title: "DOCUMENT SETTING" }, { title: "GENERAL SETTING" }].map(
+                (item) => {
+                  return (
+                    <AccordionItem
+                      title={`${item.title}`}
+                      expanded={item.title === "DOCUMENT SETTING"}
+                    >
+                      {item.title === "DOCUMENT SETTING" && (
+                        <>
+                          <NewField />
+                        </>
+                      )}
+                      {item.title === "GENERAL SETTING" && (
+                        <>
+                          <GeneralField />
+                        </>
+                      )}
+                    </AccordionItem>
+                  )
+                }
               )}
-              isEditModify={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                "Edit/Modify"
-              )}
-              onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-              onSelectedRow={(rows) => {
-                setModalConfirm({
-                  show: true,
-                  type: "Delete",
-                  id: rows,
-                  title: "Are you sure?",
-                  body: `Delete selected items!`,
-                })
+            </Accordion>
+          </div>
+          <div className="mx-auto">
+            <br />
+            <div className="p-2 rounded-lg shadow-xl overflow-scroll">
+              <FeatureComponents.Molecules.LookupList
+                data={lookupStore.listLookup || []}
+                totalSize={lookupStore.listLookupCount}
+                extraData={{
+                  lookup: lookupStore.lookup,
+                  updateLookup: lookupStore.updateLookup,
+                  lookupItems: routerStore.lookupItems,
+                }}
+                isDelete={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  "Delete"
+                )}
+                isEditModify={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  "Edit/Modify"
+                )}
+                onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+                onSelectedRow={(rows) => {
+                  setModalConfirm({
+                    show: true,
+                    type: "Delete",
+                    id: rows,
+                    title: "Are you sure?",
+                    body: `Delete selected items!`,
+                  })
+                }}
+                onUpdateItem={(value: any, dataField: string, id: string) => {
+                  setModalConfirm({
+                    show: true,
+                    type: "Update",
+                    data: { value, dataField, id },
+                    title: "Are you sure?",
+                    body: `Update Lookup!`,
+                  })
+                }}
+                onPageSizeChange={(page, size) => {
+                  // console.log({page,size})
+                  lookupStore.fetchListLookup(page, size)
+                }}
+              />
+            </div>
+            <LibraryComponents.Molecules.ModalConfirm
+              {...modalConfirm}
+              click={(type?: string) => {
+                if (type === "Delete") {
+                  lookupStore.LookupService.deleteLookup({
+                    input: { id: modalConfirm.id },
+                  }).then((res: any) => {
+                    if (res.removeLookup.success) {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.removeLookup.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      lookupStore.fetchListLookup()
+                    }
+                  })
+                } else if (type === "Update") {
+                  lookupStore.LookupService.updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  }).then((res: any) => {
+                    if (res.updateLookup.success) {
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.updateLookup.message}`,
+                      })
+                      setModalConfirm({ show: false })
+                      lookupStore.fetchListLookup()
+                    }
+                  })
+                }
               }}
-              onUpdateItem={(value: any, dataField: string, id: string) => {
-                setModalConfirm({
-                  show: true,
-                  type: "Update",
-                  data: { value, dataField, id },
-                  title: "Are you sure?",
-                  body: `Update Lookup!`,
-                })
-              }}
-              onPageSizeChange={(page, size) => {
-                // console.log({page,size})
-                lookupStore.fetchListLookup(page, size)
-              }}
+              onClose={() => setModalConfirm({ show: false })}
             />
           </div>
-          <LibraryComponents.Molecules.ModalConfirm
-            {...modalConfirm}
-            click={(type?: string) => {
-              if (type === "Delete") {
-                lookupStore.LookupService.deleteLookup({
-                  input: { id: modalConfirm.id },
-                }).then((res: any) => {
-                  if (res.removeLookup.success) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.removeLookup.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    lookupStore.fetchListLookup()
-                  }
-                })
-              } else if (type === "Update") {
-                lookupStore.LookupService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },  
-                }).then((res: any) => {
-                  if (res.updateLookup.success) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.updateLookup.message}`,
-                    })
-                    setModalConfirm({ show: false })
-                    lookupStore.fetchListLookup()
-                  }
-                })
-              }
-            }}
-            onClose={() => setModalConfirm({ show: false })}
-          />
         </div>
       </Container>
     </>

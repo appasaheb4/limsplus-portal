@@ -8,7 +8,7 @@ import dayjs from "dayjs"
 
 import { useForm, Controller } from "react-hook-form"
 import { useStores, stores } from "@lp/stores"
-  
+
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -132,10 +132,10 @@ const MasterPackage = observer(() => {
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
-      )}
+      )}   
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -619,7 +619,7 @@ const MasterPackage = observer(() => {
                                 masterPackageStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                })  
+                                })
                               } else masterPackageStore.updateExistsLabEnvCode(false)
                             })
                         }
