@@ -23,7 +23,7 @@ import { DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/
 import {MasterPanelStore} from '@lp/features/collection/masterPanel/stores/masterPanel-store'
 import {TestPanelMappingStore} from '@lp/features/collection/testPanelMapping/stores/testPanelMapping-store'
 import {MasterPackageStore} from '@lp/features/collection/masterPackage/stores/masterPackage-store'
-
+import {SampleContainerStore} from '@lp/features/collection/sampleContainer/stores/sampleContainer-store'
 
 
 // setting
@@ -54,6 +54,7 @@ export class Stores extends Store {
   masterPanelStore!: MasterPanelStore
   testPanelMappingStore!: TestPanelMappingStore
   masterPackageStore!: MasterPackageStore
+  sampleContainerStore!: SampleContainerStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -64,6 +65,7 @@ export class Stores extends Store {
     this.appStore = new AppStore()
     this.routerStore = new RouterStore()
     this.loginStore = new LoginStore()
+
    
     this.labStore = new LabStore()
     this.lookupStore = new LookupStore()
@@ -81,12 +83,11 @@ export class Stores extends Store {
     this.masterPanelStore = new MasterPanelStore()
     this.testPanelMappingStore = new TestPanelMappingStore()
     this.masterPackageStore = new MasterPackageStore()
-
+    this.sampleContainerStore = new SampleContainerStore()
+    
     // settings
+    this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()
-    setTimeout(() => {
-      this.userStore = new UserStore()
-    }, 100)  
   }
   updateLoginStore() {
     this.loginStore = new LoginStore()

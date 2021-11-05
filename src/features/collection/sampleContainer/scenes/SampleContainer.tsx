@@ -8,11 +8,9 @@ import * as FeatureComponents from "../components"
 
 import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
-
+   
 const SampleContainer = observer(() => {
   const {
     control,
@@ -21,25 +19,25 @@ const SampleContainer = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const { loginStore,sampleContainerStore,routerStore } = useStores()
 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.sampleContainerStore.updateSampleContainer({
-        ...Stores.sampleContainerStore.sampleContainer,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      sampleContainerStore.updateSampleContainer({
+        ...sampleContainerStore.sampleContainer,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitSampleContainer = () => {
-    if (!Stores.sampleContainerStore.checkExitsEnvCode) {
-      Stores.sampleContainerStore.sampleContainerService
-        .addSampleContainer(Stores.sampleContainerStore.sampleContainer)
+    if (!sampleContainerStore.checkExitsEnvCode) {
+      sampleContainerStore.sampleContainerService
+        .addSampleContainer(sampleContainerStore.sampleContainer)
         .then((res) => {
           if (res.status === LibraryModels.StatusCode.CREATED) {
             LibraryComponents.Atoms.Toast.success({
@@ -61,11 +59,11 @@ const SampleContainer = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddBanner}
           onClick={() => setHideAddBanner(!hideAddBanner)}
@@ -96,30 +94,30 @@ const SampleContainer = observer(() => {
                         : "Conatiner Code"
                     }
                     value={
-                      Stores.sampleContainerStore.sampleContainer?.containerCode
+                      sampleContainerStore.sampleContainer?.containerCode
                     }
                     onChange={(containerCode) => {
                       onChange(containerCode)
-                      Stores.sampleContainerStore.updateSampleContainer({
-                        ...Stores.sampleContainerStore.sampleContainer,
+                      sampleContainerStore.updateSampleContainer({
+                        ...sampleContainerStore.sampleContainer,
                         containerCode: containerCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.sampleContainerStore.sampleContainerService
+                      sampleContainerStore.sampleContainerService
                         .checkExitsEnvCode(
                           code,
-                          Stores.sampleContainerStore.sampleContainer?.environment ||
+                          sampleContainerStore.sampleContainer?.environment ||
                             ""
                         )
                         .then((res) => {
                           if (res.success) {
-                            Stores.sampleContainerStore.updateExitsEnvCode(true)
+                            sampleContainerStore.updateExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
                               message: `😔 ${res.message}`,
                             })
                           } else
-                            Stores.sampleContainerStore.updateExitsEnvCode(false)
+                            sampleContainerStore.updateExitsEnvCode(false)
                         })
                     }}
                   />
@@ -128,7 +126,7 @@ const SampleContainer = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />  
-              {Stores.sampleContainerStore.checkExitsEnvCode && (
+              {sampleContainerStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -145,12 +143,12 @@ const SampleContainer = observer(() => {
                         : "Container Name"
                     }
                     value={
-                      Stores.sampleContainerStore.sampleContainer?.containerName
+                      sampleContainerStore.sampleContainer?.containerName
                     }
                     onChange={(containerName) => {
                       onChange(containerName)
-                      Stores.sampleContainerStore.updateSampleContainer({
-                        ...Stores.sampleContainerStore.sampleContainer,
+                      sampleContainerStore.updateSampleContainer({
+                        ...sampleContainerStore.sampleContainer,
                         containerName: containerName.toUpperCase(),
                       })
                     }}
@@ -170,8 +168,8 @@ const SampleContainer = observer(() => {
                     onChange={(e) => {
                       const image = e.target.files[0]
                       onChange(image)
-                      Stores.sampleContainerStore.updateSampleContainer({
-                        ...Stores.sampleContainerStore.sampleContainer,
+                      sampleContainerStore.updateSampleContainer({
+                        ...sampleContainerStore.sampleContainer,
                         image,
                       })
                     }}
@@ -199,11 +197,11 @@ const SampleContainer = observer(() => {
                     placeholder={
                       errors.description ? "Please Enter Description" : "Description"
                     }
-                    value={Stores.sampleContainerStore.sampleContainer?.description}
+                    value={sampleContainerStore.sampleContainer?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.sampleContainerStore.updateSampleContainer({
-                        ...Stores.sampleContainerStore.sampleContainer,
+                      sampleContainerStore.updateSampleContainer({
+                        ...sampleContainerStore.sampleContainer,
                         description,
                       })
                     }}
@@ -219,7 +217,7 @@ const SampleContainer = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
                       value={
-                        Stores.sampleContainerStore.sampleContainer?.environment
+                        sampleContainerStore.sampleContainer?.environment
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
@@ -227,44 +225,44 @@ const SampleContainer = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.sampleContainerStore.updateSampleContainer({
-                          ...Stores.sampleContainerStore.sampleContainer,
+                        sampleContainerStore.updateSampleContainer({
+                          ...sampleContainerStore.sampleContainer,
                           environment,
                         })
-                        Stores.sampleContainerStore.sampleContainerService
+                        sampleContainerStore.sampleContainerService
                           .checkExitsEnvCode(
-                            Stores.sampleContainerStore.sampleContainer
+                            sampleContainerStore.sampleContainer
                               ?.containerCode || "",
                             environment
                           )
                           .then((res) => {
                             if (res.success) {
-                              Stores.sampleContainerStore.updateExitsEnvCode(true)
+                              sampleContainerStore.updateExitsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
                             } else
-                              Stores.sampleContainerStore.updateExitsEnvCode(false)
+                              sampleContainerStore.updateExitsEnvCode(false)
                           })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.sampleContainerStore.sampleContainer
+                          : sampleContainerStore.sampleContainer
                               ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -306,17 +304,17 @@ const SampleContainer = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleContainerList
-            data={Stores.sampleContainerStore.listSampleContainer || []}
-            totalSize={Stores.sampleContainerStore.listSampleContainerCount}
+            data={sampleContainerStore.listSampleContainer || []}
+            totalSize={sampleContainerStore.listSampleContainerCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -340,7 +338,7 @@ const SampleContainer = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.sampleContainerStore.fetchListSampleContainer(page, limit)
+              sampleContainerStore.fetchListSampleContainer(page, limit)
             }}
           />
         </div>
@@ -348,7 +346,7 @@ const SampleContainer = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              Stores.sampleContainerStore.sampleContainerService
+              sampleContainerStore.sampleContainerService
                 .deleteSampleContainer(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -356,11 +354,11 @@ const SampleContainer = observer(() => {
                       message: `😊 Records deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.sampleContainerStore.fetchListSampleContainer()
-                  }
+                    sampleContainerStore.fetchListSampleContainer()
+                  }   
                 })
             } else if (type === "Update") {
-              Stores.sampleContainerStore.sampleContainerService
+              sampleContainerStore.sampleContainerService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -368,7 +366,7 @@ const SampleContainer = observer(() => {
                       message: `😊 Record updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.sampleContainerStore.fetchListSampleContainer()
+                    sampleContainerStore.fetchListSampleContainer()
                     window.location.reload()
                   }
                 })
