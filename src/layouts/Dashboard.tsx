@@ -98,8 +98,11 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/masterPackage" ||
         pathname === "/collection/library" ||
         pathname === "/collection/priceList"
-      )
+      ){
         await PanelMaster.startup()
+        await Methods.startup()
+      }
+        
       if (
         pathname === "/collection/sampleContainer" ||
         pathname === "/collection/testSampleMapping"

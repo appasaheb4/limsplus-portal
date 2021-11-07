@@ -67,7 +67,7 @@ const MasterPackage = observer(() => {
               })
             }
           })
-      } else if (
+      } else if (  
         masterPackageStore.masterPackage?.existsVersionId &&
         !masterPackageStore.masterPackage?.existsRecordId
       ) {
@@ -132,7 +132,7 @@ const MasterPackage = observer(() => {
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
         />
-      )}   
+      )}
       <div className="mx-auto flex-wrap">
         <div
           className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
@@ -769,7 +769,7 @@ const MasterPackage = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: LibraryUtils.moment().unix(),
               })
               setValue("lab", modalConfirm.data.lab)

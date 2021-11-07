@@ -21,7 +21,13 @@ const MasterPanel = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, departmentStore, labStore, masterPanelStore } = useStores()
+  const {
+    loginStore,
+    departmentStore,
+    labStore,
+    masterPanelStore,
+    methodsStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
@@ -446,7 +452,42 @@ const MasterPanel = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+
               <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Panel Method"
+                    hasError={errors.panelMethod}
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.panelMethod ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const panelMethod = e.target.value
+                        onChange(panelMethod)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          panelMethod,
+                        })
+                      }}
+                    >  
+                      <option selected>Select</option>
+                      {methodsStore.listMethods.map((item: any, index: number) => (
+                        <option key={index} value={item.methodsCode}>
+                          {`${item.methodsCode} - ${item.methodsName}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="panelMethod"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+
+              {/* <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
@@ -470,7 +511,7 @@ const MasterPanel = observer(() => {
                 name="panelMethod"
                 rules={{ required: false }}
                 defaultValue=""
-              />
+              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -507,7 +548,7 @@ const MasterPanel = observer(() => {
                       onChange(price)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
-                        price,
+                        price: parseFloat(price),
                       })
                     }}
                   />
@@ -692,7 +733,7 @@ const MasterPanel = observer(() => {
                         onChange(validationLevel)
                         masterPanelStore.updateMasterPanel({
                           ...masterPanelStore.masterPanel,
-                          validationLevel,
+                          validationLevel: parseInt(validationLevel),
                         })
                       }}
                     >
@@ -1372,12 +1413,6 @@ const MasterPanel = observer(() => {
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     value={masterPanelStore.masterPanel?.version}
                     disabled={true}
-                    // onChange={(analyteCode) => {
-                    //   masterAnalyteStore.updateMasterAnalyte({
-                    //     ...masterAnalyteStore.masterAnalyte,
-                    //     analyteCode,
-                    //   })
-                    // }}
                   />
                 )}
                 name="version"
@@ -1591,7 +1626,7 @@ const MasterPanel = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)

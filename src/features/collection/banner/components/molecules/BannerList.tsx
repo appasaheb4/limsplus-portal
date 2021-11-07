@@ -61,7 +61,7 @@ const BannerList = (props: BannerListProps) => {
             rowIndex,
             columnIndex
           ) => (
-            <>
+            <>  
               <LibraryComponents.Atoms.Form.InputFile
                 label="File"
                 placeholder="File"

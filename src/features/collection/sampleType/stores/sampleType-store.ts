@@ -1,37 +1,47 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class SampleTypeStore {
-  @observable listSampleType: Models.SampleType[] = []
-  @observable listSampleTypeCount: number = 0
-  @ignore @observable sampleType?: Models.SampleType
-  @ignore @observable checkExitsEnvCode?: boolean = false
+export class SampleTypeStore {
+  @observable listSampleType!: Models.SampleType[]
+  @observable listSampleTypeCount!: number
+  @ignore @observable sampleType!: Models.SampleType
+  @ignore @observable checkExitsEnvCode: boolean
 
   constructor() {
-    makeAutoObservable(this)
+    this.listSampleType = []
+    this.sampleType = new Models.SampleType({})
+    this.checkExitsEnvCode = false
+
+    makeObservable<SampleTypeStore, any>(this, {
+      listSampleType: observable,
+      listSampleTypeCount: observable,
+      sampleType: observable,
+      checkExitsEnvCode: observable,
+    })
   }
 
   @computed get sampleTypeService() {
     return new Services.SampleTypeService()
   }
-
+  
   @action fetchSampleTypeList(page?, limit?) {
-    this.sampleTypeService.listSampleType(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listSampleType = res.data.sampleType
-      this.listSampleTypeCount = res.data.count
-    })
+    this.sampleTypeService.listSampleType(page, limit)
   }
+    
+  @action updateSampleTypeList(res: any) {
+    if (!res.sampleTypes.success) return alert(res.sampleTypes.message)
+    this.listSampleType = res.sampleTypes.data
+    this.listSampleTypeCount = res.sampleTypes.paginatorInfo.count
+  }
+
   @action updateSampleType = (sampleType: Models.SampleType) => {
     this.sampleType = sampleType
   }
-   
+
   @action updateExitsEnvCode(status: boolean) {
     this.checkExitsEnvCode = status
   }
 }
-
-export default SampleTypeStore

@@ -225,10 +225,10 @@ export const UserList = observer((props: UserListProps) => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
                       onChange={(e) => {
-                        const validationLevel = (e.target.value || 0) as number
+                        const validationLevel = e.target.value 
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            validationLevel,
+                           parseInt(validationLevel),
                             column.dataField,
                             row._id
                           )

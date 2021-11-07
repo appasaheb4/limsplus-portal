@@ -25,7 +25,7 @@ class MasterPanelService {
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
       client
-        .mutate({
+        .mutate({  
           mutation: LIST,
           variables: { input: { page, limit, env, role, lab } },
         })

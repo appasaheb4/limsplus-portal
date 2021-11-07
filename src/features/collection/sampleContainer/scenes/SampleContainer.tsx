@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
-   
+
 const SampleContainer = observer(() => {
   const {
     control,
@@ -19,7 +19,7 @@ const SampleContainer = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore,sampleContainerStore,routerStore } = useStores()
+  const { loginStore, sampleContainerStore, routerStore } = useStores()
 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
@@ -37,11 +37,11 @@ const SampleContainer = observer(() => {
   const onSubmitSampleContainer = () => {
     if (!sampleContainerStore.checkExitsEnvCode) {
       sampleContainerStore.sampleContainerService
-        .addSampleContainer(sampleContainerStore.sampleContainer)
+        .addSampleContainer({ input: { ...sampleContainerStore.sampleContainer } })
         .then((res) => {
-          if (res.status === LibraryModels.StatusCode.CREATED) {
+          if (res.createSampleContainer.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Sample container created.`,
+              message: `😊 ${res.createSampleContainer.message}`,
             })
             setTimeout(() => {
               window.location.reload()
@@ -72,7 +72,7 @@ const SampleContainer = observer(() => {
       <div className="mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddBanner ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -93,9 +93,7 @@ const SampleContainer = observer(() => {
                         ? "Please Enter Container Code "
                         : "Conatiner Code"
                     }
-                    value={
-                      sampleContainerStore.sampleContainer?.containerCode
-                    }
+                    value={sampleContainerStore.sampleContainer?.containerCode}
                     onChange={(containerCode) => {
                       onChange(containerCode)
                       sampleContainerStore.updateSampleContainer({
@@ -105,27 +103,27 @@ const SampleContainer = observer(() => {
                     }}
                     onBlur={(code) => {
                       sampleContainerStore.sampleContainerService
-                        .checkExitsEnvCode(
-                          code,
-                          sampleContainerStore.sampleContainer?.environment ||
-                            ""
-                        )
+                        .checkExitsEnvCode({
+                          input: {
+                            code,
+                            env: sampleContainerStore.sampleContainer?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
+                          if (res.checkSampleContainersExistsRecord.success) {
                             sampleContainerStore.updateExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
                             })
-                          } else
-                            sampleContainerStore.updateExitsEnvCode(false)
+                          } else sampleContainerStore.updateExitsEnvCode(false)
                         })
                     }}
                   />
-                )}   
+                )}
                 name="containerCode"
                 rules={{ required: true }}
                 defaultValue=""
-              />  
+              />
               {sampleContainerStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
@@ -142,9 +140,7 @@ const SampleContainer = observer(() => {
                         ? "Please Enter Container Name"
                         : "Container Name"
                     }
-                    value={
-                      sampleContainerStore.sampleContainer?.containerName
-                    }
+                    value={sampleContainerStore.sampleContainer?.containerName}
                     onChange={(containerName) => {
                       onChange(containerName)
                       sampleContainerStore.updateSampleContainer({
@@ -216,17 +212,12 @@ const SampleContainer = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={
-                        sampleContainerStore.sampleContainer?.environment
-                      }
+                      value={sampleContainerStore.sampleContainer?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -238,28 +229,28 @@ const SampleContainer = observer(() => {
                           environment,
                         })
                         sampleContainerStore.sampleContainerService
-                          .checkExitsEnvCode(
-                            sampleContainerStore.sampleContainer
-                              ?.containerCode || "",
-                            environment
-                          )
+                          .checkExitsEnvCode({
+                            input: {
+                              code:
+                                sampleContainerStore.sampleContainer?.containerCode,
+                              env: environment,
+                            },
+                          })  
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkSampleContainersExistsRecord.success) {
                               sampleContainerStore.updateExitsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
                               })
-                            } else
-                              sampleContainerStore.updateExitsEnvCode(false)
+                            } else sampleContainerStore.updateExitsEnvCode(false)
                           })
                       }}
                     >
                       <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : sampleContainerStore.sampleContainer
-                              ?.environment || `Select`}
+                          : sampleContainerStore.sampleContainer?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         routerStore.lookupItems,
@@ -296,11 +287,11 @@ const SampleContainer = observer(() => {
               onClick={() => {
                 window.location.reload()
               }}
-            >
+            >  
               Clear
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
-        </div>
+        </div> 
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.SampleContainerList
@@ -317,7 +308,6 @@ const SampleContainer = observer(() => {
               routerStore.userPermission,
               "Edit/Modify"
             )}
-            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -337,6 +327,15 @@ const SampleContainer = observer(() => {
                 body: `Update item!`,
               })
             }}
+            onUpdateImage={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "UpdateImage",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Record update!`,
+              })
+            }}
             onPageSizeChange={(page, limit) => {
               sampleContainerStore.fetchListSampleContainer(page, limit)
             }}
@@ -347,33 +346,55 @@ const SampleContainer = observer(() => {
           click={(type: string) => {
             if (type === "Delete") {
               sampleContainerStore.sampleContainerService
-                .deleteSampleContainer(modalConfirm.id)
+                .deleteSampleContainer({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeSampleContainer.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Records deleted.`,
+                      message: `😊 ${res.removeSampleContainer.message}`,
                     })
                     setModalConfirm({ show: false })
                     sampleContainerStore.fetchListSampleContainer()
-                  }   
+                  }
                 })
             } else if (type === "Update") {
               sampleContainerStore.sampleContainerService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateSampleContainer.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updateSampleContainer.message}`,
                     })
                     setModalConfirm({ show: false })
                     sampleContainerStore.fetchListSampleContainer()
-                    window.location.reload()
+                  }
+                })
+            } else {
+              sampleContainerStore.sampleContainerService
+                .updateImage({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    image: modalConfirm.data.value,
+                  },
+                })
+                .then((res: any) => {
+                  if (res.updateSampleContainersImage.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.updateSampleContainersImage.message}`,
+                    })
+                    setTimeout(() => {
+                      window.location.reload()
+                    }, 2000)
                   }
                 })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
-        />
+        />  
       </div>
     </>
   )

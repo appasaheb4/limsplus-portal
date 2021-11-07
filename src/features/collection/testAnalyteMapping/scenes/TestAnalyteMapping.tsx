@@ -30,31 +30,33 @@ const TestAnalyteMapping = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    testAnalyteMappingStore &&
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
+      })
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      testAnalyteMappingStore &&
+        testAnalyteMappingStore.updateTestAnalyteMapping({
+          ...testAnalyteMappingStore.testAnalyteMapping,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
       testAnalyteMappingStore.updateTestAnalyteMapping({
         ...testAnalyteMappingStore.testAnalyteMapping,
-        status: status.code as string,
+        environment: environment.code as string,
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    testAnalyteMappingStore.updateTestAnalyteMapping({
-      ...testAnalyteMappingStore.testAnalyteMapping,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -792,7 +794,7 @@ const TestAnalyteMapping = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)

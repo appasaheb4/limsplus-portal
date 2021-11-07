@@ -292,7 +292,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               row,
               column,
               rowIndex,
-              columnIndex  
+              columnIndex    
             ) => (
               <>
                  <LibraryComponents.Atoms.Form.Input
@@ -302,7 +302,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                 value={row.price}
                 onChange={(price) => {
                   props.onUpdateItem &&
-                  props.onUpdateItem(price,column.dataField,row._id)
+                  props.onUpdateItem(parseFloat(price),column.dataField,row._id)
                 }}
               />
               </>

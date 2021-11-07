@@ -9,10 +9,10 @@ export class SampleContainerStore {
   @observable listSampleContainer!: Models.SampleContainer[]
   @observable listSampleContainerCount!: number
   @ignore @observable checkExitsEnvCode!: boolean
-   
+
   constructor() {
     this.listSampleContainer = []
-    this.checkExitsEnvCode = false   
+    this.checkExitsEnvCode = false
     makeObservable<SampleContainerStore, any>(this, {
       sampleContainer: observable,
       listSampleContainer: observable,
@@ -22,17 +22,17 @@ export class SampleContainerStore {
   }
   
   @computed get sampleContainerService() {
-  return new Services.SampleContainerService()
+    return new Services.SampleContainerService()
   }
-  
+   
   @action fetchListSampleContainer(page?, limit?) {
     this.sampleContainerService.listSampleContainer(page, limit)
   }
-
+  
   @action updateSampleContainerList(res: any) {
-    if (!res.success) return alert(res.message)
-    this.listSampleContainer = res.data.sampleContainer
-    this.listSampleContainerCount = res.data.count
+    if (!res.sampleContainers.success) return alert(res.sampleContainers.message)
+    this.listSampleContainer = res.sampleContainers.data
+    this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count
   }
 
   @action updateSampleContainer = (sampleContainer: Models.SampleContainer) => {
