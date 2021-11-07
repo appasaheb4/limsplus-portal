@@ -405,7 +405,7 @@ export class PatientResult{
   workFlow?: boolean
   attachment?: boolean
   lonicCode?: string
-  price?: string
+  price?: number
   resultReportable?: boolean
   rangeReportable?: boolean
   pLaterUnno?: string

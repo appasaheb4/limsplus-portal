@@ -5,12 +5,9 @@ import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
-import Storage from "@lp/library/modules/storage"
 import { useForm, Controller } from "react-hook-form"
+
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -21,27 +18,27 @@ const Methods = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, methodsStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.methodsStore.updateMethods({
-        ...Stores.methodsStore.methods,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      methodsStore.updateMethods({
+        ...methodsStore.methods,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitMethods = () => {
-    if (!Stores.methodsStore.checkExitsEnvCode) {
-      Stores.methodsStore.methodsService
-        .addMethods(Stores.methodsStore.methods)
+    if (!methodsStore.checkExitsEnvCode) {
+      methodsStore.methodsService
+        .addMethods({ input: { ...methodsStore.methods } })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createMethod.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Methods created.`,
+              message: `😊 ${res.createMethod.message}`,
             })
           }
           setTimeout(() => {
@@ -59,11 +56,11 @@ const Methods = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -91,27 +88,29 @@ const Methods = observer(() => {
                       errors.methodsCode ? "Please Enter Method Code" : "Method Code"
                     }
                     hasError={errors.methodsCode}
-                    value={Stores.methodsStore.methods?.methodsCode}
+                    value={methodsStore.methods?.methodsCode}
                     onChange={(methodsCode) => {
                       onChange(methodsCode)
-                      Stores.methodsStore.updateMethods({
-                        ...Stores.methodsStore.methods,
-                        methodsCode:methodsCode.toUpperCase(),
+                      methodsStore.updateMethods({
+                        ...methodsStore.methods,
+                        methodsCode: methodsCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.methodsStore.methodsService
-                        .checkExitsEnvCode(
-                          code,
-                          Stores.methodsStore.methods?.environment || ""
-                        )
+                      methodsStore.methodsService
+                        .checkExitsEnvCode({
+                          input: {
+                            code,
+                            env: methodsStore.methods?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
-                            Stores.methodsStore.updateExitsEnvCode(true)
+                          if (res.checkMethodsExistsRecord.success) {
+                            methodsStore.updateExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkMethodsExistsRecord.message}`,
                             })
-                          } else Stores.methodsStore.updateExitsEnvCode(false)
+                          } else methodsStore.updateExitsEnvCode(false)
                         })
                     }}
                   />
@@ -120,7 +119,7 @@ const Methods = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.methodsStore.checkExitsEnvCode && (
+              {methodsStore.checkExitsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -136,12 +135,12 @@ const Methods = observer(() => {
                         : "Methods Name"
                     }
                     hasError={errors.methodName}
-                    value={Stores.methodsStore.methods?.methodsName}
+                    value={methodsStore.methods?.methodsName}
                     onChange={(methodsName) => {
                       onChange(methodsName)
-                      Stores.methodsStore.updateMethods({
-                        ...Stores.methodsStore.methods,
-                        methodsName:methodsName.toUpperCase(),
+                      methodsStore.updateMethods({
+                        ...methodsStore.methods,
+                        methodsName: methodsName.toUpperCase(),
                       })
                     }}
                   />
@@ -162,12 +161,12 @@ const Methods = observer(() => {
                         : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.methodsStore.methods?.description}
+                    value={methodsStore.methods?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.methodsStore.updateMethods({
-                        ...Stores.methodsStore.methods,
-                        description:description.toUpperCase(),
+                      methodsStore.updateMethods({
+                        ...methodsStore.methods,
+                        description: description.toUpperCase(),
                       })
                     }}
                   />
@@ -192,22 +191,20 @@ const Methods = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.methodsStore.updateMethods({
-                          ...Stores.methodsStore.methods,
+                        methodsStore.updateMethods({
+                          ...methodsStore.methods,
                           status,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -218,7 +215,7 @@ const Methods = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -226,48 +223,46 @@ const Methods = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.methodsStore.methods?.environment}
+                      value={methodsStore.methods?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.methodsStore.updateMethods({
-                          ...Stores.methodsStore.methods,
+                        methodsStore.updateMethods({
+                          ...methodsStore.methods,
                           environment,
                         })
-                        Stores.methodsStore.methodsService
-                          .checkExitsEnvCode(
-                            Stores.methodsStore.methods?.methodsCode || "",
-                            environment
-                          )
-                          .then((res) => {
-                            if (res.success) {
-                              Stores.methodsStore.updateExitsEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
-                              })
-                            } else Stores.methodsStore.updateExitsEnvCode(false)
+                        methodsStore.methodsService
+                          .checkExitsEnvCode({
+                            input: {
+                              code: methodsStore.methods?.methodsCode,
+                              env: environment,
+                            },
                           })  
+                          .then((res) => {
+                            if (res.checkMethodsExistsRecord.success) {
+                              methodsStore.updateExitsEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkMethodsExistsRecord.message}`,
+                              })
+                            } else methodsStore.updateExitsEnvCode(false)
+                          })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.methodsStore.methods?.environment || `Select`}
+                          : methodsStore.methods?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -308,20 +303,19 @@ const Methods = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.MethodsList
-            data={Stores.methodsStore.listMethods || []}
-            totalSize={Stores.methodsStore.listMethodsCount}
+            data={methodsStore.listMethods || []}
+            totalSize={methodsStore.listMethodsCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
-            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -342,7 +336,7 @@ const Methods = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.methodsStore.fetchMethods(page, limit)
+              methodsStore.fetchMethods(page, limit)
             }}
           />
         </div>
@@ -350,28 +344,32 @@ const Methods = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.methodsStore.methodsService
-                .deleteMethods(modalConfirm.id)
+              methodsStore.methodsService
+                .deleteMethods({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeMethod.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record deleted.`,
+                      message: `😊 ${res.removeMethod.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.methodsStore.fetchMethods()
+                    methodsStore.fetchMethods()
                   }
                 })
             } else if (type === "Update") {
-              Stores.methodsStore.methodsService
-                .updateSingleFiled(modalConfirm.data)
+              methodsStore.methodsService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateMethod.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Methods record updated.`,
+                      message: `😊 ${res.updateMethod.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.methodsStore.fetchMethods()
-                    window.location.reload()
+                    methodsStore.fetchMethods()
                   }
                 })
             }

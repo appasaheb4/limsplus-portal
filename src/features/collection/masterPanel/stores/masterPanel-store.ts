@@ -14,6 +14,7 @@ export class MasterPanelStore {
 
   constructor() {
     this.listMasterPanel = []
+    this.listMasterPanelCount = 0
     this.checkExitsLabEnvCode = false
     this.masterPanel = {
       ...this.masterPanel,
@@ -22,7 +23,7 @@ export class MasterPanelStore {
       dateActiveTo: new Date(),
       version: 1,
       bill: false,
-      autoRelease: false,
+      autoRelease: false,  
       holdOOS: false,
       confidential: false,
       urgent: false,
@@ -32,7 +33,7 @@ export class MasterPanelStore {
       printLabel: false,
       method: false,
       cumulative: false,
-    }
+    }   
     makeObservable<MasterPanelStore, any>(this, {
       masterPanel: observable,
       listMasterPanel: observable,

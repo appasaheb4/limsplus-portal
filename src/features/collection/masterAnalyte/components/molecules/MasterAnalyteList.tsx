@@ -156,7 +156,7 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
                     value={row.price}
                     onChange={(price) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(price, column.dataField, row._id)
+                        props.onUpdateItem(parseFloat(price), column.dataField, row._id)
                     }}
                   />
                 </>

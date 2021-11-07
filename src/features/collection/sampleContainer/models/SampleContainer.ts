@@ -7,6 +7,7 @@ export class SampleContainer {
     environment: string
     dateOfEntry: Date
     lastUpdated: Date  
+      
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.containerCode = rawData.containerCode

@@ -179,7 +179,7 @@ const MethodsList = observer((props: MethodsListProps) => {
         props.onPageSizeChange && props.onPageSizeChange(page,size)
       }}
     />
-  )
+  )  
 })
 
 export default MethodsList

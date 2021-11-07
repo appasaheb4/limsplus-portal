@@ -725,7 +725,7 @@ const TestPanelMapping = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
