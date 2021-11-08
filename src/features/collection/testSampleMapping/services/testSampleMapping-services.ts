@@ -4,80 +4,87 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+//import * as Models from "../models"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD,CHECK_EXISTS_RECORD } from "./mutation"
 
 class TestSampleMappingService {
   listTestSampleMapping = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(
-          `master/testSampleMapping/listTestSampleMapping/${page}/${limit}/${env}/${role}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.testSampleMappingStore.updateTestSampleMappingList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
-    })
-  addTestSampleMapping = (sampleMapping?: Models.TestSampleMapping) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testSampleMapping/addTestSampleMapping`, sampleMapping)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteTestSampleMapping = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/testSampleMapping/deleteTestSampleMapping/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testSampleMapping/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+        )
     })
 
-  checkExitsTestSampleEnvCode = (
-    testCode: string,
-    smapleCode: string,
-    env: string
-  ) =>
+  addTestSampleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testSampleMapping/checkExitsTestSampleEnvCode`, {
-          testCode,
-          smapleCode,
-          env,
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  deleteTestSampleMapping = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORDS,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsTestSampleEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

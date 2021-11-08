@@ -65,6 +65,7 @@ export class Labs {
         this.workLine = rawData.workLine  || ''
         this.status = rawData.status || ''
         this.environment = rawData.environment || ''
+
     }
   }
   

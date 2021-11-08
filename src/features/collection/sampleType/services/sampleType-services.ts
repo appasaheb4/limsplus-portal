@@ -4,11 +4,10 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
+//import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST } from "./mutation"
+import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD, CHECK_EXISTS_RECORD } from "./mutation"
 
 class SampleTypeService {
   listSampleType = (page = 0, limit = 10) =>
@@ -28,51 +27,62 @@ class SampleTypeService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  addSampleType = (sampleType?: Models.SampleType) =>
+  addSampleType = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/sampleType/addSampleType`, sampleType)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  deleteSampleType = (id: string) =>
+  deleteSampleType = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/sampleType/deleteSampleType/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+      client
+      .mutate({
+        mutation: REMOVE_RECORDS,
+        variables,
+      })
+      .then((response: any) => {
+        resolve(response.data)
+      })
+      .catch((error) =>
+        reject(new ServiceResponse<any>(0, error.message, undefined))
+      )
     })
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/sampleType/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  checkExitsEnvCode = (code: string, env: string) =>
+  checkExitsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/sampleType/checkExitsEnvCode`, { code, env })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 }
 
