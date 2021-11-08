@@ -380,7 +380,7 @@ const MasterAnalyte = observer(() => {
                       onChange(price)
                       masterAnalyteStore.updateMasterAnalyte({
                         ...masterAnalyteStore.masterAnalyte,
-                        price,
+                        price: parseFloat(price),
                       })
                     }}
                   />
@@ -1033,7 +1033,9 @@ const MasterAnalyte = observer(() => {
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.keyNum}
-                    value={dayjs(masterAnalyteStore.masterAnalyte?.dateActiveTo).format("YYYY-MM-DD")}
+                    value={dayjs(
+                      masterAnalyteStore.masterAnalyte?.dateActiveTo
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
                       const schedule = new Date(e.target.value)
                       masterAnalyteStore.updateMasterAnalyte({
@@ -1173,7 +1175,7 @@ const MasterAnalyte = observer(() => {
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
-              setModalConfirm({   
+              setModalConfirm({
                 show: true,
                 type: "Delete",
                 id: rows,
@@ -1253,8 +1255,8 @@ const MasterAnalyte = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
@@ -1268,7 +1270,7 @@ const MasterAnalyte = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)

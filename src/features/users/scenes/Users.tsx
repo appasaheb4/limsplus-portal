@@ -51,15 +51,18 @@ export const Users = observer(() => {
         })
       setValue("status", status.code as string)
     }
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      userStore && userStore.updateUser({
-        ...userStore.user,
-        environment: environment.code as string
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
       })
-      setValue("environment",environment.code as string)
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      userStore &&
+        userStore.updateUser({
+          ...userStore.user,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
     }
   }, [routerStore.lookupItems])
 
@@ -87,10 +90,16 @@ export const Users = observer(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 ${res.createUser.message}`,
             })
+<<<<<<< HEAD
             setTimeout(() => {
               userStore.loadUser()
               // window.location.reload()
             }, 2000)
+=======
+            // setTimeout(() => {
+            //   window.location.reload()
+            // }, 2000)
+>>>>>>> dev
           } else {
             LibraryComponents.Atoms.Toast.error({
               message: `😔 ${res.createUser.message}`,
@@ -123,7 +132,7 @@ export const Users = observer(() => {
           <div
             className={
               "p-2 rounded-lg shadow-xl " + (hideAddUser ? "hidden" : "shown")
-            }   
+            }
           >
             <LibraryComponents.Atoms.Grid cols={3}>
               <LibraryComponents.Atoms.List
@@ -386,11 +395,11 @@ export const Users = observer(() => {
                             : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const validationLevel = (e.target.value || 0) as number
+                          const validationLevel = e.target.value 
                           onChange(validationLevel)
                           userStore.updateUser({
                             ...userStore.user,
-                            validationLevel,
+                            validationLevel: parseInt(validationLevel),
                           })
                         }}
                       >
@@ -672,10 +681,10 @@ export const Users = observer(() => {
                         hasError={errors.expireDays}
                         value={userStore && userStore.user.expireDays}
                         onChange={(expireDays) => {
-                          onChange(expireDays)
+                          onChange(expireDays)  
                           userStore.updateUser({
-                            ...userStore.user,
-                            expireDays,
+                            ...userStore.user,  
+                            expireDays: parseInt(expireDays),
                           })
                         }}
                       />

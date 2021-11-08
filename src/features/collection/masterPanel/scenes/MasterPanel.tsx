@@ -1,20 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
+import daysjs from "dayjs"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LoginStores } from "@lp/features/login/stores"
-import { Stores as SectionStores } from "@lp/features/collection/section/stores"
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -27,15 +21,50 @@ const MasterPanel = observer(() => {
     setValue,
   } = useForm()
 
-  console.log({ stores })
-
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    departmentStore,
+    labStore,
+    masterPanelStore,
+    methodsStore,
+    deliveryScheduleStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
+  useEffect(() => {
+    const status = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
+      })
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      masterPanelStore &&
+        masterPanelStore.updateMasterPanel({
+          ...masterPanelStore.masterPanel,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      masterPanelStore &&
+        masterPanelStore.updateMasterPanel({
+          ...masterPanelStore.masterPanel,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.masterPanelStore.updateMasterPanel({
-        ...Stores.masterPanelStore.masterPanel,
+      masterPanelStore.updateMasterPanel({
+        ...masterPanelStore.masterPanel,
         rLab: stores.loginStore.login.lab,
         pLab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
@@ -47,48 +76,62 @@ const MasterPanel = observer(() => {
   }, [stores.loginStore.login])
 
   const onSubmitMasterPanel = () => {
-    if (!Stores.masterPanelStore.checkExitsLabEnvCode) {
+    if (!masterPanelStore.checkExitsLabEnvCode) {
       if (
-        !Stores.masterPanelStore.masterPanel?.existsVersionId &&
-        !Stores.masterPanelStore.masterPanel?.existsRecordId
+        !masterPanelStore.masterPanel?.existsVersionId &&
+        !masterPanelStore.masterPanel?.existsRecordId
       ) {
-        Stores.masterPanelStore.masterPanelService
+        masterPanelStore.masterPanelService
           .addPanelMaster({
-            ...Stores.masterPanelStore.masterPanel,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterPanelStore.masterPanel,
+              enteredBy: stores.loginStore.login.userId,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Panel master created.`,
-            })
+          .then((res) => {
+            if (res.createPanelMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createPanelMaster.message}`,
+              })
+            }
           })
       } else if (
-        Stores.masterPanelStore.masterPanel?.existsVersionId &&
-        !Stores.masterPanelStore.masterPanel?.existsRecordId
+        masterPanelStore.masterPanel?.existsVersionId &&
+        !masterPanelStore.masterPanel?.existsRecordId
       ) {
-        Stores.masterPanelStore.masterPanelService
+        masterPanelStore.masterPanelService
           .versionUpgradePanelMaster({
-            ...Stores.masterPanelStore.masterPanel,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterPanelStore.masterPanel,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Panel master version upgrade.`,
-            })
+          .then((res) => {
+            if (res.versionUpgradePanelMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradePanelMaster.message}`,
+              })
+            }
           })
       } else if (
-        !Stores.masterPanelStore.masterPanel?.existsVersionId &&
-        Stores.masterPanelStore.masterPanel?.existsRecordId
+        !masterPanelStore.masterPanel?.existsVersionId &&
+        masterPanelStore.masterPanel?.existsRecordId
       ) {
-        Stores.masterPanelStore.masterPanelService
+        masterPanelStore.masterPanelService
           .duplicatePanelMaster({
-            ...Stores.masterPanelStore.masterPanel,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...masterPanelStore.masterPanel,
+              enteredBy: stores.loginStore.login.userId,
+              __typename: undefined,
+            },
           })
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Panel master duplicate created.`,
-            })
+          .then((res) => {
+            if (res.duplicatePanelMaster.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicatePanelMaster.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -120,7 +163,7 @@ const MasterPanel = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -137,7 +180,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.rLab}
                   >
                     <select
-                      value={Stores.masterPanelStore.masterPanel?.rLab}
+                      value={masterPanelStore.masterPanel?.rLab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -150,38 +193,37 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const rLab = e.target.value as string
                         onChange(rLab)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           rLab,
                         })
-                        if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
-                          Stores.masterPanelStore.masterPanelService
-                            .checkExitsLabEnvCode(
-                              Stores.masterPanelStore.masterPanel?.panelCode || "",
-                              Stores.masterPanelStore.masterPanel?.environment || "",
-                              rLab
-                            )
+                        if (!masterPanelStore.masterPanel?.existsVersionId) {
+                          masterPanelStore.masterPanelService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterPanelStore.masterPanel?.panelCode,
+                                env: masterPanelStore.masterPanel?.environment,
+                                lab: rLab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                              if (res.checkPanelMasterExistsRecord.success) {
+                                masterPanelStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                              } else masterPanelStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LoginStores.loginStore.login?.labList &&
-                        LoginStores.loginStore.login?.labList.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {item.name}
-                            </option>
-                          )
-                        )}
+                      {loginStore.login?.labList &&
+                        loginStore.login?.labList.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -198,7 +240,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.pLab}
                   >
                     <select
-                      value={Stores.masterPanelStore.masterPanel?.pLab}
+                      value={masterPanelStore.masterPanel?.pLab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -211,20 +253,18 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const pLab = e.target.value as string
                         onChange(pLab)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           pLab,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -247,15 +287,15 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const department = e.target.value as string
                         onChange(department)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           department,
                         })
-                        Stores.masterPanelStore.findSectionListByDeptCode(department)
+                        masterPanelStore.findSectionListByDeptCode(department)
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment.map(
+                      {departmentStore.listDepartment.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -270,7 +310,7 @@ const MasterPanel = observer(() => {
                 defaultValue=""
               />
 
-              {Stores.masterPanelStore.sectionListByDeptCode && (
+              {masterPanelStore.sectionListByDeptCode && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -280,24 +320,22 @@ const MasterPanel = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.section
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.section ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const section = e.target.value as Object
+                          const section = JSON.parse(e.target.value)
                           onChange(section)
-                          Stores.masterPanelStore.updateMasterPanel({
-                            ...Stores.masterPanelStore.masterPanel,
+                          masterPanelStore.updateMasterPanel({
+                            ...masterPanelStore.masterPanel,
                             section,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {Stores.masterPanelStore.sectionListByDeptCode &&
-                          Stores.masterPanelStore.sectionListByDeptCode.map(
+                        {masterPanelStore.sectionListByDeptCode &&
+                          masterPanelStore.sectionListByDeptCode.map(
                             (item: any, index: number) => (
-                              <option key={index} value={item}>
+                              <option key={index} value={JSON.stringify(item)}>
                                 {`${item.code} -${item.name}`}
                               </option>
                             )
@@ -306,7 +344,7 @@ const MasterPanel = observer(() => {
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="section"
-                  rules={{ required: true }}
+                  rules={{ required: false }}
                   defaultValue=""
                 />
               )}
@@ -325,8 +363,8 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const serviceType = e.target.value as string
                         onChange(serviceType)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           serviceType,
                         })
                       }}
@@ -357,30 +395,31 @@ const MasterPanel = observer(() => {
                       errors.panelCode ? "Please Enter PanelCode" : "Panel Code"
                     }
                     hasError={errors.panelCode}
-                    value={Stores.masterPanelStore.masterPanel?.panelCode}
+                    value={masterPanelStore.masterPanel?.panelCode}
                     onChange={(panelCode) => {
                       onChange(panelCode)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         panelCode: panelCode.toUpperCase(),
                       })
                     }}
                     onBlur={(code) => {
-                      if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
-                        Stores.masterPanelStore.masterPanelService
-                          .checkExitsLabEnvCode(
-                            code,
-                            Stores.masterPanelStore.masterPanel?.environment || "",
-                            Stores.masterPanelStore.masterPanel?.rLab || ""
-                          )
+                      if (!masterPanelStore.masterPanel?.existsVersionId) {
+                        masterPanelStore.masterPanelService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code,
+                              env: masterPanelStore.masterPanel?.environment,
+                              lab: masterPanelStore.masterPanel?.rLab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                            if (res.checkPanelMasterExistsRecord.success) {
+                              masterPanelStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
                               })
-                            } else
-                              Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                            } else masterPanelStore.updateExistsLabEnvCode(false)
                           })
                       }
                     }}
@@ -390,7 +429,7 @@ const MasterPanel = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.masterPanelStore.checkExitsLabEnvCode && (
+              {masterPanelStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -405,11 +444,11 @@ const MasterPanel = observer(() => {
                       errors.panelName ? "Please Enter Panel Name" : "Panel Name"
                     }
                     hasError={errors.panelName}
-                    value={Stores.masterPanelStore.masterPanel?.panelName}
+                    value={masterPanelStore.masterPanel?.panelName}
                     onChange={(panelName) => {
                       onChange(panelName)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         panelName: panelName.toUpperCase(),
                       })
                     }}
@@ -430,11 +469,11 @@ const MasterPanel = observer(() => {
                       errors.description ? "Please Enter Description" : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.masterPanelStore.masterPanel?.description}
+                    value={masterPanelStore.masterPanel?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         description,
                       })
                     }}
@@ -444,31 +483,41 @@ const MasterPanel = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <LibraryComponents.Atoms.Form.InputWrapper
                     label="Panel Method"
-                    placeholder={
-                      errors.panelMethod
-                        ? "Please Enter PanelMethod"
-                        : "Panel Method"
-                    }
                     hasError={errors.panelMethod}
-                    value={Stores.masterPanelStore.masterPanel?.panelMethod}
-                    onChange={(panelMethod) => {
-                      onChange(panelMethod)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        panelMethod,
-                      })
-                    }}
-                  />
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.panelMethod ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const panelMethod = e.target.value
+                        onChange(panelMethod)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          panelMethod,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {methodsStore.listMethods.map((item: any, index: number) => (
+                        <option key={index} value={item.methodsCode}>
+                          {`${item.methodsCode} - ${item.methodsName}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelMethod"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -478,11 +527,11 @@ const MasterPanel = observer(() => {
                       errors.shortName ? "Please Enter ShortName" : "Short Name"
                     }
                     hasError={errors.shortName}
-                    value={Stores.masterPanelStore.masterPanel?.shortName}
+                    value={masterPanelStore.masterPanel?.shortName}
                     onChange={(shortName) => {
                       onChange(shortName)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         shortName: shortName.toUpperCase(),
                       })
                     }}
@@ -500,12 +549,12 @@ const MasterPanel = observer(() => {
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
                     type="number"
                     hasError={errors.price}
-                    value={Stores.masterPanelStore.masterPanel?.price}
+                    value={masterPanelStore.masterPanel?.price}
                     onChange={(price) => {
                       onChange(price)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        price,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        price: parseFloat(price),
                       })
                     }}
                   />
@@ -514,27 +563,40 @@ const MasterPanel = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <LibraryComponents.Atoms.Form.InputWrapper
                     label="Schedule"
-                    placeholder={
-                      errors.schedule ? "Please Enter Schedule" : "Schedule"
-                    }
                     hasError={errors.schedule}
-                    value={Stores.masterPanelStore.masterPanel?.schedule}
-                    onChange={(schedule) => {
-                      onChange(schedule)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        schedule: schedule.toUpperCase(),
-                      })
-                    }}
-                  />
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.schedule ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const schedule = e.target.value
+                        onChange(schedule)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          schedule,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {deliveryScheduleStore.listDeliverySchedule.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.schCode}>
+                            {`${item.schCode}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -544,11 +606,11 @@ const MasterPanel = observer(() => {
                     label="TAT"
                     placeholder={errors.tat ? "Please Enter TAT" : "TAT"}
                     hasError={errors.tat}
-                    value={Stores.masterPanelStore.masterPanel?.tat}
+                    value={masterPanelStore.masterPanel?.tat}
                     onChange={(tat) => {
                       onChange(tat)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         tat: tat.toUpperCase(),
                       })
                     }}
@@ -567,11 +629,11 @@ const MasterPanel = observer(() => {
                       label="Bill"
                       id="modeBill"
                       hasError={errors.bill}
-                      value={Stores.masterPanelStore.masterPanel?.bill}
+                      value={masterPanelStore.masterPanel?.bill}
                       onChange={(bill) => {
                         onChange(bill)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           bill,
                         })
                       }}
@@ -588,11 +650,11 @@ const MasterPanel = observer(() => {
                       label="AutoRelease"
                       id="modeAutoRelease"
                       hasError={errors.autoRelease}
-                      value={Stores.masterPanelStore.masterPanel?.autoRelease}
+                      value={masterPanelStore.masterPanel?.autoRelease}
                       onChange={(autoRelease) => {
                         onChange(autoRelease)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           autoRelease,
                         })
                       }}
@@ -609,11 +671,11 @@ const MasterPanel = observer(() => {
                       label="Hold OOS"
                       id="modeHoldOOS"
                       hasError={errors.holdOOS}
-                      value={Stores.masterPanelStore.masterPanel?.holdOOS}
+                      value={masterPanelStore.masterPanel?.holdOOS}
                       onChange={(holdOOS) => {
                         onChange(holdOOS)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           holdOOS,
                         })
                       }}
@@ -629,11 +691,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
-                      value={Stores.masterPanelStore.masterPanel?.confidential}
+                      value={masterPanelStore.masterPanel?.confidential}
                       onChange={(confidential) => {
                         onChange(confidential)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           confidential,
                         })
                       }}
@@ -649,11 +711,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
-                      value={Stores.masterPanelStore.masterPanel?.urgent}
+                      value={masterPanelStore.masterPanel?.urgent}
                       onChange={(urgent) => {
                         onChange(urgent)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           urgent,
                         })
                       }}
@@ -680,6 +742,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.validationLevel}
                   >
                     <select
+                      value={masterPanelStore.masterPanel.validationLevel}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
                           ? "border-red-500  "
@@ -688,9 +751,9 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const validationLevel: any = e.target.value
                         onChange(validationLevel)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
-                          validationLevel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          validationLevel: parseInt(validationLevel),
                         })
                       }}
                     >
@@ -720,11 +783,11 @@ const MasterPanel = observer(() => {
                         : "Report Groups"
                     }
                     hasError={errors.reportGroup}
-                    value={Stores.masterPanelStore.masterPanel?.reportGroup}
+                    value={masterPanelStore.masterPanel?.reportGroup}
                     onChange={(reportGroup) => {
                       onChange(reportGroup)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         reportGroup: reportGroup.toUpperCase(),
                       })
                     }}
@@ -739,18 +802,19 @@ const MasterPanel = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="Report Order"
+                    type="number"
                     placeholder={
                       errors.reportOrder
                         ? "Please Enter ReportOrder"
                         : "Report Order"
                     }
                     hasError={errors.reportOrder}
-                    value={Stores.masterPanelStore.masterPanel?.reportOrder}
+                    value={masterPanelStore.masterPanel?.reportOrder}
                     onChange={(reportOrder) => {
                       onChange(reportOrder)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        reportOrder: reportOrder.toUpperCase(),
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        reportOrder: parseInt(reportOrder),
                       })
                     }}
                   />
@@ -768,15 +832,13 @@ const MasterPanel = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.processing
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.processing ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const processing = e.target.value as string
                         onChange(processing)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           processing,
                         })
                       }}
@@ -806,11 +868,11 @@ const MasterPanel = observer(() => {
                       errors.workflow ? "Please Enter Workflow" : "Workflow"
                     }
                     hasError={errors.workflow}
-                    value={Stores.masterPanelStore.masterPanel?.workflow}
+                    value={masterPanelStore.masterPanel?.workflow}
                     onChange={(workflow) => {
                       onChange(workflow)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         workflow,
                       })
                     }}
@@ -829,15 +891,13 @@ const MasterPanel = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.category
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.category ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const category = e.target.value as string
                         onChange(category)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           category,
                         })
                       }}
@@ -867,15 +927,13 @@ const MasterPanel = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.panelType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const panelType = e.target.value as string
                         onChange(panelType)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           panelType,
                         })
                       }}
@@ -905,15 +963,13 @@ const MasterPanel = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sex
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sex = e.target.value as string
                         onChange(sex)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           sex,
                         })
                       }}
@@ -941,11 +997,11 @@ const MasterPanel = observer(() => {
                     label="Hi Age"
                     placeholder={errors.hiAge ? "Please Enter HiAge" : "Hi Age"}
                     hasError={errors.hiAge}
-                    value={Stores.masterPanelStore.masterPanel?.hiAge}
+                    value={masterPanelStore.masterPanel?.hiAge}
                     onChange={(hiAge) => {
                       onChange(hiAge)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         hiAge: hiAge.toUpperCase(),
                       })
                     }}
@@ -962,66 +1018,17 @@ const MasterPanel = observer(() => {
                     label="Lo Age"
                     placeholder={errors.loAge ? "Please Enter LoAge" : "Lo Age"}
                     hasError={errors.loAge}
-                    value={Stores.masterPanelStore.masterPanel?.loAge}
+                    value={masterPanelStore.masterPanel?.loAge}
                     onChange={(loAge) => {
                       onChange(loAge)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         loAge: loAge.toUpperCase(),
                       })
                     }}
                   />
                 )}
                 name="loAge"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
-              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const suffix = e.target.value as string
-                    Stores.masterPanelStore.updateMasterPanel({
-                      ...Stores.masterPanelStore.masterPanel,
-                      suffix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SUFFIX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Page Break"
-                    placeholder={
-                      errors.pageBreak ? "Please Enter PageBreak" : "Page Break"
-                    }
-                    hasError={errors.pageBreak}
-                    value={Stores.masterPanelStore.masterPanel?.pageBreak}
-                    onChange={(pageBreak) => {
-                      onChange(pageBreak)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        pageBreak,
-                      })
-                    }}
-                  />
-                )}
-                name="pageBreak"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1037,11 +1044,11 @@ const MasterPanel = observer(() => {
                         : "Report Template"
                     }
                     hasError={errors.reportTemplate}
-                    value={Stores.masterPanelStore.masterPanel?.reportTemplate}
+                    value={masterPanelStore.masterPanel?.reportTemplate}
                     onChange={(reportTemplate) => {
                       onChange(reportTemplate)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         reportTemplate,
                       })
                     }}
@@ -1057,13 +1064,33 @@ const MasterPanel = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
+                      label="Page Break"
+                      hasError={errors.pageBreak}
+                      value={masterPanelStore.masterPanel?.pageBreak}
+                      onChange={(pageBreak) => {
+                        onChange(pageBreak)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          pageBreak,
+                        })
+                      }}  
+                    />
+                  )}
+                  name="pageBreak"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
                       label="Instant Result"
                       hasError={errors.instantResult}
-                      value={Stores.masterPanelStore.masterPanel?.instantResult}
+                      value={masterPanelStore.masterPanel?.instantResult}
                       onChange={(instantResult) => {
                         onChange(instantResult)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           instantResult,
                         })
                       }}
@@ -1079,11 +1106,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Sex Action"
                       hasError={errors.sexAction}
-                      value={Stores.masterPanelStore.masterPanel?.sexAction}
+                      value={masterPanelStore.masterPanel?.sexAction}
                       onChange={(sexAction) => {
                         onChange(sexAction)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           sexAction,
                         })
                       }}
@@ -1099,11 +1126,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Repetition"
                       hasError={errors.repitation}
-                      value={Stores.masterPanelStore.masterPanel?.repitation}
+                      value={masterPanelStore.masterPanel?.repitation}
                       onChange={(repitation) => {
                         onChange(repitation)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           repitation,
                         })
                       }}
@@ -1119,11 +1146,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Print Label"
                       hasError={errors.printLabel}
-                      value={Stores.masterPanelStore.masterPanel?.printLabel}
+                      value={masterPanelStore.masterPanel?.printLabel}
                       onChange={(printLabel) => {
                         onChange(printLabel)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           printLabel,
                         })
                       }}
@@ -1139,11 +1166,11 @@ const MasterPanel = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Method"
                       hasError={errors.method}
-                      value={Stores.masterPanelStore.masterPanel?.method}
+                      value={masterPanelStore.masterPanel?.method}
                       onChange={(method) => {
                         onChange(method)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           method,
                         })
                       }}
@@ -1164,10 +1191,10 @@ const MasterPanel = observer(() => {
               {/* <LibraryComponents.Atoms.Form.Input
                 label="Tube Groups"
                 placeholder="Tube Groups"
-                value={Stores.masterPanelStore.masterPanel?.tubeGroup}
+                value={masterPanelStore.masterPanel?.tubeGroup}
                 onChange={(tubeGroup) => {
-                  Stores.masterPanelStore.updateMasterPanel({
-                    ...Stores.masterPanelStore.masterPanel,
+                  masterPanelStore.updateMasterPanel({
+                    ...masterPanelStore.masterPanel,
                     tubeGroup,
                   })
                 }}
@@ -1178,8 +1205,8 @@ const MasterPanel = observer(() => {
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const sampleType = e.target.value as string
-                    Stores.masterPanelStore.updateMasterPanel({
-                      ...Stores.masterPanelStore.masterPanel,
+                    masterPanelStore.updateMasterPanel({
+                      ...masterPanelStore.masterPanel,
                       sampleType,
                     })
                   }}
@@ -1203,10 +1230,10 @@ const MasterPanel = observer(() => {
                         : "Label Instruction"
                     }
                     hasError={errors.labelInstruction}
-                    value={Stores.masterPanelStore.masterPanel?.labelInstruction}
+                    value={masterPanelStore.masterPanel?.labelInstruction}
                     onChange={(labelInstruction) => {
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         labelInstruction: labelInstruction.toUpperCase(),
                       })
                     }}
@@ -1227,11 +1254,11 @@ const MasterPanel = observer(() => {
                         : "Special Instruction"
                     }
                     hasError={errors.specalInstructions}
-                    value={Stores.masterPanelStore.masterPanel?.specalInstructions}
+                    value={masterPanelStore.masterPanel?.specalInstructions}
                     onChange={(specalInstructions) => {
                       onChange(specalInstructions)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         specalInstructions: specalInstructions.toUpperCase(),
                       })
                     }}
@@ -1249,17 +1276,15 @@ const MasterPanel = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.masterPanelStore.masterPanel?.status}
+                      value={masterPanelStore.masterPanel?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value as string
                         onChange(status)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           status,
                         })
                       }}
@@ -1277,7 +1302,7 @@ const MasterPanel = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1289,11 +1314,11 @@ const MasterPanel = observer(() => {
                       errors.userId ? "Please Enter UserID" : "Entered By"
                     }
                     hasError={errors.userId}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                     // onChange={(analyteCode) => {
-                    //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                    //     ...Stores.masterAnalyteStore.masterAnalyte,
+                    //   masterAnalyteStore.updateMasterAnalyte({
+                    //     ...masterAnalyteStore.masterAnalyte,
                     //     analyteCode,
                     //   })
                     // }}
@@ -1313,9 +1338,9 @@ const MasterPanel = observer(() => {
                         ? "Please Enter DateCreation"
                         : "Date Creation"
                     }
-                    value={LibraryUtils.moment
-                      .unix(Stores.masterPanelStore.masterPanel?.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
+                    value={daysjs(masterPanelStore.masterPanel?.dateCreation).format(
+                      "YYYY-MM-DD"
+                    )}
                     disabled={true}
                   />
                 )}
@@ -1334,9 +1359,9 @@ const MasterPanel = observer(() => {
                         ? "Please Enter dateActiveFrom"
                         : "Date Active"
                     }
-                    value={LibraryUtils.moment
-                      .unix(Stores.masterPanelStore.masterPanel?.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
+                    value={daysjs(
+                      masterPanelStore.masterPanel?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -1350,24 +1375,24 @@ const MasterPanel = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.dateActiveTo
+                      errors.dateExpire
                         ? "Please Enter dateActiveTo"
                         : "Date Expire"
                     }
-                    value={LibraryUtils.moment
-                      .unix(Stores.masterPanelStore.masterPanel?.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
+                    value={daysjs(masterPanelStore.masterPanel?.dateExpire).format(
+                      "YYYY-MM-DD"
+                    )}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
-                      onChange(schedule)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="schedule"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1378,38 +1403,11 @@ const MasterPanel = observer(() => {
                     label="Version"
                     hasError={errors.version}
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
-                    value={Stores.masterPanelStore.masterPanel?.version}
+                    value={masterPanelStore.masterPanel?.version}
                     disabled={true}
-                    // onChange={(analyteCode) => {
-                    //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                    //     ...Stores.masterAnalyteStore.masterAnalyte,
-                    //     analyteCode,
-                    //   })
-                    // }}
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    hasError={errors.keyNum}
-                    placeholder={errors.keyNum ? "Please Enter keyNum" : "Key Num"}
-                    value={Stores.masterPanelStore.masterPanel?.keyNum}
-                    disabled={true}
-                    // onChange={(analyteCode) => {
-                    //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                    //     ...Stores.masterAnalyteStore.masterAnalyte,
-                    //     analyteCode,
-                    //   })
-                    // }}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1421,11 +1419,9 @@ const MasterPanel = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.masterPanelStore.masterPanel?.environment}
+                      value={masterPanelStore.masterPanel?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -1436,25 +1432,26 @@ const MasterPanel = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value as string
                         onChange(environment)
-                        Stores.masterPanelStore.updateMasterPanel({
-                          ...Stores.masterPanelStore.masterPanel,
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
                           environment,
                         })
-                        if (!Stores.masterPanelStore.masterPanel?.existsVersionId) {
-                          Stores.masterPanelStore.masterPanelService
-                            .checkExitsLabEnvCode(
-                              Stores.masterPanelStore.masterPanel?.panelCode || "",
-                              environment,
-                              Stores.masterPanelStore.masterPanel?.rLab || ""
-                            )
+                        if (!masterPanelStore.masterPanel?.existsVersionId) {
+                          masterPanelStore.masterPanelService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: masterPanelStore.masterPanel?.panelCode,
+                                env: environment,
+                                lab: masterPanelStore.masterPanel?.rLab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.masterPanelStore.updateExistsLabEnvCode(true)
+                              if (res.checkPanelMasterExistsRecord.success) {
+                                masterPanelStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.masterPanelStore.updateExistsLabEnvCode(false)
+                              } else masterPanelStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -1463,8 +1460,7 @@ const MasterPanel = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.masterPanelStore.masterPanel?.environment ||
-                            `Select`}
+                          : masterPanelStore.masterPanel?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -1487,11 +1483,11 @@ const MasterPanel = observer(() => {
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Cumulative"
                     hasError={errors.cumulative}
-                    value={Stores.masterPanelStore.masterPanel?.cumulative}
+                    value={masterPanelStore.masterPanel?.cumulative}
                     onChange={(cumulative) => {
                       onChange(cumulative)
-                      Stores.masterPanelStore.updateMasterPanel({
-                        ...Stores.masterPanelStore.masterPanel,
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
                         cumulative,
                       })
                     }}
@@ -1528,8 +1524,8 @@ const MasterPanel = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PanelMasterList
-            data={Stores.masterPanelStore.listMasterPanel || []}
-            totalSize={Stores.masterPanelStore.listMasterPanelCount}
+            data={masterPanelStore.listMasterPanel || []}
+            totalSize={masterPanelStore.listMasterPanelCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -1580,7 +1576,7 @@ const MasterPanel = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.masterPanelStore.fetchPanelMaster(page, limit)
+              masterPanelStore.fetchPanelMaster(page, limit)
             }}
           />
         </div>
@@ -1588,53 +1584,68 @@ const MasterPanel = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.masterPanelStore.masterPanelService
-                .deletePanelMaster(modalConfirm.id)
+              masterPanelStore.masterPanelService
+                .deletePanelMaster({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removePanelMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Records deleted.`,
+                      message: `😊 ${res.removePanelMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterPanelStore.fetchPanelMaster()
+                    masterPanelStore.fetchPanelMaster()
                   }
                 })
             } else if (type === "Update") {
-              Stores.masterPanelStore.masterPanelService
-                .updateSingleFiled(modalConfirm.data)
+              masterPanelStore.masterPanelService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updatePanelMaster.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updatePanelMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.masterPanelStore.fetchPanelMaster()
-                    window.location.reload()
+                    masterPanelStore.fetchPanelMaster()
                   }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.masterPanelStore.updateMasterPanel({
+              masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("panelName", modalConfirm.data.panelName)
+              setValue("department", modalConfirm.data.department)
+              setValue("serviceType", modalConfirm.data.serviceType)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
-              Stores.masterPanelStore.updateMasterPanel({
+              masterPanelStore.updateMasterPanel({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
+              setValue("rLab", modalConfirm.data.rLab)
+              setValue("pLab", modalConfirm.data.pLab)
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("panelName", modalConfirm.data.panelName)
+              setValue("department", modalConfirm.data.department)
+              setValue("serviceType", modalConfirm.data.serviceType)
+              setValue("status", modalConfirm.data.status)
+              setValue("environment", modalConfirm.data.environment)
             }
           }}
           onClose={() => {

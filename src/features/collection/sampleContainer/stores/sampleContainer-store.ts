@@ -1,33 +1,40 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class SampleContainerStore {
-  @ignore @observable sampleContainer?: Models.SampleContainer
-  @observable listSampleContainer: Models.SampleContainer[] = []
-  @observable listSampleContainerCount: number = 0 
-  @ignore @observable checkExitsEnvCode?: boolean = false
-
+export class SampleContainerStore {
+  @ignore @observable sampleContainer!: Models.SampleContainer
+  @observable listSampleContainer!: Models.SampleContainer[]
+  @observable listSampleContainerCount!: number
+  @ignore @observable checkExitsEnvCode!: boolean
 
   constructor() {
-    makeAutoObservable(this)
-  }
-
-  @computed get sampleContainerService() {  
-    return new Services.SampleContainerService(
-    )
-  }
-
-  @action fetchListSampleContainer(page?,limit?) {
-    this.sampleContainerService.listSampleContainer(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listSampleContainer = res.data.sampleContainer
-      this.listSampleContainerCount = res.data.count
+    this.listSampleContainer = []
+    this.checkExitsEnvCode = false
+    makeObservable<SampleContainerStore, any>(this, {
+      sampleContainer: observable,
+      listSampleContainer: observable,
+      listSampleContainerCount: observable,
+      checkExitsEnvCode: observable,
     })
   }
   
+  @computed get sampleContainerService() {
+    return new Services.SampleContainerService()
+  }
+   
+  @action fetchListSampleContainer(page?, limit?) {
+    this.sampleContainerService.listSampleContainer(page, limit)
+  }
+  
+  @action updateSampleContainerList(res: any) {
+    if (!res.sampleContainers.success) return alert(res.sampleContainers.message)
+    this.listSampleContainer = res.sampleContainers.data
+    this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count
+  }
+
   @action updateSampleContainer = (sampleContainer: Models.SampleContainer) => {
     this.sampleContainer = sampleContainer
   }
@@ -36,4 +43,3 @@ class SampleContainerStore {
     this.checkExitsEnvCode = status
   }
 }
-export default SampleContainerStore

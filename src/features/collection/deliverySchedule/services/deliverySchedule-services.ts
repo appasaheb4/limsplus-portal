@@ -5,71 +5,92 @@
  * @author limsplus
  */
 
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+//import * as Models from "../models"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class DeliveryScheduleService {
   listDeliverySchdule = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(
-          `master/deliverySchdule/listDeliverySchdule/${page}/${limit}/${env}/${role}`
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
+        .then((response: any) => {
+          stores.deliveryScheduleStore.updateDeliveryScheduleList(response.data)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
         )
+    })
+
+  addDeliverySchdule = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addDeliverySchdule = (deliverySchdule?: Models.DeliverySchedule) =>
+
+  deleteDeliverySchdule = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/deliverySchdule/addDeliverySchdule`, deliverySchdule)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  deleteDeliverySchdule = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/deliverySchdule/deleteDeliverySchdule/${id}`)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/deliverySchdule/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  checkExistsEnvCode = (code: string, env: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/deliverySchdule/checkExistsEnvCode`, { code, env })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  checkExistsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

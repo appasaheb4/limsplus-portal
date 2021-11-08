@@ -2,18 +2,13 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
 import { useForm, Controller } from "react-hook-form"
-import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
+
+import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -25,58 +20,85 @@ const TestPanelMapping = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    labStore,
+    masterPanelStore,
+    testMasterStore,
+    testPanelMappingStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.testPanelMappingStore.updateTestPanelMapping({
-        ...Stores.testPanelMappingStore.testPanelMapping,
+      testPanelMappingStore.updateTestPanelMapping({
+        ...testPanelMappingStore.testPanelMapping,
         lab: stores.loginStore.login.lab,
         environment: stores.loginStore.login.environment,
       })
       setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
-
+  }, [stores.loginStore.login])  
+   
   const onSubmitTestPanelMapping = () => {
-    if (!Stores.testPanelMappingStore.checkExitsLabEnvCode) {
+    if (!testPanelMappingStore.checkExitsLabEnvCode) {
       if (
-        !Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
-        !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+        !testPanelMappingStore.testPanelMapping?.existsVersionId &&
+        !testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
-        Stores.testPanelMappingStore.testPanelMappingService
-          .addTestPanelMapping(Stores.testPanelMappingStore.testPanelMapping)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel mapping created.`,
-            })
+        testPanelMappingStore.testPanelMappingService
+          .addTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+            },
+          })
+          .then((res) => {
+            if (res.createTestPanelMapping.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.createTestPanelMapping.message}`,
+              })
+            }
           })
       } else if (
-        Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
-        !Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+        testPanelMappingStore.testPanelMapping?.existsVersionId &&
+        !testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
-        Stores.testPanelMappingStore.testPanelMappingService
-          .versionUpgradeTestPanelMapping(
-            Stores.testPanelMappingStore.testPanelMapping
-          )
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel version upgrade.`,
-            })
+        testPanelMappingStore.testPanelMappingService
+          .versionUpgradeTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.versionUpgradeTestPanelMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.versionUpgradeTestPanelMappings.message}`,
+              })
+            }
           })
       } else if (
-        !Stores.testPanelMappingStore.testPanelMapping?.existsVersionId &&
-        Stores.testPanelMappingStore.testPanelMapping?.existsRecordId
+        !testPanelMappingStore.testPanelMapping?.existsVersionId &&
+        testPanelMappingStore.testPanelMapping?.existsRecordId
       ) {
-        Stores.testPanelMappingStore.testPanelMappingService
-          .duplicateTestPanelMapping(Stores.testPanelMappingStore.testPanelMapping)
-          .then(() => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊 Test panel duplicate created.`,
-            })
+        testPanelMappingStore.testPanelMappingService
+          .duplicateTestPanelMapping({
+            input: {
+              ...testPanelMappingStore.testPanelMapping,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
+          .then((res) => {
+            if (res.duplicateTestPanelMappings.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.duplicateTestPanelMappings.message}`,
+              })
+            }
           })
       }
       setTimeout(() => {
@@ -108,7 +130,7 @@ const TestPanelMapping = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -125,7 +147,7 @@ const TestPanelMapping = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.testPanelMappingStore.testPanelMapping?.lab}
+                      value={testPanelMappingStore.testPanelMapping?.lab}
                       disabled={
                         stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
@@ -138,46 +160,42 @@ const TestPanelMapping = observer(() => {
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.testPanelMappingStore.updateTestPanelMapping({
-                          ...Stores.testPanelMappingStore.testPanelMapping,
+                        testPanelMappingStore.updateTestPanelMapping({
+                          ...testPanelMappingStore.testPanelMapping,
                           lab,
                         })
                         if (
-                          !Stores.testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
-                          Stores.testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              Stores.testPanelMappingStore.testPanelMapping
-                                ?.panelCode || "",
-                              Stores.testPanelMappingStore.testPanelMapping
-                                ?.environment || "",
-                              lab
-                            )
+                          testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  testPanelMappingStore.testPanelMapping?.panelCode,
+                                env:
+                                  testPanelMappingStore.testPanelMapping
+                                    ?.environment,
+                                lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -200,41 +218,38 @@ const TestPanelMapping = observer(() => {
                       onChange={(e) => {
                         const panelCode = e.target.value
                         onChange(panelCode)
-                        Stores.testPanelMappingStore.updateTestPanelMapping({
-                          ...Stores.testPanelMappingStore.testPanelMapping,
+                        testPanelMappingStore.updateTestPanelMapping({
+                          ...testPanelMappingStore.testPanelMapping,
                           panelCode: panelCode,
                         })
                         if (
-                          !Stores.testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
-                          Stores.testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              panelCode,
-                              Stores.testPanelMappingStore.testPanelMapping
-                                ?.environment || "",
-                              Stores.testPanelMappingStore.testPanelMapping?.lab ||
-                                ""
-                            )
+                          testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code: panelCode,
+                                env:
+                                  testPanelMappingStore.testPanelMapping
+                                    ?.environment,
+                                lab: testPanelMappingStore.testPanelMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {MasterPanelStore.masterPanelStore.listMasterPanel &&
-                        MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                      {masterPanelStore.listMasterPanel &&
+                        masterPanelStore.listMasterPanel.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.panelCode}>
                               {`${item.panelName} - ${item.panelCode}`}
@@ -248,7 +263,7 @@ const TestPanelMapping = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.testPanelMappingStore.checkExitsLabEnvCode && (
+              {testPanelMappingStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -264,11 +279,11 @@ const TestPanelMapping = observer(() => {
                     }
                     hasError={errors.testCode}
                     disabled={true}
-                    value={Stores.testPanelMappingStore.testPanelMapping?.testCode}
+                    value={testPanelMappingStore.testPanelMapping?.testCode}
                     onChange={(testCode) => {
                       onChange(testCode)
-                      Stores.testPanelMappingStore.updateTestPanelMapping({
-                        ...Stores.testPanelMappingStore.testPanelMapping,
+                      testPanelMappingStore.updateTestPanelMapping({
+                        ...testPanelMappingStore.testPanelMapping,
                         testCode,
                       })
                     }}
@@ -289,7 +304,7 @@ const TestPanelMapping = observer(() => {
                       placeholder="Search by test name or test code"
                       data={{
                         defulatValues: [],
-                        list: TestMasterStore.testMasterStore.listTestMaster || [],
+                        list: testMasterStore.listTestMaster || [],
                         displayKey: ["testName", "testCode"],
                         findKey: ["testName", "testCode"],
                       }}
@@ -302,8 +317,8 @@ const TestPanelMapping = observer(() => {
                           testCode.push(item.testCode)
                           testName.push(item.testName)
                         })
-                        Stores.testPanelMappingStore.updateTestPanelMapping({
-                          ...Stores.testPanelMappingStore.testPanelMapping,
+                        testPanelMappingStore.updateTestPanelMapping({
+                          ...testPanelMappingStore.testPanelMapping,
                           testName,
                           testCode,
                         })
@@ -326,13 +341,11 @@ const TestPanelMapping = observer(() => {
                       errors.description ? "Please Enter Description" : "Description"
                     }
                     hasError={errors.description}
-                    value={
-                      Stores.testPanelMappingStore.testPanelMapping?.description
-                    }
+                    value={testPanelMappingStore.testPanelMapping?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.testPanelMappingStore.updateTestPanelMapping({
-                        ...Stores.testPanelMappingStore.testPanelMapping,
+                      testPanelMappingStore.updateTestPanelMapping({
+                        ...testPanelMappingStore.testPanelMapping,
                         description,
                       })
                     }}
@@ -350,13 +363,15 @@ const TestPanelMapping = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.testPanelMappingStore.testPanelMapping?.status}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      value={testPanelMappingStore.testPanelMapping?.status}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.status ? "border-red-500  " : "border-gray-300"
+                      } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.testPanelMappingStore.updateTestPanelMapping({
-                          ...Stores.testPanelMappingStore.testPanelMapping,
+                        testPanelMappingStore.updateTestPanelMapping({
+                          ...testPanelMappingStore.testPanelMapping,
                           status,
                         })
                       }}
@@ -374,7 +389,7 @@ const TestPanelMapping = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -385,12 +400,12 @@ const TestPanelMapping = observer(() => {
                     placeholder={
                       errors.userId ? "Please Enter userId" : "Entered By"
                     }
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     hasError={errors.userId}
                     disabled={true}
                     // onChange={(analyteCode) => {
-                    //   Stores.masterAnalyteStore.updateMasterAnalyte({
-                    //     ...Stores.masterAnalyteStore.masterAnalyte,
+                    //   masterAnalyteStore.updateMasterAnalyte({
+                    //     ...masterAnalyteStore.masterAnalyte,
                     //     analyteCode,
                     //   })
                     // }}
@@ -411,12 +426,9 @@ const TestPanelMapping = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.testPanelMappingStore.testPanelMapping
-                          ?.dateCreation || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      testPanelMappingStore.testPanelMapping?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -431,11 +443,11 @@ const TestPanelMapping = observer(() => {
                     label="Bill"
                     id="modeBill"
                     hasError={errors.bill}
-                    value={Stores.testPanelMappingStore.testPanelMapping?.bill}
+                    value={testPanelMappingStore.testPanelMapping?.bill}
                     onChange={(bill) => {
                       onChange(bill)
-                      Stores.testPanelMappingStore.updateTestPanelMapping({
-                        ...Stores.testPanelMappingStore.testPanelMapping,
+                      testPanelMappingStore.updateTestPanelMapping({
+                        ...testPanelMappingStore.testPanelMapping,
                         bill,
                       })
                     }}
@@ -464,12 +476,9 @@ const TestPanelMapping = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActiveFrom}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.testPanelMappingStore.testPanelMapping
-                          ?.dateActiveFrom || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      testPanelMappingStore.testPanelMapping?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -488,17 +497,15 @@ const TestPanelMapping = observer(() => {
                         : "Date Expire"
                     }
                     hasError={errors.dateActiveTo}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.testPanelMappingStore.testPanelMapping
-                          ?.dateActiveTo || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      testPanelMappingStore.testPanelMapping?.dateActiveTo
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
-                      Stores.testPanelMappingStore.updateTestPanelMapping({
-                        ...Stores.testPanelMappingStore.testPanelMapping,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      const dateActiveTo = new Date(e.target.value)
+                      onChange(dateActiveTo)
+                      testPanelMappingStore.updateTestPanelMapping({
+                        ...testPanelMappingStore.testPanelMapping,
+                        dateActiveTo,
                       })
                     }}
                   />
@@ -514,7 +521,7 @@ const TestPanelMapping = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.testPanelMappingStore.testPanelMapping?.version}
+                    value={testPanelMappingStore.testPanelMapping?.version}
                     disabled={true}
                   />
                 )}
@@ -522,21 +529,7 @@ const TestPanelMapping = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter keyNum" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.testPanelMappingStore.testPanelMapping?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -545,13 +538,9 @@ const TestPanelMapping = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={
-                        Stores.testPanelMappingStore.testPanelMapping?.environment
-                      }
+                      value={testPanelMappingStore.testPanelMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
                         stores.loginStore.login &&
@@ -562,34 +551,30 @@ const TestPanelMapping = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.testPanelMappingStore.updateTestPanelMapping({
-                          ...Stores.testPanelMappingStore.testPanelMapping,
+                        testPanelMappingStore.updateTestPanelMapping({
+                          ...testPanelMappingStore.testPanelMapping,
                           environment,
                         })
                         if (
-                          !Stores.testPanelMappingStore.testPanelMapping
-                            ?.existsVersionId
+                          !testPanelMappingStore.testPanelMapping?.existsVersionId
                         ) {
-                          Stores.testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode(
-                              Stores.testPanelMappingStore.testPanelMapping
-                                ?.panelCode || "",
-                              environment,
-                              Stores.testPanelMappingStore.testPanelMapping?.lab ||
-                                ""
-                            )
+                          testPanelMappingStore.testPanelMappingService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  testPanelMappingStore.testPanelMapping?.panelCode,
+                                env: environment,
+                                lab: testPanelMappingStore.testPanelMapping?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  true
-                                )
+                              if (res.checkTestPanelMappingsExistsRecord.success) {
+                                testPanelMappingStore.updateExistsLabEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                                 })
                               } else
-                                Stores.testPanelMappingStore.updateExistsLabEnvCode(
-                                  false
-                                )
+                                testPanelMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
                       }}
@@ -598,8 +583,8 @@ const TestPanelMapping = observer(() => {
                         {stores.loginStore.login &&
                         stores.loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.testPanelMappingStore.testPanelMapping
-                              ?.environment || `Select`}
+                          : testPanelMappingStore.testPanelMapping?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
@@ -646,8 +631,8 @@ const TestPanelMapping = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestPanelMappingList
-            data={Stores.testPanelMappingStore.listTestPanelMapping || []}
-            totalSize={Stores.testPanelMappingStore.listTestPanelMappingCount}
+            data={testPanelMappingStore.listTestPanelMapping || []}
+            totalSize={testPanelMappingStore.listTestPanelMappingCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
             }}
@@ -698,7 +683,7 @@ const TestPanelMapping = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.testPanelMappingStore.fetchTestPanelMapping(page, limit)
+              testPanelMappingStore.fetchTestPanelMapping(page, limit)
             }}
           />
         </div>
@@ -706,51 +691,64 @@ const TestPanelMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.testPanelMappingStore.testPanelMappingService
-                .deleteTestPanelMapping(modalConfirm.id)
+              testPanelMappingStore.testPanelMappingService
+                .deleteTestPanelMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeTestPanelMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record deleted.`,
+                      message: `😊 ${res.removeTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testPanelMappingStore.fetchTestPanelMapping()
+                    testPanelMappingStore.fetchTestPanelMapping()
                   }
                 })
             } else if (type === "Update") {
-              Stores.testPanelMappingStore.testPanelMappingService
-                .updateSingleFiled(modalConfirm.data)
+              testPanelMappingStore.testPanelMappingService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateTestPanelMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updateTestPanelMapping.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testPanelMappingStore.fetchTestPanelMapping()
-                    window.location.reload()
+                    testPanelMappingStore.fetchTestPanelMapping()
                   }
-                })  
+                })
             } else if (type === "versionUpgrade") {
-              Stores.testPanelMappingStore.updateTestPanelMapping({
+              testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateActiveFrom: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
               setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             } else if (type === "duplicate") {
-              Stores.testPanelMappingStore.updateTestPanelMapping({
+              testPanelMappingStore.updateTestPanelMapping({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
+              setValue("lab", modalConfirm.data.lab)
+              setValue("panelCode", modalConfirm.data.panelCode)
+              setValue("testCode", modalConfirm.data.testCode)
+              setValue("testName", modalConfirm.data.testName)
+              setValue("environment", modalConfirm.data.environment)
+              setValue("status", modalConfirm.data.status)
             }
           }}
           onClose={() => {

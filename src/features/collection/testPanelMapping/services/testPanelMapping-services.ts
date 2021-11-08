@@ -5,8 +5,17 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class TestPanelMappingService {
   listTestPanelMapping = (page = 0, limit = 10) =>
@@ -14,89 +23,111 @@ class TestPanelMappingService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(
-          `master/testPanelMapping/listTestPanelMapping/${page}/${limit}/${env}/${role}/${lab}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.testPanelMappingStore.updateTestPanelMappingList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
-    })
-  addTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testPanelMapping/addTestPanelMapping`, panelMappping)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  versionUpgradeTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(
-          `master/testPanelMapping/versionUpgradeTestPanelMapping`,
-          panelMappping
         )
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  duplicateTestPanelMapping = (panelMappping?: Models.TestPanelMapping) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testPanelMapping/duplicateTestPanelMapping`, panelMappping)
-        .then((res) => {
-          resolve(res.data)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
     })
 
-  deleteTestPanelMapping = (id: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/testPanelMapping/deleteTestPanelMapping/${id}`)
-        .then((res) => {
-          resolve(res)
+  addTestPanelMapping = (variables: any) =>
+    new Promise<any>((resolve, reject) => {  
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
+          stores.testPanelMappingStore.updateTestPanelMapping(
+            new Models.TestPanelMapping({})
+          )
         })
-    })
-  updateSingleFiled = (newValue: any) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/testPanelMapping/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
+  versionUpgradeTestPanelMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/testPanelMapping/checkExitsLabEnvCode`, { code, env, lab })
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  duplicateTestPanelMapping = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  deleteTestPanelMapping = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  updateSingleFiled = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsLabEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 
