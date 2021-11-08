@@ -26,9 +26,10 @@ import { MasterPackageStore } from "@lp/features/collection/masterPackage/stores
 import { SampleContainerStore } from "@lp/features/collection/sampleContainer/stores/sampleContainer-store"
 import { SampleTypeStore } from "@lp/features/collection/sampleType/stores/sampleType-store"
 import { MethodsStore } from "@lp/features/collection/methods/stores/methods-store"
-import {TestSampleMappingStore} from '@lp/features/collection/testSampleMapping/stores/testSampleMapping-store'
-import {CorporateClientsStore} from '@lp/features/collection/corporateClients/stores/corporateClients-store'
-import {DoctorsStore} from '@lp/features/collection/doctors/stores/doctors-store'
+import { TestSampleMappingStore } from "@lp/features/collection/testSampleMapping/stores/testSampleMapping-store"
+import { CorporateClientsStore } from "@lp/features/collection/corporateClients/stores/corporateClients-store"
+import { DoctorsStore } from "@lp/features/collection/doctors/stores/doctors-store"
+import { RegistrationLocationsStore } from "@lp/features/collection/registrationLocations/stores/registrationLocations-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -64,11 +65,12 @@ export class Stores extends Store {
   testSampleMappingStore!: TestSampleMappingStore
   corporateClientsStore!: CorporateClientsStore
   doctorsStore!: DoctorsStore
+  registrationLocationsStore!: RegistrationLocationsStore
 
   // settings
   environmentStore!: EnvironmentStore
 
-  constructor() {  
+  constructor() {
     super()
     this.rootStore = new RootStore()
     this.appStore = new AppStore()
@@ -97,6 +99,7 @@ export class Stores extends Store {
     this.testSampleMappingStore = new TestSampleMappingStore()
     this.corporateClientsStore = new CorporateClientsStore()
     this.doctorsStore = new DoctorsStore()
+    this.registrationLocationsStore = new RegistrationLocationsStore()
 
     // settings
     this.userStore = new UserStore()

@@ -1,21 +1,13 @@
 /* eslint-disable */
 import React, { useState,useEffect } from "react"
 import { observer } from "mobx-react"
-import * as Config from "@lp/config"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-import moment from "moment"
-import Storage from "@lp/library/modules/storage"
+import dayjs from 'dayjs'
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import { Stores } from "../../stores"
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 interface RegistrationLocationsListProps {
   data: any
@@ -704,8 +696,7 @@ const RegistrationLocationsList = observer(
               formatter: (cell, row) => {
                 return (
                   <>
-                    {LibraryUtils.moment
-                      .unix(row.dateCreation || 0)
+                    {dayjs(row.dateCreation || 0)
                       .format("YYYY-MM-DD")}
                   </>
                 )
@@ -720,15 +711,14 @@ const RegistrationLocationsList = observer(
               formatter: (cell, row) => {
                 return (
                   <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveFrom || 0)
+                    {dayjs(row.dateActiveFrom || 0)
                       .format("YYYY-MM-DD")}
                   </>
                 )
               },
             },
             {
-              dataField: "dateActiveTo",
+              dataField: "dateExpire",
               text: "Date Expire",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -736,8 +726,7 @@ const RegistrationLocationsList = observer(
               formatter: (cell, row) => {
                 return (
                   <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveTo || 0)
+                    {dayjs(row.dateExpire)
                       .format("YYYY-MM-DD")}
                   </>
                 )
