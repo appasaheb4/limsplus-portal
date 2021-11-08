@@ -1,16 +1,13 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { useStores, stores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as CorporateClientsStore } from "@lp/features/collection/corporateClients/stores"
+import { useStores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
 
 const RegistrationLocation = observer(() => {
@@ -20,65 +17,81 @@ const RegistrationLocation = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    registrationLocationsStore,
+    labStore,
+    corporateClientsStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.registrationLocationsStore.updateRegistrationLocations({
-        ...Stores.registrationLocationsStore.registrationLocations,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      registrationLocationsStore.updateRegistrationLocations({
+        ...registrationLocationsStore.registrationLocations,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitRegistrationLocation = () => {
-    if (!Stores.registrationLocationsStore.checkExitsLabEnvCode) {
+    if (!registrationLocationsStore.checkExitsLabEnvCode) {
       if (
-        !Stores.registrationLocationsStore.registrationLocations?.existsVersionId &&
-        !Stores.registrationLocationsStore.registrationLocations?.existsRecordId
+        !registrationLocationsStore.registrationLocations?.existsVersionId &&
+        !registrationLocationsStore.registrationLocations?.existsRecordId
       ) {
-        Stores.registrationLocationsStore.registrationLocationsService
+        registrationLocationsStore.registrationLocationsService
           .addRegistrationLocations({
-            ...Stores.registrationLocationsStore.registrationLocations,
-            enteredBy: stores.loginStore.login.userId,
+            input: {
+              ...registrationLocationsStore.registrationLocations,
+              enteredBy: loginStore.login.userId,
+            },
           })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.createRegistrationLocation.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 Registration Locations record created.`,
+                message: `😊 ${res.createRegistrationLocation.message}`,
               })
             }
           })
       } else if (
-        Stores.registrationLocationsStore.registrationLocations?.existsVersionId &&
-        !Stores.registrationLocationsStore.registrationLocations?.existsRecordId
+        registrationLocationsStore.registrationLocations?.existsVersionId &&
+        !registrationLocationsStore.registrationLocations?.existsRecordId
       ) {
-        Stores.registrationLocationsStore.registrationLocationsService
-          .versionUpgradeRegistrationLocations(
-            Stores.registrationLocationsStore.registrationLocations
-          )
+        registrationLocationsStore.registrationLocationsService
+          .versionUpgradeRegistrationLocations({
+            input: {
+              ...registrationLocationsStore.registrationLocations,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.versionUpgradeRegistrationLocation.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 Registration Locations version updraged.`,
+                message: `😊 ${res.versionUpgradeRegistrationLocation.message}`,
               })
             }
           })
       } else if (
-        !Stores.registrationLocationsStore.registrationLocations?.existsVersionId &&
-        Stores.registrationLocationsStore.registrationLocations?.existsRecordId
+        !registrationLocationsStore.registrationLocations?.existsVersionId &&
+        registrationLocationsStore.registrationLocations?.existsRecordId
       ) {
-        Stores.registrationLocationsStore.registrationLocationsService
-          .duplicateRegistrationLocations(
-            Stores.registrationLocationsStore.registrationLocations
-          )
+        registrationLocationsStore.registrationLocationsService
+          .duplicateRegistrationLocations({
+            input: {
+              ...registrationLocationsStore.registrationLocations,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
+          })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.duplicateRegistrationLocation.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 Registration Locations duplicate created.`,
+                message: `😊 ${res.duplicateRegistrationLocation.message}`,
               })
             }
           })
@@ -97,11 +110,11 @@ const RegistrationLocation = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -110,7 +123,7 @@ const RegistrationLocation = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={3}>
@@ -131,12 +144,9 @@ const RegistrationLocation = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.dateCreation || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      registrationLocationsStore.registrationLocations?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -155,12 +165,10 @@ const RegistrationLocation = observer(() => {
                         : "Date Active"
                     }
                     hasError={errors.dateActiveFrom}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.dateActiveFrom || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      registrationLocationsStore.registrationLocations
+                        ?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -175,17 +183,14 @@ const RegistrationLocation = observer(() => {
                     label="Date Expire"
                     placeholder="Date Expire"
                     hasError={errors.dateActiveTo}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.dateActiveTo || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      registrationLocationsStore.registrationLocations?.dateExpire
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                      const dateExpire = new Date(e.target.value)
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
+                        dateExpire,
                       })
                     }}
                   />
@@ -201,10 +206,7 @@ const RegistrationLocation = observer(() => {
                     label="Version"
                     placeholder="Version"
                     hasError={errors.version}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.version
-                    }
+                    value={registrationLocationsStore.registrationLocations?.version}
                     disabled={true}
                   />
                 )}
@@ -216,27 +218,10 @@ const RegistrationLocation = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder="Key Num"
-                    hasError={errors.keyNum}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.keyNum
-                    }
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
                     label="Entered By"
                     placeholder="Entered By"
                     hasError={errors.userId}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -257,39 +242,40 @@ const RegistrationLocation = observer(() => {
                         : "Loaction Code"
                     }
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.locationCode
+                      registrationLocationsStore.registrationLocations?.locationCode
                     }
                     onChange={(locationCode) => {
                       onChange(locationCode)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         locationCode,
                       })
                     }}
                     onBlur={(code) => {
                       if (
-                        !Stores.registrationLocationsStore.registrationLocations
+                        !registrationLocationsStore.registrationLocations
                           ?.existsVersionId
                       ) {
-                        Stores.registrationLocationsStore.registrationLocationsService
-                          .checkExitsLabEnvCode(
-                            code,
-                            Stores.registrationLocationsStore.registrationLocations
-                              ?.environment || "",
-                            Stores.registrationLocationsStore.registrationLocations
-                              ?.lab || ""
-                          )
+                        registrationLocationsStore.registrationLocationsService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code,
+                              env:
+                                registrationLocationsStore.registrationLocations
+                                  ?.environment,
+                              lab:
+                                registrationLocationsStore.registrationLocations
+                                  ?.lab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.registrationLocationsStore.updateExistsLabEnvCode(
-                                true
-                              )
+                            if (res.checkRegistrationLocationExistsRecord.success) {
+                              registrationLocationsStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                               })
                             } else
-                              Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                              registrationLocationsStore.updateExistsLabEnvCode(
                                 false
                               )
                           })
@@ -301,7 +287,7 @@ const RegistrationLocation = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.registrationLocationsStore.checkExitsLabEnvCode && (
+              {registrationLocationsStore.checkExitsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -319,13 +305,12 @@ const RegistrationLocation = observer(() => {
                         : "Loaction Name"
                     }
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.locationName
+                      registrationLocationsStore.registrationLocations?.locationName
                     }
                     onChange={(locationName) => {
                       onChange(locationName)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         locationName,
                       })
                     }}
@@ -344,14 +329,11 @@ const RegistrationLocation = observer(() => {
                     label="Address"
                     placeholder={errors.address ? "Please Enter address" : "Address"}
                     hasError={errors.address}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.address
-                    }
+                    value={registrationLocationsStore.registrationLocations?.address}
                     onChange={(address) => {
                       onChange(address)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         address,
                       })
                     }}
@@ -368,13 +350,11 @@ const RegistrationLocation = observer(() => {
                     label="City"
                     placeholder={errors.city ? "Please Enter city" : "City"}
                     hasError={errors.city}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.city
-                    }
+                    value={registrationLocationsStore.registrationLocations?.city}
                     onChange={(city) => {
                       onChange(city)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         city,
                       })
                     }}
@@ -391,13 +371,11 @@ const RegistrationLocation = observer(() => {
                     label="State"
                     placeholder={errors.state ? "Please Enter state" : "State"}
                     hasError={errors.state}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.state
-                    }
+                    value={registrationLocationsStore.registrationLocations?.state}
                     onChange={(state) => {
                       onChange(state)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         state,
                       })
                     }}
@@ -414,14 +392,11 @@ const RegistrationLocation = observer(() => {
                     label="Country"
                     placeholder={errors.country ? "Please Enter country" : "Country"}
                     hasError={errors.country}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.country
-                    }
+                    value={registrationLocationsStore.registrationLocations?.country}
                     onChange={(country) => {
                       onChange(country)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         country,
                       })
                     }}
@@ -442,14 +417,13 @@ const RegistrationLocation = observer(() => {
                     type="number"
                     hasError={errors.postcode}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.postcode
+                      registrationLocationsStore.registrationLocations?.postcode
                     }
                     onChange={(postcode) => {
                       onChange(postcode)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
-                        postcode,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
+                        postcode: parseInt(postcode),
                       })
                     }}
                   />
@@ -467,25 +441,20 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.customerGroup
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.customerGroup ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const customerGroup = e.target.value
                         onChange(customerGroup)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            customerGroup,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          customerGroup,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CUSTOMER_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -508,25 +477,20 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.category
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.category ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const category = e.target.value
                         onChange(category)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            category,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          category,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -557,13 +521,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.telephone}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.telephone
+                      registrationLocationsStore.registrationLocations?.telephone
                     }
                     onChange={(telephone) => {
                       onChange(telephone)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         telephone,
                       })
                     }}
@@ -583,13 +546,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.mobileNo}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.mobileNo
+                      registrationLocationsStore.registrationLocations?.mobileNo
                     }
                     onChange={(mobileNo) => {
                       onChange(mobileNo)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         mobileNo,
                       })
                     }}
@@ -606,13 +568,11 @@ const RegistrationLocation = observer(() => {
                     label="Email"
                     placeholder={errors.email ? "Please Enter email" : "Email"}
                     hasError={errors.email}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.email
-                    }
+                    value={registrationLocationsStore.registrationLocations?.email}
                     onChange={(email) => {
                       onChange(email)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         email,
                       })
                     }}
@@ -631,25 +591,20 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.deliveryType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const deliveryType = e.target.value
                         onChange(deliveryType)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            deliveryType,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          deliveryType,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -679,18 +634,15 @@ const RegistrationLocation = observer(() => {
                       onChange={(e) => {
                         const deliveryMethod = e.target.value
                         onChange(deliveryMethod)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            deliveryMethod,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          deliveryMethod,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -713,27 +665,21 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.corporateCode
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.corporateCode ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const corporateDetails = JSON.parse(e.target.value)
                         onChange(corporateDetails.corporateCode)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            corporateCode: corporateDetails.corporateCode,
-                            invoiceAc: corporateDetails.invoiceAc,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          corporateCode: corporateDetails.corporateCode,
+                          invoiceAc: corporateDetails.invoiceAc,
+                        })
                       }}
                     >
                       <option selected>Select</option>
-                      {CorporateClientsStore.corporateClientsStore
-                        .listCorporateClients &&
-                        CorporateClientsStore.corporateClientsStore.listCorporateClients.map(
+                      {corporateClientsStore.listCorporateClients &&
+                        corporateClientsStore.listCorporateClients.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.corporateCode} - ${item.corporateName}`}
@@ -748,7 +694,7 @@ const RegistrationLocation = observer(() => {
                 defaultValue=""
               />
               <label className="hidden">
-                {Stores.registrationLocationsStore.registrationLocations?.invoiceAc}
+                {registrationLocationsStore.registrationLocations?.invoiceAc}
               </label>
               <Controller
                 control={control}
@@ -757,15 +703,12 @@ const RegistrationLocation = observer(() => {
                     label="Invoice Ac"
                     placeholder="Invoice Ac"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.invoiceAc
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.invoiceAc ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.invoiceAc}
                     disabled={true}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.invoiceAc
+                      registrationLocationsStore.registrationLocations?.invoiceAc
                     }
                   />
                 )}
@@ -783,13 +726,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.labLicence}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.labLicence
+                      registrationLocationsStore.registrationLocations?.labLicence
                     }
                     onChange={(labLicence) => {
                       onChange(labLicence)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         labLicence,
                       })
                     }}
@@ -808,25 +750,20 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.methodColn
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.methodColn ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const methodColn = e.target.value
                         onChange(methodColn)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            methodColn,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          methodColn,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "METHOD_COLN"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -850,15 +787,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.workHrs}
                     type="number"
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.workHrs
-                    }
+                    value={registrationLocationsStore.registrationLocations?.workHrs}
                     onChange={(workHrs) => {
                       onChange(workHrs)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
-                        workHrs,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
+                        workHrs: parseInt(workHrs),
                       })
                     }}
                   />
@@ -883,18 +817,15 @@ const RegistrationLocation = observer(() => {
                       onChange={(e) => {
                         const salesTerritoRy = e.target.value
                         onChange(salesTerritoRy)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            salesTerritoRy,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          salesTerritoRy,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -915,13 +846,11 @@ const RegistrationLocation = observer(() => {
                     label="Area"
                     placeholder={errors.area ? "Please Enter area" : "Area"}
                     hasError={errors.area}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.area
-                    }
+                    value={registrationLocationsStore.registrationLocations?.area}
                     onChange={(area) => {
                       onChange(area)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         area,
                       })
                     }}
@@ -938,13 +867,11 @@ const RegistrationLocation = observer(() => {
                     label="Zone"
                     placeholder={errors.zone ? "Please Enter zone" : "Zone"}
                     hasError={errors.zone}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.zone
-                    }
+                    value={registrationLocationsStore.registrationLocations?.zone}
                     onChange={(zone) => {
                       onChange(zone)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         zone,
                       })
                     }}
@@ -963,18 +890,15 @@ const RegistrationLocation = observer(() => {
                       label="Confidential"
                       hasError={errors.confidential}
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
+                        registrationLocationsStore.registrationLocations
                           ?.confidential
                       }
                       onChange={(confidential) => {
                         onChange(confidential)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            confidential,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          confidential,
+                        })
                       }}
                     />
                   )}
@@ -989,18 +913,14 @@ const RegistrationLocation = observer(() => {
                       label="Print Label"
                       hasError={errors.printLabel}
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.printLabel
+                        registrationLocationsStore.registrationLocations?.printLabel
                       }
                       onChange={(printLabel) => {
                         onChange(printLabel)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            printLabel,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          printLabel,
+                        })
                       }}
                     />
                   )}
@@ -1015,18 +935,14 @@ const RegistrationLocation = observer(() => {
                       label="Never Bill"
                       hasError={errors.neverBill}
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.neverBill
+                        registrationLocationsStore.registrationLocations?.neverBill
                       }
                       onChange={(neverBill) => {
                         onChange(neverBill)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            neverBill,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          neverBill,
+                        })
                       }}
                     />
                   )}
@@ -1041,18 +957,14 @@ const RegistrationLocation = observer(() => {
                       label="Urgent"
                       hasError={errors.urgent}
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.urgent
+                        registrationLocationsStore.registrationLocations?.urgent
                       }
                       onChange={(urgent) => {
                         onChange(urgent)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            urgent,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          urgent,
+                        })
                       }}
                     />
                   )}
@@ -1075,13 +987,11 @@ const RegistrationLocation = observer(() => {
                     label="Route"
                     placeholder={errors.route ? "Please Enter route" : "Route"}
                     hasError={errors.route}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.route
-                    }
+                    value={registrationLocationsStore.registrationLocations?.route}
                     onChange={(route) => {
                       onChange(route)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         route,
                       })
                     }}
@@ -1099,46 +1009,45 @@ const RegistrationLocation = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={
-                        Stores.registrationLocationsStore.registrationLocations?.lab
-                      }
+                      value={registrationLocationsStore.registrationLocations?.lab}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.lab ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            lab,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          lab,
+                        })
                         if (
-                          !Stores.registrationLocationsStore.registrationLocations
+                          !registrationLocationsStore.registrationLocations
                             ?.existsVersionId
                         ) {
-                          Stores.registrationLocationsStore.registrationLocationsService
-                            .checkExitsLabEnvCode(
-                              Stores.registrationLocationsStore.registrationLocations
-                                ?.locationCode || "",
-                              Stores.registrationLocationsStore.registrationLocations
-                                ?.environment || "",
-                              lab
-                            )
+                          registrationLocationsStore.registrationLocationsService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.locationCode,
+                                env:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.environment,
+                                lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                              if (
+                                res.checkRegistrationLocationExistsRecord.success
+                              ) {
+                                registrationLocationsStore.updateExistsLabEnvCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                                 })
                               } else
-                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                registrationLocationsStore.updateExistsLabEnvCode(
                                   false
                                 )
                             })
@@ -1146,13 +1055,11 @@ const RegistrationLocation = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1170,13 +1077,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.location}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.location
+                      registrationLocationsStore.registrationLocations?.location
                     }
                     onChange={(location) => {
                       onChange(location)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         location,
                       })
                     }}
@@ -1193,13 +1099,11 @@ const RegistrationLocation = observer(() => {
                     label="EDI"
                     placeholder={errors.edi ? "Please Enter edi" : "EDI"}
                     hasError={errors.edi}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.edi
-                    }
+                    value={registrationLocationsStore.registrationLocations?.edi}
                     onChange={(edi) => {
                       onChange(edi)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         edi,
                       })
                     }}
@@ -1219,13 +1123,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.ediAddress}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.ediAddress
+                      registrationLocationsStore.registrationLocations?.ediAddress
                     }
                     onChange={(ediAddress) => {
                       onChange(ediAddress)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         ediAddress,
                       })
                     }}
@@ -1244,34 +1147,26 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.schedule
+                        registrationLocationsStore.registrationLocations?.schedule
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.schedule ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const schedule = e.target.value as string
                         onChange(schedule)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            schedule,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          schedule,
+                        })
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1291,13 +1186,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.reportFormat}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.reportFormat
+                      registrationLocationsStore.registrationLocations?.reportFormat
                     }
                     onChange={(reportFormat) => {
                       onChange(reportFormat)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         reportFormat,
                       })
                     }}
@@ -1314,13 +1208,11 @@ const RegistrationLocation = observer(() => {
                     label="Info"
                     placeholder={errors.info ? "Please Enter info" : "Info"}
                     hasError={errors.info}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.info
-                    }
+                    value={registrationLocationsStore.registrationLocations?.info}
                     onChange={(info) => {
                       onChange(info)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         info,
                       })
                     }}
@@ -1339,14 +1231,11 @@ const RegistrationLocation = observer(() => {
                       errors.fyiLine ? "Please Enter fyiLine" : "FYI Line"
                     }
                     hasError={errors.fyiLine}
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.fyiLine
-                    }
+                    value={registrationLocationsStore.registrationLocations?.fyiLine}
                     onChange={(fyiLine) => {
                       onChange(fyiLine)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         fyiLine,
                       })
                     }}
@@ -1366,13 +1255,12 @@ const RegistrationLocation = observer(() => {
                     }
                     hasError={errors.workLine}
                     value={
-                      Stores.registrationLocationsStore.registrationLocations
-                        ?.workLine
+                      registrationLocationsStore.registrationLocations?.workLine
                     }
                     onChange={(workLine) => {
                       onChange(workLine)
-                      Stores.registrationLocationsStore.updateRegistrationLocations({
-                        ...Stores.registrationLocationsStore.registrationLocations,
+                      registrationLocationsStore.updateRegistrationLocations({
+                        ...registrationLocationsStore.registrationLocations,
                         workLine,
                       })
                     }}
@@ -1391,25 +1279,20 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            status,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          status,
+                        })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1420,7 +1303,7 @@ const RegistrationLocation = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1432,52 +1315,51 @@ const RegistrationLocation = observer(() => {
                   >
                     <select
                       value={
-                        Stores.registrationLocationsStore.registrationLocations
-                          ?.environment
+                        registrationLocationsStore.registrationLocations?.environment
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.registrationLocationsStore.updateRegistrationLocations(
-                          {
-                            ...Stores.registrationLocationsStore
-                              .registrationLocations,
-                            environment,
-                          }
-                        )
+                        registrationLocationsStore.updateRegistrationLocations({
+                          ...registrationLocationsStore.registrationLocations,
+                          environment,
+                        })
                         if (
-                          !Stores.registrationLocationsStore.registrationLocations
+                          !registrationLocationsStore.registrationLocations
                             ?.existsVersionId
                         ) {
-                          Stores.registrationLocationsStore.registrationLocationsService
-                            .checkExitsLabEnvCode(
-                              Stores.registrationLocationsStore.registrationLocations
-                                ?.locationCode || "",
-                              environment,
-                              Stores.registrationLocationsStore.registrationLocations
-                                ?.lab || ""
-                            )
+                          registrationLocationsStore.registrationLocationsService
+                            .checkExitsLabEnvCode({
+                              input: {
+                                code:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.locationCode,
+                                env: environment,
+                                lab:
+                                  registrationLocationsStore.registrationLocations
+                                    ?.lab,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                              if (
+                                res.checkRegistrationLocationExistsRecord.success
+                              ) {
+                                registrationLocationsStore.updateExistsLabEnvCode(
                                   true
                                 )
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
                                 })
                               } else
-                                Stores.registrationLocationsStore.updateExistsLabEnvCode(
+                                registrationLocationsStore.updateExistsLabEnvCode(
                                   false
                                 )
                             })
@@ -1485,14 +1367,13 @@ const RegistrationLocation = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.registrationLocationsStore.registrationLocations
+                          : registrationLocationsStore.registrationLocations
                               ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1533,19 +1414,17 @@ const RegistrationLocation = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.RegistrationLocationsList
-            data={Stores.registrationLocationsStore.listRegistrationLocations || []}
-            totalSize={
-              Stores.registrationLocationsStore.listRegistrationLocationsCount
-            }
+            data={registrationLocationsStore.listRegistrationLocations || []}
+            totalSize={registrationLocationsStore.listRegistrationLocationsCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -1587,10 +1466,7 @@ const RegistrationLocation = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.registrationLocationsStore.fetchRegistrationLocations(
-                page,
-                limit
-              )
+              registrationLocationsStore.fetchRegistrationLocations(page, limit)
             }}
           />
         </div>
@@ -1598,52 +1474,62 @@ const RegistrationLocation = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.registrationLocationsStore.registrationLocationsService
-                .deleteRegistrationLocations(modalConfirm.id)
+              registrationLocationsStore.registrationLocationsService
+                .deleteRegistrationLocations({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeRegistrationLocation.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Registration Locations record deleted.`,
+                      message: `😊 ${res.removeRegistrationLocation.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.registrationLocationsStore.fetchRegistrationLocations()
+                    registrationLocationsStore.fetchRegistrationLocations()
                   }
                 })
             } else if (type === "Update") {
-              Stores.registrationLocationsStore.registrationLocationsService
-                .updateSingleFiled(modalConfirm.data)
+              registrationLocationsStore.registrationLocationsService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateRegistrationLocation.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Registration Locations record updated.`,
+                      message: `😊 ${res.updateRegistrationLocation.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.registrationLocationsStore.fetchRegistrationLocations()
-                    window.location.reload()
+                    registrationLocationsStore.fetchRegistrationLocations()
                   }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.registrationLocationsStore.updateRegistrationLocations({
+              registrationLocationsStore.updateRegistrationLocations({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateActiveFrom: new Date(),
               })
               setValue("locationCode", modalConfirm.data.locationCode)
               setValue("locationName", modalConfirm.data.locationName)
               setValue("lab", modalConfirm.data.lab)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
-              Stores.registrationLocationsStore.updateRegistrationLocations({
+              registrationLocationsStore.updateRegistrationLocations({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
+              setValue("locationCode", modalConfirm.data.locationCode)
+              setValue("locationName", modalConfirm.data.locationName)
+              setValue("lab", modalConfirm.data.lab)
+              setValue("status", modalConfirm.data.status)
+              setValue("environment", modalConfirm.data.environment)
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

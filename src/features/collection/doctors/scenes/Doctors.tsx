@@ -123,7 +123,7 @@ const Doctors = observer(() => {
           }
         >   
           <LibraryComponents.Atoms.Grid cols={3}>
-            <LibraryComponents.Atoms.List
+          <LibraryComponents.Atoms.List
               direction="col"
               space={4}
               justify="stretch"

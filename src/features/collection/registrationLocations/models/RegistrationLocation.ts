@@ -1,60 +1,61 @@
 export class RegistrationLocations {
-    _id?: string
-    existsVersionId?: string
-    existsRecordId?: string
-    dateCreation?: number
-    dateActiveFrom?: number
-    dateActiveTo?: number
-    version?: number
-    keyNum?: string
-    enteredBy?: string
-    locationCode?: string
-    locationName?: string
-    address?: string
-    city?: string
-    state?: string
-    country?: string
-    postcode?: number
-    customerGroup?: string
-    category?: string
-    confidential?: boolean
-    telephone?: string
-    mobileNo?: string
-    email?: string
-    deliveryType?: string
-    deliveryMethod?: string
-    corporateCode?: string
-    invoiceAc?: string
-    labLicence?: string
-    printLabel?: boolean
-    methodColn?: string
-    workHrs?: number
-    salesTerritoRy?: string
-    area?: string
-    zone?: string
-    route?: string
-    lab?: string
-    location?: string
-    neverBill?: boolean
-    edi?: string
-    ediAddress?: string
-    urgent?: boolean
-    schedule?: string
-    reportFormat?: string
-    info?: string
-    fyiLine?: string
-    workLine?: string
-    status?: string
-    environment?: string
+    _id: string
+    existsVersionId: string
+    existsRecordId: string
+    dateCreation: Date
+    dateActiveFrom: Date
+    dateExpire: Date
+    version: number
+    enteredBy: string
+    locationCode: string
+    locationName: string
+    address: string
+    city: string
+    state: string
+    country: string
+    postcode: number
+    customerGroup: string
+    category: string
+    confidential: boolean
+    telephone: string
+    mobileNo: string
+    email: string
+    deliveryType: string
+    deliveryMethod: string
+    corporateCode: string
+    invoiceAc: string
+    labLicence: string
+    printLabel: boolean
+    methodColn: string
+    workHrs: number
+    salesTerritoRy: string
+    area: string
+    zone: string
+    route: string
+    lab: string
+    location: string
+    neverBill: boolean
+    edi: string
+    ediAddress: string
+    urgent: boolean
+    schedule: string
+    reportFormat: string
+    info: string
+    fyiLine: string
+    workLine: string
+    status: string
+    environment: string
+    dateOfEntry: Date
+    lastUpdated: Date
+
     constructor(rawData: {[key in string]: any}){
       this._id = rawData._id
       this.existsVersionId = rawData.existsVersionId
       this.existsRecordId = rawData.existsRecordId
       this.dateCreation = rawData.dateCreation
       this.dateActiveFrom = rawData.dateActiveFrom
-      this.dateActiveTo = rawData.dateActiveTo
+      this.dateExpire = rawData.dateExpire
       this.version = rawData.version
-      this.keyNum = rawData.keyNum
       this.enteredBy = rawData.enteredBy
       this.locationCode = rawData.locationCode
       this.locationName = rawData.locationName
@@ -96,6 +97,8 @@ export class RegistrationLocations {
       this.workLine = rawData.workLine
       this.status = rawData.status
       this.environment = rawData.environment
+      this.dateOfEntry = rawData.dateOfEntry
+      this.lastUpdated = rawData.lastUpdated
     }
   }
   
