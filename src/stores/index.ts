@@ -26,6 +26,7 @@ import { MasterPackageStore } from "@lp/features/collection/masterPackage/stores
 import { SampleContainerStore } from "@lp/features/collection/sampleContainer/stores/sampleContainer-store"
 import { SampleTypeStore } from "@lp/features/collection/sampleType/stores/sampleType-store"
 import { MethodsStore } from "@lp/features/collection/methods/stores/methods-store"
+import {TestSampleMappingStore} from '@lp/features/collection/testSampleMapping/stores/testSampleMapping-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -58,6 +59,7 @@ export class Stores extends Store {
   sampleContainerStore!: SampleContainerStore
   sampleTypeStore!: SampleTypeStore
   methodsStore!: MethodsStore
+  testSampleMappingStore!: TestSampleMappingStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -88,6 +90,7 @@ export class Stores extends Store {
     this.sampleContainerStore = new SampleContainerStore()
     this.sampleTypeStore = new SampleTypeStore()
     this.methodsStore = new MethodsStore()
+    this.testSampleMappingStore = new TestSampleMappingStore()
 
     // settings
     this.userStore = new UserStore()

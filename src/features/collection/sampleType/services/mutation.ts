@@ -23,8 +23,8 @@ export const LIST = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateSampleContainerInput!) {
-    createSampleContainer(input: $input) {
+  mutation($input: CreateSampleTypeInput!) {
+    createSampleType(input: $input) {
       success
       message
     }
@@ -33,16 +33,16 @@ export const CREATE_RECORD = gql`
 
 export const REMOVE_RECORDS = gql`
   mutation($input: SampleContainerRemoveInput!) {
-    removeSampleContainer(input: $input) {
+    removeSampleType(input: $input) {
       success
       message
     }
   }
 `
-
+  
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateSampleContainerInput!) {
-    updateSampleContainer(input: $input) {
+  mutation($input: UpdateSampleTypeInput!) {
+    updateSampleType(input: $input) {
       success
       message
     }
@@ -59,8 +59,8 @@ export const UPDATE_IMAGE = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: SampleContainerInput!) {
-    checkSampleContainersExistsRecord(input: $input) {
+  mutation($input: SampleTypeInput!) {
+    checkSampleTypeExistsRecord(input: $input) {
       success
       message
     }

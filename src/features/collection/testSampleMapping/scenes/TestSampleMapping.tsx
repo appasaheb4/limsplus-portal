@@ -5,12 +5,8 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
+
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
-import { Stores as SampleTypeStore } from "@lp/features/collection/sampleType/stores"
-import { Stores as SampleContainerStore } from "@lp/features/collection/sampleContainer/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -23,31 +19,39 @@ const TestSampleMapping = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    testMasterStore,
+    sampleTypeStore,
+    sampleContainerStore,
+    testSampleMappingStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.testSampleMappingStore.updateSampleType({
-        ...Stores.testSampleMappingStore.testSampleMapping,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      testSampleMappingStore.updateSampleType({
+        ...testSampleMappingStore.testSampleMapping,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitTestSampleMapping = () => {
-    if (!Stores.testSampleMappingStore.checkExitsTestSampleEnvCode) {
-      Stores.testSampleMappingStore.testSampleMappingService
-        .addTestSampleMapping(Stores.testSampleMappingStore.testSampleMapping)
-        .then(() => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Test sample mapping created.`,
-          })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+    if (!testSampleMappingStore.checkExitsTestSampleEnvCode) {
+      testSampleMappingStore.testSampleMappingService
+        .addTestSampleMapping({
+          input: { ...testSampleMappingStore.testSampleMapping },
+        })
+        .then((res) => {
+          if (res.createTestSampleMapping.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createTestSampleMapping.message}`,
+            })
+          }
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -60,14 +64,11 @@ const TestSampleMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -84,339 +85,359 @@ const TestSampleMapping = observer(() => {
               justify="stretch"
               fill
             >
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Test Code"
-                    hasError={errors.testCode}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.testCode ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const testCode = e.target.value as string
-                        onChange(testCode)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          testCode,
-                        })
-                        Stores.testSampleMappingStore.testSampleMappingService
-                          .checkExitsTestSampleEnvCode(
-                            testCode,
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.sampleCode || "",
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.environment || ""
-                          )
-                          .then((res) => {
-                            if (res.success) {
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                true
-                              )
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
-                              })
-                            } else
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                false
-                              )
-                          })
-                      }}
+              {testMasterStore.listTestMaster && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Test Code"
+                      hasError={errors.testCode}
                     >
-                      <option selected>Select</option>
-                      {TestMasterStore.testMasterStore.listTestMaster &&
-                        TestMasterStore.testMasterStore.listTestMaster.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.testCode}>
-                              {item.testCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="testCode"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              {Stores.testSampleMappingStore.checkExitsTestSampleEnvCode && (
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.testCode ? "border-red-500" : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const testCode = e.target.value as string
+                          onChange(testCode)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            testCode,
+                          })
+                          testSampleMappingStore.testSampleMappingService
+                            .checkExitsTestSampleEnvCode({
+                              input: {
+                                testCode,
+                                sampleCode:
+                                  testSampleMappingStore.testSampleMapping
+                                    ?.sampleCode,
+                                env:
+                                  testSampleMappingStore.testSampleMapping
+                                    ?.environment,
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkTestSampleMappingsExistsRecord.success) {
+                                testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
+                                })
+                              } else
+                                testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                  false
+                                )
+                            })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {testMasterStore.listTestMaster &&
+                          testMasterStore.listTestMaster.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.testCode}>
+                                {item.testCode}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="testCode"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              )}
+              {testSampleMappingStore.checkExitsTestSampleEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Test code or sample code already exits. Please use other code.
                 </span>
               )}
 
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Sample Code"
-                    hasError={errors.sampleCode}
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sampleCode ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const sampleCode = e.target.value as string
-                        onChange(sampleCode)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          sampleCode,
-                        })
-                        Stores.testSampleMappingStore.testSampleMappingService
-                          .checkExitsTestSampleEnvCode(
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.testCode || "",
-                            sampleCode,
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.environment || ""
-                          )
-                          .then((res) => {
-                            if (res.success) {
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                true
-                              )
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
-                              })
-                            } else
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                false
-                              )
-                          })
-                      }}
+              {sampleTypeStore.listSampleType && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Sample Code"
+                      hasError={errors.sampleCode}
                     >
-                      <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleCode}>
-                              {item.sampleCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="sampleCode"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-              {Stores.testSampleMappingStore.checkExitsTestSampleEnvCode && (
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.sampleCode ? "border-red-500" : "border-gray-300"
+                        } rounded-md`}
+                        onChange={(e) => {
+                          const sampleCode = e.target.value as string
+                          onChange(sampleCode)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            sampleCode,
+                          })
+                          testSampleMappingStore.testSampleMappingService
+                            .checkExitsTestSampleEnvCode({
+                              input: {
+                                testCode:
+                                  testSampleMappingStore.testSampleMapping?.testCode,
+                                sampleCode,
+                                env:
+                                  testSampleMappingStore.testSampleMapping
+                                    ?.environment,
+                              },
+                            })
+                            .then((res) => {
+                              if (res.checkTestSampleMappingsExistsRecord.success) {
+                                testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                  true
+                                )
+                                LibraryComponents.Atoms.Toast.error({
+                                  message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
+                                })
+                              } else
+                                testSampleMappingStore.updateExitsTestSampleEnvCode(
+                                  false
+                                )
+                            })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleTypeStore.listSampleType &&
+                          sampleTypeStore.listSampleType.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.sampleCode}>
+                                {item.sampleCode}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="sampleCode"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              )}
+              {testSampleMappingStore.checkExitsTestSampleEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Test code or sample code already exits. Please use other code.
                 </span>
               )}
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Sample Type"
-                    hasError={errors.sampleType}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sampleType = e.target.value as string
-                        onChange(sampleType)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          sampleType,
-                        })
-                      }}
+              {sampleTypeStore.listSampleType && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Sample Type"
+                      hasError={errors.sampleType}
                     >
-                      <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleType}>
-                              {item.sampleType}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="sampleType"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Sample Group"
-                    hasError={errors.sampleGroup}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const sampleGroup = e.target.value as string
-                        onChange(sampleGroup)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          sampleGroup,
-                        })
-                      }}
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const sampleType = e.target.value as string
+                          onChange(sampleType)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            sampleType,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleTypeStore.listSampleType &&
+                          sampleTypeStore.listSampleType.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.sampleType}>
+                                {item.sampleType}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="sampleType"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+
+              {sampleTypeStore.listSampleType && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Sample Group"
+                      hasError={errors.sampleGroup}
                     >
-                      <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleGroup}>
-                              {item.sampleGroup}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="sampleGroup"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Coll Container Code"
-                    hasError={errors.collContainerCode}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const collContainerCode = e.target.value as string
-                        onChange(collContainerCode)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          collContainerCode,
-                        })
-                      }}
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const sampleGroup = e.target.value as string
+                          onChange(sampleGroup)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            sampleGroup,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleTypeStore.listSampleType &&
+                          sampleTypeStore.listSampleType.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.sampleGroup}>
+                                {item.sampleGroup}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="sampleGroup"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {sampleContainerStore.listSampleContainer && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Coll Container Code"
+                      hasError={errors.collContainerCode}
                     >
-                      <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
-                        .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerCode}>
-                              {item.containerCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="collContainerCode"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Coll Container Name"
-                    hasError={errors.collContainerName}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const collContainerName = e.target.value as string
-                        onChange(collContainerName)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          collContainerName,
-                        })
-                      }}
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const collContainerCode = e.target.value as string
+                          onChange(collContainerCode)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            collContainerCode,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleContainerStore.listSampleContainer &&
+                          sampleContainerStore.listSampleContainer.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.containerCode}>
+                                {item.containerCode}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="collContainerCode"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {sampleContainerStore.listSampleContainer && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Coll Container Name"
+                      hasError={errors.collContainerName}
                     >
-                      <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
-                        .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerName}>
-                              {item.containerName}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="collContainerName"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Test Container Code"
-                    hasError={errors.testContainerCode}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const testContainerCode = e.target.value as string
-                        onChange(testContainerCode)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          testContainerCode,
-                        })
-                      }}
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const collContainerName = e.target.value as string
+                          onChange(collContainerName)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            collContainerName,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleContainerStore.listSampleContainer &&
+                          sampleContainerStore.listSampleContainer.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.containerName}>
+                                {item.containerName}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="collContainerName"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {sampleContainerStore.listSampleContainer && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Test Container Code"
+                      hasError={errors.testContainerCode}
                     >
-                      <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
-                        .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerCode}>
-                              {item.containerCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="testContainerCode"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Test Container Name"
-                    hasError={errors.testContainerName}
-                  >
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const testContainerName = e.target.value as string
-                        onChange(testContainerName)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
-                          testContainerName,
-                        })
-                      }}
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const testContainerCode = e.target.value as string
+                          onChange(testContainerCode)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            testContainerCode,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleContainerStore.listSampleContainer &&
+                          sampleContainerStore.listSampleContainer.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.containerCode}>
+                                {item.containerCode}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="testContainerCode"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
+              {sampleContainerStore.listSampleContainer && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Test Container Name"
+                      hasError={errors.testContainerName}
                     >
-                      <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
-                        .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerName}>
-                              {item.containerName}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="testContainerName"
-                rules={{ required: false }}
-                defaultValue=""
-              />
+                      <select
+                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                        onChange={(e) => {
+                          const testContainerName = e.target.value as string
+                          onChange(testContainerName)
+                          testSampleMappingStore.updateSampleType({
+                            ...testSampleMappingStore.testSampleMapping,
+                            testContainerName,
+                          })
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {sampleContainerStore.listSampleContainer &&
+                          sampleContainerStore.listSampleContainer.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.containerName}>
+                                {item.containerName}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="testContainerName"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
+              )}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -426,13 +447,11 @@ const TestSampleMapping = observer(() => {
                       errors.minDrawVol ? "Please Enter minDrawVol" : "Min Draw Vol"
                     }
                     hasError={errors.minDrawVol}
-                    value={
-                      Stores.testSampleMappingStore.testSampleMapping?.minDrawVol
-                    }
+                    value={testSampleMappingStore.testSampleMapping?.minDrawVol}
                     onChange={(minDrawVol) => {
                       onChange(minDrawVol)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         minDrawVol,
                       })
                     }}
@@ -450,13 +469,12 @@ const TestSampleMapping = observer(() => {
                       label="Primary Container"
                       hasError={errors.primaryContainer}
                       value={
-                        Stores.testSampleMappingStore.testSampleMapping
-                          ?.primaryContainer
+                        testSampleMappingStore.testSampleMapping?.primaryContainer
                       }
                       onChange={(primaryContainer) => {
                         onChange(primaryContainer)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           primaryContainer,
                         })
                       }}
@@ -473,13 +491,12 @@ const TestSampleMapping = observer(() => {
                       label="Unique Container"
                       hasError={errors.uniqueContainer}
                       value={
-                        Stores.testSampleMappingStore.testSampleMapping
-                          ?.uniqueContainer
+                        testSampleMappingStore.testSampleMapping?.uniqueContainer
                       }
                       onChange={(uniqueContainer) => {
                         onChange(uniqueContainer)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           uniqueContainer,
                         })
                       }}
@@ -495,13 +512,11 @@ const TestSampleMapping = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Centrifue"
                       hasError={errors.centerIfuge}
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.centerIfuge
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.centerIfuge}
                       onChange={(centerIfuge) => {
                         onChange(centerIfuge)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           centerIfuge,
                         })
                       }}
@@ -517,13 +532,11 @@ const TestSampleMapping = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Aliquot"
                       hasError={errors.aliquot}
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.aliquot
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.aliquot}
                       onChange={(aliquot) => {
                         onChange(aliquot)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           aliquot,
                         })
                       }}
@@ -553,15 +566,15 @@ const TestSampleMapping = observer(() => {
                       onChange={(e) => {
                         const minDrawVolUnit = e.target.value as string
                         onChange(minDrawVolUnit)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           minDrawVolUnit,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "MIN_DRAW_VOL_UNIT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -584,13 +597,11 @@ const TestSampleMapping = observer(() => {
                       errors.minTestVol ? "Please Enter minTestVol" : "Min Test Vol"
                     }
                     hasError={errors.minTestVol}
-                    value={
-                      Stores.testSampleMappingStore.testSampleMapping?.minTestVol
-                    }
+                    value={testSampleMappingStore.testSampleMapping?.minTestVol}
                     onChange={(minTestVol) => {
                       onChange(minTestVol)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         minTestVol,
                       })
                     }}
@@ -612,15 +623,15 @@ const TestSampleMapping = observer(() => {
                       onChange={(e) => {
                         const minTestVolUnit = e.target.value as string
                         onChange(minTestVolUnit)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           minTestVolUnit,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "MIN_TEST_VOL_UNIT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -643,13 +654,11 @@ const TestSampleMapping = observer(() => {
                       errors.condition ? "Please Enter condition" : "Condition"
                     }
                     hasError={errors.condition}
-                    value={
-                      Stores.testSampleMappingStore.testSampleMapping?.condition
-                    }
+                    value={testSampleMappingStore.testSampleMapping?.condition}
                     onChange={(condition) => {
                       onChange(condition)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         condition,
                       })
                     }}
@@ -670,14 +679,11 @@ const TestSampleMapping = observer(() => {
                         : "Retention Period"
                     }
                     hasError={errors.repentionPeriod}
-                    value={
-                      Stores.testSampleMappingStore.testSampleMapping
-                        ?.repentionPeriod
-                    }
+                    value={testSampleMappingStore.testSampleMapping?.repentionPeriod}
                     onChange={(repentionPeriod) => {
                       onChange(repentionPeriod)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         repentionPeriod,
                       })
                     }}
@@ -699,15 +705,15 @@ const TestSampleMapping = observer(() => {
                       onChange={(e) => {
                         const repentionUnits = e.target.value as string
                         onChange(repentionUnits)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           repentionUnits,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "RETENTION_UNITS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -730,13 +736,11 @@ const TestSampleMapping = observer(() => {
                       errors.labelInst ? "Please Enter labelInst" : "Label Inst"
                     }
                     hasError={errors.labelInst}
-                    value={
-                      Stores.testSampleMappingStore.testSampleMapping?.labelInst
-                    }
+                    value={testSampleMappingStore.testSampleMapping?.labelInst}
                     onChange={(labelInst) => {
                       onChange(labelInst)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         labelInst,
                       })
                     }}
@@ -753,11 +757,11 @@ const TestSampleMapping = observer(() => {
                     label="Info"
                     placeholder={errors.info ? "Please Enter info" : "Info"}
                     hasError={errors.info}
-                    value={Stores.testSampleMappingStore.testSampleMapping?.info}
+                    value={testSampleMappingStore.testSampleMapping?.info}
                     onChange={(info) => {
                       onChange(info)
-                      Stores.testSampleMappingStore.updateSampleType({
-                        ...Stores.testSampleMappingStore.testSampleMapping,
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
                         info,
                       })
                     }}
@@ -772,59 +776,55 @@ const TestSampleMapping = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.environment
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           environment,
                         })
-                        Stores.testSampleMappingStore.testSampleMappingService
-                          .checkExitsTestSampleEnvCode(
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.testCode || "",
-                            Stores.testSampleMappingStore.testSampleMapping
-                              ?.sampleCode || "",
-                            environment
-                          )
+                        testSampleMappingStore.testSampleMappingService
+                          .checkExitsTestSampleEnvCode({
+                            input: {
+                              testCode:
+                                testSampleMappingStore.testSampleMapping?.testCode,
+                              sampleCode:
+                                testSampleMappingStore.testSampleMapping?.sampleCode,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                            if (res.checkTestSampleMappingsExistsRecord.success) {
+                              testSampleMappingStore.updateExitsTestSampleEnvCode(
                                 true
                               )
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
                               })
                             } else
-                              Stores.testSampleMappingStore.updateExitsTestSampleEnvCode(
+                              testSampleMappingStore.updateExitsTestSampleEnvCode(
                                 false
                               )
                           })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.testSampleMappingStore.testSampleMapping
-                              ?.environment || `Select`}
+                          : testSampleMappingStore.testSampleMapping?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -845,13 +845,11 @@ const TestSampleMapping = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Lab Specfic"
                       hasError={errors.labSpecfic}
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.labSpecfic
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.labSpecfic}
                       onChange={(labSpecfic) => {
                         onChange(labSpecfic)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           labSpecfic,
                         })
                       }}
@@ -868,13 +866,12 @@ const TestSampleMapping = observer(() => {
                       label="Department Specfic"
                       hasError={errors.departmentSpecfic}
                       value={
-                        Stores.testSampleMappingStore.testSampleMapping
-                          ?.departmentSpecfic
+                        testSampleMappingStore.testSampleMapping?.departmentSpecfic
                       }
                       onChange={(departmentSpecfic) => {
                         onChange(departmentSpecfic)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           departmentSpecfic,
                         })
                       }}
@@ -890,13 +887,11 @@ const TestSampleMapping = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Shared Sample"
                       hasError={errors.sharedSample}
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.sharedSample
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.sharedSample}
                       onChange={(sharedSample) => {
                         onChange(sharedSample)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           sharedSample,
                         })
                       }}
@@ -912,13 +907,11 @@ const TestSampleMapping = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Print Label"
                       hasError={errors.printLabels}
-                      value={
-                        Stores.testSampleMappingStore.testSampleMapping?.printLabels
-                      }
+                      value={testSampleMappingStore.testSampleMapping?.printLabels}
                       onChange={(printLabels) => {
                         onChange(printLabels)
-                        Stores.testSampleMappingStore.updateSampleType({
-                          ...Stores.testSampleMappingStore.testSampleMapping,
+                        testSampleMappingStore.updateSampleType({
+                          ...testSampleMappingStore.testSampleMapping,
                           printLabels,
                         })
                       }}
@@ -956,17 +949,17 @@ const TestSampleMapping = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.TestSampleMappingList
-            data={Stores.testSampleMappingStore.listTestSampleMapping || []}
-            totalSize={Stores.testSampleMappingStore.listTestSampleMappingCount}
+            data={testSampleMappingStore.listTestSampleMapping || []}
+            totalSize={testSampleMappingStore.listTestSampleMappingCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -990,7 +983,7 @@ const TestSampleMapping = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.testSampleMappingStore.fetchSampleTypeList(page, limit)
+              testSampleMappingStore.fetchSampleTypeList(page, limit)
             }}
           />
         </div>
@@ -998,28 +991,32 @@ const TestSampleMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.testSampleMappingStore.testSampleMappingService
-                .deleteTestSampleMapping(modalConfirm.id)
+              testSampleMappingStore.testSampleMappingService
+                .deleteTestSampleMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeTestSampleMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Test sample mapping deleted.`,
+                      message: `😊 ${res.removeTestSampleMapping.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testSampleMappingStore.fetchSampleTypeList()
+                    testSampleMappingStore.fetchSampleTypeList()
                   }
                 })
             } else if (type === "Update") {
-              Stores.testSampleMappingStore.testSampleMappingService
-                .updateSingleFiled(modalConfirm.data)
+              testSampleMappingStore.testSampleMappingService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateTestSampleMapping.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Test sample mapping updated.`,
+                      message: `😊 ${res.updateTestSampleMapping.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.testSampleMappingStore.fetchSampleTypeList()
-                    window.location.reload()
+                    testSampleMappingStore.fetchSampleTypeList()
                   }
                 })
             }

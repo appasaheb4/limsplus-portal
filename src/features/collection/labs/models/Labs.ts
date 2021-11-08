@@ -55,7 +55,7 @@ export class Labs {
         this.openingTime = rawData.openingTime
         this.closingTime = rawData.closingTime
         this.email = rawData.email
-        this.labLog = rawData
+        this.labLog = rawData.labLog
         this.image = rawData.image
         this.autoRelease= rawData.autoRelease
         this.requireReceveInLab = rawData.requireReceveInLab
