@@ -90,16 +90,10 @@ export const Users = observer(() => {
             LibraryComponents.Atoms.Toast.success({
               message: `😊 ${res.createUser.message}`,
             })
-<<<<<<< HEAD
             setTimeout(() => {
               userStore.loadUser()
               // window.location.reload()
             }, 2000)
-=======
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 2000)
->>>>>>> dev
           } else {
             LibraryComponents.Atoms.Toast.error({
               message: `😔 ${res.createUser.message}`,
