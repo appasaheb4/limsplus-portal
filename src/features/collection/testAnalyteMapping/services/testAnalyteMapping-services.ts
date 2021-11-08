@@ -15,6 +15,7 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
 } from "./mutation"
+import * as Model from '../models'
 
 class TestAnalyteMappingService {
   listTestAnalyteMapping = (page = 0, limit = 10) =>
@@ -44,6 +45,7 @@ class TestAnalyteMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

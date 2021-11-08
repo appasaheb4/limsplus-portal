@@ -3,9 +3,9 @@ export class Role {
     description?: string;
     environment?: string
     constructor(rawData: {[key in string]: any}){
-        this.code = rawData.code
-        this.description = rawData.description
-        this.environment = rawData.environment
+        this.code = rawData.code || ''
+        this.description = rawData.description || ''
+        this.environment = rawData.environment || ''
     }
   }
   

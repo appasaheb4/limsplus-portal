@@ -6,6 +6,7 @@
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import * as Model from '../models'
 import {
   LIST,
   REMOVE_RECORDS,
@@ -42,6 +43,7 @@ class DeginisationService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.deginisationStore.updateDescription(new Model.Deginisation({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

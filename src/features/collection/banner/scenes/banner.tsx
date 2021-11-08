@@ -59,7 +59,7 @@ const Banner = observer(() => {
         }
         setTimeout(() => {
           Stores.bannerStore.fetchListBanner()
-          window.location.reload()
+          // window.location.reload()
         }, 1000)
       }
     )
@@ -127,6 +127,7 @@ const Banner = observer(() => {
                         ...Stores.bannerStore.banner,
                         image,
                       })
+                      
                     }}
                   />
                 )}
@@ -264,7 +265,7 @@ const Banner = observer(() => {
                     message: `😊 ${res.removeBanner.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.bannerStore.fetchListBanner()
+                  Stores.bannerStore.fetchListBanner() 
                 }
               })
             } else if (type === "Update") {
@@ -278,10 +279,10 @@ const Banner = observer(() => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateBanner.message}`,
                   })
-                  setModalConfirm({ show: false })
-                  Stores.bannerStore.fetchListBanner()
+                  Stores.bannerStore.fetchListBanner()  
+                  // setModalConfirm({ show: false })             
                 }
-              })
+              }) 
             } else {
               Stores.bannerStore.BannerService.updateBannerImage({
                 input: {
@@ -295,7 +296,7 @@ const Banner = observer(() => {
                     message: `😊 ${res.updateBannerImage.message}`,
                   })
                  setTimeout(() => {
-                   window.location.reload()
+                  Stores.bannerStore.fetchListBanner()
                  }, 2000);
                  
                 }   

@@ -7,6 +7,7 @@
 import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import * as Model from '../models/User'
 import {
   CHECK_EXISTS_USERID,
   USER_LIST,
@@ -71,6 +72,8 @@ export class UserService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.userStore.updateUser(new Model.Users({}))
+          
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

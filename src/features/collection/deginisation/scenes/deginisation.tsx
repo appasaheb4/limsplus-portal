@@ -56,7 +56,7 @@ const Deginisation = observer(() => {
           })
           setTimeout(()=>{
             deginisationStore.fetchListDeginisation()
-            window.location.reload()
+            // window.location.reload()
           },1000)
         } else {
           LibraryComponents.Atoms.Toast.error({ message: "😔 Please try again" })
