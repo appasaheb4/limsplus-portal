@@ -1,6 +1,6 @@
 import React from "react"
-     
-import TestSampleMappingStore from "./testSampleMapping-store"
+
+import { TestSampleMappingStore } from "./testSampleMapping-store"
 
 export const Stores = {
   testSampleMappingStore: new TestSampleMappingStore(),

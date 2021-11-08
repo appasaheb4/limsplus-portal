@@ -33,12 +33,14 @@ const SampleType = observer(() => {
   const onSubmitSampleType = () => {
     if (!sampleTypeStore.checkExitsEnvCode) {
       sampleTypeStore.sampleTypeService
-        .addSampleType(sampleTypeStore.sampleType)
-        .then(() => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Sample type created.`,
-          })
-          sampleTypeStore.fetchSampleTypeList()
+        .addSampleType({ input: { ...sampleTypeStore.sampleType } })
+        .then((res) => {
+          if (res.createSampleType.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createSampleType.message}`,
+            })
+            sampleTypeStore.fetchSampleTypeList()
+          }
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -63,7 +65,7 @@ const SampleType = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -91,15 +93,17 @@ const SampleType = observer(() => {
                     }}
                     onBlur={(code) => {
                       sampleTypeStore.sampleTypeService
-                        .checkExitsEnvCode(
-                          code,
-                          sampleTypeStore.sampleType?.environment || ""
-                        )
+                        .checkExitsEnvCode({
+                          input: {
+                            code,
+                            env: sampleTypeStore.sampleType?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
+                          if (res.checkSampleTypeExistsRecord.success) {
                             sampleTypeStore.updateExitsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkSampleTypeExistsRecord.message}`,
                             })
                           } else sampleTypeStore.updateExitsEnvCode(false)
                         })
@@ -218,15 +222,17 @@ const SampleType = observer(() => {
                           environment,
                         })
                         sampleTypeStore.sampleTypeService
-                          .checkExitsEnvCode(
-                            sampleTypeStore.sampleType?.sampleCode || "",
-                            environment
-                          )
+                          .checkExitsEnvCode({
+                            input: {
+                              code: sampleTypeStore.sampleType?.sampleCode,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkSampleTypeExistsRecord.success) {
                               sampleTypeStore.updateExitsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkSampleTypeExistsRecord.message}`,
                               })
                             } else sampleTypeStore.updateExitsEnvCode(false)
                           })
@@ -315,18 +321,18 @@ const SampleType = observer(() => {
             onPageSizeChange={(page, limit) => {
               sampleTypeStore.fetchSampleTypeList(page, limit)
             }}
-          />  
+          />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
               sampleTypeStore.sampleTypeService
-                .deleteSampleType(modalConfirm.id)
+                .deleteSampleType({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeSampleType.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Sample type deleted.`,
+                      message: `😊 ${res.removeSampleType.message}`,
                     })
                     setModalConfirm({ show: false })
                     sampleTypeStore.fetchSampleTypeList()
@@ -334,15 +340,19 @@ const SampleType = observer(() => {
                 })
             } else if (type === "Update") {
               sampleTypeStore.sampleTypeService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateSampleType.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Sample type updated.`,
+                      message: `😊 ${res.updateSampleType.message}`,
                     })
                     setModalConfirm({ show: false })
                     sampleTypeStore.fetchSampleTypeList()
-                    window.location.reload()
                   }
                 })
             }
@@ -350,7 +360,7 @@ const SampleType = observer(() => {
           onClose={() => {
             setModalConfirm({ show: false })
           }}
-        />  
+        />
       </div>
     </>
   )
