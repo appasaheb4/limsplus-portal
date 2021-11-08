@@ -8,11 +8,7 @@ import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import { ScheduleFrequency } from "../components/molecules"
 
-import Storage from "@lp/library/modules/storage"
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -24,28 +20,29 @@ const DeliverySchedule = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, deliveryScheduleStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.deliveryScheduleStore.updateDeliverySchedule({
-        ...Stores.deliveryScheduleStore.deliverySchedule,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      deliveryScheduleStore.updateDeliverySchedule({
+        ...deliveryScheduleStore.deliverySchedule,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitDeliverySchedule = () => {
-    if (!Stores.deliveryScheduleStore.checkExistsEnvCode) {
-      Stores.deliveryScheduleStore.deliveryScheduleService
-        .addDeliverySchdule(Stores.deliveryScheduleStore.deliverySchedule)
-        .then(() => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Delivery Schdule record created.`,
-          })
+    if (!deliveryScheduleStore.checkExistsEnvCode) {
+      deliveryScheduleStore.deliveryScheduleService
+        .addDeliverySchdule({ input: { ...deliveryScheduleStore.deliverySchedule } })
+        .then((res) => {
+          if (res.createDeliverySchdule.success)
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createDeliverySchdule.message}`,
+            })
           setTimeout(() => {
             window.location.reload()
           }, 2000)
@@ -61,14 +58,11 @@ const DeliverySchedule = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -76,7 +70,7 @@ const DeliverySchedule = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -94,29 +88,29 @@ const DeliverySchedule = observer(() => {
                       errors.schCode ? "Please Enter Sch Code" : "Sch Code"
                     }
                     hasError={errors.schCode}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.schCode}
+                    value={deliveryScheduleStore.deliverySchedule?.schCode}
                     onChange={(schCode) => {
                       onChange(schCode)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         schCode,
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.deliveryScheduleStore.deliveryScheduleService
-                        .checkExistsEnvCode(
-                          code,
-                          Stores.deliveryScheduleStore.deliverySchedule
-                            ?.environment || ""
-                        )
+                      deliveryScheduleStore.deliveryScheduleService
+                        .checkExistsEnvCode({
+                          input: {
+                            code,
+                            env: deliveryScheduleStore.deliverySchedule?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
-                            Stores.deliveryScheduleStore.updateExistsEnvCode(true)
+                          if (res.checkDeliverySchdulesExistsRecord.success) {
+                            deliveryScheduleStore.updateExistsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                             })
-                          } else
-                            Stores.deliveryScheduleStore.updateExistsEnvCode(false)
+                          } else deliveryScheduleStore.updateExistsEnvCode(false)
                         })
                     }}
                   />
@@ -125,7 +119,7 @@ const DeliverySchedule = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.deliveryScheduleStore.checkExistsEnvCode && (
+              {deliveryScheduleStore.checkExistsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -136,11 +130,11 @@ const DeliverySchedule = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="P Start Time"
                     hasError={errors.pStartTime}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.pStartTime}
+                    value={deliveryScheduleStore.deliverySchedule?.pStartTime}
                     onChange={(pStartTime) => {
                       onChange(pStartTime)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         pStartTime,
                       })
                     }}
@@ -156,11 +150,11 @@ const DeliverySchedule = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="P End Time"
                     hasError={errors.pEndTime}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.pEndTime}
+                    value={deliveryScheduleStore.deliverySchedule?.pEndTime}
                     onChange={(pEndTime) => {
                       onChange(pEndTime)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         pEndTime,
                       })
                     }}
@@ -176,11 +170,11 @@ const DeliverySchedule = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="Cutof Time"
                     hasError={errors.cutofTime}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.cutofTime}
+                    value={deliveryScheduleStore.deliverySchedule?.cutofTime}
                     onChange={(cutofTime) => {
                       onChange(cutofTime)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         cutofTime,
                       })
                     }}
@@ -196,13 +190,11 @@ const DeliverySchedule = observer(() => {
                   <LibraryComponents.Atoms.Form.Clock
                     label="Secound Cutof Time"
                     hasError={errors.secoundCutofTime}
-                    value={
-                      Stores.deliveryScheduleStore.deliverySchedule?.secoundCutofTime
-                    }
+                    value={deliveryScheduleStore.deliverySchedule?.secoundCutofTime}
                     onChange={(secoundCutofTime) => {
                       onChange(secoundCutofTime)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         secoundCutofTime,
                       })
                     }}
@@ -230,15 +222,15 @@ const DeliverySchedule = observer(() => {
                         onChange(processingType)
                         console.log({ processingType })
 
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           processingType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PROCESSING_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -258,14 +250,12 @@ const DeliverySchedule = observer(() => {
                 render={({ field: { onChange } }) => (
                   <ScheduleFrequency
                     type={
-                      Stores.deliveryScheduleStore.deliverySchedule
-                        ?.processingType || ""
+                      deliveryScheduleStore.deliverySchedule?.processingType || ""
                     }
                     onChnage={(schFrequency) => {
-                      console.log({ schFrequency })
                       onChange(schFrequency)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         schFrequency,
                       })
                     }}
@@ -284,11 +274,11 @@ const DeliverySchedule = observer(() => {
                       errors.reportOn ? "Please Enter ReportOn" : "ReportOn"
                     }
                     hasError={errors.reportOn}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.reportOn}
+                    value={deliveryScheduleStore.deliverySchedule?.reportOn}
                     onChange={(reportOn) => {
                       onChange(reportOn)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         reportOn,
                       })
                     }}
@@ -307,11 +297,11 @@ const DeliverySchedule = observer(() => {
                       errors.dynamicRT ? "Please Enter DynamicRT " : "DynamicRT"
                     }
                     hasError={errors.dynamicRT}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.dynamicRT}
+                    value={deliveryScheduleStore.deliverySchedule?.dynamicRT}
                     onChange={(dynamicRT) => {
                       onChange(dynamicRT)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         dynamicRT,
                       })
                     }}
@@ -337,26 +327,22 @@ const DeliverySchedule = observer(() => {
                     hasError={errors.dynamicTU}
                   >
                     <select
-                      value={
-                        Stores.deliveryScheduleStore.deliverySchedule?.dynamicTU
-                      }
+                      value={deliveryScheduleStore.deliverySchedule?.dynamicTU}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.dynamicTU
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.dynamicTU ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const dynamicTU = e.target.value
                         onChange(dynamicTU)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           dynamicTU,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DYNAMIC_TU"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -378,11 +364,11 @@ const DeliverySchedule = observer(() => {
                     label="Fixed RT"
                     placeholder={errors.fixedRT ? "Please Enter fixedRT" : "fixedRT"}
                     hasError={errors.fixedRT}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.fixedRT}
+                    value={deliveryScheduleStore.deliverySchedule?.fixedRT}
                     onChange={(fixedRT) => {
                       onChange(fixedRT)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         fixedRT,
                       })
                     }}
@@ -401,11 +387,11 @@ const DeliverySchedule = observer(() => {
                       errors.schForDept ? "Please Enter schForDept" : "schForDept"
                     }
                     hasError={errors.schForDept}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.schForDept}
+                    value={deliveryScheduleStore.deliverySchedule?.schForDept}
                     onChange={(schForDept) => {
                       onChange(schForDept)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         schForDept,
                       })
                     }}
@@ -424,11 +410,11 @@ const DeliverySchedule = observer(() => {
                       errors.schForPat ? "Please Enter schForPat" : "schForPat"
                     }
                     hasError={errors.schForPat}
-                    value={Stores.deliveryScheduleStore.deliverySchedule?.schForPat}
+                    value={deliveryScheduleStore.deliverySchedule?.schForPat}
                     onChange={(schForPat) => {
                       onChange(schForPat)
-                      Stores.deliveryScheduleStore.updateDeliverySchedule({
-                        ...Stores.deliveryScheduleStore.deliverySchedule,
+                      deliveryScheduleStore.updateDeliverySchedule({
+                        ...deliveryScheduleStore.deliverySchedule,
                         schForPat,
                       })
                     }}
@@ -443,53 +429,47 @@ const DeliverySchedule = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={
-                        Stores.deliveryScheduleStore.deliverySchedule?.environment
-                      }
+                      value={deliveryScheduleStore.deliverySchedule?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           environment,
                         })
-                        Stores.deliveryScheduleStore.deliveryScheduleService
-                          .checkExistsEnvCode(
-                            Stores.deliveryScheduleStore.deliverySchedule?.schCode ||
-                              "",
-                            environment
-                          )
+                        deliveryScheduleStore.deliveryScheduleService
+                          .checkExistsEnvCode({
+                            input: {
+                              code: deliveryScheduleStore.deliverySchedule?.schCode,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.deliveryScheduleStore.updateExistsEnvCode(true)
+                            if (res.checkDeliverySchdulesExistsRecord.success) {
+                              deliveryScheduleStore.updateExistsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                               })
-                            } else
-                              Stores.deliveryScheduleStore.updateExistsEnvCode(false)
+                            } else deliveryScheduleStore.updateExistsEnvCode(false)
                           })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.deliveryScheduleStore.deliverySchedule
-                              ?.environment || `Select`}
+                          : deliveryScheduleStore.deliverySchedule?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -511,13 +491,12 @@ const DeliverySchedule = observer(() => {
                       label="Sunday Processing"
                       hasError={errors.sundayProcessing}
                       value={
-                        Stores.deliveryScheduleStore.deliverySchedule
-                          ?.sundayProcessing
+                        deliveryScheduleStore.deliverySchedule?.sundayProcessing
                       }
                       onChange={(sundayProcessing) => {
                         onChange(sundayProcessing)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           sundayProcessing,
                         })
                       }}
@@ -534,13 +513,12 @@ const DeliverySchedule = observer(() => {
                       label="Holiday Processing"
                       hasError={errors.holidayProcessing}
                       value={
-                        Stores.deliveryScheduleStore.deliverySchedule
-                          ?.holidayProcessing
+                        deliveryScheduleStore.deliverySchedule?.holidayProcessing
                       }
                       onChange={(holidayProcessing) => {
                         onChange(holidayProcessing)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           holidayProcessing,
                         })
                       }}
@@ -556,14 +534,11 @@ const DeliverySchedule = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       hasError={errors.sundayReporting}
                       label="Sunday Reporting"
-                      value={
-                        Stores.deliveryScheduleStore.deliverySchedule
-                          ?.sundayReporting
-                      }
+                      value={deliveryScheduleStore.deliverySchedule?.sundayReporting}
                       onChange={(sundayReporting) => {
                         onChange(sundayReporting)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           sundayReporting,
                         })
                       }}
@@ -580,13 +555,12 @@ const DeliverySchedule = observer(() => {
                       label="Holiday Reporting"
                       hasError={errors.holidayReporting}
                       value={
-                        Stores.deliveryScheduleStore.deliverySchedule
-                          ?.holidayReporting
+                        deliveryScheduleStore.deliverySchedule?.holidayReporting
                       }
                       onChange={(holidayReporting) => {
                         onChange(holidayReporting)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           holidayReporting,
                         })
                       }}
@@ -602,11 +576,11 @@ const DeliverySchedule = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="On Time"
                       hasError={errors.onTime}
-                      value={Stores.deliveryScheduleStore.deliverySchedule?.onTime}
+                      value={deliveryScheduleStore.deliverySchedule?.onTime}
                       onChange={(onTime) => {
                         onChange(onTime)
-                        Stores.deliveryScheduleStore.updateDeliverySchedule({
-                          ...Stores.deliveryScheduleStore.deliverySchedule,
+                        deliveryScheduleStore.updateDeliverySchedule({
+                          ...deliveryScheduleStore.deliverySchedule,
                           onTime,
                         })
                       }}
@@ -644,17 +618,17 @@ const DeliverySchedule = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.DeliverySchduleList
-            data={Stores.deliveryScheduleStore.listDeliverySchedule || []}
-            totalSize={Stores.deliveryScheduleStore.listDeliveryScheduleCount}
+            data={deliveryScheduleStore.listDeliverySchedule || []}
+            totalSize={deliveryScheduleStore.listDeliveryScheduleCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -678,7 +652,7 @@ const DeliverySchedule = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.deliveryScheduleStore.fetchDeliverySchedule(page, limit)
+              deliveryScheduleStore.fetchDeliverySchedule(page, limit)
             }}
           />
         </div>
@@ -686,28 +660,32 @@ const DeliverySchedule = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.deliveryScheduleStore.deliveryScheduleService
-                .deleteDeliverySchdule(modalConfirm.id)
+              deliveryScheduleStore.deliveryScheduleService
+                .deleteDeliverySchdule({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeDeliverySchdule.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record deleted.`,
+                      message: `😊 ${res.removeDeliverySchdule.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.deliveryScheduleStore.fetchDeliverySchedule()
+                    deliveryScheduleStore.fetchDeliverySchedule()
                   }
                 })
             } else if (type === "Update") {
-              Stores.deliveryScheduleStore.deliveryScheduleService
-                .updateSingleFiled(modalConfirm.data)
+              deliveryScheduleStore.deliveryScheduleService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateDeliverySchdule.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Record updated.`,
+                      message: `😊 ${res.updateDeliverySchdule.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.deliveryScheduleStore.fetchDeliverySchedule()
-                    window.location.reload()
+                    deliveryScheduleStore.fetchDeliverySchedule()
                   }
                 })
             }

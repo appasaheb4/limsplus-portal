@@ -1,17 +1,15 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react"
 import { observer } from "mobx-react"
-import * as Config from "@lp/config"
+import dayjs from 'dayjs'
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 
-import Storage from "@lp/library/modules/storage"
 
 
 import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface PackageMasterListProps {
   data: any
@@ -182,9 +180,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateCreation || 0)
-                    .format("YYYY-MM-DD")}
+                  {dayjs(row.dateCreation).format("YYYY-MM-DD")}
                 </>
               )
             },

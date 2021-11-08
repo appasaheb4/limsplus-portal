@@ -1171,8 +1171,8 @@ const PatientResult = observer((props: PatientResultProps)=>{
                                 onChange(price)
                                 Stores.patientRegistationStore.updatePatientResult({
                                   ...Stores.patientRegistationStore.patientResult,
-                                  price,
-                                })
+                                  price: parseFloat(price),
+                                })  
                               }}
                             />
                             )}

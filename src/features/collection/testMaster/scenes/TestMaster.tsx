@@ -474,7 +474,7 @@ const TestMater = observer(() => {
                       onChange(price)
                       testMasterStore.updateTestMaster({
                         ...testMasterStore.testMaster,
-                        price,
+                        price: parseFloat(price),
                       })
                     }}
                   />
@@ -546,19 +546,19 @@ const TestMater = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Validation Level"
                     hasError={errors.validationLevel}
-                  >
+                  >  
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
                           ? "border-red-500  "
                           : "border-gray-300"
-                      } rounded-md`}
+                      } rounded-md`}  
                       onChange={(e) => {
                         const validationLevel: any = (e.target.value || 0 )  as number
                         onChange(validationLevel)
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,
-                          validationLevel,
+                          validationLevel: parseInt(validationLevel),
                         })
                       }}
                     >
@@ -1718,10 +1718,10 @@ const TestMater = observer(() => {
             totalSize={testMasterStore.listTestMasterCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
-              labList:loginStore.login?.labList,
-              listLabs:labStore.listLabs,
-              listDepartment:departmentStore.listDepartment,
-              sectionListByDeptCode:testMasterStore.sectionListByDeptCode
+              labList: loginStore.login?.labList,
+              listLabs: labStore.listLabs,
+              listDepartment: departmentStore.listDepartment,
+              sectionListByDeptCode: testMasterStore.sectionListByDeptCode,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -1812,8 +1812,8 @@ const TestMater = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)
@@ -1830,7 +1830,7 @@ const TestMater = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("rLab", modalConfirm.data.rLab)
               setValue("pLab", modalConfirm.data.pLab)

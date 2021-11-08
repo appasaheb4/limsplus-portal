@@ -20,6 +20,12 @@ import { MasterAnalyteStore } from "@lp/features/collection/masterAnalyte/stores
 import { TestAnalyteMappingStore } from "@lp/features/collection/testAnalyteMapping/stores/testAnalyteMapping-store"
 import { TestMasterStore } from "@lp/features/collection/testMaster/stores/testMaster-store"
 import { DeliveryScheduleStore } from "@lp/features/collection/deliverySchedule/stores/deliverySchedule-store"
+import { MasterPanelStore } from "@lp/features/collection/masterPanel/stores/masterPanel-store"
+import { TestPanelMappingStore } from "@lp/features/collection/testPanelMapping/stores/testPanelMapping-store"
+import { MasterPackageStore } from "@lp/features/collection/masterPackage/stores/masterPackage-store"
+import { SampleContainerStore } from "@lp/features/collection/sampleContainer/stores/sampleContainer-store"
+import { SampleTypeStore } from "@lp/features/collection/sampleType/stores/sampleType-store"
+import { MethodsStore } from "@lp/features/collection/methods/stores/methods-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -46,11 +52,17 @@ export class Stores extends Store {
   testAnalyteMappingStore!: TestAnalyteMappingStore
   testMasterStore!: TestMasterStore
   deliveryScheduleStore!: DeliveryScheduleStore
+  masterPanelStore!: MasterPanelStore
+  testPanelMappingStore!: TestPanelMappingStore
+  masterPackageStore!: MasterPackageStore
+  sampleContainerStore!: SampleContainerStore
+  sampleTypeStore!: SampleTypeStore
+  methodsStore!: MethodsStore
 
   // settings
   environmentStore!: EnvironmentStore
 
-  constructor() {
+  constructor() {  
     super()
     this.rootStore = new RootStore()
     this.appStore = new AppStore()
@@ -70,12 +82,16 @@ export class Stores extends Store {
     this.testAnalyteMappingStore = new TestAnalyteMappingStore()
     this.deliveryScheduleStore = new DeliveryScheduleStore()
     this.testMasterStore = new TestMasterStore()
+    this.masterPanelStore = new MasterPanelStore()
+    this.testPanelMappingStore = new TestPanelMappingStore()
+    this.masterPackageStore = new MasterPackageStore()
+    this.sampleContainerStore = new SampleContainerStore()
+    this.sampleTypeStore = new SampleTypeStore()
+    this.methodsStore = new MethodsStore()
 
     // settings
+    this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()
-    setTimeout(() => {
-      this.userStore = new UserStore()
-    }, 100)  
   }
   updateLoginStore() {
     this.loginStore = new LoginStore()

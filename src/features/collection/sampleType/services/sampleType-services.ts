@@ -5,23 +5,28 @@
  * @author limsplus
  */
 import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
+import { LIST } from "./mutation"
 
 class SampleTypeService {
   listSampleType = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`master/sampleType/listSampleType/${page}/${limit}/${env}/${role}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.sampleTypeStore.updateSampleTypeList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
   addSampleType = (sampleType?: Models.SampleType) =>
     new Promise<any>((resolve, reject) => {
@@ -57,7 +62,7 @@ class SampleTypeService {
         })
     })
 
-    checkExitsEnvCode = (code: string, env: string) =>
+  checkExitsEnvCode = (code: string, env: string) =>
     new Promise<any>((resolve, reject) => {
       http
         .post(`/master/sampleType/checkExitsEnvCode`, { code, env })
