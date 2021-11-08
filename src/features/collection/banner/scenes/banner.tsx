@@ -21,7 +21,7 @@ const Banner = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
@@ -35,6 +35,19 @@ const Banner = observer(() => {
     }
   }, [stores.loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      Stores.bannerStore.updateBanner({
+        ...Stores.bannerStore.banner,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitBanner = () => {
     Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
       (res) => {
@@ -42,10 +55,12 @@ const Banner = observer(() => {
           LibraryComponents.Atoms.Toast.success({
             message: `😊 ${res.createBanner.message}`,
           })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
+          
         }
+        setTimeout(() => {
+          Stores.bannerStore.fetchListBanner()
+          // window.location.reload()
+        }, 1000)
       }
     )
   }
@@ -112,6 +127,7 @@ const Banner = observer(() => {
                         ...Stores.bannerStore.banner,
                         image,
                       })
+                      
                     }}
                   />
                 )}
@@ -249,7 +265,7 @@ const Banner = observer(() => {
                     message: `😊 ${res.removeBanner.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.bannerStore.fetchListBanner()
+                  Stores.bannerStore.fetchListBanner() 
                 }
               })
             } else if (type === "Update") {
@@ -263,10 +279,10 @@ const Banner = observer(() => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateBanner.message}`,
                   })
-                  setModalConfirm({ show: false })
-                  Stores.bannerStore.fetchListBanner()
+                  Stores.bannerStore.fetchListBanner()  
+                  // setModalConfirm({ show: false })             
                 }
-              })
+              }) 
             } else {
               Stores.bannerStore.BannerService.updateBannerImage({
                 input: {
@@ -280,7 +296,7 @@ const Banner = observer(() => {
                     message: `😊 ${res.updateBannerImage.message}`,
                   })
                  setTimeout(() => {
-                   window.location.reload()
+                  Stores.bannerStore.fetchListBanner()
                  }, 2000);
                  
                 }   

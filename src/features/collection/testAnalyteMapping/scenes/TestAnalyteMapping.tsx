@@ -129,7 +129,8 @@ const TestAnalyteMapping = observer(() => {
           })
       }
       setTimeout(() => {
-        window.location.reload()
+        testAnalyteMappingStore.fetchTestAnalyteMapping()
+        // window.location.reload()
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
