@@ -4,9 +4,18 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+//import * as Models from "../models"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class DoctorsService {
   listDoctors = (page = 0, limit = 10) =>
@@ -14,84 +23,104 @@ class DoctorsService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      http
-        .get(`master/doctors/listDoctors/${page}/${limit}/${env}/${role}/${lab}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.doctorsStore.updateDoctorsList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addDoctors = (doctor?: Models.Doctors) =>
+  addDoctors = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/doctors/addDoctors`, doctor)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  versionUpgradeDoctors = (doctor?: Models.Doctors) =>
+  versionUpgradeDoctors = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/doctors/versionUpgradeDoctors`, doctor)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  duplicateDoctors = (doctor?: Models.Doctors) =>
+  duplicateDoctors = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/doctors/duplicateDoctors`, doctor)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  deleteDoctors = (id: string) =>
+  deleteDoctors = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/doctors/deleteDoctors/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/doctors/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-   
-  checkExitsLabEnvCode = (code: string, env: string, lab: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/doctors/checkExitsLabEnvCode`, { code, env, lab })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  checkExitsLabEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

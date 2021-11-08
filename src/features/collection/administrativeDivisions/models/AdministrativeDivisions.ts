@@ -9,6 +9,7 @@ export class AdministrativeDivisions {
     sbu: string
     zone: string
     environment: string
+    
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id
         this.country = rawData.country

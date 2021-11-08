@@ -1,28 +1,35 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-import * as LibraryUtils from "@lp/library/utils"
+import dayjs from "dayjs"
 
 @version(0.1)
-class DoctorsStore {
-  @ignore @observable doctors?: Models.Doctors
-  @observable listDoctors?: Models.Doctors[] = []
-  @observable listDoctorsCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+export class DoctorsStore {
+  @ignore @observable doctors!: Models.Doctors
+  @observable listDoctors: Models.Doctors[]
+  @observable listDoctorsCount: number
+  @ignore @observable checkExitsLabEnvCode: boolean
 
   constructor() {
-    makeAutoObservable(this)
+    this.listDoctors = []
+    this.listDoctorsCount = 0
+    this.checkExitsLabEnvCode = false
     this.doctors = {
       ...this.doctors,
-      dateCreation: LibraryUtils.moment().unix(),
-      dateActiveFrom: LibraryUtils.moment().unix(),
-      dateActiveTo: LibraryUtils.moment().unix(),
+      dateCreation: new Date(),
+      dateActiveFrom: new Date(),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
-      keyNum: "1",
       confidential: false,
       urgent: false,
     }
+    makeObservable<DoctorsStore, any>(this, {
+      doctors: observable,
+      listDoctors: observable,
+      listDoctorsCount: observable,
+      checkExitsLabEnvCode: observable,
+    })
   }
 
   @computed get doctorsService() {
@@ -30,11 +37,13 @@ class DoctorsStore {
   }
 
   @action fetchDoctors(page?, limit?) {
-    this.doctorsService.listDoctors(page, limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listDoctors = res.data.doctors
-      this.listDoctorsCount = res.data.count
-    })
+    this.doctorsService.listDoctors(page, limit)
+  }
+
+  @action updateDoctorsList(res: any) {
+    if (!res.doctors.success) return alert(res.message)
+    this.listDoctors = res.doctors.data
+    this.listDoctorsCount = res.doctors.paginatorInfo.count
   }
 
   @action updateDoctors(methods: Models.Doctors) {
@@ -44,5 +53,3 @@ class DoctorsStore {
     this.checkExitsLabEnvCode = status
   }
 }
-
-export default DoctorsStore
