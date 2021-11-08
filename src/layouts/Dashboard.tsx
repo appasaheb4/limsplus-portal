@@ -11,13 +11,12 @@ import Footer from "./components/Footer"
 import Settings from "./components/Settings"
 import { useHistory } from "react-router-dom"
 import { useIdleTimer } from "react-idle-timer"
-   
 
 import { toJS } from "mobx"
-  
+
 import Storage from "@lp/library/modules/storage"
 
-import { stores,useStores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -51,7 +50,7 @@ import * as Section from "@lp/features/collection/section"
 import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 import * as PriceList from "@lp/features/collection/priceList"
-import * as ReferenceRanges from '@lp/features/collection/referenceRanges'
+import * as ReferenceRanges from "@lp/features/collection/referenceRanges"
 
 const Dashboard = observer(({ children }) => {
   const { loginStore } = useStores()
@@ -98,11 +97,11 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/masterPackage" ||
         pathname === "/collection/library" ||
         pathname === "/collection/priceList"
-      ){
+      ) {
         await PanelMaster.startup()
         await Methods.startup()
       }
-        
+
       if (
         pathname === "/collection/sampleContainer" ||
         pathname === "/collection/testSampleMapping"
@@ -129,10 +128,11 @@ const Dashboard = observer(({ children }) => {
         pathname === "/collection/registrationLocations" ||
         pathname === "/collection/priceList"
       )
-        await CorporateClients.startup()   
+        await CorporateClients.startup()
       if (
         pathname === "/collection/deliverySchedule" ||
-        pathname === "/collection/testMaster"
+        pathname === "/collection/testMaster" ||
+        pathname === "/collection/masterPanel"
       )
         await DeliverySchdule.startup()
       if (
@@ -160,8 +160,8 @@ const Dashboard = observer(({ children }) => {
       )
         await Communication.startup()
 
-        // global 
-        stores;
+      // global
+      stores
     }
     stores.appStore.updateLoadApi({ count: 1 })
   }

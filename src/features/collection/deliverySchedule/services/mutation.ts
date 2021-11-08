@@ -82,8 +82,8 @@ export const UPDATE_RECORD = gql`
 `
 
 export const CHECK_EXISTS_RECORD = gql`
-  mutation($input: MethodsInput!) {
-    checkMethodsExistsRecord(input: $input) {
+  mutation($input: DeliverySchduleInput!) {
+    checkDeliverySchdulesExistsRecord(input: $input) {
       success
       message
     }

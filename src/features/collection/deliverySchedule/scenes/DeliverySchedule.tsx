@@ -70,7 +70,7 @@ const DeliverySchedule = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
@@ -98,15 +98,17 @@ const DeliverySchedule = observer(() => {
                     }}
                     onBlur={(code) => {
                       deliveryScheduleStore.deliveryScheduleService
-                        .checkExistsEnvCode(
-                          code,
-                          deliveryScheduleStore.deliverySchedule?.environment || ""
-                        )
+                        .checkExistsEnvCode({
+                          input: {
+                            code,
+                            env: deliveryScheduleStore.deliverySchedule?.environment,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
+                          if (res.checkDeliverySchdulesExistsRecord.success) {
                             deliveryScheduleStore.updateExistsEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                             })
                           } else deliveryScheduleStore.updateExistsEnvCode(false)
                         })
@@ -444,15 +446,17 @@ const DeliverySchedule = observer(() => {
                           environment,
                         })
                         deliveryScheduleStore.deliveryScheduleService
-                          .checkExistsEnvCode(
-                            deliveryScheduleStore.deliverySchedule?.schCode || "",
-                            environment
-                          )
+                          .checkExistsEnvCode({
+                            input: {
+                              code: deliveryScheduleStore.deliverySchedule?.schCode,
+                              env: environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkDeliverySchdulesExistsRecord.success) {
                               deliveryScheduleStore.updateExistsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
                               })
                             } else deliveryScheduleStore.updateExistsEnvCode(false)
                           })

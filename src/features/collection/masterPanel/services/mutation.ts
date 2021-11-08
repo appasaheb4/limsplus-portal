@@ -14,7 +14,7 @@ export const LIST = gql`
         existsRecordId
         dateCreation
         dateActiveFrom
-        dateActiveTo
+        dateExpire
         version
         enteredBy
         rLab

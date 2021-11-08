@@ -5,11 +5,16 @@
  * @author limsplus
  */
 
-import * as Models from "../models"
+//import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD, REMOVE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class DeliveryScheduleService {
   listDeliverySchdule = (page = 0, limit = 10) =>
@@ -62,28 +67,30 @@ class DeliveryScheduleService {
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-      .mutate({
-        mutation: UPDATE_RECORD,
-        variables,
-      })
-      .then((response: any) => {
-        resolve(response.data)
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
-    })
-  checkExistsEnvCode = (code: string, env: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/deliverySchdule/checkExistsEnvCode`, { code, env })
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  checkExistsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 
