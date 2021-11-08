@@ -554,7 +554,7 @@ const TestMater = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
-                        const validationLevel: any = e.target.value
+                        const validationLevel: any = (e.target.value || 0 )  as number
                         onChange(validationLevel)
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,

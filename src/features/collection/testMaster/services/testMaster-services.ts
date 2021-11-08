@@ -17,6 +17,8 @@ import {
   CHECK_EXISTS_RECORD,
 } from "./mutation"
 
+import * as Model from '../models'
+
 class TestMasterService {
   listTestMaster = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -45,6 +47,7 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

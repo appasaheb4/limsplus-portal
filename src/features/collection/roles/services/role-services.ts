@@ -13,6 +13,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
 } from "./mutation"
+import * as Model from '../models'
 
 export class RoleService {
   listRole = (page = 0, limit = 10) =>
@@ -42,6 +43,7 @@ export class RoleService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.roleStore.updateRole(new Model.Role({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

@@ -62,6 +62,7 @@ const BannerList = (props: BannerListProps) => {
             columnIndex
           ) => (
             <>
+
               <LibraryComponents.Atoms.Form.InputFile
                 label="File"
                 placeholder="File"
@@ -86,30 +87,33 @@ const BannerList = (props: BannerListProps) => {
             column,
             rowIndex,
             columnIndex
-          ) => (
-            <>
-              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                <select
-                  value={row.environment}
-                  className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                  onChange={(e) => {
-                    const environment = e.target.value
-                    props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                    
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </>
-          ),
+          ) => 
+            (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                  
+                  <select
+                    value={row.environment}
+                    className={` leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                    onChange={(e) => {
+                      const environment = e.target.value
+                         props.onUpdateItem 
+                         && props.onUpdateItem(environment,column.dataField,row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      )
+                    )} 
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>     
+              </>
+            ) 
+           
         },
         {
           dataField: "operation",

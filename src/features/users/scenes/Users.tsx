@@ -88,7 +88,8 @@ export const Users = observer(() => {
               message: `😊 ${res.createUser.message}`,
             })
             setTimeout(() => {
-              window.location.reload()
+              userStore.loadUser()
+              // window.location.reload()
             }, 2000)
           } else {
             LibraryComponents.Atoms.Toast.error({
@@ -138,7 +139,7 @@ export const Users = observer(() => {
                       label="User Id"
                       placeholder={errors.userId ? "Please enter userId" : "UserId"}
                       hasError={errors.userId}
-                      value={userStore && userStore.user.userId}
+                      value={userStore && userStore.user.userId||""}
                       onChange={(userId) => {
                         onChange(userId)
                         userStore.updateUser({
@@ -177,7 +178,7 @@ export const Users = observer(() => {
                         errors.empCode ? "Please enter emp code" : "Emp Code"
                       }
                       hasError={errors.empCode}
-                      value={userStore && userStore.user.empCode}
+                      value={userStore && userStore.user.empCode||""}
                       onChange={(empCode) => {
                         onChange(empCode)
                         userStore.updateUser({
@@ -1058,9 +1059,7 @@ export const Users = observer(() => {
                         message: `😊 ${res.updateUser.message}`,
                       })
                       setModalConfirm({ show: false })
-                      setTimeout(() => {
-                        window.location.reload()
-                      }, 1000)
+                        userStore.loadUser()
                     }
                   })
               } else {
