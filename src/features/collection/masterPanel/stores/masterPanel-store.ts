@@ -3,6 +3,7 @@ import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as ModelsSection from "@lp/features/collection/section/models"
+import dayjs from "dayjs"
 
 @version(0.1)
 export class MasterPanelStore {
@@ -16,14 +17,14 @@ export class MasterPanelStore {
     this.listMasterPanel = []
     this.listMasterPanelCount = 0
     this.checkExitsLabEnvCode = false
-    this.masterPanel = {
+    this.masterPanel = {  
       ...this.masterPanel,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),
-      dateActiveTo: new Date(),
-      version: 1,
+      dateActiveFrom: new Date(),   
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      version: 1,  
       bill: false,
-      autoRelease: false,  
+      autoRelease: false,
       holdOOS: false,
       confidential: false,
       urgent: false,
@@ -33,7 +34,9 @@ export class MasterPanelStore {
       printLabel: false,
       method: false,
       cumulative: false,
-    }   
+      pageBreak: false,
+      validationLevel: 0,
+    }
     makeObservable<MasterPanelStore, any>(this, {
       masterPanel: observable,
       listMasterPanel: observable,
@@ -61,7 +64,7 @@ export class MasterPanelStore {
     this.masterPanelService.findSectionListByDeptCode(code)
   }
 
-  @action updateSectionListByDeptCode(res: any) {   
+  @action updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
       return alert(`${res.findSectionListByDeptCode.message}`)
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data

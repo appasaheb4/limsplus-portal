@@ -27,9 +27,40 @@ const MasterPanel = observer(() => {
     labStore,
     masterPanelStore,
     methodsStore,
+    deliveryScheduleStore,
+    routerStore,
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
+
+  useEffect(() => {
+    const status = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
+      })
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      masterPanelStore &&
+        masterPanelStore.updateMasterPanel({
+          ...masterPanelStore.masterPanel,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      masterPanelStore &&
+        masterPanelStore.updateMasterPanel({
+          ...masterPanelStore.masterPanel,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   useEffect(() => {
     if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
       masterPanelStore.updateMasterPanel({
@@ -472,7 +503,7 @@ const MasterPanel = observer(() => {
                           panelMethod,
                         })
                       }}
-                    >  
+                    >
                       <option selected>Select</option>
                       {methodsStore.listMethods.map((item: any, index: number) => (
                         <option key={index} value={item.methodsCode}>
@@ -487,31 +518,6 @@ const MasterPanel = observer(() => {
                 defaultValue=""
               />
 
-              {/* <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Panel Method"
-                    placeholder={
-                      errors.panelMethod
-                        ? "Please Enter PanelMethod"
-                        : "Panel Method"
-                    }
-                    hasError={errors.panelMethod}
-                    value={masterPanelStore.masterPanel?.panelMethod}
-                    onChange={(panelMethod) => {
-                      onChange(panelMethod)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        panelMethod,
-                      })
-                    }}
-                  />
-                )}
-                name="panelMethod"
-                rules={{ required: false }}
-                defaultValue=""
-              /> */}
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -557,27 +563,40 @@ const MasterPanel = observer(() => {
                 rules={{ required: false }}
                 defaultValue=""
               />
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
+                  <LibraryComponents.Atoms.Form.InputWrapper
                     label="Schedule"
-                    placeholder={
-                      errors.schedule ? "Please Enter Schedule" : "Schedule"
-                    }
                     hasError={errors.schedule}
-                    value={masterPanelStore.masterPanel?.schedule}
-                    onChange={(schedule) => {
-                      onChange(schedule)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        schedule: schedule.toUpperCase(),
-                      })
-                    }}
-                  />
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.schedule ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const schedule = e.target.value
+                        onChange(schedule)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          schedule,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {deliveryScheduleStore.listDeliverySchedule.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.schCode}>
+                            {`${item.schCode}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -723,6 +742,7 @@ const MasterPanel = observer(() => {
                     hasError={errors.validationLevel}
                   >
                     <select
+                      value={masterPanelStore.masterPanel.validationLevel}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
                           ? "border-red-500  "
@@ -782,6 +802,7 @@ const MasterPanel = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.Input
                     label="Report Order"
+                    type="number"
                     placeholder={
                       errors.reportOrder
                         ? "Please Enter ReportOrder"
@@ -793,7 +814,7 @@ const MasterPanel = observer(() => {
                       onChange(reportOrder)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
-                        reportOrder: reportOrder.toUpperCase(),
+                        reportOrder: parseInt(reportOrder),
                       })
                     }}
                   />
@@ -1012,55 +1033,6 @@ const MasterPanel = observer(() => {
                 defaultValue=""
               />
 
-              {/* <LibraryComponents.Atoms.Form.InputWrapper label="Suffix">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const suffix = e.target.value as string
-                    masterPanelStore.updateMasterPanel({
-                      ...masterPanelStore.masterPanel,
-                      suffix,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "SUFFIX"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper> */}
-
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Page Break"
-                    placeholder={
-                      errors.pageBreak ? "Please Enter PageBreak" : "Page Break"
-                    }
-                    hasError={errors.pageBreak}
-                    value={masterPanelStore.masterPanel?.pageBreak}
-                    onChange={(pageBreak) => {
-                      onChange(pageBreak)
-                      masterPanelStore.updateMasterPanel({
-                        ...masterPanelStore.masterPanel,
-                        pageBreak,
-                      })
-                    }}
-                  />
-                )}
-                name="pageBreak"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -1088,6 +1060,26 @@ const MasterPanel = observer(() => {
               />
 
               <LibraryComponents.Atoms.Grid cols={5}>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.Toggle
+                      label="Page Break"
+                      hasError={errors.pageBreak}
+                      value={masterPanelStore.masterPanel?.pageBreak}
+                      onChange={(pageBreak) => {
+                        onChange(pageBreak)
+                        masterPanelStore.updateMasterPanel({
+                          ...masterPanelStore.masterPanel,
+                          pageBreak,
+                        })
+                      }}  
+                    />
+                  )}
+                  name="pageBreak"
+                  rules={{ required: false }}
+                  defaultValue=""
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1383,24 +1375,24 @@ const MasterPanel = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.dateActiveTo
+                      errors.dateExpire
                         ? "Please Enter dateActiveTo"
                         : "Date Expire"
                     }
-                    value={daysjs(masterPanelStore.masterPanel?.dateActiveTo).format(
+                    value={daysjs(masterPanelStore.masterPanel?.dateExpire).format(
                       "YYYY-MM-DD"
                     )}
                     onChange={(e) => {
-                      const dateActiveTo = new Date(e.target.value)
-                      onChange(dateActiveTo)
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
                       masterPanelStore.updateMasterPanel({
                         ...masterPanelStore.masterPanel,
-                        dateActiveTo,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="schedule"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />
