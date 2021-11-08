@@ -41,6 +41,31 @@ const Lab = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    labStore && labStore.updateLabs({
+        ...labStore.labs,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    labStore && labStore.updateLabs({
+      ...labStore.labs,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
+
   const onSubmitLab = () => {
     if (!labStore.checkExitsEnvCode) {
       labStore.LabService.addLab({ input: { ...labStore.labs } }).then((res) => {
@@ -51,8 +76,9 @@ const Lab = observer(() => {
         }
       })
       setTimeout(() => {
+        labStore.fetchListLab()
         window.location.reload()
-      }, 2000)
+      }, 1000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: "😔 Please enter diff code and environment",

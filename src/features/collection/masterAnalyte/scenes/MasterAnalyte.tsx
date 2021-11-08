@@ -19,7 +19,7 @@ const MasterAnalyte = observer(() => {
     setValue,
     clearErrors,
   } = useForm()
-  const { loginStore, masterAnalyteStore, labStore } = useStores()
+  const { loginStore, masterAnalyteStore, labStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -34,6 +34,31 @@ const MasterAnalyte = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+        ...masterAnalyteStore.masterAnalyte,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    masterAnalyteStore && masterAnalyteStore.updateMasterAnalyte({
+      ...masterAnalyteStore.masterAnalyte,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
 
   const onSubmitMasterAnalyte = () => {
     if (!masterAnalyteStore.checkExitsLabEnvCode) {
@@ -95,7 +120,8 @@ const MasterAnalyte = observer(() => {
           })
       }
       setTimeout(() => {
-        window.location.reload()
+      masterAnalyteStore.fetchAnalyteMaster()
+        // window.location.reload()
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -1137,6 +1163,7 @@ const MasterAnalyte = observer(() => {
             totalSize={masterAnalyteStore.listMasterAnalyteCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              listLabs: labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),

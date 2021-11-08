@@ -7,6 +7,8 @@
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import { GET_BANNER_LIST_ALL } from "./query"
+import { Stores } from "../stores"
+import * as Model from '../models/index'
 import {
   BANNER_LIST,
   REMOVE_BANNERS,
@@ -62,6 +64,7 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          Stores.bannerStore.updateBanner(new Model.Banner({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
