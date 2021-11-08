@@ -1,6 +1,6 @@
 import React from "react"
 
-import CorporateClientsStore from "./corporateClients-store"
+import {CorporateClientsStore} from "./corporateClients-store"
 
 export const Stores = {
   corporateClientsStore: new CorporateClientsStore(),

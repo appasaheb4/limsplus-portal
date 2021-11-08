@@ -6,7 +6,8 @@ export class Lookup {
   description: string
   defaultItem: Array<{ value: string; code: string }>
   environment: string
-
+  dateOfEntry: Date
+  lastUpdated: Date  
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.documentName = rawData.documentName
@@ -15,6 +16,8 @@ export class Lookup {
     this.description = rawData.description
     this.defaultItem = rawData.defaultItem
     this.environment = rawData.environment
+    this.dateOfEntry = rawData.dateOfEntry
+    this.lastUpdated = rawData.lastUpdated
   }
 }
 

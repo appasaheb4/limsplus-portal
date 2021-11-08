@@ -9,10 +9,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -24,50 +20,50 @@ const CorporateClients = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const { loginStore, labStore, corporateClientsStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.corporateClientsStore.updateCorporateClients({
-        ...Stores.corporateClientsStore.corporateClients,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      corporateClientsStore.updateCorporateClients({
+        ...corporateClientsStore.corporateClients,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
   const onSubmitCoporateClients = () => {
-    if (!Stores.corporateClientsStore.checkExistsEnvCode) {
+    if (!corporateClientsStore.checkExistsEnvCode) {
       if (
-        !Stores.corporateClientsStore.corporateClients?.existsVersionId &&
-        !Stores.corporateClientsStore.corporateClients?.existsRecordId
+        !corporateClientsStore.corporateClients?.existsVersionId &&
+        !corporateClientsStore.corporateClients?.existsRecordId
       ) {
-        Stores.corporateClientsStore.corporateClientsService
+        corporateClientsStore.corporateClientsService
           .addCorporateClients({
-            ...Stores.corporateClientsStore.corporateClients,
-            enteredBy: stores.loginStore.login.userId,
+            ...corporateClientsStore.corporateClients,
+            enteredBy: loginStore.login.userId,
           })
           .then((res) => {
             if (res.status === 200) {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 Corporate Client record created.`,
               })
-              Stores.corporateClientsStore.fetchCorporateClients()
+              corporateClientsStore.fetchCorporateClients()
             }
           })
       } else if (
-        Stores.corporateClientsStore.corporateClients?.existsVersionId &&
-        !Stores.corporateClientsStore.corporateClients?.existsRecordId
+        corporateClientsStore.corporateClients?.existsVersionId &&
+        !corporateClientsStore.corporateClients?.existsRecordId
       ) {
-        Stores.corporateClientsStore.corporateClientsService
+        corporateClientsStore.corporateClientsService
           .versionUpgradeCorporateClient({
-            ...Stores.corporateClientsStore.corporateClients,
-            enteredBy: stores.loginStore.login.userId,
+            ...corporateClientsStore.corporateClients,
+            enteredBy: loginStore.login.userId,
           })
           .then((res) => {
-            console.log({res});
-            
+            console.log({ res })
+
             if (res.success) {
               LibraryComponents.Atoms.Toast.success({
                 message: `😊 ${res.message}`,
@@ -75,13 +71,13 @@ const CorporateClients = observer(() => {
             }
           })
       } else if (
-        !Stores.corporateClientsStore.corporateClients?.existsVersionId &&
-        Stores.corporateClientsStore.corporateClients?.existsRecordId
+        !corporateClientsStore.corporateClients?.existsVersionId &&
+        corporateClientsStore.corporateClients?.existsRecordId
       ) {
-        Stores.corporateClientsStore.corporateClientsService
+        corporateClientsStore.corporateClientsService
           .duplicateCorporateClient({
-            ...Stores.corporateClientsStore.corporateClients,
-            enteredBy: stores.loginStore.login.userId,
+            ...corporateClientsStore.corporateClients,
+            enteredBy: loginStore.login.userId,
           })
           .then((res) => {
             if (res.success) {
@@ -105,11 +101,11 @@ const CorporateClients = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddSection}
           onClick={() => setHideAddSection(!hideAddSection)}
@@ -141,8 +137,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.dateCreation}
                     value={LibraryUtils.moment
                       .unix(
-                        Stores.corporateClientsStore.corporateClients
-                          ?.dateCreation || 0
+                        corporateClientsStore.corporateClients?.dateCreation || 0
                       )
                       .format("YYYY-MM-DD")}
                     disabled={true}
@@ -164,8 +159,7 @@ const CorporateClients = observer(() => {
                     }
                     value={LibraryUtils.moment
                       .unix(
-                        Stores.corporateClientsStore.corporateClients
-                          ?.dateActiveFrom || 0
+                        corporateClientsStore.corporateClients?.dateActiveFrom || 0
                       )
                       .format("YYYY-MM-DD")}
                     disabled={true}
@@ -187,14 +181,13 @@ const CorporateClients = observer(() => {
                     }
                     value={LibraryUtils.moment
                       .unix(
-                        Stores.corporateClientsStore.corporateClients
-                          ?.dateActiveTo || 0
+                        corporateClientsStore.corporateClients?.dateActiveTo || 0
                       )
                       .format("YYYY-MM-DD")}
                     onChange={(e) => {
                       const schedule = new Date(e.target.value)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         dateActiveTo: LibraryUtils.moment(schedule).unix(),
                       })
                     }}
@@ -211,7 +204,7 @@ const CorporateClients = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.corporateClientsStore.corporateClients?.version}
+                    value={corporateClientsStore.corporateClients?.version}
                     disabled={true}
                   />
                 )}
@@ -226,7 +219,7 @@ const CorporateClients = observer(() => {
                     label="Key Num"
                     placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
                     hasError={errors.keyNum}
-                    value={Stores.corporateClientsStore.corporateClients?.keyNum}
+                    value={corporateClientsStore.corporateClients?.keyNum}
                     disabled={true}
                   />
                 )}
@@ -244,7 +237,7 @@ const CorporateClients = observer(() => {
                     placeholder={
                       errors.enteredBy ? "Please Enter Entered By" : "Entered By"
                     }
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -264,35 +257,28 @@ const CorporateClients = observer(() => {
                         : "Coporate Code"
                     }
                     hasError={errors.corporateCode}
-                    value={
-                      Stores.corporateClientsStore.corporateClients?.corporateCode
-                    }
+                    value={corporateClientsStore.corporateClients?.corporateCode}
                     onChange={(corporateCode) => {
                       onChange(corporateCode)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         corporateCode,
                       })
                     }}
                     onBlur={(code) => {
-                      if (
-                        !Stores.corporateClientsStore.corporateClients
-                          ?.existsVersionId
-                      ) {
-                        Stores.corporateClientsStore.corporateClientsService
+                      if (!corporateClientsStore.corporateClients?.existsVersionId) {
+                        corporateClientsStore.corporateClientsService
                           .checkExistsEnvCode(
                             code,
-                            Stores.corporateClientsStore.corporateClients
-                              ?.environment || ""
+                            corporateClientsStore.corporateClients?.environment || ""
                           )
                           .then((res) => {
                             if (res.success) {
-                              Stores.corporateClientsStore.updateExistsEnvCode(true)
+                              corporateClientsStore.updateExistsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
                                 message: `😔 ${res.message}`,
                               })
-                            } else
-                              Stores.corporateClientsStore.updateExistsEnvCode(false)
+                            } else corporateClientsStore.updateExistsEnvCode(false)
                           })
                       }
                     }}
@@ -302,7 +288,7 @@ const CorporateClients = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.corporateClientsStore.checkExistsEnvCode && (
+              {corporateClientsStore.checkExistsEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -318,13 +304,11 @@ const CorporateClients = observer(() => {
                         : "Coporate Name"
                     }
                     hasError={errors.corporateName}
-                    value={
-                      Stores.corporateClientsStore.corporateClients?.corporateName
-                    }
+                    value={corporateClientsStore.corporateClients?.corporateName}
                     onChange={(corporateName) => {
                       onChange(corporateName)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         corporateName,
                       })
                     }}
@@ -344,11 +328,11 @@ const CorporateClients = observer(() => {
                       errors.invoiceAc ? "Please Enter Invoice AC" : "Invoice AC"
                     }
                     hasError={errors.invoiceAc}
-                    value={Stores.corporateClientsStore.corporateClients?.invoiceAc}
+                    value={corporateClientsStore.corporateClients?.invoiceAc}
                     onChange={(invoiceAc) => {
                       onChange(invoiceAc)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         invoiceAc,
                       })
                     }}
@@ -367,15 +351,13 @@ const CorporateClients = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.priceList
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.priceList ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const priceList = e.target.value
                         onChange(priceList)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           priceList,
                         })
                       }}
@@ -402,12 +384,12 @@ const CorporateClients = observer(() => {
                     placeholder={
                       errors.priceGroup ? "Please Enter Price Group" : "Price Group"
                     }
-                    value={Stores.corporateClientsStore.corporateClients?.priceGroup}
+                    value={corporateClientsStore.corporateClients?.priceGroup}
                     hasError={errors.priceGroup}
                     onChange={(priceGroup) => {
                       onChange(priceGroup)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         priceGroup,
                       })
                     }}
@@ -427,11 +409,11 @@ const CorporateClients = observer(() => {
                       errors.billingOn ? "Please Enter Biling On" : "Billing On"
                     }
                     hasError={errors.billingOn}
-                    value={Stores.corporateClientsStore.corporateClients?.billingOn}
+                    value={corporateClientsStore.corporateClients?.billingOn}
                     onChange={(billingOn) => {
                       onChange(billingOn)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         billingOn,
                       })
                     }}
@@ -449,11 +431,11 @@ const CorporateClients = observer(() => {
                     label="Address"
                     placeholder={errors.address ? "Please Enter Address" : "Address"}
                     hasError={errors.address}
-                    value={Stores.corporateClientsStore.corporateClients?.address}
+                    value={corporateClientsStore.corporateClients?.address}
                     onChange={(address) => {
                       onChange(address)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         address,
                       })
                     }}
@@ -477,11 +459,11 @@ const CorporateClients = observer(() => {
                     label="City"
                     placeholder={errors.city ? "Please Enter City" : "City"}
                     hasError={errors.city}
-                    value={Stores.corporateClientsStore.corporateClients?.city}
+                    value={corporateClientsStore.corporateClients?.city}
                     onChange={(city) => {
                       onChange(city)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         city,
                       })
                     }}
@@ -498,11 +480,11 @@ const CorporateClients = observer(() => {
                     label="State"
                     placeholder={errors.state ? "Please Enter State" : "State"}
                     hasError={errors.state}
-                    value={Stores.corporateClientsStore.corporateClients?.state}
+                    value={corporateClientsStore.corporateClients?.state}
                     onChange={(state) => {
                       onChange(state)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         state,
                       })
                     }}
@@ -519,11 +501,11 @@ const CorporateClients = observer(() => {
                     label="Country"
                     placeholder={errors.country ? "Please Enter Country" : "Country"}
                     hasError={errors.country}
-                    value={Stores.corporateClientsStore.corporateClients?.country}
+                    value={corporateClientsStore.corporateClients?.country}
                     onChange={(country) => {
                       onChange(country)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         country,
                       })
                     }}
@@ -543,11 +525,11 @@ const CorporateClients = observer(() => {
                     }
                     hasError={errors.postCode}
                     type="number"
-                    value={Stores.corporateClientsStore.corporateClients?.postcode}
+                    value={corporateClientsStore.corporateClients?.postcode}
                     onChange={(postcode) => {
                       onChange(postcode)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         postcode,
                       })
                     }}
@@ -566,22 +548,20 @@ const CorporateClients = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.customerGroup
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.customerGroup ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const customerGroup = e.target.value
                         onChange(customerGroup)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           customerGroup,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CUSTOMER_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -605,22 +585,20 @@ const CorporateClients = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.category
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.category ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const category = e.target.value
                         onChange(category)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           category,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "CATEGORY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -643,11 +621,11 @@ const CorporateClients = observer(() => {
                       errors.telephone ? "Please Enter Telephone" : "Telephone"
                     }
                     hasError={errors.telephone}
-                    value={Stores.corporateClientsStore.corporateClients?.telephone}
+                    value={corporateClientsStore.corporateClients?.telephone}
                     onChange={(telephone) => {
                       onChange(telephone)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         telephone,
                       })
                     }}
@@ -666,11 +644,11 @@ const CorporateClients = observer(() => {
                       errors.mobileNo ? "Please Enter Mobile No" : "Mobile No"
                     }
                     hasError={errors.mobileNo}
-                    value={Stores.corporateClientsStore.corporateClients?.mobileNo}
+                    value={corporateClientsStore.corporateClients?.mobileNo}
                     onChange={(mobileNo) => {
                       onChange(mobileNo)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         mobileNo,
                       })
                     }}
@@ -687,11 +665,11 @@ const CorporateClients = observer(() => {
                     label="Email"
                     placeholder={errors.email ? "Please Enter Email" : "Email"}
                     hasError={errors.email}
-                    value={Stores.corporateClientsStore.corporateClients?.email}
+                    value={corporateClientsStore.corporateClients?.email}
                     onChange={(email) => {
                       onChange(email)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         email,
                       })
                     }}
@@ -710,22 +688,20 @@ const CorporateClients = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.deliveryType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.deliveryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const deliveryType = e.target.value
                         onChange(deliveryType)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           deliveryType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DELIVERY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -755,15 +731,15 @@ const CorporateClients = observer(() => {
                       onChange={(e) => {
                         const deliveryMethod = e.target.value
                         onChange(deliveryMethod)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           deliveryMethod,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "DELIVERY_METHOD"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -793,15 +769,15 @@ const CorporateClients = observer(() => {
                       onChange={(e) => {
                         const salesTerritoRy = e.target.value
                         onChange(salesTerritoRy)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           salesTerritoRy,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SPECIALITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -822,13 +798,11 @@ const CorporateClients = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Confidential"
                       hasError={errors.confidential}
-                      value={
-                        Stores.corporateClientsStore.corporateClients?.confidential
-                      }
+                      value={corporateClientsStore.corporateClients?.confidential}
                       onChange={(confidential) => {
                         onChange(confidential)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           confidential,
                         })
                       }}
@@ -844,11 +818,11 @@ const CorporateClients = observer(() => {
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Urgent"
                       hasError={errors.urgent}
-                      value={Stores.corporateClientsStore.corporateClients?.urgent}
+                      value={corporateClientsStore.corporateClients?.urgent}
                       onChange={(urgent) => {
                         onChange(urgent)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           urgent,
                         })
                       }}
@@ -873,11 +847,11 @@ const CorporateClients = observer(() => {
                     label="Area"
                     placeholder={errors.area ? "Please Enter Area" : "Area"}
                     hasError={errors.area}
-                    value={Stores.corporateClientsStore.corporateClients?.area}
+                    value={corporateClientsStore.corporateClients?.area}
                     onChange={(area) => {
                       onChange(area)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         area,
                       })
                     }}
@@ -894,11 +868,11 @@ const CorporateClients = observer(() => {
                     label="Zone"
                     placeholder={errors.zone ? "Please Enter Zone" : "Zone"}
                     hasError={errors.zone}
-                    value={Stores.corporateClientsStore.corporateClients?.zone}
+                    value={corporateClientsStore.corporateClients?.zone}
                     onChange={(zone) => {
                       onChange(zone)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         zone,
                       })
                     }}
@@ -915,11 +889,11 @@ const CorporateClients = observer(() => {
                     label="EDI"
                     placeholder={errors.edi ? "Please Enter EDI" : "EDI"}
                     hasError={errors.edi}
-                    value={Stores.corporateClientsStore.corporateClients?.edi}
+                    value={corporateClientsStore.corporateClients?.edi}
                     onChange={(edi) => {
                       onChange(edi)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         edi,
                       })
                     }}
@@ -938,11 +912,11 @@ const CorporateClients = observer(() => {
                       errors.ediAddress ? "Please Enter EDI Address" : "EDI Address"
                     }
                     hasError={errors.ediAddress}
-                    value={Stores.corporateClientsStore.corporateClients?.ediAddress}
+                    value={corporateClientsStore.corporateClients?.ediAddress}
                     onChange={(ediAddress) => {
                       onChange(ediAddress)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         ediAddress,
                       })
                     }}
@@ -960,29 +934,25 @@ const CorporateClients = observer(() => {
                     hasError={errors.schedule}
                   >
                     <select
-                      value={Stores.corporateClientsStore.corporateClients?.schedule}
+                      value={corporateClientsStore.corporateClients?.schedule}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.schedule ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const schedule = e.target.value as string
                         onChange(schedule)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           schedule,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -1001,13 +971,11 @@ const CorporateClients = observer(() => {
                         : "ReportFormat"
                     }
                     hasError={errors.reportFormat}
-                    value={
-                      Stores.corporateClientsStore.corporateClients?.reportFormat
-                    }
+                    value={corporateClientsStore.corporateClients?.reportFormat}
                     onChange={(reportFormat) => {
                       onChange(reportFormat)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         reportFormat,
                       })
                     }}
@@ -1024,11 +992,11 @@ const CorporateClients = observer(() => {
                     label="Info"
                     placeholder={errors.info ? "Please Enter INFO" : "INFO"}
                     hasError={errors.info}
-                    value={Stores.corporateClientsStore.corporateClients?.info}
+                    value={corporateClientsStore.corporateClients?.info}
                     onChange={(info) => {
                       onChange(info)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         info,
                       })
                     }}
@@ -1045,11 +1013,11 @@ const CorporateClients = observer(() => {
                     label="FYI Line"
                     placeholder={errors.fyiLine ? "Please Enter FyiLine" : "FyiLine"}
                     hasError={errors.fyiLine}
-                    value={Stores.corporateClientsStore.corporateClients?.fyiLine}
+                    value={corporateClientsStore.corporateClients?.fyiLine}
                     onChange={(fyiLine) => {
                       onChange(fyiLine)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         fyiLine,
                       })
                     }}
@@ -1068,11 +1036,11 @@ const CorporateClients = observer(() => {
                       errors.workLine ? "Plese Enter WorkLine" : "WorkLine"
                     }
                     hasError={errors.workLine}
-                    value={Stores.corporateClientsStore.corporateClients?.workLine}
+                    value={corporateClientsStore.corporateClients?.workLine}
                     onChange={(workLine) => {
                       onChange(workLine)
-                      Stores.corporateClientsStore.updateCorporateClients({
-                        ...Stores.corporateClientsStore.corporateClients,
+                      corporateClientsStore.updateCorporateClients({
+                        ...corporateClientsStore.corporateClients,
                         workLine,
                       })
                     }}
@@ -1091,22 +1059,20 @@ const CorporateClients = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           status,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1125,62 +1091,50 @@ const CorporateClients = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={
-                        Stores.corporateClientsStore.corporateClients?.environment
-                      }
+                      value={corporateClientsStore.corporateClients?.environment}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.corporateClientsStore.updateCorporateClients({
-                          ...Stores.corporateClientsStore.corporateClients,
+                        corporateClientsStore.updateCorporateClients({
+                          ...corporateClientsStore.corporateClients,
                           environment,
                         })
                         if (
-                          !Stores.corporateClientsStore.corporateClients
-                            ?.existsVersionId
+                          !corporateClientsStore.corporateClients?.existsVersionId
                         ) {
-                          Stores.corporateClientsStore.corporateClientsService
+                          corporateClientsStore.corporateClientsService
                             .checkExistsEnvCode(
-                              Stores.corporateClientsStore.corporateClients
+                              corporateClientsStore.corporateClients
                                 ?.corporateCode || "",
                               environment
                             )
                             .then((res) => {
                               if (res.success) {
-                                Stores.corporateClientsStore.updateExistsEnvCode(
-                                  true
-                                )
+                                corporateClientsStore.updateExistsEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
                                   message: `😔 ${res.message}`,
                                 })
-                              } else
-                                Stores.corporateClientsStore.updateExistsEnvCode(
-                                  false
-                                )
+                              } else corporateClientsStore.updateExistsEnvCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.corporateClientsStore.corporateClients
-                              ?.environment || `Select`}
+                          : corporateClientsStore.corporateClients?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1221,17 +1175,17 @@ const CorporateClients = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.CorporateClient
-            data={Stores.corporateClientsStore.listCorporateClients || []}
-            totalSize={Stores.corporateClientsStore.listCoporateClientsCount}
+            data={corporateClientsStore.listCorporateClients || []}
+            totalSize={corporateClientsStore.listCoporateClientsCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             // isEditModify={false}
@@ -1273,7 +1227,7 @@ const CorporateClients = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.corporateClientsStore.fetchCorporateClients(page, limit)
+              corporateClientsStore.fetchCorporateClients(page, limit)
             }}
           />
         </div>
@@ -1281,7 +1235,7 @@ const CorporateClients = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.corporateClientsStore.corporateClientsService
+              corporateClientsStore.corporateClientsService
                 .deleteCorporateClients(modalConfirm.id)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -1289,11 +1243,11 @@ const CorporateClients = observer(() => {
                       message: `😊 Corporate Client record deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.corporateClientsStore.fetchCorporateClients()
+                    corporateClientsStore.fetchCorporateClients()
                   }
                 })
             } else if (type === "Update") {
-              Stores.corporateClientsStore.corporateClientsService
+              corporateClientsStore.corporateClientsService
                 .updateSingleFiled(modalConfirm.data)
                 .then((res: any) => {
                   if (res.status === 200) {
@@ -1301,12 +1255,12 @@ const CorporateClients = observer(() => {
                       message: `😊 Corporate Client record updated.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.corporateClientsStore.fetchCorporateClients()
+                    corporateClientsStore.fetchCorporateClients()
                     window.location.reload()
-                  }  
+                  }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.corporateClientsStore.updateCorporateClients({
+              corporateClientsStore.updateCorporateClients({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
@@ -1319,7 +1273,7 @@ const CorporateClients = observer(() => {
               setValue("environment", modalConfirm.data.environment)
               //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
             } else if (type === "duplicate") {
-              Stores.corporateClientsStore.updateCorporateClients({
+              corporateClientsStore.updateCorporateClients({
                 ...modalConfirm.data,
                 _id: undefined,
                 existsVersionId: undefined,
@@ -1332,7 +1286,7 @@ const CorporateClients = observer(() => {
           onClose={() => setModalConfirm({ show: false })}
         />
       </div>
-    </>
+    </>  
   )
 })
 
