@@ -76,7 +76,7 @@ const TestSampleMapping = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={2}>
             <LibraryComponents.Atoms.List
