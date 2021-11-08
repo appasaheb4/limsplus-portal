@@ -2,11 +2,10 @@ export class CorporateClients {
   _id: string
   existsVersionId: string
   existsRecordId: string
-  dateCreation: number
-  dateActiveFrom: number
-  dateActiveTo: number
+  dateCreation: Date
+  dateActiveFrom: Date
+  dateExpire: Date
   version: number
-  keyNum: string
   enteredBy: string
   corporateCode: string
   corporateName: string
@@ -41,7 +40,7 @@ export class CorporateClients {
   status: string
   environment: string
   dateOfEntry: Date
-  lastUpdated: Date
+  lastUpdated: Date  
 
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
@@ -49,9 +48,8 @@ export class CorporateClients {
     this.existsRecordId = rawData.existsRecordId
     this.dateCreation = rawData.dateCreation
     this.dateActiveFrom = rawData.dateActiveFrom
-    this.dateActiveTo = rawData.dateActiveTo
+    this.dateExpire = rawData.dateExpire
     this.version = rawData.version
-    this.keyNum = rawData.keyNum
     this.enteredBy = rawData.enteredBy
     this.corporateCode = rawData.corporateCode
     this.corporateName = rawData.corporateName
