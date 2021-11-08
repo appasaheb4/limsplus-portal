@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -135,11 +136,9 @@ const CorporateClients = observer(() => {
                         : "Created By"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(
-                        corporateClientsStore.corporateClients?.dateCreation || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      corporateClientsStore.corporateClients?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -157,11 +156,9 @@ const CorporateClients = observer(() => {
                     placeholder={
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
-                    value={LibraryUtils.moment
-                      .unix(
-                        corporateClientsStore.corporateClients?.dateActiveFrom || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      corporateClientsStore.corporateClients?.dateActiveFrom
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -179,16 +176,14 @@ const CorporateClients = observer(() => {
                     placeholder={
                       errors.dateExpire ? "Please Enter Date Expire" : "Date Expire"
                     }
-                    value={LibraryUtils.moment
-                      .unix(
-                        corporateClientsStore.corporateClients?.dateActiveTo || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      corporateClientsStore.corporateClients?.dateExpire
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const schedule = new Date(e.target.value)
+                      const dateExpire = new Date(e.target.value)
                       corporateClientsStore.updateCorporateClients({
                         ...corporateClientsStore.corporateClients,
-                        dateActiveTo: LibraryUtils.moment(schedule).unix(),
+                        dateExpire,
                       })
                     }}
                   />
@@ -209,21 +204,6 @@ const CorporateClients = observer(() => {
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={corporateClientsStore.corporateClients?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1083,7 +1063,7 @@ const CorporateClients = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -1095,7 +1075,7 @@ const CorporateClients = observer(() => {
                       disabled={
                         loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
-                          : false
+                          : false  
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
@@ -1266,7 +1246,7 @@ const CorporateClients = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: modalConfirm.data.version + 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
               setValue("corporateCode", modalConfirm.data.corporateCode)
               setValue("corporateName", modalConfirm.data.corporateName)
@@ -1279,14 +1259,14 @@ const CorporateClients = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActiveFrom: new Date(),
               })
             }
           }}
           onClose={() => setModalConfirm({ show: false })}
         />
       </div>
-    </>  
+    </>
   )
 })
 
