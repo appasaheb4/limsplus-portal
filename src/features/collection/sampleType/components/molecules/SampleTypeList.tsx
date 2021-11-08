@@ -21,6 +21,7 @@ interface SampleTypeListProps {
 const SampleTypeList = observer((props: SampleTypeListProps) => {
   return (
     <>
+      <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
         id="_id"
         data={props.data}
@@ -141,6 +142,7 @@ const SampleTypeList = observer((props: SampleTypeListProps) => {
           props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
       />
+      </div>
     </>
   )
 })
