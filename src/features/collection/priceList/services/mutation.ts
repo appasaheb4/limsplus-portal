@@ -1,17 +1,67 @@
 import { gql } from "@apollo/client"
 
-export const ADD_PRICELIST = gql`
+export const LIST = gql`
   mutation($input: PriceListInput!) {
-    addPriceList(input: $input) {
+    priceLists(input: $input) {
+      paginatorInfo {
+        count
+      }
       success
       message
-      id
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        panelCode
+        panelName
+        priority
+        priceGroup
+        billTo
+        clientName
+        invoiceAc
+        lab
+        price
+        fixedPrice
+        minSp
+        maxSp
+        anyScheme
+        speicalScheme
+        schemePrice
+        disOnScheme
+        enteredBy
+        status
+        environment
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        dateOfEntry
+        lastUpdated
+      }
     }
   }
-`   
+`
+
+export const REMOVE_RECORD = gql`
+  mutation($input: PriceListRemoveInput!) {
+    removePriceList(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const CREATE_RECORD = gql`
+  mutation($input: CreatePriceListInput!) {
+    createPriceList(input: $input) {
+      success
+      message
+    }
+  }
+`
 
 export const VERSION_UPGRADE = gql`
-  mutation($input: PriceListInput!) {
+  mutation($input: CreatePriceListInput!) {
     versionUpgradePriceList(input: $input) {
       success
       message
@@ -19,39 +69,29 @@ export const VERSION_UPGRADE = gql`
   }
 `
 
-export const DELETE_RECORD = gql`
-  mutation($input: DelRecord!) {
-    deletePriceList(input: $input) {
+export const DUPLICATE_RECORD = gql`
+  mutation($input: CreatePriceListInput!) {
+    duplicatePriceList(input: $input) {
       success
       message
     }
   }
 `
 
-export const DUPLICATE_RECORD = gql`
-  mutation($input: PriceListInput) {
-    duplicatePriceList(input: $input) {
-      success
-      message
-      id
-    }
-  }
-`
-  
-export const UPDATE_SINGE_FILED = gql`
-  mutation($input: UpdateRecord) {
-    updateSingleFiledPriceList(input: $input) {
+export const UPDATE_RECORD = gql`
+  mutation($input: UpdatePriceListInput!) {
+    updatePriceList(input: $input) {
       success
       message
     }
   }
 `
-  
-export const CHECKEXITS_PRICEG_ENV_LAB_CODE = gql`
-mutation($input: PriceListInput) {
-  checkExitsPriceGEnvLabCodePriceList(input: $input) {
+
+export const CHECK_EXISTS_RECORD = gql`
+  mutation($input: PriceListInput!) {
+    checkPriceListExistsRecord(input: $input) {
       success
       message
     }
   }
-`;
+`

@@ -1,5 +1,5 @@
 import React from "react"
-import PriceListStore from "./priceList-store"
+import {PriceListStore} from "./priceList-store"
 
 export const Stores = {
     priceListStore: new PriceListStore()

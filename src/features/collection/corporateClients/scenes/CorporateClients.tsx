@@ -42,13 +42,15 @@ const CorporateClients = observer(() => {
       ) {
         corporateClientsStore.corporateClientsService
           .addCorporateClients({
-            ...corporateClientsStore.corporateClients,
-            enteredBy: loginStore.login.userId,
+            input: {
+              ...corporateClientsStore.corporateClients,
+              enteredBy: loginStore.login.userId,
+            },
           })
           .then((res) => {
-            if (res.status === 200) {
+            if (res.createCorporateClient.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 Corporate Client record created.`,
+                message: `😊 ${res.createCorporateClient.message}`,
               })
               corporateClientsStore.fetchCorporateClients()
             }
@@ -59,15 +61,16 @@ const CorporateClients = observer(() => {
       ) {
         corporateClientsStore.corporateClientsService
           .versionUpgradeCorporateClient({
-            ...corporateClientsStore.corporateClients,
-            enteredBy: loginStore.login.userId,
+            input: {
+              ...corporateClientsStore.corporateClients,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
           })
           .then((res) => {
-            console.log({ res })
-
-            if (res.success) {
+            if (res.versionUpgradeCorporateClient.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.versionUpgradeCorporateClient.message}`,
               })
             }
           })
@@ -77,13 +80,16 @@ const CorporateClients = observer(() => {
       ) {
         corporateClientsStore.corporateClientsService
           .duplicateCorporateClient({
-            ...corporateClientsStore.corporateClients,
-            enteredBy: loginStore.login.userId,
+            input: {
+              ...corporateClientsStore.corporateClients,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
+            },
           })
           .then((res) => {
-            if (res.success) {
+            if (res.duplicateCorporateClient.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.duplicateCorporateClient.message}`,
               })
             }
           })
@@ -115,7 +121,7 @@ const CorporateClients = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={3}>
@@ -248,15 +254,18 @@ const CorporateClients = observer(() => {
                     onBlur={(code) => {
                       if (!corporateClientsStore.corporateClients?.existsVersionId) {
                         corporateClientsStore.corporateClientsService
-                          .checkExistsEnvCode(
-                            code,
-                            corporateClientsStore.corporateClients?.environment || ""
-                          )
+                          .checkExistsEnvCode({
+                            input: {
+                              code,
+                              env:
+                                corporateClientsStore.corporateClients?.environment,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
+                            if (res.checkCorporateClientExistsRecord.success) {
                               corporateClientsStore.updateExistsEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkCorporateClientExistsRecord.message}`,
                               })
                             } else corporateClientsStore.updateExistsEnvCode(false)
                           })
@@ -510,7 +519,7 @@ const CorporateClients = observer(() => {
                       onChange(postcode)
                       corporateClientsStore.updateCorporateClients({
                         ...corporateClientsStore.corporateClients,
-                        postcode,
+                        postcode: parseInt(postcode),
                       })
                     }}
                   />
@@ -1075,7 +1084,7 @@ const CorporateClients = observer(() => {
                       disabled={
                         loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
-                          : false  
+                          : false
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
@@ -1091,16 +1100,19 @@ const CorporateClients = observer(() => {
                           !corporateClientsStore.corporateClients?.existsVersionId
                         ) {
                           corporateClientsStore.corporateClientsService
-                            .checkExistsEnvCode(
-                              corporateClientsStore.corporateClients
-                                ?.corporateCode || "",
-                              environment
-                            )
+                            .checkExistsEnvCode({
+                              input: {
+                                code:
+                                  corporateClientsStore.corporateClients
+                                    ?.corporateCode,
+                                env: environment,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
+                              if (res.checkCorporateClientExistsRecord.success) {
                                 corporateClientsStore.updateExistsEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkCorporateClientExistsRecord.message}`,
                                 })
                               } else corporateClientsStore.updateExistsEnvCode(false)
                             })
@@ -1216,11 +1228,11 @@ const CorporateClients = observer(() => {
           click={(type?: string) => {
             if (type === "Delete") {
               corporateClientsStore.corporateClientsService
-                .deleteCorporateClients(modalConfirm.id)
+                .deleteCorporateClients({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeCorporateClient.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Corporate Client record deleted.`,
+                      message: `😊 ${res.removeCorporateClient.message}`,
                     })
                     setModalConfirm({ show: false })
                     corporateClientsStore.fetchCorporateClients()
@@ -1228,15 +1240,19 @@ const CorporateClients = observer(() => {
                 })
             } else if (type === "Update") {
               corporateClientsStore.corporateClientsService
-                .updateSingleFiled(modalConfirm.data)
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateCorporateClient.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Corporate Client record updated.`,
+                      message: `😊 ${res.updateCorporateClient.message}`,
                     })
                     setModalConfirm({ show: false })
                     corporateClientsStore.fetchCorporateClients()
-                    window.location.reload()
                   }
                 })
             } else if (type === "versionUpgrade") {
@@ -1245,11 +1261,12 @@ const CorporateClients = observer(() => {
                 _id: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
                 dateActiveFrom: new Date(),
               })
               setValue("corporateCode", modalConfirm.data.corporateCode)
               setValue("corporateName", modalConfirm.data.corporateName)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
               //clearErrors(["lab", "analyteCode", "analyteName", "environment"])
             } else if (type === "duplicate") {
@@ -1261,6 +1278,10 @@ const CorporateClients = observer(() => {
                 version: 1,
                 dateActiveFrom: new Date(),
               })
+              setValue("corporateCode", modalConfirm.data.corporateCode)
+              setValue("corporateName", modalConfirm.data.corporateName)
+              setValue("status", modalConfirm.data.status)
+              setValue("environment", modalConfirm.data.environment)
             }
           }}
           onClose={() => setModalConfirm({ show: false })}

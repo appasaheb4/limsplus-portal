@@ -7,22 +7,21 @@ import { LibraryList } from "../components"
 
 import { useForm, Controller } from "react-hook-form"
 
-import * as Models from "../models"
-//import * as Utils from "../util"
-import Storage from "@lp/library/modules/storage"
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { stores } from "@lp/stores"
-import { Stores as PanelMasterStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const Library = observer(() => {
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    libraryStore,
+    labStore,
+    departmentStore,
+    masterPanelStore,
+    lookupStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -34,25 +33,27 @@ export const Library = observer(() => {
   } = useForm()
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.libraryStore.updateLibrary({
-        ...Stores.libraryStore.library,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      libraryStore.updateLibrary({
+        ...libraryStore.library,
+        lab: loginStore.login.lab,
+        environment: loginStore.login.environment,
       })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("lab", loginStore.login.lab)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitLibrary = (data) => {
-    if (!Stores.libraryStore.checkExistsLabEnvCode) {
-      Stores.libraryStore.libraryService
-        .addLibrary(Stores.libraryStore.library)
-        .then(() => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Library created.`,
-          })
+    if (!libraryStore.checkExistsLabEnvCode) {
+      libraryStore.libraryService
+        .addLibrary({ input: { ...libraryStore.library } })
+        .then((res) => {
+          if (res.createLibrary.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createLibrary.message}`,
+            })
+          }
         })
       setTimeout(() => {
         window.location.reload()
@@ -68,14 +69,11 @@ export const Library = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -83,7 +81,7 @@ export const Library = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -98,29 +96,31 @@ export const Library = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Code"
                     placeholder={errors.code ? "Please enter code" : "Code"}
-                    value={Stores.libraryStore.library?.code}
+                    value={libraryStore.library?.code}
                     hasError={errors.code}
                     onChange={(code) => {
                       onChange(code)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         code,
                       })
                     }}
                     onBlur={(code) => {
-                      Stores.libraryStore.libraryService
-                        .checkExistsLabEnvCode(
-                          code,
-                          Stores.libraryStore.library?.environment || "",
-                          Stores.libraryStore.library?.lab || ""
-                        )
+                      libraryStore.libraryService
+                        .checkExistsLabEnvCode({
+                          input: {
+                            code,
+                            env: libraryStore.library?.environment,
+                            lab: libraryStore.library?.lab,
+                          },
+                        })
                         .then((res) => {
-                          if (res.success) {
-                            Stores.libraryStore.updateExistsLabEnvCode(true)
+                          if (res.checkLibrarysExistsRecord.success) {
+                            libraryStore.updateExistsLabEnvCode(true)
                             LibraryComponents.Atoms.Toast.error({
-                              message: `😔 ${res.message}`,
+                              message: `😔 ${res.checkLibrarysExistsRecord.message}`,
                             })
-                          } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                          } else libraryStore.updateExistsLabEnvCode(false)
                         })
                     }}
                   />
@@ -129,7 +129,7 @@ export const Library = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.libraryStore.checkExistsLabEnvCode && (
+              {libraryStore.checkExistsLabEnvCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -144,11 +144,11 @@ export const Library = observer(() => {
                       errors.description ? "Please Enter description" : "Description"
                     }
                     hasError={errors.description}
-                    value={Stores.libraryStore.library?.description}
+                    value={libraryStore.library?.description}
                     onChange={(description) => {
                       onChange(description)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         description,
                       })
                     }}
@@ -167,22 +167,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.usageType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.usageType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const usageType = e.target.value
                         onChange(usageType)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           usageType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "USAGE_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -205,22 +203,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.libraryType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.libraryType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const libraryType = e.target.value
                         onChange(libraryType)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           libraryType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "LIBRARY_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -243,22 +239,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.commentType
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.commentType ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const commentType = e.target.value
                         onChange(commentType)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           commentType,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "COMMENT_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -280,50 +274,47 @@ export const Library = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.libraryStore.library.lab}
+                      value={libraryStore.library.lab}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.lab ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const lab = e.target.value
                         onChange(lab)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           lab,
                         })
-                        Stores.libraryStore.libraryService
-                          .checkExistsLabEnvCode(
-                            Stores.libraryStore.library.code,
-                            Stores.libraryStore.library?.environment || "",
-                            lab
-                          )
+                        libraryStore.libraryService
+                          .checkExistsLabEnvCode({
+                            input: {
+                              code: libraryStore.library.code,
+                              env: libraryStore.library?.environment,
+                              lab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.libraryStore.updateExistsLabEnvCode(true)
+                            if (res.checkLibrarysExistsRecord.success) {
+                              libraryStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkLibrarysExistsRecord.message}`,
                               })
-                            } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                            } else libraryStore.updateExistsLabEnvCode(false)
                           })
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs &&
-                        LabStores.labStore.listLabs.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.code} - ${item.name}`}
-                            </option>
-                          )
-                        )}
+                      {labStore.listLabs &&
+                        labStore.listLabs.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.code} - ${item.name}`}
+                          </option>
+                        ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -340,22 +331,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.department ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const department = e.target.value
                         onChange(department)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           department,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment &&
-                        DepartmentStore.departmentStore.listDepartment.map(
+                      {departmentStore.listDepartment &&
+                        departmentStore.listDepartment.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {`${item.code} - ${item.name}`}
@@ -385,15 +374,15 @@ export const Library = observer(() => {
                       onChange={(e) => {
                         const commentsTarget = e.target.value
                         onChange(commentsTarget)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           commentsTarget,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "COMMENTS_TARGET"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -415,11 +404,11 @@ export const Library = observer(() => {
                     label="Details"
                     placeholder={errors.details ? "Please Enter Details" : "Detials"}
                     hasError={errors.details}
-                    value={Stores.libraryStore.library?.details}
+                    value={libraryStore.library?.details}
                     onChange={(details) => {
                       onChange(details)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         details,
                       })
                     }}
@@ -445,22 +434,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.parameter
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.parameter ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const parameter = e.target.value
                         onChange(parameter)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           parameter,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PARAMETER"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -483,22 +470,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.action
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.action ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const action = e.target.value
                         onChange(action)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           action,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -521,22 +506,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.results
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.results ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const results = e.target.value
                         onChange(results)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           results,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "RESULTS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -557,11 +540,11 @@ export const Library = observer(() => {
                     label="Value"
                     placeholder={errors.value ? "Please Enter value" : "Value"}
                     hasError={errors.value}
-                    value={Stores.libraryStore.library?.value}
+                    value={libraryStore.library?.value}
                     onChange={(value) => {
                       onChange(value)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         value,
                       })
                     }}
@@ -582,14 +565,13 @@ export const Library = observer(() => {
                       placeholder="Search by panel name or panel code"
                       data={{
                         defulatValues: [],
-                        list:
-                          PanelMasterStore.masterPanelStore.listMasterPanel || [],
+                        list: masterPanelStore.listMasterPanel || [],
                         displayKey: ["panelName", "panelCode"],
                         findKey: ["panelName", "panelCode"],
                       }}
                       onUpdate={(items) => {
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           reflex: items,
                         })
                       }}
@@ -607,11 +589,11 @@ export const Library = observer(() => {
                     label="Analyte"
                     placeholder={errors.analyte ? "Please Enter analyte" : "Analyte"}
                     hasError={errors.analyte}
-                    value={Stores.libraryStore.library?.analyte}
+                    value={libraryStore.library?.analyte}
                     onChange={(analyte) => {
                       onChange(analyte)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         analyte,
                       })
                     }}
@@ -629,11 +611,11 @@ export const Library = observer(() => {
                     label="Rule"
                     placeholder={errors.rule ? "Please Enter rule" : "Rule"}
                     hasError={errors.rule}
-                    value={Stores.libraryStore.library?.rule}
+                    value={libraryStore.library?.rule}
                     onChange={(rule) => {
                       onChange(rule)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         rule,
                       })
                     }}
@@ -652,22 +634,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           status,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -678,7 +658,7 @@ export const Library = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
               <Controller
@@ -687,11 +667,11 @@ export const Library = observer(() => {
                   <LibraryComponents.Atoms.Form.Toggle
                     label="AbNormal"
                     hasError={errors.abNormal}
-                    value={Stores.libraryStore.library?.abNormal}
+                    value={libraryStore.library?.abNormal}
                     onChange={(abNormal) => {
                       onChange(abNormal)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         abNormal,
                       })
                     }}
@@ -719,11 +699,11 @@ export const Library = observer(() => {
                         : "Organism Group"
                     }
                     hasError={errors.organismGroup}
-                    value={Stores.libraryStore.library?.organismGroup}
+                    value={libraryStore.library?.organismGroup}
                     onChange={(organismGroup) => {
                       onChange(organismGroup)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         organismGroup,
                       })
                     }}
@@ -744,11 +724,11 @@ export const Library = observer(() => {
                         : "Organism Class"
                     }
                     hasError={errors.organismClass}
-                    value={Stores.libraryStore.library?.organismClass}
+                    value={libraryStore.library?.organismClass}
                     onChange={(organismClass) => {
                       onChange(organismClass)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
                         organismClass,
                       })
                     }}
@@ -765,12 +745,12 @@ export const Library = observer(() => {
                     label="LO Age"
                     placeholder={errors.loAge ? "Please Enter loAge" : "LO Age"}
                     hasError={errors.loAge}
-                    value={Stores.libraryStore.library?.loAge}
+                    value={libraryStore.library?.loAge}
                     onChange={(loAge) => {
                       onChange(loAge)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
-                        loAge,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
+                        loAge: parseInt(loAge),
                       })
                     }}
                   />
@@ -778,7 +758,7 @@ export const Library = observer(() => {
                 name="loAge"
                 rules={{ required: false }}
                 defaultValue=""
-              />
+              />   
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -786,12 +766,12 @@ export const Library = observer(() => {
                     label="HI Age"
                     placeholder={errors.hiAge ? "Please Enter hiAge" : "HI Age"}
                     hasError={errors.hiAge}
-                    value={Stores.libraryStore.library?.hiAge}
+                    value={libraryStore.library?.hiAge}
                     onChange={(hiAge) => {
                       onChange(hiAge)
-                      Stores.libraryStore.updateLibrary({
-                        ...Stores.libraryStore.library,
-                        hiAge,
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
+                        hiAge: parseInt(hiAge),
                       })
                     }}
                   />
@@ -809,28 +789,25 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sex
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.sex ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sex = e.target.value
                         onChange(sex)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           sex,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "SEX"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                      {LibraryUtils.lookupItems(routerStore.lookupItems, "SEX").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -847,22 +824,20 @@ export const Library = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.sexAction
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.sexAction ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const sexAction = e.target.value
                         onChange(sexAction)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           sexAction,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SEX_ACTION"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -884,49 +859,47 @@ export const Library = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.libraryStore.library?.environment}
+                      value={libraryStore.library?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.libraryStore.updateLibrary({
-                          ...Stores.libraryStore.library,
+                        libraryStore.updateLibrary({
+                          ...libraryStore.library,
                           environment,
                         })
-                        Stores.libraryStore.libraryService
-                          .checkExistsLabEnvCode(
-                            Stores.libraryStore.library.code,
-                            environment,
-                            Stores.libraryStore.library.lab
-                          )
+                        libraryStore.libraryService
+                          .checkExistsLabEnvCode({
+                            input: {
+                              code: libraryStore.library.code,
+                              env: environment,
+                              lab: libraryStore.library.lab,
+                            },
+                          })
                           .then((res) => {
-                            if (res.success) {
-                              Stores.libraryStore.updateExistsLabEnvCode(true)
+                            if (res.checkLibrarysExistsRecord.success) {
+                              libraryStore.updateExistsLabEnvCode(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.message}`,
+                                message: `😔 ${res.checkLibrarysExistsRecord.message}`,
                               })
-                            } else Stores.libraryStore.updateExistsLabEnvCode(false)
+                            } else libraryStore.updateExistsLabEnvCode(false)
                           })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.libraryStore.library?.environment || `Select`}
+                          : libraryStore.library?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -967,23 +940,23 @@ export const Library = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <LibraryList
-            data={Stores.libraryStore.listLibrary || []}
-            totalSize={Stores.libraryStore.listLibraryCount}
+            data={libraryStore.listLibrary || []}
+            totalSize={libraryStore.listLibraryCount}
             extraData={{
-              listLookup: LookupStore.lookupStore.listLookup,
-              library: Stores.libraryStore.library,
-              listLabs: LabStores.labStore.listLabs,
-              listDepartment: DepartmentStore.departmentStore.listDepartment,
-              listMasterPanel: PanelMasterStore.masterPanelStore.listMasterPanel,
-              updateLibraryStore: Stores.libraryStore.updateLibrary,
-              lookupItems: stores.routerStore.lookupItems,
+              listLookup: lookupStore.listLookup,
+              library: libraryStore.library,
+              listLabs: labStore.listLabs,
+              listDepartment: departmentStore.listDepartment,
+              listMasterPanel: masterPanelStore.listMasterPanel,
+              updateLibraryStore: libraryStore.updateLibrary,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -1024,7 +997,7 @@ export const Library = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.libraryStore.fetchLibrary(page, limit)
+              libraryStore.fetchLibrary(page, limit)
             }}
           />
         </div>
@@ -1032,27 +1005,31 @@ export const Library = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.libraryStore.libraryService
-                .deleteLibrary(modalConfirm.id)
+              libraryStore.libraryService
+                .deleteLibrary({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.removeLibrary.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Library deleted.`,
+                      message: `😊 ${res.removeLibrary.message}`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.libraryStore.fetchLibrary()
+                    libraryStore.fetchLibrary()
                   }
                 })
             } else if (type === "Update") {
-              Stores.libraryStore.libraryService
-                .updateSingleFiled(modalConfirm.data)
+              libraryStore.libraryService
+                .updateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res: any) => {
-                  if (res.status === 200) {
+                  if (res.updateLibrary.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Library updated.`,
+                      message: `😊 ${res.updateLibrary.message}`,
                     })
                     setModalConfirm({ show: false })
-                    window.location.reload()
                   }
                 })
             }

@@ -8,10 +8,8 @@ import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
+
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as AnalyteStore } from "@lp/features/collection/masterAnalyte/stores"
-import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -25,7 +23,12 @@ export const PossibleResults = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    possibleResultsStore,
+    masterAnalyteStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
 
@@ -44,23 +47,25 @@ export const PossibleResults = observer(() => {
     })
   }, [])
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.possibleResultsStore.updatePossibleResults({
-        ...Stores.possibleResultsStore.possibleResults,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      possibleResultsStore.updatePossibleResults({
+        ...possibleResultsStore.possibleResults,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitPossibleResult = () => {
-    if (!Stores.possibleResultsStore.checkExistsEnvCode) {
-      Stores.possibleResultsStore.possibleResultsService
-        .addPossibleResults(Stores.possibleResultsStore.possibleResults)
-        .then(() => {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 Possible results created.`,
-          })
+    if (!possibleResultsStore.checkExistsEnvCode) {
+      possibleResultsStore.possibleResultsService
+        .addPossibleResults({ input: { ...possibleResultsStore.possibleResults } })
+        .then((res) => {
+          if (res.createPossibleResult.success) {
+            LibraryComponents.Atoms.Toast.success({
+              message: `😊 ${res.createPossibleResult.message}`,
+            })
+          }
           setTimeout(() => {
             window.location.reload()
           }, 2000)
@@ -77,11 +82,11 @@ export const PossibleResults = observer(() => {
       <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
-            title={stores.routerStore.selectedComponents?.title || ""}
+            title={routerStore.selectedComponents?.title || ""}
           />
           <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
         </LibraryComponents.Atoms.Header>
-        {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+        {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
           <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
             show={hideAddLookup}
             onClick={() => setHideAddLookup(!hideAddLookup)}
@@ -90,7 +95,7 @@ export const PossibleResults = observer(() => {
         <div className="mx-auto">
           <div
             className={
-              "p-2 rounded-lg shadow-xl " + (hideAddLookup ? "shown" : "shown")
+              "p-2 rounded-lg shadow-xl " + (hideAddLookup ? "hidden" : "shown")
             }
           >
             <LibraryComponents.Atoms.Grid cols={2}>
@@ -109,40 +114,37 @@ export const PossibleResults = observer(() => {
                     >
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.analyte
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.analyte ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
                           const analyte = JSON.parse(e.target.value)
                           onChange(analyte)
-                          Stores.possibleResultsStore.updatePossibleResults({
-                            ...Stores.possibleResultsStore.possibleResults,
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
                             analyteCode: analyte.analyteCode,
                             analyteName: analyte.analyteName,
                           })
-                          Stores.possibleResultsStore.possibleResultsService
-                            .checkExistsEnvCode(
-                              analyte.analyteCode,
-                              Stores.possibleResultsStore.possibleResults
-                                ?.environment || ""
-                            )
+                          possibleResultsStore.possibleResultsService
+                            .checkExistsEnvCode({
+                              input: {
+                                code: analyte.analyteCode,
+                                env:
+                                  possibleResultsStore.possibleResults?.environment,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.possibleResultsStore.updateExistsEnvCode(true)
+                              if (res.checkPossibleResultExistsRecord.success) {
+                                possibleResultsStore.updateExistsEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.possibleResultsStore.updateExistsEnvCode(
-                                  false
-                                )
+                              } else possibleResultsStore.updateExistsEnvCode(false)
                             })
                         }}
                       >
                         <option selected>Select</option>
-                        {AnalyteStore.masterAnalyteStore.listMasterAnalyte &&
-                          AnalyteStore.masterAnalyteStore.listMasterAnalyte.map(
+                        {masterAnalyteStore.listMasterAnalyte &&
+                          masterAnalyteStore.listMasterAnalyte.map(
                             (item: any, index: number) => (
                               <option key={index} value={JSON.stringify(item)}>
                                 {`${item.analyteCode} - ${item.analyteName}`}
@@ -156,7 +158,7 @@ export const PossibleResults = observer(() => {
                   rules={{ required: true }}
                   defaultValue=""
                 />
-                {Stores.possibleResultsStore.checkExistsEnvCode && (
+                {possibleResultsStore.checkExistsEnvCode && (
                   <span className="text-red-600 font-medium relative">
                     Code already exits. Please use other code.
                   </span>
@@ -173,9 +175,7 @@ export const PossibleResults = observer(() => {
                           : "Analyte Name"
                       }
                       hasError={errors.analyteName}
-                      value={
-                        Stores.possibleResultsStore.possibleResults?.analyteName
-                      }
+                      value={possibleResultsStore.possibleResults?.analyteName}
                     />
                   )}
                   name="analyteName"
@@ -187,55 +187,48 @@ export const PossibleResults = observer(() => {
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                       <select
-                        value={
-                          Stores.possibleResultsStore.possibleResults?.environment
-                        }
+                        value={possibleResultsStore.possibleResults?.environment}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? "border-red-500  "
-                            : "border-gray-300"
+                          errors.environment ? "border-red-500  " : "border-gray-300"
                         } rounded-md`}
                         disabled={
-                          stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
+                          loginStore.login && loginStore.login.role !== "SYSADMIN"
                             ? true
                             : false
                         }
                         onChange={(e) => {
                           const environment = e.target.value
                           onChange(environment)
-                          Stores.possibleResultsStore.updatePossibleResults({
-                            ...Stores.possibleResultsStore.possibleResults,
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
                             environment,
                           })
-                          Stores.possibleResultsStore.possibleResultsService
-                            .checkExistsEnvCode(
-                              Stores.possibleResultsStore.possibleResults
-                                .analyteCode || "",
-                              environment
-                            )
+                          possibleResultsStore.possibleResultsService
+                            .checkExistsEnvCode({
+                              input: {
+                                code:
+                                  possibleResultsStore.possibleResults.analyteCode,
+                                env: environment,
+                              },
+                            })
                             .then((res) => {
-                              if (res.success) {
-                                Stores.possibleResultsStore.updateExistsEnvCode(true)
+                              if (res.checkPossibleResultExistsRecord.success) {
+                                possibleResultsStore.updateExistsEnvCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.message}`,
+                                  message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.possibleResultsStore.updateExistsEnvCode(
-                                  false
-                                )
+                              } else possibleResultsStore.updateExistsEnvCode(false)
                             })
                         }}
                       >
                         <option selected>
-                          {stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
+                          {loginStore.login && loginStore.login.role !== "SYSADMIN"
                             ? `Select`
-                            : Stores.possibleResultsStore.possibleResults
-                                ?.environment || `Select`}
+                            : possibleResultsStore.possibleResults?.environment ||
+                              `Select`}
                         </option>
                         {LibraryUtils.lookupItems(
-                          stores.routerStore.lookupItems,
+                          routerStore.lookupItems,
                           "ENVIRONMENT"
                         ).map((item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -259,11 +252,11 @@ export const PossibleResults = observer(() => {
                             errors.result ? "Please Enter Result" : "Result"
                           }
                           hasError={errors.result}
-                          value={Stores.possibleResultsStore.possibleResults?.result}
+                          value={possibleResultsStore.possibleResults?.result}
                           onChange={(result) => {
                             onChange(result)
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               result,
                             })
                           }}
@@ -283,14 +276,11 @@ export const PossibleResults = observer(() => {
                               : "Possible Value"
                           }
                           hasError={errors.possibleValue}
-                          value={
-                            Stores.possibleResultsStore.possibleResults
-                              ?.possibleValue
-                          }
+                          value={possibleResultsStore.possibleResults?.possibleValue}
                           onChange={(possibleValue) => {
                             onChange(possibleValue)
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               possibleValue,
                             })
                           }}
@@ -306,13 +296,11 @@ export const PossibleResults = observer(() => {
                         <LibraryComponents.Atoms.Form.Toggle
                           label="AbNormal"
                           hasError={errors.abNormal}
-                          value={
-                            Stores.possibleResultsStore.possibleResults?.abNormal
-                          }
+                          value={possibleResultsStore.possibleResults?.abNormal}
                           onChange={(abNormal) => {
                             onChange(abNormal)
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               abNormal,
                             })
                           }}
@@ -328,13 +316,11 @@ export const PossibleResults = observer(() => {
                         <LibraryComponents.Atoms.Form.Toggle
                           hasError={errors.critical}
                           label="Critical"
-                          value={
-                            Stores.possibleResultsStore.possibleResults?.critical
-                          }
+                          value={possibleResultsStore.possibleResults?.critical}
                           onChange={(critical) => {
                             onChange(critical)
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               critical,
                             })
                           }}
@@ -349,14 +335,12 @@ export const PossibleResults = observer(() => {
                         size="medium"
                         type="solid"
                         onClick={() => {
-                          const result =
-                            Stores.possibleResultsStore.possibleResults?.result
+                          const result = possibleResultsStore.possibleResults?.result
                           const possibleValue =
-                            Stores.possibleResultsStore.possibleResults
-                              ?.possibleValue
+                            possibleResultsStore.possibleResults?.possibleValue
                           let conclusionResult =
-                            Stores.possibleResultsStore.possibleResults
-                              ?.conclusionResult || []
+                            possibleResultsStore.possibleResults?.conclusionResult ||
+                            []
                           if (result === undefined || possibleValue === undefined)
                             return alert("Please enter value and code.")
                           if (result !== undefined) {
@@ -365,30 +349,26 @@ export const PossibleResults = observer(() => {
                                   result,
                                   possibleValue,
                                   abNormal:
-                                    Stores.possibleResultsStore.possibleResults
-                                      .abNormal,
+                                    possibleResultsStore.possibleResults.abNormal,
                                   critical:
-                                    Stores.possibleResultsStore.possibleResults
-                                      .critical,
+                                    possibleResultsStore.possibleResults.critical,
                                 })
                               : (conclusionResult = [
                                   {
                                     result,
                                     possibleValue,
                                     abNormal:
-                                      Stores.possibleResultsStore.possibleResults
-                                        .abNormal,
+                                      possibleResultsStore.possibleResults.abNormal,
                                     critical:
-                                      Stores.possibleResultsStore.possibleResults
-                                        .critical,
+                                      possibleResultsStore.possibleResults.critical,
                                   },
                                 ])
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               conclusionResult,
                             })
-                            Stores.possibleResultsStore.updatePossibleResults({
-                              ...Stores.possibleResultsStore.possibleResults,
+                            possibleResultsStore.updatePossibleResults({
+                              ...possibleResultsStore.possibleResults,
                               conclusionResult,
                               result: "",
                               possibleValue: "",
@@ -410,7 +390,7 @@ export const PossibleResults = observer(() => {
                     justify="center"
                   >
                     <div>
-                      {Stores.possibleResultsStore.possibleResults?.conclusionResult?.map(
+                      {possibleResultsStore.possibleResults?.conclusionResult?.map(
                         (item, index) => (
                           <div className="mb-2" key={index}>
                             <LibraryComponents.Atoms.Buttons.Button
@@ -419,20 +399,20 @@ export const PossibleResults = observer(() => {
                               icon={LibraryComponents.Atoms.Icon.Remove}
                               onClick={() => {
                                 const firstArr =
-                                  Stores.possibleResultsStore.possibleResults?.conclusionResult?.slice(
+                                  possibleResultsStore.possibleResults?.conclusionResult?.slice(
                                     0,
                                     index
                                   ) || []
                                 const secondArr =
-                                  Stores.possibleResultsStore.possibleResults?.conclusionResult?.slice(
+                                  possibleResultsStore.possibleResults?.conclusionResult?.slice(
                                     index + 1
                                   ) || []
                                 const finalArray = [
                                   ...firstArr,
                                   ...secondArr,
-                                ] as typeof Stores.possibleResultsStore.possibleResults.conclusionResult
-                                Stores.possibleResultsStore.updatePossibleResults({
-                                  ...Stores.possibleResultsStore.possibleResults,
+                                ] as typeof possibleResultsStore.possibleResults.conclusionResult
+                                possibleResultsStore.updatePossibleResults({
+                                  ...possibleResultsStore.possibleResults,
                                   conclusionResult: finalArray,
                                 })
                               }}
@@ -468,17 +448,16 @@ export const PossibleResults = observer(() => {
                             critical: defaultConclusion.critical,
                           }
                           onChange(defaultConclusion)
-                          Stores.possibleResultsStore.updatePossibleResults({
-                            ...Stores.possibleResultsStore.possibleResults,
+                          possibleResultsStore.updatePossibleResults({
+                            ...possibleResultsStore.possibleResults,
                             defaultConclusion,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {Stores.possibleResultsStore.possibleResults &&
-                          Stores.possibleResultsStore.possibleResults
-                            .conclusionResult &&
-                          Stores.possibleResultsStore.possibleResults.conclusionResult.map(
+                        {possibleResultsStore.possibleResults &&
+                          possibleResultsStore.possibleResults.conclusionResult &&
+                          possibleResultsStore.possibleResults.conclusionResult.map(
                             (item: any, index: number) => (
                               <option key={item.name} value={JSON.stringify(item)}>
                                 {`Result: ${item.result}  
@@ -523,21 +502,23 @@ export const PossibleResults = observer(() => {
           <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <PossibleResultsList
-              data={Stores.possibleResultsStore.listPossibleResults || []}
-              totalSize={Stores.possibleResultsStore.listPossibleResultsCount}
+              data={possibleResultsStore.listPossibleResults || []}
+              totalSize={possibleResultsStore.listPossibleResultsCount}
               extraData={{
-                listMasterAnalyte: AnalyteStore.masterAnalyteStore.listMasterAnalyte,
-                possibleResults: Stores.possibleResultsStore.possibleResults,
-                updatePossibleResults:
-                  Stores.possibleResultsStore.updatePossibleResults,
-                lookupItems: stores.routerStore.lookupItems,
+                listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
+                possibleResults: possibleResultsStore.possibleResults,
+                lookupItems: routerStore.lookupItems,
+                possibleResultsStore,
+              }}
+              updatePossibleResults={(values)=>{
+                possibleResultsStore.updatePossibleResults(values)
               }}
               isDelete={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Delete"
               )}
               isEditModify={RouterFlow.checkPermission(
-                stores.routerStore.userPermission,
+                routerStore.userPermission,
                 "Edit/Modify"
               )}
               onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -560,7 +541,7 @@ export const PossibleResults = observer(() => {
                 })
               }}
               onPageSizeChange={(page, limit) => {
-                Stores.possibleResultsStore.fetchListPossibleResults(page, limit)
+                possibleResultsStore.fetchListPossibleResults(page, limit)
               }}
             />
           </div>
@@ -568,28 +549,32 @@ export const PossibleResults = observer(() => {
             {...modalConfirm}
             click={(type?: string) => {
               if (type === "Delete") {
-                Stores.possibleResultsStore.possibleResultsService
-                  .deletePossibleResults(modalConfirm.id)
+                possibleResultsStore.possibleResultsService
+                  .deletePossibleResults({ input: { id: modalConfirm.id } })
                   .then((res: any) => {
-                    if (res.status === 200) {
+                    if (res.removePossibleResult.success) {
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Possible results deleted.`,
+                        message: `😊 ${res.removePossibleResult.message}`,
                       })
                       setModalConfirm({ show: false })
-                      Stores.possibleResultsStore.fetchListPossibleResults()
+                      possibleResultsStore.fetchListPossibleResults()
                     }
                   })
               } else if (type === "Update") {
-                Stores.possibleResultsStore.possibleResultsService
-                  .updateSingleFiled(modalConfirm.data)
+                possibleResultsStore.possibleResultsService
+                  .updateSingleFiled({
+                    input: {
+                      _id: modalConfirm.data.id,
+                      [modalConfirm.data.dataField]: modalConfirm.data.value,
+                    },
+                  })
                   .then((res: any) => {
-                    if (res.status === 200) {
+                    if (res.updatePossibleResult.success) {
                       LibraryComponents.Atoms.Toast.success({
-                        message: `😊 Possible results updated.`,
+                        message: `😊 ${res.updatePossibleResult.message}`,
                       })
                       setModalConfirm({ show: false })
-                      Stores.possibleResultsStore.fetchListPossibleResults()
-                      window.location.reload()
+                      possibleResultsStore.fetchListPossibleResults()
                     }
                   })
               }

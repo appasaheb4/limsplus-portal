@@ -15,6 +15,7 @@ interface PossibleResultsListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  updatePossibleResults?: (values: any) => void
 }
 
 export const PossibleResultsList = observer((props: PossibleResultsListProps) => {
@@ -96,11 +97,10 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                         type="solid"
                         onClick={() => {}}
                       >
-                          {`Result: ${item.result}
+                        {`Result: ${item.result}
                          PossibleValue: ${item.possibleValue}
                          Ab Normal: ${item.abNormal}
                          Critical: ${item.critical}`}
-                      
                       </LibraryComponents.Atoms.Buttons.Button>
                     </div>
                   ))}
@@ -119,42 +119,55 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                 <LibraryComponents.Atoms.Grid cols={5}>
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Result"
-                    value={props.extraData.possibleResultStore?.result}
+                    value={
+                      props.extraData.possibleResultsStore?.possibleResults.result
+                    }
                     onChange={(result) => {
-                      props.extraData.updatePossibleResultStore({
-                        ...props.extraData.possibleResultStore,
-                        result,
-                      })
+                      props.updatePossibleResults &&
+                        props.updatePossibleResults({
+                          ...props.extraData.possibleResultsStore.possibleResults,
+                          result,
+                        })
                     }}
                   />
                   <LibraryComponents.Atoms.Form.Input
                     placeholder="Possible Value"
-                    value={props.extraData.possibleResultStore?.possibleValue}
+                    value={
+                      props.extraData.possibleResultsStore?.possibleResults
+                        .possibleValue
+                    }
                     onChange={(possibleValue) => {
-                      props.extraData.updatePossibleResultStore({
-                        ...props.extraData.possibleResultStore,
-                        possibleValue,
-                      })
+                      props.updatePossibleResults &&
+                        props.updatePossibleResults({
+                          ...props.extraData.possibleResultsStore.possibleResults,
+                          possibleValue,
+                        })
                     }}
                   />
                   <LibraryComponents.Atoms.Form.Toggle
                     label="AbNormal"
-                    value={props.extraData.possibleResultStore?.abNormal}
+                    value={
+                      props.extraData.possibleResultsStore?.possibleResults.abNormal
+                    }
                     onChange={(abNormal) => {
-                      props.extraData.updatePossibleResultStore({
-                        ...props.extraData.possibleResultStore,
-                        abNormal,
-                      })
+                      props.updatePossibleResults &&
+                        props.updatePossibleResults({
+                          ...props.extraData.possibleResultsStore.possibleResults,
+                          abNormal,
+                        })
                     }}
                   />
                   <LibraryComponents.Atoms.Form.Toggle
                     label="Critical"
-                    value={props.extraData.possibleResultStore?.critical}
+                    value={
+                      props.extraData.possibleResultsStore?.possibleResults.critical
+                    }
                     onChange={(critical) => {
-                      props.extraData.updatePossibleResultStore({
-                        ...props.extraData.possibleResultStore,
-                        critical,
-                      })
+                      props.updatePossibleResults &&
+                        props.updatePossibleResults({
+                          ...props.extraData.possibleResultsStore.possibleResults,
+                          critical,
+                        })
                     }}
                   />
 
@@ -163,9 +176,12 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                       size="medium"
                       type="solid"
                       onClick={() => {
-                        let result = props.extraData.possibleResultStore?.result
+                        let result =
+                          props.extraData.possibleResultsStore?.possibleResults
+                            .result
                         let possibleValue =
-                          props.extraData.possibleResultStore?.possibleValue
+                          props.extraData.possibleResultsStore?.possibleResults
+                            .possibleValue
                         let conclusionResult = row.conclusionResult || []
                         if (result === undefined || possibleValue === undefined)
                           return alert("Please enter value and code.")
@@ -191,14 +207,6 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                               "conclusionResult",
                               row._id
                             )
-                          props.extraData.updatePossibleResultStore({
-                            ...props.extraData.possibleResultStore,
-                            conclusionResult,
-                            result: "",
-                            possibleValue: "",
-                            abNormal: false,
-                            critical: false,
-                          })
                         }
                       }}
                     >
@@ -229,10 +237,12 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
                               ...firstArr,
                               ...secondArr,
                             ] as typeof props.extraData.possibleResultStore.conclusionResult
-                            props.extraData.updatePossibleResultStore({
-                              ...props.extraData.possibleResultStore,
-                              conclusionResult: finalArray,
-                            })
+                            props.updatePossibleResults &&
+                              props.updatePossibleResults({
+                                ...props.extraData.possibleResultsStore
+                                  .possibleResults,
+                                conclusionResult: finalArray,
+                              })
                             props.onUpdateItem &&
                               props.onUpdateItem(
                                 finalArray,

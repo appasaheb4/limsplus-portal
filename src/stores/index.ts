@@ -30,6 +30,9 @@ import { TestSampleMappingStore } from "@lp/features/collection/testSampleMappin
 import { CorporateClientsStore } from "@lp/features/collection/corporateClients/stores/corporateClients-store"
 import { DoctorsStore } from "@lp/features/collection/doctors/stores/doctors-store"
 import { RegistrationLocationsStore } from "@lp/features/collection/registrationLocations/stores/registrationLocations-store"
+import { PossibleResultsStore } from "@lp/features/collection/possibleResults/stores/possibleResults-store"
+import { LibraryStore } from "@lp/features/collection/library/stores/library-store"
+import { PriceListStore } from "@lp/features/collection/priceList/stores/priceList-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -66,6 +69,9 @@ export class Stores extends Store {
   corporateClientsStore!: CorporateClientsStore
   doctorsStore!: DoctorsStore
   registrationLocationsStore!: RegistrationLocationsStore
+  possibleResultsStore!: PossibleResultsStore
+  libraryStore!: LibraryStore
+  priceListStore!: PriceListStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -100,7 +106,10 @@ export class Stores extends Store {
     this.corporateClientsStore = new CorporateClientsStore()
     this.doctorsStore = new DoctorsStore()
     this.registrationLocationsStore = new RegistrationLocationsStore()
-
+    this.possibleResultsStore = new PossibleResultsStore()
+    this.libraryStore = new LibraryStore()
+    this.priceListStore = new PriceListStore()
+   
     // settings
     this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()
