@@ -5,96 +5,121 @@
  * @author limsplus
  */
 
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+//import * as Models from "../models"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  VERSION_UPGRADE,
+  DUPLICATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 class CorporateClientsService {
   listCorporateClients = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(
-          `master/corporateClients/listCorporateClients/${page}/${limit}/${env}/${role}`
-        )
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.corporateClientsStore.updateCorporateClientsList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addCorporateClients = (clients?: Models.CorporateClients) =>
+  addCorporateClients = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/corporateClients/addCorporateClients`, clients)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
-    })
-    versionUpgradeCorporateClient = (analyte?: Models.CorporateClients) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/corporateClients/versionUpgradeCorporateClient`, analyte)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })  
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  duplicateCorporateClient = (analyte?: Models.CorporateClients) =>
+  versionUpgradeCorporateClient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/corporateClients/duplicateCorporateClient`, analyte)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: VERSION_UPGRADE,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  deleteCorporateClients = (id: string) =>
+  duplicateCorporateClient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`master/corporateClients/deleteCorporateClients/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: DUPLICATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  deleteCorporateClients = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`master/corporateClients/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
-        })
-    })
-  checkExistsEnvCode = (code: string, env: string) =>
-    new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/corporateClients/checkExistsEnvCode`, { code, env })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })  
+  checkExistsEnvCode = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
         })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

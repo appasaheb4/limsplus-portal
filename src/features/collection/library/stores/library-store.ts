@@ -1,21 +1,29 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import { Library } from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class LibraryStore {
+export class LibraryStore {
   @ignore @observable library!: Library
-  @observable listLibrary: Library[] = []
-  @observable listLibraryCount: number = 0 
-  @ignore @observable checkExistsLabEnvCode?: boolean = false
-
+  @observable listLibrary: Library[] 
+  @observable listLibraryCount: number 
+  @ignore @observable checkExistsLabEnvCode: boolean 
+  
   constructor() {
-    makeAutoObservable(this)
+    this.listLibrary = []
+    this.listLibraryCount = 0
+    this.checkExistsLabEnvCode = false
     this.library = {
       ...this.library,
       abNormal: false,
     }
+    makeObservable<LibraryStore, any>(this, {
+      library: observable,
+      listLibrary: observable,
+      listLibraryCount: observable,
+      checkExistsLabEnvCode: observable,
+    })
   }
 
   @computed get libraryService() {
@@ -23,11 +31,13 @@ class LibraryStore {
   }
 
   @action fetchLibrary(page?,limit?) {
-    this.libraryService.listLibrary(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.listLibrary = res.data.library
-      this.listLibraryCount = res.data.count
-    })
+    this.libraryService.listLibrary(page,limit)
+  }
+
+  @action updateLibraryList(res: any){
+    if (!res.librarys.success) return alert(res.librarys.message)
+    this.listLibrary = res.librarys.data
+    this.listLibraryCount = res.librarys.paginatorInfo.count
   }
 
   @action updateLibrary(library: Library) {
@@ -38,5 +48,3 @@ class LibraryStore {
     this.checkExistsLabEnvCode = status
   }
 }
-
-export default LibraryStore

@@ -4,69 +4,90 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+//import * as Models from "../models"
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
+import {
+  LIST,
+  REMOVE_RECORDS,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+} from "./mutation"
 
 export class PossibleResultsService {
-  listPossibleResults = (page=0,limit=10) =>
+  listPossibleResults = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
-      http
-        .get(`/master/possibleResults/listPossibleResults/${page}/${limit}/${env}/${role}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.possibleResultsStore.updatePossibleResultList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addPossibleResults = (lookup?: Models.PossibleResults) =>
+  addPossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/possibleResults/addPossibleResults`, lookup)
-        .then((res) => {
-          resolve(res.data)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  deletePossibleResults = (id: string) =>
+  deletePossibleResults = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/master/possibleResults/deletePossibleResults/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORDS,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/possibleResults/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-    checkExistsEnvCode = (code: string, env: string) =>
+  checkExistsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/master/possibleResults/checkExistsEnvCode`, { code, env })
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_RECORD,
+          variables,
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 }

@@ -4,15 +4,11 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
+import { useForm, Controller } from "react-hook-form"
+import dayjs from "dayjs"
 
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { useForm, Controller } from "react-hook-form"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
-import { Stores as CoporateClients } from "@lp/features/collection/corporateClients/stores"
-import { Stores as PanelMaster } from "@lp/features/collection/masterPanel/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
+
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -24,50 +20,58 @@ export const PriceList = observer(() => {
     setValue,
     // clearErrors,
   } = useForm()
-  const { loginStore } = useStores()
+  const {
+    loginStore,
+    labStore,
+    corporateClientsStore,
+    masterPanelStore,
+    priceListStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.priceListStore.updatePriceList({
-        ...Stores.priceListStore.priceList,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      priceListStore.updatePriceList({
+        ...priceListStore.priceList,
+        lab: loginStore.login.lab,
+        environment: loginStore.login.environment,
       })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("lab", loginStore.login.lab)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitPriceList = async () => {
-    if (!Stores.priceListStore.checkExitsPriceGEnvLabCode) {
+    if (!priceListStore.checkExitsPriceGEnvLabCode) {
       if (
-        !Stores.priceListStore.priceList?.existsVersionId &&
-        !Stores.priceListStore.priceList?.existsRecordId
+        !priceListStore.priceList?.existsVersionId &&
+        !priceListStore.priceList?.existsRecordId
       ) {
-        Stores.priceListStore.priceListService
+        priceListStore.priceListService
           .addPriceList({
             input: {
-              ...Stores.priceListStore.priceList,
-              enteredBy: stores.loginStore.login.userId,
+              ...priceListStore.priceList,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
-            if (res.addPriceList.success) {
+            if (res.createPriceList.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.addPriceList.message}`,
+                message: `😊 ${res.createPriceList.message}`,
               })
             }
           })
       } else if (
-        Stores.priceListStore.priceList?.existsVersionId &&
-        !Stores.priceListStore.priceList?.existsRecordId
+        priceListStore.priceList?.existsVersionId &&
+        !priceListStore.priceList?.existsRecordId
       ) {
-        Stores.priceListStore.priceListService
+        priceListStore.priceListService
           .versionUpgradePriceList({
             input: {
-              ...Stores.priceListStore.priceList,
-              enteredBy: stores.loginStore.login.userId,
+              ...priceListStore.priceList,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
             },
           })
           .then((res) => {
@@ -78,14 +82,15 @@ export const PriceList = observer(() => {
             }
           })
       } else if (
-        !Stores.priceListStore.priceList?.existsVersionId &&
-        Stores.priceListStore.priceList?.existsRecordId
+        !priceListStore.priceList?.existsVersionId &&
+        priceListStore.priceList?.existsRecordId
       ) {
-        Stores.priceListStore.priceListService
+        priceListStore.priceListService
           .duplicatePriceList({
             input: {
-              ...Stores.priceListStore.priceList,
-              enteredBy: stores.loginStore.login.userId,
+              ...priceListStore.priceList,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
             },
           })
           .then((res) => {
@@ -110,14 +115,11 @@ export const PriceList = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -125,7 +127,7 @@ export const PriceList = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -142,53 +144,47 @@ export const PriceList = observer(() => {
                     hasError={errors.panelCode}
                   >
                     <select
-                      value={Stores.priceListStore.priceList.panelCode}
+                      value={priceListStore.priceList.panelCode}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelCode
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.panelCode ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const panel = JSON.parse(e.target.value) as any
                         onChange(panel)
                         setValue("panelName", panel.panelName)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           panelCode: panel.panelCode,
                           panelName: panel.panelName,
                         })
-                        if (!Stores.priceListStore.priceList?.existsVersionId) {
-                          Stores.priceListStore.priceListService
+                        if (!priceListStore.priceList?.existsVersionId) {
+                          priceListStore.priceListService
                             .checkExitsPriceGEnvLabCode({
                               input: {
-                                priceGroup:
-                                  Stores.priceListStore.priceList.priceGroup,
-                                environment:
-                                  Stores.priceListStore.priceList.environment,
-                                lab: Stores.priceListStore.priceList?.lab,
-                                panelCode: panel.panelCode,
+                                priceGroup: priceListStore.priceList.priceGroup,
+                                env: priceListStore.priceList.environment,
+                                lab: priceListStore.priceList?.lab,
+                                code: panel.panelCode,
                               },
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  true
-                                )
+                              if (res.checkPriceListExistsRecord.success) {
+                                priceListStore.updateExitsPriceGEnvLabCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
+                                  message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  false
-                                )
+                                priceListStore.updateExitsPriceGEnvLabCode(false)
                             })
                         }
                       }}
                     >
-                      <option selected>Select</option>
-                      {PanelMaster.masterPanelStore.listMasterPanel &&
-                        PanelMaster.masterPanelStore.listMasterPanel.map(
+                      <option selected>
+                        {priceListStore.priceList.panelCode || "Select"}
+                      </option>
+                      {masterPanelStore.listMasterPanel &&
+                        masterPanelStore.listMasterPanel.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.panelName} - ${item.panelCode}  `}
@@ -202,7 +198,7 @@ export const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.priceListStore.checkExitsPriceGEnvLabCode && (
+              {priceListStore.checkExitsPriceGEnvLabCode && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -214,7 +210,7 @@ export const PriceList = observer(() => {
                     label="Panel Name"
                     name="txtPanelName"
                     disabled={true}
-                    value={Stores.priceListStore.priceList?.panelName}
+                    value={priceListStore.priceList?.panelName}
                     placeholder={
                       errors.panelName ? "Please Enter Panel Name" : "Panel Name"
                     }
@@ -237,22 +233,20 @@ export const PriceList = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.priority
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.priority ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const priority = e.target.value as string
                         onChange(priority)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           priority,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PRIORIITY"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -275,48 +269,41 @@ export const PriceList = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.priceGroup
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.priceGroup ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const priceGroup = e.target.value as string
                         onChange(priceGroup)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           priceGroup,
                         })
-                        if (!Stores.priceListStore.priceList?.existsVersionId) {
-                          Stores.priceListStore.priceListService
+                        if (!priceListStore.priceList?.existsVersionId) {
+                          priceListStore.priceListService
                             .checkExitsPriceGEnvLabCode({
                               input: {
                                 priceGroup,
-                                environment:
-                                  Stores.priceListStore.priceList.environment,
-                                lab: Stores.priceListStore.priceList?.lab,
-                                panelCode: Stores.priceListStore.priceList.panelCode,
+                                env: priceListStore.priceList.environment,
+                                lab: priceListStore.priceList?.lab,
+                                code: priceListStore.priceList.panelCode,
                               },
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  true
-                                )
+                              if (res.checkPriceListExistsRecord.success) {
+                                priceListStore.updateExitsPriceGEnvLabCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
+                                  message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  false
-                                )
+                                priceListStore.updateExitsPriceGEnvLabCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "PRICE_GROUP"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -347,8 +334,8 @@ export const PriceList = observer(() => {
                         onChange(corporateClientsInfo.corporateCode)
                         console.log({ corporateClientsInfo })
 
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           billTo: corporateClientsInfo.corporateCode,
                           clientName: corporateClientsInfo.corporateName,
                           invoiceAc: corporateClientsInfo.invoiceAc,
@@ -356,8 +343,8 @@ export const PriceList = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {CoporateClients.corporateClientsStore.listCorporateClients &&
-                        CoporateClients.corporateClientsStore.listCorporateClients.map(
+                      {corporateClientsStore.listCorporateClients &&
+                        corporateClientsStore.listCorporateClients.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.corporateCode} - ${item.corporateName}`}
@@ -371,9 +358,7 @@ export const PriceList = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              <label className="hidden">
-                {Stores.priceListStore.priceList.clientName}
-              </label>
+              <label className="hidden">{priceListStore.priceList.clientName}</label>
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -381,13 +366,11 @@ export const PriceList = observer(() => {
                     label="Client Name"
                     placeholder="Client Name"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.clientName
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.clientName ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.clientName}
                     disabled={true}
-                    value={Stores.priceListStore.priceList?.clientName}
+                    value={priceListStore.priceList?.clientName}
                   />
                 )}
                 name="clientName"
@@ -402,13 +385,11 @@ export const PriceList = observer(() => {
                     label="Invoice Ac"
                     placeholder="Invoice Ac"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.invoiceAc
-                        ? "border-red-500  "
-                        : "border-gray-300"
+                      errors.invoiceAc ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     hasError={errors.invoiceAc}
                     disabled={true}
-                    value={Stores.priceListStore.priceList?.invoiceAc}
+                    value={priceListStore.priceList?.invoiceAc}
                   />
                 )}
                 name="invoiceAc"
@@ -423,10 +404,9 @@ export const PriceList = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.priceListStore.priceList?.lab}
+                      value={priceListStore.priceList?.lab}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -436,47 +416,39 @@ export const PriceList = observer(() => {
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           lab,
                         })
-                        if (!Stores.priceListStore.priceList?.existsVersionId) {
-                          Stores.priceListStore.priceListService
+                        if (!priceListStore.priceList?.existsVersionId) {
+                          priceListStore.priceListService
                             .checkExitsPriceGEnvLabCode({
                               input: {
-                                priceGroup:
-                                  Stores.priceListStore.priceList.priceGroup,
-                                environment:
-                                  Stores.priceListStore.priceList.environment,
+                                priceGroup: priceListStore.priceList.priceGroup,
+                                env: priceListStore.priceList.environment,
                                 lab,
-                                panelCode: Stores.priceListStore.priceList.panelCode,
+                                code: priceListStore.priceList.panelCode,
                               },
                             })
                             .then((res) => {
                               console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  true
-                                )
+                              if (res.checkPriceListExistsRecord.success) {
+                                priceListStore.updateExitsPriceGEnvLabCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
+                                  message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  false
-                                )
+                                priceListStore.updateExitsPriceGEnvLabCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -493,11 +465,11 @@ export const PriceList = observer(() => {
                     placeholder={errors.price ? "Please Enter Price" : "Price"}
                     type="number"
                     hasError={errors.price}
-                    value={Stores.priceListStore.priceList?.price}
+                    value={priceListStore.priceList?.price}
                     onChange={(price) => {
                       onChange(price)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
                         price: parseFloat(price),
                       })
                     }}
@@ -525,12 +497,12 @@ export const PriceList = observer(() => {
                     }
                     type="number"
                     hasError={errors.fixedPrice}
-                    value={Stores.priceListStore.priceList?.fixedPrice}
+                    value={priceListStore.priceList?.fixedPrice}
                     onChange={(fixedPrice) => {
                       onChange(fixedPrice)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
-                        fixedPrice,
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        fixedPrice: parseFloat(fixedPrice),
                       })
                     }}
                   />
@@ -545,14 +517,15 @@ export const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Min SP"
                     name="txtMinSp"
+                    type="number"
                     placeholder={errors.minSp ? "Please Enter Min SP" : " Min Sp"}
                     hasError={errors.minSp}
-                    value={Stores.priceListStore.priceList?.minSp}
+                    value={priceListStore.priceList?.minSp}
                     onChange={(minSp) => {
                       onChange(minSp)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
-                        minSp,
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        minSp: parseInt(minSp),
                       })
                     }}
                   />
@@ -567,14 +540,15 @@ export const PriceList = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Max SP"
                     name="txtMaxSp"
+                    type="number"
                     placeholder={errors.maxSp ? "Please Enter Min SP" : " Min Sp"}
                     hasError={errors.minSp}
-                    value={Stores.priceListStore.priceList?.maxSp}
+                    value={priceListStore.priceList?.maxSp}
                     onChange={(maxSp) => {
                       onChange(maxSp)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
-                        maxSp,
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        maxSp: parseInt(maxSp),
                       })
                     }}
                   />
@@ -592,22 +566,20 @@ export const PriceList = observer(() => {
                   >
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.speicalScheme
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.speicalScheme ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const speicalScheme = e.target.value as string
                         onChange(speicalScheme)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           speicalScheme,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SPEICAL_SCHEME"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -633,11 +605,11 @@ export const PriceList = observer(() => {
                         : " Scheme Price"
                     }
                     hasError={errors.schemePrice}
-                    value={Stores.priceListStore.priceList?.maxSp}
+                    value={priceListStore.priceList?.maxSp}
                     onChange={(schemePrice) => {
                       onChange(schemePrice)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
                         schemePrice,
                       })
                     }}
@@ -656,7 +628,7 @@ export const PriceList = observer(() => {
                       errors.userId ? "Please Enter Entered By" : "Entered By"
                     }
                     hasError={errors.userId}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -672,24 +644,22 @@ export const PriceList = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.priceListStore.priceList?.status}
+                      value={priceListStore.priceList?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.status
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           status,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -700,7 +670,7 @@ export const PriceList = observer(() => {
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="status"
-                rules={{ required: false }}
+                rules={{ required: true }}
                 defaultValue=""
               />
 
@@ -712,11 +682,11 @@ export const PriceList = observer(() => {
                       label="Any Scheme"
                       id="modeAnyScheme"
                       hasError={errors.anyScheme}
-                      value={Stores.priceListStore.priceList?.anyScheme}
+                      value={priceListStore.priceList?.anyScheme}
                       onChange={(anyScheme) => {
                         onChange(anyScheme)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           anyScheme,
                         })
                       }}
@@ -733,11 +703,11 @@ export const PriceList = observer(() => {
                       label="Dis On Scheme"
                       id="modeDisOnScheme"
                       hasError={errors.disOnScheme}
-                      value={Stores.priceListStore.priceList?.disOnScheme}
+                      value={priceListStore.priceList?.disOnScheme}
                       onChange={(disOnScheme) => {
                         onChange(disOnScheme)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           disOnScheme,
                         })
                       }}
@@ -763,61 +733,51 @@ export const PriceList = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={Stores.priceListStore.priceList?.environment}
+                      value={priceListStore.priceList?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.priceListStore.updatePriceList({
-                          ...Stores.priceListStore.priceList,
+                        priceListStore.updatePriceList({
+                          ...priceListStore.priceList,
                           environment,
                         })
-                        if (!Stores.priceListStore.priceList?.existsVersionId) {
-                          Stores.priceListStore.priceListService
+                        if (!priceListStore.priceList?.existsVersionId) {
+                          priceListStore.priceListService
                             .checkExitsPriceGEnvLabCode({
                               input: {
-                                priceGroup:
-                                  Stores.priceListStore.priceList.priceGroup,
-                                environment,
-                                lab: Stores.priceListStore.priceList.lab,
-                                panelCode: Stores.priceListStore.priceList.panelCode,
+                                priceGroup: priceListStore.priceList.priceGroup,
+                                env: environment,
+                                lab: priceListStore.priceList.lab,
+                                code: priceListStore.priceList.panelCode,
                               },
                             })
                             .then((res) => {
-                              console.log({ res })
-                              if (res.checkExitsPriceGEnvLabCodePriceList.success) {
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  true
-                                )
+                              if (res.checkPriceListExistsRecord.success) {
+                                priceListStore.updateExitsPriceGEnvLabCode(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsPriceGEnvLabCodePriceList.message}`,
+                                  message: `😔 ${res.checkPriceListExistsRecord.message}`,
                                 })
                               } else
-                                Stores.priceListStore.updateExitsPriceGEnvLabCode(
-                                  false
-                                )
+                                priceListStore.updateExitsPriceGEnvLabCode(false)
                             })
                         }
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.priceListStore.priceList?.environment || `Select`}
+                          : priceListStore.priceList?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -842,9 +802,9 @@ export const PriceList = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(Stores.priceListStore.priceList?.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(priceListStore.priceList?.dateCreation).format(
+                      "YYYY-MM-DD"
+                    )}
                     disabled={true}
                   />
                 )}
@@ -862,9 +822,9 @@ export const PriceList = observer(() => {
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={LibraryUtils.moment
-                      .unix(Stores.priceListStore.priceList?.dateActive || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(priceListStore.priceList?.dateActive).format(
+                      "YYYY-MM-DD"
+                    )}
                     disabled={true}
                   />
                 )}
@@ -881,14 +841,15 @@ export const PriceList = observer(() => {
                       errors.dateExpiry ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.dateExpiry}
-                    value={LibraryUtils.moment
-                      .unix(Stores.priceListStore.priceList?.dateActive || 0)
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(priceListStore.priceList?.dateExpire).format(
+                      "YYYY-MM-DD"
+                    )}
                     onChange={(e) => {
-                      const dateExpiry = new Date(e.target.value)
-                      Stores.priceListStore.updatePriceList({
-                        ...Stores.priceListStore.priceList,
-                        dateExpiry: LibraryUtils.moment(dateExpiry).unix(),
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        dateExpire,
                       })
                     }}
                   />
@@ -904,26 +865,11 @@ export const PriceList = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.priceListStore.priceList?.version}
+                    value={priceListStore.priceList?.version}
                     disabled={true}
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.priceListStore.priceList?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -944,7 +890,6 @@ export const PriceList = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.labStore.clear();
                 window.location.reload()
               }}
             >
@@ -955,18 +900,18 @@ export const PriceList = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PriceList
-            data={Stores.priceListStore.listPriceList || []}
-            totalSize={Stores.priceListStore.listPriceListCount}
+            data={priceListStore.listPriceList || []}
+            totalSize={priceListStore.listPriceListCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listCorporateClients: CoporateClients.corporateClientsStore.listCorporateClients,
+              lookupItems: routerStore.lookupItems,
+              listCorporateClients: corporateClientsStore.listCorporateClients,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
-            )}   
+            )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -1007,7 +952,7 @@ export const PriceList = observer(() => {
               })
             }}
             // onPageSizeChange={() => {
-            //   Stores.priceListStore.fetchListPriceList()
+            //   priceListStore.fetchListPriceList()
             // }}
           />
         </div>
@@ -1015,68 +960,69 @@ export const PriceList = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
-              Stores.priceListStore.priceListService
+              priceListStore.priceListService
                 .deletePriceList({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.deletePriceList.success) {
+                  if (res.removePriceList.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.deletePriceList.message}`,
+                      message: `😊 ${res.removePriceList.message}`,
                     })
                     setModalConfirm({ show: false })
-                   // Stores.priceListStore.fetchListPriceList()
-                   setTimeout(() => {
-                     window.location.reload()
-                   }, 2000);
+                    priceListStore.fetchListPriceList()
                   }
                 })
             } else if (type === "update") {
-              Stores.priceListStore.priceListService
+              priceListStore.priceListService
                 .updateSingleFiled({
                   input: {
-                    ...modalConfirm.data,
-                    value: JSON.stringify(modalConfirm.data.value),
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
-                })  
+                })
                 .then((res: any) => {
-                  LibraryComponents.Atoms.Toast.success({
-                    message: `😊 ${res.updateSingleFiledPriceList.message}`,
-                  })
-                  setModalConfirm({ show: false })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
+                  if (res.updatePriceList.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.updatePriceList.message}`,
+                    })
+                    setModalConfirm({ show: false })
+                    priceListStore.fetchListPriceList()
+                  }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.priceListStore.updatePriceList({
+              priceListStore.updatePriceList({
                 ...modalConfirm.data,
                 _id: undefined,
                 __typename: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
-                dateCreation: LibraryUtils.moment().unix(),
+                version: parseInt(modalConfirm.data.version + 1),
+                dateCreation: new Date(),
               })
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("panelName", modalConfirm.data.panelName)
               setValue("billTo", modalConfirm.data.billTo)
               setValue("lab", modalConfirm.data.lab)
+              setValue("priceGroup", modalConfirm.data.priceGroup)
               setValue("price", modalConfirm.data.price)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
             } else if (type === "duplicate") {
-              Stores.priceListStore.updatePriceList({
+              priceListStore.updatePriceList({
                 ...modalConfirm.data,
                 _id: undefined,
                 __typename: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateCreation: LibraryUtils.moment().unix(),
+                dateCreation: new Date(),
               })
               setValue("panelCode", modalConfirm.data.panelCode)
               setValue("panelName", modalConfirm.data.panelName)
               setValue("billTo", modalConfirm.data.billTo)
               setValue("lab", modalConfirm.data.lab)
+              setValue("priceGroup", modalConfirm.data.priceGroup)
               setValue("price", modalConfirm.data.price)
+              setValue("status", modalConfirm.data.status)
               setValue("environment", modalConfirm.data.environment)
             }
           }}

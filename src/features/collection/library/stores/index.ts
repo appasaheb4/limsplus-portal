@@ -1,6 +1,6 @@
 import React from "react"
 
-import LibraryStore from "./library-store"
+import {LibraryStore} from "./library-store"
 
 export const Stores = {
   libraryStore: new LibraryStore(),

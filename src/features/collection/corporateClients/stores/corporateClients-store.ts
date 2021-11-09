@@ -40,11 +40,11 @@ export class CorporateClientsStore {
   @action fetchCorporateClients(page?, limit?) {
     this.corporateClientsService.listCorporateClients(page, limit)
   }
-
+  
   @action updateCorporateClientsList(res: any) {
-    if (!res.success) return alert(res.message)
-    this.listCoporateClientsCount = res.data.count
-    this.listCorporateClients = res.data.corporateClients
+    if (!res.corporateClients.success) return alert(res.corporateClients.message)
+    this.listCoporateClientsCount = res.corporateClients.paginatorInfo.count
+    this.listCorporateClients = res.corporateClients.data
   }
 
   @action updateCorporateClients(clients: Models.CorporateClients) {
