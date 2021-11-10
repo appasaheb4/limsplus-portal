@@ -50,7 +50,8 @@ const Role = observer(() => {
           })
         }
         setTimeout(() => {
-          roleStore.fetchListRole()
+          // roleStore.fetchListRole()
+          window.location.reload()
         }, 2000)
       })
     } else {

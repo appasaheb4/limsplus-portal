@@ -91,8 +91,7 @@ export const Users = observer(() => {
               message: `😊 ${res.createUser.message}`,
             })
             setTimeout(() => {
-              userStore.loadUser()
-              // window.location.reload()
+              window.location.reload()
             }, 2000)
           } else {
             LibraryComponents.Atoms.Toast.error({
@@ -383,6 +382,7 @@ export const Users = observer(() => {
                       hasError={errors.validationLevel}
                     >
                       <select
+                      value={userStore && userStore.user?.validationLevel}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
                             ? "border-red-500"

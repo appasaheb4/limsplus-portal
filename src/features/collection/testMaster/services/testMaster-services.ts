@@ -63,6 +63,7 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -78,6 +79,7 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -108,6 +110,7 @@ class TestMasterService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testMasterStore.updateTestMaster(new Model.TestMaster({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

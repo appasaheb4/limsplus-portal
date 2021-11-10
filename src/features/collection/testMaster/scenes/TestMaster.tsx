@@ -128,8 +128,8 @@ const TestMater = observer(() => {
           })
       }
       setTimeout(() => {
-        testMasterStore.fetchTestMaster()
-        // window.location.reload()
+        // testMasterStore.fetchTestMaster()
+        window.location.reload()
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -548,6 +548,7 @@ const TestMater = observer(() => {
                     hasError={errors.validationLevel}
                   >  
                     <select
+                    value={testMasterStore && testMasterStore.testMaster?.validationLevel}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
                           ? "border-red-500  "

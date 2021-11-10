@@ -28,6 +28,7 @@ export class UserStore {
         .format("YYYY-MM-DD HH:mm:ss"),
       confidential: false,
       confirguration: false,
+      validationLevel:0
     })
     makeObservable<UserStore, any>(this, {
       user: observable,

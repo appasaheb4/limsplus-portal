@@ -76,7 +76,6 @@ const Lab = observer(() => {
         }
       })
       setTimeout(() => {
-        labStore.fetchListLab()
         window.location.reload()
       }, 1000)
     } else {
