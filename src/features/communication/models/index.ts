@@ -5,7 +5,7 @@ export interface UpdateItem {
   dataField: string
   id: string
 }
-
+  
 export interface MappingValues {
   segments?: string
   field?: string

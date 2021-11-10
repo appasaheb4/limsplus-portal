@@ -1,11 +1,12 @@
-import { Stores } from "../stores"
+import { stores } from "@lp/stores"
 import { InterfaceManager } from "../interfaceManager/models"
-import { SegmentMapping, MappingValues } from "../models"
+import { MappingValues } from "../models"
+import { SegmentMapping } from "../segmentMapping/models"
 import { decode } from "@lp/library/modules/parser/HL7"
-  
+
 class HostCommunicationFlows {
   mapping = async (interfaceManager: InterfaceManager) => {
-    const data = Stores.segmentMappingStore.listSegmentMapping
+    const data = stores.segmentMappingStore.listSegmentMapping
     const mapping: any[] = []
     const values: MappingValues[] = []
     const dataFlowFrom =
@@ -70,16 +71,16 @@ class HostCommunicationFlows {
           }
           const hl7 = decode(
             message,
-            Stores.hostCommunicationStore.selectedInterfaceManager,
+            stores.hostCommunicationStore.selectedInterfaceManager,
             mapping
           )
           if (!hl7) return alert("Please enter correct message")
-          Stores.hostCommunicationStore.updateConvertTo({
-            ...Stores.hostCommunicationStore.convertTo,
+          stores.hostCommunicationStore.updateConvertTo({
+            ...stores.hostCommunicationStore.convertTo,
             hl7,
           })
-          Stores.hostCommunicationStore.updateHostCommuication({
-            ...Stores.hostCommunicationStore.hostCommuication,
+          stores.hostCommunicationStore.updateHostCommuication({
+            ...stores.hostCommunicationStore.hostCommuication,
             // txtDataReceivefromInstrument: "",
           })
         }
@@ -89,13 +90,13 @@ class HostCommunicationFlows {
     })
 
   newMessage = (message?: any) => {
-    Stores.hostCommunicationStore.updateHostCommuication({
-      ...Stores.hostCommunicationStore.hostCommuication,
+    stores.hostCommunicationStore.updateHostCommuication({
+      ...stores.hostCommunicationStore.hostCommuication,
       txtDataReceivefromInstrument: message,
       convertTo: "",
     })
-    Stores.hostCommunicationStore.updateConvertTo({
-      ...Stores.hostCommunicationStore.convertTo,
+    stores.hostCommunicationStore.updateConvertTo({
+      ...stores.hostCommunicationStore.convertTo,
       hl7: undefined,
     })
   }

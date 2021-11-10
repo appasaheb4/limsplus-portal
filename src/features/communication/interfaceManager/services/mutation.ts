@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 
 export const LIST = gql`
-  mutation($input: RoleInput!) {
-    roles(input: $input) {
+  mutation($input: InterfaceManagerInput!) {
+    interfaceManagers(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,19 +10,27 @@ export const LIST = gql`
       message
       data {
         _id
-        code
-        description
+        interfaceType
+        instrumentType
+        instrumentName
+        dataFlowFrom
+        communicationProtocol
+        blockStart
+        blockEnd
+        filed
+        value
+        fileds
         environment
         dateOfEntry
         lastUpdated
       }
     }
   }
-`  
+`
 
 export const REMOVE_RECORD = gql`
-  mutation($input: RoleRemoveInput!) {
-    removeRole(input: $input) {
+  mutation($input: InterfaceManagerRemoveInput!) {
+    removeInterfaceManager(input: $input) {
       success
       message
     }
@@ -30,17 +38,17 @@ export const REMOVE_RECORD = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateRoleInput!) {
-    createRole(input: $input) {
+  mutation($input: CreateInterfaceManagerInput!) {
+    createInterfaceManager(input: $input) {
       success
       message
     }
   }
 `
-  
+
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateRoleInput!) {
-    updateRole(input: $input) {
+  mutation($input: UpdateInterfaceManagerInput!) {
+    updateInterfaceManager(input: $input) {
       success
       message
     }

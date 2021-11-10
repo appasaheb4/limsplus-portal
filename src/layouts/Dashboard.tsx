@@ -27,7 +27,6 @@ import * as Role from "@lp/features/collection/roles"
 import * as Department from "@lp/features/collection/department"
 import * as User from "@lp/features/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
-import * as Communication from "@lp/features/communication"
 import * as EnvironmentSettings from "@lp/features/settings/environment"
 import * as Lookup from "@lp/features/collection/lookup"
 import * as MasterAnalyte from "@lp/features/collection/masterAnalyte"
@@ -51,7 +50,11 @@ import * as PossibleResults from "@lp/features/collection/possibleResults"
 import * as Library from "@lp/features/collection/library"
 import * as PriceList from "@lp/features/collection/priceList"
 import * as ReferenceRanges from "@lp/features/collection/referenceRanges"
+import * as SegmentMapping from "@lp/features/communication/segmentMapping"
 
+// communication
+import * as InterfaceManager from "@lp/features/communication/interfaceManager"
+import * as DataConveration from "@lp/features/communication/dataConversation"
 const Dashboard = observer(({ children }) => {
   const { loginStore } = useStores()
   const history: any = useHistory()
@@ -152,14 +155,12 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/settings/environmentSettings")
         await EnvironmentSettings.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
-      if (
-        pathname === "/communication/interfaceManager" ||
-        pathname === "/communication/mapping/conversationMapping" ||
-        pathname === "/communication/mapping/segmentMapping" ||
-        pathname === "/collection/referenceRanges"
-      )
-        await Communication.startup()
-
+      if (pathname === "/communication/interfaceManager")
+        await InterfaceManager.startup()
+      if (pathname === "/communication/mapping/conversationMapping")
+        await DataConveration.startup()
+      if (pathname === "/communication/mapping/segmentMapping")
+        await SegmentMapping.startup()
       // global
       stores
     }
@@ -263,7 +264,7 @@ const Dashboard = observer(({ children }) => {
 
   const { getLastActiveTime } = useIdleTimer({
     timeout: 1000 * 60 * (loginStore.login?.sessionTimeoutCount || 10),
-    onIdle: handleOnIdle,  
+    onIdle: handleOnIdle,
     // onActive: handleOnActive,
     // onAction: handleOnAction,
     debounce: 500,

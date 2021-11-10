@@ -1,13 +1,13 @@
-import { Stores } from "../stores"
-import * as Models from "../models"
 import { decode } from "@lp/library/modules/parser/HEX"
 import { toJS } from "mobx"
+import {stores} from '@lp/stores'
+import {DataConversation} from '../dataConversation/models'
 
 class HexToAsciiFlow {
   conversationMapping = async () => {
-    const data = Stores.conversationMappingStore.listConversationMapping
-    const values: Models.ConversationMapping[] = []
-    data?.forEach((item: Models.ConversationMapping) => {
+    const data =  stores.dataConversationStore.listdataConversation
+    const values: DataConversation[] | any = []
+    data?.forEach((item: DataConversation) => {
       values.push({
         hexadecimal: item.hexadecimal,
         ascii:
@@ -30,8 +30,8 @@ class HexToAsciiFlow {
     const conversationMapping = await this.conversationMapping()
     if ((await conversationMapping).length > 0) {
       const ascii = decode(hex, toJS(conversationMapping))
-      Stores.hostCommunicationStore.updateHostCommuication({
-        ...Stores.hostCommunicationStore.hostCommuication,
+      stores.hostCommunicationStore.updateHostCommuication({
+        ...stores.hostCommunicationStore.hostCommuication,
         txtDataReceivefromInstrument:ascii
       })
     }  
