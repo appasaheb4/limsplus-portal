@@ -36,7 +36,9 @@ import { RefernceRangesStore } from "@lp/features/collection/referenceRanges/sto
 
 // communication
 import { InterfaceManagerStore } from "@lp/features/communication/interfaceManager/stores/interfaceManager-store"
-
+import { DataConversationStore } from "@lp/features/communication/dataConversation/stores/dataConversation-store"
+import {HostCommunicationStore} from '@lp/features/communication/hostCommunication/stores/hostCommunication-store'
+import {SegmentMappingStore} from '@lp/features/communication/segmentMapping/stores/segmentMapping-store'
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
 
@@ -52,7 +54,7 @@ export class Stores extends Store {
   labStore!: LabStore
   lookupStore!: LookupStore
   sectionStore!: SectionStore
-  interfaceManagerStore!: InterfaceManagerStore
+
   salesTeamStore!: SalesTeamStore
   deginisationStore!: DeginisationStore
   departmentStore!: DepartmentStore
@@ -76,6 +78,12 @@ export class Stores extends Store {
   libraryStore!: LibraryStore
   priceListStore!: PriceListStore
   refernceRangesStore!: RefernceRangesStore
+
+  // communication
+  interfaceManagerStore!: InterfaceManagerStore
+  dataConversationStore!: DataConversationStore
+  hostCommunicationStore!: HostCommunicationStore
+  segmentMappingStore!: SegmentMappingStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -116,10 +124,18 @@ export class Stores extends Store {
 
     // communication
     this.interfaceManagerStore = new InterfaceManagerStore()
-
+    this.dataConversationStore = new DataConversationStore()
+    this.hostCommunicationStore = new HostCommunicationStore()
+    this.segmentMappingStore = new SegmentMappingStore()
+  
     // settings
     this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()
+
+    //setTimeout(() => {
+      
+    // }, 100);
+
   }
   updateLoginStore() {
     this.loginStore = new LoginStore()

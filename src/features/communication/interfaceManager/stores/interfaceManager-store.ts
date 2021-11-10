@@ -36,9 +36,9 @@ export class InterfaceManagerStore {
   }
 
   @action updateInterfaceManagerList(res: any) {
-    if (!res.success) return alert(res.message)
-    this.listInterfaceManager = res.data.encodeCharacter
-    this.listInterfaceManagerCount = res.data.count
+    if (!res.interfaceManagers.success) return alert(res.interfaceManagers.message)
+    this.listInterfaceManager = res.interfaceManagers.data
+    this.listInterfaceManagerCount = res.interfaceManagers.paginatorInfo.count
   }
 
   @action updateInterfaceManager = (value: Models.InterfaceManager) => {

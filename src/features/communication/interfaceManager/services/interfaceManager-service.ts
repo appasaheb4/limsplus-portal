@@ -13,7 +13,6 @@
    UPDATE_RECORD,
    CHECK_EXISTS_RECORD,
  } from "./mutation"
- import * as Model from '../models'
  
  export class InterfaceManagerService {
     listInterfaceManager = (page = 0, limit = 10) =>
@@ -26,7 +25,7 @@
            variables: { input: { page, limit, env, role } },
          })
          .then((response: any) => {
-           stores.roleStore.updateRoleList(response.data)
+           stores.interfaceManagerStore.updateInterfaceManagerList(response.data)
            resolve(response.data)
          })
          .catch((error) =>

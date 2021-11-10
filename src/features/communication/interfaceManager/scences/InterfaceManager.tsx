@@ -6,7 +6,6 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -18,7 +17,7 @@ const InterfaceManager = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore,interfaceManagerStore,routerStore } = useStores()
+  const { loginStore, interfaceManagerStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddInterfaceManager, setHideAddInterfaceManager] = useState<boolean>(
     true
@@ -40,11 +39,13 @@ const InterfaceManager = observer(() => {
       interfaceManagerStore.interfaceManager.fileds?.length > 0
     ) {
       interfaceManagerStore.interfaceManagerService
-        .addInterfaceManager(interfaceManagerStore.interfaceManager)
+        .addInterfaceManager({
+          input: { ...interfaceManagerStore.interfaceManager },
+        })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createInterfaceManager.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Encode Character created.`,
+              message: `😊 ${res.createInterfaceManager.message}`,
             })
             setTimeout(() => {
               window.location.reload()
@@ -65,10 +66,7 @@ const InterfaceManager = observer(() => {
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddInterfaceManager}
           onClick={(status) => setHideAddInterfaceManager(!hideAddInterfaceManager)}
@@ -100,9 +98,7 @@ const InterfaceManager = observer(() => {
                         : "Interface Type"
                     }
                     hasError={errors.interfaceType}
-                    value={
-                      interfaceManagerStore.interfaceManager?.interfaceType
-                    }
+                    value={interfaceManagerStore.interfaceManager?.interfaceType}
                     onChange={(interfaceType) => {
                       onChange(interfaceType)
                       interfaceManagerStore.updateInterfaceManager({
@@ -129,9 +125,7 @@ const InterfaceManager = observer(() => {
                         : "Instrument Type"
                     }
                     hasError={errors.instrumentType}
-                    value={
-                      interfaceManagerStore.interfaceManager?.instrumentType
-                    }
+                    value={interfaceManagerStore.interfaceManager?.instrumentType}
                     onChange={(instrumentType) => {
                       onChange(instrumentType)
                       interfaceManagerStore.updateInterfaceManager({
@@ -157,9 +151,7 @@ const InterfaceManager = observer(() => {
                         : "Instrument Name"
                     }
                     hasError={errors.instrumentName}
-                    value={
-                      interfaceManagerStore.interfaceManager?.instrumentName
-                    }
+                    value={interfaceManagerStore.interfaceManager?.instrumentName}
                     onChange={(instrumentName) => {
                       onChange(instrumentName)
                       interfaceManagerStore.updateInterfaceManager({
@@ -185,9 +177,7 @@ const InterfaceManager = observer(() => {
                         : "Data Flow From"
                     }
                     hasError={errors.dataFlowFrom}
-                    value={
-                      interfaceManagerStore.interfaceManager?.dataFlowFrom
-                    }
+                    value={interfaceManagerStore.interfaceManager?.dataFlowFrom}
                     onChange={(dataFlowFrom) => {
                       onChange(dataFlowFrom)
                       interfaceManagerStore.updateInterfaceManager({
@@ -214,8 +204,7 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.communicationProtocal}
                     value={
-                      interfaceManagerStore.interfaceManager
-                        ?.communicationProtocol
+                      interfaceManagerStore.interfaceManager?.communicationProtocol
                     }
                     onChange={(communicationProtocol) => {
                       onChange(communicationProtocol)
@@ -252,9 +241,7 @@ const InterfaceManager = observer(() => {
                             : "Start Block"
                         }
                         hasError={errors.startBlock}
-                        value={
-                          interfaceManagerStore.interfaceManager?.blockStart
-                        }
+                        value={interfaceManagerStore.interfaceManager?.blockStart}
                         onChange={(blockStart) => {
                           onChange(blockStart)
                           interfaceManagerStore.updateInterfaceManager({
@@ -278,9 +265,7 @@ const InterfaceManager = observer(() => {
                           errors.endBlock ? "Please Enter endBlock" : "End Block"
                         }
                         hasError={errors.endBlock}
-                        value={
-                          interfaceManagerStore.interfaceManager?.blockEnd
-                        }
+                        value={interfaceManagerStore.interfaceManager?.blockEnd}
                         onChange={(blockEnd) => {
                           onChange(blockEnd)
                           interfaceManagerStore.updateInterfaceManager({
@@ -346,10 +331,8 @@ const InterfaceManager = observer(() => {
                       size="medium"
                       type="solid"
                       onClick={() => {
-                        const filed =
-                          interfaceManagerStore.interfaceManager?.filed
-                        const value =
-                          interfaceManagerStore.interfaceManager?.value
+                        const filed = interfaceManagerStore.interfaceManager?.filed
+                        const value = interfaceManagerStore.interfaceManager?.value
                         let fileds =
                           interfaceManagerStore.interfaceManager?.fileds || []
                         if (filed === undefined)
@@ -429,17 +412,12 @@ const InterfaceManager = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={
-                        interfaceManagerStore.interfaceManager?.environment
-                      }
+                      value={interfaceManagerStore.interfaceManager?.environment}
                       className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment
-                          ? "border-red-500  "
-                          : "border-gray-300"
+                        errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -453,11 +431,10 @@ const InterfaceManager = observer(() => {
                       }}
                     >
                       <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : interfaceManagerStore.interfaceManager
-                              ?.environment || `Select`}
+                          : interfaceManagerStore.interfaceManager?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
                         routerStore.lookupItems,
@@ -507,7 +484,7 @@ const InterfaceManager = observer(() => {
             extraData={{
               lookupItems: routerStore.lookupItems,
             }}
-            isDelete={RouterFlow.checkPermission(  
+            isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
               "Delete"
             )}
@@ -544,13 +521,11 @@ const InterfaceManager = observer(() => {
           click={(type) => {
             if (type === "Delete") {
               interfaceManagerStore.interfaceManagerService
-                .deleteInterfaceManager(modalConfirm.id)
+                .deleteInterfaceManager({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  console.log({ res })
-
-                  if (res.status === 200) {
+                  if (res.removeInterfaceManager.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊Interface manager deleted.`,
+                      message: `😊 ${res.removeInterfaceManager.message}`,
                     })
                     setModalConfirm({ show: false })
                     interfaceManagerStore.fetchEncodeCharacter()
@@ -558,11 +533,18 @@ const InterfaceManager = observer(() => {
                 })
             } else {
               interfaceManagerStore.interfaceManagerService
-                .interfaceManagerUpdateSingleFiled(modalConfirm.data)
+                .interfaceManagerUpdateSingleFiled({
+                  input: {
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
+                  },
+                })
                 .then((res) => {
-                  if (res.status === 200) {
+                  if (res.updateInterfaceManager.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.updateInterfaceManager.message}`,
+                    })
                     interfaceManagerStore.fetchEncodeCharacter()
-                    LibraryComponents.Atoms.Toast.success({ message: `😊Updated.` })
                   }
                 })
             }

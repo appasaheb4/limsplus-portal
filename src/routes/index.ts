@@ -84,16 +84,16 @@ const ReferenceRanges = async(() => import("@lp/features/collection/referenceRan
 
 // Communication
 const HostCommunication = async(
-  () => import("@lp/features/communication/scenes/HostCommunication")
+  () => import("@lp/features/communication/hostCommunication/scences/HostCommunication")
 )
 const SegmentMapping = async(
   () =>
-    import("@lp/features/communication/scenes/mapping/segmentMapping/SegmentMapping")
+    import("@lp/features/communication/segmentMapping/scences/SegmentMapping")
 )
-const ConversationMapping = async(
+const DataConversation = async(
   () =>
     import(
-      "@lp/features/communication/scenes/mapping/conversationMapping/ConversationMapping"
+      "@lp/features/communication/dataConversation/scences/DataConversation"
     )
 )
 const InterfaceManager = async(
@@ -346,7 +346,7 @@ const communicationRoutes = {
       path: "/communication/mapping/conversationMapping",
       name: "Conversation Mapping",
       icon: "LibraryComponents.Atoms.Icons.IconGi.GiConversation",
-      component: ConversationMapping,
+      component: DataConversation,
     },
     {
       path: "/communication/hostCommunication",
