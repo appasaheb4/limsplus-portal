@@ -120,8 +120,8 @@ const MasterAnalyte = observer(() => {
           })
       }
       setTimeout(() => {
-      masterAnalyteStore.fetchAnalyteMaster()
-        // window.location.reload()
+      // masterAnalyteStore.fetchAnalyteMaster()
+        window.location.reload()
       }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({

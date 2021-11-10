@@ -83,7 +83,7 @@ export const Department = observer(() => {
         }
       })
       setTimeout(() => {
-        departmentStore.fetchListDepartment()
+        // departmentStore.fetchListDepartment()
         window.location.reload()
       }, 2000)
     } else {
