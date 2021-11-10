@@ -89,6 +89,7 @@ export class RoleService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.roleStore.updateRole(new Model.Role({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

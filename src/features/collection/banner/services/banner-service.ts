@@ -96,6 +96,7 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          Stores.bannerStore.updateBanner(new Model.Banner({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -112,6 +113,7 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          Stores.bannerStore.updateBanner(new Model.Banner({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

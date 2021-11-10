@@ -37,6 +37,7 @@ export class TestMasterStore {
       oosHold: false,
       deltaHold: false,
       allowPartial: false,
+      validationLevel:0
     }
     makeObservable<TestMasterStore, any>(this, {
       testMaster: observable,
