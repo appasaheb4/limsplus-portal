@@ -1,12 +1,13 @@
 import { Stores } from "../stores"
-import * as Models from "../models"
+import { InterfaceManager } from "../interfaceManager/models"
+import { SegmentMapping, MappingValues } from "../models"
 import { decode } from "@lp/library/modules/parser/HL7"
-
+  
 class HostCommunicationFlows {
-  mapping = async (interfaceManager: Models.EncodeCharacter) => {
+  mapping = async (interfaceManager: InterfaceManager) => {
     const data = Stores.segmentMappingStore.listSegmentMapping
     const mapping: any[] = []
-    const values: Models.MappingValues[] = []
+    const values: MappingValues[] = []
     const dataFlowFrom =
       interfaceManager.dataFlowFrom !== undefined
         ? interfaceManager.dataFlowFrom
@@ -17,7 +18,7 @@ class HostCommunicationFlows {
             .replaceAll(/â/g, "’")
             .replaceAll(/â¦/g, "…")
         : undefined
-    data?.forEach((item: Models.SegmentMapping) => {
+    data?.forEach((item: SegmentMapping) => {
       if (
         item.equipmentType === interfaceManager.instrumentType &&
         item.dataFlowFrom === dataFlowFrom
@@ -79,8 +80,8 @@ class HostCommunicationFlows {
           })
           Stores.hostCommunicationStore.updateHostCommuication({
             ...Stores.hostCommunicationStore.hostCommuication,
-           // txtDataReceivefromInstrument: "",
-          })  
+            // txtDataReceivefromInstrument: "",
+          })
         }
       } catch (error) {
         reject(error)

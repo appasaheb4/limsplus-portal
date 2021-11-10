@@ -97,7 +97,7 @@ const ConversationMapping = async(
     )
 )
 const InterfaceManager = async(
-  () => import("@lp/features/communication/scenes/InterfaceManager")
+  () => import("@lp/features/communication/interfaceManager/scences/InterfaceManager")
 )
 
 // Settings

@@ -5,9 +5,9 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
+
+
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -18,29 +18,29 @@ const InterfaceManager = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore,interfaceManagerStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddInterfaceManager, setHideAddInterfaceManager] = useState<boolean>(
     true
   )
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.interfaceManagerStore.updateEncodeCharacter({
-        ...Stores.interfaceManagerStore.encodeCharacter,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      interfaceManagerStore.updateInterfaceManager({
+        ...interfaceManagerStore.interfaceManager,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitInterfaceManager = () => {
     if (
-      Stores.interfaceManagerStore.encodeCharacter &&
-      Stores.interfaceManagerStore.encodeCharacter.fileds &&
-      Stores.interfaceManagerStore.encodeCharacter.fileds?.length > 0
+      interfaceManagerStore.interfaceManager &&
+      interfaceManagerStore.interfaceManager.fileds &&
+      interfaceManagerStore.interfaceManager.fileds?.length > 0
     ) {
-      Stores.interfaceManagerStore.encodeCharacterService
-        .addInterfaceManager(Stores.interfaceManagerStore.encodeCharacter)
+      interfaceManagerStore.interfaceManagerService
+        .addInterfaceManager(interfaceManagerStore.interfaceManager)
         .then((res) => {
           if (res.status === 200) {
             LibraryComponents.Atoms.Toast.success({
@@ -61,12 +61,12 @@ const InterfaceManager = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
+        toJS(routerStore.userPermission),
         "Add"
       ) && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
@@ -101,12 +101,12 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.interfaceType}
                     value={
-                      Stores.interfaceManagerStore.encodeCharacter?.interfaceType
+                      interfaceManagerStore.interfaceManager?.interfaceType
                     }
                     onChange={(interfaceType) => {
                       onChange(interfaceType)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
+                      interfaceManagerStore.updateInterfaceManager({
+                        ...interfaceManagerStore.interfaceManager,
                         interfaceType,
                       })
                     }}
@@ -130,12 +130,12 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.instrumentType}
                     value={
-                      Stores.interfaceManagerStore.encodeCharacter?.instrumentType
+                      interfaceManagerStore.interfaceManager?.instrumentType
                     }
                     onChange={(instrumentType) => {
                       onChange(instrumentType)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
+                      interfaceManagerStore.updateInterfaceManager({
+                        ...interfaceManagerStore.interfaceManager,
                         instrumentType,
                       })
                     }}
@@ -158,12 +158,12 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.instrumentName}
                     value={
-                      Stores.interfaceManagerStore.encodeCharacter?.instrumentName
+                      interfaceManagerStore.interfaceManager?.instrumentName
                     }
                     onChange={(instrumentName) => {
                       onChange(instrumentName)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
+                      interfaceManagerStore.updateInterfaceManager({
+                        ...interfaceManagerStore.interfaceManager,
                         instrumentName,
                       })
                     }}
@@ -186,12 +186,12 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.dataFlowFrom}
                     value={
-                      Stores.interfaceManagerStore.encodeCharacter?.dataFlowFrom
+                      interfaceManagerStore.interfaceManager?.dataFlowFrom
                     }
                     onChange={(dataFlowFrom) => {
                       onChange(dataFlowFrom)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
+                      interfaceManagerStore.updateInterfaceManager({
+                        ...interfaceManagerStore.interfaceManager,
                         dataFlowFrom,
                       })
                     }}
@@ -214,13 +214,13 @@ const InterfaceManager = observer(() => {
                     }
                     hasError={errors.communicationProtocal}
                     value={
-                      Stores.interfaceManagerStore.encodeCharacter
+                      interfaceManagerStore.interfaceManager
                         ?.communicationProtocol
                     }
                     onChange={(communicationProtocol) => {
                       onChange(communicationProtocol)
-                      Stores.interfaceManagerStore.updateEncodeCharacter({
-                        ...Stores.interfaceManagerStore.encodeCharacter,
+                      interfaceManagerStore.updateInterfaceManager({
+                        ...interfaceManagerStore.interfaceManager,
                         communicationProtocol,
                       })
                     }}
@@ -253,12 +253,12 @@ const InterfaceManager = observer(() => {
                         }
                         hasError={errors.startBlock}
                         value={
-                          Stores.interfaceManagerStore.encodeCharacter?.blockStart
+                          interfaceManagerStore.interfaceManager?.blockStart
                         }
                         onChange={(blockStart) => {
                           onChange(blockStart)
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             blockStart,
                           })
                         }}
@@ -279,12 +279,12 @@ const InterfaceManager = observer(() => {
                         }
                         hasError={errors.endBlock}
                         value={
-                          Stores.interfaceManagerStore.encodeCharacter?.blockEnd
+                          interfaceManagerStore.interfaceManager?.blockEnd
                         }
                         onChange={(blockEnd) => {
                           onChange(blockEnd)
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             blockEnd,
                           })
                         }}
@@ -306,11 +306,11 @@ const InterfaceManager = observer(() => {
                         name="filed"
                         placeholder={errors.filed ? "Please Enter Filed" : "Filed"}
                         hasError={errors.filed}
-                        value={Stores.interfaceManagerStore.encodeCharacter?.filed}
+                        value={interfaceManagerStore.interfaceManager?.filed}
                         onChange={(filed) => {
                           onChange(filed)
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             filed,
                           })
                         }}
@@ -327,11 +327,11 @@ const InterfaceManager = observer(() => {
                         name="value"
                         placeholder={errors.value ? "Please Enter Value" : "Value"}
                         hasError={errors.value}
-                        value={Stores.interfaceManagerStore.encodeCharacter?.value}
+                        value={interfaceManagerStore.interfaceManager?.value}
                         onChange={(value) => {
                           onChange(value)
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             value,
                           })
                         }}
@@ -347,11 +347,11 @@ const InterfaceManager = observer(() => {
                       type="solid"
                       onClick={() => {
                         const filed =
-                          Stores.interfaceManagerStore.encodeCharacter?.filed
+                          interfaceManagerStore.interfaceManager?.filed
                         const value =
-                          Stores.interfaceManagerStore.encodeCharacter?.value
+                          interfaceManagerStore.interfaceManager?.value
                         let fileds =
-                          Stores.interfaceManagerStore.encodeCharacter?.fileds || []
+                          interfaceManagerStore.interfaceManager?.fileds || []
                         if (filed === undefined)
                           return alert("Please enter filed and value.")
                         if (filed !== undefined) {
@@ -366,12 +366,12 @@ const InterfaceManager = observer(() => {
                                   value,
                                 },
                               ])
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             fileds,
                           })
-                          Stores.interfaceManagerStore.updateEncodeCharacter({
-                            ...Stores.interfaceManagerStore.encodeCharacter,
+                          interfaceManagerStore.updateInterfaceManager({
+                            ...interfaceManagerStore.interfaceManager,
                             filed: "",
                             value: "",
                           })
@@ -390,7 +390,7 @@ const InterfaceManager = observer(() => {
                   justify="center"
                 >
                   <div>
-                    {Stores.interfaceManagerStore.encodeCharacter?.fileds?.map(
+                    {interfaceManagerStore.interfaceManager?.fileds?.map(
                       (item, index) => (
                         <div className="mb-2">
                           <LibraryComponents.Atoms.Buttons.Button
@@ -400,17 +400,17 @@ const InterfaceManager = observer(() => {
                             icon={LibraryComponents.Atoms.Icon.Remove}
                             onClick={() => {
                               const firstArr =
-                                Stores.interfaceManagerStore.encodeCharacter?.fileds?.slice(
+                                interfaceManagerStore.interfaceManager?.fileds?.slice(
                                   0,
                                   index
                                 ) || []
                               const secondArr =
-                                Stores.interfaceManagerStore.encodeCharacter?.fileds?.slice(
+                                interfaceManagerStore.interfaceManager?.fileds?.slice(
                                   index + 1
                                 ) || []
                               const newArrSubCategory = [...firstArr, ...secondArr]
-                              Stores.interfaceManagerStore.updateEncodeCharacter({
-                                ...Stores.interfaceManagerStore.encodeCharacter,
+                              interfaceManagerStore.updateInterfaceManager({
+                                ...interfaceManagerStore.interfaceManager,
                                 fileds: newArrSubCategory,
                               })
                             }}
@@ -430,7 +430,7 @@ const InterfaceManager = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
                       value={
-                        Stores.interfaceManagerStore.encodeCharacter?.environment
+                        interfaceManagerStore.interfaceManager?.environment
                       }
                       className={`leading-4 p-2 focus:ring-indigo-500 ocus:border-indigo-500 block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment
@@ -438,29 +438,29 @@ const InterfaceManager = observer(() => {
                           : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.interfaceManagerStore.updateEncodeCharacter({
-                          ...Stores.interfaceManagerStore.encodeCharacter,
+                        interfaceManagerStore.updateInterfaceManager({
+                          ...interfaceManagerStore.interfaceManager,
                           environment,
                         })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.interfaceManagerStore.encodeCharacter
+                          : interfaceManagerStore.interfaceManager
                               ?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -501,18 +501,18 @@ const InterfaceManager = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <FeatureComponents.Molecules.InterfaceManagerList
-            data={Stores.interfaceManagerStore.listEncodeCharacter || []}
-            totalSize={Stores.interfaceManagerStore.listEncodeCharacterCount}
+          <FeatureComponents.InterfaceManagerList
+            data={interfaceManagerStore.listInterfaceManager || []}
+            totalSize={interfaceManagerStore.listInterfaceManagerCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+            isDelete={RouterFlow.checkPermission(  
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -535,7 +535,7 @@ const InterfaceManager = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.interfaceManagerStore.fetchEncodeCharacter(page, limit)
+              interfaceManagerStore.fetchEncodeCharacter(page, limit)
             }}
           />
         </div>
@@ -543,7 +543,7 @@ const InterfaceManager = observer(() => {
           {...modalConfirm}
           click={(type) => {
             if (type === "Delete") {
-              Stores.interfaceManagerStore.encodeCharacterService
+              interfaceManagerStore.interfaceManagerService
                 .deleteInterfaceManager(modalConfirm.id)
                 .then((res: any) => {
                   console.log({ res })
@@ -553,15 +553,15 @@ const InterfaceManager = observer(() => {
                       message: `😊Interface manager deleted.`,
                     })
                     setModalConfirm({ show: false })
-                    Stores.interfaceManagerStore.fetchEncodeCharacter()
+                    interfaceManagerStore.fetchEncodeCharacter()
                   }
                 })
             } else {
-              Stores.interfaceManagerStore.encodeCharacterService
+              interfaceManagerStore.interfaceManagerService
                 .interfaceManagerUpdateSingleFiled(modalConfirm.data)
                 .then((res) => {
                   if (res.status === 200) {
-                    Stores.interfaceManagerStore.fetchEncodeCharacter()
+                    interfaceManagerStore.fetchEncodeCharacter()
                     LibraryComponents.Atoms.Toast.success({ message: `😊Updated.` })
                   }
                 })

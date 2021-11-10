@@ -23,6 +23,7 @@ let socket
 const HostCommunication = observer(() => {
   const {
 		loginStore,
+    interfaceManagerStore
 	} = useStores();
   const [errors, setErrors] = useState<Models.HostCommunication>()
   const [deleteItem, setDeleteItem] = useState<any>({})
@@ -140,11 +141,11 @@ const HostCommunication = observer(() => {
                         ...Stores.hostCommunicationStore.hostCommuication,
                         instrumentType,
                       })
-                      const selectedInterfaceManager = Stores.interfaceManagerStore.listEncodeCharacter?.find(
+                      const selectedInterfaceManager = interfaceManagerStore.listInterfaceManager?.find(
                         (item) => item.instrumentType === instrumentType
                       )
                       Stores.hostCommunicationStore.updateSelectedInterfaceManager(
-                        selectedInterfaceManager as Models.EncodeCharacter
+                        selectedInterfaceManager as any
                       )
                       Stores.hostCommunicationStore.updateHostCommuication({
                         ...Stores.hostCommunicationStore.hostCommuication,
@@ -153,7 +154,7 @@ const HostCommunication = observer(() => {
                     }}
                   >
                     <option selected>Select</option>
-                    {Stores.interfaceManagerStore.listEncodeCharacter?.map(
+                    {interfaceManagerStore.listInterfaceManager?.map(
                       (item: any) => (
                         <option
                           key={item.instrumentType}
