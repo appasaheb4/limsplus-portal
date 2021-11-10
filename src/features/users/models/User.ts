@@ -35,36 +35,36 @@ export class Users {
   lastUpdated: Date
 
   constructor(rawData: { [key in string]: any }) {
-    this._id = rawData._id || ''
-    this.userId = rawData.userId || ''
-    this.empCode = rawData.empCode || ''
-    this.defaultLab = rawData.defaultLab || ''
-    this.lab = rawData.lab || []
-    this.password = rawData.password || ''
-    this.passChanged = rawData.passChanged || false
-    this.deginisation = rawData.deginisation || ''
-    this.fullName = rawData.fullName || ''
-    this.mobileNo = rawData.mobileNo || ''
-    this.contactNo = rawData.contactNo || ''
-    this.email = rawData.email || ''
-    this.dateOfBirth = rawData.dateOfBirth || ''
-    this.userDegree = rawData.userDegree || ''
-    this.department = rawData.department || []
-    this.exipreDate = rawData.exipreDate || ''
-    this.expireDays = rawData.expireDays || 0
-    this.role = rawData.role || []
-    this.validationLevel = rawData.validationLevel || 0
-    this.workstation = rawData.workstation || ''
-    this.ipAddress = rawData.ipAddress || ''
-    this.createdBy = rawData.createdBy || ''
-    this.confidential = rawData.confidential || false
-    this.signature = rawData.signature || ''
-    this.picture = rawData.picture || ''
-    this.marriageAnniversary = rawData.marriageAnniversary || ''
-    this.status = rawData.status || ''
-    this.environment = rawData.environment || ''
-    this.confirguration = rawData.confirguration || false
-    this.dateOfEntry = rawData.dateOfEntry || ''
-    this.lastUpdated = rawData.lastUpdated || ''
+    this._id = rawData._id 
+    this.userId = rawData.userId 
+    this.empCode = rawData.empCode 
+    this.defaultLab = rawData.defaultLab 
+    this.lab = rawData.lab 
+    this.password = rawData.password 
+    this.passChanged = rawData.passChanged 
+    this.deginisation = rawData.deginisation 
+    this.fullName = rawData.fullName 
+    this.mobileNo = rawData.mobileNo 
+    this.contactNo = rawData.contactNo 
+    this.email = rawData.email 
+    this.dateOfBirth = rawData.dateOfBirth 
+    this.userDegree = rawData.userDegree 
+    this.department = rawData.department 
+    this.exipreDate = rawData.exipreDate 
+    this.expireDays = rawData.expireDays 
+    this.role = rawData.role 
+    this.validationLevel = rawData.validationLevel 
+    this.workstation = rawData.workstation 
+    this.ipAddress = rawData.ipAddress 
+    this.createdBy = rawData.createdBy 
+    this.confidential = rawData.confidential 
+    this.signature = rawData.signature 
+    this.picture = rawData.picture 
+    this.marriageAnniversary = rawData.marriageAnniversary 
+    this.status = rawData.status 
+    this.environment = rawData.environment 
+    this.confirguration = rawData.confirguration 
+    this.dateOfEntry = rawData.dateOfEntry 
+    this.lastUpdated = rawData.lastUpdated 
   }   
 }

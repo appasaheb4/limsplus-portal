@@ -60,6 +60,7 @@ class TestAnalyteMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -74,6 +75,7 @@ class TestAnalyteMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -104,6 +106,7 @@ class TestAnalyteMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testAnalyteMappingStore.updateTestAnalyteMapping(new Model.TestAnalyteMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

@@ -89,6 +89,7 @@ class DeginisationService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.deginisationStore.updateDescription(new Model.Deginisation({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

@@ -60,6 +60,7 @@ class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -74,6 +75,7 @@ class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -104,6 +106,7 @@ class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterAnalyteStore.updateMasterAnalyte(new Model.MasterAnalyte({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

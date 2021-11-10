@@ -21,24 +21,24 @@ export class Department {
   lastUpdated: Date
 
     constructor(rawData: {[key in string]: any}){
-        this._id = rawData._id || ""
-        this.lab = rawData.lab || ""
-        this.code = rawData.code || ""
-        this.name = rawData.name || ""
-        this.shortName = rawData.shortName || ""
-        this.hod = rawData.hod || ""
-        this.contactNo = rawData.contactNo || ""
-        this.mobileNo = rawData.mobileNo || ""
-        this.autoRelease = rawData.autoRelease || false
-        this.requireReceveInLab = rawData.requireReceveInLab || false
-        this.requireScainIn = rawData.requireScainIn || false
-        this.routingDept = rawData.routingDept || false
-        this.openingTime = rawData.openingTime || ""
-        this.closingTime = rawData.closingTime || ""
-        this.fyiLine = rawData.fyiLine || ""
-        this.workLine = rawData.workLine || ""
-        this.status = rawData.status || ""
-        this.environment = rawData.environment || ""
+        this._id = rawData._id 
+        this.lab = rawData.lab 
+        this.code = rawData.code 
+        this.name = rawData.name 
+        this.shortName = rawData.shortName 
+        this.hod = rawData.hod 
+        this.contactNo = rawData.contactNo 
+        this.mobileNo = rawData.mobileNo 
+        this.autoRelease = rawData.autoRelease 
+        this.requireReceveInLab = rawData.requireReceveInLab 
+        this.requireScainIn = rawData.requireScainIn 
+        this.routingDept = rawData.routingDept 
+        this.openingTime = rawData.openingTime 
+        this.closingTime = rawData.closingTime 
+        this.fyiLine = rawData.fyiLine 
+        this.workLine = rawData.workLine 
+        this.status = rawData.status 
+        this.environment = rawData.environment 
         this.dateOfEntry = rawData.dateOfEntry
         this.lastUpdated = rawData.lastUpdated
     }

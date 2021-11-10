@@ -58,8 +58,8 @@ const Banner = observer(() => {
           
         }
         setTimeout(() => {
-          Stores.bannerStore.fetchListBanner()
-          // window.location.reload()
+          // Stores.bannerStore.fetchListBanner()
+          window.location.reload()
         }, 1000)
       }
     )
