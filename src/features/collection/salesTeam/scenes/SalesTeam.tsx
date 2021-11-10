@@ -13,7 +13,12 @@ import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 export const SalesTeam = observer(() => {
-  const { loginStore, userStore, salesTeamStore,administrativeDivisions } = useStores()
+  const {
+    loginStore,
+    userStore,
+    salesTeamStore,
+    administrativeDivisions,
+  } = useStores()
   const {
     control,
     handleSubmit,
@@ -43,10 +48,10 @@ export const SalesTeam = observer(() => {
               message: `😊 ${res.createSalesTeam.message}`,
             })
           }
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000);
         })
-      setTimeout(() => {
-        window.location.reload()
-      }, 2000)
     } else {
       LibraryComponents.Atoms.Toast.warning({
         message: `😔 Please use diff emp code`,
@@ -101,7 +106,7 @@ export const SalesTeam = observer(() => {
                         })
                       }}
                     >
-                      <option selected>Select</option>
+                      <option selected>Select </option>
                       {LibraryUtils.lookupItems(
                         stores.routerStore.lookupItems,
                         "SALES_HIERARCHY"
@@ -137,11 +142,10 @@ export const SalesTeam = observer(() => {
                           ...salesTeamStore.salesTeam,
                           salesTerritory,
                         })
-                      }} 
+                      }}
                     >
                       <option selected>Select</option>
-                      { administrativeDivisions
-                        .listAdministrativeDiv &&
+                      {administrativeDivisions.listAdministrativeDiv &&
                         administrativeDivisions.listAdministrativeDiv.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>

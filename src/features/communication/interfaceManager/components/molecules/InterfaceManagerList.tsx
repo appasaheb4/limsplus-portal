@@ -4,7 +4,6 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-import { Stores } from "../../stores"
 
 interface InterfaceManagerListProps {
   data: any
@@ -18,7 +17,7 @@ interface InterfaceManagerListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
+export const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -361,10 +360,10 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                 <LibraryComponents.Atoms.Form.Input
                   name="filed"
                   placeholder="Filed"
-                  value={Stores.interfaceManagerStore.encodeCharacter?.filed}
+                  value={props.extraData.interfaceManagerStore.encodeCharacter?.filed}
                   onChange={(filed) => {
-                    Stores.interfaceManagerStore.updateEncodeCharacter({
-                      ...Stores.interfaceManagerStore.encodeCharacter,
+                    props.extraData.interfaceManagerStore.updateEncodeCharacter({
+                      ...props.extraData.interfaceManagerStore.encodeCharacter,
                       filed,
                     })
                   }}
@@ -372,10 +371,10 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                 <LibraryComponents.Atoms.Form.Input
                   name="value"
                   placeholder="Value"
-                  value={Stores.interfaceManagerStore.encodeCharacter?.value}
+                  value={props.extraData.interfaceManagerStore.encodeCharacter?.value}
                   onChange={(value) => {
-                    Stores.interfaceManagerStore.updateEncodeCharacter({
-                      ...Stores.interfaceManagerStore.encodeCharacter,
+                    props.extraData.interfaceManagerStore.updateEncodeCharacter({
+                      ...props.extraData.interfaceManagerStore.encodeCharacter,
                       value,
                     })
                   }}
@@ -385,8 +384,8 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                     size="medium"
                     type="solid"
                     onClick={() => {
-                      let filed = Stores.interfaceManagerStore.encodeCharacter?.filed
-                      let value = Stores.interfaceManagerStore.encodeCharacter?.value
+                      let filed = props.extraData.interfaceManagerStore.encodeCharacter?.filed
+                      let value = props.extraData.interfaceManagerStore.encodeCharacter?.value
                       const fileds = row.fileds || []
                       if (filed === undefined || value === undefined)
                         return alert("Please enter filed and value.")
@@ -420,8 +419,8 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
                         props.onUpdateItem &&
                           props.onUpdateItem(fileds, "fileds", row._id)
 
-                        Stores.interfaceManagerStore.updateEncodeCharacter({
-                          ...Stores.interfaceManagerStore.encodeCharacter,
+                        props.extraData.interfaceManagerStore.updateEncodeCharacter({
+                          ...props.extraData.interfaceManagerStore.encodeCharacter,
                           filed: "",
                           value: "",
                         })
@@ -562,4 +561,3 @@ const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
     />
   )
 })
-export default InterfaceManagerList

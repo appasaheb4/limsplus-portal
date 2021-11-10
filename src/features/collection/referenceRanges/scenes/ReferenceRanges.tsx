@@ -131,7 +131,7 @@ const ReferenceRanges = observer(() => {
 
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -425,7 +425,7 @@ const ReferenceRanges = observer(() => {
                 defaultValue=""
               />
 
-              {interfaceManagerStore.listEncodeCharacter && (
+              {interfaceManagerStore.listInterfaceManager && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -447,8 +447,8 @@ const ReferenceRanges = observer(() => {
                         }}
                       >
                         <option selected>Select</option>
-                        {interfaceManagerStore.listEncodeCharacter &&
-                          interfaceManagerStore.listEncodeCharacter.map(
+                        {interfaceManagerStore.listInterfaceManager &&
+                          interfaceManagerStore.listInterfaceManager.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.instrumentType}>
                                 {`${item.instrumentType}`}

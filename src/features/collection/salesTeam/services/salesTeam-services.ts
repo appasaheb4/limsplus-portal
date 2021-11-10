@@ -4,6 +4,7 @@
  
  * @author limsplus
  */
+import * as Models from '../models'
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
      
@@ -40,6 +41,7 @@ export class SalesTeamService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.salesTeamStore.updateSalesTeam(new Models.SalesTeam({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

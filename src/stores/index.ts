@@ -7,7 +7,6 @@ import { LoginStore } from "@lp/features/login/stores/LoginStore"
 import { UserStore } from "@lp/features/users/stores/UsersStore"
 import { LookupStore } from "@lp/features/collection/lookup/stores/lookup-store"
 import { SectionStore } from "@lp/features/collection/section/stores/section-store"
-import { InterfaceManagerStore } from "@lp/features/communication/stores/interfaceManager-store"
 
 // master
 import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
@@ -33,7 +32,10 @@ import { RegistrationLocationsStore } from "@lp/features/collection/registration
 import { PossibleResultsStore } from "@lp/features/collection/possibleResults/stores/possibleResults-store"
 import { LibraryStore } from "@lp/features/collection/library/stores/library-store"
 import { PriceListStore } from "@lp/features/collection/priceList/stores/priceList-store"
-import {RefernceRangesStore} from '@lp/features/collection/referenceRanges/stores/referenceRanges-store'
+import { RefernceRangesStore } from "@lp/features/collection/referenceRanges/stores/referenceRanges-store"
+
+// communication
+import { InterfaceManagerStore } from "@lp/features/communication/interfaceManager/stores/interfaceManager-store"
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -88,7 +90,6 @@ export class Stores extends Store {
     this.labStore = new LabStore()
     this.lookupStore = new LookupStore()
     this.sectionStore = new SectionStore()
-    this.interfaceManagerStore = new InterfaceManagerStore()
     this.salesTeamStore = new SalesTeamStore()
     this.deginisationStore = new DeginisationStore()
     this.departmentStore = new DepartmentStore()
@@ -112,7 +113,10 @@ export class Stores extends Store {
     this.libraryStore = new LibraryStore()
     this.priceListStore = new PriceListStore()
     this.refernceRangesStore = new RefernceRangesStore()
-   
+
+    // communication
+    this.interfaceManagerStore = new InterfaceManagerStore()
+
     // settings
     this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()

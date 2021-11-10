@@ -24,7 +24,7 @@ const SegmentMapping = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore } = useStores()
+  const { loginStore, interfaceManagerStore } = useStores()
   const [modalImportFile, setModalImportFile] = useState({})
   const [hideAddSegmentMapping, setHideAddSegmentMapping] = useState<boolean>(true)
   const [saveTitle, setSaveTitle] = useState("Save")
@@ -259,7 +259,7 @@ const SegmentMapping = observer(() => {
                       }}
                     >
                       <option selected>Select</option>
-                      {Stores.interfaceManagerStore.listEncodeCharacter?.map(
+                      {interfaceManagerStore.listInterfaceManager?.map(
                         (item: any) => (
                           <option
                             key={item.instrumentType}
