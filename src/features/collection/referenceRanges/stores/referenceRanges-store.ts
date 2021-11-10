@@ -1,38 +1,50 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
-import * as LibraryUtils from "@lp/library/utils"
 import * as Services from "../services"
+import dayjs from 'dayjs'
 
 @version(0.1)
-export class RefernceRanges {
+export class RefernceRangesStore {
     @ignore @observable referenceRanges!: Models.ReferenceRanges
-    @observable listReferenceRanges: Models.ReferenceRanges[] = []
-    @observable listReferenceRangesCount: number = 0
-    @ignore @observable checkExitsRecord?: boolean = false
+    @observable listReferenceRanges: Models.ReferenceRanges[] 
+    @observable listReferenceRangesCount: number 
+    @ignore @observable checkExitsRecord: boolean 
     
     constructor(){
-        makeAutoObservable(this)
+      this.listReferenceRanges = []
+      this.listReferenceRangesCount = 0
+      this.checkExitsRecord = false
         this.referenceRanges ={
           ...this.referenceRanges,
-          
-          dateCreation: LibraryUtils.moment().unix(),
-          dateActive: LibraryUtils.moment().unix(),
-          dateExpiry: LibraryUtils.moment().unix(),
+          dateCreation: new Date(),
+          dateActive: new Date(),
+          dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
           version: 1,
-          keyNum: "1",
         }
+
+        makeObservable<RefernceRangesStore, any>(this, {
+          referenceRanges: observable,
+          listReferenceRanges: observable,
+          listReferenceRangesCount: observable,
+          checkExitsRecord: observable,
+        })
     }
     @computed get referenceRangesService() {
         return new Services.ReferenceRangesService()
       }
       
     @action fetchListReferenceRanges(page?,limit?){
-      this.referenceRangesService.listReferenceRanges(page, limit).then((res) => {
-        this.listReferenceRanges = res.getAllReferenceRanges.data
-        this.listReferenceRangesCount = res.getAllReferenceRanges.count
-      })
+      this.referenceRangesService.listReferenceRanges(page, limit)
     }
+
+    @action updateReferenceRangesList(res: any){
+      if(!res.referenceRanges.success) return alert(res.referenceRanges.message)
+      this.listReferenceRanges = res.referenceRanges.data
+      this.listReferenceRangesCount = res.referenceRanges.paginatorInfo.count
+    }
+
+
     @action updateReferenceRanges(ranges: Models.ReferenceRanges) {
         this.referenceRanges = ranges
       }
@@ -40,4 +52,3 @@ export class RefernceRanges {
         this.checkExitsRecord = status
       }
 }
-export default RefernceRanges

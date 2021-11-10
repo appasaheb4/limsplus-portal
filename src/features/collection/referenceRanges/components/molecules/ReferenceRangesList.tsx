@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { stores } from "@lp/stores"
+
 interface ReferenceRangesProps {
   data: any
   totalSize: number
@@ -58,7 +58,11 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
                       onChange={(e) => {
                         const analyte = JSON.parse(e.target.value)
                         props.onUpdateItem &&
-                          props.onUpdateItem(analyte.analyteCode, column.dataField, row._id)
+                          props.onUpdateItem(
+                            analyte.analyteCode,
+                            column.dataField,
+                            row._id
+                          )
                       }}
                     >
                       <option selected>Select</option>
@@ -96,7 +100,11 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
                       onChange={(e) => {
                         const analyte = JSON.parse(e.target.value)
                         props.onUpdateItem &&
-                          props.onUpdateItem(analyte.analyteName, column.dataField, row._id)
+                          props.onUpdateItem(
+                            analyte.analyteName,
+                            column.dataField,
+                            row._id
+                          )
                       }}
                     >
                       <option selected>Select</option>
@@ -470,13 +478,7 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -486,29 +488,17 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
               },
             },
             {
-              dataField: "dateActiveTo",
+              dataField: "dateExpire",
               editable: false,
               text: "Date Expire",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -537,7 +527,7 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            {
+            {   
               dataField: "intervalUnit",
               text: "Interval Unit",
               sort: true,
@@ -593,7 +583,7 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
               editable: false,
               csvExport: false,
               hidden: !props.isDelete,
-              formatter: (cellContent, row) => (   
+              formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete">

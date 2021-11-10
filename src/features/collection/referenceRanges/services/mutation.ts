@@ -1,27 +1,71 @@
 import { gql } from "@apollo/client"
 
-export const ADD_REFERENCERANGES = gql`
-  mutation($input: ReferenceRangesInput!) {
-    addReferenceRanges(input: $input) {
+export const LIST = gql`
+  mutation($input: ReferenceRangeInput!) {
+    referenceRanges(input: $input) {
+      paginatorInfo {
+        count
+      }
       success
       message
-      id
+      data {  
+        _id
+        existsVersionId
+        existsRecordId
+        analyteCode
+        analyteName
+        department
+        species
+        sex
+        rangeSetOn
+        eqType
+        lab
+        rangType
+        age
+        ageUnit
+        low
+        high
+        alpha
+        enteredBy
+        status
+        environment
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        deltarang_tetype
+        deltaInterval
+        intervalUnit
+        formatResultScript
+        reportDefault
+        dateOfEntry
+        lastUpdated
+      }
     }
   }
 `
-   
-export const VERSION_UPGRADE = gql`
-  mutation($input: ReferenceRangesInput) {
-    versionUpgradeReferenceRanges(input: $input) {
+
+export const REMOVE_RECORD = gql`
+  mutation($input: ReferenceRangeRemoveInput!) {
+    removeReferenceRange(input: $input) {
       success
       message
     }
   }
 `
 
-export const DELETE_RECORD = gql`
-  mutation($input: DelRecord) {
-    deleteReferenceRanges(input: $input) {
+export const CREATE_RECORD = gql`
+  mutation($input: CreateReferenceRangeInput!) {
+    createReferenceRange(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const VERSION_UPGRADE = gql`
+  mutation($input: CreateReferenceRangeInput!) {
+    versionUpgradeReferenceRange(input: $input) {
       success
       message
     }
@@ -29,27 +73,26 @@ export const DELETE_RECORD = gql`
 `
 
 export const DUPLICATE_RECORD = gql`
-  mutation($input: ReferenceRangesInput) {
-    duplicateReferenceRanges(input: $input) {
-      success
-      message
-      id
-    }
-  }
-`
-
-export const UPDATE_SINGE_FILED = gql`
-  mutation($input: UpdateRecord) {
-    updateSingleFiledReferenceRanges(input: $input) {
+  mutation($input: CreateReferenceRangeInput!) {
+    duplicateReferenceRange(input: $input) {
       success
       message
     }
   }
 `
 
-export const CHECK_EXITS_RECORD = gql`
-  mutation($input: ReferenceRangesInput) {
-    checkExitsRecordReferenceRanges(input: $input) {
+export const UPDATE_RECORD = gql`
+  mutation($input: UpdateReferenceRangeInput!) {
+    updateReferenceRange(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const CHECK_EXISTS_RECORD = gql`
+  mutation($input: ReferenceRangeInput!) {
+    checkReferenceRangeExistsRecord(input: $input) {
       success
       message
     }

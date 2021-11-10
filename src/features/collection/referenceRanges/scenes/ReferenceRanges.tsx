@@ -2,18 +2,13 @@
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
+import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
-
-import { stores, useStores } from "@lp/stores"
-import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as AnalyteMaster } from "@lp/features/collection/masterAnalyte/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
-import { Stores as CommunicationStore } from "@lp/features/communication/stores"
+
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -26,74 +21,86 @@ const ReferenceRanges = observer(() => {
     setValue,
     clearErrors,
   } = useForm()
-  const { loginStore, interfaceManagerStore } = useStores()
+  const {
+    loginStore,
+    interfaceManagerStore,
+    labStore,
+    masterAnalyteStore,
+    departmentStore,
+    refernceRangesStore,
+    routerStore,
+  } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-
+   
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.referenceRangesStore.updateReferenceRanges({
-        ...Stores.referenceRangesStore.referenceRanges,
-        lab: stores.loginStore.login.lab,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      refernceRangesStore.updateReferenceRanges({
+        ...refernceRangesStore.referenceRanges,
+        lab: loginStore.login.lab,
+        environment: loginStore.login.environment,
       })
-      setValue("lab", stores.loginStore.login.lab)
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("lab", loginStore.login.lab)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
+
+
   const onSubmitReferenceRanges = () => {
-    if (!Stores.referenceRangesStore.checkExitsRecord) {
+    if (!refernceRangesStore.checkExitsRecord) {
       if (
-        !Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
-        !Stores.referenceRangesStore.referenceRanges?.existsRecordId
+        !refernceRangesStore.referenceRanges?.existsVersionId &&
+        !refernceRangesStore.referenceRanges?.existsRecordId
       ) {
-        Stores.referenceRangesStore.referenceRangesService
+        refernceRangesStore.referenceRangesService
           .addReferenceRanges({
             input: {
-              ...Stores.referenceRangesStore.referenceRanges,
-              enteredBy: stores.loginStore.login.userId,
+              ...refernceRangesStore.referenceRanges,
+              enteredBy: loginStore.login.userId,
             },
           })
           .then((res) => {
-            if (res.addReferenceRanges.success) {
+            if (res.createReferenceRange.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.addReferenceRanges.message}`,
+                message: `😊 ${res.createReferenceRange.message}`,
               })
             }
           })
       } else if (
-        Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
-        !Stores.referenceRangesStore.referenceRanges?.existsRecordId
+        refernceRangesStore.referenceRanges?.existsVersionId &&
+        !refernceRangesStore.referenceRanges?.existsRecordId
       ) {
-        Stores.referenceRangesStore.referenceRangesService
+        refernceRangesStore.referenceRangesService
           .versionUpgradeReferenceRanges({
             input: {
-              ...Stores.referenceRangesStore.referenceRanges,
-              enteredBy: stores.loginStore.login.userId,
+              ...refernceRangesStore.referenceRanges,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
             },
           })
           .then((res) => {
-            if (res.versionUpgradeReferenceRanges.success) {
+            if (res.versionUpgradeReferenceRange.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.versionUpgradeReferenceRanges.message}`,
+                message: `😊 ${res.versionUpgradeReferenceRange.message}`,
               })
             }
           })
       } else if (
-        !Stores.referenceRangesStore.referenceRanges?.existsVersionId &&
-        Stores.referenceRangesStore.referenceRanges?.existsRecordId
+        !refernceRangesStore.referenceRanges?.existsVersionId &&
+        refernceRangesStore.referenceRanges?.existsRecordId
       ) {
-        Stores.referenceRangesStore.referenceRangesService
+        refernceRangesStore.referenceRangesService
           .duplicateReferenceRanges({
             input: {
-              ...Stores.referenceRangesStore.referenceRanges,
-              enteredBy: stores.loginStore.login.userId,
+              ...refernceRangesStore.referenceRanges,
+              enteredBy: loginStore.login.userId,
+              __typename: undefined,
             },
           })
           .then((res) => {
-            if (res.duplicateReferenceRanges.success) {
+            if (res.duplicateReferenceRange.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.duplicateReferenceRanges.message}`,
+                message: `😊 ${res.duplicateReferenceRange.message}`,
               })
             }
           })
@@ -111,14 +118,11 @@ const ReferenceRanges = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddLab}
           onClick={() => setHideAddLab(!hideAddLab)}
@@ -151,51 +155,41 @@ const ReferenceRanges = observer(() => {
                         onChange(analyte.analyteCode)
                         setValue("analyteName", analyte.analyteName)
                         clearErrors("analyteName")
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           analyteCode: analyte.analyteCode,
                           analyteName: analyte.analyteName,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode: analyte.analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .species,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .ageUnit,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangType,
-                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {AnalyteMaster.masterAnalyteStore.listMasterAnalyte &&
-                        AnalyteMaster.masterAnalyteStore.listMasterAnalyte.map(
+                      {masterAnalyteStore.listMasterAnalyte &&
+                        masterAnalyteStore.listMasterAnalyte.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
                               {`${item.analyteName} - ${item.analyteCode}`}
@@ -209,7 +203,7 @@ const ReferenceRanges = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {Stores.referenceRangesStore.checkExitsRecord && (
+              {refernceRangesStore.checkExitsRecord && (
                 <span className="text-red-600 font-medium relative">
                   Code already exits. Please use other code.
                 </span>
@@ -221,7 +215,7 @@ const ReferenceRanges = observer(() => {
                     label="Analyte Name"
                     name="txtAnalyteName"
                     hasError={errors.analyteName}
-                    value={Stores.referenceRangesStore.referenceRanges?.analyteName}
+                    value={refernceRangesStore.referenceRanges?.analyteName}
                     placeholder={
                       errors.analyteName
                         ? "Please Enter Analyte Name"
@@ -251,14 +245,14 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const department = e.target.value as string
                         onChange(department)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           department,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment.map(
+                      {departmentStore.listDepartment.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -286,50 +280,41 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const species = e.target.value as string
                         onChange(species)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           species,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
+                                  refernceRangesStore.referenceRanges.analyteCode,
                                 species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .ageUnit,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangType,
-                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "SPECIES"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -357,21 +342,20 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const sex = e.target.value as string
                         onChange(sex)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           sex,
                         })
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
-                        "SEX"
-                      ).map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
+                      {LibraryUtils.lookupItems(routerStore.lookupItems, "SEX").map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {`${item.value} - ${item.code}`}
+                          </option>
+                        )
+                      )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -393,50 +377,40 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const rangeSetOn = e.target.value as string
                         onChange(rangeSetOn)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           rangeSetOn,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .species,
+                                  refernceRangesStore.referenceRanges.analyteCode,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .ageUnit,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangType,
-                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "RANGE_SET_ON"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -466,16 +440,15 @@ const ReferenceRanges = observer(() => {
                         onChange={(e) => {
                           const eqType = e.target.value as string
                           onChange(eqType)
-                          Stores.referenceRangesStore.updateReferenceRanges({
-                            ...Stores.referenceRangesStore.referenceRanges,
+                          refernceRangesStore.updateReferenceRanges({
+                            ...refernceRangesStore.referenceRanges,
                             eqType,
                           })
                         }}
                       >
                         <option selected>Select</option>
-                        {CommunicationStore.interfaceManagerStore
-                          .listEncodeCharacter &&
-                          CommunicationStore.interfaceManagerStore.listEncodeCharacter.map(
+                        {interfaceManagerStore.listEncodeCharacter &&
+                          interfaceManagerStore.listEncodeCharacter.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.instrumentType}>
                                 {`${item.instrumentType}`}
@@ -498,10 +471,9 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.lab}
                   >
                     <select
-                      value={Stores.referenceRangesStore.referenceRanges?.lab}
+                      value={refernceRangesStore.referenceRanges?.lab}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -511,57 +483,44 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const lab = e.target.value as string
                         onChange(lab)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           lab,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .species,
+                                  refernceRangesStore.referenceRanges.analyteCode,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
                                 lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .ageUnit,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangType,
-                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
@@ -583,50 +542,40 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const rangType = e.target.value as string
                         onChange(rangType)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           rangType,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .species,
+                                  refernceRangesStore.referenceRanges.analyteCode,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .ageUnit,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType,
-                                environment: Stores.referenceRangesStore.referenceRanges.environment
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "RANG_TYPE"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -649,46 +598,38 @@ const ReferenceRanges = observer(() => {
                     placeholder={errors.age ? "Please Enter Age" : "Age"}
                     type="number"
                     hasError={errors.age}
-                    value={Stores.referenceRangesStore.referenceRanges?.age}
+                    value={refernceRangesStore.referenceRanges?.age}
                     onChange={(age) => {
                       onChange(age)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         age: parseInt(age),
                       })
                     }}
                     onBlur={(age) => {
-                      if (
-                        !Stores.referenceRangesStore.referenceRanges?.existsVersionId
-                      ) {
-                        Stores.referenceRangesStore.referenceRangesService
+                      if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                        refernceRangesStore.referenceRangesService
                           .checkExitsRecord({
                             input: {
                               analyteCode:
-                                Stores.referenceRangesStore.referenceRanges
-                                  .analyteCode,
-                              species:
-                                Stores.referenceRangesStore.referenceRanges.species,
+                                refernceRangesStore.referenceRanges.analyteCode,
+                              species: refernceRangesStore.referenceRanges.species,
                               rangeSetOn:
-                                Stores.referenceRangesStore.referenceRanges
-                                  .rangeSetOn,
-                              lab: Stores.referenceRangesStore.referenceRanges.lab,
+                                refernceRangesStore.referenceRanges.rangeSetOn,
+                              lab: refernceRangesStore.referenceRanges.lab,
                               age: parseInt(age),
-                              ageUnit:
-                                Stores.referenceRangesStore.referenceRanges.ageUnit,
-                              rangType:
-                                Stores.referenceRangesStore.referenceRanges.rangType,
-                                environment: Stores.referenceRangesStore.referenceRanges.environment
+                              ageUnit: refernceRangesStore.referenceRanges.ageUnit,
+                              rangType: refernceRangesStore.referenceRanges.rangType,
+                              env: refernceRangesStore.referenceRanges.environment,
                             },
                           })
                           .then((res) => {
-                            if (res.checkExitsRecordReferenceRanges.success) {
-                              Stores.referenceRangesStore.updateExistsRecord(true)
+                            if (res.checkReferenceRangeExistsRecord.success) {
+                              refernceRangesStore.updateExistsRecord(true)
                               LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                               })
-                            } else
-                              Stores.referenceRangesStore.updateExistsRecord(false)
+                            } else refernceRangesStore.updateExistsRecord(false)
                           })
                       }
                     }}
@@ -719,50 +660,41 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const ageUnit = e.target.value as string
                         onChange(ageUnit)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           ageUnit,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges
-                            ?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .species,
+                                  refernceRangesStore.referenceRanges.analyteCode,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
                                 ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangType,
-                                    environment: Stores.referenceRangesStore.referenceRanges.environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: refernceRangesStore.referenceRanges.environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "AGE_UNIT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -785,11 +717,11 @@ const ReferenceRanges = observer(() => {
                     placeholder={errors.low ? "Please Enter Low" : "Low"}
                     type="number"
                     hasError={errors.low}
-                    value={Stores.referenceRangesStore.referenceRanges?.low}
+                    value={refernceRangesStore.referenceRanges?.low}
                     onChange={(low) => {
                       onChange(low)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         low,
                       })
                     }}
@@ -808,11 +740,11 @@ const ReferenceRanges = observer(() => {
                     placeholder={errors.high ? "Please Enter High" : "High"}
                     type="number"
                     hasError={errors.high}
-                    value={Stores.referenceRangesStore.referenceRanges?.high}
+                    value={refernceRangesStore.referenceRanges?.high}
                     onChange={(high) => {
                       onChange(high)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         high,
                       })
                     }}
@@ -830,11 +762,11 @@ const ReferenceRanges = observer(() => {
                     name="txtAlpha"
                     placeholder={errors.aplha ? "Please Enter Alpha" : "Alpha"}
                     hasError={errors.alpha}
-                    value={Stores.referenceRangesStore.referenceRanges?.alpha}
+                    value={refernceRangesStore.referenceRanges?.alpha}
                     onChange={(alpha) => {
                       onChange(alpha)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         alpha,
                       })
                     }}
@@ -853,7 +785,7 @@ const ReferenceRanges = observer(() => {
                       errors.userId ? "Please Enter Entered By" : "Entered By"
                     }
                     hasError={errors.userId}
-                    value={LoginStore.loginStore.login?.userId}
+                    value={loginStore.login?.userId}
                     disabled={true}
                   />
                 )}
@@ -869,22 +801,22 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.status}
                   >
                     <select
-                      value={Stores.referenceRangesStore.referenceRanges?.status}
+                      value={refernceRangesStore.referenceRanges?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       onChange={(e) => {
                         const status = e.target.value
                         onChange(status)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           status,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -906,69 +838,58 @@ const ReferenceRanges = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={
-                        Stores.referenceRangesStore.referenceRanges?.environment
-                      }
+                      value={refernceRangesStore.referenceRanges?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           environment,
                         })
-                        if (
-                          !Stores.referenceRangesStore.referenceRanges?.existsVersionId
-                        ) {
-                          Stores.referenceRangesStore.referenceRangesService
+                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                          refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
                                 analyteCode:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .analyteCode,
-                                species:
-                                  Stores.referenceRangesStore.referenceRanges.species,
+                                  refernceRangesStore.referenceRanges.analyteCode,
+                                species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
-                                  Stores.referenceRangesStore.referenceRanges
-                                    .rangeSetOn,
-                                lab: Stores.referenceRangesStore.referenceRanges.lab,
-                                age: Stores.referenceRangesStore.referenceRanges.age,
-                                ageUnit:
-                                  Stores.referenceRangesStore.referenceRanges.ageUnit,
+                                  refernceRangesStore.referenceRanges.rangeSetOn,
+                                lab: refernceRangesStore.referenceRanges.lab,
+                                age: refernceRangesStore.referenceRanges.age,
+                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
                                 rangType:
-                                  Stores.referenceRangesStore.referenceRanges.rangType,
-                                  environment
+                                  refernceRangesStore.referenceRanges.rangType,
+                                env: environment,
                               },
                             })
                             .then((res) => {
-                              if (res.checkExitsRecordReferenceRanges.success) {
-                                Stores.referenceRangesStore.updateExistsRecord(true)
+                              if (res.checkReferenceRangeExistsRecord.success) {
+                                refernceRangesStore.updateExistsRecord(true)
                                 LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkExitsRecordReferenceRanges.message}`,
+                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
                                 })
-                              } else
-                                Stores.referenceRangesStore.updateExistsRecord(false)
+                              } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.referenceRangesStore.referenceRanges
-                              ?.environment || `Select`}
+                          : refernceRangesStore.referenceRanges?.environment ||
+                            `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -993,12 +914,9 @@ const ReferenceRanges = observer(() => {
                         : "Date Creation"
                     }
                     hasError={errors.dateCreation}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.referenceRangesStore.referenceRanges?.dateCreation ||
-                          0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      refernceRangesStore.referenceRanges?.dateCreation
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -1015,11 +933,9 @@ const ReferenceRanges = observer(() => {
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     hasError={errors.dateActive}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.referenceRangesStore.referenceRanges?.dateActive || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      refernceRangesStore.referenceRanges?.dateActive
+                    ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
@@ -1043,16 +959,15 @@ const ReferenceRanges = observer(() => {
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
                     hasError={errors.dateExpiry}
-                    value={LibraryUtils.moment
-                      .unix(
-                        Stores.referenceRangesStore.referenceRanges?.dateActive || 0
-                      )
-                      .format("YYYY-MM-DD")}
+                    value={dayjs(
+                      refernceRangesStore.referenceRanges?.dateExpire
+                    ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const dateExpiry = new Date(e.target.value)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
-                        dateActive: LibraryUtils.moment(dateExpiry).unix(),
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        dateExpire,
                       })
                     }}
                   />
@@ -1068,26 +983,11 @@ const ReferenceRanges = observer(() => {
                     label="Version"
                     placeholder={errors.version ? "Please Enter Version" : "Version"}
                     hasError={errors.version}
-                    value={Stores.referenceRangesStore.referenceRanges?.version}
+                    value={refernceRangesStore.referenceRanges?.version}
                     disabled={true}
                   />
                 )}
                 name="version"
-                rules={{ required: false }}
-                defaultValue=""
-              />
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.Input
-                    label="Key Num"
-                    placeholder={errors.keyNum ? "Please Enter Key Num" : "Key Num"}
-                    hasError={errors.keyNum}
-                    value={Stores.referenceRangesStore.referenceRanges?.keyNum}
-                    disabled={true}
-                  />
-                )}
-                name="keyNum"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1102,13 +1002,11 @@ const ReferenceRanges = observer(() => {
                         : "DeltaRang TetType"
                     }
                     hasError={errors.deltarang_tetype}
-                    value={
-                      Stores.referenceRangesStore.referenceRanges?.deltarang_tetype
-                    }
+                    value={refernceRangesStore.referenceRanges?.deltarang_tetype}
                     onChange={(deltarang_tetype) => {
                       onChange(deltarang_tetype)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         deltarang_tetype,
                       })
                     }}
@@ -1129,13 +1027,11 @@ const ReferenceRanges = observer(() => {
                         : "Delta Interval"
                     }
                     hasError={errors.deltaInterval}
-                    value={
-                      Stores.referenceRangesStore.referenceRanges?.deltaInterval
-                    }
+                    value={refernceRangesStore.referenceRanges?.deltaInterval}
                     onChange={(deltaInterval) => {
                       onChange(deltaInterval)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         deltaInterval,
                       })
                     }}
@@ -1159,15 +1055,15 @@ const ReferenceRanges = observer(() => {
                       onChange={(e) => {
                         const intervalUnit = e.target.value as string
                         onChange(intervalUnit)
-                        Stores.referenceRangesStore.updateReferenceRanges({
-                          ...Stores.referenceRangesStore.referenceRanges,
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
                           intervalUnit,
                         })
                       }}
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "INTERVAL_UNIT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1193,13 +1089,11 @@ const ReferenceRanges = observer(() => {
                         : "Format Result Script"
                     }
                     hasError={errors.formalResultScript}
-                    value={
-                      Stores.referenceRangesStore.referenceRanges?.formatResultScript
-                    }
+                    value={refernceRangesStore.referenceRanges?.formatResultScript}
                     onChange={(formatResultScript) => {
                       onChange(formatResultScript)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         formatResultScript,
                       })
                     }}
@@ -1221,13 +1115,11 @@ const ReferenceRanges = observer(() => {
                         : "Report Default"
                     }
                     hasError={errors.reportDefault}
-                    value={
-                      Stores.referenceRangesStore.referenceRanges?.reportDefault
-                    }
+                    value={refernceRangesStore.referenceRanges?.reportDefault}
                     onChange={(reportDefault) => {
                       onChange(reportDefault)
-                      Stores.referenceRangesStore.updateReferenceRanges({
-                        ...Stores.referenceRangesStore.referenceRanges,
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
                         reportDefault,
                       })
                     }}
@@ -1264,20 +1156,20 @@ const ReferenceRanges = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.ReferenceRanges
-            data={Stores.referenceRangesStore.listReferenceRanges || []}
-            totalSize={Stores.referenceRangesStore.listReferenceRangesCount}
+            data={refernceRangesStore.listReferenceRanges || []}
+            totalSize={refernceRangesStore.listReferenceRangesCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listMasterAnalyte: AnalyteMaster.masterAnalyteStore.listMasterAnalyte,
-              listDepartment: DepartmentStore.departmentStore.listDepartment,
-              listLabs: LabStores.labStore.listLabs,
+              lookupItems: routerStore.lookupItems,
+              listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
+              listDepartment: departmentStore.listDepartment,
+              listLabs: labStore.listLabs,
             }}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -1318,7 +1210,7 @@ const ReferenceRanges = observer(() => {
               })
             }}
             // onPageSizeChange={() => {
-            //   Stores.priceListStore.fetchListPriceList()
+            //   priceListStore.fetchListPriceList()
             // }}
           />
         </div>
@@ -1326,45 +1218,40 @@ const ReferenceRanges = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "delete") {
-              Stores.referenceRangesStore.referenceRangesService
+              refernceRangesStore.referenceRangesService
                 .deleteReferenceRanges({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.deleteReferenceRanges.success) {
+                  if (res.removeReferenceRange.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.deleteReferenceRanges.message}`,
+                      message: `😊 ${res.removeReferenceRange.message}`,
                     })
                     setModalConfirm({ show: false })
-                    //Stores.referenceRangesStore.fetchListReferenceRanges()
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
+                    refernceRangesStore.fetchListReferenceRanges()
                   }
                 })
             } else if (type === "update") {
-              Stores.referenceRangesStore.referenceRangesService
+              refernceRangesStore.referenceRangesService
                 .updateSingleFiled({
                   input: {
-                    ...modalConfirm.data,
-                    value: JSON.stringify(modalConfirm.data.value),
+                    _id: modalConfirm.data.id,
+                    [modalConfirm.data.dataField]: modalConfirm.data.value,
                   },
                 })
                 .then((res: any) => {
-                  if (res.updateSingleFiledReferenceRanges.success) {
+                  if (res.updateReferenceRange.success) {
                     LibraryComponents.Atoms.Toast.success({
-                      message: `😊 ${res.updateSingleFiledReferenceRanges.message}`,
+                      message: `😊 ${res.updateReferenceRange.message}`,
                     })
                     setModalConfirm({ show: false })
-                    window.location.reload()
                   }
                 })
             } else if (type === "versionUpgrade") {
-              Stores.referenceRangesStore.updateReferenceRanges({
+              refernceRangesStore.updateReferenceRanges({
                 ...modalConfirm.data,
                 _id: undefined,
-                __typename: undefined,
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
-                version: modalConfirm.data.version + 1,
+                version: parseInt(modalConfirm.data.version + 1),
               })
               setValue("analyteCode", modalConfirm.data.analyteCode)
               setValue("analyteName", modalConfirm.data.analyteName)
@@ -1385,10 +1272,9 @@ const ReferenceRanges = observer(() => {
               setValue("formalResultScript", modalConfirm.data.formatResultScript)
               setValue("reportDefault", modalConfirm.data.reportDefault)
             } else if (type === "duplicate") {
-              Stores.referenceRangesStore.updateReferenceRanges({
+              refernceRangesStore.updateReferenceRanges({
                 ...modalConfirm.data,
                 _id: undefined,
-                __typename: undefined,
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
