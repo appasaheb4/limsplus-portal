@@ -33,6 +33,7 @@ import { RegistrationLocationsStore } from "@lp/features/collection/registration
 import { PossibleResultsStore } from "@lp/features/collection/possibleResults/stores/possibleResults-store"
 import { LibraryStore } from "@lp/features/collection/library/stores/library-store"
 import { PriceListStore } from "@lp/features/collection/priceList/stores/priceList-store"
+import {RefernceRangesStore} from '@lp/features/collection/referenceRanges/stores/referenceRanges-store'
 
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -72,6 +73,7 @@ export class Stores extends Store {
   possibleResultsStore!: PossibleResultsStore
   libraryStore!: LibraryStore
   priceListStore!: PriceListStore
+  refernceRangesStore!: RefernceRangesStore
 
   // settings
   environmentStore!: EnvironmentStore
@@ -109,6 +111,7 @@ export class Stores extends Store {
     this.possibleResultsStore = new PossibleResultsStore()
     this.libraryStore = new LibraryStore()
     this.priceListStore = new PriceListStore()
+    this.refernceRangesStore = new RefernceRangesStore()
    
     // settings
     this.userStore = new UserStore()

@@ -6,14 +6,14 @@
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { GET_ALL_REFERENCERANGES } from "./query"
 import {
-  ADD_REFERENCERANGES,
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
   VERSION_UPGRADE,
-  DELETE_RECORD,
   DUPLICATE_RECORD,
-  UPDATE_SINGE_FILED,
-  CHECK_EXITS_RECORD,
+  CHECK_EXISTS_RECORD,
 } from "./mutation"
 export class ReferenceRangesService {
   listReferenceRanges = (page = 0, limit = 10) =>
@@ -22,13 +22,12 @@ export class ReferenceRangesService {
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
       client
-        .query({
-          query: GET_ALL_REFERENCERANGES,
-          variables: { page, limit, env, role, lab },
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          console.log({ response })
-
+          stores.refernceRangesStore.updateReferenceRangesList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -40,7 +39,7 @@ export class ReferenceRangesService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: ADD_REFERENCERANGES,
+          mutation: CREATE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -56,7 +55,7 @@ export class ReferenceRangesService {
       console.log({ variables })
       client
         .mutate({
-          mutation: DELETE_RECORD,
+          mutation: REMOVE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -84,7 +83,7 @@ export class ReferenceRangesService {
     })
 
   duplicateReferenceRanges = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
+    new Promise<any>((resolve, reject) => {  
       client
         .mutate({
           mutation: DUPLICATE_RECORD,
@@ -95,14 +94,14 @@ export class ReferenceRangesService {
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        )
+        )   
     })
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_SINGE_FILED,
+          mutation: UPDATE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -117,9 +116,9 @@ export class ReferenceRangesService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: CHECK_EXITS_RECORD,
+          mutation: CHECK_EXISTS_RECORD,
           variables,
-        }) 
+        })
         .then((response: any) => {
           resolve(response.data)
         })
