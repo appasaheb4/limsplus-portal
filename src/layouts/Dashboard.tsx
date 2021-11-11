@@ -159,8 +159,10 @@ const Dashboard = observer(({ children }) => {
         await InterfaceManager.startup()
       if (pathname === "/communication/mapping/conversationMapping")
         await DataConveration.startup()
-      if (pathname === "/communication/mapping/segmentMapping")
+      if (pathname === "/communication/mapping/segmentMapping"){
+        await InterfaceManager.startup()
         await SegmentMapping.startup()
+      }
       // global
       stores
     }
@@ -169,6 +171,8 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(loginStore.login)
+    console.log({router});
+    
     if (router && !stores.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
       stores.routerStore.updateUserRouter(router)

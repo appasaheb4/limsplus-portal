@@ -4,57 +4,68 @@
  
  * @author limsplus
  */
-// import * as Models from "../models"
-import { Http, http, ServiceResponse } from "@lp/library/modules/http"
+ import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+ import { LIST, REMOVE_RECORD,CREATE_RECORD,UPDATE_RECORD } from "./mutation"
+ import {stores} from '@lp/stores'
 
 class RoleMappingService  {
-  addRoleMapping = (roleMapping: any) =>
+  addRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ roleMapping })
-      http
-        .post(`/mapping/addRoleMapping`, roleMapping)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+      client
+      .mutate({
+        mutation: CREATE_RECORD,
+        variables,
+      })
+      .then((response: any) => {
+        resolve(response.data)
+      })
+      .catch((error) =>
+        reject(new ServiceResponse<any>(0, error.message, undefined))
+      )
     })
   roleMappingList = (page=0,limit=10) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .get(`/mapping/roleMappingList/${page}/${limit}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.roleMappingStore.updateRoleMappingList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  deleteRoleMapping = (id: string) =>
+  deleteRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/mapping/deleteRoleMapping/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  updateRoleMapping = (roleMapping: any) =>
+  updateRoleMapping = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ roleMapping })
-      http
-        .post(`/mapping/updateRoleMapping`, roleMapping)
-        .then((res) => {
-          resolve(res)
-        })
-        .catch((error) => {
-          reject({ error })
-        })
+      client
+      .mutate({
+        mutation: UPDATE_RECORD,
+        variables,
+      })
+      .then((response: any) => {
+        resolve(response.data)
+      })
+      .catch((error) =>
+        reject(new ServiceResponse<any>(0, error.message, undefined))
+      )
     })
 }
 

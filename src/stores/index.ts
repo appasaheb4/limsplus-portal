@@ -37,10 +37,14 @@ import { RefernceRangesStore } from "@lp/features/collection/referenceRanges/sto
 // communication
 import { InterfaceManagerStore } from "@lp/features/communication/interfaceManager/stores/interfaceManager-store"
 import { DataConversationStore } from "@lp/features/communication/dataConversation/stores/dataConversation-store"
-import {HostCommunicationStore} from '@lp/features/communication/hostCommunication/stores/hostCommunication-store'
-import {SegmentMappingStore} from '@lp/features/communication/segmentMapping/stores/segmentMapping-store'
+import { HostCommunicationStore } from "@lp/features/communication/hostCommunication/stores/hostCommunication-store"
+import { SegmentMappingStore } from "@lp/features/communication/segmentMapping/stores/segmentMapping-store"
+
 // setting
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
+import { LoginActivityStore } from "@lp/features/settings/loginActivity/stores/loginActivity-store"
+import { RoleMappingStore } from "@lp/features/settings/mapping/role/stores/rolemapping-store"
+import { ShortcutMenuStore } from "@lp/features/settings/shortcutMenu/stores/shortcutMenu-store"
 
 import { Store } from "./Store"
 export class Stores extends Store {
@@ -48,13 +52,11 @@ export class Stores extends Store {
   appStore!: AppStore
   routerStore!: RouterStore
   loginStore!: LoginStore
-  userStore!: UserStore
 
   // master
   labStore!: LabStore
   lookupStore!: LookupStore
   sectionStore!: SectionStore
-
   salesTeamStore!: SalesTeamStore
   deginisationStore!: DeginisationStore
   departmentStore!: DepartmentStore
@@ -86,7 +88,11 @@ export class Stores extends Store {
   segmentMappingStore!: SegmentMappingStore
 
   // settings
+  userStore!: UserStore
   environmentStore!: EnvironmentStore
+  loginActivityStore!: LoginActivityStore
+  roleMappingStore!: RoleMappingStore
+  shortcutMenuStore!: ShortcutMenuStore
 
   constructor() {
     super()
@@ -131,15 +137,11 @@ export class Stores extends Store {
     // settings
     this.userStore = new UserStore()
     this.environmentStore = new EnvironmentStore()
-
-    //setTimeout(() => {
-      
-    // }, 100);
-
+    this.loginActivityStore = new LoginActivityStore()
+    this.roleMappingStore = new RoleMappingStore()
+    this.shortcutMenuStore = new ShortcutMenuStore()
   }
-  updateLoginStore() {
-    this.loginStore = new LoginStore()
-  }
+ 
 }
 
 export const stores = new Stores()

@@ -4,22 +4,25 @@
  
  * @author limsplus
  */
-
-import { http, Http, ServiceResponse } from "@lp/library/modules/http"
-
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { LIST } from "./mutation"
+import { stores } from "@lp/stores"
 class LoginActivityService {
-  listLoginActivity = (page=0,limit=10) =>
+  listLoginActivity = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .get(`/auth/listLoginActivity/${page}/${limit}`)
-        .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
-        })  
-        .catch((error) => {
-          reject(new ServiceResponse<any>(0, error.message, undefined))
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit } },
         })
-    })   
+        .then((response: any) => {
+          stores.loginActivityStore.updateLoginActivityList(response.data)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }
 
 export default LoginActivityService

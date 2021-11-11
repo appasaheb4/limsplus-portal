@@ -99,7 +99,6 @@ export const Login = observer(() => {
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.login.message}`,
                 })
-                loginStore.saveLogin(res.login.data.user)
                 loginStore.clearInputUser()
                 setTimeout(() => {
                   history.push("/dashboard/default")
@@ -444,12 +443,14 @@ export const Login = observer(() => {
         <LibraryComponents.Molecules.ModalChangePassword
           {...modalChangePassword}
           onClick={() => {
-            const exipreDate = new Date(dayjs(new Date()).add(30, "days").format("YYYY-MM-DD"))
+            const exipreDate = new Date(
+              dayjs(new Date()).add(30, "days").format("YYYY-MM-DD")
+            )
             let body = Object.assign(loginStore.inputLogin, userStore.changePassword)
             body = {
               ...body,
               exipreDate,
-            }  
+            }
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               (res) => {
                 if (res.userChnagePassword.success) {

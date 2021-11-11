@@ -5,20 +5,23 @@
  * @author limsplus
  */
 //import * as Models from "../models"
-import { http } from "@lp/library/modules/http"
-   
-class ShortcutMenuService  {
-  updateShortcutMenu = (shortcutMenu: any) =>
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { UPDATE_SHORTCUT_MENU } from "./mutation"
+
+class ShortcutMenuService {
+  updateShortcutMenu = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      //console.log({shortcutMenu});
-      http
-        .post(`/auth/updateShortcutMenu`, shortcutMenu)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_SHORTCUT_MENU,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

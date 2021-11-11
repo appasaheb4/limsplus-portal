@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
-
+     
 export const LIST = gql`
-  mutation($input: DataConversationInput!) {
-    dataConversations(input: $input) {
+  mutation($input: SegmentMappingInput!) {
+    segmentMappings(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,9 +10,27 @@ export const LIST = gql`
       message
       data {
         _id
-        hexadecimal
-        binary
-        ascii
+        dataFlowFrom
+        data_type
+        equipmentType
+        segments
+        segment_usage
+        field_no
+        item_no
+        field_required
+        element_name
+        transmitted_data
+        field_array
+        field_length
+        field_type
+        repeat_delimiter
+        mandatory
+        lims_descriptions
+        lims_tables
+        lims_fields
+        required_for_lims
+        notes
+        attachments
         environment
         dateOfEntry
         lastUpdated
@@ -22,8 +40,8 @@ export const LIST = gql`
 `
 
 export const REMOVE_RECORD = gql`
-  mutation($input: DataConversationRemoveInput!) {
-    removeDataConversation(input: $input) {
+  mutation($input: SegmentMappingRemoveInput!) {
+    removeSegmentMapping(input: $input) {
       success
       message
     }
@@ -31,8 +49,17 @@ export const REMOVE_RECORD = gql`
 `
 
 export const CREATE_RECORD = gql`
-  mutation($input: CreateDataConversationInput!) {
-    createDataConversation(input: $input) {
+  mutation($input: CreateSegmentMappingInput!) {
+    createSegmentMapping(input: $input) {
+      success
+      message
+    }
+  }
+`
+
+export const IMPORT_RECORDS = gql`
+  mutation($input: CreateSegmentMappingInput!) {
+    importSegmentMapping(input: $input) {
       success
       message
     }
@@ -40,8 +67,8 @@ export const CREATE_RECORD = gql`
 `
 
 export const UPDATE_RECORD = gql`
-  mutation($input: UpdateDataConversationInput!) {
-    updateDataConversation(input: $input) {
+  mutation($input: UpdateSegmentMappingInput!) {
+    updateSegmentMapping(input: $input) {
       success
       message
     }

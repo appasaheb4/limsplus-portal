@@ -1,5 +1,3 @@
-export * from './Communication'
-
 export interface UpdateItem {
   value: string | boolean | undefined | any[]
   dataField: string
@@ -20,4 +18,7 @@ export interface Mapping {
     values: MappingValues[]
   }
 }
+
+
+export * from "./Communication"
 export * from "./constants"
