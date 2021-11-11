@@ -1,5 +1,3 @@
-
-
 export class ConvertTo {
   hl7?: any
   hexDecimal?: any
@@ -10,8 +8,6 @@ export class ConvertTo {
     this.astom = rawData.astom
   }
 }
-
-// segment
 
 
 

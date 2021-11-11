@@ -8,8 +8,8 @@ import "@lp/library/assets/css/accordion.css"
 
 import { useStores } from "@lp/stores"
 
-import * as Config from "@lp/config"
-import * as FeatureComponents from "../../components"
+import * as Config from "@lp/config"  
+import * as FeatureComponents from "../components"
 import { HostCommunicationFlows, HexToAsciiFlow } from "../../flows"
 
 import { RouterFlow } from "@lp/flows"
@@ -684,7 +684,7 @@ const HostCommunication = observer(() => {
                           space={4}
                           justify="stretch"
                           fill
-                        >
+                        >   
                           <div className={`grid grid-cols-3 gap-4`}>
                             <div className="col-span-2">
                               {hostCommunicationStore.convertTo?.hl7 !==
@@ -693,7 +693,7 @@ const HostCommunication = observer(() => {
                                   data={toJS(hostCommunicationStore.convertTo.hl7)}
                                 />
                               )}
-                            </div>
+                            </div>  
                             <div className="flex flex-col items-center justify-center">
                               <div>
                                 <LibraryComponents.Atoms.Buttons.Button

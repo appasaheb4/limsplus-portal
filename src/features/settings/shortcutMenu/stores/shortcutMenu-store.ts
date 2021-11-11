@@ -1,13 +1,19 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
 
 @version(0.1)
-class ShortcutMenuStore {
-  @ignore @observable shortcutMenuList?: any[] = []
-  @ignore @observable isDragDropList: boolean = false
+export class ShortcutMenuStore {
+  @ignore @observable shortcutMenuList: any[]
+  @ignore @observable isDragDropList: boolean
+  
   constructor() {
-    makeAutoObservable(this)
+    this.shortcutMenuList = []
+    this.isDragDropList = false
+    makeObservable<ShortcutMenuStore, any>(this, {
+      shortcutMenuList: observable,
+      isDragDropList: observable,
+    })
   }
 
   @computed get ShortcutMenuService() {
@@ -21,4 +27,3 @@ class ShortcutMenuStore {
     this.isDragDropList = status
   }
 }
-export default ShortcutMenuStore

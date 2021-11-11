@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 
 import { toggleSidebar } from "../../redux/actions/sidebarActions"
 import { useHistory } from "react-router-dom"
-import { stores,useStores } from "@lp/stores"
+import { stores, useStores } from "@lp/stores"
 
 import * as Assets from "@lp/library/assets"
 import * as LibraryComponents from "@lp/library/components"
@@ -26,7 +26,7 @@ import {
 } from "reactstrap"
 
 const NavbarComponent = observer(({ dispatch }) => {
-  const {userStore,loginStore} = useStores()
+  const { userStore, loginStore } = useStores()
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
 
@@ -68,41 +68,39 @@ const NavbarComponent = observer(({ dispatch }) => {
             </LibraryComponents.Atoms.Tooltip>
           </LibraryComponents.Atoms.Buttons.Button>
           {loginStore.login?.shortcutMenu &&
-            loginStore.login?.shortcutMenu[
-              loginStore.login.role || ""
-            ] &&
-            loginStore.login?.shortcutMenu[
-              loginStore.login.role || ""
-            ].map((item) => (
-              <>
-                <div className="ml-1 m-0.5">
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="medium"
-                    type="outline"
-                    onClick={async () => {
-                      await RouterFlow.updateSelectedCategory(
-                        stores,
-                        item.category,
-                        item.name
-                      )
-                      history.push(item.path)
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
-                        size="22"
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                            LibraryComponents.Atoms.Icons.IconBs.BsList
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </LibraryComponents.Atoms.Buttons.Button>
-                </div>
-              </>
-            ))}
+            loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
+            loginStore.login?.shortcutMenu[loginStore.login.role || ""].map(
+              (item) => (
+                <>
+                  <div className="ml-1 m-0.5">
+                    <LibraryComponents.Atoms.Buttons.Button
+                      size="medium"
+                      type="outline"
+                      onClick={async () => {
+                        await RouterFlow.updateSelectedCategory(
+                          stores,
+                          item.category,
+                          item.name
+                        )
+                        history.push(item.path)
+                      }}
+                    >
+                      <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#000"
+                          size="22"
+                        >
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
+                              LibraryComponents.Atoms.Icons.IconBs.BsList
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                      </LibraryComponents.Atoms.Tooltip>
+                    </LibraryComponents.Atoms.Buttons.Button>
+                  </div>
+                </>
+              )
+            )}
         </Form>
 
         <Collapse navbar>
@@ -176,14 +174,14 @@ const NavbarComponent = observer(({ dispatch }) => {
                       sessionAllowed: res.data.sessionAllowed,
                     })
                     setModalSessionAllowed({
-                      show: true,  
+                      show: true,
                       data: res.data.loginActivityList,
                     })
                   }
                 })
               }}
             >
-              <label className="inline w-8 text-center" style={{width:'40px'}}>
+              <label className="inline w-8 text-center" style={{ width: "40px" }}>
                 {loginStore.login?.sessionAllowed}
               </label>
             </LibraryComponents.Atoms.Buttons.Button>
@@ -193,16 +191,12 @@ const NavbarComponent = observer(({ dispatch }) => {
                   <div className="flex items-center">
                     <img
                       className="rounded-circle mr-3"
-                      src={
-                        loginStore.login?.picture || Assets.defaultAvatar
-                      }
+                      src={loginStore.login?.picture || Assets.defaultAvatar}
                       alt={loginStore.login?.fullName}
                       width="40"
                       height="40"
                     />
-                    <span className="text-dark">
-                      {loginStore.login?.fullName}
-                    </span>
+                    <span className="text-dark">{loginStore.login?.fullName}</span>
                   </div>
                 </DropdownToggle>
               </span>
@@ -248,10 +242,7 @@ const NavbarComponent = observer(({ dispatch }) => {
           const exipreDate = new Date(
             dayjs(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
           )
-          let body = Object.assign(
-            loginStore.login,
-            userStore.changePassword
-          )
+          let body = Object.assign(loginStore.login, userStore.changePassword)
           body = {
             ...body,
             exipreDate,
@@ -322,7 +313,7 @@ const NavbarComponent = observer(({ dispatch }) => {
             }
           })
         }}
-        onClose={() => {   
+        onClose={() => {
           setModalSessionAllowed({ show: false })
         }}
       />

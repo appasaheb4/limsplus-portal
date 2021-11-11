@@ -1,22 +1,17 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
-import { unionBy } from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryModels from "@lp/library/models"
-import * as Services from "../services"
 
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 
 import "react-dropdown-tree-select/dist/styles.css"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 const router = dashboardRoutes
+
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
-import { stores } from "@lp/stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -30,21 +25,19 @@ const getListStyle = (isDraggingOver) => ({
 })
 
 const RoleMapping = observer(() => {
-  const { loginStore } = useStores()
+  const { loginStore, roleMappingStore, roleStore, routerStore } = useStores()
 
   const [hideRole, setHideRole] = useState<boolean>(false)
   const [modalConfirm, setModalConfirm] = useState<any>()
-  let roleList: any = RoleStore.roleStore.listRole || []
-  for (const router of Stores.roleMappingStore.roleMappingList || []) {
+  let roleList: any = roleStore.listRole || []
+  for (const router of roleMappingStore.roleMappingList || []) {
     if (router) {
       roleList = roleList.filter((item) => {
         return item.code !== router.role.code
       })
     }
   }
-  //console.log({ roleList })
 
-  const description = roleList.length > 0 ? roleList[0].description : undefined
   const [isModify, setIsModify] = useState<any>({ status: false })
   const [hideAddRoleMapping, setHideAddRoleMapping] = useState<boolean>(true)
 
@@ -83,7 +76,7 @@ const RoleMapping = observer(() => {
       }
     })
     if (routers) {
-      stores.routerStore.updateRouter(routers)
+      routerStore.updateRouter(routers)
     }
   }, [])
 
@@ -91,14 +84,11 @@ const RoleMapping = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(
-        toJS(stores.routerStore.userPermission),
-        "Add"
-      ) && (
+      {RouterFlow.checkPermission(toJS(routerStore.userPermission), "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddRoleMapping}
           onClick={(status) => setHideAddRoleMapping(!hideAddRoleMapping)}
@@ -114,43 +104,41 @@ const RoleMapping = observer(() => {
             <select
               name="defualtLab"
               disabled={hideRole}
-              value={Stores.roleMappingStore.selectedRole as any}
+              value={roleMappingStore.selectedRole as any}
               className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
               onChange={(e) => {
                 const role = roleList[e.target.value]
                 if (role.code !== "SYSADMIN") {
-                  const routers: any = stores.routerStore.router.filter(
-                    (item: any) => {
-                      const children = item.children.filter((childernItem) => {
-                        if (
-                          childernItem.name !== "Role" &&
-                          childernItem.name !== "User" &&
-                          childernItem.name !== "Login Activity" &&
-                          childernItem.name !== "Role Mapping" &&
-                          childernItem.name !== "Environment Settings" &&
-                          childernItem.name !== "Notice Boards"
-                        ) {
-                          childernItem.title = childernItem.name
-                          childernItem.toggle = false
-                          childernItem.permission = permission
-                          childernItem.icon = childernItem.icon
-                          return childernItem
-                        }
-                      })
-                      item.children = children
-                      return item
-                    }
-                  )
+                  const routers: any = routerStore.router.filter((item: any) => {
+                    const children = item.children.filter((childernItem) => {
+                      if (
+                        childernItem.name !== "Role" &&
+                        childernItem.name !== "User" &&
+                        childernItem.name !== "Login Activity" &&
+                        childernItem.name !== "Role Mapping" &&
+                        childernItem.name !== "Environment Settings" &&
+                        childernItem.name !== "Notice Boards"
+                      ) {
+                        childernItem.title = childernItem.name
+                        childernItem.toggle = false
+                        childernItem.permission = permission
+                        childernItem.icon = childernItem.icon
+                        return childernItem
+                      }
+                    })
+                    item.children = children
+                    return item
+                  })
                   if (routers) {
-                    stores.routerStore.updateRouter(routers)
+                    routerStore.updateRouter(routers)
                   }
                 }
-                Stores.roleMappingStore.updateSelectedRole(toJS(role))
+                roleMappingStore.updateSelectedRole(toJS(role))
               }}
             >
               <option selected>
-                {Stores.roleMappingStore.selectedRole
-                  ? Stores.roleMappingStore.selectedRole.description
+                {roleMappingStore.selectedRole
+                  ? roleMappingStore.selectedRole.description
                   : `Select`}
               </option>
               {roleList.map((item: any, index: number) => (
@@ -162,14 +150,14 @@ const RoleMapping = observer(() => {
           </LibraryComponents.Atoms.Form.InputWrapper>
 
           <div className="mt-4 overflow-auto">
-            {stores.routerStore.router && (
+            {routerStore.router && (
               <DragDropContext
                 onDragEnd={(result: any) => {
                   console.log({ result })
-                  const items = Array.from(stores.routerStore.router || [])
+                  const items = Array.from(routerStore.router || [])
                   const [reorderedItem] = items.splice(result.source.index, 1)
                   items.splice(result.destination.index, 0, reorderedItem)
-                  stores.routerStore.updateRouter(items)
+                  routerStore.updateRouter(items)
                 }}
               >
                 <Droppable droppableId="parent" direction="vertical">
@@ -180,7 +168,7 @@ const RoleMapping = observer(() => {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      {stores.routerStore.router.map((item, index) => (
+                      {routerStore.router.map((item, index) => (
                         <Draggable
                           key={item.name}
                           draggableId={item.name}
@@ -200,23 +188,23 @@ const RoleMapping = observer(() => {
                                   value={item.title}
                                   onChange={(e) => {
                                     const title = e.target.value
-                                    const routers = toJS(stores.routerStore.router)
+                                    const routers = toJS(routerStore.router)
                                     routers[index].title = title
-                                    stores.routerStore.updateRouter(routers)
+                                    routerStore.updateRouter(routers)
                                   }}
                                   onBlur={() => {
-                                    const routers = toJS(stores.routerStore.router)
+                                    const routers = toJS(routerStore.router)
                                     routers[index].toggle = false
-                                    stores.routerStore.updateRouter(routers)
+                                    routerStore.updateRouter(routers)
                                   }}
                                 />
                               ) : (
                                 <p
                                   className="font-bold"
                                   onDoubleClick={() => {
-                                    const routers = toJS(stores.routerStore.router)
+                                    const routers = toJS(routerStore.router)
                                     routers[index].toggle = true
-                                    stores.routerStore.updateRouter(routers)
+                                    routerStore.updateRouter(routers)
                                   }}
                                 >
                                   {item.title}
@@ -235,9 +223,9 @@ const RoleMapping = observer(() => {
                                       0,
                                       reorderedItem
                                     )
-                                    const router = [...stores.routerStore.router]
+                                    const router = [...routerStore.router]
                                     router[index].children = items
-                                    stores.routerStore.updateRouter(router)
+                                    routerStore.updateRouter(router)
                                   }}
                                 >
                                   <Droppable
@@ -274,23 +262,23 @@ const RoleMapping = observer(() => {
                                                       onChange={(e) => {
                                                         const title = e.target.value
                                                         const routers = toJS(
-                                                          stores.routerStore.router
+                                                          routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].title = title
-                                                        stores.routerStore.updateRouter(
+                                                        routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
                                                       onBlur={() => {
                                                         const routers = toJS(
-                                                          stores.routerStore.router
+                                                          routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].toggle = false
-                                                        stores.routerStore.updateRouter(
+                                                        routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
@@ -300,12 +288,12 @@ const RoleMapping = observer(() => {
                                                       className="font-bold"
                                                       onDoubleClick={() => {
                                                         const routers = toJS(
-                                                          stores.routerStore.router
+                                                          routerStore.router
                                                         )
                                                         routers[index].children[
                                                           indexChildren
                                                         ].toggle = true
-                                                        stores.routerStore.updateRouter(
+                                                        routerStore.updateRouter(
                                                           routers
                                                         )
                                                       }}
@@ -323,8 +311,7 @@ const RoleMapping = observer(() => {
                                                         <li
                                                           onClick={async () => {
                                                             const routers = toJS(
-                                                              stores.routerStore
-                                                                .router
+                                                              routerStore.router
                                                             )
                                                             const modifyPermission =
                                                               item.children[
@@ -355,7 +342,7 @@ const RoleMapping = observer(() => {
                                                             ] = toJS(
                                                               modifyPermission
                                                             )
-                                                            stores.routerStore.updateRouter(
+                                                            routerStore.updateRouter(
                                                               routers
                                                             )
                                                           }}
@@ -405,11 +392,11 @@ const RoleMapping = observer(() => {
               icon={LibraryComponents.Atoms.Icon.Save}
               onClick={() => {
                 if (
-                  Stores.roleMappingStore.selectedRole?.description !== undefined &&
-                  stores.routerStore.router !== undefined
+                  roleMappingStore.selectedRole?.description !== undefined &&
+                  routerStore.router !== undefined
                 ) {
                   let router: any[] = []
-                  stores.routerStore.router.filter((item) => {
+                  routerStore.router.filter((item) => {
                     return item.children.filter((childern, indexChildern) => {
                       childern.permission.filter((permission, indexPermission) => {
                         if (permission.checked) {
@@ -458,22 +445,24 @@ const RoleMapping = observer(() => {
                     })
                   })
                   isModify.status
-                    ? Stores.roleMappingStore.roleMappingService
+                    ? roleMappingStore.roleMappingService
                         .updateRoleMapping({
-                          id: isModify.id,
-                          role: Stores.roleMappingStore.selectedRole,
-                          router: JSON.stringify(router),
+                          input: {
+                            _id: isModify.id,
+                            role: roleMappingStore.selectedRole,
+                            router: JSON.stringify(router),
+                          },
                         })
                         .then((res) => {
-                          if (res.status === LibraryModels.StatusCode.SUCCESS) {
+                          if (res.updateRoleMapping.success) {
                             if (
-                              Stores.roleMappingStore.selectedRole?.code ===
-                              LoginStore.loginStore.login?.role
+                              roleMappingStore.selectedRole?.code ===
+                              loginStore.login?.role
                             ) {
-                              stores.routerStore.updateUserRouter(router)
+                              routerStore.updateUserRouter(router)
                             }
                             LibraryComponents.Atoms.Toast.success({
-                              message: `😊 Role mapping updated.`,
+                              message: `😊 ${res.updateRoleMapping.message}`,
                             })
                             setTimeout(() => {
                               window.location.reload()
@@ -482,15 +471,17 @@ const RoleMapping = observer(() => {
                             alert("Data not update. Please try again")
                           }
                         })
-                    : Stores.roleMappingStore.roleMappingService
+                    : roleMappingStore.roleMappingService
                         .addRoleMapping({
-                          role: Stores.roleMappingStore.selectedRole,
-                          router: JSON.stringify(router),
+                          input: {
+                            role: roleMappingStore.selectedRole,
+                            router: JSON.stringify(router),
+                          },
                         })
                         .then((res) => {
-                          if (res.status === LibraryModels.StatusCode.CREATED) {
+                          if (res.createRoleMapping.success) {
                             LibraryComponents.Atoms.Toast.success({
-                              message: `😊 Role mapping created.`,
+                              message: `😊 ${res.createRoleMapping.message}`,
                             })
                             setTimeout(() => {
                               window.location.reload()
@@ -513,7 +504,6 @@ const RoleMapping = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.userStore.clear()
                 window.location.reload()
               }}
             >
@@ -524,48 +514,46 @@ const RoleMapping = observer(() => {
         <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.RoleMappingList
-            data={Stores.roleMappingStore.roleMappingList || []}
-            totalSize={Stores.roleMappingStore.roleMappingListCount}
+            data={roleMappingStore.roleMappingList || []}
+            totalSize={roleMappingStore.roleMappingListCount}
             isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
+              toJS(routerStore.userPermission),
               "Edit/Modify"
             )}
             onDelete={(selectedUser) => setModalConfirm(selectedUser)}
             onDuplicate={(selectedItem: any) => {
               if (selectedItem.code !== "SYSADMIN") {
-                const routers: any = stores.routerStore.router.filter(
-                  (item: any) => {
-                    const children = item.children.filter((childernItem) => {
-                      if (    
-                        childernItem.name !== "Role" &&
-                        childernItem.name !== "User" &&
-                        childernItem.name !== "Login Activity" &&
-                        childernItem.name !== "Role Mapping" &&
-                        childernItem.name !== "Environment Settings" &&
-                        childernItem.name !== "Notice Boards"
-                      ) {
-                        return childernItem
-                      }
-                    })
-                    item.children = children
-                    return item
-                  }
-                )
+                const routers: any = routerStore.router.filter((item: any) => {
+                  const children = item.children.filter((childernItem) => {
+                    if (
+                      childernItem.name !== "Role" &&
+                      childernItem.name !== "User" &&
+                      childernItem.name !== "Login Activity" &&
+                      childernItem.name !== "Role Mapping" &&
+                      childernItem.name !== "Environment Settings" &&
+                      childernItem.name !== "Notice Boards"
+                    ) {
+                      return childernItem
+                    }
+                  })
+                  item.children = children
+                  return item
+                })
                 if (routers) {
-                  stores.routerStore.updateRouter(routers)
+                  routerStore.updateRouter(routers)
                 }
               }
               setHideAddRoleMapping(!hideAddRoleMapping)
               setHideRole(true)
-              Stores.roleMappingStore.updateSelectedRole(toJS(selectedItem))
+              roleMappingStore.updateSelectedRole(toJS(selectedItem))
               setIsModify({ status: true, id: selectedItem.id })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.roleMappingStore.fetchRoleMappingList(page, limit)
+              roleMappingStore.fetchRoleMappingList(page, limit)
             }}
           />
         </div>
@@ -573,13 +561,15 @@ const RoleMapping = observer(() => {
           {...modalConfirm}
           click={(type?: string) => {
             if (type === "Delete") {
-              Stores.roleMappingStore.roleMappingService
-                .deleteRoleMapping(modalConfirm.id)
+              roleMappingStore.roleMappingService
+                .deleteRoleMapping({ input: { id: modalConfirm.id } })
                 .then((res: any) => {
-                  if (res.status === LibraryModels.StatusCode.SUCCESS) {
-                    LibraryComponents.Atoms.Toast.success({ message: `😊Deleted.` })
+                  if (res.removeRoleMapping.success) {
+                    LibraryComponents.Atoms.Toast.success({
+                      message: `😊 ${res.removeRoleMapping.message}`,
+                    })
                     setModalConfirm({ show: false })
-                    Stores.roleMappingStore.fetchRoleMappingList()
+                    roleMappingStore.fetchRoleMappingList()
                   }
                 })
             }

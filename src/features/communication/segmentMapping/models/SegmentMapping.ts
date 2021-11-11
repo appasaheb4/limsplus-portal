@@ -1,30 +1,30 @@
 export class SegmentMapping {
-    _id?: string
-    dataFlowFrom?: string
-    data_type?: string
-    equipmentType?: string
-    segments?: string
-    segment_usage?: string
-    field_no?: string
-    item_no?: string
-    field_required?: boolean
-    element_name?: string
-    transmitted_data?: string
-    field_array?: string
-    field_length?: string
-    field_type?: string
-    repeat_delimiter?: boolean
-    mandatory?: boolean
-    lims_descriptions?: string
-    lims_tables?: string
-    lims_fields?: string
-    required_for_lims?: boolean
-    notes?: string
-    attachments?: any
-    environment?: string
-    dateOfEntry?: string
-    lastUpdated?: string
-    __v?: string
+    _id: string
+    dataFlowFrom: string
+    data_type: string
+    equipmentType: string
+    segments: string
+    segment_usage: string
+    field_no: string
+    item_no: string   
+    field_required: boolean
+    element_name: string
+    transmitted_data: string
+    field_array: string
+    field_length: string
+    field_type: string
+    repeat_delimiter: boolean
+    mandatory: boolean
+    lims_descriptions: string
+    lims_tables: string
+    lims_fields: string
+    required_for_lims: boolean
+    notes: string
+    attachments: any
+    environment: string
+    dateOfEntry: Date
+    lastUpdated: Date
+   
     constructor(rawData: { [key in string]: any }) {
       this._id = rawData._id
       this.dataFlowFrom = rawData.dataFlowFrom
@@ -51,6 +51,5 @@ export class SegmentMapping {
       this.environment = rawData.environment
       this.dateOfEntry = rawData.dateOfEntry
       this.lastUpdated = rawData.lastUpdated
-      this.__v = rawData.__v
     }
   }

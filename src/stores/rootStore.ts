@@ -1,19 +1,24 @@
-import { makeAutoObservable, action, observable } from "mobx"
+import { makeObservable, action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import Session from "@lp/library/modules/session"
-import { stores } from "@lp/stores"
+//import { stores } from "@lp/stores"
 
 @version(1.0)
 export class RootStore {
-  @ignore @observable processLoading: boolean = false
-  @ignore @observable session?: any
+  @ignore @observable processLoading: boolean
+  @ignore @observable session!: any
 
   //modals
-  @ignore @observable modalTokenExpire?: any
+  @ignore @observable modalTokenExpire!: any
   constructor() {
-    makeAutoObservable(this)
+    this.processLoading = false
+    makeObservable<RootStore, any>(this, {
+      processLoading: observable,
+      session: observable,
+      modalTokenExpire: observable,
+    })
   }
-   
+
   @action setProcessLoading(processLoading: boolean) {
     this.processLoading = processLoading
   }
@@ -22,7 +27,7 @@ export class RootStore {
       await Session.getSession()
       try {
         if (Session.initialized) {
-          if (Session.hasSession && stores.loginStore.login) {
+          if (Session.hasSession && this.session) {
             resolve(true)
           }
           resolve(false)
@@ -32,6 +37,7 @@ export class RootStore {
       }
     })
   }
+  
   @action updateSesssion(value: any) {
     this.session = value
   }
