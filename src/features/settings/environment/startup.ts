@@ -1,6 +1,6 @@
-import {Stores} from './stores';
+import {stores} from '@lp/stores';
 const startup = async () => {
-   Stores.enviromentStore.fetchEnvironment()
+   stores.environmentStore.fetchEnvironment({filter:{type:'environmentSettings'}})
 }   
    
 export default startup;  

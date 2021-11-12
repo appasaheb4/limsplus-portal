@@ -4,55 +4,68 @@
  
  * @author limsplus
  */
-import * as Models from "../models"
-import {  Http, http, ServiceResponse } from "@lp/library/modules/http"
-
-class NoticeBoardService  {
-  noticeBoardsList = (page=0,limit=10) =>
+import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
+import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
+import { stores } from "@lp/stores"
+   
+class NoticeBoardService {
+  noticeBoardsList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .get(`/settings/noticeBoards/listNoticeBoards/${page}/${limit}`)
+      client
+        .mutate({
+          mutation: LIST,
+          variables: { input: { page, limit } },
+        })
         .then((response: any) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+          stores.noticeBoardStore.updateNoticeBoardsList(response.data)
+          resolve(response.data)
         })
-        .catch((error) => {
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
-  addNoticeBoard = (notice: Models.NoticeBoard) =>
+  addNoticeBoard = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/settings/noticeBoards/addNoticeBoards`, notice)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: CREATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
-  deleteNoticeBoards = (id: string) =>
+  deleteNoticeBoards = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .delete(`/settings/noticeBoards/deleteNoticeBoards/${id}`)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: REMOVE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
-  updateSingleFiled = (newValue: any) =>
+  updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`/settings/noticeBoards/updateSingleFiled`, newValue)
-        .then((res) => {
-          resolve(res)
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
         })
-        .catch((error) => {
-          reject({ error })
+        .then((response: any) => {
+          resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 
