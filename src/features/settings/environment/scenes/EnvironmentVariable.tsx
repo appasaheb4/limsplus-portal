@@ -34,9 +34,9 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
         documentType: "environmentVariable",
       },
     }).then((res) => {
-      if (res.addEnvironment.success) {
+      if (res.createEnviroment.success) {
         LibraryComponents.Atoms.Toast.success({
-          message: `😊 ${res.addEnvironment.message}`,
+          message: `😊 ${res.createEnviroment.message}`,
         })
         setTimeout(() => {
           window.location.reload()
