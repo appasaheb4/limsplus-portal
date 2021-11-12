@@ -1,7 +1,7 @@
 import { makeObservable, action, observable } from "mobx"
 import { version, ignore } from "mobx-sync"
 import Session from "@lp/library/modules/session"
-//import { stores } from "@lp/stores"
+import { stores } from "@lp/stores"
 
 @version(1.0)
 export class RootStore {
@@ -27,7 +27,7 @@ export class RootStore {
       await Session.getSession()
       try {
         if (Session.initialized) {
-          if (Session.hasSession && this.session) {
+          if (Session.hasSession && stores.loginStore.login) {
             resolve(true)
           }
           resolve(false)
@@ -37,7 +37,7 @@ export class RootStore {
       }
     })
   }
-  
+
   @action updateSesssion(value: any) {
     this.session = value
   }

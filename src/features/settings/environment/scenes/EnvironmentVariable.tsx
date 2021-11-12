@@ -5,14 +5,14 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 import * as FeatureComponents from "../components"
-import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import { Stores } from "../stores"
-import { Stores as LoginStore } from "@lp/features/login/stores"
 import { useForm, Controller } from "react-hook-form"
+
+import { useStores } from "@lp/stores"
+
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
-import { stores, useStores } from "@lp/stores"
+
 interface EnvironmentVariableProps {
   onModalConfirm?: (item: any) => void
 }
@@ -24,13 +24,13 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
     formState: { errors },
     setValue,
   } = useForm()
-  const { environmentStore } = useStores()
+  const { loginStore, environmentStore, routerStore } = useStores()
 
   const onSubmitEnvironmentVariable = () => {
-    Stores.enviromentStore.EnvironmentService.addEnvironment({
+    environmentStore.EnvironmentService.addEnvironment({
       input: {
-        ...Stores.enviromentStore.environmentVariable,
-        enteredBy: stores.loginStore.login.userId,
+        ...environmentStore.environmentVariable,
+        enteredBy: loginStore.login.userId,
         documentType: "environmentVariable",
       },
     }).then((res) => {
@@ -68,8 +68,8 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                   }
                   onChange={(environmentVariable) => {
                     onChange(environmentVariable)
-                    Stores.enviromentStore.updatEnvironmentVariable({
-                      ...Stores.enviromentStore.environmentVariable,
+                    environmentStore.updatEnvironmentVariable({
+                      ...environmentStore.environmentVariable,
                       environmentVariable: environmentVariable.toUpperCase(),
                     })
                   }}
@@ -93,15 +93,15 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                     onChange={(e) => {
                       const category = e.target.value as string
                       onChange(category)
-                      Stores.enviromentStore.updatEnvironmentVariable({
-                        ...Stores.enviromentStore.environmentVariable,
+                      environmentStore.updatEnvironmentVariable({
+                        ...environmentStore.environmentVariable,
                         category,
                       })
                     }}
                   >
                     <option selected>Select</option>
                     {LibraryUtils.lookupItems(
-                      stores.routerStore.lookupItems,
+                      routerStore.lookupItems,
                       "ENVIRONMENT_VARIABLES_CATEGORY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -126,11 +126,11 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                     errors.descriptions ? "Please Enter descriptions" : "Description"
                   }
                   hasError={errors.descriptions}
-                  //value={Stores.userStore.user.password}
+                  //value={userStore.user.password}
                   onChange={(descriptions) => {
                     onChange(descriptions)
-                    Stores.enviromentStore.updatEnvironmentVariable({
-                      ...Stores.enviromentStore.environmentVariable,
+                    environmentStore.updatEnvironmentVariable({
+                      ...environmentStore.environmentVariable,
                       descriptions,
                     })
                   }}
@@ -156,7 +156,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                     errors.userId ? "Please Enter Entered By" : "Entered By"
                   }
                   hasError={errors.userId}
-                  value={LoginStore.loginStore.login?.userId}
+                  value={loginStore.login?.userId}
                   disabled={true}
                 />
               )}
@@ -196,14 +196,14 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
           data={environmentStore.environmentVariableList}
           totalSize={environmentStore.environmentVariableListCount}
           extraData={{
-            lookupItems: stores.routerStore.lookupItems,
+            lookupItems: routerStore.lookupItems,
           }}
           isDelete={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) =>
@@ -229,9 +229,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 body: `Update recoard!`,
               })
           }}
-          onPageSizeChange={(page, limit) => {
-            // Stores.enviromentSettingsStore.fetchSessionManagementList(page, limit)
-          }}
+          onPageSizeChange={(page, limit) => {}}
         />
       </div>
     </>

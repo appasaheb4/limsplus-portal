@@ -4,11 +4,13 @@ export class EnvironmentSettings {
   lab: any[]
   user: Models.Users[]
   department: any[]
-  variable:  string
+  variable: string
   value: string
   descriptions: string
-  documentType: string
   environment: string
+  documentType: string
+  dateOfEntry: Date
+  lastUpdated: Date
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id
     this.lab = rawData.lab
@@ -19,5 +21,7 @@ export class EnvironmentSettings {
     this.descriptions = rawData.descriptions
     this.documentType = rawData.documentType
     this.environment = rawData.environment
+    this.dateOfEntry = rawData.dateOfEntry
+    this.lastUpdated = rawData.lastUpdated
   }
 }
