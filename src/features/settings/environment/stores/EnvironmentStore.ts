@@ -37,9 +37,15 @@ export class EnvironmentStore {
   }
 
   @action updateEnvVariableList(res: any) {
-    if (!res.success) return alert(res.message)
-    this.environmentVariableList = res.getAllEnvironment.data
-    this.environmentVariableListCount = res.getAllEnvironment.count
+    if (!res.enviroments.success) return alert(res.enviroments.message)
+    this.environmentVariableList = res.enviroments.data
+    this.environmentVariableListCount = res.enviroments.paginatorInfo.count
+  }
+
+  @action updateEnvSettingsList(res: any){
+    if (!res.enviroments.success) return alert(res.enviroments.message)
+    this.environmentSettingsList = res.enviroments.data
+    this.environmentSettingsListCount = res.enviroments.paginatorInfo.count
   }
 
   @action updateEnvironmentSettings(env: Models.EnvironmentSettings) {

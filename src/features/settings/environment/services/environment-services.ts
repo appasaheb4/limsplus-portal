@@ -5,7 +5,7 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Models from "../models"
+//import * as Models from "../models"
 import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
 import { stores } from "@lp/stores"
 
@@ -15,17 +15,15 @@ export class EnvironmentService {
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { filter:{type:'environmentSettings'}, page, limit } },
+          variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
-          console.log({ response })
-
-          // stores.environmentStore.updatEnvironmentVariableList(
-          //   response.data.getAllEnvironment.data
-          // )
-          // stores.environmentStore.updateEnvironmentVariableCount(
-          //   response.data.getAllEnvironment.getAllEnvironment
-          // )
+          if (filter.type === "environmentVariable") {
+            stores.environmentStore.updateEnvVariableList(response.data)
+          }
+          if (filter.type === "environmentSettings") {
+            stores.environmentStore.updateEnvSettingsList(response.data)
+          }
           resolve(response.data)
         })
         .catch((error) =>
@@ -33,9 +31,7 @@ export class EnvironmentService {
         )
     })
 
-  addEnvironment = (variables: {
-    input: Models.EnvironmentVariable | Models.EnvironmentSettings
-  }) =>
+  addEnvironment = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({

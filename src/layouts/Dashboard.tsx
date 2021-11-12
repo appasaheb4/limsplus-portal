@@ -171,8 +171,6 @@ const Dashboard = observer(({ children }) => {
 
   const router = async () => {
     let router: any = toJS(loginStore.login)
-    console.log({router});
-    
     if (router && !stores.routerStore.userRouter) {
       router = JSON.parse(router.roleMapping.router[0])
       stores.routerStore.updateUserRouter(router)
