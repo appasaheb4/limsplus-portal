@@ -1,30 +1,24 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, {  useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import * as FeatureComponents from "../components"
 import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
 
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
-
-import { RouterFlow } from "@lp/flows"
-import { toJS } from "mobx"
-
+   
 import { EnvironmentVariable } from "./EnvironmentVariable"
 import { EnvironmentSettings } from "./EnvironmentSettings"
 
 const Environment = observer(() => {
-  const { loginStore } = useStores()
+  const { loginStore, environmentStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   return (
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
-        />
+          title={routerStore.selectedComponents?.title || ""}
+        />   
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <Accordion>
@@ -58,29 +52,28 @@ const Environment = observer(() => {
         {...modalConfirm}
         click={(type?: string) => {
           if (type === "delete") {
-            Stores.enviromentStore.EnvironmentService.deleteRecord({
+            environmentStore.EnvironmentService.deleteRecord({
               input: { id: modalConfirm.id },
             }).then((res: any) => {
-              if (res.deleteEnvironment.success) {
+              if (res.removeEnviroment.success) {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.deleteEnvironment.message}`,
+                  message: `😊 ${res.removeEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                setTimeout(() => {
-                  window.location.reload()
-                }, 2000)
+                environmentStore.fetchEnvironment({ type: "environmentVariable" })
+                environmentStore.fetchEnvironment({ type: "environmentSettings" })
               }
             })
           } else if (type === "update") {
-            Stores.enviromentStore.EnvironmentService.updateSingleFiled({
+            environmentStore.EnvironmentService.updateSingleFiled({
               input: {
-                ...modalConfirm.data,
-                value: JSON.stringify(modalConfirm.data.value),
+                _id: modalConfirm.data.id,
+                [modalConfirm.data.dataField]: modalConfirm.data.value,
               },
             }).then((res: any) => {
-              if (res.updateSingleFiledEnvironment.success) {
+              if (res.updateEnviroment.success) {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.updateSingleFiledEnvironment.message}`,
+                  message: `😊 ${res.updateEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
                 setTimeout(() => {

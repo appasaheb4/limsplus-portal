@@ -350,7 +350,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Delete",
+                type: "delete",
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
@@ -360,7 +360,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Update",
+                type: "update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update recoard!`,
