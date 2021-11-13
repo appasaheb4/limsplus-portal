@@ -1,6 +1,6 @@
 import * as ModelsLab from "../..//collection/labs/models"
 import * as ModelsDepartment from "../../collection/department/models"
-import * as ModelsRole from "../../collection/roles/models"
+import * as ModelsRole from "../../settings/roles/models"
 export class Users {
   _id: string
   userId: string

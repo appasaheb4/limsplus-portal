@@ -7,8 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
-import {  useStores } from "@lp/stores"
-
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -24,7 +23,14 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     formState: { errors },
     setValue,
   } = useForm()
-  const { environmentStore,userStore, labStore,loginStore,departmentStore,routerStore } = useStores()
+  const {
+    environmentStore,
+    userStore,
+    labStore,
+    loginStore,
+    departmentStore,
+    routerStore,
+  } = useStores()
 
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
@@ -96,7 +102,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               defaultValue=""
             />
 
-            {userStore.userList && (
+            {userStore.userFilterList && (
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -105,10 +111,10 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     id="user"
                     hasError={errors.user}
                   >
-                    <LibraryComponents.Molecules.AutocompleteCheck
+                    <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       data={{
-                        defulatValues: [],
-                        list: userStore.userList,
+                        list: userStore.userFilterList,
+                        selected: environmentStore.selectedItems?.users,
                         displayKey: "fullName",
                         findKey: "fullName",
                       }}
@@ -119,6 +125,33 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
                           user: items,
+                        })
+                        userStore.updateUserFilterList(userStore.userList)
+                      }}
+                      onFilter={(value: string) => {
+                        userStore.UsersService.userFilterByKey({
+                          input: { filter: { key: "fullName", value } },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        console.log({item});
+                        
+                        let users = environmentStore.selectedItems?.users
+                        if (!item.selected) {
+                          if (users && users.length > 0) {
+                            users.push(item)
+                          }  
+                          if (!users) users = [item]
+                        } else {
+                          users &&
+                            users.filter((items) => {
+                              if (items._id === item._id) return
+                            })
+                        }
+                        console.log({ users })
+                        environmentStore.updateSelectedItems({
+                          ...environmentStore.selectedItems,
+                          users,
                         })
                       }}
                     />
@@ -182,7 +215,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         variable,
                       })
                     }}
-                  >  
+                  >
                     <option selected>Select</option>
                     {environmentStore.environmentVariableList &&
                       environmentStore.environmentVariableList.map(
@@ -263,8 +296,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       errors.environment ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     disabled={
-                      loginStore.login &&
-                      loginStore.login.role !== "SYSADMIN"
+                      loginStore.login && loginStore.login.role !== "SYSADMIN"
                         ? true
                         : false
                     }
@@ -278,8 +310,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     }}
                   >
                     <option selected>
-                      {loginStore.login &&
-                      loginStore.login.role !== "SYSADMIN"
+                      {loginStore.login && loginStore.login.role !== "SYSADMIN"
                         ? `Select`
                         : environmentStore.environmentSettings?.environment ||
                           `Select`}
