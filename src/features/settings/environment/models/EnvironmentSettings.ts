@@ -25,3 +25,10 @@ export class EnvironmentSettings {
     this.lastUpdated = rawData.lastUpdated
   }
 }
+
+export class SelectedItems {
+  users: any[]
+  constructor(rawData: { [key in string]: any }) {
+    this.users = rawData.users
+  }
+}

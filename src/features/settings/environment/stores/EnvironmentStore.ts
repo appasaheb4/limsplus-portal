@@ -14,6 +14,8 @@ export class EnvironmentStore {
   @observable environmentVariableList: Models.EnvironmentVariable[]
   @observable environmentVariableListCount: number
 
+  @ignore selectedItems!: Models.SelectedItems
+
   constructor() {
     this.environmentSettingsList = []
     this.environmentSettingsListCount = 0
@@ -26,6 +28,7 @@ export class EnvironmentStore {
       environmentSettingsListCount: observable,
       environmentVariableList: observable,
       environmentVariableListCount: observable,
+      selectedItems: observable,
     })
   }
   @computed get EnvironmentService() {
@@ -42,7 +45,7 @@ export class EnvironmentStore {
     this.environmentVariableListCount = res.enviroments.paginatorInfo.count
   }
 
-  @action updateEnvSettingsList(res: any){
+  @action updateEnvSettingsList(res: any) {
     if (!res.enviroments.success) return alert(res.enviroments.message)
     this.environmentSettingsList = res.enviroments.data
     this.environmentSettingsListCount = res.enviroments.paginatorInfo.count
@@ -70,5 +73,9 @@ export class EnvironmentStore {
 
   @action updateEnvironmentVariableCount(count: number) {
     this.environmentVariableListCount = count
+  }
+
+  @action updateSelectedItems(items: Models.SelectedItems){
+    this.selectedItems = items
   }
 }

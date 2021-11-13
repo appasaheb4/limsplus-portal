@@ -102,7 +102,6 @@ const NavbarComponent = observer(({ dispatch }) => {
               )
             )}
         </Form>
-
         <Collapse navbar>
           <Nav className="ml-auto items-center" navbar>
             <LibraryComponents.Atoms.Buttons.Button
@@ -162,10 +161,11 @@ const NavbarComponent = observer(({ dispatch }) => {
               type="outline"
               onClick={() => {
                 userStore.UsersService.loginActivityList({
-                  userId: loginStore.login.userId,
-                  loginActivityId: loginStore.login.loginActivityId,
+                  input: {
+                    userId: loginStore.login.userId,
+                    loginActivityId: loginStore.login.loginActivityId,
+                  },
                 }).then((res) => {
-                  console.log({ res })
                   if (!res.success) alert(res.message)
                   else {
                     loginStore.updateLogin({

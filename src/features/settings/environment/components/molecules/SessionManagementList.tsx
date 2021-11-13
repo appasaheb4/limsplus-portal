@@ -13,7 +13,7 @@ import * as Services from "../../services"
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RoleStore } from "@lp/features/collection/roles/stores"
+import { Stores as RoleStore } from "@lp/features/settings/roles/stores"
 import { toJS } from "mobx"
 
 interface SessionManagementListProps {

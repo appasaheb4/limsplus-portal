@@ -14,7 +14,6 @@ import { SalesTeamStore } from "@lp/features/collection/salesTeam/stores/salesTe
 import { DeginisationStore } from "@lp/features/collection/deginisation/stores/deginisation-store"
 import { DepartmentStore } from "@lp/features/collection/department/stores/department-store"
 import { AdministrativeDivisionsStore } from "@lp/features/collection/administrativeDivisions/stores/administrativeDivisions-store"
-import { RoleStore } from "@lp/features/collection/roles/stores/role-store"
 import { MasterAnalyteStore } from "@lp/features/collection/masterAnalyte/stores/masterAnalyte-store"
 import { TestAnalyteMappingStore } from "@lp/features/collection/testAnalyteMapping/stores/testAnalyteMapping-store"
 import { TestMasterStore } from "@lp/features/collection/testMaster/stores/testMaster-store"
@@ -39,8 +38,9 @@ import { InterfaceManagerStore } from "@lp/features/communication/interfaceManag
 import { DataConversationStore } from "@lp/features/communication/dataConversation/stores/dataConversation-store"
 import { HostCommunicationStore } from "@lp/features/communication/hostCommunication/stores/hostCommunication-store"
 import { SegmentMappingStore } from "@lp/features/communication/segmentMapping/stores/segmentMapping-store"
-   
+         
 // setting
+import { RoleStore } from "@lp/features/settings/roles/stores/role-store"
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
 import { LoginActivityStore } from "@lp/features/settings/loginActivity/stores/loginActivity-store"
 import { RoleMappingStore } from "@lp/features/settings/mapping/role/stores/rolemapping-store"

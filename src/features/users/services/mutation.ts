@@ -46,6 +46,7 @@ export const UPDATE_IMAGE = gql`
     updateUserImages(input: $input) {
       success
       message
+      data
     }
   }
 `
@@ -99,6 +100,16 @@ export const CHANGE_PASSWORD_BY_ADMIN = gql`
 export const SWITCH_ACCESS = gql`
   mutation($input: UserInput!) {
     userSwitchAccess(input: $input) {
+      success
+      message
+      data
+    }
+  }
+`
+
+export const FILTER_USERS_BY_KEY = gql`
+  mutation($input: UserInput!) {
+    usersFilterByKey(input: $input) {
       success
       message
       data

@@ -8,6 +8,7 @@ import { UserService } from "../services"
 export class UserStore {
   @ignore @observable user!: Models.Users
   @observable userList!: Models.Users[]
+  @ignore userFilterList!: Models.Users[]
   @observable userListCount: number = 0
   @ignore @observable changePassword!: Models.ChangePassword
   @ignore @observable checkExitsUserId: boolean
@@ -15,6 +16,7 @@ export class UserStore {
 
   constructor() {
     this.userList = []
+    this.userFilterList = []
     this.checkExitsUserId = false
     this.checkExistsEmpCode = false
     this.user = new Models.Users({
@@ -28,7 +30,7 @@ export class UserStore {
         .format("YYYY-MM-DD HH:mm:ss"),
       confidential: false,
       confirguration: false,
-      validationLevel:0
+      validationLevel: 0,
     })
     makeObservable<UserStore, any>(this, {
       user: observable,
@@ -37,6 +39,7 @@ export class UserStore {
       changePassword: observable,
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
+      userFilterList: observable,
     })
   }
 
@@ -51,6 +54,7 @@ export class UserStore {
   @action updateUserList(res: any) {
     if (!res.users.success) alert(res.users.message)
     this.userList = res.users.data
+    this.userFilterList = res.users.data
     this.userListCount = res.users.paginatorInfo.count
   }
 
@@ -68,5 +72,15 @@ export class UserStore {
 
   @action setExistsEmpCodeStatus(status: boolean) {
     this.checkExistsEmpCode = status
+  }
+
+  @action updateUserFilterList(res: any){
+    if(!Array.isArray(res)){
+      if (!res.usersFilterByKey.success) alert(res.usersFilterByKey.message)
+      this.userFilterList = res.usersFilterByKey.data
+    }else{
+      this.userFilterList = res
+    }
+    
   }
 }
