@@ -3,54 +3,48 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
-import { Accordion, AccordionItem } from "react-sanfona"
 import "@lp/library/assets/css/accordion.css"
-import * as Utils from "../utils"
 import * as Models from "../models"
-
-import { Stores } from "../stores"
 import { useForm, Controller } from "react-hook-form"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { stores } from "@lp/stores"
+
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
 const NoticeBoard = observer(() => {
-  const { loginStore } = useStores()
+  const { loginStore, labStore, noticeBoardStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm()
-  // const [errors, setErrors] = useState<Models.NoticeBoard>()
   const [modalConfirm, setModalConfirm] = useState<any>()
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.noticeBoardStore.updateNoticeBoard({
-        ...Stores.noticeBoardStore.noticeBoard,
-        lab: stores.loginStore.login.lab,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      noticeBoardStore.updateNoticeBoard({
+        ...noticeBoardStore.noticeBoard,
+        lab: loginStore.login.lab,
       })
-      setValue("lab", stores.loginStore.login.lab)
+      setValue("lab", loginStore.login.lab)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   useEffect(() => {
-    Stores.noticeBoardStore.fetchNoticeBoards()
+    noticeBoardStore.fetchNoticeBoards()
   }, [])
 
- 
-
   const onNoticeBoardSubmit = () => {
-    Stores.noticeBoardStore.NoticeBoardService.addNoticeBoard(
-      Stores.noticeBoardStore.noticeBoard as Models.NoticeBoard
-    ).then((res) => {
-      if (res.status === 201) {
+    noticeBoardStore.NoticeBoardService.addNoticeBoard({
+      input: {
+        ...noticeBoardStore.noticeBoard,
+      },
+    }).then((res) => {
+      if (res.createNoticeBoard.success) {
         LibraryComponents.Atoms.Toast.success({
-          message: `😊 Notice created.`,
+          message: `😊 ${res.createNoticeBoard.message}`,
         })
         setTimeout(() => {
           window.location.reload()
@@ -67,7 +61,7 @@ const NoticeBoard = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
@@ -79,47 +73,48 @@ const NoticeBoard = observer(() => {
             justify="stretch"
             fill
           >
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Lab"
-                  id="labs"
-                  hasError={errors.lab}
-                >
-                  <select
-                    value={Stores.noticeBoardStore.noticeBoard?.lab}
-                    disabled={
-                      stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
-                        ? true
-                        : false
-                    }
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.lab ? "border-red-500" : "border-gray-300"
-                    } rounded-md`}
-                    onChange={(e) => {
-                      const lab = e.target.value as string
-                      onChange(lab)
-                      Stores.noticeBoardStore.updateNoticeBoard({
-                        ...Stores.noticeBoardStore.noticeBoard,
-                        lab,
-                      })
-                    }}
+            {labStore.listLabs && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Lab"
+                    id="labs"
+                    hasError={errors.lab}
                   >
-                    <option selected>Select</option>
-                    {LabStore.labStore.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="lab"
-              rules={{ required: true }}
-              defaultValue=""
-            />
+                    <select
+                      value={noticeBoardStore.noticeBoard?.lab}
+                      disabled={
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                        errors.lab ? "border-red-500" : "border-gray-300"
+                      } rounded-md`}
+                      onChange={(e) => {
+                        const lab = e.target.value as string
+                        onChange(lab)
+                        noticeBoardStore.updateNoticeBoard({
+                          ...noticeBoardStore.noticeBoard,
+                          lab,
+                        })
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {labStore.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="lab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
 
             <Controller
               control={control}
@@ -129,11 +124,11 @@ const NoticeBoard = observer(() => {
                   name="lblHeader"
                   placeholder={errors.header ? "Please Enter Header" : "Header"}
                   hasError={errors.header}
-                  //value={Stores.userStore.user.password}
+                  //value={userStore.user.password}
                   onChange={(header) => {
                     onChange(header)
-                    Stores.noticeBoardStore.updateNoticeBoard({
-                      ...Stores.noticeBoardStore.noticeBoard,
+                    noticeBoardStore.updateNoticeBoard({
+                      ...noticeBoardStore.noticeBoard,
                       header,
                     })
                   }}
@@ -159,8 +154,8 @@ const NoticeBoard = observer(() => {
                     onChange={(e) => {
                       const action = e.target.value as "login" | "logout"
                       onChange(action)
-                      Stores.noticeBoardStore.updateNoticeBoard({
-                        ...Stores.noticeBoardStore.noticeBoard,
+                      noticeBoardStore.updateNoticeBoard({
+                        ...noticeBoardStore.noticeBoard,
                         action,
                       })
                     }}
@@ -194,11 +189,11 @@ const NoticeBoard = observer(() => {
                   name="lblMessage"
                   hasError={errors.message}
                   placeholder={errors.message ? "Please Enter Message" : "Message"}
-                  //value={Stores.userStore.user.password}
+                  //value={userStore.user.password}
                   onChange={(message) => {
                     onChange(message)
-                    Stores.noticeBoardStore.updateNoticeBoard({
-                      ...Stores.noticeBoardStore.noticeBoard,
+                    noticeBoardStore.updateNoticeBoard({
+                      ...noticeBoardStore.noticeBoard,
                       message,
                     })
                   }}
@@ -239,14 +234,14 @@ const NoticeBoard = observer(() => {
         style={{ overflowX: "scroll" }}
       >
         <FeatureComponents.Molecules.NoticeBoardsList
-          data={Stores.noticeBoardStore.noticeBoardList}
-          totalSize={Stores.noticeBoardStore.noticeBoardListCount}
+          data={noticeBoardStore.noticeBoardList}
+          totalSize={noticeBoardStore.noticeBoardListCount}
           isDelete={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) => setModalConfirm(selectedUser)}
@@ -269,7 +264,7 @@ const NoticeBoard = observer(() => {
             })
           }}
           onPageSizeChange={(page, limit) => {
-            Stores.noticeBoardStore.fetchNoticeBoards(page, limit)
+            noticeBoardStore.fetchNoticeBoards(page, limit)
           }}
         />
       </div>
@@ -278,27 +273,28 @@ const NoticeBoard = observer(() => {
         {...modalConfirm}
         click={(type?: string) => {
           if (type === "Delete") {
-            Stores.noticeBoardStore.NoticeBoardService.deleteNoticeBoards(
-              modalConfirm.id
-            ).then((res: any) => {
-              console.log({ res })
-
-              if (res.status === 200) {
+            noticeBoardStore.NoticeBoardService.deleteNoticeBoards({
+              input: { id: modalConfirm.id },
+            }).then((res: any) => {
+              if (res.removeNoticeBoard.success) {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊Items deleted.`,
+                  message: `😊 ${res.removeNoticeBoard.message}`,
                 })
                 setModalConfirm({ show: false })
-                setTimeout(() => {
-                  window.location.reload()
-                }, 2000)
+                noticeBoardStore.fetchNoticeBoards()
               }
             })
           } else if (type === "Update") {
-            Stores.noticeBoardStore.NoticeBoardService.updateSingleFiled(
-              modalConfirm.data
-            ).then((res: any) => {
-              if (res.status === 200) {
-                LibraryComponents.Atoms.Toast.success({ message: `Item updated.` })
+            noticeBoardStore.NoticeBoardService.updateSingleFiled({
+              input: {
+                _id: modalConfirm.data.id,
+                [modalConfirm.data.dataField]: modalConfirm.data.value,
+              },
+            }).then((res: any) => {  
+              if (res.updateNoticeBoard.success) {
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.updateNoticeBoard.message}`,
+                })
                 setModalConfirm({ show: false })
                 setTimeout(() => {
                   window.location.reload()

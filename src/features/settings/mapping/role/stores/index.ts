@@ -1,9 +1,9 @@
 import React from 'react';
 
-import LabMappingStore from './rolemapping-store';
+import {RoleMappingStore} from './rolemapping-store';
  
 export const Stores = {
-  roleMappingStore: new LabMappingStore(),
+  roleMappingStore: new RoleMappingStore(),
 };
 
 export const Contexts = {

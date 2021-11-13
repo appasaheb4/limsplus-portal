@@ -4,7 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as Models from "../../models"
-import {SegmentMapping as ModelSegmentMapping} from '../models'
+import { SegmentMapping as ModelSegmentMapping } from "../models"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
 import SegmentList from "../components/SegmentList"
@@ -155,14 +155,16 @@ const SegmentMapping = observer(() => {
       console.log({ uniqueData })
       if (fileImaport) {
         segmentMappingStore.segmentMappingService
-          .importSegmentMapping(uniqueData)
+          .importSegmentMapping({ input: { data: { ...uniqueData } } })
           .then((res) => {
-            LibraryComponents.Atoms.Toast.success({
-              message: `😊File import success.`,
-            })
-            segmentMappingStore.fetchListSegmentMapping()
+            if (res.importSegmentMapping.success) {
+              LibraryComponents.Atoms.Toast.success({
+                message: `😊 ${res.importSegmentMapping.success}`,
+              })
+              segmentMappingStore.fetchListSegmentMapping()
+            }   
           })
-      }
+      }  
     }
     reader.readAsBinaryString(file)
   }
@@ -180,11 +182,11 @@ const SegmentMapping = observer(() => {
   const onSubmitSegmentMapiing = () => {
     if (segmentMappingStore.segmentMappingService) {
       segmentMappingStore.segmentMappingService
-        .addSegmentMapping(segmentMappingStore.segmentMapping)
+        .addSegmentMapping({ input: { ...segmentMappingStore.segmentMapping } })
         .then((res) => {
-          if (res.status === 200) {
+          if (res.createSegmentMapping.success) {
             LibraryComponents.Atoms.Toast.success({
-              message: `😊 Segment Mapping created.`,
+              message: `😊 ${res.createSegmentMapping.message}`,
             })
             if (saveTitle === "Save") {
               setTimeout(() => {
@@ -803,7 +805,7 @@ const SegmentMapping = observer(() => {
                     multiple={true}
                     // value={segmentMappingStore.segmentMapping?.attachments}
                     onChange={(e) => {
-                      const attachments = e.target.files
+                      const attachments = e.target.files[0]
                       onChange(attachments)
                       segmentMappingStore.updateSegmentMapping({
                         ...segmentMappingStore.segmentMapping,

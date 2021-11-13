@@ -9,7 +9,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor"
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter"
 import moment from "moment"
 import * as Models from "../../models"
-import {SegmentMapping} from '../models'
+import { SegmentMapping } from "../models"
 import * as Config from "@lp/config"
 import * as Assets from "@lp/features/assets"
 
@@ -18,16 +18,13 @@ const { ExportCSVButton } = CSVExport
 
 import { useStores } from "@lp/stores"
 
-
 interface SegmentListProps {
   duplicate: (item: SegmentMapping) => void
 }
 
 const SegmentList = observer((props: SegmentListProps) => {
   const [modalConfirm, setModalConfirm] = useState<any>()
-  const {
-    segmentMappingStore
-  } = useStores()
+  const { segmentMappingStore } = useStores()
 
   useEffect(() => {
     segmentMappingStore.fetchListSegmentMapping()
@@ -61,6 +58,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                 type: "delete",
                 show: true,
                 title: "Are you sure delete recoard? ",
+                body: `Delete selected items!`,
               })
             } else {
               alert("Please select any item.")
@@ -110,6 +108,7 @@ const SegmentList = observer((props: SegmentListProps) => {
     // withFirstAndLast: false, // Hide the going to First and Last page button
     // hideSizePerPage: true, // Hide the sizePerPage dropdown always
     // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+    totalSize: segmentMappingStore.listSegmentMappingCount,
     firstPageText: "First",
     prePageText: "Back",
     nextPageText: "Next",
@@ -168,10 +167,7 @@ const SegmentList = observer((props: SegmentListProps) => {
           const position = segmentMappingStore.selectedItems.indexOf(row)
           console.log({ position })
 
-          const newItem = segmentMappingStore.selectedItems.splice(
-            0,
-            position
-          )
+          const newItem = segmentMappingStore.selectedItems.splice(0, position)
           segmentMappingStore.updateSelectedItem(newItem)
         }
       }
@@ -193,10 +189,7 @@ const SegmentList = observer((props: SegmentListProps) => {
         rows.forEach((row) => {
           if (segmentMappingStore.selectedItems) {
             const position = segmentMappingStore.selectedItems.indexOf(row)
-            const newItem = segmentMappingStore.selectedItems.splice(
-              position,
-              1
-            )
+            const newItem = segmentMappingStore.selectedItems.splice(position, 1)
             segmentMappingStore.updateSelectedItem(newItem)
           }
         })
@@ -1060,9 +1053,10 @@ const SegmentList = observer((props: SegmentListProps) => {
                 `${row.attachments !== undefined ? row.attachments : ""}`,
               formatter: (cellContent, row) => (
                 <>
-                  {row.attachments !== undefined ? (
+                  {row.attachments ? (
                     <>
-                      <ul>
+                      {"1 file available"}
+                      {/* <ul>
                         {JSON.parse(row.attachments).map((item) => (
                           <>
                             <li>
@@ -1070,7 +1064,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                             </li>
                           </>
                         ))}
-                      </ul>
+                      </ul> */}
                     </>
                   ) : (
                     ""
@@ -1212,9 +1206,10 @@ const SegmentList = observer((props: SegmentListProps) => {
                       if (segmentMappingStore.selectedItems) {
                         if (segmentMappingStore.selectedItems.length > 0) {
                           setModalConfirm({
-                            type: "Delete",
+                            type: "delete",
                             show: true,
                             title: "Are you sure delete recoard? ",
+                            body: `Delete selected items!`,
                           })
                         }
                       } else {
@@ -1278,39 +1273,44 @@ const SegmentList = observer((props: SegmentListProps) => {
           click={(type) => {
             setModalConfirm({ show: false })
             if (segmentMappingStore.selectedItems) {
-              console.log({
-                selected: segmentMappingStore.selectedItems.map(
-                  (item: any) => item._id
-                ),
-              })
-              //rootStore.setProcessLoading(true)
-              if (type === "Delete") {
+              console.log({type});
+              
+              if (type === "delete") {
                 segmentMappingStore.segmentMappingService
-                  .deleteSegmentMapping(
-                    segmentMappingStore.selectedItems.map(
-                      (item: any) => item._id
-                    )
-                  )
+                  .deleteSegmentMapping({
+                    input: {
+                      id: segmentMappingStore.selectedItems.map(
+                        (item: any) => item._id
+                      ),
+                    },
+                  })
                   .then((res) => {
-                    
-                    if (res.status === 200) {
+                    if (res.removeSegmentMapping.success) {
                       segmentMappingStore.fetchListSegmentMapping()
                       segmentMappingStore.updateSelectedItem([])
-                      LibraryComponents.Atoms.Toast.success({message:`😊Items deleted.`})
+                      LibraryComponents.Atoms.Toast.success({
+                        message: `😊 ${res.removeSegmentMapping.message}`,
+                      })
                     }
                   })
               } else if (type == "Update") {
                 segmentMappingStore.segmentMappingService
-                  .updateSingleFiled(segmentMappingStore.updateItem)
+                  .updateSingleFiled({
+                    input: {
+                      _id: segmentMappingStore.updateItem.id,
+                      [segmentMappingStore.updateItem.dataField]:
+                        segmentMappingStore.updateItem.value,
+                    },
+                  })
                   .then((res) => {
-                    
-                    if (res.status === 200) {
+                    if (res.updateSegmentMapping.success) {
                       segmentMappingStore.fetchListSegmentMapping()
-                      LibraryComponents.Atoms.Toast.success({message:`😊Updated.`})
+                      LibraryComponents.Atoms.Toast.success({
+                        message: ` ${res.updateSegmentMapping.message}`,
+                      })
                     }
                   })
               } else if (type == "Duplicate") {
-                
                 props.duplicate(segmentMappingStore.selectedItems[0])
               }
             }

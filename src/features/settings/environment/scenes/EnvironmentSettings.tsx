@@ -7,10 +7,8 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
-import { Stores } from "../stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { stores, useStores } from "@lp/stores"
+import {  useStores } from "@lp/stores"
+
 
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
@@ -26,29 +24,29 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     formState: { errors },
     setValue,
   } = useForm()
-  const { environmentStore,userStore } = useStores()
+  const { environmentStore,userStore, labStore,loginStore,departmentStore,routerStore } = useStores()
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.enviromentStore.updateEnvironmentSettings({
-        ...Stores.enviromentStore.environmentSettings,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      environmentStore.updateEnvironmentSettings({
+        ...environmentStore.environmentSettings,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
   const onSubmitSessionManagement = () => {
     environmentStore.EnvironmentService.addEnvironment({
       input: {
-        ...Stores.enviromentStore.environmentSettings,
-        enteredBy: stores.loginStore.login.userId,
+        ...environmentStore.environmentSettings,
+        enteredBy: loginStore.login.userId,
         documentType: "environmentSettings",
       },
     }).then((res) => {
-      if (res.addEnvironment.success) {
+      if (res.createEnviroment.success) {
         LibraryComponents.Atoms.Toast.success({
-          message: `😊 ${res.addEnvironment.message}`,
+          message: `😊 ${res.createEnviroment.message}`,
         })
         setTimeout(() => {
           window.location.reload()
@@ -78,15 +76,15 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: [],
-                      list: LabStore.labStore.listLabs,
+                      list: labStore.listLabs,
                       displayKey: "name",
                       findKey: "code",
                     }}
                     hasError={errors.lab}
                     onUpdate={(items) => {
                       onChange(items)
-                      Stores.enviromentStore.updateEnvironmentSettings({
-                        ...Stores.enviromentStore.environmentSettings,
+                      environmentStore.updateEnvironmentSettings({
+                        ...environmentStore.environmentSettings,
                         lab: items,
                       })
                     }}
@@ -118,8 +116,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       onUpdate={(items) => {
                         onChange(items)
                         console.log({ items })
-                        Stores.enviromentStore.updateEnvironmentSettings({
-                          ...Stores.enviromentStore.environmentSettings,
+                        environmentStore.updateEnvironmentSettings({
+                          ...environmentStore.environmentSettings,
                           user: items,
                         })
                       }}
@@ -143,15 +141,15 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
                       defulatValues: [],
-                      list: DepartmentStore.departmentStore.listDepartment,
+                      list: departmentStore.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
                     hasError={errors.department}
                     onUpdate={(items) => {
                       onChange(items)
-                      Stores.enviromentStore.updateEnvironmentSettings({
-                        ...Stores.enviromentStore.environmentSettings,
+                      environmentStore.updateEnvironmentSettings({
+                        ...environmentStore.environmentSettings,
                         department: items,
                       })
                     }}
@@ -179,8 +177,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     onChange={(e) => {
                       const variable = e.target.value as string
                       onChange(variable)
-                      Stores.enviromentStore.updateEnvironmentSettings({
-                        ...Stores.enviromentStore.environmentSettings,
+                      environmentStore.updateEnvironmentSettings({
+                        ...environmentStore.environmentSettings,
                         variable,
                       })
                     }}
@@ -212,8 +210,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   type="number"
                   onChange={(value) => {
                     onChange(value)
-                    Stores.enviromentStore.updateEnvironmentSettings({
-                      ...Stores.enviromentStore.environmentSettings,
+                    environmentStore.updateEnvironmentSettings({
+                      ...environmentStore.environmentSettings,
                       value,
                     })
                   }}
@@ -241,11 +239,11 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     errors.descriptions ? "Please Enter descriptions" : "Description"
                   }
                   hasError={errors.descriptions}
-                  value={Stores.enviromentStore.environmentSettings?.descriptions}
+                  value={environmentStore.environmentSettings?.descriptions}
                   onChange={(descriptions) => {
                     onChange(descriptions)
-                    Stores.enviromentStore.updateEnvironmentSettings({
-                      ...Stores.enviromentStore.environmentSettings,
+                    environmentStore.updateEnvironmentSettings({
+                      ...environmentStore.environmentSettings,
                       descriptions,
                     })
                   }}
@@ -260,34 +258,34 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               render={({ field: { onChange } }) => (
                 <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                   <select
-                    value={Stores.enviromentStore.environmentSettings?.environment}
+                    value={environmentStore.environmentSettings?.environment}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                       errors.environment ? "border-red-500  " : "border-gray-300"
                     } rounded-md`}
                     disabled={
-                      stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
                         ? true
                         : false
                     }
                     onChange={(e) => {
                       const environment = e.target.value
                       onChange(environment)
-                      Stores.enviromentStore.updateEnvironmentSettings({
-                        ...Stores.enviromentStore.environmentSettings,
+                      environmentStore.updateEnvironmentSettings({
+                        ...environmentStore.environmentSettings,
                         environment,
                       })
                     }}
                   >
                     <option selected>
-                      {stores.loginStore.login &&
-                      stores.loginStore.login.role !== "SYSADMIN"
+                      {loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
                         ? `Select`
-                        : Stores.enviromentStore.environmentSettings?.environment ||
+                        : environmentStore.environmentSettings?.environment ||
                           `Select`}
                     </option>
                     {LibraryUtils.lookupItems(
-                      stores.routerStore.lookupItems,
+                      routerStore.lookupItems,
                       "SESSION_ENVIRONMENT"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -332,17 +330,17 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
         style={{ overflowX: "scroll" }}
       >
         <FeatureComponents.Molecules.SessionManagementList
-          data={Stores.enviromentStore.environmentSettingsList}
-          totalSize={Stores.enviromentStore.environmentSettingsListCount}
+          data={environmentStore.environmentSettingsList}
+          totalSize={environmentStore.environmentSettingsListCount}
           extraData={{
-            lookupItems: stores.routerStore.lookupItems,
+            lookupItems: routerStore.lookupItems,
           }}
           isDelete={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Delete"
           )}
           isEditModify={RouterFlow.checkPermission(
-            toJS(stores.routerStore.userPermission),
+            toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
           onDelete={(selectedUser) =>
@@ -352,7 +350,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Delete",
+                type: "delete",
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
@@ -362,14 +360,14 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
-                type: "Update",
+                type: "update",
                 data: { value, dataField, id },
                 title: "Are you sure?",
                 body: `Update recoard!`,
               })
           }}
           onPageSizeChange={(page, limit) => {
-            Stores.enviromentStore.fetchEnvironment({}, page, limit)
+            environmentStore.fetchEnvironment({}, page, limit)
           }}
         />
       </div>

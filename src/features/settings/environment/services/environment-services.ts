@@ -5,26 +5,25 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Models from "../models"
-import { GET_ALL_ENVIRONMENT } from "./query"
-import { ADD_ENVIRONMENT, DELETE_ENVIRONMENT, UPDATE_SINGEL } from "./mutation"
+//import * as Models from "../models"
+import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
 import { stores } from "@lp/stores"
 
 export class EnvironmentService {
   listEnvironment = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: GET_ALL_ENVIRONMENT,
-          variables: { filter, page, limit },
+        .mutate({
+          mutation: LIST,
+          variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
-          stores.environmentStore.updatEnvironmentVariableList(
-            response.data.getAllEnvironment.data
-          )
-          stores.environmentStore.updateEnvironmentVariableCount(
-            response.data.getAllEnvironment.getAllEnvironment
-          )
+          if (filter.type === "environmentVariable") {
+            stores.environmentStore.updateEnvVariableList(response.data)
+          }
+          if (filter.type === "environmentSettings") {
+            stores.environmentStore.updateEnvSettingsList(response.data)
+          }
           resolve(response.data)
         })
         .catch((error) =>
@@ -32,13 +31,11 @@ export class EnvironmentService {
         )
     })
 
-  addEnvironment = (variables: {
-    input: Models.EnvironmentVariable | Models.EnvironmentSettings
-  }) =>
+  addEnvironment = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: ADD_ENVIRONMENT,
+          mutation: CREATE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -54,7 +51,7 @@ export class EnvironmentService {
       console.log({ variables })
       client
         .mutate({
-          mutation: DELETE_ENVIRONMENT,
+          mutation: REMOVE_RECORD,
           variables,
         })
         .then((response: any) => {
@@ -70,7 +67,7 @@ export class EnvironmentService {
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: UPDATE_SINGEL,
+          mutation: UPDATE_RECORD,
           variables,
         })
         .then((response: any) => {

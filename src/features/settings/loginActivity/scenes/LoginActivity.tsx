@@ -2,27 +2,19 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import moment from "moment"
-import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-import paginationFactory from "react-bootstrap-table2-paginator"
-
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
+import dayjs from "dayjs"
 import { useStores } from "@lp/stores"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
 
 const LoginActivity = observer(() => {
-  const { loginStore } = useStores()
+  const { loginStore, loginActivityStore, routerStore } = useStores()
   useEffect(() => {
-    Stores.loginActivityStore.fetchLoginActivity()
+    loginActivityStore.fetchLoginActivity()
   }, [])
   return (
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
@@ -31,9 +23,9 @@ const LoginActivity = observer(() => {
           <div style={{ position: "relative" }}>
             <LibraryComponents.Organisms.TableBootstrap
               id="_id"
-              data={Stores.loginActivityStore.listLoginActivity || []}
-              totalSize={Stores.loginActivityStore.listLoginActivityCount}
-              columns={[  
+              data={loginActivityStore.listLoginActivity || []}
+              totalSize={loginActivityStore.listLoginActivityCount}
+              columns={[
                 {
                   dataField: "_id",
                   text: "Id",
@@ -118,28 +110,28 @@ const LoginActivity = observer(() => {
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   headerStyle: { minWidth: "200px" },
                   formatter: (cell, row) => {
-                    return moment(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
+                    return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
                 },
-                {
+                {  
                   dataField: "lastUpdated",
                   text: "Out",
                   sort: true,
                   formatter: (cell, row) => {
-                    return row.lastUpdated !== undefined
-                      ? moment(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
+                    return row.lastUpdated
+                      ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
                       : "Active User"
                   },
                 },
               ]}
-              onPageSizeChange={(size)=>{
-                Stores.loginActivityStore.fetchLoginActivity(size);
+              onPageSizeChange={(size) => {
+                loginActivityStore.fetchLoginActivity(size)
               }}
-              isEditModify={false}  
+              isEditModify={false}
               isSelectRow={false}
               fileName="Login Activity"
             />
-          </div>  
+          </div>
         </div>
       </div>
     </>
