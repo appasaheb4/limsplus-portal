@@ -25,7 +25,7 @@ export class LoginStore {
       const session = await Session.getSession()
       if (session) {
         if (stores) stores.rootStore.updateSesssion(session)
-        this.login = session
+        // this.login = session
       }
     })
   }
@@ -37,7 +37,7 @@ export class LoginStore {
   @action saveLogin = async (session) => {
     localStorage.setItem("accessToken", session.accessToken)
     Session.saveSession(session)
-    stores.updateLoginStore()
+    stores.rootStore.updateSesssion(session)
     this.login = session
   }
 
@@ -89,7 +89,7 @@ export class LoginStore {
 
   @action updateInputUser(user: Login) {
     this.inputLogin = user
-  }   
+  }
 
   @action clearInputUser() {
     this.inputLogin = new Login({})

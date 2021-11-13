@@ -1,6 +1,6 @@
-//import {stores} from '@lp/stores'
+import {stores} from '@lp/stores'
 const startup = async () => {
-  //stores.interfaceManagerStore.interfaceManagerService.listInterfaceManager()
+  stores.segmentMappingStore.fetchListSegmentMapping()
 }  
 
 export default startup

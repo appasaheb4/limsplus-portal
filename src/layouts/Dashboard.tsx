@@ -159,8 +159,10 @@ const Dashboard = observer(({ children }) => {
         await InterfaceManager.startup()
       if (pathname === "/communication/mapping/conversationMapping")
         await DataConveration.startup()
-      if (pathname === "/communication/mapping/segmentMapping")
+      if (pathname === "/communication/mapping/segmentMapping"){
+        await InterfaceManager.startup()
         await SegmentMapping.startup()
+      }
       // global
       stores
     }

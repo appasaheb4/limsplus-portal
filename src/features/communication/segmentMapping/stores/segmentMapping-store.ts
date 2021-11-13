@@ -18,6 +18,7 @@ export class SegmentMappingStore {
   @ignore @observable selectedItems: Models.SegmentMapping[]
   @ignore @observable updateItem!: UpdateItem
   @ignore @observable mapping: Mapping[]
+
   constructor() {
     this.listSegmentMapping = []
     this.listSegmentMappingCount = 0
@@ -42,15 +43,20 @@ export class SegmentMappingStore {
   }
 
   @action updateListSegmentMapping(res: any) {
-    if (!res.success) return alert(res.message)
-    this.listSegmentMapping = res.data.segmentMappingList
-    this.listSegmentMappingCount = res.data.count
+    console.log({ res })
+
+    if (!res.segmentMappings.success) return alert(res.segmentMappings.message)
+    this.listSegmentMapping = res.segmentMappings.data
+    this.listSegmentMappingCount = res.segmentMappings.paginatorInfo.count
   }
 
   @action fetchmappingList() {
-    this.segmentMappingService.mappingList().then((mapping) => {
-      this.mapping = mapping
-    })
+    this.segmentMappingService.mappingList()
+  }
+
+  @action updateMappingList(res: any) {
+    if (!res.segmentMappings.success) return alert(res.segmentMappings.message)
+    this.mapping = res.segmentMappings.data
   }
 
   @action updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {

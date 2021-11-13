@@ -6,8 +6,7 @@ import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
 
 import * as LibraryComponents from "@lp/library/components"
-
-import { Stores } from "@lp/features/login/stores"
+import { useStores } from "@lp/stores"
 
 interface ModalForgotPasswordProps {
   show?: boolean
@@ -18,6 +17,7 @@ interface ModalForgotPasswordProps {
 
 const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
   const [showModal, setShowModal] = React.useState(props.show)
+  const { loginStore } = useStores()
   useEffect(() => {
     setShowModal(props.show)
   }, [props])
@@ -30,10 +30,10 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
 
   const onForgotPassword = () => {
     if (
-      Stores.loginStore.forgotPassword?.email !== undefined ||
-      Stores.loginStore.forgotPassword?.mobileNo !== undefined
+      loginStore.forgotPassword?.email !== undefined ||
+      loginStore.forgotPassword?.mobileNo !== undefined
     ) {
-      props.onClick(Stores.loginStore.forgotPassword)
+      props.onClick(loginStore.forgotPassword)
     }
   }
 
@@ -88,11 +88,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                           label="User Id"
                           placeholder="User Id"
                           hasError={errors.userId}
-                          value={Stores.loginStore.forgotPassword?.userId}
+                          value={loginStore.forgotPassword?.userId}
                           onChange={(userId) => {
                             onChange(userId)
-                            Stores.loginStore.updateForgotPassword({
-                              ...Stores.loginStore.forgotPassword,
+                            loginStore.updateForgotPassword({
+                              ...loginStore.forgotPassword,
                               userId,
                             })
                           }}
@@ -110,11 +110,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                           label="Email"
                           placeholder="Email"
                           hasError={errors.email}
-                          value={Stores.loginStore.forgotPassword?.email}
+                          value={loginStore.forgotPassword?.email}
                           onChange={(email) => {
                             onChange(email)
-                            Stores.loginStore.updateForgotPassword({
-                              ...Stores.loginStore.forgotPassword,
+                            loginStore.updateForgotPassword({
+                              ...loginStore.forgotPassword,
                               email,
                             })
                           }}
@@ -133,11 +133,11 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                           label="Mobile Number"
                           placeholder="Mobile Number"
                           hasError={errors.mobileNo}
-                          value={Stores.loginStore.forgotPassword?.mobileNo}
+                          value={loginStore.forgotPassword?.mobileNo}
                           onChange={(mobileNo) => {
                             onChange(mobileNo)
-                            Stores.loginStore.updateForgotPassword({
-                              ...Stores.loginStore.forgotPassword,
+                            loginStore.updateForgotPassword({
+                              ...loginStore.forgotPassword,
                               mobileNo,
                             })
                           }}

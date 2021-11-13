@@ -1,29 +1,35 @@
 import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
 import * as Models from "../models"
 @version(0.1)
-class NoticeBoardStore {
-  @ignore @observable noticeBoard?: Models.NoticeBoard
-  @observable noticeBoardList?: Models.NoticeBoard[] = []
-  @observable noticeBoardListCount: number = 0 
+export class NoticeBoardStore {
+  @ignore @observable noticeBoard!: Models.NoticeBoard
+  @observable noticeBoardList: Models.NoticeBoard[]
+  @observable noticeBoardListCount: number
 
   constructor() {
-    makeAutoObservable(this)
+    this.noticeBoardList = []
+    this.noticeBoardListCount = 0
+    makeObservable<NoticeBoardStore, any>(this, {
+      noticeBoard: observable,
+      noticeBoardList: observable,
+      noticeBoardListCount: observable,
+    })
   }
 
   @computed get NoticeBoardService() {
-    return new Services.NoticeBoardService(
-    )
+    return new Services.NoticeBoardService()
   }
 
-  @action fetchNoticeBoards(page?,limit?) {
-    this.NoticeBoardService.noticeBoardsList(page,limit).then((res) => {
-      if (!res.success) return alert(res.message)
-      this.noticeBoardList = res.data.noticeBoard
-      this.noticeBoardListCount = res.data.count
+  @action fetchNoticeBoards(page?, limit?) {
+    this.NoticeBoardService.noticeBoardsList(page, limit)
+  }
 
-    })
+  @action updateNoticeBoardsList(res: any) {
+    if (!res.noticeBoards.success) return alert(res.noticeBoards.message)
+    this.noticeBoardList = res.noticeBoards.data
+    this.noticeBoardListCount = res.noticeBoards.paginatorInfo.count
   }
 
   // notice board
@@ -31,4 +37,3 @@ class NoticeBoardStore {
     this.noticeBoard = notice
   }
 }
-export default NoticeBoardStore

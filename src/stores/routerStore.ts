@@ -1,19 +1,29 @@
-import { makeAutoObservable, action, observable } from "mobx"
+import { makeObservable, action, observable } from "mobx"
 import { ignore, version } from "mobx-sync"
 import * as LibraryModels from "../library/models"
 
 @version(1.0)
 export class RouterStore {
-  @observable userRouter?: any[]
-  @observable selectedUserCategory?: LibraryModels.SelectedCategory
-  @ignore @observable userPermission: any[] = []
-  @ignore @observable selectedCategory?: LibraryModels.SelectedCategory
-  @ignore @observable router?: any
-  @ignore @observable selectedComponents?: LibraryModels.SelectedComponent
-  @observable lookupItems: Array<any> = []
+  @observable userRouter!: any[]
+  @observable selectedUserCategory!: LibraryModels.SelectedCategory
+  @ignore @observable userPermission: any[]
+  @ignore @observable selectedCategory!: LibraryModels.SelectedCategory
+  @ignore @observable router: any
+  @ignore @observable selectedComponents!: LibraryModels.SelectedComponent
+  @observable lookupItems: Array<any>
 
   constructor() {
-    makeAutoObservable(this)
+    this.userPermission = []
+    this.lookupItems = []
+    makeObservable<RouterStore, any>(this, {
+      userRouter: observable,
+      selectedUserCategory: observable,
+      userPermission: observable,
+      selectedCategory: observable,
+      router: observable,
+      selectedComponents: observable,
+      lookupItems: observable,
+    })
   }
 
   @action updateUserRouter(router) {
@@ -28,14 +38,14 @@ export class RouterStore {
     this.userPermission = permission
   }
 
-  @action updateSelectedCategory(category?: LibraryModels.SelectedCategory) {
+  @action updateSelectedCategory(category: LibraryModels.SelectedCategory) {
     this.selectedUserCategory = category
     this.selectedCategory = category
   }
-  @action updateSelectedComponents(comp?: LibraryModels.SelectedComponent) {
+  @action updateSelectedComponents(comp: LibraryModels.SelectedComponent) {
     this.selectedComponents = comp
   }
-  @action updateLookupItems(items: any){
-    this.lookupItems = items;
+  @action updateLookupItems(items: any) {
+    this.lookupItems = items
   }
 }

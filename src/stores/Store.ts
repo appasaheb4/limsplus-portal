@@ -3,20 +3,18 @@ import _ from "lodash"
 
 export class Store {
   private isLoading: boolean
-  flagLoading: boolean;
+  flagLoading: boolean
 
-  constructor() {    
-    this.isLoading = false;
-    this.flagLoading = true;  
-
-   
+  constructor() {
+    this.isLoading = false
+    this.flagLoading = true
     makeObservable<Store, any>(this, {
       isLoading: observable,
-      flagLoading:observable,
+      flagLoading: observable,
       loading: computed,
       setLoading: action,
     })
-  } 
+  }
 
   get loading(): boolean {
     return this.isLoading
@@ -26,7 +24,7 @@ export class Store {
     this.isLoading = _.isNil(flag) || flag
   }
 
-  uploadLoadingFlag(loading: boolean){
-    this.flagLoading = loading;
+  uploadLoadingFlag(loading: boolean) {
+    this.flagLoading = loading
   }
 }
