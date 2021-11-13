@@ -28,3 +28,13 @@ export const LOGOUT = gql`
     }
   }
 `
+  
+
+export const FORGOT_PASSWORD = gql`
+  mutation($input: UserInput!) {
+    userForgotPassword(input: $input) {
+      success
+      message
+    }
+  }
+`

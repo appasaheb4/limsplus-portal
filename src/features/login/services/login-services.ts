@@ -6,8 +6,7 @@
 
 import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { LOGIN, STATUS_UPDATE, LOGOUT } from "./mutation"
-import { stores } from "@lp/stores"
+import { LOGIN, STATUS_UPDATE, LOGOUT, FORGOT_PASSWORD } from "./mutation"
 export class LoginService {
   onLogin = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -17,7 +16,6 @@ export class LoginService {
           variables,
         })
         .then((response: any) => {
-          stores.loginStore.saveLogin(response.data.login.data.user)
           resolve(response.data)
         })
         .catch((error) =>
@@ -39,17 +37,19 @@ export class LoginService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  forgotPassword = (userInfo: any) =>
+  forgotPassword = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      http
-        .post(`auth/forgotPassword`, userInfo)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      client
+        .mutate({
+          mutation: FORGOT_PASSWORD,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 
   logout = (variables: any) =>

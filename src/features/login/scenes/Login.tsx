@@ -86,7 +86,8 @@ export const Login = observer(() => {
         .then((res) => {
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0)
-            if (res.login.data.user.passChanged !== true) {
+            console.log({ res })
+            if (!res.login.data.user.passChanged) {
               setModalChangePassword({ show: true })
             } else {
               if (res.login.data.user.noticeBoard !== undefined) {
@@ -99,6 +100,7 @@ export const Login = observer(() => {
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.login.message}`,
                 })
+                loginStore.saveLogin(res.login.data.user)
                 loginStore.clearInputUser()
                 setTimeout(() => {
                   history.push("/dashboard/default")
@@ -175,7 +177,7 @@ export const Login = observer(() => {
                           onChange(userId)
                           loginStore.updateInputUser({
                             ...loginStore.inputLogin,
-                            userId,
+                            userId: userId.toUpperCase(),
                           })
                         }}
                         onBlur={(userId) => {
@@ -422,19 +424,21 @@ export const Login = observer(() => {
         <FeatureComponents.Molecules.ModalForgotPassword
           {...modalForgotPassword}
           onClick={(userInfo: any) => {
-            loginStore.LoginService.forgotPassword(userInfo).then((res) => {
-              if (res.success) {
-                setModalForgotPassword({ show: false })
-                loginStore.updateForgotPassword(undefined)
-                LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.message}`,
-                })
-              } else {
-                LibraryComponents.Atoms.Toast.error({
-                  message: `😔 ${res.message}`,
-                })
+            loginStore.LoginService.forgotPassword({ input: { ...userInfo } }).then(
+              (res) => {
+                if (res.userForgotPassword.success) {
+                  setModalForgotPassword({ show: false })
+                  loginStore.updateForgotPassword(undefined)
+                  LibraryComponents.Atoms.Toast.success({
+                    message: `😊 ${res.userForgotPassword.message}`,
+                  })
+                } else {
+                  LibraryComponents.Atoms.Toast.error({
+                    message: `😔 ${res.userForgotPassword.message}`,
+                  })
+                }
               }
-            })
+            )
           }}
           onClose={() => {
             setModalForgotPassword({ show: false })
@@ -467,7 +471,6 @@ export const Login = observer(() => {
                     message: `😊 ${res.userChnagePassword.message}`,
                   })
                   setModalChangePassword({ show: false })
-                  window.location.reload()
                 } else {
                   LibraryComponents.Atoms.Toast.error({
                     message: `😔 ${res.userChnagePassword.message}`,
