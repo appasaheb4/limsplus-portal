@@ -1,8 +1,5 @@
 /* eslint-disable */
-import React,{useState,useEffect} from "react"
-import { observer } from "mobx-react"
-
-import Storage from "@lp/library/modules/storage"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -21,7 +18,7 @@ interface LibraryListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-export const LibraryList = observer((props: LibraryListProps) => {
+export const LibraryList = (props: LibraryListProps) => {
  
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -708,4 +705,4 @@ export const LibraryList = observer((props: LibraryListProps) => {
       </div>
     </>
   )
-})
+}

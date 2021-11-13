@@ -42,6 +42,30 @@ export const PriceList = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    priceListStore && priceListStore.updatePriceList({
+        ...priceListStore.priceList,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    priceListStore && priceListStore.updatePriceList({
+      ...priceListStore.priceList,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
   const onSubmitPriceList = async () => {
     if (!priceListStore.checkExitsPriceGEnvLabCode) {
       if (
@@ -733,7 +757,7 @@ export const PriceList = observer(() => {
                     hasError={errors.environment}
                   >
                     <select
-                      value={priceListStore.priceList?.environment}
+                      value={priceListStore &&priceListStore.priceList?.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -905,6 +929,8 @@ export const PriceList = observer(() => {
             extraData={{
               lookupItems: routerStore.lookupItems,
               listCorporateClients: corporateClientsStore.listCorporateClients,
+              listMasterPanel:masterPanelStore.listMasterPanel,
+              listLabs:labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

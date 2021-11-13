@@ -30,6 +30,18 @@ const SampleType = observer(() => {
       setValue("environment", loginStore.login.environment)
     }
   }, [loginStore.login])
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      sampleTypeStore && sampleTypeStore.updateSampleType({
+        ...sampleTypeStore.sampleType,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitSampleType = () => {
     if (!sampleTypeStore.checkExitsEnvCode) {
       sampleTypeStore.sampleTypeService

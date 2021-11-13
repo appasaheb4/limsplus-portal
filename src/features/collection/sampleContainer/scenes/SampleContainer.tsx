@@ -34,6 +34,19 @@ const SampleContainer = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      sampleContainerStore && sampleContainerStore.updateSampleContainer({
+        ...sampleContainerStore.sampleContainer,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitSampleContainer = () => {
     if (!sampleContainerStore.checkExitsEnvCode) {
       sampleContainerStore.sampleContainerService

@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-// import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 
@@ -44,6 +44,7 @@ class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.libraryStore.updateLibrary(new Models.Library({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -72,6 +73,7 @@ class MasterAnalyteService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.libraryStore.updateLibrary(new Models.Library({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

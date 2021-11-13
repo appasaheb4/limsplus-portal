@@ -1,13 +1,8 @@
 /* eslint-disable */
-import React ,{useEffect,useState} from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import Storage from "@lp/library/modules/storage"
-import { Stores } from "../../stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 interface DepartmentListProps {
   data: any
   totalSize: number
@@ -20,7 +15,7 @@ interface DepartmentListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const DepartmentList = observer((props: DepartmentListProps) => {
+const DepartmentList = (props: DepartmentListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -63,7 +58,7 @@ const DepartmentList = observer((props: DepartmentListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStore.labStore.listLabs.map((item: any) => (
+                    {props.extraData.listLabs.map((item: any) => (
                       <option key={item.name} value={item.code}>
                         {item.name}
                       </option>
@@ -120,12 +115,12 @@ const DepartmentList = observer((props: DepartmentListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {/* {UserStore.userStore.userList &&
-                      UserStore.userStore.userList.map((item: any, key: number) => (
+                    {props.extraData.userStore && props.extraData.userList
+                    &&props.extraData.userList.map((item: any, key: number) => (
                         <option key={key} value={item.fullName}>
                           {item.fullName}
                         </option>
-                      ))} */}
+                      ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
             </>
@@ -365,5 +360,5 @@ const DepartmentList = observer((props: DepartmentListProps) => {
     />
     </div>
   )
-})
+}
 export default DepartmentList

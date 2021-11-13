@@ -1,10 +1,6 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import daysjs from "dayjs"
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -23,7 +19,7 @@ interface PanelMasterListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const PanelMasterList = observer((props: PanelMasterListProps) => {
+const PanelMasterList = (props: PanelMasterListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -67,7 +63,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.labList&&props.extraData.labList.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -104,7 +100,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.listLabs.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -142,7 +138,7 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {DepartmentStore.departmentStore.listDepartment.map(
+                      {props.extraData.listDepartment.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {`${item.code} - ${item.name}`}
@@ -154,44 +150,44 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
                 </>
               ),
             },
-            {
-              dataField: "section",
-              text: "Section",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              formatter: (cell, row) => {
-                return <>{row.section.shortName}</>
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex
-              ) => (
-                <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Section">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const section = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(section, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {["Section 1"].map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                </>
-              ),
-            },
+            // {
+            //   dataField: "section",
+            //   text: "Section",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            //   formatter: (cell, row) => {
+            //     return <>{row.section}</>
+            //   },
+            //   editorRenderer: (
+            //     editorProps,
+            //     value,
+            //     row,
+            //     column,
+            //     rowIndex,
+            //     columnIndex
+            //   ) => (
+            //     <>
+            //       <LibraryComponents.Atoms.Form.InputWrapper label="Section">
+            //         <select
+            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           onChange={(e) => {
+            //             const section = e.target.value as string
+            //             props.onUpdateItem &&
+            //               props.onUpdateItem(section, column.dataField, row._id)
+            //           }}
+            //         >
+            //           <option selected>Select</option>
+            //           {["Section 1"].map((item: any, index: number) => (
+            //             <option key={index} value={item}>
+            //               {item}
+            //             </option>
+            //           ))}
+            //         </select>
+            //       </LibraryComponents.Atoms.Form.InputWrapper>
+            //     </>
+            //   ),
+            // },
             {
               dataField: "serviceType",
               text: "Service Type",
@@ -278,6 +274,35 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Panel Method"
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const panelMethod = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(panelMethod,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listMethods.map((item: any, index: number) => (
+                        <option key={index} value={item.methodsCode}>
+                          {`${item.methodsCode} - ${item.methodsName}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "shortName",
@@ -345,6 +370,38 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Schedule"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const schedule = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(schedule,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listDeliverySchedule.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.schCode}>
+                            {`${item.schCode}`}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "tat",
@@ -359,6 +416,39 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Validation Level"
+                   
+                  >
+                    <select
+                      value={row.validationLevel}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const validationLevel: any = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(validationLevel,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "reportOrder",
@@ -996,5 +1086,5 @@ const PanelMasterList = observer((props: PanelMasterListProps) => {
       </div>
     </>
   )
-})
+}
 export default PanelMasterList

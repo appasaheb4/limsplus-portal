@@ -660,6 +660,10 @@ export const Department = observer(() => {
               totalSize={departmentStore.listDepartmentCount}
               extraData={{
                 lookupItems: routerStore.lookupItems,
+                listLabs: labStore.listLabs,
+                userStore:userStore,
+                userList: userStore.userList
+
               }}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,

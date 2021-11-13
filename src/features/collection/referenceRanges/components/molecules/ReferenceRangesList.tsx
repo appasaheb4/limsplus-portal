@@ -1,6 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
@@ -19,7 +18,7 @@ interface ReferenceRangesProps {
   onDuplicate?: (item: any) => void
 }
 
-const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
+const ReferenceRangesList = (props: ReferenceRangesProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -649,7 +648,7 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName="AnalyteMaster"
+          fileName="ReferenceRanges"
           onSelectedRow={(rows) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id))
@@ -661,5 +660,5 @@ const ReferenceRangesList = observer((props: ReferenceRangesProps) => {
       </div>
     </>
   )
-})
+}
 export default ReferenceRangesList

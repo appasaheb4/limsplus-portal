@@ -20,7 +20,7 @@ const MasterPackage = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, masterPackageStore, labStore, masterPanelStore } = useStores()
+  const { loginStore, masterPackageStore, labStore, masterPanelStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
@@ -46,6 +46,32 @@ const MasterPackage = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
+
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    masterPackageStore && masterPackageStore.updateMasterPackage({
+        ...masterPackageStore.masterPackage,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    masterPackageStore && masterPackageStore.updateMasterPackage({
+      ...masterPackageStore.masterPackage,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
 
   const onSubmitMasterPackage = () => {
     if (!masterPackageStore.checkExitsLabEnvCode) {
@@ -678,6 +704,7 @@ const MasterPackage = observer(() => {
             totalSize={masterPackageStore.listMasterPackageCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              listLabs:labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),

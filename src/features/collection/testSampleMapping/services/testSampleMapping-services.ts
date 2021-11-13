@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD,CHECK_EXISTS_RECORD } from "./mutation"
@@ -37,6 +37,7 @@ class TestSampleMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testSampleMappingStore.updateSampleType(new Models.TestSampleMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -66,6 +67,7 @@ class TestSampleMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testSampleMappingStore.updateSampleType(new Models.TestSampleMapping({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

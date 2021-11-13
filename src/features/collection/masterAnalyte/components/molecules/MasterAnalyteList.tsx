@@ -1,9 +1,6 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from "dayjs"
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -22,7 +19,7 @@ interface MasterAnalyteProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
+const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -860,5 +857,5 @@ const MasterAnalyteList = observer((props: MasterAnalyteProps) => {
       </div>
     </>
   )
-})
+}
 export default MasterAnalyteList
