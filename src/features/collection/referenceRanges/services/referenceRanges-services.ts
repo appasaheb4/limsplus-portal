@@ -15,6 +15,7 @@ import {
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
 } from "./mutation"
+import * as Models from '../models'
 export class ReferenceRangesService {
   listReferenceRanges = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -44,6 +45,7 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -76,6 +78,7 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -91,6 +94,7 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -106,6 +110,7 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

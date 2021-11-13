@@ -1,14 +1,10 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from "dayjs"
-
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
 
 interface TestPanelMappingListProps {
   data: any
@@ -24,7 +20,7 @@ interface TestPanelMappingListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
+const TestPanelMappingList = (props: TestPanelMappingListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -68,7 +64,7 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.listLabs.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -105,8 +101,8 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {MasterPanelStore.masterPanelStore.listMasterPanel &&
-                        MasterPanelStore.masterPanelStore.listMasterPanel.map(
+                      {props.extraData.listMasterPanel &&
+                        props.extraData.listMasterPanel.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.panelCode}>
                               {`${item.panelName} - ${item.panelCode}`}
@@ -398,5 +394,5 @@ const TestPanelMappingList = observer((props: TestPanelMappingListProps) => {
       </div>
     </>
   )
-})
+}
 export default TestPanelMappingList

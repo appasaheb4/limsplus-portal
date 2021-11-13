@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from "react"
-import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -18,7 +17,7 @@ interface AdminstrativeDivListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) => {
+export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -258,4 +257,4 @@ export const AdminstrativeDivList = observer((props: AdminstrativeDivListProps) 
       />
     </div>
   )
-})
+}

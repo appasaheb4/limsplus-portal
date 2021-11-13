@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -44,6 +44,7 @@ class SampleContainerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.sampleContainerStore.updateSampleContainer(new Models.SampleContainer({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -74,6 +75,7 @@ class SampleContainerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.sampleContainerStore.updateSampleContainer(new Models.SampleContainer({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -104,6 +106,7 @@ class SampleContainerService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.sampleContainerStore.updateSampleContainer(new Models.SampleContainer({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

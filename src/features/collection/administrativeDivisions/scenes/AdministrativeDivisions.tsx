@@ -558,9 +558,7 @@ export const AdministrativeDivisions = observer(() => {
                       message: `😊 ${res.updateAdministrativeDivision.message}`,
                     })
                     setModalConfirm({ show: false })
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
+                    administrativeDivisions.fetchAdministrativeDiv()
                   }
                 })
             }

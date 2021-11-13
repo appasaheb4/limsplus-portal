@@ -15,6 +15,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
 } from "./mutation"
+import * as Model from '../models'
 
 class RegistrationLocationsService {
   listRegistrationLocations = (page = 0, limit = 10) =>
@@ -44,6 +45,7 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -58,9 +60,11 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
+
         )
     })
   duplicateRegistrationLocations = (variables: any) =>
@@ -72,6 +76,7 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -101,6 +106,7 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

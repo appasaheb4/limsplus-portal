@@ -37,6 +37,31 @@ const RegistrationLocation = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    registrationLocationsStore && registrationLocationsStore.updateRegistrationLocations({
+        ...registrationLocationsStore.registrationLocations,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    registrationLocationsStore && registrationLocationsStore.updateRegistrationLocations({
+      ...registrationLocationsStore.registrationLocations,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
+
   const onSubmitRegistrationLocation = () => {
     if (!registrationLocationsStore.checkExitsLabEnvCode) {
       if (
@@ -1278,6 +1303,7 @@ const RegistrationLocation = observer(() => {
                     hasError={errors.status}
                   >
                     <select
+                    value={registrationLocationsStore && registrationLocationsStore.registrationLocations?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1418,6 +1444,7 @@ const RegistrationLocation = observer(() => {
             totalSize={registrationLocationsStore.listRegistrationLocationsCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              listLabs:labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,

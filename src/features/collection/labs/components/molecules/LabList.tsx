@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from "react"
-import { observer } from "mobx-react"
 import { Stores } from "../../stores"
 import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../../util"
@@ -21,7 +20,7 @@ interface LabListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const LabList = observer((props: LabListProps) => {
+const LabList = (props: LabListProps) => {
   const {administrativeDivisions,salesTeamStore} = useStores()
  
 
@@ -728,5 +727,5 @@ const LabList = observer((props: LabListProps) => {
       </div>
     </>
   )
-})
+}
 export default LabList

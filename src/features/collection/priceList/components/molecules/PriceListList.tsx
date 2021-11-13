@@ -1,16 +1,8 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
-import { observer } from "mobx-react"
-import * as Config from "@lp/config"
-
-import Storage from "@lp/library/modules/storage"
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { stores } from "@lp/stores"
 
 interface PriceListProps {
   data: any
@@ -25,7 +17,7 @@ interface PriceListProps {
   onDuplicate?: (item: any) => void
 }
   
-const MasterAnalyteList = observer((props: PriceListProps) => {
+const MasterAnalyteList = (props: PriceListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -355,7 +347,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {LabStores.labStore.listLabs.map(
+                      {props.extraData.listLabs.map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {item.name}
@@ -518,7 +510,7 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
                     >
                       <option selected>Select</option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        props.extraData.lookupItems,
                         "STATUS"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -715,5 +707,5 @@ const MasterAnalyteList = observer((props: PriceListProps) => {
       </div>
     </>
   )
-})
+}
 export default MasterAnalyteList

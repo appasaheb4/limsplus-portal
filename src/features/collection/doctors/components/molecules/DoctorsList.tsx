@@ -1,12 +1,9 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { Stores } from "../../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
 
 interface DoctorsListProps {
   data: any
@@ -22,7 +19,7 @@ interface DoctorsListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const DoctorsList = observer((props: DoctorsListProps) => {
+const DoctorsList = (props: DoctorsListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -507,7 +504,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                   <select
-                    value={Stores.doctorsStore.doctors?.lab}
+                    value={row.lab}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const lab = e.target.value as string
@@ -516,7 +513,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    {props.extraData.listLabs.map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {item.name}
                       </option>
@@ -543,7 +540,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Location">
                   <select
-                    value={Stores.doctorsStore.doctors?.location}
+                    value={row.location}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const location = e.target.value as string
@@ -552,7 +549,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    {props.extraData.listLabs.map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {item.name}
                       </option>
@@ -579,7 +576,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                   <select
-                    value={Stores.doctorsStore.doctors?.schedule}
+                    value={row.schedule}
                     className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                     onChange={(e) => {
                       const schedule = e.target.value as string
@@ -588,7 +585,7 @@ const DoctorsList = observer((props: DoctorsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    {props.extraData.listLabs.map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {item.name}
                       </option>
@@ -838,6 +835,6 @@ const DoctorsList = observer((props: DoctorsListProps) => {
       />
     </div>
   )
-})
+}
 
 export default DoctorsList

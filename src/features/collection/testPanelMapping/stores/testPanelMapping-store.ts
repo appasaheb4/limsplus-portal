@@ -2,6 +2,7 @@ import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
+import dayjs from "dayjs"
 
 @version(0.1)
 export class TestPanelMappingStore {
@@ -18,7 +19,7 @@ export class TestPanelMappingStore {
       ...this.testPanelMapping,
       dateCreation: new Date(),
       dateActiveFrom: new Date(),
-      dateActiveTo: new Date(),
+      dateActiveTo: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
     }
