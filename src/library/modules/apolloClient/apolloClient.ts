@@ -5,7 +5,7 @@ import { setContext } from "@apollo/client/link/context"
 import { createUploadLink } from "apollo-upload-client"
 
 const customFetch = (uri, options): Promise<any> => {
-  if (stores.flagLoading) stores.setLoading(true)
+   stores.setLoading(true)
   const response = fetch(uri, options).then((response) => {
     stores.setLoading(false)
     if (response.status >= 500) {

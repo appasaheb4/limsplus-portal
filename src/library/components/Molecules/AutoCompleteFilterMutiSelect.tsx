@@ -1,11 +1,13 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
+import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
 import lodash from "lodash"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteFilterMutiSelectProps {
+  loader: boolean
   placeholder?: string
   data: any
   hasError: boolean
@@ -15,6 +17,7 @@ interface AutoCompleteFilterMutiSelectProps {
 }
 
 export const AutoCompleteFilterMutiSelect = ({
+  loader = false,
   placeholder = "Search...",
   data,
   hasError = false,
@@ -26,7 +29,6 @@ export const AutoCompleteFilterMutiSelect = ({
   const [options, setOptions] = useState<any[]>()
   const [originalOptions, setOriginalOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
-  const [selectedItems, setSelecteditems] = useState<any[]>([])
 
   const useOutsideAlerter = (ref) => {
     useEffect(() => {
@@ -34,8 +36,7 @@ export const AutoCompleteFilterMutiSelect = ({
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
           if (originalOptions && options) {
             if (isListOpen) {
-              // onUpdate && onUpdate(options.filter((item) => item.selected === true))
-              onUpdate && onUpdate(selectedItems)
+              onUpdate && onUpdate(data.selected)
             }
           }
           setIsListOpen(false)
@@ -54,7 +55,9 @@ export const AutoCompleteFilterMutiSelect = ({
   let count = 0
   const getSelectedItem = (selectedItem: any[], list: any[], findKey: string) => {
     if (count === 0) {
+      console.log({ len: selectedItem && selectedItem.length })
       const finalList = list.filter((item, index) => {
+        item.selected = false
         selectedItem && selectedItem.length > 0
           ? selectedItem.find((sItem, index) => {
               if (sItem._id === item._id) {
@@ -65,17 +68,18 @@ export const AutoCompleteFilterMutiSelect = ({
         count++
         return item
       })
-      console.log({finalList});
-      
       list = finalList
     }
+    /// console.log({ list })
+
     return list
   }
 
   useEffect(() => {
     setOriginalOptions(getSelectedItem(data.selected, data.list, data.findKey))
     setOptions(getSelectedItem(data.selected, data.list, data.findKey))
-  }, [data])
+    //console.log('renader');
+  }, [data, data.selected])
 
   const onChange = (e) => {
     const search = e.target.value
@@ -103,9 +107,7 @@ export const AutoCompleteFilterMutiSelect = ({
             placeholder={placeholder}
             value={
               !isListOpen
-                ? `${
-                    options?.filter((item) => item.selected === true).length || 0
-                  } Items`
+                ? `${(data.selected && data.selected.length) || 0} Items`
                 : value
             }
             className={`w-full focus:outline-none bg-none`}
@@ -113,6 +115,7 @@ export const AutoCompleteFilterMutiSelect = ({
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
           />
+          {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (
             <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
           ) : (
