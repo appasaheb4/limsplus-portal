@@ -24,6 +24,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     setValue,
   } = useForm()
   const {
+    loading,
     environmentStore,
     userStore,
     labStore,
@@ -102,7 +103,9 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               defaultValue=""
             />
 
-            {userStore.userFilterList && (
+            {((environmentStore.selectedItems &&
+              environmentStore.selectedItems?.users.length > 0) ||
+              userStore.userFilterList) && (
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -112,6 +115,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     hasError={errors.user}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
+                      loader={loading}
                       data={{
                         list: userStore.userFilterList,
                         selected: environmentStore.selectedItems?.users,
@@ -121,10 +125,9 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       hasError={errors.user}
                       onUpdate={(items) => {
                         onChange(items)
-                        console.log({ items })
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
-                          user: items,
+                          user: environmentStore.selectedItems?.users,
                         })
                         userStore.updateUserFilterList(userStore.userList)
                       }}
@@ -134,19 +137,17 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         })
                       }}
                       onSelect={(item) => {
-                        console.log({item});
-                        
+                        console.log({ item })
                         let users = environmentStore.selectedItems?.users
                         if (!item.selected) {
                           if (users && users.length > 0) {
                             users.push(item)
-                          }  
+                          }
                           if (!users) users = [item]
                         } else {
-                          users &&
-                            users.filter((items) => {
-                              if (items._id === item._id) return
-                            })
+                          users = users.filter((items) => {
+                            return items._id !== item._id
+                          })
                         }
                         console.log({ users })
                         environmentStore.updateSelectedItems({
@@ -201,7 +202,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   label="Variable"
                   id="lblVariable"
                   hasError={errors.variable}
-                >
+                >  
                   <select
                     name="variable"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
