@@ -38,3 +38,13 @@ export const FORGOT_PASSWORD = gql`
     }
   }
 `
+
+export const SESSION_ALLOWED_LOGOUT = gql`
+  mutation($input: UserInput!) {
+    usersSessionAllowedLogout(input: $input) {
+      success
+      message
+      data
+    }
+  }
+`
