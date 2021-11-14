@@ -495,14 +495,16 @@ export const Login = observer(() => {
           {...modalSessionAllowed}
           onClick={(data: any, item: any, index: number) => {
             loginStore.LoginService.sessionAllowedLogout({
-              id: item._id,
-              userId: loginStore.inputLogin?.userId,
-              accessToken: item.user.accessToken,
+              input: {
+                _id: item._id,
+                userId: loginStore.inputLogin?.userId,
+                accessToken: item.user.accessToken,
+              },
             }).then(async (res) => {
-              if (res.success) {
+              if (res.usersSessionAllowedLogout.success) {
                 LibraryComponents.Atoms.Toast.success({
-                  message: `😊 ${res.message}`,
-                })
+                  message: `😊 ${res.usersSessionAllowedLogout.message}`,
+                })  
                 const firstArr = data.slice(0, index) || []
                 const secondArr = data.slice(index + 1) || []
                 const finalArray = [...firstArr, ...secondArr]

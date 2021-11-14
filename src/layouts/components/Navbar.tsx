@@ -160,25 +160,32 @@ const NavbarComponent = observer(({ dispatch }) => {
               size="medium"
               type="outline"
               onClick={() => {
-                userStore.UsersService.loginActivityList({
-                  input: {
-                    userId: loginStore.login.userId,
-                    loginActivityId: loginStore.login.loginActivityId,
-                  },
-                }).then((res) => {
-                  if (!res.success) alert(res.message)
-                  else {
-                    loginStore.updateLogin({
-                      ...loginStore.login,
-                      loginActivityList: res.data.loginActivityList,
-                      sessionAllowed: res.data.sessionAllowed,
-                    })
-                    setModalSessionAllowed({
-                      show: true,
-                      data: res.data.loginActivityList,
-                    })
-                  }
-                })
+                // userStore.UsersService.loginActivityList({
+                //   input: {
+                //     userId: loginStore.login.userId,
+                //     loginActivityId: loginStore.login.loginActivityId,
+                //   },
+                // }).then((res) => {
+                //   if (!res.success) alert(res.message)
+                //   else {
+                //     loginStore.updateLogin({
+                //       ...loginStore.login,
+                //       loginActivityList: res.data.loginActivityList,
+                //       sessionAllowed: res.data.sessionAllowed,
+                //     })
+
+                //   }
+                // })
+                if (loginStore.login.loginActivityList.length > 0) {
+                  setModalSessionAllowed({
+                    show: true,
+                    data: loginStore.login.loginActivityList,
+                  })
+                } else {
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😊 Single system login.`,
+                  })
+                }
               }}
             >
               <label className="inline w-8 text-center" style={{ width: "40px" }}>
@@ -290,13 +297,15 @@ const NavbarComponent = observer(({ dispatch }) => {
         {...modalSessionAllowed}
         onClick={(data: any, item: any, index: number) => {
           loginStore.LoginService.sessionAllowedLogout({
-            id: item._id,
-            userId: loginStore.login?.userId,
-            accessToken: item.user.accessToken,
+            input: {
+              _id: item._id,
+              userId: loginStore.login?.userId,
+              accessToken: item.user.accessToken,
+            },
           }).then(async (res) => {
-            if (res.success) {
+            if (res.usersSessionAllowedLogout.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.usersSessionAllowedLogout.message}`,
               })
               const firstArr = data.slice(0, index) || []
               const secondArr = data.slice(index + 1) || []
@@ -307,10 +316,10 @@ const NavbarComponent = observer(({ dispatch }) => {
               })
               loginStore.updateLogin({
                 ...loginStore.login,
-                sessionAllowed: res.data.sessionAllowed,
+                sessionAllowed: res.usersSessionAllowedLogout.data.sessionAllowed,
                 loginActivityList: finalArray,
               })
-            }
+            }  
           })
         }}
         onClose={() => {

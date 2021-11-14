@@ -55,7 +55,6 @@ export const AutoCompleteFilterMutiSelect = ({
   let count = 0
   const getSelectedItem = (selectedItem: any[], list: any[], findKey: string) => {
     if (count === 0) {
-      console.log({ len: selectedItem && selectedItem.length })
       const finalList = list.filter((item, index) => {
         item.selected = false
         selectedItem && selectedItem.length > 0
@@ -70,8 +69,6 @@ export const AutoCompleteFilterMutiSelect = ({
       })
       list = finalList
     }
-    /// console.log({ list })
-
     return list
   }
 

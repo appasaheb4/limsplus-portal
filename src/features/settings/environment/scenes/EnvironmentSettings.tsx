@@ -123,12 +123,13 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         findKey: "fullName",
                       }}
                       hasError={errors.user}
-                      onUpdate={(items) => {
+                      onUpdate={(item) => {
+                        const items = environmentStore.selectedItems?.users
                         onChange(items)
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
-                          user: environmentStore.selectedItems?.users,
-                        })
+                          user: items,
+                        })  
                         userStore.updateUserFilterList(userStore.userList)
                       }}
                       onFilter={(value: string) => {
@@ -191,7 +192,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               )}
               name="department"
-              rules={{ required: true }}
+              rules={{ required: false }}
               defaultValue=""
             />
 
@@ -202,7 +203,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   label="Variable"
                   id="lblVariable"
                   hasError={errors.variable}
-                >  
+                >
                   <select
                     name="variable"
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
