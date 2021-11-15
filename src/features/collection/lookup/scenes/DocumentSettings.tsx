@@ -15,7 +15,7 @@ interface NewFieldProps {
   onModalConfirm?: (item: any) => void
 }
 
-export const NewField = observer((props: NewFieldProps) => {
+export const DocumentSettings = observer((props: NewFieldProps) => {
   const { loginStore, lookupStore } = useStores()
   const {
     control,
@@ -126,10 +126,10 @@ export const NewField = observer((props: NewFieldProps) => {
                       onChange(code.toUpperCase())
                       lookupStore.updateLocalInput({
                         ...lookupStore.localInput,
-                        code: code.toUpperCase(),
+                        code: lookupStore.flagUpperCase ? code.toUpperCase() : code,
                       })
                     }}
-                  /> 
+                  />
                 )}
                 name="code"
                 rules={{ required: false }}
@@ -155,7 +155,15 @@ export const NewField = observer((props: NewFieldProps) => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <div className="mt-2">
+              <div className="mt-2 flex flex-row justify-between">
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Enable Upper Case"
+                  hasError={errors.method}
+                  value={lookupStore.flagUpperCase}
+                  onChange={(flag) => {
+                    lookupStore.updateFlagUppperCase(flag)
+                  }}
+                />
                 <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   type="solid"

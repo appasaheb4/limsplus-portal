@@ -93,7 +93,7 @@ const ModalForgotPassword = observer((props: ModalForgotPasswordProps) => {
                             onChange(userId)
                             loginStore.updateForgotPassword({
                               ...loginStore.forgotPassword,
-                              userId,
+                              userId:userId.toUpperCase(),
                             })
                           }}
                         />

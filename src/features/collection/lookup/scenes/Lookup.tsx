@@ -9,12 +9,12 @@ import * as FeatureComponents from "../components"
 import { Container } from "reactstrap"
 
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-import { stores, useStores } from "@lp/stores"
+import {  useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 let router = dashboardRoutes
 
-import { NewField } from "./NewField"
+import { DocumentSettings } from "./DocumentSettings"
 import { GeneralField } from "./GeneralField"
 
 const Lookup = observer(() => {
@@ -74,7 +74,7 @@ const Lookup = observer(() => {
                     >
                       {item.title === "DOCUMENT SETTING" && (
                         <>
-                          <NewField />
+                          <DocumentSettings />
                         </>
                       )}
                       {item.title === "GENERAL SETTING" && (
