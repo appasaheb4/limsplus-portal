@@ -504,7 +504,7 @@ export const Login = observer(() => {
               if (res.usersSessionAllowedLogout.success) {
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.usersSessionAllowedLogout.message}`,
-                })  
+                })
                 const firstArr = data.slice(0, index) || []
                 const secondArr = data.slice(index + 1) || []
                 const finalArray = [...firstArr, ...secondArr]

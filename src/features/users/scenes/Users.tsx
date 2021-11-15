@@ -141,7 +141,7 @@ export const Users = observer(() => {
                       label="User Id"
                       placeholder={errors.userId ? "Please enter userId" : "UserId"}
                       hasError={errors.userId}
-                      value={userStore && userStore.user.userId||""}
+                      value={(userStore && userStore.user.userId) || ""}
                       onChange={(userId) => {
                         onChange(userId)
                         userStore.updateUser({
@@ -180,7 +180,7 @@ export const Users = observer(() => {
                         errors.empCode ? "Please enter emp code" : "Emp Code"
                       }
                       hasError={errors.empCode}
-                      value={userStore && userStore.user.empCode||""}
+                      value={(userStore && userStore.user.empCode) || ""}
                       onChange={(empCode) => {
                         onChange(empCode)
                         userStore.updateUser({
@@ -382,14 +382,14 @@ export const Users = observer(() => {
                       hasError={errors.validationLevel}
                     >
                       <select
-                      value={userStore && userStore.user?.validationLevel}
+                        value={userStore && userStore.user?.validationLevel}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.validationLevel
                             ? "border-red-500"
                             : "border-gray-300"
                         } rounded-md`}
                         onChange={(e) => {
-                          const validationLevel = e.target.value 
+                          const validationLevel = e.target.value
                           onChange(validationLevel)
                           userStore.updateUser({
                             ...userStore.user,
@@ -426,7 +426,7 @@ export const Users = observer(() => {
                         onChange(workstation)
                         userStore.updateUser({
                           ...userStore.user,
-                          workstation: workstation.toUpperCase(),
+                          workstation: [workstation],
                         })
                       }}
                     />
@@ -449,7 +449,7 @@ export const Users = observer(() => {
                         onChange(ipAddress)
                         userStore.updateUser({
                           ...userStore.user,
-                          ipAddress,
+                          ipAddress: [ipAddress],
                         })
                       }}
                     />
@@ -675,9 +675,9 @@ export const Users = observer(() => {
                         hasError={errors.expireDays}
                         value={userStore && userStore.user.expireDays}
                         onChange={(expireDays) => {
-                          onChange(expireDays)  
+                          onChange(expireDays)
                           userStore.updateUser({
-                            ...userStore.user,  
+                            ...userStore.user,
                             expireDays: parseInt(expireDays),
                           })
                         }}
@@ -1062,7 +1062,7 @@ export const Users = observer(() => {
                         message: `😊 ${res.updateUser.message}`,
                       })
                       setModalConfirm({ show: false })
-                        userStore.loadUser()
+                      userStore.loadUser()
                     }
                   })
               } else {
