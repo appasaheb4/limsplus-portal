@@ -1,14 +1,8 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
-import Storage from "@lp/library/modules/storage"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import { Stores as TestMasterStore } from "@lp/features/collection/testMaster/stores"
-import { Stores as SampleTypeStore } from "@lp/features/collection/sampleType/stores"
-import { Stores as SampleContainerStore } from "@lp/features/collection/sampleContainer/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
 
 interface TestSampleMappingListProps {
   data: any
@@ -22,7 +16,7 @@ interface TestSampleMappingListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
+const TestSampleMappingList = (props: TestSampleMappingListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -61,8 +55,8 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {TestMasterStore.testMasterStore.listTestMaster &&
-                        TestMasterStore.testMasterStore.listTestMaster.map(
+                      {props.extraData.listTestMaster &&
+                        props.extraData.listTestMaster.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.testCode}>
                               {item.testCode}
@@ -98,8 +92,8 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
+                      {props.extraData.listSampleType &&
+                        props.extraData.listSampleType.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.sampleCode}>
                               {item.sampleCode}
@@ -135,8 +129,8 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
+                      {props.extraData.listSampleType &&
+                        props.extraData.listSampleType.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.sampleType}>
                               {item.sampleType}
@@ -172,8 +166,8 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleTypeStore.sampleTypeStore.listSampleType &&
-                        SampleTypeStore.sampleTypeStore.listSampleType.map(
+                      {props.extraData.listSampleType &&
+                        props.extraData.listSampleType.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.sampleGroup}>
                               {item.sampleGroup}
@@ -213,9 +207,9 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
+                      {props.extraData
                         .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
+                        props.extraData.listSampleContainer.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.containerCode}>
                               {item.containerCode}
@@ -255,9 +249,9 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
+                      {props.extraData
                         .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
+                        props.extraData.listSampleContainer.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.containerName}>
                               {item.containerName}
@@ -297,9 +291,9 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
+                      {props.extraData
                         .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
+                        props.extraData.listSampleContainer.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.containerCode}>
                               {item.containerCode}
@@ -339,9 +333,9 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {SampleContainerStore.sampleContainerStore
+                      {props.extraData
                         .listSampleContainer &&
-                        SampleContainerStore.sampleContainerStore.listSampleContainer.map(
+                        props.extraData.listSampleContainer.map(
                           (item: any, index: number) => (
                             <option key={index} value={item.containerName}>
                               {item.containerName}
@@ -775,5 +769,5 @@ const TestSampleMappingList = observer((props: TestSampleMappingListProps) => {
       </div>
     </>
   )
-})
+}
 export default TestSampleMappingList

@@ -1,16 +1,9 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from 'dayjs'
-
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-
-
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-
 interface PackageMasterListProps {
   data: any
   totalSize: number
@@ -25,7 +18,7 @@ interface PackageMasterListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const PackageMasterList = observer((props: PackageMasterListProps) => {
+const PackageMasterList = (props: PackageMasterListProps) => {
  
 
   const editorCell = (row: any) => {
@@ -70,7 +63,7 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                    {props.extraData.listLabs.map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {item.name}
                       </option>
@@ -330,5 +323,5 @@ const PackageMasterList = observer((props: PackageMasterListProps) => {
       />
     </>
   )
-})
+}
 export default PackageMasterList

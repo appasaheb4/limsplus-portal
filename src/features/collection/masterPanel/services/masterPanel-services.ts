@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-//import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { SectionService } from "@lp/features/collection/section/services"
 import { stores } from "@lp/stores"
@@ -47,6 +47,7 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -62,6 +63,7 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -77,6 +79,7 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -107,6 +110,7 @@ class MasterPanelService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPanelStore.updateMasterPanel(new Models.MasterPanel({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

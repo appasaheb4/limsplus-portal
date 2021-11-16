@@ -16,6 +16,7 @@ import {
   CHECK_EXISTS_RECORD,
 } from "./mutation"
 import { stores } from "@lp/stores"
+import * as Models from '../models'
 
 export class PriceListService {
   addPriceList = (variables: any) =>
@@ -27,6 +28,7 @@ export class PriceListService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.priceListStore.updatePriceList(new Models.PriceList({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -77,6 +79,7 @@ export class PriceListService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.priceListStore.updatePriceList(new Models.PriceList({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -92,6 +95,7 @@ export class PriceListService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.priceListStore.updatePriceList(new Models.PriceList({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -107,6 +111,7 @@ export class PriceListService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.priceListStore.updatePriceList(new Models.PriceList({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

@@ -64,6 +64,9 @@ class TestPanelMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testPanelMappingStore.updateTestPanelMapping(
+            new Models.TestPanelMapping({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -79,6 +82,9 @@ class TestPanelMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testPanelMappingStore.updateTestPanelMapping(
+            new Models.TestPanelMapping({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -109,6 +115,9 @@ class TestPanelMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.testPanelMappingStore.updateTestPanelMapping(
+            new Models.TestPanelMapping({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

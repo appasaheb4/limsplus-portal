@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useEffect } from "react"
-import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
-// import { Stores } from "@lp/features/login/stores"
 let router = dashboardRoutes
 
 interface LookupListProps {
@@ -20,7 +18,7 @@ interface LookupListProps {
   onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const LookupList = observer((props: LookupListProps) => {
+const LookupList = (props: LookupListProps) => {
   useEffect(() => {
     router = router.filter((item: any) => {
       if (item.name !== "Dashboard") {
@@ -339,5 +337,5 @@ const LookupList = observer((props: LookupListProps) => {
       />
     </div>
   )
-})
+}
 export default LookupList

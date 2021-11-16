@@ -40,6 +40,19 @@ const TestSampleMapping = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      testSampleMappingStore && testSampleMappingStore.updateSampleType({
+        ...testSampleMappingStore.testSampleMapping,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitTestSampleMapping = () => {
     if (!testSampleMappingStore.checkExitsTestSampleEnvCode) {
       testSampleMappingStore.testSampleMappingService
@@ -953,6 +966,9 @@ const TestSampleMapping = observer(() => {
             totalSize={testSampleMappingStore.listTestSampleMappingCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              listTestMaster:testMasterStore.listTestMaster,
+              listSampleType:sampleTypeStore.listSampleType,
+              listSampleContainer:sampleContainerStore.listSampleContainer
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

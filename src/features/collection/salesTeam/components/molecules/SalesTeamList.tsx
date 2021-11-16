@@ -1,11 +1,8 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-import Storage from "@lp/library/modules/storage"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
    
 interface SalesTeamListProps {
   data: any
@@ -19,7 +16,7 @@ interface SalesTeamListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }  
 
-export const SalesTeamList = observer((props: SalesTeamListProps) => {
+export const SalesTeamList = (props: SalesTeamListProps) => {
   return (
     <div style={{ position: "relative" }}>
     <LibraryComponents.Organisms.TableBootstrap
@@ -38,6 +35,39 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
           text: "Sales Hierarchy",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sales Hierarchy"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const salesHierarchy = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(salesHierarchy,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select </option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SALES_HIERARCHY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+            </>
+          ),
         },
         {
           dataField: "salesTerritory",
@@ -47,24 +77,96 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
           formatter: (cell, row) => {
             return <>{row.salesTerritory && row.salesTerritory.area || ""}</>
           },
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Sales Territory"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const salesTerritory = JSON.parse(e.target.value)
+                        props.onUpdateItem && props.onUpdateItem(salesTerritory,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.listAdministrativeDiv &&
+                        props.extraData.listAdministrativeDiv.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={JSON.stringify(item)}>
+                              {`${item.country}-${item.state}-${item.district}-${item.city}-${item.area}`}
+                            </option>
+                          )
+                        )}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+            </>
+          ),
         },
         {
           dataField: "empCode",
           text: "Employee Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable:false,
         },
         {
           dataField: "empName",
           text: "Employee Name",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable:false,
         },
         {
           dataField: "reportingTo",
           text: "Reporting To",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editorRenderer: (
+            editorProps,
+            value,
+            row,
+            column,
+            rowIndex,
+            columnIndex
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Reporting To"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const userDetials = JSON.parse(e.target.value) as any
+                        props.onUpdateItem && props.onUpdateItem(userDetials.empName,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {props.extraData.userStore &&
+                        props.extraData.userList &&
+                        props.extraData.filterUsersItems(
+                         props.extraData.userList,
+                          "role",
+                          "code",
+                          "SALES"
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={JSON.stringify(item)}>
+                            {`${item.empCode} -${item.empName}`}
+                          </option>
+                        ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+            </>
+          ),
         },
         {
           dataField: "environment",
@@ -151,5 +253,5 @@ export const SalesTeamList = observer((props: SalesTeamListProps) => {
     />
     </div>
   )
-})
+}
 

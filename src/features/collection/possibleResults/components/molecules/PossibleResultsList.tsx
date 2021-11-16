@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from "react"
-import { observer } from "mobx-react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -18,7 +17,7 @@ interface PossibleResultsListProps {
   updatePossibleResults?: (values: any) => void
 }
 
-export const PossibleResultsList = observer((props: PossibleResultsListProps) => {
+export const PossibleResultsList = (props: PossibleResultsListProps) => {
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -369,4 +368,4 @@ export const PossibleResultsList = observer((props: PossibleResultsListProps) =>
       />
     </div>
   )
-})
+}

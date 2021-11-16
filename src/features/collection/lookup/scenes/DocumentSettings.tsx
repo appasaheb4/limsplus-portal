@@ -16,7 +16,7 @@ interface NewFieldProps {
 }
 
 export const DocumentSettings = observer((props: NewFieldProps) => {
-  const { loginStore, lookupStore } = useStores()
+  const { loginStore, lookupStore,routerStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -33,6 +33,21 @@ export const DocumentSettings = observer((props: NewFieldProps) => {
       setValue("environment", loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+  useEffect(()=>{
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      lookupStore &&
+      lookupStore.updateLookup({
+        ...lookupStore.lookup,
+        environment: environment.code as string,
+      })
+      setValue("environment", environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitNewField = (data: any) => {
     if (lookupStore.localInput.value === "" && lookupStore.localInput.value === "") {
       lookupStore.LookupService.addLookup({ input: { ...lookupStore.lookup } }).then(

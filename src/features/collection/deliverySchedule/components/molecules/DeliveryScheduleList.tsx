@@ -1,16 +1,8 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
-import { observer } from "mobx-react"
-
-import Storage from "@lp/library/modules/storage"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-import { Stores as MasterPanelStore } from "@lp/features/collection/masterPanel/stores"
-import { Stores as LookupStore } from "@lp/features/collection/lookup/stores"
-
 interface DeliverySchduleListProps {
   data: any
   totalSize: number
@@ -23,7 +15,7 @@ interface DeliverySchduleListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
+const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -120,6 +112,39 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "Processing Type",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Processing Type"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const processingType = e.target.value as string
+                        props.onUpdateItem && props.onUpdateItem(processingType,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PROCESSING_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {LibraryUtils.lookupValue(item)}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "schFrequency",
@@ -147,6 +172,40 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
               text: "Dynamic TU",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Dynamic TU"
+              
+                  >
+                    <select
+                      value={row.dynamicTU}
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const dynamicTU = e.target.value
+                        props.onUpdateItem && props.onUpdateItem(dynamicTU,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "DYNAMIC_TU"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "fixedRT",
@@ -270,6 +329,6 @@ const DeliverySchduleList = observer((props: DeliverySchduleListProps) => {
       </div>
     </>
   )
-})
+}
 
 export default DeliverySchduleList

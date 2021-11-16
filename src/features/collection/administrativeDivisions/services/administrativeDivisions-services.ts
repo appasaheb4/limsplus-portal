@@ -14,6 +14,7 @@ import {
   UPDATE_RECORD,
   FILTER_RECORD,
 } from "./mutation"
+import * as Models from '../models'
 
 class AdministrativeDivisionsService {
   listAdministrativeDivisions = (page = 0, limit = 10) =>
@@ -46,6 +47,7 @@ class AdministrativeDivisionsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.administrativeDivisions.updateAdministrativeDiv(new Models.AdministrativeDivisions({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -75,6 +77,7 @@ class AdministrativeDivisionsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.administrativeDivisions.updateAdministrativeDiv(new Models.AdministrativeDivisions({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

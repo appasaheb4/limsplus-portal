@@ -1528,6 +1528,11 @@ const MasterPanel = observer(() => {
             totalSize={masterPanelStore.listMasterPanelCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              labList:loginStore.login?.labList,
+              listLabs:labStore.listLabs,
+              listDepartment:departmentStore.listDepartment,
+              listDeliverySchedule:deliveryScheduleStore.listDeliverySchedule,
+              listMethods:methodsStore.listMethods
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
