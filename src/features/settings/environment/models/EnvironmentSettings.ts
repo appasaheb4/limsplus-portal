@@ -1,7 +1,7 @@
 import * as Models from "@lp/features/settings/users/models"
 export class EnvironmentSettings {
   _id: string
-  lab: any[]
+  lab: any[]   
   user: Models.Users[]
   department: any[]
   variable: string

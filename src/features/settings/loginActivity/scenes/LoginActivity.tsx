@@ -62,11 +62,28 @@ const LoginActivity = observer(() => {
                   headerStyle: { minWidth: "200px" },
                 },
                 {
-                  dataField: "systemInfo.device",
-                  text: "Device",
+                  dataField: "systemInfo",
+                  text: "System info",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   headerStyle: { minWidth: "200px" },
+                  formatter: (cell, row) => {
+                    return (
+                      <div>
+                        <h6>{`Device: ${row.systemInfo.device}`} </h6>
+                        <h6> OS:</h6>
+                        <h6 className="ml-4">
+                          {`name: ${row.systemInfo?.workstation?.os?.name}
+                                      version:${row.systemInfo?.workstation?.os?.version}`}
+                        </h6>
+                        <h6> Browser:</h6>
+                        <h6 className="ml-4">
+                          {`name: ${row.systemInfo?.workstation?.browser?.name}
+                                      version:${row.systemInfo?.workstation?.browser?.version}`}
+                        </h6>
+                      </div>
+                    )
+                  },
                 },
                 {
                   dataField: "systemInfo.v4",
@@ -113,7 +130,7 @@ const LoginActivity = observer(() => {
                     return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
                 },
-                {  
+                {
                   dataField: "lastUpdated",
                   text: "Out",
                   sort: true,

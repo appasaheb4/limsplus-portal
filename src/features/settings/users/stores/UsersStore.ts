@@ -30,6 +30,12 @@ export class UserStore {
         .format("YYYY-MM-DD HH:mm:ss"),
       confidential: false,
       confirguration: false,
+      systemInfo:{
+        accessInfo:{
+          mobile: true,
+          desktop: true
+        }
+      },
       validationLevel: 0,
     })
     makeObservable<UserStore, any>(this, {
