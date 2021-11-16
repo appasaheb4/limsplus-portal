@@ -7,7 +7,7 @@
 import { Http, http } from "@lp/library/modules/http"
 import { stores } from "@lp/stores"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import * as Model from '../models/User'
+import * as Model from "../models/User"
 import {
   CHECK_EXISTS_USERID,
   USER_LIST,
@@ -20,6 +20,7 @@ import {
   CHANGE_PASSWORD,
   CHANGE_PASSWORD_BY_ADMIN,
   SWITCH_ACCESS,
+  FILTER_USERS_BY_KEY,
 } from "./mutation"
 
 export class UserService {
@@ -73,7 +74,6 @@ export class UserService {
         .then((response: any) => {
           resolve(response.data)
           stores.userStore.updateUser(new Model.Users({}))
-          
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -202,7 +202,7 @@ export class UserService {
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })    
+    })
 
   loginActivityList = (details: any) =>
     new Promise<any>((resolve, reject) => {
@@ -215,5 +215,23 @@ export class UserService {
         .catch((error) => {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         })
+    })
+
+  userFilterByKey = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_USERS_BY_KEY,
+          variables,
+        })
+        .then((response: any) => {
+          stores.userStore.updateUserFilterList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })  
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }

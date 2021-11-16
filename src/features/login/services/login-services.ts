@@ -4,9 +4,14 @@
  * @author limsplus
  */
 
-import { Http, http } from "@lp/library/modules/http"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { LOGIN, STATUS_UPDATE, LOGOUT, FORGOT_PASSWORD } from "./mutation"
+import {
+  LOGIN,
+  STATUS_UPDATE,
+  LOGOUT,
+  FORGOT_PASSWORD,
+  SESSION_ALLOWED_LOGOUT,
+} from "./mutation"
 export class LoginService {
   onLogin = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -67,18 +72,19 @@ export class LoginService {
         )
     })
 
-  sessionAllowedLogout = (details: any) =>
+  sessionAllowedLogout = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ details })
-
-      http
-        .post(`/auth/sessionAllowedLogout`, details)
-        .then((response) => {
-          const serviceResponse = Http.handleResponse<any>(response)
-          resolve(serviceResponse)
+      console.log({ variables })
+      client
+        .mutate({  
+          mutation: SESSION_ALLOWED_LOGOUT,
+          variables,
         })
-        .catch((error) => {
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        })
+        )
     })
 }

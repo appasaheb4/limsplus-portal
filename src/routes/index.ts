@@ -17,9 +17,7 @@ const CollectionDeginisation = async(
 const CollectionDepartment = async(
   () => import("@lp/features/collection/department/scenes/Department")
 )
-const CollectionRole = async(
-  () => import("@lp/features/collection/roles/scenes/Role")
-)
+
 // master
 const MasterAnalyte = async(
   () => import("@lp/features/collection/masterAnalyte/scenes/MasterAnalyte")
@@ -79,28 +77,32 @@ const PossibleResults = async(
   () => import("@lp/features/collection/possibleResults/scenes/PossibleResults")
 )
 const Library = async(() => import("@lp/features/collection/library/scenes/Library"))
-const PriceList = async(() => import("@lp/features/collection/priceList/scenes/PriceList"))
-const ReferenceRanges = async(() => import("@lp/features/collection/referenceRanges/scenes/ReferenceRanges"))
+const PriceList = async(
+  () => import("@lp/features/collection/priceList/scenes/PriceList")
+)
+const ReferenceRanges = async(
+  () => import("@lp/features/collection/referenceRanges/scenes/ReferenceRanges")
+)
 
 // Communication
 const HostCommunication = async(
-  () => import("@lp/features/communication/hostCommunication/scences/HostCommunication")
+  () =>
+    import("@lp/features/communication/hostCommunication/scences/HostCommunication")
 )
 const SegmentMapping = async(
-  () =>
-    import("@lp/features/communication/segmentMapping/scences/SegmentMapping")
+  () => import("@lp/features/communication/segmentMapping/scences/SegmentMapping")
 )
 const DataConversation = async(
   () =>
-    import(
-      "@lp/features/communication/dataConversation/scences/DataConversation"
-    )
+    import("@lp/features/communication/dataConversation/scences/DataConversation")
 )
 const InterfaceManager = async(
-  () => import("@lp/features/communication/interfaceManager/scences/InterfaceManager")
+  () =>
+    import("@lp/features/communication/interfaceManager/scences/InterfaceManager")
 )
 
 // Settings
+const Role = async(() => import("@lp/features/settings/roles/scenes/Role"))
 const User = async(() => import("@lp/features/users/scenes/Users"))
 const RoleMapping = async(
   () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
@@ -112,8 +114,7 @@ const ShortcutMenu = async(
   () => import("@lp/features/settings/shortcutMenu/scenes/ShortcutMenu")
 )
 const Environment = async(
-  () =>
-    import("@lp/features/settings/environment/scenes/Environment")
+  () => import("@lp/features/settings/environment/scenes/Environment")
 )
 const NoticeBoards = async(
   () => import("@lp/features/settings/noticeBoard/scenes/NoticeBoard")
@@ -187,12 +188,6 @@ const collectionRoutes = {
       name: "Department",
       icon: "LibraryComponents.Atoms.Icons.IconFc.FcDepartment",
       component: CollectionDepartment,
-    },
-    {
-      path: "/collection/role",
-      name: "Role",
-      icon: "LibraryComponents.Atoms.Icons.IconGi.GiKeyring",
-      component: CollectionRole,
     },
     {
       path: "/collection/masterAnalyte",
@@ -313,24 +308,22 @@ const collectionRoutes = {
       name: "Library",
       icon: "LibraryComponents.Atoms.Icons.Iconhi.HiLibrary",
       component: Library,
-    },  
+    },
     {
       path: "/collection/priceList",
-      name:"PriceList",
+      name: "PriceList",
       icon: "LibraryComponents.Atoms.Icons.IconGi.GiPriceTag",
-      component: PriceList
-
+      component: PriceList,
     },
     {
       path: "/collection/referenceRanges",
-      name:"ReferenceRanges",
-       icon: "LibraryComponents.Atoms.Icons.Iconvsc.VscReferences",
-      component: ReferenceRanges
-
-    }
+      name: "ReferenceRanges",
+      icon: "LibraryComponents.Atoms.Icons.Iconvsc.VscReferences",
+      component: ReferenceRanges,
+    },
   ],
 }
-  
+
 const communicationRoutes = {
   path: "/communication",
   name: "Communication",
@@ -361,20 +354,26 @@ const communicationRoutes = {
       component: SegmentMapping,
     },
   ],
-}  
-
+}
+  
 const settingsRoutes = {
   path: "/settings",
   name: "Settings",
   icon: "LibraryComponents.Atoms.Icons.IconRi.RiSettings5Fill",
   children: [
     {
+      path: "/settings/role",
+      name: "Role",
+      icon: "LibraryComponents.Atoms.Icons.IconGi.GiKeyring",
+      component: Role,
+    },
+    {
       path: "/settings/users",
       name: "User",
       icon: "LibraryComponents.Atoms.Icons.IconFa.FaUsersCog",
       component: User,
     },
-    {  
+    {
       path: "/settings/loginActivity",
       name: "Login Activity",
       icon: "LibraryComponents.Atoms.Icons.IconFi.FiActivity",
@@ -392,7 +391,7 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconCg.CgShortcut",
       component: ShortcutMenu,
     },
-    {   
+    {
       path: "/settings/environmentSettings",
       name: "Environment",
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",

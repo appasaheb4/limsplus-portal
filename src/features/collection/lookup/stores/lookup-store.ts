@@ -11,16 +11,19 @@ export class LookupStore {
   @ignore @observable lookup!: Models.Lookup
   @ignore @observable globalSettings!: Models.GlobalSettings
   localInput!: Models.LocalInput;
+  @ignore flagUpperCase: boolean 
    
   constructor() {
     this.listLookup = []
     this.localInput= new Models.LocalInput({});
+    this.flagUpperCase = true
     makeObservable<LookupStore, any>(this, {
       listLookup: observable,
       listLookupCount: observable,
       lookup: observable,
       globalSettings: observable,
-      localInput:observable
+      localInput:observable,
+      flagUpperCase: observable
     })
   }
 
@@ -48,5 +51,9 @@ export class LookupStore {
 
   @action updateLocalInput(input: Models.LocalInput){
     this.localInput = input
+  }
+
+  @action updateFlagUppperCase(flag: boolean){
+    this.flagUpperCase = flag
   }
 }

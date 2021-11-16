@@ -60,6 +60,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 <LibraryComponents.Atoms.Form.Input
                   label="Environment Variables"
                   name="txtEnvironmentVariable"
+                  value={environmentStore.environmentVariable?.environmentVariable}
                   hasError={errors.environmentVariable}
                   placeholder={
                     errors.environmentVariable
