@@ -7,6 +7,7 @@ import classNames from "classnames"
 interface LabelProps {
   htmlFor: string
   hasError?: boolean
+  style?: any
 }
 
 export const Label: React.FunctionComponent<LabelProps> = (props) => (
@@ -16,6 +17,7 @@ export const Label: React.FunctionComponent<LabelProps> = (props) => (
       className={`${
         props.hasError ? "text-red-400" : "text-gray-700"
       } block text-xs font-medium  mb-1`}
+      style={{ ...props.style }}
     >
       {props.children}
     </label>
@@ -27,11 +29,16 @@ interface InputWrapperProps {
   label?: string
   className?: string
   hasError?: boolean
+  style?: any
 }
 
 export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (props) => (
   <div className={props.className}>
-    <Label htmlFor={props.id || ""} hasError={props.hasError}>
+    <Label
+      htmlFor={props.id || ""}
+      hasError={props.hasError}
+      style={{ ...props.style }}
+    >
       {props.label}
     </Label>
     {props.children}
@@ -143,7 +150,7 @@ export const InputDate = (props: InputDateProps) => (
       onChange={(e) => props.onChange && props.onChange(e)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
         props.hasError ? "border-red-500 " : "border-gray-300"
-      } rounded-md`}   
+      } rounded-md`}
     />
   </InputWrapper>
 )
@@ -275,13 +282,13 @@ export const Toggle = (props: ToggleProps) => {
           }
         >
           <div className="wrg-toggle-check">
-            <span className="text-white">Yes</span>
+            <span className="text-white ml-1">Yes</span>
           </div>
           <div className="wrg-toggle-uncheck">
             <span className="text-white">No</span>
           </div>
         </div>
-        <div className="wrg-toggle-circle"></div>
+        <div className={`wrg-toggle-circle ${toggle ? `ml-1` : `mr-1`}  `}></div>
         <input
           type="checkbox"
           aria-label="Toggle Button"

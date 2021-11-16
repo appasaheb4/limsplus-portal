@@ -378,6 +378,36 @@ export const Users = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Role"
+                      hasError={errors.role}
+                    >
+                      <LibraryComponents.Molecules.AutocompleteCheck
+                        data={{
+                          defulatValues: [],
+                          list: roleStore.listRole,
+                          displayKey: "description",
+                          findKey: "code",
+                        }}
+                        hasError={errors.role}
+                        onUpdate={(items) => {
+                          onChange(items)
+                          userStore.updateUser({
+                            ...userStore.user,
+                            role: items,
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="role"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
                       label="Validation Level"
                       hasError={errors.validationLevel}
                     >
@@ -410,7 +440,7 @@ export const Users = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-                <Controller
+                {/* <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Input
@@ -457,7 +487,7 @@ export const Users = observer(() => {
                   name="ipAddress"
                   rules={{ required: false }}
                   defaultValue=""
-                />
+                /> */}
               </LibraryComponents.Atoms.List>
               <LibraryComponents.Atoms.List
                 direction="col"
@@ -710,36 +740,6 @@ export const Users = observer(() => {
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Role"
-                      hasError={errors.role}
-                    >
-                      <LibraryComponents.Molecules.AutocompleteCheck
-                        data={{
-                          defulatValues: [],
-                          list: roleStore.listRole,
-                          displayKey: "description",
-                          findKey: "code",
-                        }}
-                        hasError={errors.role}
-                        onUpdate={(items) => {
-                          onChange(items)
-                          userStore.updateUser({
-                            ...userStore.user,
-                            role: items,
-                          })
-                        }}
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  )}
-                  name="role"
-                  rules={{ required: true }}
-                  defaultValue=""
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.Toggle
                       label="Confidential"
                       value={userStore && userStore.user?.confidential}
@@ -942,6 +942,68 @@ export const Users = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
+
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Access Permission"
+                  hasError={errors.environment}
+                  style={{ fontWeight: "bold" }}
+                >
+                  <div className="flex flex-row gap-4">
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          label="Mobile"
+                          value={
+                            userStore &&
+                            userStore.user?.systemInfo?.accessInfo?.mobile
+                          }
+                          onChange={(mobile) => {
+                            onChange(mobile)
+                            userStore.updateUser({
+                              ...userStore.user,
+                              systemInfo: {
+                                ...userStore.user.systemInfo,
+                                accessInfo: {
+                                  ...userStore.user.systemInfo.accessInfo,
+                                  mobile,
+                                },
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="confirguration"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange } }) => (
+                        <LibraryComponents.Atoms.Form.Toggle
+                          label="Desktop"
+                          value={userStore && userStore.user?.systemInfo?.accessInfo?.desktop}
+                          onChange={(desktop) => {
+                            onChange(desktop)
+                            userStore.updateUser({
+                              ...userStore.user,
+                              systemInfo: {
+                                ...userStore.user.systemInfo,
+                                accessInfo: {
+                                  ...userStore.user.systemInfo.accessInfo,
+                                  desktop,
+                                },
+                              },
+                            })
+                          }}
+                        />
+                      )}
+                      name="confirguration"
+                      rules={{ required: false }}
+                      defaultValue=""
+                    />
+                  </div>
+                </LibraryComponents.Atoms.Form.InputWrapper>
               </LibraryComponents.Atoms.List>
             </LibraryComponents.Atoms.Grid>
             <br />

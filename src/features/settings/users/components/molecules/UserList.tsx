@@ -223,10 +223,10 @@ export const UserList = observer((props: UserListProps) => {
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md`}
                       onChange={(e) => {
-                        const validationLevel = e.target.value 
+                        const validationLevel = e.target.value
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                           parseInt(validationLevel),
+                            parseInt(validationLevel),
                             column.dataField,
                             row._id
                           )
@@ -300,7 +300,7 @@ export const UserList = observer((props: UserListProps) => {
               headerStyle: { minWidth: "200px" },
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
-              },  
+              },
               editorRenderer: (
                 editorProps,
                 value,
@@ -308,7 +308,7 @@ export const UserList = observer((props: UserListProps) => {
                 column,
                 rowIndex,
                 columnIndex
-              ) => (  
+              ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Birthday Date"
@@ -379,11 +379,7 @@ export const UserList = observer((props: UserListProps) => {
                     onChange={(e: any) => {
                       let date = new Date(e.target.value)
                       props.onUpdateItem &&
-                        props.onUpdateItem(
-                          new Date(date),
-                          column.dataField,
-                          row._id
-                        )
+                        props.onUpdateItem(new Date(date), column.dataField, row._id)
                     }}
                   />
                 </>
@@ -445,7 +441,7 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            {  
+            {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
@@ -506,7 +502,7 @@ export const UserList = observer((props: UserListProps) => {
               csvExport: false,
               formatter: (cell, row) => {
                 return (
-                  <>  
+                  <>
                     <img
                       src={row.picture}
                       alt="picture"
@@ -627,6 +623,69 @@ export const UserList = observer((props: UserListProps) => {
                         props.onUpdateItem(confirguration, "confirguration", row._id)
                     }}
                   />
+                </>
+              ),
+            },
+            {
+              dataField: "systemInfo",
+              text: "System Info",
+              sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "200px" },
+              formatter: (cellContent, row) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Access Permission"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    <div className="flex flex-row gap-4">
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Mobile"
+                        value={
+                          row.systemInfo &&
+                          row.systemInfo.accessInfo &&
+                          row.systemInfo.accessInfo?.mobile
+                        }
+                        onChange={(mobile) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(
+                              {
+                                ...row.systemInfo,
+                                accessInfo: {
+                                  ...row.systemInfo?.accessInfo,
+                                  mobile,
+                                },
+                              },
+                              "systemInfo",
+                              row._id
+                            )
+                        }}
+                      />
+
+                      <LibraryComponents.Atoms.Form.Toggle
+                        label="Desktop"
+                        value={
+                          row.systemInfo &&
+                          row.systemInfo.accessInfo &&
+                          row.systemInfo.accessInfo?.desktop
+                        }
+                        onChange={(desktop) => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(
+                              {
+                                ...row.systemInfo,
+                                accessInfo: {
+                                  ...row.systemInfo?.accessInfo,
+                                  desktop,
+                                },
+                              },
+                              "systemInfo",
+                              row._id  
+                            )
+                        }}
+                      />
+                    </div>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
