@@ -12,8 +12,6 @@ import * as Services from "../../services"
 
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
 import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RoleStore } from "@lp/features/settings/roles/stores"
 import { toJS } from "mobx"
 
 interface SessionManagementListProps {
@@ -25,10 +23,10 @@ interface SessionManagementListProps {
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
 }
 
-const SessionManagementList = observer((props: SessionManagementListProps) => {
+const EnvironmentSettingsList = observer((props: SessionManagementListProps) => {
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -129,9 +127,10 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
-                    {row.department.map((item, index) => (
-                      <li key={index}>{item.name}</li>
-                    ))}
+                    {row.department &&
+                      row.department.map((item, index) => (
+                        <li key={index}>{item.name}</li>
+                      ))}
                   </ul>
                 </>
               ),
@@ -221,7 +220,7 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                   <LibraryComponents.Atoms.Form.MultilineInput
                     rows={5}
                     name="description"
-                    placeholder="Description"  
+                    placeholder="Description"
                     onBlur={(description) => {
                       if (row.description !== description && description) {
                         props.onUpdateItem &&
@@ -245,25 +244,26 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
                 rowIndex,
                 columnIndex
               ) => (
-                <>
+                <>  
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
                       value={row.environment}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                        
+                        props.onUpdateItem &&
+                          props.onUpdateItem(environment, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -313,8 +313,8 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
         />
       </div>
@@ -322,4 +322,4 @@ const SessionManagementList = observer((props: SessionManagementListProps) => {
   )
 })
 
-export default SessionManagementList
+export default EnvironmentSettingsList

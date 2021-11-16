@@ -4,7 +4,7 @@ import { RootStore } from "./rootStore"
 import { RouterStore } from "./routerStore"
 import { AppStore } from "./appStore"
 import { LoginStore } from "@lp/features/login/stores/LoginStore"
-import { UserStore } from "@lp/features/users/stores/UsersStore"
+import { UserStore } from "@lp/features/settings/users/stores/UsersStore"
 import { LookupStore } from "@lp/features/collection/lookup/stores/lookup-store"
 import { SectionStore } from "@lp/features/collection/section/stores/section-store"
 
