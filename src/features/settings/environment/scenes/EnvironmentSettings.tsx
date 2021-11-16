@@ -362,7 +362,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.SessionManagementList
+        <FeatureComponents.Molecules.EnvironmentSettingsList
           data={environmentStore.environmentSettingsList}
           totalSize={environmentStore.environmentSettingsListCount}
           extraData={{

@@ -12,13 +12,14 @@ import {
 import { observer } from "mobx-react"
 
 import { Calendar, Filter, RefreshCw } from "react-feather"
-import { Stores as LoginStores } from "@lp/features/login/stores"
+import { useStores } from "@lp/stores"
 
 const Header = observer(() => {
+  const {loginStore}  = useStores()
   return (
     <Row className="mb-2 mb-xl-4">
       <Col xs="auto" className="d-none d-sm-block">
-        <h3>Welcome back, {LoginStores.loginStore.login?.fullName}</h3>
+        <h3>Welcome back, {loginStore.login?.fullName}</h3>
       </Col>
 
       <Col xs="auto" className="ml-auto text-right mt-n1">
@@ -27,11 +28,10 @@ const Header = observer(() => {
             <Calendar className="feather align-middle mt-n1" /> Today
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem>Action</DropdownItem>
-            <DropdownItem>Another Action</DropdownItem>
-            <DropdownItem>Something else here</DropdownItem>
-            <DropdownItem divider />
-            <DropdownItem>Seperated link</DropdownItem>
+            <DropdownItem>Today</DropdownItem>
+            <DropdownItem>Week</DropdownItem>
+            <DropdownItem>Month</DropdownItem>
+            <DropdownItem>Year</DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
 

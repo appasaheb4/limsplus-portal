@@ -1,4 +1,4 @@
-import * as Models from "@lp/features/users/models"
+import * as Models from "@lp/features/settings/users/models"
 export class EnvironmentSettings {
   _id: string
   lab: any[]

@@ -103,7 +103,7 @@ const InterfaceManager = async(
 
 // Settings
 const Role = async(() => import("@lp/features/settings/roles/scenes/Role"))
-const User = async(() => import("@lp/features/users/scenes/Users"))
+const User = async(() => import("@lp/features/settings/users/scenes/Users"))
 const RoleMapping = async(
   () => import("@lp/features/settings/mapping/role/scenes/RoleMapping")
 )
