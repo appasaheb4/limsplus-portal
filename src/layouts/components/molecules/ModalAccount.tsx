@@ -102,12 +102,14 @@ const ModalAccount = observer((props: ModalAccountProps) => {
                           role,
                         },
                       }).then((res: any) => {
-                         if (res.userSwitchAccess.success) {
+                        if (res.userSwitchAccess.success) {
                           loginStore.updateLogin({
                             ...loginStore.login,
                             role,
                           })
-                          const router = JSON.parse(res.userSwitchAccess.data.roleMapping.router[0])
+                          const router = JSON.parse(
+                            res.userSwitchAccess.data.roleMapping.router[0]
+                          )
                           stores.routerStore.updateUserRouter(router)
                           LibraryComponents.Atoms.Toast.success({
                             message: `😊 ${res.userSwitchAccess.message}`,
@@ -135,27 +137,27 @@ const ModalAccount = observer((props: ModalAccountProps) => {
       </LibraryComponents.Molecules.Modals.SlideIn>
       <LibraryComponents.Molecules.ModalFileUpload
         {...modalFileUpload}
-        onClick={(image: any) => {
-          console.log({ image })
-
+        onClick={(picture: any) => {
           userStore.UsersService.uploadImage({
-            image,
-            id: loginStore.login?._id,
-            folder: "users",
+            input: {  
+              picture,
+              _id: loginStore.login?._id
+            },
           }).then((res: any) => {
-            console.log({ res })
+            console.log({res});
+            
             setModalFileUpload({ show: false })
-            if (res.status === 200) {
+            if (res.updateUserImages.success) {
               loginStore.updateLogin({
                 ...loginStore.login,
-                picture: res.data.data.image,
+                picture: res.updateUserImages.data.picture,
               })
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 Image upload successfully!`,
+                message: `😊 ${res.updateUserImages.message}`,
               })
-            } else {
+            } else {   
               LibraryComponents.Atoms.Toast.error({
-                message: `😔 Image not upload. Please try again!`,
+                message: `😔 ${res.updateUserImages.message}`,
               })
             }
           })

@@ -102,7 +102,6 @@ const NavbarComponent = observer(({ dispatch }) => {
               )
             )}
         </Form>
-
         <Collapse navbar>
           <Nav className="ml-auto items-center" navbar>
             <LibraryComponents.Atoms.Buttons.Button
@@ -161,24 +160,32 @@ const NavbarComponent = observer(({ dispatch }) => {
               size="medium"
               type="outline"
               onClick={() => {
-                userStore.UsersService.loginActivityList({
-                  userId: loginStore.login.userId,
-                  loginActivityId: loginStore.login.loginActivityId,
-                }).then((res) => {
-                  console.log({ res })
-                  if (!res.success) alert(res.message)
-                  else {
-                    loginStore.updateLogin({
-                      ...loginStore.login,
-                      loginActivityList: res.data.loginActivityList,
-                      sessionAllowed: res.data.sessionAllowed,
-                    })
-                    setModalSessionAllowed({
-                      show: true,
-                      data: res.data.loginActivityList,
-                    })
-                  }
-                })
+                // userStore.UsersService.loginActivityList({
+                //   input: {
+                //     userId: loginStore.login.userId,
+                //     loginActivityId: loginStore.login.loginActivityId,
+                //   },
+                // }).then((res) => {
+                //   if (!res.success) alert(res.message)
+                //   else {
+                //     loginStore.updateLogin({
+                //       ...loginStore.login,
+                //       loginActivityList: res.data.loginActivityList,
+                //       sessionAllowed: res.data.sessionAllowed,
+                //     })
+
+                //   }
+                // })
+                if (loginStore.login.loginActivityList.length > 0) {
+                  setModalSessionAllowed({
+                    show: true,
+                    data: loginStore.login.loginActivityList,
+                  })
+                } else {
+                  LibraryComponents.Atoms.Toast.warning({
+                    message: `😊 Single system login.`,
+                  })
+                }
               }}
             >
               <label className="inline w-8 text-center" style={{ width: "40px" }}>
@@ -242,37 +249,40 @@ const NavbarComponent = observer(({ dispatch }) => {
           const exipreDate = new Date(
             dayjs(new Date()).add(30, "days").format("YYYY-MM-DD HH:mm")
           )
-          let body = Object.assign(loginStore.login, userStore.changePassword)
+          let body: any = Object.assign(loginStore.login, userStore.changePassword)
           body = {
-            ...body,
+            userId: body.userId,
+            oldPassword: body.oldPassword,
+            newPassword: body.confirmPassword,
             exipreDate,
           }
-          userStore.UsersService.changePassword(body).then((res) => {
-            console.log({ res })
-            if (res.status === 200) {
-              loginStore.updateLogin({
-                ...loginStore.login,
-                exipreDate,
-                passChanged: true,
-              })
-              userStore.updateChangePassword({
-                ...userStore.changePassword,
-                tempHide: true,
-              })
-              LibraryComponents.Atoms.Toast.success({
-                message: `😊 Password changed!`,
-              })
-              setModalChangePassword({ show: false })
-            } else if (res.status === 203) {
-              LibraryComponents.Atoms.Toast.error({
-                message: `😔 ${res.data.data.message}`,
-              })
-            } else {
-              LibraryComponents.Atoms.Toast.error({
-                message: `😔 Please enter correct old password`,
-              })
+          userStore.UsersService.changePassword({ input: { ...body } }).then(
+            (res) => {
+              console.log({ res })
+              if (res.userChnagePassword.success) {
+                loginStore.updateLogin({
+                  ...loginStore.login,
+                  exipreDate,
+                  passChanged: true,
+                })
+                userStore.updateChangePassword({
+                  ...userStore.changePassword,
+                  tempHide: true,
+                })
+                LibraryComponents.Atoms.Toast.success({
+                  message: `😊 ${res.userChnagePassword.message}`,
+                })
+                setModalChangePassword({ show: false })
+                setTimeout(() => {
+                  window.location.reload()
+                }, 2000);
+              } else {
+                LibraryComponents.Atoms.Toast.error({
+                  message: `😔 ${res.userChnagePassword.message}`,
+                })
+              }
             }
-          })
+          )
         }}
         onClose={() => {
           loginStore.updateLogin({
@@ -290,13 +300,15 @@ const NavbarComponent = observer(({ dispatch }) => {
         {...modalSessionAllowed}
         onClick={(data: any, item: any, index: number) => {
           loginStore.LoginService.sessionAllowedLogout({
-            id: item._id,
-            userId: loginStore.login?.userId,
-            accessToken: item.user.accessToken,
+            input: {
+              _id: item._id,
+              userId: loginStore.login?.userId,
+              accessToken: item.user.accessToken,
+            },
           }).then(async (res) => {
-            if (res.success) {
+            if (res.usersSessionAllowedLogout.success) {
               LibraryComponents.Atoms.Toast.success({
-                message: `😊 ${res.message}`,
+                message: `😊 ${res.usersSessionAllowedLogout.message}`,
               })
               const firstArr = data.slice(0, index) || []
               const secondArr = data.slice(index + 1) || []
@@ -307,7 +319,7 @@ const NavbarComponent = observer(({ dispatch }) => {
               })
               loginStore.updateLogin({
                 ...loginStore.login,
-                sessionAllowed: res.data.sessionAllowed,
+                sessionAllowed: res.usersSessionAllowedLogout.data.sessionAllowed,
                 loginActivityList: finalArray,
               })
             }

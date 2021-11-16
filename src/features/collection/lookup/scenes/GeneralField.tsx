@@ -57,11 +57,11 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
         ...lookupStore.globalSettings,
         router,
       },
-    }).then((res) => {  
+    }).then((res) => {
       if (res.lookupGeneralSettingsUpdate.success) {
         LibraryComponents.Atoms.Toast.success({
           message: `😊 ${res.lookupGeneralSettingsUpdate.message}`,
-        })   
+        })
         setTimeout(() => {
           window.location.reload()
         }, 2000)
@@ -154,7 +154,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                       onChange(code.toUpperCase())
                       lookupStore.updateLocalInput({
                         ...lookupStore.localInput,
-                        code: code.toUpperCase(),
+                        code: lookupStore.flagUpperCase ? code.toUpperCase() : code,
                       })
                     }}
                   />
@@ -162,8 +162,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 name="code"
                 rules={{ required: false }}
                 defaultValue=""
-              />
-
+              />   
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -184,7 +183,15 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 rules={{ required: false }}
                 defaultValue=""
               />
-              <div className="mt-2">
+              <div className="mt-2 flex flex-row justify-between">
+                <LibraryComponents.Atoms.Form.Toggle
+                  label="Enable Upper Case"
+                  hasError={errors.method}
+                  value={lookupStore.flagUpperCase}
+                  onChange={(flag) => {
+                    lookupStore.updateFlagUppperCase(flag)
+                  }}
+                />
                 <LibraryComponents.Atoms.Buttons.Button
                   size="medium"
                   type="solid"
