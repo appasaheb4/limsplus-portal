@@ -20,7 +20,7 @@ const Section = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, sectionStore, departmentStore } = useStores()
+  const { loginStore, sectionStore, departmentStore,routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
@@ -32,6 +32,31 @@ const Section = observer(() => {
       setValue("environment", stores.loginStore.login.environment)
     }
   }, [stores.loginStore.login])
+
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    sectionStore && sectionStore.updateSection({
+        ...sectionStore.section,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    sectionStore && sectionStore.updateSection({
+      ...sectionStore.section,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
 
   const onSubmitSection = () => {
     if (!sectionStore.checkExitsEnvCode) {
@@ -530,9 +555,7 @@ const Section = observer(() => {
                       message: `😊 ${res.updateSection.message}`,
                     })
                     setModalConfirm({ show: false })
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
+                    sectionStore.fetchSections()
                   }
                 })
             }

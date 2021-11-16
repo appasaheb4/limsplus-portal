@@ -5,7 +5,7 @@
  * @author limsplus
  */
 
-//import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -45,6 +45,7 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -59,6 +60,7 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -73,6 +75,7 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -102,6 +105,7 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

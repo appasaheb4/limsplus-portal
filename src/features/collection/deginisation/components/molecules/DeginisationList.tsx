@@ -1,13 +1,9 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import { observer } from "mobx-react"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 interface DeginisationListProps {
   data: any
@@ -21,7 +17,7 @@ interface DeginisationListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const DeginisationList = observer((props: DeginisationListProps) => {
+const DeginisationList = (props: DeginisationListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -132,5 +128,5 @@ const DeginisationList = observer((props: DeginisationListProps) => {
       }}
     />
   )
-})
+}
 export default DeginisationList

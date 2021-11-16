@@ -14,7 +14,7 @@ import {
   CHECK_EXISTS_RECORD,
   FIND_SECTIONLISTBY_DEPTCODE,
 } from "./mutation"
-
+import * as Model from '../models'
 export class SectionService {
   listSection = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -43,6 +43,7 @@ export class SectionService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.sectionStore.updateSection(new Model.Section({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -73,6 +74,7 @@ export class SectionService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.sectionStore.updateSection(new Model.Section({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

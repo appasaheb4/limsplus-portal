@@ -33,6 +33,31 @@ const Doctors = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    doctorsStore && doctorsStore.updateDoctors({
+        ...doctorsStore.doctors,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    doctorsStore && doctorsStore.updateDoctors({
+      ...doctorsStore.doctors,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
+
   const onSubmitDoctors = () => {
     if (!doctorsStore.checkExitsLabEnvCode) {
       if (
@@ -986,6 +1011,7 @@ const Doctors = observer(() => {
                     hasError={errors.registrationLocation}
                   >
                     <select
+
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.registrationLocation
                           ? "border-red-500  "
@@ -1236,6 +1262,7 @@ const Doctors = observer(() => {
                     hasError={errors.status}
                   >
                     <select
+                    value={doctorsStore && doctorsStore.doctors?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1359,6 +1386,7 @@ const Doctors = observer(() => {
             totalSize={doctorsStore.listDoctorsCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              listLabs: labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,

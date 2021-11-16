@@ -1,15 +1,8 @@
 /* eslint-disable */
-import React, { useState } from "react"
-import { observer } from "mobx-react"
-
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
-
+import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 interface RoleListProps {
   data: any
@@ -23,7 +16,7 @@ interface RoleListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const RoleList = observer((props: RoleListProps) => {
+const RoleList = (props: RoleListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -133,6 +126,6 @@ const RoleList = observer((props: RoleListProps) => {
       }}
     />
   )
-})
+}
 
 export default RoleList

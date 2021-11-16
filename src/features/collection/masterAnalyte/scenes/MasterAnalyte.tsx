@@ -1244,9 +1244,7 @@ const MasterAnalyte = observer(() => {
                       message: `😊 ${res.updateAnalyteMaster.message}`,
                     })
                     setModalConfirm({ show: false })
-                    setTimeout(() => {
-                      window.location.reload()
-                    }, 2000)
+                    masterAnalyteStore.fetchAnalyteMaster()
                   }
                 })
             } else if (type === "versionUpgrade") {

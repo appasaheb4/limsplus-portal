@@ -1,14 +1,8 @@
 /* eslint-disable */
 import React from "react"
-import { observer } from "mobx-react"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-import { Stores } from "../../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
-const { SearchBar, ClearSearchButton } = Search
-const { ExportCSVButton } = CSVExport
 
 interface CorporateClientListProps {
   data: any
@@ -24,7 +18,7 @@ interface CorporateClientListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const CorporateClient = observer((props: CorporateClientListProps) => {
+const CorporateClient = (props: CorporateClientListProps) => {
   return (
     <div style={{ position: "relative" }}>
       <LibraryComponents.Organisms.TableBootstrap
@@ -397,7 +391,7 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
             <>
                     <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
-                  value={Stores.corporateClientsStore.corporateClients?.schedule}
+                  value={row.schedule}
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
                     const schedule = e.target.value as string
@@ -406,7 +400,7 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                  {props.extraData.listLabs.map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {item.name}
                     </option>
@@ -666,6 +660,6 @@ const CorporateClient = observer((props: CorporateClientListProps) => {
       />
     </div>
   )
-})
+}
 
 export default CorporateClient

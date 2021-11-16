@@ -34,6 +34,35 @@ const CorporateClients = observer(() => {
       setValue("environment", loginStore.login.environment)
     }
   }, [loginStore.login])
+
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
+      })
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      corporateClientsStore &&
+      corporateClientsStore.updateCorporateClients({
+          ...corporateClientsStore.corporateClients,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      corporateClientsStore &&
+      corporateClientsStore.updateCorporateClients({
+          ...corporateClientsStore.corporateClients,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitCoporateClients = () => {
     if (!corporateClientsStore.checkExistsEnvCode) {
       if (
@@ -1047,6 +1076,7 @@ const CorporateClients = observer(() => {
                     hasError={errors.status}
                   >
                     <select
+                    value={corporateClientsStore && corporateClientsStore.corporateClients?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
@@ -1171,6 +1201,7 @@ const CorporateClients = observer(() => {
             totalSize={corporateClientsStore.listCoporateClientsCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              listLabs:labStore.listLabs
             }}
             isDelete={RouterFlow.checkPermission(
               routerStore.userPermission,

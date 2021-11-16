@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-// import * as Models from "../models"
+import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -45,6 +45,7 @@ class MasterPackageService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -59,6 +60,7 @@ class MasterPackageService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -74,6 +76,7 @@ class MasterPackageService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -103,6 +106,7 @@ class MasterPackageService {
         })
         .then((response: any) => {
           resolve(response.data)
+          stores.masterPackageStore.updateMasterPackage(new Models.MasterPackage({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

@@ -18,6 +18,7 @@ export const SalesTeam = observer(() => {
     userStore,
     salesTeamStore,
     administrativeDivisions,
+    routerStore
   } = useStores()
   const {
     control,
@@ -38,6 +39,21 @@ export const SalesTeam = observer(() => {
     }
   }, [stores.loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      salesTeamStore &&
+      salesTeamStore.updateSalesTeam({
+          ...salesTeamStore.salesTeam,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitSalesTeam = () => {
     if (!salesTeamStore.checkExistsEnvCode) {
       salesTeamStore.salesTeamService
@@ -383,6 +399,10 @@ export const SalesTeam = observer(() => {
             totalSize={salesTeamStore.listSalesTeamCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
+              listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv,
+              userList:userStore.userList,
+              userStore:userStore,
+              filterUsersItems:Utils.filterUsersItems
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -446,7 +466,7 @@ export const SalesTeam = observer(() => {
                       message: `😊 ${res.updateSalesTeam.message}`,
                     })
                     setModalConfirm({ show: false })
-                    window.location.reload()
+                    salesTeamStore.fetchSalesTeam()
                   }
                 })
             }

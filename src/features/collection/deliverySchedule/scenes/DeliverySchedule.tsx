@@ -34,6 +34,21 @@ const DeliverySchedule = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      deliveryScheduleStore &&
+      deliveryScheduleStore.updateDeliverySchedule({
+          ...deliveryScheduleStore.deliverySchedule,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitDeliverySchedule = () => {
     if (!deliveryScheduleStore.checkExistsEnvCode) {
       deliveryScheduleStore.deliveryScheduleService

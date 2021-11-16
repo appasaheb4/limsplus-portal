@@ -18,7 +18,7 @@ interface GeneralFieldProps {
 }
 
 export const GeneralField = observer((props: GeneralFieldProps) => {
-  const { lookupStore } = useStores()
+  const { lookupStore,routerStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -36,7 +36,22 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     }
   }, [stores.loginStore.login])
 
-  const onSubmitGeneralFiled = (data: any) => {
+  useEffect(()=>{
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      lookupStore && lookupStore.updateGlobalSettings({
+        ...lookupStore.globalSettings,
+        environment: environment.code as string,
+      })
+      setValue("environment", environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
+  const onSubmitGeneralFiled = (data: any) => {   
     lookupStore.LookupService.generalSettingsUpdate({
       input: {
         ...lookupStore.globalSettings,

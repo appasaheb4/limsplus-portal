@@ -31,6 +31,31 @@ const Methods = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const status = routerStore.lookupItems
+    .find((fileds) => {
+      return fileds.fieldName === "STATUS"
+    })
+    ?.arrValue?.find((statusItem) => statusItem.code === "A")
+  if (status) {
+    methodsStore && methodsStore.updateMethods({
+        ...methodsStore.methods,
+        status: status.code as string,
+      })
+    setValue("status", status.code as string)
+  }
+  const environment = routerStore.lookupItems.find((fileds)=>{
+    return fileds.fieldName === 'ENVIRONMENT'
+  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+  if(environment){
+    methodsStore && methodsStore.updateMethods({
+      ...methodsStore.methods,
+      environment: environment.code as string
+    })
+    setValue("environment",environment.code as string)
+  }
+  },[routerStore.lookupItems])
+
   const onSubmitMethods = () => {
     if (!methodsStore.checkExitsEnvCode) {
       methodsStore.methodsService
@@ -190,6 +215,7 @@ const Methods = observer(() => {
                     hasError={errors.status}
                   >
                     <select
+                    value={methodsStore && methodsStore.methods?.status}
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.status ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}

@@ -1,13 +1,11 @@
 /* eslint-disable */
-import React, { useState,useEffect } from "react"
-import { observer } from "mobx-react"
+import React from "react"
 import dayjs from 'dayjs'
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
 import { Stores } from "../../stores"
-import { Stores as LabStores } from "@lp/features/collection/labs/stores"
+
 
 interface RegistrationLocationsListProps {
   data: any
@@ -23,7 +21,7 @@ interface RegistrationLocationsListProps {
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
 
-const RegistrationLocationsList = observer(
+const RegistrationLocationsList = 
   (props: RegistrationLocationsListProps) => {
     
     const editorCell = (row: any) => {
@@ -484,7 +482,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                  {props.extraData.listLabs.map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {item.name}
                     </option>
@@ -569,7 +567,7 @@ const RegistrationLocationsList = observer(
                 <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
                 <select
                   value={
-                    Stores.registrationLocationsStore.registrationLocations?.schedule
+                    row.schedule
                   }
                   className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                   onChange={(e) => {
@@ -579,7 +577,7 @@ const RegistrationLocationsList = observer(
                   }}
                 >
                   <option selected>Select</option>
-                  {LabStores.labStore.listLabs.map((item: any, index: number) => (
+                  {props.extraData.listLabs.map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {item.name}
                     </option>
@@ -841,6 +839,6 @@ const RegistrationLocationsList = observer(
       </div>
     )
   }
-)
+
 
 export default RegistrationLocationsList

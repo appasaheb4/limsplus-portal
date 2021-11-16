@@ -1097,9 +1097,7 @@ const Lab = observer(() => {
                     message: `😊 ${res.updateLab.message}`,
                   })
                   setModalConfirm({ show: false })
-                  setTimeout(() => {
-                    window.location.reload()
-                  }, 2000)
+                  labStore.fetchListLab()
                 }
               })
             } else {
