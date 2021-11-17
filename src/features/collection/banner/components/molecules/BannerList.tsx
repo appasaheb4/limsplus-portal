@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 interface BannerListProps {
   data: any
-  totlaSize:number
+  totlaSize: number
   extraData: any
   isDelete?: boolean
   isEditModify?: boolean
@@ -15,8 +15,8 @@ interface BannerListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
-}   
+  onPageSizeChange?: (page: number, totalSize: number) => void
+}
 
 const BannerList = (props: BannerListProps) => {
   return (
@@ -36,7 +36,6 @@ const BannerList = (props: BannerListProps) => {
           text: "Title",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
-          headerStyle: { minWidth: "200px" },
         },
         {
           dataField: "image",
@@ -61,7 +60,7 @@ const BannerList = (props: BannerListProps) => {
             rowIndex,
             columnIndex
           ) => (
-            <>  
+            <>
               <LibraryComponents.Atoms.Form.InputFile
                 label="File"
                 placeholder="File"
@@ -86,33 +85,31 @@ const BannerList = (props: BannerListProps) => {
             column,
             rowIndex,
             columnIndex
-          ) => 
-            (
-              <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
-                  
-                  <select
-                    value={row.environment}
-                    className={` leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                    onChange={(e) => {
-                      const environment = e.target.value
-                         props.onUpdateItem 
-                         && props.onUpdateItem(environment,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )} 
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>     
-              </>
-            ) 
-           
+          ) => (
+            <>
+              <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
+                <select
+                  value={row.environment}
+                  className={` leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                  onChange={(e) => {
+                    const environment = e.target.value
+                    props.onUpdateItem &&
+                      props.onUpdateItem(environment, column.dataField, row._id)
+                  }}
+                >
+                  <option selected>Select</option>
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "ENVIRONMENT"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
+                </select>
+              </LibraryComponents.Atoms.Form.InputWrapper>
+            </>
+          ),
         },
         {
           dataField: "operation",
@@ -123,9 +120,9 @@ const BannerList = (props: BannerListProps) => {
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                   <LibraryComponents.Atoms.Icons.IconContext
-                    color="#000"
+                    color="#fff"
                     size="20"
                     onClick={() =>
                       props.onDelete &&
@@ -146,6 +143,10 @@ const BannerList = (props: BannerListProps) => {
               </div>
             </>
           ),
+          headerClasses: "sticky right-0  bg-gray-500 text-white",
+          classes: (cell, row, rowIndex, colIndex) => {
+            return "sticky right-0 bg-gray-500"
+          },
         },
       ]}
       isEditModify={props.isEditModify}
@@ -157,8 +158,8 @@ const BannerList = (props: BannerListProps) => {
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
       }}
-      onPageSizeChange={(page,size)=>{
-        props.onPageSizeChange && props.onPageSizeChange(page,size)
+      onPageSizeChange={(page, size) => {
+        props.onPageSizeChange && props.onPageSizeChange(page, size)
       }}
     />
   )

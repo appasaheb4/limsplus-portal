@@ -685,9 +685,9 @@ const LabList = (props: LabListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -707,7 +707,11 @@ const LabList = (props: LabListProps) => {
                     </LibraryComponents.Atoms.Tooltip>
                   </div>
                 </>
-              ),
+              ),   
+              headerClasses:"sticky right-0 bg-gray-500 text-white",
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500 z-49';
+              }
             },
           ]}
           isEditModify={props.isEditModify}

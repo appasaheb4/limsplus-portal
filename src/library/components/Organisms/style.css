@@ -1,0 +1,12 @@
+.scrollTable {
+  height: 475px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: rgb(106, 114, 127);
+  z-index: 100;
+}
