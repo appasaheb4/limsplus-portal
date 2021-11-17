@@ -159,7 +159,7 @@ const BannerList = (props: BannerListProps) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
       }}
       onPageSizeChange={(page, size) => {
-        props.onPageSizeChange && props.onPageSizeChange(page, size)
+       props.onPageSizeChange && props.onPageSizeChange(page, size)
       }}
     />
   )

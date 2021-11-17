@@ -28,6 +28,8 @@ interface TableBootstrapProps {
   id: string
   data: any
   totalSize?: number
+  page?: number
+  sizePerPage?: number
   columns: any
   fileName: string
   isDelete?: boolean
@@ -42,7 +44,9 @@ interface TableBootstrapProps {
 const TableBootstrap = ({
   id,
   data,
-  totalSize,
+  totalSize = 10,
+  page = 0,
+  sizePerPage = 10,
   columns,
   fileName,
   isDelete,
@@ -54,22 +58,6 @@ const TableBootstrap = ({
   onPageSizeChange,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
-  // const [isEditModify, setIsEditModify] = useState<boolean>(
-  //   isEditModify || false
-  // )
-  // const [isSelectRow, setIsSelectRow] = useState<boolean>(isSelectRow || false)
-
-  // useEffect(() => {
-  //   if (isEditModify) {
-  //     setIsEditModify(isEditModify)
-  //   } else if (isSelectRow) {
-  //     setIsSelectRow(isSelectRow)
-  //   }
-  // }, [props])
-
-  const sizePerPageRef = useRef(10)
-  const pageStartIndexRef = useRef(0)
-
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -134,20 +122,12 @@ const TableBootstrap = ({
     </div>
   )
 
-  const onPageChangeHandler = (page, sizePerPage) => {
-    if (page !== 0) onPageSizeChange && onPageSizeChange(0, 0)
-    setTimeout(() => {
-      pageStartIndexRef.current = page
-    }, 2000)
-  }
-
   const { ToggleList } = ColumnToggle
   const options = {
     cutome: true,
-    totalSize: totalSize,
+    totalSize: totalSize - 10,
     paginationSize: 5,
     pageStartIndex: 0,
-    currPage: pageStartIndexRef.current,
     firstPageText: "<<",
     prePageText: "<",
     nextPageText: ">",
@@ -177,18 +157,8 @@ const TableBootstrap = ({
         value: 50,
       },
     ],
-    // onPageChange: (page, sizePerPage) => {
-    //   console.log({ old: page, sizePerPage })
-    //   onPageSizeChange && onPageSizeChange(page, sizePerPage)
-    // },
-    onPageChange: onPageChangeHandler,
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
-    onSizePerPageChange: (page, sizePerPage) => {
-      console.log("SizePerPageChange", { page, sizePerPage })
-      onPageSizeChange && onPageSizeChange(0, page)
-      sizePerPageRef.current = page
-    },
   }
 
   const handleOnSelect = (rows: any, isSelect) => {
@@ -215,9 +185,17 @@ const TableBootstrap = ({
     }
   }
 
+  const handleTableChange = (type, { page, sizePerPage }) => {
+    // const currentIndex = (page - 1) * sizePerPage
+    // console.log({ currentIndex,page,sizePerPage })
+    onPageSizeChange && onPageSizeChange(page, sizePerPage)
+  }
+
   return (
     <PaginationProvider
-      pagination={paginationFactory(totalSize !== 0 && options)}
+      pagination={paginationFactory(
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize }
+      )}
       keyField={id}
       columns={columns}
       data={data}
@@ -263,6 +241,7 @@ const TableBootstrap = ({
               </div>
               <div className="scrollTable">
                 <BootstrapTable
+                  remote
                   {...props.baseProps}
                   noDataIndication="Table is Empty"
                   hover
@@ -287,6 +266,7 @@ const TableBootstrap = ({
                       : undefined
                   }
                   headerClasses="bg-gray-500 text-white"
+                  onTableChange={handleTableChange}
                 />
               </div>
             </div>
