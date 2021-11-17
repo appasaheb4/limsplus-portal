@@ -632,7 +632,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#000"
                         size="20"
@@ -691,6 +691,10 @@ const MasterAnalyteList = (props: PriceListProps) => {
                   </div>
                 </>
               ),
+              headerClasses: "sticky right-0  bg-gray-500 text-white",
+          classes: (cell, row, rowIndex, colIndex) => {
+            return "sticky right-0 bg-gray-500"
+          },
             },
           ]}
           isEditModify={props.isEditModify}
