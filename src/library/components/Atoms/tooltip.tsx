@@ -1,11 +1,39 @@
 import React, { useRef } from "react"
 
-interface TooltipProps {
-  tooltipText?: any
-  className?: any
+const getPosition = (position: "bottom" | "left" | "top") => {
+  if (position === "left")
+    return {
+      left: -20,
+      bottom: -50,
+      opacity: 0,
+    }
+  if (position === "top")
+    return {
+      left: -20,
+      top: -50,
+      opacity: 0,
+    }
+  else
+    return {
+      left: -20,
+      bottom: -50,
+      opacity: 0,
+    }
 }
 
-const Tooltip: React.FunctionComponent<TooltipProps> = (props) => {
+interface TooltipProps {
+  tooltipText?: any
+  position?: "bottom" | "left" | "top"
+  className?: string
+  children: React.ReactNode
+}
+
+const Tooltip: React.FunctionComponent<TooltipProps> = ({
+  tooltipText,
+  position = "bottom",
+  className,
+  children,
+}) => {
   const tipRef = useRef(null)
 
   const handleMouseEnter = (tipRef) => {
@@ -18,24 +46,24 @@ const Tooltip: React.FunctionComponent<TooltipProps> = (props) => {
   }
   return (
     <div
-      className={`${props.className} relative flex items-center`}
+      className={`${className} relative flex items-center`}
       onMouseEnter={() => handleMouseEnter(tipRef)}
       onMouseLeave={() => handleMouseLeave(tipRef)}
-      
     >
       <div
-        className="absolute whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50"
-        style={{ left: -20, bottom: -50, opacity: 0 }}
+        className="absolute  whitespace-no-wrap bg-gradient-to-r from-black to-gray-700 text-white px-4 py-2 rounded flex items-center transition-all duration-150 z-50"
+        style={getPosition(position)}
         ref={tipRef}
       >
         <div
           className="bg-black h-3 w-3 absolute"
-          style={{ top: "-6px", transform: "rotate(45deg)" }}
+          style={position !== "bottom" ? { bottom: "-6px", transform: "rotate(45deg)"  } : { top: "-6px" ,transform: "rotate(45deg)"  } }
         />
-        <div dangerouslySetInnerHTML={{ __html: props.tooltipText }} />
+        <div dangerouslySetInnerHTML={{ __html: tooltipText }} />
       </div>
-      {props.children}
+      {children}
     </div>
   )
 }
+
 export default Tooltip

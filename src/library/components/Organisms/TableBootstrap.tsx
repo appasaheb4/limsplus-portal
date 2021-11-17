@@ -1,7 +1,11 @@
 /* eslint-disable */
 import React, { useEffect, useState, useRef } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
-import ToolkitProvider, { Search, CSVExport } from "react-bootstrap-table2-toolkit"
+import ToolkitProvider, {
+  Search,
+  CSVExport,
+  ColumnToggle,
+} from "react-bootstrap-table2-toolkit"
 import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
@@ -10,6 +14,7 @@ import paginationFactory, {
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import moment from "moment"
+import "./style.css"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -63,7 +68,7 @@ const TableBootstrap = ({
   // }, [props])
 
   const sizePerPageRef = useRef(10)
-  const pageStartIndexRef = useRef(0);
+  const pageStartIndexRef = useRef(0)
 
   const customTotal = (from, to, size) => {
     return (
@@ -129,20 +134,20 @@ const TableBootstrap = ({
     </div>
   )
 
-  const onPageChangeHandler = (page,sizePerPage)=>{
-    if(page!==0)  onPageSizeChange && onPageSizeChange(0,0)
-    setTimeout(()=>{
+  const onPageChangeHandler = (page, sizePerPage) => {
+    if (page !== 0) onPageSizeChange && onPageSizeChange(0, 0)
+    setTimeout(() => {
       pageStartIndexRef.current = page
-    },2000)
+    }, 2000)
   }
 
-
+  const { ToggleList } = ColumnToggle
   const options = {
     cutome: true,
     totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
-    currPage:pageStartIndexRef.current,
+    currPage: pageStartIndexRef.current,
     firstPageText: "<<",
     prePageText: "<",
     nextPageText: ">",
@@ -179,13 +184,13 @@ const TableBootstrap = ({
     onPageChange: onPageChangeHandler,
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
-    onSizePerPageChange: (page,sizePerPage) => {
-      console.log('SizePerPageChange',{page,sizePerPage})
-      onPageSizeChange && onPageSizeChange(0,page)
+    onSizePerPageChange: (page, sizePerPage) => {
+      console.log("SizePerPageChange", { page, sizePerPage })
+      onPageSizeChange && onPageSizeChange(0, page)
       sizePerPageRef.current = page
     },
   }
-   
+
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
@@ -212,7 +217,7 @@ const TableBootstrap = ({
 
   return (
     <PaginationProvider
-      pagination={paginationFactory(totalSize!==0&& options)}
+      pagination={paginationFactory(totalSize !== 0 && options)}
       keyField={id}
       columns={columns}
       data={data}
@@ -231,46 +236,59 @@ const TableBootstrap = ({
             noAutoBOM: false,
             blobType: "text/csv;charset=ansi",
           }}
+          columnToggle
         >
           {(props) => (
             <div>
-              <SearchBar {...props.searchProps} />
-              <ClearSearchButton
-                className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
-                {...props.searchProps}
-              />
-              <ExportCSVButton
-                className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center `}
-                {...props.csvProps}
-              >
-                Export CSV!!
-              </ExportCSVButton>
-              <hr />
-              <BootstrapTable
-                {...props.baseProps}
-                noDataIndication="Table is Empty"
-                hover
-                {...paginationTableProps}
-                filter={filterFactory()}
-                selectRow={
-                  isSelectRow
-                    ? {
-                        mode: "checkbox",
-                        onSelect: handleOnSelect,
-                        onSelectAll: handleOnSelectAll,
-                      }
-                    : undefined
-                }
-                cellEdit={
-                  isEditModify
-                    ? cellEditFactory({
-                        mode: "dbclick",
-                        blurToSave: true,
-                        afterSaveCell,
-                      })
-                    : undefined
-                }
-              />
+              <div>
+                <SearchBar {...props.searchProps} />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
+                  {...props.searchProps}
+                />
+                <ExportCSVButton
+                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center `}
+                  {...props.csvProps}
+                >
+                  Export CSV!!
+                </ExportCSVButton>
+              </div>
+              <div className="mb-2 overflow-auto">
+                <ToggleList
+                  contextual="primary"
+                  className="list-custom-class"
+                  btnClassName="list-btn-custom-class"
+                  {...props.columnToggleProps}
+                />
+              </div>
+              <div className="scrollTable">
+                <BootstrapTable
+                  {...props.baseProps}
+                  noDataIndication="Table is Empty"
+                  hover
+                  {...paginationTableProps}
+                  filter={filterFactory()}
+                  selectRow={
+                    isSelectRow
+                      ? {
+                          mode: "checkbox",
+                          onSelect: handleOnSelect,
+                          onSelectAll: handleOnSelectAll,
+                        }
+                      : undefined
+                  }
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: "dbclick",
+                          blurToSave: true,
+                          afterSaveCell,
+                        })
+                      : undefined
+                  }
+                  headerClasses="bg-gray-500 text-white"
+                />
+              </div>
             </div>
           )}
         </ToolkitProvider>
