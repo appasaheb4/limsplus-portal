@@ -9,11 +9,9 @@ import ToolkitProvider, {
 import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import moment from "moment"
+import dayjs from "dayjs"
 import "./style.css"
 
 import * as LibraryComponents from "@lp/library/components"
@@ -179,16 +177,22 @@ const TableBootstrap = ({
     }
   }
 
-  const afterSaveCell = (oldValue, newValue, row, column) => {
-    if (oldValue !== newValue) {
-      onUpdateItem && onUpdateItem(newValue, column.dataField, row._id)
+  const handleTableChange = (
+    type,
+    { cellEdit, page, sizePerPage, filters, sortField, sortOrder }
+  ) => {
+    console.log({ type })
+    if (type === "cellEdit" && isEditModify) {
+      onUpdateItem &&
+        onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
-  }
+    if (type === "pagination") {
+      onPageSizeChange && onPageSizeChange(page, sizePerPage)
+    }
 
-  const handleTableChange = (type, { page, sizePerPage }) => {
+    //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
     // console.log({ currentIndex,page,sizePerPage })
-    onPageSizeChange && onPageSizeChange(page, sizePerPage)
   }
 
   return (
@@ -208,7 +212,7 @@ const TableBootstrap = ({
           columns={columns}
           search
           exportCSV={{
-            fileName: `${fileName}_${moment(new Date()).format(
+            fileName: `${fileName}_${dayjs(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,
@@ -261,7 +265,6 @@ const TableBootstrap = ({
                       ? cellEditFactory({
                           mode: "dbclick",
                           blurToSave: true,
-                          afterSaveCell,
                         })
                       : undefined
                   }

@@ -34,7 +34,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
   } = useStores()
 
   useEffect(() => {
-    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+    if (loginStore.login) {
       environmentStore.updateEnvironmentSettings({
         ...environmentStore.environmentSettings,
         environment: loginStore.login.environment,
@@ -129,7 +129,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
                           user: items,
-                        })  
+                        })
                         userStore.updateUserFilterList(userStore.userList)
                       }}
                       onFilter={(value: string) => {
@@ -380,6 +380,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }
           onSelectedRow={(rows) => {
+            console.log({rows});
+            
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
