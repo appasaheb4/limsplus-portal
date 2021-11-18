@@ -977,9 +977,9 @@ export const PriceList = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            // onPageSizeChange={() => {
-            //   priceListStore.fetchListPriceList()
-            // }}
+            onPageSizeChange={(page,limit) => {
+              priceListStore.fetchListPriceList(page,limit)
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

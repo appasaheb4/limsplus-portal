@@ -141,8 +141,8 @@ const LoginActivity = observer(() => {
                   },
                 },
               ]}
-              onPageSizeChange={(size) => {
-                loginActivityStore.fetchLoginActivity(size)
+              onPageSizeChange={(page,size) => {
+                loginActivityStore.fetchLoginActivity(page,size)
               }}
               isEditModify={false}
               isSelectRow={false}
