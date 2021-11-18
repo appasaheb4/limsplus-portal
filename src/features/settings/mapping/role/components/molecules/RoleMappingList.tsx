@@ -147,7 +147,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                     <LibraryComponents.Atoms.Icon.EvaIcon
                       icon="edit-outline"
                       size="medium"
-                      color="#000"
+                      color="#fff"
                     />
                     Edit/Modify
                   </LibraryComponents.Atoms.Buttons.Button>
@@ -173,7 +173,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                         <LibraryComponents.Atoms.Icon.EvaIcon
                           icon="trash-2-outline"
                           size="medium"
-                          color="#000"
+                          color="#fff"
                         />  
                         Delete
                       </LibraryComponents.Atoms.Buttons.Button>

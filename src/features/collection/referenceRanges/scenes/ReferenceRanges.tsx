@@ -1234,9 +1234,9 @@ const ReferenceRanges = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            // onPageSizeChange={() => {
-            //   priceListStore.fetchListPriceList()
-            // }}
+            onPageSizeChange={(page,limit) => {
+              refernceRangesStore.fetchListReferenceRanges(page,limit)
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
