@@ -1028,6 +1028,16 @@ const Lab = observer(() => {
             totalSize={labStore.listLabsCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv,
+              country:labStore.labs.country,
+              stateList:Utils.stateList,
+              state:labStore.labs.state,
+              districtList:Utils.districtList,
+              district:labStore.labs.district,
+              cityList:Utils.cityList,
+              city:labStore.labs.city,
+              area:labStore.labs.area,
+              postCodeList:Utils.postCodeList
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

@@ -238,7 +238,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               text: "Panel Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable:false,
             },
             {
               dataField: "description",

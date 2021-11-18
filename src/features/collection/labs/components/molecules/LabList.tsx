@@ -2,6 +2,7 @@
 import React from "react"
 import { Stores } from "../../stores"
 import * as LibraryUtils from "@lp/library/utils"
+import _ from "lodash"
 import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -43,12 +44,15 @@ const LabList = (props: LabListProps) => {
               text: "Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              editable:false
             },
             {
               dataField: "name",
               text: "Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "180px" },
+              editable:false
             },
             {
               dataField: "country",
@@ -64,27 +68,31 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Country">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const country = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(country, column.dataField, row._id)
-                      }}
+                  {props.extraData.listAdministrativeDiv && (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Country"
                     >
-                      <option selected>Select</option>
-                      {administrativeDivisions
-                        .listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.country}>
-                              {`${item.country}`}
-                            </option>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        onChange={(e) => {
+                          const country = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(country,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {_.uniq(
+                          _.map(
+                            props.extraData.listAdministrativeDiv,
+                            "country"
                           )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {`${item}`}
+                          </option>
+                        ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+              )}
                 </>
               ),
             },
@@ -102,32 +110,33 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="State">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const state = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(state, column.dataField, row._id)
-                      }}
+                  {(props.extraData.country || props.extraData.listAdministrativeDiv)  && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="State"
+                     
                     >
-                      <option selected>Select</option>
-                      {Utils.stateList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        Stores.labStore.labs?.country
-                      ) &&
-                        Utils.stateList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          Stores.labStore.labs?.country
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        onChange={(e) => {
+                          const state = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(state,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listAdministrativeDiv &&
+                          props.extraData.stateList(
+                            props.extraData.listAdministrativeDiv,
+                            props.extraData.country
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
                 </>
               ),
             },
@@ -145,34 +154,34 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="District">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const district = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(district, column.dataField, row._id)
-                      }}
+                  {(props.extraData.state ||  props.extraData.listAdministrativeDiv) && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="District"
+                     
                     >
-                      <option selected>Select</option>
-                      {Utils.districtList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state
-                      ) &&
-                        Utils.districtList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const district = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(district,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listAdministrativeDiv &&
+                          props.extraData.districtList(
+                            props.extraData.listAdministrativeDiv,
+                            props.extraData.country,
+                            props.extraData.state
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
                 </>
               ),
             },
@@ -190,36 +199,36 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="City">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const city = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(city, column.dataField, row._id)
-                      }}
+                  {(props.extraData.district || props.extraData.listAdministrativeDiv) && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="City"
+                      
                     >
-                      <option selected>Select</option>
-                      {Utils.cityList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district
-                      ) &&
-                        Utils.cityList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const city = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(city,column.dataField,row._id)
+                          
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listAdministrativeDiv &&
+                          props.extraData.cityList(
+                            props.extraData.listAdministrativeDiv,
+                            props.extraData.country,
+                            props.extraData.state,
+                            props.extraData.district
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
                 </>
               ),
             },
@@ -237,38 +246,37 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Area">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const area = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(area, column.dataField, row._id)
-                      }}
+                  {(props.extraData.city || props.extraData.listAdministrativeDiv) && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Area"
+                      
                     >
-                      <option selected>Select</option>
-                      {Utils.areaList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district,
-                        Stores.labStore.labs?.city
-                      ) &&
-                        Utils.areaList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district,
-                          Stores.labStore.labs?.city
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const area = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(area,column.dataField,row._id)
+                          
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listAdministrativeDiv &&
+                          Utils.areaList(
+                            props.extraData.listAdministrativeDiv,
+                            props.extraData.country,
+                            props.extraData.state,
+                            props.extraData.district,
+                            props.extraData.city
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
                 </>
               ),
             },
@@ -286,40 +294,37 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Postal Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const postalCode = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(postalCode, column.dataField, row._id)
-                      }}
+                 {(props.extraData.area || props.extraData.listAdministrativeDiv) && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Postal Code"
+                     
                     >
-                      <option selected>Select</option>
-                      {Utils.postCodeList(
-                        administrativeDivisions
-                          .listAdministrativeDiv,
-                        Stores.labStore.labs?.country,
-                        Stores.labStore.labs?.state,
-                        Stores.labStore.labs?.district,
-                        Stores.labStore.labs?.city,
-                        Stores.labStore.labs?.area
-                      ) &&
-                        Utils.postCodeList(
-                          administrativeDivisions
-                            .listAdministrativeDiv,
-                          Stores.labStore.labs?.country,
-                          Stores.labStore.labs?.state,
-                          Stores.labStore.labs?.district,
-                          Stores.labStore.labs?.city,
-                          Stores.labStore.labs?.area
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                        onChange={(e) => {
+                          const postalCode = e.target.value
+                          props.onUpdateItem && props.onUpdateItem(postalCode,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listAdministrativeDiv &&
+                          props.extraData.postCodeList(
+                            props.extraData.listAdministrativeDiv,
+                            props.extraData.country,
+                            props.extraData.state,
+                            props.extraData.district,
+                            props.extraData.city,
+                            props.extraData.area
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {`${item}`}
+                            </option>
+                          ))}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
                 </>
               ),
             },
@@ -412,6 +417,7 @@ const LabList = (props: LabListProps) => {
               text: "Lab Licence",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerStyle: { minWidth: "180px" },
             },
 
             {

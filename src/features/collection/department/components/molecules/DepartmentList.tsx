@@ -81,6 +81,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          
         },
 
         {
@@ -322,7 +323,7 @@ const DepartmentList = (props: DepartmentListProps) => {
               <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
