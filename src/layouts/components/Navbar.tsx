@@ -41,203 +41,213 @@ const NavbarComponent = observer(({ dispatch }) => {
         }}
         light
         expand
+        className="flex flex-row"
       >
-        <span
-          className="sidebar-toggle d-flex mr-2"
-          onClick={() => {
-            dispatch(toggleSidebar())
-          }}
-        >
-          <i className="hamburger align-self-center" />
-        </span>
-
-        <Form inline className="mr-9" style={{ width: "73%" }}>
-          <LibraryComponents.Atoms.Buttons.Button
-            size="medium"
-            type="outline"
+        <div className="flex  w-10">
+          <span
+            className="sidebar-toggle d-flex mr-2"
             onClick={() => {
-              window.location.href = "/dashboard/default"
+              dispatch(toggleSidebar())
             }}
           >
-            <LibraryComponents.Atoms.Tooltip tooltipText="Dashboard">
-              <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-                {LibraryComponents.Atoms.Icons.getIconTag(
-                  LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
-                )}
-              </LibraryComponents.Atoms.Icons.IconContext>
-            </LibraryComponents.Atoms.Tooltip>
-          </LibraryComponents.Atoms.Buttons.Button>
-          {loginStore.login?.shortcutMenu &&
-            loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
-            loginStore.login?.shortcutMenu[loginStore.login.role || ""].map(
-              (item) => (
-                <>
-                  <div className="ml-1 m-0.5">
-                    <LibraryComponents.Atoms.Buttons.Button
-                      size="medium"
-                      type="outline"
-                      onClick={async () => {
-                        await RouterFlow.updateSelectedCategory(
-                          stores,
-                          item.category,
-                          item.name
-                        )
-                        history.push(item.path)
-                      }}
-                    >
-                      <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
-                        <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
-                          size="22"
+            <i className="hamburger align-self-center" />
+          </span>
+        </div>
+        <div className="flex flex-2 overflow-auto">
+          <Form inline>
+            <div className="flex flex-row overflow-auto">
+              <LibraryComponents.Atoms.Buttons.Button
+                size="medium"
+                type="outline"
+                onClick={() => {
+                  window.location.href = "/dashboard/default"
+                }}
+              >
+                <LibraryComponents.Atoms.Tooltip tooltipText="Dashboard">
+                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      LibraryComponents.Atoms.Icons.IconRi.RiDashboardFill
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Tooltip>
+              </LibraryComponents.Atoms.Buttons.Button>
+              {loginStore.login?.shortcutMenu &&
+                loginStore.login?.shortcutMenu[loginStore.login.role || ""] &&
+                loginStore.login?.shortcutMenu[loginStore.login.role || ""].map(
+                  (item) => (
+                    <>
+                      <div className="ml-1 m-0.5">
+                        <LibraryComponents.Atoms.Buttons.Button
+                          size="medium"
+                          type="outline"
+                          onClick={async () => {
+                            await RouterFlow.updateSelectedCategory(
+                              stores,
+                              item.category,
+                              item.name
+                            )
+                            history.push(item.path)
+                          }}
                         >
-                          {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
-                              LibraryComponents.Atoms.Icons.IconBs.BsList
-                          )}
-                        </LibraryComponents.Atoms.Icons.IconContext>
-                      </LibraryComponents.Atoms.Tooltip>
-                    </LibraryComponents.Atoms.Buttons.Button>
-                  </div>
-                </>
-              )
-            )}
-        </Form>
-        <Collapse navbar>
-          <Nav className="ml-auto items-center" navbar>
-            <LibraryComponents.Atoms.Buttons.Button
-              size="medium"
-              type="outline"
-              onClick={() => {
-                const elem: any = document.body
-                function openFullscreen() {
-                  stores.appStore.updateApplicationSetting({
-                    ...stores.appStore.applicationSetting,
-                    isExpandScreen: true,
-                  })
-                  if (elem.requestFullscreen) {
-                    elem.requestFullscreen()
-                  } else if (elem.webkitRequestFullscreen) {
-                    /* Safari */
-                    elem.webkitRequestFullscreen()
-                  } else if (elem.msRequestFullscreen) {
-                    /* IE11 */
-                    elem.msRequestFullscreen()
-                  }
-                }
-                function closeFullscreen() {
-                  if (document.fullscreenElement) {
-                    if (document.exitFullscreen) {
-                      stores.appStore.updateApplicationSetting({
-                        ...stores.appStore.applicationSetting,
-                        isExpandScreen: false,
-                      })
-                      document.exitFullscreen()
+                          <LibraryComponents.Atoms.Tooltip tooltipText={item.title}>
+                            <LibraryComponents.Atoms.Icons.IconContext
+                              color="#000"
+                              size="22"
+                            >
+                              {LibraryComponents.Atoms.Icons.getIconTag(
+                                LibraryComponents.Atoms.Icons.getIcons(item.icon) ||
+                                  LibraryComponents.Atoms.Icons.IconBs.BsList
+                              )}
+                            </LibraryComponents.Atoms.Icons.IconContext>
+                          </LibraryComponents.Atoms.Tooltip>
+                        </LibraryComponents.Atoms.Buttons.Button>
+                      </div>
+                    </>
+                  )
+                )}
+            </div>
+          </Form>
+        </div>
+        <div className="flex-1 ml-2">
+          <Collapse navbar>
+            <Nav className="ml-auto items-center" navbar>
+              <LibraryComponents.Atoms.Buttons.Button
+                size="medium"
+                type="outline"
+                onClick={() => {
+                  const elem: any = document.body
+                  function openFullscreen() {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      isExpandScreen: true,
+                    })
+                    if (elem.requestFullscreen) {
+                      elem.requestFullscreen()
+                    } else if (elem.webkitRequestFullscreen) {
+                      /* Safari */
+                      elem.webkitRequestFullscreen()
+                    } else if (elem.msRequestFullscreen) {
+                      /* IE11 */
+                      elem.msRequestFullscreen()
                     }
                   }
-                }
-                openFullscreen()
-                closeFullscreen()
-              }}
-            >
-              <LibraryComponents.Atoms.Tooltip
-                tooltipText={
-                  stores.appStore.applicationSetting?.isExpandScreen
-                    ? "Collapse"
-                    : "Expand"
-                }
+                  function closeFullscreen() {
+                    if (document.fullscreenElement) {
+                      if (document.exitFullscreen) {
+                        stores.appStore.updateApplicationSetting({
+                          ...stores.appStore.applicationSetting,
+                          isExpandScreen: false,
+                        })
+                        document.exitFullscreen()
+                      }
+                    }
+                  }
+                  openFullscreen()
+                  closeFullscreen()
+                }}
               >
-                <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
-                  {LibraryComponents.Atoms.Icons.getIconTag(
+                <LibraryComponents.Atoms.Tooltip
+                  tooltipText={
                     stores.appStore.applicationSetting?.isExpandScreen
-                      ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
-                      : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
-                  )}
-                </LibraryComponents.Atoms.Icons.IconContext>
-              </LibraryComponents.Atoms.Tooltip>
-            </LibraryComponents.Atoms.Buttons.Button>
-            <div className="ml-2" />
-            <LibraryComponents.Atoms.Buttons.Button
-              size="medium"
-              type="outline"
-              onClick={() => {
-                // userStore.UsersService.loginActivityList({
-                //   input: {
-                //     userId: loginStore.login.userId,
-                //     loginActivityId: loginStore.login.loginActivityId,
-                //   },
-                // }).then((res) => {
-                //   if (!res.success) alert(res.message)
-                //   else {
-                //     loginStore.updateLogin({
-                //       ...loginStore.login,
-                //       loginActivityList: res.data.loginActivityList,
-                //       sessionAllowed: res.data.sessionAllowed,
-                //     })
-
-                //   }
-                // })
-                if (loginStore.login.loginActivityList.length > 0) {
-                  setModalSessionAllowed({
-                    show: true,
-                    data: loginStore.login.loginActivityList,
-                  })
-                } else {
-                  LibraryComponents.Atoms.Toast.warning({
-                    message: `😊 Single system login.`,
-                  })
-                }
-              }}
-            >
-              <label className="inline w-8 text-center" style={{ width: "40px" }}>
-                {loginStore.login?.sessionAllowed}
-              </label>
-            </LibraryComponents.Atoms.Buttons.Button>
-            <UncontrolledDropdown nav inNavbar>
-              <span className="d-none d-sm-inline-block">
-                <DropdownToggle nav>
-                  <div className="flex items-center">
-                    <img
-                      className="rounded-circle mr-3"
-                      src={loginStore.login?.picture || Assets.defaultAvatar}
-                      alt={loginStore.login?.fullName}
-                      width="40"
-                      height="40"
-                    />
-                    <span className="text-dark">{loginStore.login?.fullName}</span>
-                  </div>
-                </DropdownToggle>
-              </span>
-              <DropdownMenu right>
-                <DropdownItem onClick={() => setModalAccount({ show: true })}>
-                  Account
-                </DropdownItem>
-                <DropdownItem onClick={() => setModalChangePassword({ show: true })}>
-                  Change Password
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem
-                  onClick={() => {
-                    loginStore
-                      .removeUser()
-                      .then((res) => {
-                        if (res.logout.success) {
-                          LibraryComponents.Atoms.Toast.success({
-                            message: `😊 ${res.logout.message}`,
-                          })
-                          history.push("/")
-                        }
-                      })
-                      .catch(() => {
-                        alert("Please try again")
-                      })
-                  }}
+                      ? "Collapse"
+                      : "Expand"
+                  }
                 >
-                  Sign out
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </Nav>
-        </Collapse>
+                  <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      stores.appStore.applicationSetting?.isExpandScreen
+                        ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
+                        : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Tooltip>
+              </LibraryComponents.Atoms.Buttons.Button>
+              <div className="ml-2" />
+              <LibraryComponents.Atoms.Buttons.Button
+                size="medium"
+                type="outline"
+                onClick={() => {
+                  // userStore.UsersService.loginActivityList({
+                  //   input: {
+                  //     userId: loginStore.login.userId,
+                  //     loginActivityId: loginStore.login.loginActivityId,
+                  //   },
+                  // }).then((res) => {
+                  //   if (!res.success) alert(res.message)
+                  //   else {
+                  //     loginStore.updateLogin({
+                  //       ...loginStore.login,
+                  //       loginActivityList: res.data.loginActivityList,
+                  //       sessionAllowed: res.data.sessionAllowed,
+                  //     })
+
+                  //   }
+                  // })
+                  if (loginStore.login.loginActivityList.length > 0) {
+                    setModalSessionAllowed({
+                      show: true,
+                      data: loginStore.login.loginActivityList,
+                    })
+                  } else {
+                    LibraryComponents.Atoms.Toast.warning({
+                      message: `😊 Single system login.`,
+                    })
+                  }
+                }}
+              >
+                <label className="inline w-8 text-center" style={{ width: "40px" }}>
+                  {loginStore.login?.sessionAllowed}
+                </label>
+              </LibraryComponents.Atoms.Buttons.Button>
+              <UncontrolledDropdown nav inNavbar>
+                <span className="d-none d-sm-inline-block">
+                  <DropdownToggle nav>
+                    <div className="flex items-center">
+                      <img
+                        className="rounded-circle mr-3"
+                        src={loginStore.login?.picture || Assets.defaultAvatar}
+                        alt={loginStore.login?.fullName}
+                        width="40"
+                        height="40"
+                      />
+                      <span className="text-dark">{loginStore.login?.fullName}</span>
+                    </div>
+                  </DropdownToggle>
+                </span>
+                <DropdownMenu right>
+                  <DropdownItem onClick={() => setModalAccount({ show: true })}>
+                    Account
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => setModalChangePassword({ show: true })}
+                  >
+                    Change Password
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem
+                    onClick={() => {
+                      loginStore
+                        .removeUser()
+                        .then((res) => {
+                          if (res.logout.success) {
+                            LibraryComponents.Atoms.Toast.success({
+                              message: `😊 ${res.logout.message}`,
+                            })
+                            history.push("/")
+                          }
+                        })
+                        .catch(() => {
+                          alert("Please try again")
+                        })
+                    }}
+                  >
+                    Sign out
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
+          </Collapse>
+        </div>
       </Navbar>
       <FeatureComponents.Molecules.ModalAccount
         {...modalAccount}
@@ -275,7 +285,7 @@ const NavbarComponent = observer(({ dispatch }) => {
                 setModalChangePassword({ show: false })
                 setTimeout(() => {
                   window.location.reload()
-                }, 2000);
+                }, 2000)
               } else {
                 LibraryComponents.Atoms.Toast.error({
                   message: `😔 ${res.userChnagePassword.message}`,

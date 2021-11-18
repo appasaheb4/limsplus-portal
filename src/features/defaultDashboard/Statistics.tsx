@@ -9,7 +9,7 @@ const Statistics = observer(() => {
   const { userStore } = useStores()
   return (
     <div>
-      <div className="flex flex-row flex-wrap gap-4 justify-between">
+      <div className="grid  sm:grid-cols-1 md:grid-cols-4 gap-2">
         <Card className="flex">
           <CardBody className="py-4">
             <Media>

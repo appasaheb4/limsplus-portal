@@ -1,5 +1,5 @@
 .scrollTable {
-  height: 475px;
+  height: 40vh;
   overflow-y: auto;
   overflow-x: auto;
 }
