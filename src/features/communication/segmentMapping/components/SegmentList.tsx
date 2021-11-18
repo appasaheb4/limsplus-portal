@@ -1155,73 +1155,77 @@ const SegmentList = observer((props: SegmentListProps) => {
             },
             {
               dataField: "opration",
-              text: "Duplicate",
+              text: "Action",
               editable: false,
               csvExport: false,
               formatter: (cellContent, row) => (
                 <>
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="small"
-                    type="outline"
-                    onClick={() => {
-                      segmentMappingStore.updateSelectedItem([])
-                      segmentMappingStore.updateSelectedItem([row])
-                      if (segmentMappingStore.selectedItems) {
-                        if (segmentMappingStore.selectedItems.length > 0) {
-                          setModalConfirm({
-                            type: "Duplicate",
-                            show: true,
-                            title: "Are you sure duplicate recoard? ",
-                          })
-                        }
-                      } else {
-                        alert("Please select any item.")
-                      }
-                    }}
-                  >
-                    <LibraryComponents.Atoms.Icon.EvaIcon
-                      icon="copy-outline"
-                      size="medium"
-                      color={Config.Styles.COLORS.BLACK}
-                    />
-                    Duplicate
-                  </LibraryComponents.Atoms.Buttons.Button>
+                  <div className="flex flex-row">
+                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top"> 
+                      <LibraryComponents.Atoms.Icons.IconContext
+                        color="#fff"
+                        size="20"
+                        onClick={() => {
+                                    segmentMappingStore.updateSelectedItem([])
+                                    segmentMappingStore.updateSelectedItem([row])
+                                    if (segmentMappingStore.selectedItems) {
+                                      if (segmentMappingStore.selectedItems.length > 0) {
+                                        setModalConfirm({
+                                          type: "delete",
+                                          show: true,
+                                          title: "Are you sure delete recoard? ",
+                                          body: `Delete selected items!`,
+                                        })
+                                      }
+                                    } else {
+                                      alert("Please select any item.")
+                                    }
+                                  }}
+                      >
+                        {LibraryComponents.Atoms.Icons.getIconTag(
+                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                        )}
+                      </LibraryComponents.Atoms.Icons.IconContext>
+                    </LibraryComponents.Atoms.Tooltip>
+
+                    <LibraryComponents.Atoms.Tooltip
+                          className="ml-2"
+                          tooltipText="Duplicate"
+                        >
+                          <LibraryComponents.Atoms.Icons.IconContext
+                            color="#fff"
+                            size="20"
+                            onClick={() => {
+                                        segmentMappingStore.updateSelectedItem([])
+                                        segmentMappingStore.updateSelectedItem([row])
+                                        if (segmentMappingStore.selectedItems) {
+                                          if (segmentMappingStore.selectedItems.length > 0) {
+                                            setModalConfirm({
+                                              type: "Duplicate",
+                                              show: true,
+                                              title: "Are you sure duplicate recoard? ",
+                                            })
+                                          }
+                                        } else {
+                                          alert("Please select any item.")
+                                        }
+                                      }}
+                          >
+                            {LibraryComponents.Atoms.Icons.getIconTag(
+                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                            )}
+                          </LibraryComponents.Atoms.Icons.IconContext>
+                        </LibraryComponents.Atoms.Tooltip>
+                    
+                  </div>
                 </>
               ),
+              headerClasses: "sticky right-0  bg-gray-500 text-white",
+          classes: (cell, row, rowIndex, colIndex) => {
+            return "sticky right-0 bg-gray-500"
+          },
             },
-            {
-              dataField: "opration",
-              text: "Delete",
-              editable: false,
-              csvExport: false,
-              formatter: (cellContent, row) => (
-                <>
-                  <LibraryComponents.Atoms.Buttons.Button
-                    size="small"
-                    type="outline"
-                    icon={LibraryComponents.Atoms.Icon.Remove}
-                    onClick={() => {
-                      segmentMappingStore.updateSelectedItem([])
-                      segmentMappingStore.updateSelectedItem([row])
-                      if (segmentMappingStore.selectedItems) {
-                        if (segmentMappingStore.selectedItems.length > 0) {
-                          setModalConfirm({
-                            type: "delete",
-                            show: true,
-                            title: "Are you sure delete recoard? ",
-                            body: `Delete selected items!`,
-                          })
-                        }
-                      } else {
-                        alert("Please select any item.")
-                      }
-                    }}
-                  >
-                    Delete
-                  </LibraryComponents.Atoms.Buttons.Button>
-                </>
-              ),
-            },
+            
           ]}
           search
           exportCSV={{

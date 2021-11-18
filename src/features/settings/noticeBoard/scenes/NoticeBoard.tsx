@@ -236,6 +236,9 @@ const NoticeBoard = observer(() => {
         <FeatureComponents.Molecules.NoticeBoardsList
           data={noticeBoardStore.noticeBoardList}
           totalSize={noticeBoardStore.noticeBoardListCount}
+          extraData={{
+            listLabs:labStore.listLabs
+          }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             "Delete"

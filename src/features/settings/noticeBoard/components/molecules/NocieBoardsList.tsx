@@ -10,13 +10,11 @@ import * as LibraryModels from "@lp/library/models"
 import * as Services from "../../services"
 
 import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-import { Stores as DepartmentStore } from "@lp/features/collection/department/stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
-import { Stores as RoleStore } from "@lp/features/settings/roles/stores"
-import { toJS } from "mobx"
+
 
 interface NoticeBoardsListProps {
   data: any
+  extraData: any
   totalSize: number
   isDelete?: boolean
   isEditModify?: boolean
@@ -65,7 +63,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {LabStore.labStore.listLabs.map((item: any, index: number) => (
+                    {props.extraData.listLabs.map((item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {item.name}
                       </option>
@@ -153,7 +151,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&

@@ -269,7 +269,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -294,7 +294,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                           tooltipText="Version Upgrade"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
@@ -310,7 +310,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                           tooltipText="Duplicate"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
