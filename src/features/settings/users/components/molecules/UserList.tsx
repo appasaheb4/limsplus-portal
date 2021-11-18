@@ -52,6 +52,7 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editable:false
             },
             {
               dataField: "defaultLab",
@@ -263,6 +264,9 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
+              editCellStyle: {
+                
+              }
             },
             {
               dataField: "mobileNo",

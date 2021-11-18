@@ -35,6 +35,7 @@ const DeginisationList = (props: DeginisationListProps) => {
           text: "Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable:false
         },
         {
           dataField: "description",
@@ -91,7 +92,7 @@ const DeginisationList = (props: DeginisationListProps) => {
               <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&

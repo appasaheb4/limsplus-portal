@@ -42,6 +42,7 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Methods Name",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable: false,
         },
         {
           dataField: "description",
