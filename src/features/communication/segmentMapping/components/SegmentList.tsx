@@ -1191,9 +1191,10 @@ const SegmentList = observer((props: SegmentListProps) => {
                     <LibraryComponents.Atoms.Tooltip
                           className="ml-2"
                           tooltipText="Duplicate"
+                          position="top"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#fff"
+                            color="#fff"   
                             size="20"
                             onClick={() => {
                                         segmentMappingStore.updateSelectedItem([])
@@ -1212,7 +1213,7 @@ const SegmentList = observer((props: SegmentListProps) => {
                                       }}
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>

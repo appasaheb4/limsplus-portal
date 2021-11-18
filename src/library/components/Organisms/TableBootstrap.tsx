@@ -9,6 +9,9 @@ import ToolkitProvider, {
 import cellEditFactory from "react-bootstrap-table2-editor"
 import paginationFactory, {
   PaginationProvider,
+  PaginationListStandalone,
+  SizePerPageDropdownStandalone,
+  PaginationTotalStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
 import dayjs from "dayjs"
@@ -56,11 +59,12 @@ const TableBootstrap = ({
   onPageSizeChange,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
   const customTotal = (from, to, size) => {
     return (
       <>
         <div className="clearfix" />
-        <span className="ml-2 react-bootstrap-table-pagination-total">
+        <span>
           Showing {from} to {to} of {size} Results
         </span>
       </>
@@ -130,9 +134,11 @@ const TableBootstrap = ({
     prePageText: "<",
     nextPageText: ">",
     lastPageText: ">>",
-    showTotal: true,
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
+    hideSizePerPage: true,
+    showTotal: false,
+    alwaysShowAllBtns: true,
     sizePerPageList: [
       {
         text: "10",
@@ -222,7 +228,7 @@ const TableBootstrap = ({
         >
           {(props) => (
             <div>
-              <div>
+              <div className="flex items-center">
                 <SearchBar {...props.searchProps} />
                 <ClearSearchButton
                   className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
@@ -234,15 +240,38 @@ const TableBootstrap = ({
                 >
                   Export CSV!!
                 </ExportCSVButton>
+                {isFilterOpen ? (
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="outline"
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen)
+                    }}
+                  >
+                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+                  </LibraryComponents.Atoms.Buttons.Button>
+                ) : (
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="outline"
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen)
+                    }}
+                  >
+                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+                  </LibraryComponents.Atoms.Buttons.Button>
+                )}
               </div>
-              <div className="mb-2 overflow-auto">
-                <ToggleList
-                  contextual="primary"
-                  className="list-custom-class"
-                  btnClassName="list-btn-custom-class"
-                  {...props.columnToggleProps}
-                />
-              </div>
+              {isFilterOpen && (
+                <div className="mb-2 overflow-auto">
+                  <ToggleList
+                    contextual="primary"
+                    className="list-custom-class"
+                    btnClassName="list-btn-custom-class"
+                    {...props.columnToggleProps}
+                  />
+                </div>
+              )}
               <div className="scrollTable">
                 <BootstrapTable
                   remote
@@ -270,7 +299,23 @@ const TableBootstrap = ({
                   }
                   headerClasses="bg-gray-500 text-white"
                   onTableChange={handleTableChange}
+                  options={{
+                    hideSizePerPage: true,
+                    showTotal: false,
+                  }}
                 />
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <SizePerPageDropdownStandalone
+                  {...Object.assign(
+                    {},
+                    { ...paginationProps, hideSizePerPage: false }
+                  )}
+                />
+                <PaginationListStandalone {...paginationProps} />
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <PaginationTotalStandalone {...paginationProps} />
               </div>
             </div>
           )}

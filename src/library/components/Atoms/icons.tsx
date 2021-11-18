@@ -13,6 +13,7 @@ import * as IconBs from "react-icons/bs"
 import * as IconFi from "react-icons/fi"
 import * as Iconmd from "react-icons/md"
 import * as Iconio from "react-icons/io"
+import * as Iconio5 from 'react-icons/io5'
 import * as Iconsi from "react-icons/si"
 import * as Iconai from "react-icons/ai"
 import * as Iconvsc from "react-icons/vsc"
@@ -47,6 +48,7 @@ export {
   IconFi,
   Iconmd,
   Iconio,
+  Iconio5,
   Iconsi,
   Iconai,
   Iconvsc,

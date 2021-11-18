@@ -317,7 +317,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>

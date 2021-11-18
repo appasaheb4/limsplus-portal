@@ -1,5 +1,5 @@
 .scrollTable {
-  height: 40vh;
+  height: 38vh;
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -9,4 +9,8 @@ th {
   top: 0;
   background-color: rgb(106, 114, 127);
   z-index: 1;
+}  
+
+.scrollTable .react-bootstrap-table-page-btns-ul{
+  display: none;
 }
