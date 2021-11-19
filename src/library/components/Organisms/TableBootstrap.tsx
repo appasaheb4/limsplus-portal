@@ -136,9 +136,10 @@ const TableBootstrap = ({
     lastPageText: ">>",
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
-    hideSizePerPage: true,
-    showTotal: false,
-    alwaysShowAllBtns: true,
+
+    // hideSizePerPage: true,
+    // showTotal: false,
+    // alwaysShowAllBtns: true,
     sizePerPageList: [
       {
         text: "10",
