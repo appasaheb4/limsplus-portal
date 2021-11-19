@@ -356,8 +356,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
           </LibraryComponents.Atoms.Buttons.Button>
         </LibraryComponents.Atoms.List>
       </div>
-      <br />
-
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}

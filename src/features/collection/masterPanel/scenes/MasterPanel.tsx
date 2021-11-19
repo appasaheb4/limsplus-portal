@@ -1521,7 +1521,6 @@ const MasterPanel = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.PanelMasterList
             data={masterPanelStore.listMasterPanel || []}
