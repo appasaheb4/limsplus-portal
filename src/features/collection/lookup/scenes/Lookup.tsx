@@ -44,7 +44,6 @@ const Lookup = observer(() => {
 
   return (
     <>
-      <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={routerStore.selectedComponents?.title || ""}
@@ -89,7 +88,6 @@ const Lookup = observer(() => {
             </Accordion>
           </div>
           <div className="mx-auto">
-            <br />
             <div className="p-2 rounded-lg shadow-xl overflow-scroll">
               <FeatureComponents.Molecules.LookupList
                 data={lookupStore.listLookup || []}
@@ -168,7 +166,6 @@ const Lookup = observer(() => {
             />
           </div>
         </div>
-      </Container>
     </>
   )
 })

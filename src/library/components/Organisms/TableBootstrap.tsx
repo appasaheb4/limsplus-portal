@@ -137,9 +137,9 @@ const TableBootstrap = ({
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
 
-    // hideSizePerPage: true,
-    // showTotal: false,
-    // alwaysShowAllBtns: true,
+    hideSizePerPage: true,
+    showTotal: false,
+    alwaysShowAllBtns: true,
     sizePerPageList: [
       {
         text: "10",
@@ -298,7 +298,7 @@ const TableBootstrap = ({
                         })
                       : undefined
                   }
-                  headerClasses="bg-gray-500 text-white"
+                  headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
                   options={{
                     hideSizePerPage: true,

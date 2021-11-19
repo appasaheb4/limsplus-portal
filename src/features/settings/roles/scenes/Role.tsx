@@ -239,7 +239,6 @@ const Role = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.RoleList
             data={roleStore.listRole || []}

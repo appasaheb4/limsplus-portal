@@ -108,7 +108,6 @@ export const Users = observer(() => {
 
   return (
     <>
-      <Container fluid>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={routerStore.selectedComponents?.title || ""}
@@ -1029,7 +1028,6 @@ export const Users = observer(() => {
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
           </div>
-          <br />
           <div
             className="p-2 rounded-lg shadow-xl overflow-scroll"
             style={{ overflowX: "scroll" }}
@@ -1186,7 +1184,6 @@ export const Users = observer(() => {
             }}
           />
         </div>
-      </Container>
     </>
   )
 })

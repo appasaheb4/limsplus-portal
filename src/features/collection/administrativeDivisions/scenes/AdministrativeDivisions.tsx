@@ -479,7 +479,6 @@ export const AdministrativeDivisions = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <AdminstrativeDivList
             data={administrativeDivisions.listAdministrativeDiv || []}
