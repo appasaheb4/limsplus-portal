@@ -762,7 +762,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                 <div className="flex flex-row">
                   <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                     <LibraryComponents.Atoms.Icons.IconContext
-                      color="#000"
+                      color="#fff"
                       size="20"
                       onClick={() =>
                         props.onDelete &&
@@ -808,7 +808,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
                           {LibraryComponents.Atoms.Icons.getIconTag(
-                            LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                            LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
                           )}
                         </LibraryComponents.Atoms.Icons.IconContext>
                       </LibraryComponents.Atoms.Tooltip>

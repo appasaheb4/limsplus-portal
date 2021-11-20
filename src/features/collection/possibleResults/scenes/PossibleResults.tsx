@@ -92,7 +92,6 @@ export const PossibleResults = observer(() => {
 
   return (
     <>
-      <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={routerStore.selectedComponents?.title || ""}
@@ -512,7 +511,6 @@ export const PossibleResults = observer(() => {
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
           </div>
-          <br />
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
             <PossibleResultsList
               data={possibleResultsStore.listPossibleResults || []}
@@ -595,7 +593,6 @@ export const PossibleResults = observer(() => {
             onClose={() => setModalConfirm({ show: false })}
           />
         </div>
-      </Container>
     </>
   )
 })

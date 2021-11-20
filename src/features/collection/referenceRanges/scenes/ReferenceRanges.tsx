@@ -1178,7 +1178,6 @@ const ReferenceRanges = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.ReferenceRanges
             data={refernceRangesStore.listReferenceRanges || []}
@@ -1234,9 +1233,9 @@ const ReferenceRanges = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            // onPageSizeChange={() => {
-            //   priceListStore.fetchListPriceList()
-            // }}
+            onPageSizeChange={(page,limit) => {
+              refernceRangesStore.fetchListReferenceRanges(page,limit)
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

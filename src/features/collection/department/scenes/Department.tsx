@@ -11,7 +11,7 @@ import { useForm, Controller } from "react-hook-form"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
-
+   
 export const Department = observer(() => {
   const {
     loginStore,
@@ -95,7 +95,6 @@ export const Department = observer(() => {
 
   return (
     <>
-      <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={routerStore.selectedComponents?.title || ""}
@@ -653,7 +652,6 @@ export const Department = observer(() => {
               </LibraryComponents.Atoms.Buttons.Button>
             </LibraryComponents.Atoms.List>
           </div>
-          <br />
           <div className="p-2 rounded-lg shadow-xl overflow-auto">
             <FeatureComponents.Molecules.DepartmentList
               data={departmentStore.listDepartment || []}
@@ -732,7 +730,6 @@ export const Department = observer(() => {
             onClose={() => setModalConfirm({ show: false })}
           />
         </div>
-      </Container>
     </>
   )
 })

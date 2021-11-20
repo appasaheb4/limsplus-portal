@@ -53,7 +53,6 @@ const HostCommunication = observer(() => {
 
   return (
     <>
-      <Container>
         <LibraryComponents.Atoms.Header>
           <LibraryComponents.Atoms.PageHeading
             title={routerStore.selectedComponents?.title || ""}
@@ -919,7 +918,6 @@ const HostCommunication = observer(() => {
             }}
           />
         </div>
-      </Container>
       <LibraryComponents.Atoms.ModalImportFile
         accept=".csv,.xlsx,.xls,.txt,.hl7"
         {...modalImportFile}

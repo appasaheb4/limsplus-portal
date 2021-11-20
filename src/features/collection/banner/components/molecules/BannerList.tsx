@@ -36,6 +36,8 @@ const BannerList = (props: BannerListProps) => {
           text: "Title",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          headerClasses: 'headerText',  
+          //classes: 'hidden', 
         },
         {
           dataField: "image",
