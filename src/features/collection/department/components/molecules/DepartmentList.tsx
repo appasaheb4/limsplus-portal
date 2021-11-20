@@ -85,7 +85,6 @@ const DepartmentList = (props: DepartmentListProps) => {
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
         },
-
         {
           dataField: "shortName",
           text: "Short Name",

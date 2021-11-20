@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState, useRef } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
+import _ from "lodash"
 import ToolkitProvider, {
   Search,
   CSVExport,
@@ -29,6 +30,7 @@ interface TableBootstrapProps {
   id: string
   data: any
   totalSize?: number
+  searchPlaceholder?: string
   page?: number
   sizePerPage?: number
   columns: any
@@ -40,12 +42,14 @@ interface TableBootstrapProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
+  onFilter?: (filter: any, page: number, totalSize: number) => void
 }
 
 const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
+  searchPlaceholder = "Search...",
   page = 0,
   sizePerPage = 10,
   columns,
@@ -57,6 +61,7 @@ const TableBootstrap = ({
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
+  onFilter,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
@@ -165,7 +170,9 @@ const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   }
-
+  let searchProps: any = {
+    placeholder: searchPlaceholder,
+  }
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
@@ -186,21 +193,34 @@ const TableBootstrap = ({
 
   const handleTableChange = (
     type,
-    { cellEdit, page, sizePerPage, filters, sortField, sortOrder }
+    { cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    console.log({ type })
+    console.log({ type, filters, searchText })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
-    if (type === "pagination") {
+    if (type === "pagination" && _.isEmpty(filters)) {
       onPageSizeChange && onPageSizeChange(page, sizePerPage)
     }
-
+    if (type === "filter" || (type === "pagination" && !_.isEmpty(filters))) {
+      searchProps = { srText: "" }
+      let filter: any = {}
+      for (const [key, value] of Object.entries(filters)) {
+        const values: any = value
+        const object = { [key]: values.filterVal }
+        filter = Object.assign(filter, object)
+      }
+      onFilter && onFilter(filter, page, sizePerPage)
+    }
+    if (type === "search") {
+      onFilter && onFilter({ title: searchText }, page, sizePerPage)
+    }
     //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
     // console.log({ currentIndex,page,sizePerPage })
   }
+
 
   return (
     <PaginationProvider
@@ -230,7 +250,13 @@ const TableBootstrap = ({
           {(props) => (
             <div>
               <div className="flex items-center">
-                <SearchBar {...props.searchProps} />
+                <SearchBar
+                  {...searchProps}
+                  {...props.searchProps}
+                  onChange={(value) => {
+                    console.log({ value })
+                  }}
+                />
                 <ClearSearchButton
                   className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
                   {...props.searchProps}
@@ -300,10 +326,10 @@ const TableBootstrap = ({
                   }
                   headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
-                  options={{
-                    hideSizePerPage: true,
-                    showTotal: false,
-                  }}
+                  // options={{
+                  //   hideSizePerPage: true,
+                  //   showTotal: false,
+                  // }}
                 />
               </div>
               <div className="flex items-center gap-2 mt-2">
