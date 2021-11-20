@@ -46,10 +46,28 @@ export const UPDATE_BANNER = gql`
 `
 
 export const UPDATE_BANNER_IMAGE = gql`
-mutation($input: UpdateBannerInput!) {
-  updateBannerImage(input: $input) {
+  mutation($input: UpdateBannerInput!) {
+    updateBannerImage(input: $input) {
       success
       message
     }
   }
-`;
+`
+    
+export const FILTER_BANNER = gql`
+  mutation($input: BannerInput!) {
+    filterBanners(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        title
+        image
+        environment
+      }
+    }
+  }
+`

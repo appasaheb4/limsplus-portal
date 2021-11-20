@@ -10,15 +10,20 @@ import * as Bootstrap from "react-bootstrap"
 import dayjs from "dayjs"
 import { useForm, Controller } from "react-hook-form"
 import { FormHelper } from "@lp/helper"
-import * as LibraryUtils from "@lp/library/utils"
 
 import { useHistory } from "react-router-dom"
 
-import { Stores as BannerStores } from "@lp/features/collection/banner/stores"
 import { useStores } from "@lp/stores"
 
 export const Login = observer(() => {
-  const { userStore, loginStore, rootStore, labStore, roleStore } = useStores()
+  const {
+    userStore,
+    loginStore,
+    rootStore,
+    labStore,
+    roleStore,
+    bannerStore,
+  } = useStores()
   const history = useHistory()
   const [noticeBoard, setNoticeBoard] = useState<any>({})
   const [width, setWidth] = useState<number>(window.innerWidth)
@@ -41,7 +46,7 @@ export const Login = observer(() => {
   }
 
   useEffect(() => {
-    BannerStores.bannerStore.fetchListAllBanner()
+    bannerStore.fetchListAllBanner()
   }, [])
 
   useEffect(() => {
@@ -86,7 +91,6 @@ export const Login = observer(() => {
         .then((res) => {
           if (res.login.success == 1) {
             loginStore.updateLoginFailedCount(0)
-            console.log({ res })
             if (!res.login.data.user.passChanged) {
               setModalChangePassword({ show: true })
             } else {
@@ -137,7 +141,7 @@ export const Login = observer(() => {
               <img src={Assets.logo} className="w-20 h-15" alt="logo" />
               <div className="mt-2 mb-2">
                 <Bootstrap.Carousel>
-                  {BannerStores.bannerStore.listAllBanner.map((item, key) => (
+                  {bannerStore.listAllBanner.map((item, key) => (
                     <Bootstrap.Carousel.Item interval={5000} key={key}>
                       <img
                         key={key}

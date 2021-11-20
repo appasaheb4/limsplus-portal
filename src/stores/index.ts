@@ -9,6 +9,7 @@ import { LookupStore } from "@lp/features/collection/lookup/stores/lookup-store"
 import { SectionStore } from "@lp/features/collection/section/stores/section-store"
 
 // master
+import { BannerStore } from "@lp/features/collection/banner/stores/banner-store"
 import { LabStore } from "@lp/features/collection/labs/stores/lab-store"
 import { SalesTeamStore } from "@lp/features/collection/salesTeam/stores/salesTeam-store"
 import { DeginisationStore } from "@lp/features/collection/deginisation/stores/deginisation-store"
@@ -38,7 +39,7 @@ import { InterfaceManagerStore } from "@lp/features/communication/interfaceManag
 import { DataConversationStore } from "@lp/features/communication/dataConversation/stores/dataConversation-store"
 import { HostCommunicationStore } from "@lp/features/communication/hostCommunication/stores/hostCommunication-store"
 import { SegmentMappingStore } from "@lp/features/communication/segmentMapping/stores/segmentMapping-store"
-         
+
 // setting
 import { RoleStore } from "@lp/features/settings/roles/stores/role-store"
 import { EnvironmentStore } from "@lp/features/settings/environment/stores/EnvironmentStore"
@@ -55,6 +56,7 @@ export class Stores extends Store {
   loginStore!: LoginStore
 
   // master
+  bannerStore!: BannerStore
   labStore!: LabStore
   lookupStore!: LookupStore
   sectionStore!: SectionStore
@@ -95,7 +97,7 @@ export class Stores extends Store {
   roleMappingStore!: RoleMappingStore
   shortcutMenuStore!: ShortcutMenuStore
   noticeBoardStore!: NoticeBoardStore
-
+     
   constructor() {
     super()
     this.rootStore = new RootStore()
@@ -103,6 +105,7 @@ export class Stores extends Store {
     this.routerStore = new RouterStore()
     this.loginStore = new LoginStore()
 
+    this.bannerStore = new BannerStore()
     this.labStore = new LabStore()
     this.lookupStore = new LookupStore()
     this.sectionStore = new SectionStore()

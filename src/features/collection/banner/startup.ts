@@ -1,6 +1,6 @@
-import {Stores} from './stores';
+import {stores} from '@lp/stores';
 const startup = async () => {
-    Stores.bannerStore.fetchListBanner();
+    stores.bannerStore.fetchListBanner();
 }
 
 export default startup;
