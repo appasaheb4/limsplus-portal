@@ -106,7 +106,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
                 <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&

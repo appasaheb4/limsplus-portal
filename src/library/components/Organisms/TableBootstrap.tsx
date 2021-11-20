@@ -11,9 +11,10 @@ import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone,
   SizePerPageDropdownStandalone,
+  PaginationTotalStandalone,
 } from "react-bootstrap-table2-paginator"
 import filterFactory from "react-bootstrap-table2-filter"
-import moment from "moment"
+import dayjs from "dayjs"
 import "./style.css"
 
 import * as LibraryComponents from "@lp/library/components"
@@ -58,11 +59,12 @@ const TableBootstrap = ({
   onPageSizeChange,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
   const customTotal = (from, to, size) => {
     return (
       <>
         <div className="clearfix" />
-        <span className="ml-2 react-bootstrap-table-pagination-total">
+        <span>
           Showing {from} to {to} of {size} Results
         </span>
       </>
@@ -132,9 +134,12 @@ const TableBootstrap = ({
     prePageText: "<",
     nextPageText: ">",
     lastPageText: ">>",
-    showTotal: true,
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
+
+    hideSizePerPage: true,
+    showTotal: false,
+    alwaysShowAllBtns: true,
     sizePerPageList: [
       {
         text: "10",
@@ -179,16 +184,22 @@ const TableBootstrap = ({
     }
   }
 
-  const afterSaveCell = (oldValue, newValue, row, column) => {
-    if (oldValue !== newValue) {
-      onUpdateItem && onUpdateItem(newValue, column.dataField, row._id)
+  const handleTableChange = (
+    type,
+    { cellEdit, page, sizePerPage, filters, sortField, sortOrder }
+  ) => {
+    console.log({ type })
+    if (type === "cellEdit" && isEditModify) {
+      onUpdateItem &&
+        onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
-  }
+    if (type === "pagination") {
+      onPageSizeChange && onPageSizeChange(page, sizePerPage)
+    }
 
-  const handleTableChange = (type, { page, sizePerPage }) => {
+    //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
     // console.log({ currentIndex,page,sizePerPage })
-    onPageSizeChange && onPageSizeChange(page, sizePerPage)
   }
 
   return (
@@ -208,7 +219,7 @@ const TableBootstrap = ({
           columns={columns}
           search
           exportCSV={{
-            fileName: `${fileName}_${moment(new Date()).format(
+            fileName: `${fileName}_${dayjs(new Date()).format(
               "YYYY-MM-DD HH:mm"
             )}.csv`,
             noAutoBOM: false,
@@ -218,7 +229,7 @@ const TableBootstrap = ({
         >
           {(props) => (
             <div>
-              <div>
+              <div className="flex items-center">
                 <SearchBar {...props.searchProps} />
                 <ClearSearchButton
                   className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
@@ -230,15 +241,38 @@ const TableBootstrap = ({
                 >
                   Export CSV!!
                 </ExportCSVButton>
+                {isFilterOpen ? (
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="outline"
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen)
+                    }}
+                  >
+                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronUp />
+                  </LibraryComponents.Atoms.Buttons.Button>
+                ) : (
+                  <LibraryComponents.Atoms.Buttons.Button
+                    size="medium"
+                    type="outline"
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen)
+                    }}
+                  >
+                    <LibraryComponents.Atoms.Icons.IconFa.FaChevronDown />
+                  </LibraryComponents.Atoms.Buttons.Button>
+                )}
               </div>
-              <div className="mb-2 overflow-auto">
-                <ToggleList
-                  contextual="primary"
-                  className="list-custom-class"
-                  btnClassName="list-btn-custom-class"
-                  {...props.columnToggleProps}
-                />
-              </div>
+              {isFilterOpen && (
+                <div className="mb-2 overflow-auto">
+                  <ToggleList
+                    contextual="primary"
+                    className="list-custom-class"
+                    btnClassName="list-btn-custom-class"
+                    {...props.columnToggleProps}
+                  />
+                </div>
+              )}
               <div className="scrollTable">
                 <BootstrapTable
                   remote
@@ -261,13 +295,28 @@ const TableBootstrap = ({
                       ? cellEditFactory({
                           mode: "dbclick",
                           blurToSave: true,
-                          afterSaveCell,
                         })
                       : undefined
                   }
-                  headerClasses="bg-gray-500 text-white"
+                  headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
+                  options={{
+                    hideSizePerPage: true,
+                    showTotal: false,
+                  }}
                 />
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <SizePerPageDropdownStandalone
+                  {...Object.assign(
+                    {},
+                    { ...paginationProps, hideSizePerPage: false }
+                  )}
+                />
+                <PaginationListStandalone {...paginationProps} />
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <PaginationTotalStandalone {...paginationProps} />
               </div>
             </div>
           )}

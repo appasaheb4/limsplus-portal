@@ -16,6 +16,7 @@ interface ReferenceRangesProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
+  onPageSizeChange?: (page: number, totalSize:number) =>void
 }
 
 const ReferenceRangesList = (props: ReferenceRangesProps) => {
@@ -587,7 +588,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -612,7 +613,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           tooltipText="Version Upgrade"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
@@ -628,14 +629,14 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           tooltipText="Duplicate"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
@@ -660,6 +661,9 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
+          }}
+          onPageSizeChange={(page,limit)=>{
+            props.onPageSizeChange && props.onPageSizeChange(page,limit)
           }}
         />
       </div>

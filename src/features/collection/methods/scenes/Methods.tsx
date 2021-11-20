@@ -326,7 +326,6 @@ const Methods = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <br />
         <div className="p-2 rounded-lg shadow-xl">
           <FeatureComponents.Molecules.MethodsList
             data={methodsStore.listMethods || []}

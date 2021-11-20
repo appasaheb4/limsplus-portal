@@ -227,8 +227,6 @@ const NoticeBoard = observer(() => {
           </LibraryComponents.Atoms.Buttons.Button>
         </LibraryComponents.Atoms.List>
       </div>
-      <br />
-
       <div
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
@@ -236,6 +234,9 @@ const NoticeBoard = observer(() => {
         <FeatureComponents.Molecules.NoticeBoardsList
           data={noticeBoardStore.noticeBoardList}
           totalSize={noticeBoardStore.noticeBoardListCount}
+          extraData={{
+            listLabs:labStore.listLabs
+          }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             "Delete"

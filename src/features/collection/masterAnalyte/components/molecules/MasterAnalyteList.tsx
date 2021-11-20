@@ -781,7 +781,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top"> 
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -806,7 +806,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           tooltipText="Version Upgrade"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onVersionUpgrade && props.onVersionUpgrade(row)
@@ -822,14 +822,14 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           tooltipText="Duplicate"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
+                            color="#fff"
                             size="20"
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.IconGr.GrDuplicate
+                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
@@ -839,8 +839,8 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
+              classes: (cell, row, rowIndex, colIndex) => {
+               return "sticky right-0 bg-gray-500"
           },
             },
           ]}

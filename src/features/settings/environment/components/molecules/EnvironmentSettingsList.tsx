@@ -280,7 +280,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                   <div className="flex flex-row">
                     <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDelete &&
@@ -315,6 +315,8 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               props.onSelectedRow(rows.map((item: any) => item._id))
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
+            console.log({id});
+            
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
           onPageSizeChange={(page, size) => {
