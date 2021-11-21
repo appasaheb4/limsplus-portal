@@ -94,7 +94,7 @@ const TableBootstrap = ({
               alert("Please select any item.")
             }
           }}
-        >  
+        >
           <LibraryComponents.Atoms.Icon.EvaIcon
             icon="trash-outline"
             size="large"
@@ -316,16 +316,16 @@ const TableBootstrap = ({
                   </LibraryComponents.Atoms.Buttons.Button>
                 )}
               </div>
-              <div
-                className={"mb-2 overflow-auto  " + (isFilterOpen ? "h-10" : "h-10")}
-              >
-                <CustomToggleList
-                  contextual="primary"
-                  className="list-custom-class"
-                  btnClassName="list-btn-custom-class"
-                  {...props.columnToggleProps}
-                />
-              </div>
+              {isFilterOpen && (
+                <div className={"mb-2 overflow-auto"}>
+                  <CustomToggleList
+                    contextual="primary"
+                    className="list-custom-class"
+                    btnClassName="list-btn-custom-class"
+                    {...props.columnToggleProps}
+                  />
+                </div>
+              )}     
               <div className="scrollTable">
                 <BootstrapTable
                   remote
@@ -378,5 +378,5 @@ const TableBootstrap = ({
     </PaginationProvider>
   )
 }
-   
+
 export default TableBootstrap

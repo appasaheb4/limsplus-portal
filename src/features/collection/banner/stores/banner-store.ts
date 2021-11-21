@@ -9,6 +9,7 @@ export class BannerStore {
   listBanner: Models.Banner[]
   listAllBanner: Models.Banner[]
   listBannerCount: number
+  
   constructor() {
     this.listBanner = []
     this.listAllBanner = []
