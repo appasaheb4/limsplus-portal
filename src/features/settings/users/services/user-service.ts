@@ -217,6 +217,9 @@ export class UserService {
         })
     })
 
+
+    // endpoint /userFilterByKey
+    // input {filter:{fullName:'appa'}}
   userFilterByKey = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)

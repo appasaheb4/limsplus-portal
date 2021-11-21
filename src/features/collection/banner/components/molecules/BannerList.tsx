@@ -16,16 +16,15 @@ interface BannerListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
-  onFilter?: (filter: any, page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const BannerList = (props: BannerListProps) => {
+const BannerList = (props: BannerListProps) => {   
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
       data={props.data}
       totalSize={props.totlaSize}
-      searchPlaceholder="Serach by title"
       columns={[
         {
           dataField: "_id",
@@ -165,8 +164,8 @@ const BannerList = (props: BannerListProps) => {
       onPageSizeChange={(page, size) => {
         props.onPageSizeChange && props.onPageSizeChange(page, size)
       }}
-      onFilter={(filter, page, size) => {
-        props.onFilter && props.onFilter(filter, page, size)
+      onFilter={(type, filter, page, size) => {
+        props.onFilter && props.onFilter(type, filter, page, size)
       }}
     />
   )
