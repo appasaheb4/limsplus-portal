@@ -243,9 +243,9 @@ const Banner = observer(() => {
             onPageSizeChange={(page, limit) => {
               bannerStore.fetchListBanner(page, limit)
             }}
-            onFilter={(filter, page, limit) => {
+            onFilter={(type, filter, page, limit) => {
               bannerStore.BannerService.filterBanners({
-                input: { filter, page, limit },
+                input: { type, filter, page, limit },
               })
             }}
           />

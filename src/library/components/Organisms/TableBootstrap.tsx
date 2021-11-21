@@ -42,7 +42,7 @@ interface TableBootstrapProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
-  onFilter?: (filter: any, page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const TableBootstrap = ({
@@ -94,7 +94,7 @@ const TableBootstrap = ({
               alert("Please select any item.")
             }
           }}
-        >
+        >  
           <LibraryComponents.Atoms.Icon.EvaIcon
             icon="trash-outline"
             size="large"
@@ -211,16 +211,43 @@ const TableBootstrap = ({
         const object = { [key]: values.filterVal }
         filter = Object.assign(filter, object)
       }
-      onFilter && onFilter(filter, page, sizePerPage)
+      onFilter && onFilter(type, filter, page, sizePerPage)
     }
     if (type === "search") {
-      onFilter && onFilter({ title: searchText }, page, sizePerPage)
+      onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
     }
     //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
     // console.log({ currentIndex,page,sizePerPage })
   }
 
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
+    <div className="btn-group btn-group-toggle" data-toggle="buttons">
+      {columns
+        .map((column) => ({
+          ...column,
+          toggle: toggles[column.dataField],
+        }))
+        .map((column, index) => {
+          if (index > 1) {
+            return (
+              <button
+                type="button"
+                key={column.dataField}
+                className={` btn btn-primary btn-sm ${
+                  column.toggle ? "active" : ""
+                }`}
+                data-toggle="button"
+                aria-pressed={column.toggle ? "true" : "false"}
+                onClick={() => onColumnToggle(column.dataField)}
+              >
+                {column.text}
+              </button>
+            )
+          }
+        })}
+    </div>
+  )
 
   return (
     <PaginationProvider
@@ -289,16 +316,16 @@ const TableBootstrap = ({
                   </LibraryComponents.Atoms.Buttons.Button>
                 )}
               </div>
-              {isFilterOpen && (
-                <div className="mb-2 overflow-auto">
-                  <ToggleList
-                    contextual="primary"
-                    className="list-custom-class"
-                    btnClassName="list-btn-custom-class"
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )}
+              <div
+                className={"mb-2 overflow-auto  " + (isFilterOpen ? "h-10" : "h-10")}
+              >
+                <CustomToggleList
+                  contextual="primary"
+                  className="list-custom-class"
+                  btnClassName="list-btn-custom-class"
+                  {...props.columnToggleProps}
+                />
+              </div>
               <div className="scrollTable">
                 <BootstrapTable
                   remote
@@ -351,5 +378,5 @@ const TableBootstrap = ({
     </PaginationProvider>
   )
 }
-
+   
 export default TableBootstrap

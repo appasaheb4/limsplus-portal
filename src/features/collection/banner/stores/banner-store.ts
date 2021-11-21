@@ -1,14 +1,14 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
 export class BannerStore {
-  @ignore @observable banner!: Models.Banner
-  @observable listBanner: Models.Banner[]
-  @observable listAllBanner: Models.Banner[]
-  @observable listBannerCount: number
+  banner!: Models.Banner
+  listBanner: Models.Banner[]
+  listAllBanner: Models.Banner[]
+  listBannerCount: number
   constructor() {
     this.listBanner = []
     this.listAllBanner = []
@@ -19,38 +19,46 @@ export class BannerStore {
       listBanner: observable,
       listAllBanner: observable,
       listBannerCount: observable,
+
+      BannerService: computed,
+      fetchListBanner: action,
+      updateBannerList: action,
+      updateFilterBannerList: action,
+      fetchListAllBanner: action,
+      updateListAllBanner: action,
+      updateBanner: action,
     })
   }
 
-  @computed get BannerService() {
+  get BannerService() {
     return new Services.BannerService()
   }
 
-  @action fetchListBanner(page?, limit?) {
+  fetchListBanner(page?, limit?) {
     this.BannerService.listBanner(page, limit)
   }
 
-  @action updateBannerList(res: any) {
+  updateBannerList(res: any) {
     if (!res.banners.success) return alert(res.banners.message)
     this.listBanner = res.banners.data
     this.listBannerCount = res.banners.paginatorInfo.count
   }
 
-  @action updateFilterBannerList(res: any) {
+  updateFilterBannerList(res: any) {
     this.listBanner = res.filterBanners.data
     this.listBannerCount = res.filterBanners.paginatorInfo.count
   }
 
-  @action fetchListAllBanner() {
+  fetchListAllBanner() {
     this.BannerService.listAllBanner()
   }
 
-  @action updateListAllBanner(res: any) {
+  updateListAllBanner(res: any) {
     if (!res.bannersListAll.success) return alert(res.bannersListAll.message)
     this.listAllBanner = res.bannersListAll.data
   }
 
-  @action updateBanner = (banner: Models.Banner) => {
+  updateBanner = (banner: Models.Banner) => {
     this.banner = banner
   }
 }
