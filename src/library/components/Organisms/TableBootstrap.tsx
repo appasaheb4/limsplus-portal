@@ -132,7 +132,7 @@ const TableBootstrap = ({
   const { ToggleList } = ColumnToggle
   const options = {
     cutome: true,
-    totalSize: totalSize - 10,
+    totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
     firstPageText: "<<",
@@ -141,7 +141,6 @@ const TableBootstrap = ({
     lastPageText: ">>",
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
-
     hideSizePerPage: true,
     showTotal: false,
     alwaysShowAllBtns: true,
@@ -193,18 +192,24 @@ const TableBootstrap = ({
 
   const handleTableChange = (
     type,
-    { cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
+    { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    console.log({ type, filters, searchText })
+    console.log({ type, sortField, sortOrder })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
     if (type === "pagination" && _.isEmpty(filters)) {
+      if (sizePerPage > totalSize) return alert("You have not more records.")
+      if (page * sizePerPage > totalSize) return alert("You have not more records.")
       onPageSizeChange && onPageSizeChange(page, sizePerPage)
     }
     if (type === "filter" || (type === "pagination" && !_.isEmpty(filters))) {
-      searchProps = { srText: "" }
+      if (type === "pagination") {
+        if (sizePerPage > totalSize) return alert("You have not more records.")
+        if (page * sizePerPage > totalSize)
+          return alert("You have not more records.")
+      }
       let filter: any = {}
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value
@@ -215,6 +220,28 @@ const TableBootstrap = ({
     }
     if (type === "search") {
       onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
+    }
+    if (type === "sort") {
+      let result
+      if (sortOrder === "asc") {
+        result = data.sort((a, b) => {
+          if (a[sortField] > b[sortField]) {
+            return 1
+          } else if (b[sortField] > a[sortField]) {
+            return -1
+          }
+          return 0
+        })
+      } else {
+        result = data.sort((a, b) => {
+          if (a[sortField] > b[sortField]) {
+            return -1
+          } else if (b[sortField] > a[sortField]) {
+            return 1
+          }
+          return 0
+        })
+      }
     }
     //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
@@ -229,7 +256,7 @@ const TableBootstrap = ({
           toggle: toggles[column.dataField],
         }))
         .map((column, index) => {
-          if (index > 1) {
+          if (index > 0) {
             return (
               <button
                 type="button"
@@ -325,7 +352,7 @@ const TableBootstrap = ({
                     {...props.columnToggleProps}
                   />
                 </div>
-              )}     
+              )}
               <div className="scrollTable">
                 <BootstrapTable
                   remote

@@ -725,7 +725,7 @@ const LabList = (props: LabListProps) => {
               ),
               headerClasses: "sticky right-0 bg-gray-500 text-white",
               classes: (cell, row, rowIndex, colIndex) => {
-                return "sticky right-0 bg-gray-500 z-49"
+                return "sticky right-0 bg-gray-500"
               },
             },
           ]}
