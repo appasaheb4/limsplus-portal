@@ -4,7 +4,7 @@
  
  * @author limsplus
  */
-import * as Model from '../models'
+import * as Model from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import {
@@ -13,7 +13,8 @@ import {
   CREATE_LAB,
   UPDATE_LAB,
   UPDATE_LAB_IMAGE,
-  CHECK_EXISTS_RECORD
+  CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
 
 export class LabService {
@@ -28,7 +29,7 @@ export class LabService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          stores.labStore.updateLabList(response.data);
+          stores.labStore.updateLabList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -113,4 +114,23 @@ export class LabService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterLabs.success) return this.listLabs()
+          stores.labStore.updateFilterLabList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })   
 }

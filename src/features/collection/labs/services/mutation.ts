@@ -57,3 +57,17 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: LabInput!) {
+    filterLabs(input: $input) {
+      paginatorInfo {
+        count
+      }     
+      success
+      message
+      data
+    }
+  }  
+`
