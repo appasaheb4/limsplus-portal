@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
+
 interface PackageMasterListProps {
   data: any
   totalSize: number
@@ -16,6 +17,7 @@ interface PackageMasterListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const PackageMasterList = (props: PackageMasterListProps) => {
@@ -169,7 +171,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             text: "Date Creation",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -182,14 +184,14 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "dateActive",
             text: "Date Active",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
           {
             dataField: "version",
             text: "Version",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
           {
@@ -266,7 +268,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
                       tooltipText="Version Upgrade"
                     >
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onVersionUpgrade && props.onVersionUpgrade(row)
@@ -282,7 +284,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
                       tooltipText="Duplicate"
                     >
                       <LibraryComponents.Atoms.Icons.IconContext
-                        color="#000"
+                        color="#fff"
                         size="20"
                         onClick={() =>
                           props.onDuplicate && props.onDuplicate(row)
@@ -317,6 +319,9 @@ const PackageMasterList = (props: PackageMasterListProps) => {
         onPageSizeChange={(page,size)=>{
           props.onPageSizeChange && props.onPageSizeChange(page,size)
         }}
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
+        }}  
       />
     </>
   )

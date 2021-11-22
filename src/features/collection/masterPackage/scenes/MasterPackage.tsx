@@ -754,6 +754,11 @@ const MasterPackage = observer(() => {
             onPageSizeChange={(page, limit) => {
               masterPackageStore.fetchPackageMaster(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              masterPackageStore.masterPackageService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

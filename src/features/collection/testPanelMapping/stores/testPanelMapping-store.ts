@@ -1,4 +1,4 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -6,10 +6,10 @@ import dayjs from "dayjs"
 
 @version(0.1)
 export class TestPanelMappingStore {
-  @ignore @observable testPanelMapping!: Models.TestPanelMapping
-  @observable listTestPanelMapping: Models.TestPanelMapping[]
-  @observable listTestPanelMappingCount: number
-  @ignore @observable checkExitsLabEnvCode!: boolean
+  testPanelMapping!: Models.TestPanelMapping
+  listTestPanelMapping: Models.TestPanelMapping[]
+  listTestPanelMappingCount: number
+  checkExitsLabEnvCode!: boolean
 
   constructor() {
     this.listTestPanelMapping = []
@@ -19,7 +19,9 @@ export class TestPanelMappingStore {
       ...this.testPanelMapping,
       dateCreation: new Date(),
       dateActiveFrom: new Date(),
-      dateActiveTo: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
+      dateActiveTo: new Date(
+        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
+      ),
       version: 1,
       bill: false,
     }
@@ -28,28 +30,40 @@ export class TestPanelMappingStore {
       listTestPanelMapping: observable,
       listTestPanelMappingCount: observable,
       checkExitsLabEnvCode: observable,
+
+      testPanelMappingService: computed,
+      fetchTestPanelMapping: action,
+      updateTestPanelMappingList: action,
+      updateTestPanelMapping: action,
+      updateExistsLabEnvCode: action,
+      filterTestPanelMappingList: action
     })
   }
 
-  @computed get testPanelMappingService() {
+  get testPanelMappingService() {
     return new Services.TestPanelMappingService()
   }
 
-  @action fetchTestPanelMapping(page?, limit?) {
+  fetchTestPanelMapping(page?, limit?) {
     this.testPanelMappingService.listTestPanelMapping(page, limit)
   }
 
-  @action updateTestPanelMappingList(res: any) {
+  updateTestPanelMappingList(res: any) {
     if (!res.testPanelMappings.success) return alert(res.testPanelMappings.message)
     this.listTestPanelMapping = res.testPanelMappings.data
     this.listTestPanelMappingCount = res.testPanelMappings.paginatorInfo.count
   }
-    
-  @action updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
+
+  filterTestPanelMappingList(res: any) {
+    this.listTestPanelMapping = res.filterTestPanelMappings.data
+    this.listTestPanelMappingCount = res.filterTestPanelMappings.paginatorInfo.count
+  }
+
+  updateTestPanelMapping(testPanel: Models.TestPanelMapping) {
     this.testPanelMapping = testPanel
   }
 
-  @action updateExistsLabEnvCode = (status: boolean) => {
+  updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
 }

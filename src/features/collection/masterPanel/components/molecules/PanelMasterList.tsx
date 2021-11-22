@@ -948,7 +948,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "dateCreation",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateCreation).format("YYYY-MM-DD")}</>
@@ -958,7 +958,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "dateActive",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
