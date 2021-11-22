@@ -1,15 +1,15 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as ModelsSection from "@lp/features/collection/section/models"
 @version(0.1)
 export class TestMasterStore {
-  @ignore @observable testMaster!: Models.TestMaster
-  @observable listTestMaster!: Models.TestMaster[]
-  @observable listTestMasterCount!: number
-  @ignore @observable checkExitsLabEnvCode!: boolean
-  @observable sectionListByDeptCode!: ModelsSection.Section[]
+  testMaster!: Models.TestMaster
+  listTestMaster!: Models.TestMaster[]
+  listTestMasterCount!: number
+  checkExitsLabEnvCode!: boolean
+  sectionListByDeptCode!: ModelsSection.Section[]
 
   constructor() {
     this.listTestMaster = []
@@ -37,7 +37,7 @@ export class TestMasterStore {
       oosHold: false,
       deltaHold: false,
       allowPartial: false,
-      validationLevel:0
+      validationLevel: 0,
     }
     makeObservable<TestMasterStore, any>(this, {
       testMaster: observable,
@@ -45,7 +45,16 @@ export class TestMasterStore {
       listTestMasterCount: observable,
       checkExitsLabEnvCode: observable,
       sectionListByDeptCode: observable,
-    })
+
+      testMasterService: computed,
+      fetchTestMaster: action,
+      updateTestMasterList: action,
+      findSectionListByDeptCode: action,
+      updateSectionListByDeptCode: action,
+      updateTestMaster: action,
+      updateExistsLabEnvCode: action,
+      filterTestMasterList: action,
+    })  
   }
 
   @computed get testMasterService() {
@@ -60,6 +69,11 @@ export class TestMasterStore {
     if (!res.testMasters.success) return alert(res.testMasters.message)
     this.listTestMaster = res.testMasters.data
     this.listTestMasterCount = res.testMasters.paginatorInfo.count
+  }
+
+  filterTestMasterList(res: any) {
+    this.listTestMaster = res.filterTestMaster.data
+    this.listTestMasterCount = res.filterTestMaster.paginatorInfo.count
   }
 
   @action findSectionListByDeptCode = (code: string) => {
