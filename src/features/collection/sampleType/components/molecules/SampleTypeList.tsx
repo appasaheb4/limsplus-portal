@@ -37,12 +37,14 @@ const SampleTypeList = (props: SampleTypeListProps) => {
             text: "Sample Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "sampleType",
             text: "Sample Type",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable: false,
           },
           {
             dataField: "descriptions",

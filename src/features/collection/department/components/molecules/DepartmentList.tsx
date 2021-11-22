@@ -83,7 +83,8 @@ const DepartmentList = (props: DepartmentListProps) => {
           headerClasses: 'textHeader',
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
-          editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          editable: false,
+          
         },
         {
           dataField: "shortName",
@@ -92,6 +93,8 @@ const DepartmentList = (props: DepartmentListProps) => {
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+          style:{textTransform:"uppercase"},
+          editorStyle:{textTransform:"uppercase"}
         },
         {
           dataField: "hod",

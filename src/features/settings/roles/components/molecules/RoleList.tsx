@@ -34,12 +34,15 @@ const RoleList = (props: RoleListProps) => {
           text: "Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable:false
         },
         {
           dataField: "description",
           text: "Description",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          style:{textTransform:"uppercase"},
+          editorStyle:{textTransform:"uppercase"}
         },
         {
           dataField: "environment",

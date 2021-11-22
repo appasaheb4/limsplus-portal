@@ -70,7 +70,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
                         props.extraData.listMasterPanel.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
-                              {`${item.panelCode}`}
+                              {`${item.panelCode} - ${item.panelName}`}
                             </option>
                           )
                         )}

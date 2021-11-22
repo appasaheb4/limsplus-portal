@@ -42,7 +42,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable:false,
             },
             {
               dataField: "description",
