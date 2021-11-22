@@ -32,6 +32,19 @@ const DataConversation = observer(() => {
       setValue("environment", loginStore.login.environment)
     }
   }, [loginStore.login])
+
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      dataConversationStore && dataConversationStore.updateDataConversation({
+        ...dataConversationStore.dataConversation,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
   const onSubmitDataConversation = () => {
     if (dataConversationStore.dataConversation !== undefined) {
       dataConversationStore.dataConversationService

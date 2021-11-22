@@ -70,7 +70,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         props.extraData.listMasterAnalyte.map(
                           (item: any, index: number) => (
                             <option key={index} value={JSON.stringify(item)}>
-                              {`${item.analyteCode}`}
+                              {`${item.analyteCode} - ${item.analyteName}`}
                             </option>
                           )
                         )}
@@ -241,6 +241,39 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Range Set On"
+                    
+                  >
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                      onChange={(e) => {
+                        const rangeSetOn = e.target.value as string
+                        props.onUpdateItem && props.onUpdateItem(rangeSetOn,column.dataField,row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "RANGE_SET_ON"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                </>
+              ),
             },
             {
               dataField: "equipmentType",
@@ -248,6 +281,43 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex
+              ) => (
+                <>
+                  {props.extraData.listInterfaceManager && (
+                
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Equipment Type"
+                      
+                    >
+                      <select
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
+                        onChange={(e) => {
+                          const eqType = e.target.value as string
+                          props.onUpdateItem && props.onUpdateItem(eqType,column.dataField,row._id)
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {props.extraData.listInterfaceManager &&
+                          props.extraData.listInterfaceManager.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.instrumentType}>
+                                {`${item.instrumentType}`}
+                              </option>
+                            )
+                          )}
+                      </select>
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  
+              )}
+                </>
+              ),
             },
             {
               dataField: "lab",

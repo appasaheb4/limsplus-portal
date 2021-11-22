@@ -41,6 +41,8 @@ const RoleList = (props: RoleListProps) => {
           text: "Description",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          style:{textTransform:"uppercase"},
+          editorStyle:{textTransform:"uppercase"}
         },
         {
           dataField: "environment",

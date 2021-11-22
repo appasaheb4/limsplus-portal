@@ -360,12 +360,12 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
                   name="filed"
                   placeholder="Filed"
                   value={
-                    props.extraData.interfaceManagerStore.encodeCharacter?.filed
+                    row?.filed
                   }
                   onChange={(filed) => {
-                    props.extraData.interfaceManagerStore.updateEncodeCharacter({
-                      ...props.extraData.interfaceManagerStore.encodeCharacter,
-                      filed,
+                    props.extraData.updateInterfaceManager({
+                      ...props.extraData.interfaceManager,
+                      filed
                     })
                   }}
                 />
@@ -373,12 +373,12 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
                   name="value"
                   placeholder="Value"
                   value={
-                    props.extraData.interfaceManagerStore.encodeCharacter?.value
+                   row?.value
                   }
                   onChange={(value) => {
-                    props.extraData.interfaceManagerStore.updateEncodeCharacter({
-                      ...props.extraData.interfaceManagerStore.encodeCharacter,
-                      value,
+                    props.extraData.updateInterfaceManager({
+                      ...props.extraData.interfaceManager,
+                      value
                     })
                   }}
                 />
@@ -388,9 +388,9 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
                     type="solid"
                     onClick={() => {
                       let filed =
-                        props.extraData.interfaceManagerStore.encodeCharacter?.filed
+                        props.extraData.interfaceManager?.filed
                       let value =
-                        props.extraData.interfaceManagerStore.encodeCharacter?.value
+                        props.extraData.interfaceManager?.value
                       const fileds = row.fileds || []
                       if (filed === undefined || value === undefined)
                         return alert("Please enter filed and value.")
@@ -424,11 +424,11 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
                         props.onUpdateItem &&
                           props.onUpdateItem(fileds, "fileds", row._id)
 
-                        props.extraData.interfaceManagerStore.updateEncodeCharacter({
-                          ...props.extraData.interfaceManagerStore.encodeCharacter,
-                          filed: "",
-                          value: "",
-                        })
+                          props.extraData.updateInterfaceManager({
+                            ...props.extraData.interfaceManager,
+                            value : "",
+                            filed : ""
+                          })
                       }
                     }}
                   >

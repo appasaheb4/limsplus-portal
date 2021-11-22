@@ -179,6 +179,19 @@ const SegmentMapping = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      segmentMappingStore && segmentMappingStore.updateSegmentMapping({
+        ...segmentMappingStore.segmentMapping,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitSegmentMapiing = () => {
     if (segmentMappingStore.segmentMappingService) {
       segmentMappingStore.segmentMappingService

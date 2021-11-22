@@ -264,9 +264,8 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
-              editCellStyle: {
-                
-              }
+              style:{textTransform:"uppercase"},
+              editorStyle:{textTransform:"uppercase"}
             },
             {
               dataField: "mobileNo",
@@ -412,18 +411,23 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteCheck
-                    data={{
-                      defulatValues: toJS(row.role),
-                      list: props.extraData.listRole,
-                      displayKey: "description",
-                      findKey: "code",
-                    }}
-                    onUpdate={(items) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
-                    }}
-                  />
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Role"
+                      
+                    >
+                      <LibraryComponents.Molecules.AutocompleteCheck
+                        data={{
+                          defulatValues: toJS(row.role),
+                          list: props.extraData.listRole,
+                          displayKey: "description",
+                          findKey: "code",
+                        }}
+                        
+                        onUpdate={(items) => {
+                          props.onUpdateItem && props.onUpdateItem(items,column.dataField,row._id)
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },

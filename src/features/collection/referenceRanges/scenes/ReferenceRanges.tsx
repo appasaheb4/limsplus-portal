@@ -1187,6 +1187,7 @@ const ReferenceRanges = observer(() => {
               listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
               listDepartment: departmentStore.listDepartment,
               listLabs: labStore.listLabs,
+              listInterfaceManager:interfaceManagerStore.listInterfaceManager
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

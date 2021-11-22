@@ -365,6 +365,19 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
           totalSize={environmentStore.environmentSettingsListCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
+            selectedItems:environmentStore.selectedItems,
+            userFilterList:userStore.userFilterList,
+            updateEnvironmentSettings:environmentStore.updateEnvironmentSettings,
+            environmentSettings:environmentStore.environmentSettings,
+            updateUserFilterList:userStore.updateUserFilterList,
+            userList: userStore.userList,
+            userFilterByKey:userStore.UsersService.userFilterByKey,
+            loading: loading,
+            user:errors.user,
+            listLabs:labStore.listLabs,
+            listDepartment:departmentStore.listDepartment,
+            environmentVariableList:environmentStore.environmentVariableList
+
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
