@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React from "react"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
@@ -16,9 +16,10 @@ interface BannerListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const BannerList = (props: BannerListProps) => {
+const BannerList = (props: BannerListProps) => {   
   return (
     <LibraryComponents.Organisms.TableBootstrap
       id="_id"
@@ -36,8 +37,8 @@ const BannerList = (props: BannerListProps) => {
           text: "Title",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
-          headerClasses: 'headerText',  
-          //classes: 'hidden', 
+          headerClasses: "headerText",
+          //classes: 'bg-black',
         },
         {
           dataField: "image",
@@ -161,7 +162,10 @@ const BannerList = (props: BannerListProps) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
       }}
       onPageSizeChange={(page, size) => {
-       props.onPageSizeChange && props.onPageSizeChange(page, size)
+        props.onPageSizeChange && props.onPageSizeChange(page, size)
+      }}
+      onFilter={(type, filter, page, size) => {
+        props.onFilter && props.onFilter(type, filter, page, size)
       }}
     />
   )

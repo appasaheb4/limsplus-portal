@@ -86,7 +86,6 @@ const DepartmentList = (props: DepartmentListProps) => {
           editable: false,
           
         },
-
         {
           dataField: "shortName",
           text: "Short Name",

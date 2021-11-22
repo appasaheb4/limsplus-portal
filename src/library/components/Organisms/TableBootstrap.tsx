@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { useEffect, useState, useRef } from "react"
 import BootstrapTable from "react-bootstrap-table-next"
+import _ from "lodash"
 import ToolkitProvider, {
   Search,
   CSVExport,
@@ -29,6 +30,7 @@ interface TableBootstrapProps {
   id: string
   data: any
   totalSize?: number
+  searchPlaceholder?: string
   page?: number
   sizePerPage?: number
   columns: any
@@ -40,12 +42,14 @@ interface TableBootstrapProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, limit: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
+  searchPlaceholder = "Search...",
   page = 0,
   sizePerPage = 10,
   columns,
@@ -57,6 +61,7 @@ const TableBootstrap = ({
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
+  onFilter,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>()
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false)
@@ -127,7 +132,7 @@ const TableBootstrap = ({
   const { ToggleList } = ColumnToggle
   const options = {
     cutome: true,
-    totalSize: totalSize - 10,
+    totalSize: totalSize,
     paginationSize: 5,
     pageStartIndex: 0,
     firstPageText: "<<",
@@ -136,7 +141,6 @@ const TableBootstrap = ({
     lastPageText: ">>",
     disablePageTitle: true,
     paginationTotalRenderer: customTotal,
-
     hideSizePerPage: true,
     showTotal: false,
     alwaysShowAllBtns: true,
@@ -165,7 +169,9 @@ const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   }
-
+  let searchProps: any = {
+    placeholder: searchPlaceholder,
+  }
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
@@ -186,21 +192,89 @@ const TableBootstrap = ({
 
   const handleTableChange = (
     type,
-    { cellEdit, page, sizePerPage, filters, sortField, sortOrder }
+    { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    console.log({ type })
+    console.log({ type, sortField, sortOrder })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
-    if (type === "pagination") {
+    if (type === "pagination" && _.isEmpty(filters)) {
+      if (sizePerPage > totalSize) return alert("You have not more records.")
+      if (page * sizePerPage > totalSize) return alert("You have not more records.")
       onPageSizeChange && onPageSizeChange(page, sizePerPage)
     }
-
+    if (type === "filter" || (type === "pagination" && !_.isEmpty(filters))) {
+      if (type === "pagination") {
+        if (sizePerPage > totalSize) return alert("You have not more records.")
+        if (page * sizePerPage > totalSize)
+          return alert("You have not more records.")
+      }
+      let filter: any = {}
+      for (const [key, value] of Object.entries(filters)) {
+        const values: any = value
+        const object = { [key]: values.filterVal }
+        filter = Object.assign(filter, object)
+      }
+      onFilter && onFilter(type, filter, page, sizePerPage)
+    }
+    if (type === "search") {
+      onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
+    }
+    if (type === "sort") {
+      let result
+      if (sortOrder === "asc") {
+        result = data.sort((a, b) => {
+          if (a[sortField] > b[sortField]) {
+            return 1
+          } else if (b[sortField] > a[sortField]) {
+            return -1
+          }
+          return 0
+        })
+      } else {
+        result = data.sort((a, b) => {
+          if (a[sortField] > b[sortField]) {
+            return -1
+          } else if (b[sortField] > a[sortField]) {
+            return 1
+          }
+          return 0
+        })
+      }
+    }
     //console.log({ type, filters, sortField, sortOrder })
     // const currentIndex = (page - 1) * sizePerPage
     // console.log({ currentIndex,page,sizePerPage })
   }
+
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
+    <div className="btn-group btn-group-toggle" data-toggle="buttons">
+      {columns
+        .map((column) => ({
+          ...column,
+          toggle: toggles[column.dataField],
+        }))
+        .map((column, index) => {
+          if (index > 0) {
+            return (
+              <button
+                type="button"
+                key={column.dataField}
+                className={` btn btn-primary btn-sm ${
+                  column.toggle ? "active" : ""
+                }`}
+                data-toggle="button"
+                aria-pressed={column.toggle ? "true" : "false"}
+                onClick={() => onColumnToggle(column.dataField)}
+              >
+                {column.text}
+              </button>
+            )
+          }
+        })}
+    </div>
+  )
 
   return (
     <PaginationProvider
@@ -230,7 +304,13 @@ const TableBootstrap = ({
           {(props) => (
             <div>
               <div className="flex items-center">
-                <SearchBar {...props.searchProps} />
+                <SearchBar
+                  {...searchProps}
+                  {...props.searchProps}
+                  onChange={(value) => {
+                    console.log({ value })
+                  }}
+                />
                 <ClearSearchButton
                   className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center`}
                   {...props.searchProps}
@@ -264,8 +344,8 @@ const TableBootstrap = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className="mb-2 overflow-auto">
-                  <ToggleList
+                <div className={"mb-2 overflow-auto"}>
+                  <CustomToggleList
                     contextual="primary"
                     className="list-custom-class"
                     btnClassName="list-btn-custom-class"
@@ -300,10 +380,10 @@ const TableBootstrap = ({
                   }
                   headerClasses="bg-gray-500 text-white whitespace-nowrap"
                   onTableChange={handleTableChange}
-                  options={{
-                    hideSizePerPage: true,
-                    showTotal: false,
-                  }}
+                  // options={{
+                  //   hideSizePerPage: true,
+                  //   showTotal: false,
+                  // }}
                 />
               </div>
               <div className="flex items-center gap-2 mt-2">

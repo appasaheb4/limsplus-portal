@@ -4,17 +4,18 @@
  
  * @author limsplus
  */
+
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
 import { GET_BANNER_LIST_ALL } from "./query"
-import { Stores } from "../stores"
-import * as Model from '../models/index'
+import * as Model from "../models/index"
 import {
   BANNER_LIST,
   REMOVE_BANNERS,
   UPDATE_BANNER,
   CREATE_BANNER,
   UPDATE_BANNER_IMAGE,
+  FILTER_BANNER,
 } from "./mutation"
 
 export class BannerService {
@@ -25,6 +26,7 @@ export class BannerService {
           query: GET_BANNER_LIST_ALL,
         })
         .then((response: any) => {
+          stores.bannerStore.updateListAllBanner(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -41,6 +43,7 @@ export class BannerService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
+          stores.bannerStore.updateBannerList(response.data)
           resolve(response.data)
         })
         .catch((error) =>
@@ -64,7 +67,7 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
-          Stores.bannerStore.updateBanner(new Model.Banner({}))
+          stores.bannerStore.updateBanner(new Model.Banner({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -96,7 +99,7 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
-          Stores.bannerStore.updateBanner(new Model.Banner({}))
+          stores.bannerStore.updateBanner(new Model.Banner({}))
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -113,7 +116,25 @@ export class BannerService {
         })
         .then((response: any) => {
           resolve(response.data)
-          Stores.bannerStore.updateBanner(new Model.Banner({}))
+          stores.bannerStore.updateBanner(new Model.Banner({}))
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  filterBanners = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER_BANNER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterBanners.success) return this.listBanner()
+          stores.bannerStore.updateFilterBannerList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

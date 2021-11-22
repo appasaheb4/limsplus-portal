@@ -1,39 +1,65 @@
-import { version, ignore } from "mobx-sync"
-import { makeAutoObservable, action, observable, computed } from "mobx"
+import { version } from "mobx-sync"
+import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
-class BannerStore {
-  @ignore @observable banner!: Models.Banner
-  @observable listBanner: Models.Banner[] = []
-  @observable listAllBanner: Models.Banner[] = []
-  @observable listBannerCount: number = 0
+export class BannerStore {
+  banner!: Models.Banner
+  listBanner: Models.Banner[]
+  listAllBanner: Models.Banner[]
+  listBannerCount: number
+  
   constructor() {
-    makeAutoObservable(this)
+    this.listBanner = []
+    this.listAllBanner = []
+    this.listBannerCount = 0
+
+    makeObservable<BannerStore, any>(this, {
+      banner: observable,
+      listBanner: observable,
+      listAllBanner: observable,
+      listBannerCount: observable,
+
+      BannerService: computed,
+      fetchListBanner: action,
+      updateBannerList: action,
+      updateFilterBannerList: action,
+      fetchListAllBanner: action,
+      updateListAllBanner: action,
+      updateBanner: action,
+    })
   }
 
-  @computed get BannerService() {
+  get BannerService() {
     return new Services.BannerService()
   }
 
-  @action fetchListBanner(page?, limit?) {
-    this.BannerService.listBanner(page, limit).then((res) => {
-      if (!res.banners.success) return alert(res.banners.message)
-      this.listBanner = res.banners.data
-      this.listBannerCount = res.banners.paginatorInfo.count
-    })
+  fetchListBanner(page?, limit?) {
+    this.BannerService.listBanner(page, limit)
   }
 
-  @action fetchListAllBanner() {
-    this.BannerService.listAllBanner().then((res) => {
-      if (!res.bannersListAll.success) return alert(res.bannersListAll.message)
-      this.listAllBanner = res.bannersListAll.data
-    })
+  updateBannerList(res: any) {
+    if (!res.banners.success) return alert(res.banners.message)
+    this.listBanner = res.banners.data
+    this.listBannerCount = res.banners.paginatorInfo.count
   }
 
-  @action updateBanner = (banner: Models.Banner) => {
+  updateFilterBannerList(res: any) {
+    this.listBanner = res.filterBanners.data
+    this.listBannerCount = res.filterBanners.paginatorInfo.count
+  }
+
+  fetchListAllBanner() {
+    this.BannerService.listAllBanner()
+  }
+
+  updateListAllBanner(res: any) {
+    if (!res.bannersListAll.success) return alert(res.bannersListAll.message)
+    this.listAllBanner = res.bannersListAll.data
+  }
+
+  updateBanner = (banner: Models.Banner) => {
     this.banner = banner
   }
 }
-export default BannerStore
