@@ -35,12 +35,14 @@ const SampleContainerList = (props: SampleContainerListProps) => {
           text: "Container Code",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable: false,
         },
         {
           dataField: "containerName",
           text: "Container Name",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          editable: false,
         },
         {
           dataField: "description",

@@ -65,18 +65,26 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                 columnIndex
               ) => (
                 <>
+                   
+                <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Lab"
+                  id="labs"
+                  
+                >
                   <LibraryComponents.Molecules.AutocompleteCheck
                     data={{
-                      defulatValues: toJS(row.lab || []),
-                      list: LabStore.labStore.listLabs,
+                      defulatValues: [],
+                      list: props.extraData.listLabs,
                       displayKey: "name",
                       findKey: "code",
                     }}
+                    // hasError={errors.lab}
                     onUpdate={(items) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
+                      props.onUpdateItem && props.onUpdateItem(items,column.dataField,row._id)
                     }}
                   />
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              
                 </>
               ),
             },
@@ -84,7 +92,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               dataField: "user",
               text: "Users",
               sort: true,
-              //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
@@ -104,18 +112,51 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutocompleteCheck
-                    data={{
-                      defulatValues: toJS(row.user || []),
-                      //list: UserStore.userStore.userList,
-                      displayKey: "fullName",
-                      findKey: "_id",
-                    }}
-                    onUpdate={(items) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(items, column.dataField, row._id)
-                    }}
-                  />
+                 <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
+                      loader={props.extraData.loading}
+                      data={{
+                        list: props.extraData.userFilterList,
+                        selected:props.extraData?.users,
+                        displayKey: "fullName",
+                        findKey: "fullName",
+                      }}
+                      hasError={props.extraData.user}
+                      onUpdate={(item) => {
+                        const items = props.extraData?.users
+                        // onChange(items)
+                        props.extraData.updateEnvironmentSettings({
+                          ...props.extraData.environmentSettings,
+                          user: items,
+                        })
+                        
+                        props.extraData.updateUserFilterList(props.extraData.userList)
+                      }}
+                      onFilter={(value: string) => {
+                        props.extraData.userFilterByKey({
+                          input: { filter: { key: "fullName", value } },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        // console.log({ item })
+                        let users = row.users
+                        if (!item.selected) {
+                          if (users && users.length > 0) {
+                            users.push(item)
+                          }
+                          if (!users) users = [item]
+                        } else {
+                          users = users.filter((items) => {
+                            return items._id !== item._id
+                          })
+                        }
+                        props.onUpdateItem && props.onUpdateItem(users,column.dataField,row._id)
+                        // console.log({ users })
+                        // props.extraData.updateSelectedItems({
+                        //   ...props.extraData.selectedItems,
+                        //   users,
+                        // })
+                      }}
+                    />
                 </>
               ),
             },
@@ -146,7 +187,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                   <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
                     data={{
                       defulatValues: toJS(row.department || []),
-                      list: DepartmentStore.departmentStore.listDepartment,
+                      list: props.extraData.listDepartment,
                       displayKey: "name",
                       findKey: "code",
                     }}
@@ -174,24 +215,29 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                 columnIndex
               ) => (
                 <>
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                  label="Variable"
+                  
+                >
                   <select
                     name="variable"
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                     onChange={(e) => {
-                      const variable = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(variable, column.dataField, row._id)
+                      const variable = e.target.value as string
+                      props.onUpdateItem && props.onUpdateItem(variable,column.dataField,row._id)
                     }}
                   >
                     <option selected>Select</option>
-                    {["SESSION_TIMEOUT", "SESSION_ALLOWED"].map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      )
-                    )}
+                    {props.extraData.environmentVariableList &&
+                      props.extraData.environmentVariableList.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.environmentVariable}>
+                            {item.environmentVariable}
+                          </option>
+                        )
+                      )}
                   </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },

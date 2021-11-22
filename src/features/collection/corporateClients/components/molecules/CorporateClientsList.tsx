@@ -44,6 +44,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Corporate Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            editable:false
           },
           {
             dataField: "invoiceAc",

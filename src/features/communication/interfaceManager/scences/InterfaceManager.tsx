@@ -32,6 +32,19 @@ const InterfaceManager = observer(() => {
     }
   }, [loginStore.login])
 
+  useEffect(()=>{
+    const environment = routerStore.lookupItems.find((fileds)=>{
+      return fileds.fieldName === 'ENVIRONMENT'
+    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
+    if(environment){
+      interfaceManagerStore && interfaceManagerStore.updateInterfaceManager({
+        ...interfaceManagerStore.interfaceManager,
+        environment: environment.code as string
+      })
+      setValue("environment",environment.code as string)
+    }
+  },[routerStore.lookupItems])
+
   const onSubmitInterfaceManager = () => {
     if (
       interfaceManagerStore.interfaceManager &&
@@ -483,6 +496,8 @@ const InterfaceManager = observer(() => {
             totalSize={interfaceManagerStore.listInterfaceManagerCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
+              updateInterfaceManager:interfaceManagerStore.updateInterfaceManager,
+              interfaceManager:interfaceManagerStore.interfaceManager
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),

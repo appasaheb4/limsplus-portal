@@ -102,6 +102,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
+              headerStyle: { minWidth: "200px" },
             },
             {
               dataField: "description",

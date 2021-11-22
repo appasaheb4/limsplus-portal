@@ -75,14 +75,14 @@ export const SectionList = (props: SectionListProps) => {
             text: "Code",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
           {
             dataField: "name",
             text: "Name",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
           {
             dataField: "shortName",
@@ -90,6 +90,8 @@ export const SectionList = (props: SectionListProps) => {
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            style:{textTransform:"uppercase"},
+              editorStyle:{textTransform:"uppercase"}
           },
           {
             dataField: "sectionInCharge",

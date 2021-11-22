@@ -87,7 +87,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Analyte Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editable: false,
               headerStyle: { minWidth: "200px" }
             },
             {
@@ -150,6 +150,8 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              style:{textTransform:"uppercase"},
+              editorStyle:{textTransform:"uppercase"}
             },
             {
               dataField: "price",
