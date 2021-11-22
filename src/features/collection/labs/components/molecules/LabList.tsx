@@ -62,6 +62,7 @@ const LabList = (props: LabListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader1",
+              style :{textTransform :"uppercase"},
               editorRenderer: (
                 editorProps,
                 value,
