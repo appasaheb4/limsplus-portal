@@ -288,6 +288,11 @@ const Deginisation = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               deginisationStore.fetchListDeginisation(page, limit)
+            }}  
+            onFilter={(type, filter, page, limit) => {
+              deginisationStore.DeginisationService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

@@ -189,19 +189,19 @@ const TableBootstrap = ({
       setSelectedRow(rows)
     }
   }
-
+  
   const handleTableChange = (
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
   ) => {
-    console.log({ type, sortField, sortOrder })
+    //console.log({ type, sortField, sortOrder })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)
     }
     if (type === "pagination" && _.isEmpty(filters)) {
-      if (sizePerPage > totalSize) return alert("You have not more records.")
-      if (page * sizePerPage > totalSize) return alert("You have not more records.")
+      // if (sizePerPage > totalSize) return alert("You have not more records.")
+      // if (page * sizePerPage > totalSize) return alert("You have not more records.")
       onPageSizeChange && onPageSizeChange(page, sizePerPage)
     }
     if (type === "filter" || (type === "pagination" && !_.isEmpty(filters))) {
@@ -219,7 +219,9 @@ const TableBootstrap = ({
       onFilter && onFilter(type, filter, page, sizePerPage)
     }
     if (type === "search") {
-      onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
+      setTimeout(() => {
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage)
+      }, 2000)
     }
     if (type === "sort") {
       let result
@@ -243,9 +245,6 @@ const TableBootstrap = ({
         })
       }
     }
-    //console.log({ type, filters, sortField, sortOrder })
-    // const currentIndex = (page - 1) * sizePerPage
-    // console.log({ currentIndex,page,sizePerPage })
   }
 
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (

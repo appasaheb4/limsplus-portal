@@ -13,6 +13,7 @@ import {
   REMOVE_RECORDS,
   UPDATE_RECORD,
   EXISTS_RECORD,
+  FILTER
 } from "./mutation"
 
 class DepartmentService {
@@ -92,6 +93,26 @@ class DepartmentService {
           resolve(response.data)
           stores.departmentStore.updateDepartment(new Model.Department({}))
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterDepartments.success)
+            return this.listDepartment()
+          stores.departmentStore.filterDepartmentList(response.data)
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })  
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

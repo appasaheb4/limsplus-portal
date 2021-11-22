@@ -4,7 +4,6 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-
 interface DeginisationListProps {
   data: any
   totalSize: number
@@ -14,7 +13,8 @@ interface DeginisationListProps {
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const DeginisationList = (props: DeginisationListProps) => {
@@ -65,18 +65,19 @@ const DeginisationList = (props: DeginisationListProps) => {
                   className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                   onChange={(e) => {
                     const environment = e.target.value
-                    props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                    
+                    props.onUpdateItem &&
+                      props.onUpdateItem(environment, column.dataField, row._id)
                   }}
                 >
                   <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
+                  {LibraryUtils.lookupItems(
+                    props.extraData.lookupItems,
+                    "ENVIRONMENT"
+                  ).map((item: any, index: number) => (
+                    <option key={index} value={item.code}>
+                      {`${item.value} - ${item.code}`}
+                    </option>
+                  ))}
                 </select>
               </LibraryComponents.Atoms.Form.InputWrapper>
             </>
@@ -92,27 +93,27 @@ const DeginisationList = (props: DeginisationListProps) => {
           formatter: (cellContent, row) => (
             <>
               <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#fff"
-                        size="20"
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: "Delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
-                      >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                  </div>
+                <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                  <LibraryComponents.Atoms.Icons.IconContext
+                    color="#fff"
+                    size="20"
+                    onClick={() =>
+                      props.onDelete &&
+                      props.onDelete({
+                        type: "Delete",
+                        show: true,
+                        id: [row._id],
+                        title: "Are you sure?",
+                        body: `Delete item`,
+                      })
+                    }
+                  >
+                    {LibraryComponents.Atoms.Icons.getIconTag(
+                      LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                    )}
+                  </LibraryComponents.Atoms.Icons.IconContext>
+                </LibraryComponents.Atoms.Tooltip>
+              </div>
             </>
           ),
           headerClasses: "sticky right-0  bg-gray-500 text-white",
@@ -130,9 +131,12 @@ const DeginisationList = (props: DeginisationListProps) => {
       onUpdateItem={(value: any, dataField: string, id: string) => {
         props.onUpdateItem && props.onUpdateItem(value, dataField, id)
       }}
-      onPageSizeChange={(page,size)=>{
-        props.onPageSizeChange && props.onPageSizeChange(page,size)
+      onPageSizeChange={(page, size) => {
+        props.onPageSizeChange && props.onPageSizeChange(page, size)
       }}
+      onFilter={(type, filter, page, size) => {
+        props.onFilter && props.onFilter(type, filter, page, size)
+      }}  
     />
   )
 }

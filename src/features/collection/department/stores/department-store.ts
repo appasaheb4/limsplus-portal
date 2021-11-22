@@ -1,4 +1,4 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -6,10 +6,10 @@ import * as LibraryUtils from "@lp/library/utils"
 
 @version(0.1)
 export class DepartmentStore {
-  @observable listDepartment!: Models.Department[]
-  @observable listDepartmentCount: number = 0
-  @ignore @observable department!: Models.Department
-  @ignore @observable checkExitsCode: boolean = false
+  listDepartment!: Models.Department[]
+  listDepartmentCount: number = 0
+  department!: Models.Department
+  checkExitsCode: boolean = false
 
   constructor() {
     this.listDepartment = []
@@ -27,28 +27,39 @@ export class DepartmentStore {
       listDepartmentCount: observable,
       department: observable,
       checkExitsCode: observable,
+
+      DepartmentService: computed,
+      setExitsCode: action,
+      fetchListDepartment: action,
+      updateDepartmentList: action,
+      updateDepartment: action,
+      filterDepartmentList: action,
     })
   }
-
-  @action setExitsCode(status: boolean) {
-    this.checkExitsCode = status
-  }
-  @computed get DepartmentService() {
+  get DepartmentService() {
     return new Services.DepartmentService()
   }
 
-  @action fetchListDepartment(page?, limit?) {
+  setExitsCode(status: boolean) {
+    this.checkExitsCode = status
+  }
+
+  fetchListDepartment(page?, limit?) {
     this.DepartmentService.listDepartment(page, limit)
   }
 
-  @action updateDepartmentList(res: any) {
+  updateDepartmentList(res: any) {
     if (!res.departments.success) return alert(res.departments.message)
     this.listDepartment = res.departments.data
     this.listDepartmentCount = res.departments.paginatorInfo.count
   }
 
-  @action updateDepartment = (department: Models.Department) => {
+  filterDepartmentList(res: any) {
+    this.listDepartment = res.filterDepartments.data
+    this.listDepartmentCount = res.filterDepartments.paginatorInfo.count
+  }
+
+  updateDepartment = (department: Models.Department) => {
     this.department = department
   }
 }
-

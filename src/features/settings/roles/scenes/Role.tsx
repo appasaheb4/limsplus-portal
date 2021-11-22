@@ -6,7 +6,7 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import { stores, useStores } from "@lp/stores"
+import {  useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -21,14 +21,14 @@ const Role = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
       roleStore.updateRole({
         ...roleStore.role,
-        environment: stores.loginStore.login.environment,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
   useEffect(()=>{
     const environment = routerStore.lookupItems.find((fileds)=>{
       return fileds.fieldName === 'ENVIRONMENT'
@@ -65,11 +65,11 @@ const Role = observer(() => {
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddRole}
           onClick={() => setHideAddRole(!hideAddRole)}
@@ -165,8 +165,8 @@ const Role = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -193,13 +193,13 @@ const Role = observer(() => {
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login &&
+                        loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : roleStore.role?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -231,7 +231,6 @@ const Role = observer(() => {
               type="outline"
               icon={LibraryComponents.Atoms.Icon.Remove}
               onClick={() => {
-                //rootStore.roleStore.clear();
                 window.location.reload()
               }}
             >
@@ -244,14 +243,14 @@ const Role = observer(() => {
             data={roleStore.listRole || []}
             totalSize={roleStore.listRoleCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}

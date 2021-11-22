@@ -52,7 +52,6 @@ const LabList = (props: LabListProps) => {
               text: "Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "180px" },
               editable:false,
               headerClasses: "textHeader",
             },
@@ -431,7 +430,6 @@ const LabList = (props: LabListProps) => {
               headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "180px" },
               style : {textTransform: 'uppercase'},
               editorStyle: {
                 textTransform: 'uppercase'

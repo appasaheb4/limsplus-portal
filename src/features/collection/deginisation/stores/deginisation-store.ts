@@ -1,14 +1,14 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
-
+     
 @version(0.1)
 export class DeginisationStore {
-  @observable listDeginisation!: Models.Deginisation[]
-  @observable listDeginisationCount: number = 0
-  @ignore @observable deginisation!: Models.Deginisation
-  @ignore @observable checkExitsCode: boolean = false
+  listDeginisation!: Models.Deginisation[]
+  listDeginisationCount: number = 0
+  deginisation!: Models.Deginisation
+  checkExitsCode: boolean = false
 
   constructor() {
     this.listDeginisation = []
@@ -17,30 +17,41 @@ export class DeginisationStore {
       listDeginisationCount: observable,
       deginisation: observable,
       checkExitsCode: observable,
+
+      DeginisationService: computed,
+      fetchListDeginisation: action,
+      updateListDeginisation: action,
+      setExitsCode: action,
+      updateDescription: action,
+      filterDeginisationList: action,
     })
   }
 
-
-  @computed get DeginisationService() {
+  get DeginisationService() {
     return new Services.DeginisationService()
   }
 
-  @action fetchListDeginisation(page?, limit?) {
-    this.DeginisationService.listDeginisation(page, limit);
+  fetchListDeginisation(page?, limit?) {
+    this.DeginisationService.listDeginisation(page, limit)
   }
 
-  @action updateListDeginisation(res: any){
+  updateListDeginisation(res: any) {
     if (!res.designations.success) return alert(res.designations.message)
     this.listDeginisation = res.designations.data
     this.listDeginisationCount = res.designations.paginatorInfo.count
   }
 
-  @action setExitsCode(status: boolean) {
+  filterDeginisationList(res: any) {
+    console.log({res});
+    this.listDeginisation = res.filterDesignations.data
+    this.listDeginisationCount = res.filterDesignations.paginatorInfo.count
+  }
+
+  setExitsCode(status: boolean) {
     this.checkExitsCode = status
   }
 
-  @action updateDescription = (deginisation: Models.Deginisation) => {
+  updateDescription = (deginisation: Models.Deginisation) => {
     this.deginisation = deginisation
   }
 }
-

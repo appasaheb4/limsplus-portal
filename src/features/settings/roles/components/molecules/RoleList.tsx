@@ -15,7 +15,7 @@ interface RoleListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
 }
-
+  
 const RoleList = (props: RoleListProps) => {
   return (
     <LibraryComponents.Organisms.TableBootstrap
