@@ -1772,6 +1772,11 @@ const TestMater = observer(() => {
             onPageSizeChange={(page, limit) => {
               testMasterStore.fetchTestMaster(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              testMasterStore.testMasterService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

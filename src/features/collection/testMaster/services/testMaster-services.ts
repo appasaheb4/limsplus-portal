@@ -15,9 +15,10 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
 
-import * as Model from '../models'
+import * as Model from "../models"
 
 class TestMasterService {
   listTestMaster = (page = 0, limit = 10) =>
@@ -140,6 +141,24 @@ class TestMasterService {
           stores.testMasterStore.updateSectionListByDeptCode(res)
           resolve(res)
         })
+    })
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterTestMaster.success) return this.listTestMaster()
+          stores.testMasterStore.filterTestMasterList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

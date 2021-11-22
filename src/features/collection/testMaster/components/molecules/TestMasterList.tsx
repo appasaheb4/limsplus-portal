@@ -17,6 +17,7 @@ interface TestMasterProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const TestMasterList = (props: TestMasterProps) => {
@@ -63,12 +64,12 @@ const TestMasterList = (props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.labList && 
-                      props.extraData.labList.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
+                      {props.extraData.labList &&
+                        props.extraData.labList.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -150,7 +151,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "section",
               text: "Section",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{`${row.section.code} -${row.section.name}`}</>
@@ -174,12 +175,14 @@ const TestMasterList = (props: TestMasterProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.sectionListByDeptCode&&
-                      props.extraData.sectionListByDeptCode.map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
+                      {props.extraData.sectionListByDeptCode &&
+                        props.extraData.sectionListByDeptCode.map(
+                          (item: any, index: number) => (
+                            <option key={index} value={item}>
+                              {item}
+                            </option>
+                          )
+                        )}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -233,14 +236,14 @@ const TestMasterList = (props: TestMasterProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              style:{textTransform:"uppercase"},
-              editorStyle:{textTransform:"uppercase"}
+              style: { textTransform: "uppercase" },
+              editorStyle: { textTransform: "uppercase" },
             },
             {
               dataField: "price",
               text: "Price",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -1082,7 +1085,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "dateCreation",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
@@ -1092,7 +1095,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "dateActive",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
@@ -1102,7 +1105,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -1152,7 +1155,10 @@ const TestMasterList = (props: TestMasterProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -1202,7 +1208,8 @@ const TestMasterList = (props: TestMasterProps) => {
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                              LibraryComponents.Atoms.Icons.Iconio5
+                                .IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
@@ -1212,9 +1219,9 @@ const TestMasterList = (props: TestMasterProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -1229,6 +1236,9 @@ const TestMasterList = (props: TestMasterProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>
