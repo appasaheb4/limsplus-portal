@@ -244,7 +244,7 @@ const Banner = observer(() => {
               bannerStore.fetchListBanner(page, limit)
             }}
             onFilter={(type, filter, page, limit) => {
-              bannerStore.BannerService.filterBanners({
+              bannerStore.BannerService.filter({
                 input: { type, filter, page, limit },
               })
             }}

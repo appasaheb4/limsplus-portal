@@ -15,7 +15,7 @@ import {
   UPDATE_BANNER,
   CREATE_BANNER,
   UPDATE_BANNER_IMAGE,
-  FILTER_BANNER,
+  FILTER,
 } from "./mutation"
 
 export class BannerService {
@@ -122,17 +122,17 @@ export class BannerService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  filterBanners = (variables: any) =>
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_BANNER,
+          mutation: FILTER,
           variables,
         })
         .then((response: any) => {
           if (!response.data.filterBanners.success) return this.listBanner()
-          stores.bannerStore.updateFilterBannerList(response.data)
+          stores.bannerStore.filterBannerList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

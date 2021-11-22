@@ -28,6 +28,7 @@ export class LabStore {
       LabService: computed,
       fetchListLab: action,
       updateLabList: action,
+      filterLabList: action,
       setExitsEnvCode: action,
       updateLabs: action,
     })
@@ -36,7 +37,7 @@ export class LabStore {
   get LabService() {
     return new Services.LabService()
   }
-  
+
   fetchListLab(page?, limit?) {
     this.LabService.listLabs(page, limit)
   }
@@ -47,13 +48,11 @@ export class LabStore {
     this.listLabsCount = res.labs.paginatorInfo.count
   }
 
-  updateFilterLabList(res: any) {
-    console.log({res});
-    
+  filterLabList(res: any) {
     this.listLabs = res.filterLabs.data
     this.listLabsCount = res.filterLabs.paginatorInfo.count
   }
-     
+
   setExitsEnvCode(status: boolean) {
     this.checkExitsEnvCode = status
   }

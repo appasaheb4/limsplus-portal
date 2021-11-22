@@ -54,7 +54,7 @@ export const UPDATE_BANNER_IMAGE = gql`
   }
 `
     
-export const FILTER_BANNER = gql`
+export const FILTER = gql`
   mutation($input: BannerInput!) {
     filterBanners(input: $input) {
       paginatorInfo {

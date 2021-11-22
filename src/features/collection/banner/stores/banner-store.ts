@@ -24,7 +24,7 @@ export class BannerStore {
       BannerService: computed,
       fetchListBanner: action,
       updateBannerList: action,
-      updateFilterBannerList: action,
+      filterBannerList: action,
       fetchListAllBanner: action,
       updateListAllBanner: action,
       updateBanner: action,
@@ -45,7 +45,7 @@ export class BannerStore {
     this.listBannerCount = res.banners.paginatorInfo.count
   }
 
-  updateFilterBannerList(res: any) {
+  filterBannerList(res: any) {
     this.listBanner = res.filterBanners.data
     this.listBannerCount = res.filterBanners.paginatorInfo.count
   }

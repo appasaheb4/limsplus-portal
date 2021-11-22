@@ -125,7 +125,7 @@ export class LabService {
         })
         .then((response: any) => {
           if (!response.data.filterLabs.success) return this.listLabs()
-          stores.labStore.updateFilterLabList(response.data)
+          stores.labStore.filterLabList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

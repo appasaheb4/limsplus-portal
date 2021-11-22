@@ -55,3 +55,23 @@ export const EXISTS_RECORD = gql`
     }
   }
 `
+  
+export const FILTER = gql`
+  mutation($input: DesignationInput!) {
+    filterDesignations(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        code
+        description
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
