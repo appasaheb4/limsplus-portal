@@ -616,13 +616,6 @@ const MasterAnalyteList = (props: PriceListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            {
-              dataField: "keyNum",
-              editable: false,
-              text: "Key Num",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
 
             {
               dataField: "opration",

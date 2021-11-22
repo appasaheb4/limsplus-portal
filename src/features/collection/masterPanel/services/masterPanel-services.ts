@@ -16,6 +16,7 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER
 } from "./mutation"
 
 class MasterPanelService {
@@ -143,6 +144,26 @@ class MasterPanelService {
           stores.masterPanelStore.updateSectionListByDeptCode(res)
           resolve(res)
         })
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterPanelMaster.success)
+            return this.listPanelMaster()
+          stores.masterPanelStore.filterPanelMasterList(response.data)
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })  
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
 

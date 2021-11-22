@@ -108,3 +108,58 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: AnalyteMasterInput!) {
+    filterAnalyteMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateActiveTo
+        version
+        enteredBy
+        lab
+        analyteCode
+        analyteName
+        description
+        shortName
+        bill
+        price
+        schedule
+        autoRelease
+        holdOOS
+        instantResult
+        tubeGroups
+        pageBreak
+        method
+        analyteMethod
+        workflow
+        sampleType
+        display
+        calculationFlag
+        calcyName
+        high
+        low
+        repetition
+        picture
+        units
+        usage
+        cptCode
+        resultType
+        analyteType
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

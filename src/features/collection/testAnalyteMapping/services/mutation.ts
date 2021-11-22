@@ -86,3 +86,37 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: TestAnalyteMappingInput!) {
+    filterTestAnalyteMappings(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateActiveTo
+        version
+        enteredBy
+        lab
+        analyteCode
+        analyteName
+        testCode
+        testName
+        description
+        bill
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

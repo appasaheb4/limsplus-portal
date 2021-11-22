@@ -1,4 +1,4 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -7,22 +7,22 @@ import dayjs from "dayjs"
 
 @version(0.1)
 export class MasterPanelStore {
-  @ignore @observable masterPanel!: Models.MasterPanel
-  @observable listMasterPanel: Models.MasterPanel[]
-  @observable listMasterPanelCount!: number
-  @ignore @observable checkExitsLabEnvCode!: boolean
-  @observable sectionListByDeptCode!: ModelsSection.Section[]
+  masterPanel!: Models.MasterPanel
+  listMasterPanel: Models.MasterPanel[]
+  listMasterPanelCount!: number
+  checkExitsLabEnvCode!: boolean
+  sectionListByDeptCode!: ModelsSection.Section[]
 
   constructor() {
     this.listMasterPanel = []
     this.listMasterPanelCount = 0
     this.checkExitsLabEnvCode = false
-    this.masterPanel = {  
+    this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),   
+      dateActiveFrom: new Date(),
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
-      version: 1,  
+      version: 1,
       bill: false,
       autoRelease: false,
       holdOOS: false,
@@ -43,38 +43,52 @@ export class MasterPanelStore {
       listMasterPanelCount: observable,
       checkExitsLabEnvCode: observable,
       sectionListByDeptCode: observable,
+
+      masterPanelService: computed,
+      fetchPanelMaster: action,
+      updatePanelMasterList: action,
+      findSectionListByDeptCode: action,
+      updateSectionListByDeptCode: action,
+      updateMasterPanel: action,
+      updateExistsLabEnvCode: action,
+      filterPanelMasterList: action
     })
   }
 
-  @computed get masterPanelService() {
+  get masterPanelService() {
     return new Services.MasterPanelService()
   }
 
-  @action fetchPanelMaster(page?, limit?) {
+  fetchPanelMaster(page?, limit?) {
     this.masterPanelService.listPanelMaster(page, limit)
   }
-
-  @action updatePanelMasterList(res: any) {
+  
+  updatePanelMasterList(res: any) {
     if (!res.panelMasters.success) return alert(res.panelMasters.message)
     this.listMasterPanel = res.panelMasters.data
     this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+  }  
+         
+  filterPanelMasterList(res: any) {
+    this.listMasterPanel = res.filterPanelMaster.data
+    this.listMasterPanelCount = res.filterPanelMaster.paginatorInfo.count
   }
-
-  @action findSectionListByDeptCode = (code: string) => {
+   
+  findSectionListByDeptCode = (code: string) => {
     this.masterPanelService.findSectionListByDeptCode(code)
   }
 
-  @action updateSectionListByDeptCode(res: any) {
+  updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
       return alert(`${res.findSectionListByDeptCode.message}`)
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 
-  @action updateMasterPanel(analyte: Models.MasterPanel) {
+  updateMasterPanel(analyte: Models.MasterPanel) {
     this.masterPanel = analyte
   }
 
-  @action updateExistsLabEnvCode = (status: boolean) => {
+  updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
 }

@@ -975,9 +975,9 @@ const MasterAnalyte = observer(() => {
                   <LibraryComponents.Atoms.Form.Input
                     label="Entered By"
                     placeholder={
-                      errors.keyNum ? "Please Enter Entered By" : "Entered By"
+                      errors.userId ? "Please Enter Entered By" : "Entered By"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.userId}
                     value={loginStore.login?.userId}
                     disabled={true}
                   />
@@ -992,9 +992,9 @@ const MasterAnalyte = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Creation"
                     placeholder={
-                      errors.keyNum ? "Please Enter Date Creation" : "Date Creation"
+                      errors.dateCreation ? "Please Enter Date Creation" : "Date Creation"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.dateCreation}
                     value={dayjs(
                       masterAnalyteStore.masterAnalyte?.dateCreation
                     ).format("YYYY-MM-DD")}
@@ -1011,9 +1011,9 @@ const MasterAnalyte = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.keyNum ? "Please Enter Date Active" : "Date Active"
+                      errors.dateActiveFrom ? "Please Enter Date Active" : "Date Active"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.dateActiveFrom}
                     value={dayjs(
                       masterAnalyteStore.masterAnalyte?.dateActiveFrom
                     ).format("YYYY-MM-DD")}
@@ -1032,7 +1032,7 @@ const MasterAnalyte = observer(() => {
                     placeholder={
                       errors.schedule ? "Please Enter schedule" : "Date Expire"
                     }
-                    hasError={errors.keyNum}
+                    hasError={errors.schedule}
                     value={dayjs(
                       masterAnalyteStore.masterAnalyte?.dateActiveTo
                     ).format("YYYY-MM-DD")}
@@ -1211,6 +1211,11 @@ const MasterAnalyte = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               masterAnalyteStore.fetchAnalyteMaster(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              masterAnalyteStore.masterAnalyteService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

@@ -17,6 +17,7 @@ interface PanelMasterListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const PanelMasterList = (props: PanelMasterListProps) => {
@@ -318,7 +319,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "price",
               text: "Price",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -350,7 +351,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -967,7 +968,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -1095,6 +1096,9 @@ const PanelMasterList = (props: PanelMasterListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

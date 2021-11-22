@@ -17,6 +17,7 @@ interface TestAnalyteMappingListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
@@ -210,14 +211,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: false,
-            },
-            {
-              dataField: "keyNum",
-              text: "Key Num",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -345,6 +339,9 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

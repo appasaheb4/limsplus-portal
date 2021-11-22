@@ -738,13 +738,6 @@ const RegistrationLocationsList =
               editable: false,
             },
             {
-              dataField: "keyNum",
-              text: "Key Num",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: false,
-            },
-            {
               dataField: "enteredBy",
               text: "Entered By",
               sort: true,

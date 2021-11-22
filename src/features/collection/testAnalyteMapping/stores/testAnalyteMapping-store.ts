@@ -1,16 +1,16 @@
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
 @version(0.1)
 export class TestAnalyteMappingStore {
-  @ignore @observable testAnalyteMapping!: Models.TestAnalyteMapping
-  @observable listTestAnalyteMapping!: Models.TestAnalyteMapping[]
-  @observable listTestAnalyteMappingCount: number = 0
-  @ignore @observable checkExitsLabEnvCode?: boolean = false
+  testAnalyteMapping!: Models.TestAnalyteMapping
+  listTestAnalyteMapping!: Models.TestAnalyteMapping[]
+  listTestAnalyteMappingCount: number = 0
+  checkExitsLabEnvCode?: boolean = false
 
-  constructor() {   
+  constructor() {
     this.listTestAnalyteMapping = []
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
@@ -25,28 +25,40 @@ export class TestAnalyteMappingStore {
       listTestAnalyteMapping: observable,
       listTestAnalyteMappingCount: observable,
       checkExitsLabEnvCode: observable,
+
+      testAnalyteMappingService: computed,
+      fetchTestAnalyteMapping: action,
+      updateTestAnalyteMappingList: action,
+      updateTestAnalyteMapping: action,
+      updateExistsLabEnvCode: action,
+      filterTestAnalyteMappingList: action
     })
   }
-
-  @computed get testAnalyteMappingService() {
+  get testAnalyteMappingService() {
     return new Services.TestAnalyteMappingService()
   }
 
-  @action fetchTestAnalyteMapping(page?, limit?) {
+  fetchTestAnalyteMapping(page?, limit?) {
     this.testAnalyteMappingService.listTestAnalyteMapping(page, limit)
   }
 
-  @action updateTestAnalyteMappingList(res: any) {
-    if (!res.testAnalyteMappings.success) return alert(res.testAnalyteMappings.message)
+  updateTestAnalyteMappingList(res: any) {
+    if (!res.testAnalyteMappings.success)
+      return alert(res.testAnalyteMappings.message)
     this.listTestAnalyteMapping = res.testAnalyteMappings.data
     this.listTestAnalyteMappingCount = res.testAnalyteMappings.paginatorInfo.count
   }
 
-  @action updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
+  filterTestAnalyteMappingList(res: any) {
+    this.listTestAnalyteMapping = res.filterTestAnalyteMappings.data
+    this.listTestAnalyteMappingCount = res.filterTestAnalyteMappings.paginatorInfo.count
+  }
+
+  updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
     this.testAnalyteMapping = testAnalyte
   }
-  
-  @action updateExistsLabEnvCode = (status: boolean) => {
+
+  updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
 }

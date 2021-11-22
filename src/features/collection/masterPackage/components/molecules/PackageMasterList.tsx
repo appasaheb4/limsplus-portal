@@ -193,13 +193,6 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
           },
           {
-            dataField: "keyNum",
-            text: "Key Num",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false,
-          },
-          {
             dataField: "environment",
             text: "Environment",
             sort: true,

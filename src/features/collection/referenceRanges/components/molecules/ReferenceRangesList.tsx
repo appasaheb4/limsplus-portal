@@ -579,13 +579,6 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
-              dataField: "keyNum",
-              editable: false,
-              text: "Key Num",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
-            {
               dataField: "deltaRangTeType",
               text: "Delta Rang Tetype",
               sort: true,
