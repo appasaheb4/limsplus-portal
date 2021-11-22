@@ -184,7 +184,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               editable: false,
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -193,11 +193,11 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 )
               },
             },
-            {
+            {  
               dataField: "dateActive",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (

@@ -18,6 +18,7 @@ interface TestPanelMappingListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const TestPanelMappingList = (props: TestPanelMappingListProps) => {
@@ -243,7 +244,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               editable: false,
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -252,14 +253,14 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "dateActive",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+             // filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             { 
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -386,6 +387,9 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

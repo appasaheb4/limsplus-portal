@@ -691,7 +691,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -701,7 +701,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
               },
@@ -711,7 +711,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Expire",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>

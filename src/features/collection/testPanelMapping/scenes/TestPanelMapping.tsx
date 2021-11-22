@@ -26,7 +26,7 @@ const TestPanelMapping = observer(() => {
     masterPanelStore,
     testMasterStore,
     testPanelMappingStore,
-    routerStore
+    routerStore,
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -41,32 +41,36 @@ const TestPanelMapping = observer(() => {
       setValue("lab", stores.loginStore.login.lab)
       setValue("environment", stores.loginStore.login.environment)
     }
-  }, [stores.loginStore.login])  
-   
-  useEffect(()=>{
+  }, [stores.loginStore.login])
+
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    testPanelMappingStore && testPanelMappingStore.updateTestPanelMapping({
-        ...testPanelMappingStore.testPanelMapping,
-        status: status.code as string,
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    testPanelMappingStore && testPanelMappingStore.updateTestPanelMapping({
-      ...testPanelMappingStore.testPanelMapping,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      testPanelMappingStore &&
+        testPanelMappingStore.updateTestPanelMapping({
+          ...testPanelMappingStore.testPanelMapping,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      testPanelMappingStore &&
+        testPanelMappingStore.updateTestPanelMapping({
+          ...testPanelMappingStore.testPanelMapping,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   const onSubmitTestPanelMapping = () => {
     if (!testPanelMappingStore.checkExitsLabEnvCode) {
       if (
@@ -659,8 +663,8 @@ const TestPanelMapping = observer(() => {
             totalSize={testPanelMappingStore.listTestPanelMappingCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
-              listLabs:labStore.listLabs,
-              listMasterPanel:masterPanelStore.listMasterPanel
+              listLabs: labStore.listLabs,
+              listMasterPanel: masterPanelStore.listMasterPanel,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(stores.routerStore.userPermission),
@@ -711,6 +715,11 @@ const TestPanelMapping = observer(() => {
             onPageSizeChange={(page, limit) => {
               testPanelMappingStore.fetchTestPanelMapping(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              testPanelMappingStore.testPanelMappingService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}  
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

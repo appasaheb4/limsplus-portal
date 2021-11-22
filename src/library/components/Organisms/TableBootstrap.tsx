@@ -260,7 +260,7 @@ const TableBootstrap = ({
               <button
                 type="button"
                 key={column.dataField}
-                className={` btn btn-primary btn-sm ${
+                className={` btn btn-primary btn-sm whitespace-nowrap ${
                   column.toggle ? "active" : ""
                 }`}
                 data-toggle="button"
@@ -343,7 +343,7 @@ const TableBootstrap = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className={"mb-2 overflow-auto"}>
+                <div className={"mb-2 overflow-auto h-10"}>
                   <CustomToggleList
                     contextual="primary"
                     className="list-custom-class"

@@ -85,3 +85,36 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: TestPanelMappingInput!) {
+    filterTestPanelMappings(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateActiveTo
+        version
+        enteredBy
+        lab
+        panelCode
+        testCode
+        testName
+        description
+        bill
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

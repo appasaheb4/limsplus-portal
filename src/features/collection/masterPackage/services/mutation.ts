@@ -86,3 +86,36 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: PackageMasterInput!) {
+    filterPackageMaster(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateActiveTo
+        version
+        enteredBy
+        lab
+        packageCode
+        packageName
+        panelCode
+        panelName
+        bill
+        status
+        serviceType
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

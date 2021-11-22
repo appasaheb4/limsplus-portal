@@ -15,6 +15,7 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
 
 class TestPanelMappingService {
@@ -38,7 +39,7 @@ class TestPanelMappingService {
     })
 
   addTestPanelMapping = (variables: any) =>
-    new Promise<any>((resolve, reject) => {  
+    new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -138,6 +139,26 @@ class TestPanelMappingService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-}
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterTestPanelMappings.success)
+            return this.listTestPanelMapping()
+          stores.testPanelMappingStore.filterTestPanelMappingList(response.data)
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })  
+}   
 
 export default TestPanelMappingService
