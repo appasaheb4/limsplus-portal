@@ -1,15 +1,15 @@
 import { makeObservable, action, observable } from "mobx"
-import { version, ignore } from "mobx-sync"
+import { version } from "mobx-sync"
 import Session from "@lp/library/modules/session"
 import { stores } from "@lp/stores"
 
 @version(1.0)
 export class RootStore {
-  @ignore @observable processLoading: boolean
-  @ignore @observable session!: any
+  processLoading: boolean
+  session!: any
 
   //modals
-  @ignore @observable modalTokenExpire!: any
+  modalTokenExpire!: any
   constructor() {
     this.processLoading = false
     makeObservable<RootStore, any>(this, {

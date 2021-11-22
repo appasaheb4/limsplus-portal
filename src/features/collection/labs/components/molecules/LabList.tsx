@@ -19,6 +19,7 @@ interface LabListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const LabList = (props: LabListProps) => {
@@ -43,7 +44,8 @@ const LabList = (props: LabListProps) => {
               text: "Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable:false
+              editable:false,
+              headerClasses: "textHeader",
             },
             {
               dataField: "name",
@@ -51,14 +53,15 @@ const LabList = (props: LabListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "180px" },
-              editable:false
+              editable:false,
+              headerClasses: "textHeader",
             },
             {
               dataField: "country",
               text: "Country",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               editorRenderer: (
                 editorProps,
                 value,
@@ -99,7 +102,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "state",
               text: "State",
-              headerClasses: 'textHeader',
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -143,10 +146,10 @@ const LabList = (props: LabListProps) => {
             },
             {
               dataField: "district",
-              text: "District",  
+              text: "District",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               editorRenderer: (
                 editorProps,
                 value,
@@ -190,7 +193,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "city",
               text: "City",
-              headerClasses: 'textHeader',
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -238,7 +241,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "area",
               text: "Area",
-              headerClasses: 'textHeader',
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -287,7 +290,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "postalCode",
               text: "Postal Code",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -337,14 +340,14 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "address",
               text: "Address",
-              headerClasses: 'textHeader1',  
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "deliveryType",
               text: "Delivery Type",
-              headerClasses: 'textHeader2',  
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -384,7 +387,7 @@ const LabList = (props: LabListProps) => {
               text: "Sales Territory",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: 'textHeader3', 
+              headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
                 value,
@@ -424,7 +427,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "labLicence",
               text: "Lab Licence",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerStyle: { minWidth: "180px" },
@@ -437,7 +440,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "director",
               text: "Director",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               style : {textTransform: 'uppercase'},
@@ -448,21 +451,21 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "physician",
               text: "Physician",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "mobileNo",
               text: "Mobile No",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "contactNo",
               text: "Contact No",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -470,14 +473,14 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "speciality",
               text: "Speciality",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "labType",
               text: "Lab Type",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -516,7 +519,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "openingTime",
               text: "Opening Time",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -524,21 +527,21 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "closingTime",
               text: "Closing Time",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "email",
               text: "Email",
-              headerClasses: 'textHeader',
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "image",
               text: "Lab Log",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               csvExport: false,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
@@ -579,9 +582,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "autoRelease",
               text: "Auto Release",
-              headerClasses: 'textHeader2',
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -599,9 +600,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "requireReceveInLab",
               text: "Require Receve In Lab",
-              headerClasses: 'textHeader5',
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -623,9 +622,7 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "requireScainIn",
               text: "Require Scain In",
-              headerClasses: 'textHeader4',
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -644,13 +641,10 @@ const LabList = (props: LabListProps) => {
                 )
               },
             },
-
             {
               dataField: "routingDept",
               text: "Routing Dept",
-              headerClasses: 'textHeader3',
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -668,21 +662,21 @@ const LabList = (props: LabListProps) => {
             {
               dataField: "fyiLine",
               text: "Fyi Line",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "workLine",
               text: "Work Line",
-              headerClasses: 'textHeader1',
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: 'textHeader2',
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -756,7 +750,7 @@ const LabList = (props: LabListProps) => {
               ),
               headerClasses: "sticky right-0 bg-gray-500 text-white",
               classes: (cell, row, rowIndex, colIndex) => {
-                return "sticky right-0 bg-gray-500 z-49"
+                return "sticky right-0 bg-gray-500"
               },
             },
           ]}
@@ -772,7 +766,10 @@ const LabList = (props: LabListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
-          }}
+          }}  
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
+          }}   
         />
       </div>
     </>

@@ -41,30 +41,34 @@ const Lab = observer(() => {
     }
   }, [loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    labStore && labStore.updateLabs({
-        ...labStore.labs,
-        status: status.code as string,
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    labStore && labStore.updateLabs({
-      ...labStore.labs,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      labStore &&
+        labStore.updateLabs({
+          ...labStore.labs,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      labStore &&
+        labStore.updateLabs({
+          ...labStore.labs,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
 
   const onSubmitLab = () => {
     if (!labStore.checkExitsEnvCode) {
@@ -214,7 +218,8 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {(labStore.labs.country || administrativeDivisions.listAdministrativeDiv)  && (
+              {(labStore.labs.country ||
+                administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -253,7 +258,8 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {(labStore.labs.state ||  administrativeDivisions.listAdministrativeDiv) && (
+              {(labStore.labs.state ||
+                administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -293,7 +299,8 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {(labStore.labs.district || administrativeDivisions.listAdministrativeDiv) && (
+              {(labStore.labs.district ||
+                administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -334,8 +341,9 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {(labStore.labs.city || administrativeDivisions.listAdministrativeDiv) && (
-                <Controller  
+              {(labStore.labs.city ||
+                administrativeDivisions.listAdministrativeDiv) && (
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
@@ -376,7 +384,8 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              {(labStore.labs.area || administrativeDivisions.listAdministrativeDiv) && (
+              {(labStore.labs.area ||
+                administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -1076,6 +1085,11 @@ const Lab = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               labStore.fetchListLab(page, limit)
+            }}  
+            onFilter={(type, filter, page, limit) => {
+              labStore.LabService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

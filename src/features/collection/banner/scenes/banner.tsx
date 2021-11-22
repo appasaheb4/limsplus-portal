@@ -6,10 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
-import { Stores } from "../stores"
-import { stores } from "@lp/stores"
 import { RouterFlow } from "@lp/flows"
-import { AssetsService } from "@lp/features/assets/services"
 
 import { useStores } from "@lp/stores"
 import { useEffect } from "react"
@@ -21,59 +18,58 @@ const Banner = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore,routerStore } = useStores()
+  const { loginStore, routerStore, bannerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddBanner, setHideAddBanner] = useState<boolean>(true)
 
   useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      Stores.bannerStore.updateBanner({
-        ...Stores.bannerStore.banner,
-        environment: stores.loginStore.login.environment,
+    if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
+      bannerStore.updateBanner({
+        ...bannerStore.banner,
+        environment: loginStore.login.environment,
       })
-      setValue("environment", stores.loginStore.login.environment)
+      setValue("environment", loginStore.login.environment)
     }
-  }, [stores.loginStore.login])
+  }, [loginStore.login])
 
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      Stores.bannerStore.updateBanner({
-        ...Stores.bannerStore.banner,
-        environment: environment.code as string
+  useEffect(() => {
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
       })
-      setValue("environment",environment.code as string)
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      bannerStore.updateBanner({
+        ...bannerStore.banner,
+        environment: environment.code as string,
+      })
+      setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
 
   const onSubmitBanner = () => {
-    Stores.bannerStore.BannerService.addBanner(Stores.bannerStore.banner).then(
-      (res) => {
-        if (res.createBanner.success) {
-          LibraryComponents.Atoms.Toast.success({
-            message: `😊 ${res.createBanner.message}`,
-          })
-          
-        }
-        setTimeout(() => {
-          // Stores.bannerStore.fetchListBanner()
-          window.location.reload()
-        }, 1000)
+    bannerStore.BannerService.addBanner(bannerStore.banner).then((res) => {
+      if (res.createBanner.success) {
+        LibraryComponents.Atoms.Toast.success({
+          message: `😊 ${res.createBanner.message}`,
+        })
       }
-    )
+      setTimeout(() => {
+        // bannerStore.fetchListBanner()
+        window.location.reload()
+      }, 1000)
+    })
   }
 
   return (
     <>
       <LibraryComponents.Atoms.Header>
         <LibraryComponents.Atoms.PageHeading
-          title={stores.routerStore.selectedComponents?.title || ""}
+          title={routerStore.selectedComponents?.title || ""}
         />
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
-      {RouterFlow.checkPermission(stores.routerStore.userPermission, "Add") && (
+      {RouterFlow.checkPermission(routerStore.userPermission, "Add") && (
         <LibraryComponents.Atoms.Buttons.ButtonCircleAddRemove
           show={hideAddBanner}
           onClick={() => setHideAddBanner(!hideAddBanner)}
@@ -99,11 +95,11 @@ const Banner = observer(() => {
                     label="Title"
                     placeholder={errors.title ? "Please Enter Title" : "Title"}
                     hasError={errors.title}
-                    value={Stores.bannerStore.banner?.title}
+                    value={bannerStore.banner?.title}
                     onChange={(title) => {
                       onChange(title)
-                      Stores.bannerStore.updateBanner({
-                        ...Stores.bannerStore.banner,
+                      bannerStore.updateBanner({
+                        ...bannerStore.banner,
                         title,
                       })
                     }}
@@ -123,11 +119,10 @@ const Banner = observer(() => {
                     onChange={(e) => {
                       const image = e.target.files[0]
                       onChange(image)
-                      Stores.bannerStore.updateBanner({
-                        ...Stores.bannerStore.banner,
+                      bannerStore.updateBanner({
+                        ...bannerStore.banner,
                         image,
                       })
-                      
                     }}
                   />
                 )}
@@ -140,10 +135,9 @@ const Banner = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
-                      value={Stores.bannerStore.banner?.environment}
+                      value={bannerStore.banner?.environment}
                       disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -153,20 +147,19 @@ const Banner = observer(() => {
                       onChange={(e) => {
                         const environment = e.target.value
                         onChange(environment)
-                        Stores.bannerStore.updateBanner({
-                          ...Stores.bannerStore.banner,
+                        bannerStore.updateBanner({
+                          ...bannerStore.banner,
                           environment,
                         })
                       }}
                     >
                       <option selected>
-                        {stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
-                          : Stores.bannerStore.banner?.environment || `Select`}
+                          : bannerStore.banner?.environment || `Select`}
                       </option>
                       {LibraryUtils.lookupItems(
-                        stores.routerStore.lookupItems,
+                        routerStore.lookupItems,
                         "ENVIRONMENT"
                       ).map((item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -206,17 +199,17 @@ const Banner = observer(() => {
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <FeatureComponents.Molecules.BannerList
-            data={Stores.bannerStore.listBanner || []}
-            totlaSize={Stores.bannerStore.listBannerCount}
+            data={bannerStore.listBanner || []}
+            totlaSize={bannerStore.listBannerCount}
             extraData={{
-              lookupItems: stores.routerStore.lookupItems,
+              lookupItems: routerStore.lookupItems,
             }}
             isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Delete"
             )}
             isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
+              routerStore.userPermission,
               "Edit/Modify"
             )}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
@@ -248,7 +241,12 @@ const Banner = observer(() => {
               })
             }}
             onPageSizeChange={(page, limit) => {
-              Stores.bannerStore.fetchListBanner(page, limit)
+              bannerStore.fetchListBanner(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              bannerStore.BannerService.filterBanners({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>
@@ -256,7 +254,7 @@ const Banner = observer(() => {
           {...modalConfirm}
           click={(type: string) => {
             if (type === "Delete") {
-              Stores.bannerStore.BannerService.deleteBanner({
+              bannerStore.BannerService.deleteBanner({
                 input: { id: modalConfirm.id },
               }).then((res: any) => {
                 if (res.removeBanner.success) {
@@ -264,11 +262,11 @@ const Banner = observer(() => {
                     message: `😊 ${res.removeBanner.message}`,
                   })
                   setModalConfirm({ show: false })
-                  Stores.bannerStore.fetchListBanner() 
+                  bannerStore.fetchListBanner()
                 }
               })
             } else if (type === "Update") {
-              Stores.bannerStore.BannerService.updateSingleFiled({
+              bannerStore.BannerService.updateSingleFiled({
                 input: {
                   _id: modalConfirm.data.id,
                   [modalConfirm.data.dataField]: modalConfirm.data.value,
@@ -278,27 +276,26 @@ const Banner = observer(() => {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateBanner.message}`,
                   })
-                  Stores.bannerStore.fetchListBanner()  
-                  // setModalConfirm({ show: false })             
+                  bannerStore.fetchListBanner()
+                  // setModalConfirm({ show: false })
                 }
-              }) 
+              })
             } else {
-              Stores.bannerStore.BannerService.updateBannerImage({
+              bannerStore.BannerService.updateBannerImage({
                 input: {
                   _id: modalConfirm.data.id,
                   file: modalConfirm.data.value,
-                  containerName:'banner'
-                },  
+                  containerName: "banner",
+                },
               }).then((res: any) => {
                 if (res.updateBannerImage.success) {
                   LibraryComponents.Atoms.Toast.success({
                     message: `😊 ${res.updateBannerImage.message}`,
                   })
-                 setTimeout(() => {
-                  Stores.bannerStore.fetchListBanner()
-                 }, 2000);
-                 
-                }   
+                  setTimeout(() => {
+                    bannerStore.fetchListBanner()
+                  }, 2000)
+                }
               })
             }
           }}
