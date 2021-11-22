@@ -49,6 +49,8 @@ const MethodsList = (props: MethodsListProps) => {
           text: "Description",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
+          style:{textTransform:"uppercase"},
+              editorStyle:{textTransform:"uppercase"}
         },
         {
           dataField: "status",

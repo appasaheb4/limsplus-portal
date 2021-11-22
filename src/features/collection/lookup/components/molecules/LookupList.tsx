@@ -84,6 +84,8 @@ const LookupList = (props: LookupListProps) => {
             dataField: "fieldName",
             text: "Field Name",
             sort: true,
+            style:{textTransform:"uppercase"},
+            editorStyle:{textTransform:"uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {

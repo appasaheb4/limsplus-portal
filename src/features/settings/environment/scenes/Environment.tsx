@@ -76,9 +76,9 @@ const Environment = observer(() => {
                   message: `😊 ${res.updateEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                setTimeout(() => {
-                  window.location.reload()
-                }, 1000)
+                environmentStore.fetchEnvironment({ type: "environmentVariable" })
+                environmentStore.fetchEnvironment({ type: "environmentSettings" })
+                
               }
             })
           }

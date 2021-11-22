@@ -310,6 +310,9 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorStyle: {
+                textTransform: 'uppercase'
+              }
             },
             {
               dataField: "price",
@@ -747,6 +750,9 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorStyle: {
+                textTransform: 'uppercase'
+              }
             },
 
             {
@@ -879,6 +885,7 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              
             },
             {
               dataField: "specalInstructions",
@@ -886,6 +893,9 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+              editorStyle: {
+                textTransform: 'uppercase'
+              }
             },
 
             {
