@@ -17,6 +17,7 @@ interface MasterAnalyteProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const MasterAnalyteList = (props: MasterAnalyteProps) => {
@@ -153,11 +154,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               style:{textTransform:"uppercase"},
               editorStyle:{textTransform:"uppercase"}
             },
-            {
+            {  
               dataField: "price",
               text: "Price",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -724,14 +725,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-            },
-            {
-              dataField: "keyNum",
-              editable: false,
-              text: "Key Num",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "environment",
@@ -859,6 +853,9 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
+          }}  
         />
       </div>
     </>

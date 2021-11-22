@@ -713,7 +713,6 @@ const TestAnalyteMapping = observer(() => {
               toJS(stores.routerStore.userPermission),
               "Edit/Modify"
             )}
-            // isEditModify={false}
             onDelete={(selectedItem) => setModalConfirm(selectedItem)}
             onSelectedRow={(rows) => {
               setModalConfirm({
@@ -753,6 +752,11 @@ const TestAnalyteMapping = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              testAnalyteMappingStore.testAnalyteMappingService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

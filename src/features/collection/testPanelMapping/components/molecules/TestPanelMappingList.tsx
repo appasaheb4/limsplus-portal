@@ -255,16 +255,9 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
-            {
+            { 
               dataField: "version",
               text: "Version",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable: false,
-            },
-            {
-              dataField: "keyNum",
-              text: "Key Num",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,

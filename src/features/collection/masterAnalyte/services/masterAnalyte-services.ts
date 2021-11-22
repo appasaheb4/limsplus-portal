@@ -15,6 +15,7 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER
 } from "./mutation"
 
 class MasterAnalyteService {
@@ -123,6 +124,25 @@ class MasterAnalyteService {
         .then((response: any) => {
           resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterAnalyteMaster.success)
+            return this.listAnalyteMaster()
+          stores.masterAnalyteStore.filterMasterAnalyteList(response.data)
+          stores.uploadLoadingFlag(false)
+          resolve(response.data)
+        })  
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

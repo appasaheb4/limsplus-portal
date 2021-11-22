@@ -560,13 +560,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
-            dataField: "keyNum",
-            editable: false,
-            text: "Key Num",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-          },
-          {
             dataField: "enteredBy",
             editable: false,
             text: "Entered By",

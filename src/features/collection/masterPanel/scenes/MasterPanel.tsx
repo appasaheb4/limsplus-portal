@@ -1582,6 +1582,11 @@ const MasterPanel = observer(() => {
             onPageSizeChange={(page, limit) => {
               masterPanelStore.fetchPanelMaster(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              masterPanelStore.masterPanelService.filter({
+                input: { type, filter, page, limit },
+              })  
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
