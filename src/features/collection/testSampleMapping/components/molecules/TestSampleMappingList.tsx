@@ -34,6 +34,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "testCode",
               text: "Test Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -71,6 +72,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "sampleCode",
               text: "Sample Code",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -108,6 +110,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "sampleType",
               text: "Sample Type",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -145,6 +148,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "sampleGroup",
               text: "Sample Group",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -182,6 +186,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "collContainerCode",
               text: "Coll Container Code",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -224,6 +229,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "collContainerName",
               text: "Coll Container Name",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -266,6 +272,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "testContainerCode",
               text: "Test Container Code",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -308,6 +315,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "testContainerName",
               text: "Test Container Name",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -351,7 +359,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "primaryContainer",
               text: "Primary Container",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -374,7 +381,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "uniqueContainer",
               text: "Unique Container",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -398,7 +404,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "centerIfuge",
               text: "CenterIfuge",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -417,7 +422,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "aliquot",
               text: "Aliquot",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -438,7 +442,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "labSpecfic",
               text: "Lab Specfic",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -458,7 +461,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "departmentSpecfic",
               text: "Department Specfic",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -482,7 +484,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "sharedSample",
               text: "Shared Sample",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -501,6 +502,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "minDrawVol",
               text: "Min Draw Vol",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -508,6 +510,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "minDrawVolUnit",
               text: "Min Draw Vol Unit",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -549,12 +552,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "minTestVol",
               text: "Min Test Vol",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "minTestVolUnit",
               text: "Min Test Vol Unit",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -596,12 +601,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "condition",
               text: "Condition",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "repentionPeriod",
               text: "Repention Period",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -609,6 +616,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "repentionUnits",
               text: "Repention Units",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -650,6 +658,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "labelInst",
               text: "Label Inst",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -658,7 +667,6 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               dataField: "printLabels",
               text: "Print Labels",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -676,12 +684,14 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "info",
               text: "Info",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

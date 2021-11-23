@@ -33,6 +33,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "interfaceType",
           text: "Interface Type",
+          headerClasses: "textHeader",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -60,6 +61,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "instrumentType",
           text: "Instrument Type",
+          headerClasses: "textHeader1",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -87,6 +89,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "instrumentName",
           text: "Instrument Name",
+          headerClasses: "textHeader1",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -114,6 +117,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "dataFlowFrom",
           text: "Data Flow From",
+          headerClasses: "textHeader2",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           headerStyle: { minWidth: "200px" },
@@ -169,6 +173,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "communicationProtocol",
           text: "Communication Protocol",
+          headerClasses: "textHeader1",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -203,6 +208,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "block",
           text: "Block",
+          headerClasses: "textHeader2",
           sort: true,
           formatter: (cellContent, row) => (
             <>
@@ -309,6 +315,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "fileds",
           text: "Fileds",
+          headerClasses: "textHeader3",
           sort: true,
           formatter: (cellContent, row) => (
             <>
@@ -484,6 +491,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "environment",
           text: "Environment",
+          headerClasses: "textHeader",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
