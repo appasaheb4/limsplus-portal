@@ -135,6 +135,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "mobileNo",
             text: "Mobile No",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -142,6 +143,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "contactNo",
             text: "Contact No",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -245,6 +247,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "fyiLine",
             text: "Fyi Line",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -252,6 +255,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "workLine",
             text: "Work Line",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -259,6 +263,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "status",
             text: "Status",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -297,6 +302,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

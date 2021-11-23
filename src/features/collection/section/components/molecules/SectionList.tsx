@@ -36,6 +36,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "departmentCode",
             text: "Department Code",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -74,6 +75,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "code",
             text: "Code",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -81,6 +83,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "name",
             text: "Name",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -88,6 +91,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "shortName",
             text: "Short Name",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -97,6 +101,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "sectionInCharge",
             text: "Section In Charge",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -104,6 +109,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "mobieNo",
             text: "Mobie No",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -111,6 +117,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "contactNo",
             text: "Contact No",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -118,6 +125,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "fyiLine",
             text: "Fyi Line",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -125,6 +133,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "workLine",
             text: "Work Line",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -132,6 +141,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "status",
             text: "Status",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -170,6 +180,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

@@ -42,6 +42,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "lab",
               text: "Lab",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -79,6 +80,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteCode",
               text: "Analyte Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -86,18 +88,18 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteName",
               text: "Analyte Name",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
-              headerStyle: { minWidth: "200px" }
             },
             {
               dataField: "description",
               text: "Description",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-              headerStyle: { minWidth: "200px" },
               editorRenderer: (
                 editorProps,
                 value,
@@ -122,7 +124,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "method",
               text: "Method",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -141,6 +142,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteMethod",
               text: "Analyte Method",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -148,6 +150,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "shortName",
               text: "Short Name",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -187,7 +190,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -206,6 +208,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "high",
               text: "High",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -213,6 +216,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "low",
               text: "Low",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -221,7 +225,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "display",
               text: "Display",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -240,6 +243,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "resultType",
               text: "Result Type",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -279,7 +283,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "calculationFlag",
               text: "Calculation Flag",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -302,6 +305,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteType",
               text: "Analyte Type",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -340,6 +344,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "units",
               text: "Units",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -378,6 +383,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "usage",
               text: "Usage",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -416,6 +422,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "picture",
               text: "picture",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -452,7 +459,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "repetition",
               text: "Repetition",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -472,7 +478,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "autoRelease",
               text: "Auto Release",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -492,7 +497,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "holdOOS",
               text: "Hold OOS",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -512,7 +516,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "instantResult",
               text: "Instant Result",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -533,7 +536,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "pageBreak",
               text: "Page Break",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -630,6 +632,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "calcyName",
               text: "Calcy Name",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -637,6 +640,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "cptCode",
               text: "CPT Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -644,6 +648,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "status",
               text: "Status",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -683,6 +688,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "enteredBy",
               editable: false,
               text: "Entered By",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -691,7 +697,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Creation",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -701,7 +706,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Active",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
               },
@@ -711,7 +715,6 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Date Expire",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -725,11 +728,11 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               text: "Version",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
