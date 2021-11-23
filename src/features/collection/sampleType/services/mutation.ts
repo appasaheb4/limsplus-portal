@@ -66,3 +66,25 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: SampleTypeInput!) {
+    filterSampleTypes(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        sampleCode
+        sampleType
+        descriptions
+        sampleGroup
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

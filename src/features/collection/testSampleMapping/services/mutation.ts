@@ -78,3 +78,46 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: TestSampleMappingInput!) {
+    filterTestSampleMappings(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        testCode
+        sampleCode
+        sampleType
+        sampleGroup
+        collContainerCode
+        collContainerName
+        testContainerCode
+        testContainerName
+        primaryContainer
+        uniqueContainer
+        centerIfuge
+        aliquot
+        labSpecfic
+        departmentSpecfic
+        sharedSample
+        minDrawVol
+        minDrawVolUnit
+        minTestVol
+        minTestVolUnit
+        condition
+        repentionPeriod
+        repentionUnits
+        labelInst
+        printLabels
+        info
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

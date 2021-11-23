@@ -14,8 +14,9 @@ import {
   DUPLICATE_RECORD,
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
-import * as Model from '../models'
+import * as Model from "../models"
 
 class RegistrationLocationsService {
   listRegistrationLocations = (page = 0, limit = 10) =>
@@ -23,13 +24,15 @@ class RegistrationLocationsService {
       const env = stores.loginStore.login && stores.loginStore.login.environment
       const role = stores.loginStore.login && stores.loginStore.login.role
       const lab = stores.loginStore.login && stores.loginStore.login.lab
-      client 
+      client
         .mutate({
           mutation: LIST,
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          stores.registrationLocationsStore.updateRegistrationLocationsList(response.data)
+          stores.registrationLocationsStore.updateRegistrationLocationsList(
+            response.data
+          )
           resolve(response.data)
         })
         .catch((error) =>
@@ -45,7 +48,9 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
+          stores.registrationLocationsStore.updateRegistrationLocations(
+            new Model.RegistrationLocations({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -60,11 +65,12 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
+          stores.registrationLocationsStore.updateRegistrationLocations(
+            new Model.RegistrationLocations({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-
         )
     })
   duplicateRegistrationLocations = (variables: any) =>
@@ -76,7 +82,9 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
+          stores.registrationLocationsStore.updateRegistrationLocations(
+            new Model.RegistrationLocations({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -106,7 +114,9 @@ class RegistrationLocationsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.registrationLocationsStore.updateRegistrationLocations(new Model.RegistrationLocations({}))
+          stores.registrationLocationsStore.updateRegistrationLocations(
+            new Model.RegistrationLocations({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -127,6 +137,26 @@ class RegistrationLocationsService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+  
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })  
+        .then((response: any) => {
+          if (!response.data.filterRegistrationLocations.success)
+            return this.listRegistrationLocations()
+          stores.registrationLocationsStore.filterRegistrationLocationList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })   
 }
 
 export default RegistrationLocationsService

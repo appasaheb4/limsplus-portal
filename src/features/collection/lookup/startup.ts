@@ -1,6 +1,6 @@
-import {Stores} from './stores';
+import {stores} from '@lp/stores';
 const startup = async () => {
-    Stores.lookupStore.fetchListLookup();
+    stores.lookupStore.fetchListLookup();
 }
 
 export default startup;

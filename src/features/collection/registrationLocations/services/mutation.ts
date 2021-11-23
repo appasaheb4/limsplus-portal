@@ -115,3 +115,65 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+  
+export const FILTER = gql`
+  mutation($input: RegistrationLocationInput!) {
+    filterRegistrationLocations(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateExpire
+        version
+        enteredBy
+        locationCode
+        locationName
+        address
+        city
+        state
+        country
+        postcode
+        customerGroup
+        category
+        confidential
+        telephone
+        mobileNo
+        email
+        deliveryType
+        deliveryMethod
+        corporateCode
+        invoiceAc
+        labLicence
+        printLabel
+        methodColn
+        workHrs
+        salesTerritoRy
+        area
+        zone
+        route
+        lab
+        location
+        neverBill
+        edi
+        ediAddress
+        urgent
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

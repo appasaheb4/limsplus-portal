@@ -16,6 +16,7 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
 
 class CorporateClientsService {
@@ -45,7 +46,9 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
+          stores.corporateClientsStore.updateCorporateClients(
+            new Models.CorporateClients({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -60,7 +63,9 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
+          stores.corporateClientsStore.updateCorporateClients(
+            new Models.CorporateClients({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -75,7 +80,9 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
+          stores.corporateClientsStore.updateCorporateClients(
+            new Models.CorporateClients({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -105,12 +112,14 @@ class CorporateClientsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.corporateClientsStore.updateCorporateClients(new Models.CorporateClients({}))
+          stores.corporateClientsStore.updateCorporateClients(
+            new Models.CorporateClients({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
-    })  
+    })
   checkExistsEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -119,6 +128,26 @@ class CorporateClientsService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterCorporateClient.success)
+            return this.listCorporateClients()
+          stores.corporateClientsStore.filterCorporateClientsList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

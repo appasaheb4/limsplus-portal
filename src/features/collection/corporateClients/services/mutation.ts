@@ -109,3 +109,59 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: CorporateClientInput!) {
+    filterCorporateClient(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateExpire
+        version
+        enteredBy
+        corporateCode
+        corporateName
+        invoiceAc
+        priceList
+        priceGroup
+        billingOn
+        address
+        city
+        state
+        country
+        postcode
+        customerGroup
+        category
+        confidential
+        telephone
+        mobileNo
+        email
+        deliveryType
+        deliveryMethod
+        salesTerritoRy
+        area
+        zone
+        edi
+        ediAddress
+        urgent
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

@@ -19,6 +19,7 @@ interface RegistrationLocationsListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const RegistrationLocationsList = 
@@ -93,7 +94,7 @@ const RegistrationLocationsList =
               text: "Postcode",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -413,7 +414,7 @@ const RegistrationLocationsList =
               text: "Work Hrs",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -858,6 +859,9 @@ const RegistrationLocationsList =
           }}
           onPageSizeChange={(page,size)=>{
             props.onPageSizeChange && props.onPageSizeChange(page,size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

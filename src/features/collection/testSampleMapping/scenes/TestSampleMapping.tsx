@@ -1000,6 +1000,11 @@ const TestSampleMapping = observer(() => {
             onPageSizeChange={(page, limit) => {
               testSampleMappingStore.fetchSampleTypeList(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              testSampleMappingStore.testSampleMappingService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
