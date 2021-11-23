@@ -318,7 +318,7 @@ const SampleType = observer(() => {
                 id: rows,
                 title: "Are you sure?",
                 body: `Delete selected items!`,
-              })
+              })  
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
               setModalConfirm({
@@ -331,6 +331,11 @@ const SampleType = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               sampleTypeStore.fetchSampleTypeList(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              sampleTypeStore.sampleTypeService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

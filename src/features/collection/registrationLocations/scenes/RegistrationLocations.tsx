@@ -1494,6 +1494,11 @@ const RegistrationLocation = observer(() => {
             onPageSizeChange={(page, limit) => {
               registrationLocationsStore.fetchRegistrationLocations(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              registrationLocationsStore.registrationLocationsService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

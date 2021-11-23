@@ -115,3 +115,66 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: DoctorInput!) {
+    filterDoctors(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        existsVersionId
+        existsRecordId
+        dateCreation
+        dateActiveFrom
+        dateExpire
+        version
+        enteredBy
+        doctorCode
+        doctorName
+        sex
+        title
+        firstName
+        middleName
+        lastName
+        reportName
+        address
+        city
+        state
+        country
+        postcode
+        doctorType
+        speciality
+        confidential
+        salesTerritoRy
+        area
+        zone
+        telephone
+        mobileNo
+        email
+        workHours
+        deliveryType
+        deliveryMethod
+        edi
+        ediAddress
+        urgent
+        registrationLocation
+        lab
+        location
+        schedule
+        reportFormat
+        info
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

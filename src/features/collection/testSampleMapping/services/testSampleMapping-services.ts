@@ -7,7 +7,14 @@
 import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD,CHECK_EXISTS_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORDS,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+  FILTER,
+} from "./mutation"
 
 class TestSampleMappingService {
   listTestSampleMapping = (page = 0, limit = 10) =>
@@ -37,7 +44,9 @@ class TestSampleMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testSampleMappingStore.updateSampleType(new Models.TestSampleMapping({}))
+          stores.testSampleMappingStore.updateSampleType(
+            new Models.TestSampleMapping({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -67,7 +76,9 @@ class TestSampleMappingService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.testSampleMappingStore.updateSampleType(new Models.TestSampleMapping({}))
+          stores.testSampleMappingStore.updateSampleType(
+            new Models.TestSampleMapping({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -82,6 +93,25 @@ class TestSampleMappingService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterTestSampleMappings.success) return this.listTestSampleMapping()
+          stores.testSampleMappingStore.filterTestSampleMappingList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

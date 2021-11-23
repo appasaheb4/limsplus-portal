@@ -1,9 +1,9 @@
-import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as ModelsSection from "@lp/features/collection/section/models"
-@version(0.1)
+
+
 export class TestMasterStore {
   testMaster!: Models.TestMaster
   listTestMaster!: Models.TestMaster[]
@@ -57,15 +57,15 @@ export class TestMasterStore {
     })  
   }
 
-  @computed get testMasterService() {
+   get testMasterService() {
     return new Services.TestMasterService()
   }
 
-  @action fetchTestMaster(page?, limit?) {
+   fetchTestMaster(page?, limit?) {
     this.testMasterService.listTestMaster(page, limit)
   }
 
-  @action updateTestMasterList(res: any) {
+   updateTestMasterList(res: any) {
     if (!res.testMasters.success) return alert(res.testMasters.message)
     this.listTestMaster = res.testMasters.data
     this.listTestMasterCount = res.testMasters.paginatorInfo.count
@@ -76,21 +76,21 @@ export class TestMasterStore {
     this.listTestMasterCount = res.filterTestMaster.paginatorInfo.count
   }
 
-  @action findSectionListByDeptCode = (code: string) => {
+   findSectionListByDeptCode = (code: string) => {
     this.testMasterService.findSectionListByDeptCode(code)
   }
 
-  @action updateSectionListByDeptCode(res: any) {
+   updateSectionListByDeptCode(res: any) {
     if (!res.findSectionListByDeptCode.success)
       return alert(`${res.findSectionListByDeptCode.message}`)
     this.sectionListByDeptCode = res.findSectionListByDeptCode.data
   }
 
-  @action updateTestMaster(test: Models.TestMaster) {
+   updateTestMaster(test: Models.TestMaster) {
     this.testMaster = test
   }
 
-  @action updateExistsLabEnvCode = (status: boolean) => {
+   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
 }

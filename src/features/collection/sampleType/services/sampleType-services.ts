@@ -7,7 +7,14 @@
 import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD, REMOVE_RECORDS, UPDATE_RECORD, CHECK_EXISTS_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  REMOVE_RECORDS,
+  UPDATE_RECORD,
+  CHECK_EXISTS_RECORD,
+  FILTER,
+} from "./mutation"
 
 class SampleTypeService {
   listSampleType = (page = 0, limit = 10) =>
@@ -45,16 +52,16 @@ class SampleTypeService {
   deleteSampleType = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-      .mutate({
-        mutation: REMOVE_RECORDS,
-        variables,
-      })
-      .then((response: any) => {
-        resolve(response.data)
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
+        .mutate({
+          mutation: REMOVE_RECORDS,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
@@ -82,6 +89,25 @@ class SampleTypeService {
         .then((response: any) => {
           resolve(response.data)
         })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client    
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterSampleTypes.success) return this.listSampleType()
+          stores.sampleTypeStore.filterSampleTypeList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })  
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

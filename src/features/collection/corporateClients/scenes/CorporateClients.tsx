@@ -1251,6 +1251,11 @@ const CorporateClients = observer(() => {
             onPageSizeChange={(page, limit) => {
               corporateClientsStore.fetchCorporateClients(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              corporateClientsStore.corporateClientsService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

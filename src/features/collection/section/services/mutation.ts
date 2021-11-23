@@ -88,3 +88,32 @@ export const FIND_SECTIONLISTBY_DEPTCODE = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: SectionInput!) {
+    filterSections(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        departmentCode
+        code
+        name
+        shortName
+        sectionInCharge
+        mobileNo
+        contactNo
+        fyiLine
+        workLine
+        status
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

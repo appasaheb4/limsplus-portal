@@ -19,6 +19,7 @@ interface RegistrationLocationsListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const RegistrationLocationsList = 
@@ -86,7 +87,7 @@ const RegistrationLocationsList =
               dataField: "postcode",
               text: "Postcode",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -396,7 +397,7 @@ const RegistrationLocationsList =
               dataField: "workHrs",
               text: "Work Hrs",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -689,7 +690,7 @@ const RegistrationLocationsList =
               dataField: "dateCreation",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -704,7 +705,7 @@ const RegistrationLocationsList =
               dataField: "dateActiveFrom",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -719,7 +720,7 @@ const RegistrationLocationsList =
               dataField: "dateExpire",
               text: "Date Expire",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -734,7 +735,7 @@ const RegistrationLocationsList =
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -831,6 +832,9 @@ const RegistrationLocationsList =
           }}
           onPageSizeChange={(page,size)=>{
             props.onPageSizeChange && props.onPageSizeChange(page,size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>
