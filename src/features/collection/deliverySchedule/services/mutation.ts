@@ -89,3 +89,39 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+   
+export const FILTER = gql`
+  mutation($input: DeliverySchduleInput!) {
+    filterDeliverySchdule(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        schCode
+        sundayProcessing
+        holidayProcessing
+        sundayReporting
+        holidayReporting
+        pStartTime
+        pEndTime
+        cutofTime
+        secoundCutofTime
+        processingType
+        schFrequency
+        reportOn
+        dynamicRT
+        dynamicTU
+        fixedRT
+        onTime
+        schForDept
+        schForPat
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
