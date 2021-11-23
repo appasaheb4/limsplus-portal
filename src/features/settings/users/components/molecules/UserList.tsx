@@ -43,7 +43,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "UserId",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editable: false,
             },
             {
@@ -51,7 +51,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Emp Code",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editable:false
             },
             {
@@ -59,7 +59,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Default Lab",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editorRenderer: (
                 editorProps,
                 value,
@@ -93,7 +93,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "lab",
               text: "Lab",
               sort: true,
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -133,7 +133,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Deginisation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editorRenderer: (
                 editorProps,
                 value,
@@ -170,7 +170,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -210,7 +210,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Validation Level",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editorRenderer: (
                 editorProps,
                 value,
@@ -249,21 +249,21 @@ export const UserList = observer((props: UserListProps) => {
               text: "Work Station",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "ipAddress",
               text: "IP Address",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "fullName",
               text: "Full Name",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               style:{textTransform:"uppercase"},
               editorStyle:{textTransform:"uppercase"}
             },
@@ -272,35 +272,35 @@ export const UserList = observer((props: UserListProps) => {
               text: "Mobile No",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "contactNo",
               text: "Contact No",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "email",
               text: "Email",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "userDegree",
               text: "User Degree",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
             },
             {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
               },
@@ -331,7 +331,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Marriage Anniversery Date",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
               },
@@ -362,7 +362,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "exipreDate",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format("YYYY-MM-DD")
               },
@@ -392,7 +392,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -435,8 +435,6 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
@@ -454,7 +452,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Date Creation",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
@@ -465,7 +463,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Created  By",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editable: false,
             },
             {
@@ -544,7 +542,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "status",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editorRenderer: (
                 editorProps,
                 value,
@@ -582,7 +580,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Environment",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editorRenderer: (
                 editorProps,
                 value,
@@ -620,8 +618,6 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "confirguration",
               text: "Confirguration",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.Toggle
@@ -638,8 +634,6 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "systemInfo",
               text: "System Info",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper
@@ -700,7 +694,7 @@ export const UserList = observer((props: UserListProps) => {
             {
               dataField: "opration",
               text: "Password Re-Send",
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               editable: false,
               csvExport: false,
               formatter: (cellContent, row) => (
@@ -739,7 +733,7 @@ export const UserList = observer((props: UserListProps) => {
             {
               dataField: "opration",
               text: "Change Password",
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader",
               csvExport: false,
               editable: false,
               formatter: (cellContent, row) => (

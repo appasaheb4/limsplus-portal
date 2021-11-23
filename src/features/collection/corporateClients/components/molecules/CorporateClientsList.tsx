@@ -36,6 +36,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "corporateCode",
             text: "Corporate Code",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -43,6 +44,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "corporateName",
             text: "Corporate Name",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -50,12 +52,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "invoiceAc",
             text: "Invoice Ac",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "priceList",
             text: "Price List",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -90,48 +94,56 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "priceGroup",
             text: "Price Group",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "billingOn",
             text: "Billing On",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "address",
             text: "Address",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "city",
             text: "City",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "state",
             text: "State",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "country",
             text: "Country",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "postcode",
             text: "Postcode",
+            headerClasses: "textHeader",
             sort: true,
             //filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "customerGroup",
             text: "Customer Group",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -170,6 +182,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "category",
             text: "Category",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -208,7 +221,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -227,24 +239,28 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "telephone",
             text: "Telephone",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "mobileNo",
             text: "Mobile No",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "email",
             text: "Email",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "deliveryType",
             text: "Delivery Type",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -282,6 +298,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "deliveryMethod",
             text: "Delivery Method",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -319,6 +336,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "salesTerritoRy",
             text: "Sales TerritoRy",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -356,24 +374,28 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "area",
             text: "Area",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "zone",
             text: "Zone",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "edi",
             text: "EDI",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "ediAddress",
             text: "EDI Address",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -381,7 +403,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "urgent",
             text: "Urgent",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -401,12 +422,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "workHours",
             text: "Work Hours",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "schedule",
             text: "Schedule",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -442,30 +465,35 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "reportFormat",
             text: "Report Format",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "info",
             text: "Info",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "fyiLine",
             text: "FYI Line",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "workLine",
             text: "Work Line",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "status",
             text: "Status",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -503,6 +531,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -543,7 +572,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             editable: false,
             text: "Date Creation",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -559,7 +587,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             editable: false,
             text: "Date Active",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -575,7 +602,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             editable: false,
             text: "Date Expire",
             sort: true,
-            // filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -591,11 +617,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
             editable: false,
             text: "Version",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "enteredBy",
             editable: false,
+            headerClasses: "textHeader",
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),

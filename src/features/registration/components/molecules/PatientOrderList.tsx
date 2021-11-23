@@ -35,48 +35,49 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "visitId",
             text: "Visit Id",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "packageCode",
             text: "Package Code",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "packageName",
             text: "Package Name",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "panelCode",
             text: "Panel Code",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "panelName",
             text: "Panel Name",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "bill",
             text: "Bill",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "serviceType",
             text: "Service Type",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -84,48 +85,49 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "department",
             text: "Department",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "section",
             text: "Section",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "rLab",
             text: "RLab",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "pLab",
             text: "PLab",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "outSourceLab",
             text: "Out Source Lab",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },
           {
             dataField: "currentDepartment",
             text: "Current Department",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: false
           },  
           {
             dataField: "dueDate",
             text: "Due Date",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -133,6 +135,7 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "resultDate",
             text: "Result Date",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -140,6 +143,7 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "status",
             text: "Status",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -147,6 +151,7 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "comments",
             text: "Comments",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -154,6 +159,7 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -161,7 +167,6 @@ const PatientOrderList = observer((props:PatientOrderListProps)=>{
           {
             dataField: "opration",
             text: "Action",
-            editable: false,
             csvExport: false,
             hidden: !props.isDelete,
             formatter: (cellContent, row) => (   

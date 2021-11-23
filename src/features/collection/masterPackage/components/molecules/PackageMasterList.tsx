@@ -43,6 +43,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "lab",
             text: "Lab",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -78,6 +79,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "packageCode",
             text: "Package Code",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -86,6 +88,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "packageName",
             text: "Package Name",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editor:false,
@@ -94,6 +97,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "panelCode",
             text: "Panel Code",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -101,6 +105,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "panelName",
             text: "Panel Name",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -109,7 +114,6 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "bill",
             text: "Bill",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return <>
@@ -127,6 +131,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "status",
             text: "Status",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -162,6 +167,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "enteredBy",
             text: "Entered By",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -171,7 +177,6 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             text: "Date Creation",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return (
                 <>
@@ -184,19 +189,18 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: "dateActive",
             text: "Date Active",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
           {
             dataField: "version",
             text: "Version",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
           },
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
