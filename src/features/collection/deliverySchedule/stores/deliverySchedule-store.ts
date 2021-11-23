@@ -1,15 +1,13 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as LibraryUtils from "@lp/library/utils"
 
-@version(0.1)
 export class DeliveryScheduleStore {
-  @ignore @observable deliverySchedule!: Models.DeliverySchedule
-  @observable listDeliverySchedule: Models.DeliverySchedule[]
-  @observable listDeliveryScheduleCount: number
-  @ignore @observable checkExistsEnvCode: boolean
+  deliverySchedule!: Models.DeliverySchedule
+  listDeliverySchedule: Models.DeliverySchedule[]
+  listDeliveryScheduleCount: number
+  checkExistsEnvCode: boolean
 
   constructor() {
     this.listDeliverySchedule = []
@@ -32,28 +30,40 @@ export class DeliveryScheduleStore {
       listDeliverySchedule: observable,
       listDeliveryScheduleCount: observable,
       checkExistsEnvCode: observable,
+
+      deliveryScheduleService: computed,
+      fetchDeliverySchedule: action,
+      updateDeliveryScheduleList: action,
+      updateDeliverySchedule: action,
+      updateExistsEnvCode: action,
+      filterDeliveryScheduleList: action
     })
   }
 
-  @computed get deliveryScheduleService() {
+  get deliveryScheduleService() {
     return new Services.DeliveryScheduleService()
   }
-
-  @action fetchDeliverySchedule(page?, limit?) {
+  
+  fetchDeliverySchedule(page?, limit?) {
     this.deliveryScheduleService.listDeliverySchdule(page, limit)
   }
 
-  @action updateDeliveryScheduleList(res: any) {
+  updateDeliveryScheduleList(res: any) {
     if (!res.deliverySchdules.success) return alert(res.deliverySchdules.message)
     this.listDeliverySchedule = res.deliverySchdules.data
     this.listDeliveryScheduleCount = res.deliverySchdules.paginatorInfo.count
   }
 
-  @action updateDeliverySchedule(deliverySchedule: Models.DeliverySchedule) {
+  filterDeliveryScheduleList(res: any){
+    this.listDeliverySchedule = res.filterDeliverySchdule.data
+    this.listDeliveryScheduleCount = res.filterDeliverySchdule.paginatorInfo.count
+  }  
+  
+  updateDeliverySchedule(deliverySchedule: Models.DeliverySchedule) {
     this.deliverySchedule = deliverySchedule
   }
 
-  @action updateExistsEnvCode(status: boolean) {
+  updateExistsEnvCode(status: boolean) {
     this.checkExistsEnvCode = status
   }
 }

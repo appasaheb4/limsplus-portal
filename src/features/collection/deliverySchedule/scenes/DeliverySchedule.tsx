@@ -668,7 +668,12 @@ const DeliverySchedule = observer(() => {
             onPageSizeChange={(page, limit) => {
               deliveryScheduleStore.fetchDeliverySchedule(page, limit)
             }}
-          />
+            onFilter={(type, filter, page, limit) => {
+              deliveryScheduleStore.deliveryScheduleService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />   
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
