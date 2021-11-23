@@ -285,7 +285,7 @@ const TestMasterList = (props: TestMasterProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,

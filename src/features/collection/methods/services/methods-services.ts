@@ -7,7 +7,14 @@
 import * as Models from "../models"
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 import { stores } from "@lp/stores"
-import { LIST, CREATE_RECORD,UPDATE_RECORD, REMOVE_RECORD,CHECK_EXISTS_RECORD } from "./mutation"
+import {
+  LIST,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  REMOVE_RECORD,
+  CHECK_EXISTS_RECORD,
+  FILTER,
+} from "./mutation"
 
 class MethodsService {
   listMethods = (page = 0, limit = 10) =>
@@ -60,17 +67,17 @@ class MethodsService {
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
-      .mutate({
-        mutation: UPDATE_RECORD,
-        variables,
-      })
-      .then((response: any) => {
-        resolve(response.data)
-        stores.methodsStore.updateMethods(new Models.Methods({}))
-      })
-      .catch((error) =>
-        reject(new ServiceResponse<any>(0, error.message, undefined))
-      )
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data)
+          stores.methodsStore.updateMethods(new Models.Methods({}))
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 
   checkExitsEnvCode = (variables: any) =>
@@ -81,6 +88,25 @@ class MethodsService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterMethods.success) return this.listMethods()
+          stores.methodsStore.filterMethodsList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

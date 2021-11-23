@@ -14,6 +14,7 @@ import {
   REMOVE_DOCUMENT_RECORD,
   UPDATE_RECORD,
   GENERAL_SETTINGS_UPDATE,
+  FILTER
 } from "./mutation"
 import * as Model from '../models'
 
@@ -106,6 +107,25 @@ export class LookupService {
           variables: { path },
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterLookups.success) return this.listLookup()
+          stores.lookupStore.filterLookupList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

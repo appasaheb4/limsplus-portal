@@ -13,6 +13,7 @@ import {
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
   FIND_SECTIONLISTBY_DEPTCODE,
+  FILTER
 } from "./mutation"
 import * as Model from '../models'
 export class SectionService {
@@ -110,4 +111,23 @@ export class SectionService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })   
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })  
+        .then((response: any) => {    
+          if (!response.data.filterSections.success) return this.listSection()
+          stores.sectionStore.filterSectionList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })  
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }

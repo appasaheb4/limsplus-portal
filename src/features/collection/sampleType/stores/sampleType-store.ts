@@ -1,14 +1,12 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
-@version(0.1)
 export class SampleTypeStore {
-  @observable listSampleType!: Models.SampleType[]
-  @observable listSampleTypeCount!: number
-  @ignore @observable sampleType!: Models.SampleType
-  @ignore @observable checkExitsEnvCode: boolean
+  listSampleType!: Models.SampleType[]
+  listSampleTypeCount!: number
+  sampleType!: Models.SampleType
+  checkExitsEnvCode: boolean
 
   constructor() {
     this.listSampleType = []
@@ -20,28 +18,40 @@ export class SampleTypeStore {
       listSampleTypeCount: observable,
       sampleType: observable,
       checkExitsEnvCode: observable,
+
+      sampleTypeService: computed,
+      fetchSampleTypeList: action,
+      updateSampleTypeList: action,
+      updateSampleType: action,
+      updateExitsEnvCode: action,
+      filterSampleTypeList: action
     })
   }
-
-  @computed get sampleTypeService() {
+       
+  get sampleTypeService() {
     return new Services.SampleTypeService()
   }
-  
-  @action fetchSampleTypeList(page?, limit?) {
+
+  fetchSampleTypeList(page?, limit?) {
     this.sampleTypeService.listSampleType(page, limit)
   }
-    
-  @action updateSampleTypeList(res: any) {
+
+  updateSampleTypeList(res: any) {
     if (!res.sampleTypes.success) return alert(res.sampleTypes.message)
     this.listSampleType = res.sampleTypes.data
     this.listSampleTypeCount = res.sampleTypes.paginatorInfo.count
   }
+  
+  filterSampleTypeList(res: any){
+    this.listSampleType = res.filterSampleTypes.data
+    this.listSampleTypeCount = res.filterSampleTypes.paginatorInfo.count
+  }
 
-  @action updateSampleType = (sampleType: Models.SampleType) => {
+  updateSampleType = (sampleType: Models.SampleType) => {
     this.sampleType = sampleType
   }
 
-  @action updateExitsEnvCode(status: boolean) {
+  updateExitsEnvCode(status: boolean) {
     this.checkExitsEnvCode = status
   }
 }

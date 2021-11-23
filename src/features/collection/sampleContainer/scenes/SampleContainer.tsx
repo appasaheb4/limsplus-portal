@@ -347,10 +347,15 @@ const SampleContainer = observer(() => {
                 title: "Are you sure?",
                 body: `Record update!`,
               })
-            }}
+            }}    
             onPageSizeChange={(page, limit) => {
               sampleContainerStore.fetchListSampleContainer(page, limit)
-            }}
+            }}   
+            onFilter={(type, filter, page, limit) => {
+              sampleContainerStore.sampleContainerService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}  
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm
