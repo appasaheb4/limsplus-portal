@@ -15,6 +15,7 @@ interface SampleContainerListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const SampleContainerList = (props: SampleContainerListProps) => {
@@ -78,11 +79,11 @@ const SampleContainerList = (props: SampleContainerListProps) => {
               <LibraryComponents.Atoms.Form.InputFile
                 label="Image"
                 placeholder="Image"
-                onChange={(e) => {  
-                  const image = e.target.files[0]  
-                  props.onUpdateImage &&  
-                    props.onUpdateImage(image, column.dataField, row._id)  
-                }}    
+                onChange={(e) => {
+                  const image = e.target.files[0]
+                  props.onUpdateImage &&
+                    props.onUpdateImage(image, column.dataField, row._id)
+                }}
               />
             </>
           ),
@@ -166,7 +167,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
       isEditModify={props.isEditModify}
       isSelectRow={true}
       fileName="SampleContainer"
-      onSelectedRow={(rows) => {
+      onSelectedRow={(rows) => {   
         props.onSelectedRow && props.onSelectedRow(rows.map((item: any) => item._id))
       }}
       onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -174,6 +175,9 @@ const SampleContainerList = (props: SampleContainerListProps) => {
       }}
       onPageSizeChange={(page, size) => {
         props.onPageSizeChange && props.onPageSizeChange(page, size)
+      }}  
+      onFilter={(type, filter, page, size) => {
+        props.onFilter && props.onFilter(type, filter, page, size)
       }}
     />
   )

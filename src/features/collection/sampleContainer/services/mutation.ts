@@ -68,3 +68,26 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+
+export const FILTER = gql`
+  mutation($input: SampleContainerInput!) {
+    filterSampleContainers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        containerCode
+        containerName
+        description
+        image
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

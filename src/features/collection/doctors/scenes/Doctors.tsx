@@ -1436,6 +1436,11 @@ const Doctors = observer(() => {
             onPageSizeChange={(page, limit) => {
               doctorsStore.fetchDoctors(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              doctorsStore.doctorsService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

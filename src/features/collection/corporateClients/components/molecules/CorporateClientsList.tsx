@@ -15,7 +15,8 @@ interface CorporateClientListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const CorporateClient = (props: CorporateClientListProps) => {
@@ -32,13 +33,13 @@ const CorporateClient = (props: CorporateClientListProps) => {
             hidden: true,
             csvExport: false,
           },
-          {   
+          {
             dataField: "corporateCode",
             text: "Corporate Code",
             headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "corporateName",
@@ -46,7 +47,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable:false
+            editable: false,
           },
           {
             dataField: "invoiceAc",
@@ -68,26 +69,27 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-               <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const priceList = e.target.value
-                      props.onUpdateItem && 
-                        props.onUpdateItem(priceList,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {[].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {`${item}`}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>       
-            </>,
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Price List">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const priceList = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(priceList, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {[].map((item: any, index: number) => (
+                      <option key={index} value={item}>
+                        {`${item}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "priceGroup",
@@ -136,7 +138,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Postcode",
             headerClasses: "textHeader",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "customerGroup",
@@ -151,26 +153,30 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-               <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const customerGroup = e.target.value
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Customer Group">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const customerGroup = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(customerGroup,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CUSTOMER_GROUP").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>      
-            </>,
+                        props.onUpdateItem(customerGroup, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "CUSTOMER_GROUP"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
 
           {
@@ -186,42 +192,49 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-               <LibraryComponents.Atoms.Form.InputWrapper label="Category">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const category = e.target.value
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Category">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const category = e.target.value
                       props.onUpdateItem &&
-                      props.onUpdateItem(category,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "CATEGORY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>     
-            </>,
+                        props.onUpdateItem(category, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "CATEGORY"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "confidential",
             text: "Confidential",
             sort: true,
             formatter: (cell, row) => {
-              return <> <LibraryComponents.Atoms.Form.Toggle
-             
-              value={row.confidential}
-              onChange={(confidential) => {
-                  props.onUpdateItem &&
-                   props.onUpdateItem(confidential,'confidental',row._id)
-              }}
-            /></>
+              return (
+                <>
+                  {" "}
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.confidential}
+                    onChange={(confidential) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(confidential, "confidental", row._id)
+                    }}
+                  />
+                </>
+              )
             },
-           
           },
           {
             dataField: "telephone",
@@ -257,26 +270,30 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-               <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const deliveryType = e.target.value
-                    props.onUpdateItem &&
-                      props.onUpdateItem(deliveryType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "DELIVERY_TYPE").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>     
-            </>,
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Type">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const deliveryType = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(deliveryType, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "DELIVERY_TYPE"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "deliveryMethod",
@@ -291,26 +308,30 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-                     <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const deliveryMethod = e.target.value
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Delivery Method">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const deliveryMethod = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(deliveryMethod,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "DELIVERY_METHOD").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </>,
+                        props.onUpdateItem(deliveryMethod, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "DELIVERY_METHOD"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "salesTerritoRy",
@@ -325,26 +346,30 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
+            ) => (
+              <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Sales TerritoRy">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const salesTerritoRy = e.target.value
-                    props.onUpdateItem &&
-                      props.onUpdateItem(salesTerritoRy,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SPECIALITY").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>    
-            </>,
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const salesTerritoRy = e.target.value
+                      props.onUpdateItem &&
+                        props.onUpdateItem(salesTerritoRy, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "SPECIALITY"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "area",
@@ -379,16 +404,19 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Urgent",
             sort: true,
             formatter: (cell, row) => {
-              return <> <LibraryComponents.Atoms.Form.Toggle
-             
-              value={row.urgent}
-              onChange={(urgent) => {
-                  props.onUpdateItem &&
-                   props.onUpdateItem(urgent,'urgent',row._id)
-              }}
-            /></>
+              return (
+                <>
+                  {" "}
+                  <LibraryComponents.Atoms.Form.Toggle
+                    value={row.urgent}
+                    onChange={(urgent) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(urgent, "urgent", row._id)
+                    }}
+                  />
+                </>
+              )
             },
-           
           },
 
           {
@@ -411,27 +439,28 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-                    <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
-                <select
-                  value={row.schedule}
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const schedule = e.target.value as string
-                    props.onUpdateItem &&
-                      props.onUpdateItem(schedule,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {props.extraData.listLabs.map((item: any, index: number) => (
-                    <option key={index} value={item.code}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
-            </>,
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
+                  <select
+                    value={row.schedule}
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const schedule = e.target.value as string
+                      props.onUpdateItem &&
+                        props.onUpdateItem(schedule, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {props.extraData.listLabs.map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "reportFormat",
@@ -474,26 +503,30 @@ const CorporateClient = (props: CorporateClientListProps) => {
               column,
               rowIndex,
               columnIndex
-            ) => 
-            <>
-               <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const status = e.target.value
+            ) => (
+              <>
+                <LibraryComponents.Atoms.Form.InputWrapper label="Status">
+                  <select
+                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                    onChange={(e) => {
+                      const status = e.target.value
                       props.onUpdateItem &&
-                        props.onUpdateItem(status,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>     
-            </>,
+                        props.onUpdateItem(status, column.dataField, row._id)
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "STATUS"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
+                  </select>
+                </LibraryComponents.Atoms.Form.InputWrapper>
+              </>
+            ),
           },
           {
             dataField: "environment",
@@ -516,18 +549,19 @@ const CorporateClient = (props: CorporateClientListProps) => {
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                     onChange={(e) => {
                       const environment = e.target.value
-                      props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                      
+                      props.onUpdateItem &&
+                        props.onUpdateItem(environment, column.dataField, row._id)
                     }}
                   >
                     <option selected>Select</option>
-                    {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.value} - ${item.code}`}
-                        </option>
-                      )
-                    )}
+                    {LibraryUtils.lookupItems(
+                      props.extraData.lookupItems,
+                      "ENVIRONMENT"
+                    ).map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {`${item.value} - ${item.code}`}
+                      </option>
+                    ))}
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               </>
@@ -593,7 +627,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
 
-
           {
             dataField: "opration",
             text: "Action",
@@ -603,69 +636,70 @@ const CorporateClient = (props: CorporateClientListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
-                      <LibraryComponents.Atoms.Icons.IconContext
-                        color="#fff"
-                        size="20"
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: "Delete",
-                            show: true,
-                            id: [row._id],
-                            title: "Are you sure?",
-                            body: `Delete item`,
-                          })
-                        }
+                  <LibraryComponents.Atoms.Tooltip
+                    tooltipText="Delete"
+                    position="top"
+                  >
+                    <LibraryComponents.Atoms.Icons.IconContext
+                      color="#fff"
+                      size="20"
+                      onClick={() =>
+                        props.onDelete &&
+                        props.onDelete({
+                          type: "Delete",
+                          show: true,
+                          id: [row._id],
+                          title: "Are you sure?",
+                          body: `Delete item`,
+                        })
+                      }
+                    >
+                      {LibraryComponents.Atoms.Icons.getIconTag(
+                        LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
+                      )}
+                    </LibraryComponents.Atoms.Icons.IconContext>
+                  </LibraryComponents.Atoms.Tooltip>
+                  {row.status !== "I" && (
+                    <>
+                      <LibraryComponents.Atoms.Tooltip
+                        className="ml-2"
+                        tooltipText="Version Upgrade"
                       >
-                        {LibraryComponents.Atoms.Icons.getIconTag(
-                          LibraryComponents.Atoms.Icons.IconBs.BsFillTrashFill
-                        )}
-                      </LibraryComponents.Atoms.Icons.IconContext>
-                    </LibraryComponents.Atoms.Tooltip>
-                    {row.status !== "I" && (
-                      <>
-                        <LibraryComponents.Atoms.Tooltip
-                          className="ml-2"
-                          tooltipText="Version Upgrade"
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#fff"
+                          size="20"
+                          onClick={() =>
+                            props.onVersionUpgrade && props.onVersionUpgrade(row)
+                          }
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
-                            size="20"
-                            onClick={() =>
-                              props.onVersionUpgrade && props.onVersionUpgrade(row)
-                            }
-                          >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
-                            )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                        <LibraryComponents.Atoms.Tooltip
-                          className="ml-2"
-                          tooltipText="Duplicate"
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconvsc.VscVersions
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                      </LibraryComponents.Atoms.Tooltip>
+                      <LibraryComponents.Atoms.Tooltip
+                        className="ml-2"
+                        tooltipText="Duplicate"
+                      >
+                        <LibraryComponents.Atoms.Icons.IconContext
+                          color="#fff"
+                          size="20"
+                          onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
-                          <LibraryComponents.Atoms.Icons.IconContext
-                            color="#000"
-                            size="20"
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
-                            )}
-                          </LibraryComponents.Atoms.Icons.IconContext>
-                        </LibraryComponents.Atoms.Tooltip>
-                      </>
-                    )}
-                  </div>
+                          {LibraryComponents.Atoms.Icons.getIconTag(
+                            LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                          )}
+                        </LibraryComponents.Atoms.Icons.IconContext>
+                      </LibraryComponents.Atoms.Tooltip>
+                    </>
+                  )}
+                </div>
               </>
             ),
             headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+            classes: (cell, row, rowIndex, colIndex) => {
+              return "sticky right-0 bg-gray-500"
+            },
           },
         ]}
         isEditModify={props.isEditModify}
@@ -678,8 +712,11 @@ const CorporateClient = (props: CorporateClientListProps) => {
         onUpdateItem={(value: any, dataField: string, id: string) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id)
         }}
-        onPageSizeChange={(page,size)=>{
-          props.onPageSizeChange && props.onPageSizeChange(page,size)
+        onPageSizeChange={(page, size) => {
+          props.onPageSizeChange && props.onPageSizeChange(page, size)
+        }}
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
         }}
       />
     </div>

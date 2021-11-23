@@ -17,6 +17,7 @@ interface DoctorsListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const DoctorsList = (props: DoctorsListProps) => {
@@ -197,7 +198,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -352,7 +353,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Hours",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -811,7 +812,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                         tooltipText="Version Upgrade"
                       >
                         <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
+                          color="#fff"
                           size="20"
                           onClick={() =>
                             props.onVersionUpgrade && props.onVersionUpgrade(row)
@@ -827,7 +828,7 @@ const DoctorsList = (props: DoctorsListProps) => {
                         tooltipText="Duplicate"
                       >
                         <LibraryComponents.Atoms.Icons.IconContext
-                          color="#000"
+                          color="#fff"
                           size="20"
                           onClick={() => props.onDuplicate && props.onDuplicate(row)}
                         >
@@ -859,6 +860,9 @@ const DoctorsList = (props: DoctorsListProps) => {
         }}
         onPageSizeChange={(page, size) => {
           props.onPageSizeChange && props.onPageSizeChange(page, size)
+        }}
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
         }}
       />
     </div>

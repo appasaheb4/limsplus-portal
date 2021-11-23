@@ -16,6 +16,7 @@ interface LookupListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const LookupList = (props: LookupListProps) => {
@@ -229,7 +230,7 @@ const LookupList = (props: LookupListProps) => {
             text: "Default Item",
             headerClasses: "textHeader2",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -343,6 +344,9 @@ const LookupList = (props: LookupListProps) => {
         onPageSizeChange={(page, size) =>
           props.onPageSizeChange && props.onPageSizeChange(page, size)
         }
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
+        }}
       />
     </div>
   )

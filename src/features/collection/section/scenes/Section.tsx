@@ -523,6 +523,11 @@ const Section = observer(() => {
             onPageSizeChange={(page, limit) => {
               sectionStore.fetchSections(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              sectionStore.sectionService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

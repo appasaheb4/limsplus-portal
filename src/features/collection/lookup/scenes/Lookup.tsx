@@ -125,8 +125,12 @@ const Lookup = observer(() => {
                   })
                 }}
                 onPageSizeChange={(page, size) => {
-                  // console.log({page,size})
                   lookupStore.fetchListLookup(page, size)
+                }}
+                onFilter={(type, filter, page, limit) => {
+                  lookupStore.LookupService.filter({
+                    input: { type, filter, page, limit },
+                  })
                 }}
               />
             </div>

@@ -1,15 +1,13 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import dayjs from "dayjs"
 
-@version(0.1)
 export class DoctorsStore {
-  @ignore @observable doctors!: Models.Doctors
-  @observable listDoctors: Models.Doctors[]
-  @observable listDoctorsCount: number
-  @ignore @observable checkExitsLabEnvCode: boolean
+  doctors!: Models.Doctors
+  listDoctors: Models.Doctors[]
+  listDoctorsCount: number
+  checkExitsLabEnvCode: boolean
 
   constructor() {
     this.listDoctors = []
@@ -24,32 +22,44 @@ export class DoctorsStore {
       confidential: false,
       urgent: false,
     }
+
     makeObservable<DoctorsStore, any>(this, {
       doctors: observable,
       listDoctors: observable,
       listDoctorsCount: observable,
       checkExitsLabEnvCode: observable,
+
+      doctorsService: computed,
+      fetchDoctors: action,
+      updateDoctorsList: action,
+      updateDoctors: action,
+      updateExistsLabEnvCode: action,
     })
   }
 
-  @computed get doctorsService() {
+  get doctorsService() {
     return new Services.DoctorsService()
   }
-
-  @action fetchDoctors(page?, limit?) {
+  
+  fetchDoctors(page?, limit?) {
     this.doctorsService.listDoctors(page, limit)
   }
-
-  @action updateDoctorsList(res: any) {
+   
+  updateDoctorsList(res: any) {
     if (!res.doctors.success) return alert(res.message)
     this.listDoctors = res.doctors.data
     this.listDoctorsCount = res.doctors.paginatorInfo.count
   }
 
-  @action updateDoctors(methods: Models.Doctors) {
+  filterDoctorsList(res: any){
+    this.listDoctors = res.filterDoctors.data
+    this.listDoctorsCount = res.filterDoctors.paginatorInfo.count
+  }
+
+  updateDoctors(methods: Models.Doctors) {
     this.doctors = methods
   }
-  @action updateExistsLabEnvCode = (status: boolean) => {
+  updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
   }
-}
+}  

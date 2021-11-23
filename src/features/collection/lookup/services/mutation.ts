@@ -98,3 +98,36 @@ export const GENERAL_SETTINGS_UPDATE = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: LookupInput!) {
+    filterLookups(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        defaultItem {
+          code
+          value
+        }
+        documentName {
+          name
+          title
+          path
+          children
+        }
+        fieldName
+        arrValue {
+          code
+          value
+        }
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
