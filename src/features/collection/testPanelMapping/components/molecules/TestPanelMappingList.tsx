@@ -43,6 +43,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "lab",
               text: "Lab",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -80,6 +81,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "panelCode",
               text: "Panel Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -118,6 +120,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "testCode",
               text: "Test Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -125,6 +128,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "testName",
               text: "Test Name",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -132,6 +136,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "description",
               text: "Description",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -140,7 +145,6 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "bill",
               text: "Bill",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return (
@@ -159,6 +163,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "status",
               text: "Status",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -197,6 +202,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -235,6 +241,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "enteredBy",
               text: "Entered By",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -244,7 +251,6 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               editable: false,
               text: "Date Creation",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -253,19 +259,18 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "dateActive",
               text: "Date Active",
               sort: true,
-             // filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             { 
               dataField: "version",
               text: "Version",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

@@ -220,12 +220,14 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "description",
             text: "Description",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "defaultItem",
             text: "Default Item",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
@@ -254,6 +256,7 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

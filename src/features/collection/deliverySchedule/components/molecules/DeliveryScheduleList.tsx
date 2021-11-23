@@ -33,6 +33,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "schCode",
               text: "Sch Code",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable:false
@@ -41,7 +42,6 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "sundayProcessing",
               text: "Sunday Processing",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -56,6 +56,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "holidayProcessing",
               text: "Holiday Processing",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -63,6 +64,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "sundayReporting",
               text: "Sunday Reporting",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -71,7 +73,6 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "holidayReporting",
               text: "Holiday Reporting",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -87,30 +88,35 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "pStartTime",
               text: "P Start Time",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "pEndTime",
               text: "P End Time",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "cutofTime",
               text: "Cutof Time",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "secoundCutofTime",
               text: "Secound Cutof Time",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "processingType",
               text: "Processing Type",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -150,6 +156,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "schFrequency",
               text: "Sch Frequency",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
@@ -159,18 +166,21 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "reportOn",
               text: "Report On",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "dynamicRT",
               text: "Dynamic RT",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "dynamicTU",
               text: "Dynamic TU",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -211,6 +221,7 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "fixedRT",
               text: "Fixed RT",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -218,7 +229,6 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               dataField: "onTime",
               text: "On Time",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
                
@@ -233,18 +243,21 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "schForDept",
               text: "Sch For Dept",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "schForPat",
               text: "Sch For Pat",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

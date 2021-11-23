@@ -43,6 +43,7 @@ const RegistrationLocationsList =
             {
               dataField: "locationCode",
               text: "Location Code",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable:false
@@ -50,6 +51,7 @@ const RegistrationLocationsList =
             {
               dataField: "locationName",
               text: "Location Name",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable:false,
@@ -57,6 +59,7 @@ const RegistrationLocationsList =
             {
               dataField: "address",
               text: "Address",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -64,6 +67,7 @@ const RegistrationLocationsList =
             {
               dataField: "city",
               text: "City",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -71,6 +75,7 @@ const RegistrationLocationsList =
             {
               dataField: "state",
               text: "State",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -78,6 +83,7 @@ const RegistrationLocationsList =
             {
               dataField: "country",
               text: "Country",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -85,6 +91,7 @@ const RegistrationLocationsList =
             {
               dataField: "postcode",
               text: "Postcode",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -92,6 +99,7 @@ const RegistrationLocationsList =
             {
               dataField: "customerGroup",
               text: "Customer Group",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -126,6 +134,7 @@ const RegistrationLocationsList =
             {
               dataField: "category",
               text: "Category",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -161,7 +170,6 @@ const RegistrationLocationsList =
               dataField: "confidential",
               text: "Confidential",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <><LibraryComponents.Atoms.Form.Toggle
@@ -178,6 +186,7 @@ const RegistrationLocationsList =
             {
               dataField: "telephone",
               text: "Telephone",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -185,6 +194,7 @@ const RegistrationLocationsList =
             {
               dataField: "mobileNo",
               text: "Mobile No",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -192,6 +202,7 @@ const RegistrationLocationsList =
             {
               dataField: "email",
               text: "Email",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -199,6 +210,7 @@ const RegistrationLocationsList =
             {
               dataField: "deliveryType",
               text: "Delivery Type",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -233,6 +245,7 @@ const RegistrationLocationsList =
             {
               dataField: "deliveryMethod",
               text: "Delivery Method",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -267,6 +280,7 @@ const RegistrationLocationsList =
             {
               dataField: "corporateCode",
               text: "Corporate Code",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -301,6 +315,7 @@ const RegistrationLocationsList =
             {
               dataField: "invoiceAc",
               text: "Invoice Ac",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -335,6 +350,7 @@ const RegistrationLocationsList =
             {
               dataField: "labLicence",
               text: "Lab Licence",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -343,7 +359,6 @@ const RegistrationLocationsList =
               dataField: "printLabel",
               text: "Print Label",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -361,6 +376,7 @@ const RegistrationLocationsList =
             {
               dataField: "methodColn",
               text: "Method Coln",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -395,6 +411,7 @@ const RegistrationLocationsList =
             {
               dataField: "workHrs",
               text: "Work Hrs",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -402,6 +419,7 @@ const RegistrationLocationsList =
             {
               dataField: "salesTerritoRy",
               text: "Sales TerritoRy",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -436,6 +454,7 @@ const RegistrationLocationsList =
             {
               dataField: "area",
               text: "Area",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -443,6 +462,7 @@ const RegistrationLocationsList =
             {
               dataField: "zone",
               text: "Zone",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -450,6 +470,7 @@ const RegistrationLocationsList =
             {
               dataField: "route",
               text: "Route",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -457,6 +478,7 @@ const RegistrationLocationsList =
             {
               dataField: "lab",
               text: "Lab",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -494,6 +516,7 @@ const RegistrationLocationsList =
             {
               dataField: "location",
               text: "Location",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -502,7 +525,6 @@ const RegistrationLocationsList =
               dataField: "neverBill",
               text: "Never Bill",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -519,6 +541,7 @@ const RegistrationLocationsList =
             {
               dataField: "edi",
               text: "EDI",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -526,6 +549,7 @@ const RegistrationLocationsList =
             {
               dataField: "ediAddress",
               text: "EDI Address",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -535,7 +559,6 @@ const RegistrationLocationsList =
               dataField: "urgent",
               text: "Urgent",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <> <LibraryComponents.Atoms.Form.Toggle
@@ -552,6 +575,7 @@ const RegistrationLocationsList =
             {
               dataField: "schedule",
               text: "Schedule",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -589,6 +613,7 @@ const RegistrationLocationsList =
             {
               dataField: "reportFormat",
               text: "Report Format",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -596,6 +621,7 @@ const RegistrationLocationsList =
             {
               dataField: "info",
               text: "Info",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -603,6 +629,7 @@ const RegistrationLocationsList =
             {
               dataField: "fyiLine",
               text: "FYI Line",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -610,6 +637,7 @@ const RegistrationLocationsList =
             {
               dataField: "workLine",
               text: "Work Line",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -617,6 +645,7 @@ const RegistrationLocationsList =
             {
               dataField: "status",
               text: "Status",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -651,6 +680,7 @@ const RegistrationLocationsList =
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -689,7 +719,6 @@ const RegistrationLocationsList =
               dataField: "dateCreation",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -704,7 +733,6 @@ const RegistrationLocationsList =
               dataField: "dateActiveFrom",
               text: "Date Active",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -719,7 +747,6 @@ const RegistrationLocationsList =
               dataField: "dateExpire",
               text: "Date Expire",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -734,12 +761,12 @@ const RegistrationLocationsList =
               dataField: "version",
               text: "Version",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
               dataField: "enteredBy",
               text: "Entered By",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
