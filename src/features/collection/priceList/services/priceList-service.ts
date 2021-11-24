@@ -133,7 +133,7 @@ export class PriceListService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-
+    
     filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
@@ -143,8 +143,8 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterBanners.success) return this.listPiceList()
-          stores.bannerStore.filterBannerList(response.data)
+          if (!response.data.filterPriceList.success) return this.listPiceList()
+          stores.priceListStore.filterPriceList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

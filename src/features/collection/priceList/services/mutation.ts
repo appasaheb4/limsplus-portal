@@ -97,18 +97,42 @@ export const CHECK_EXISTS_RECORD = gql`
 `
 
 export const FILTER = gql`
-  mutation($input: BannerInput!) {
-    filterBanners(input: $input) {
+  mutation($input: PriceListInput!) {
+    filterPriceList(input: $input) {
       paginatorInfo {
         count
-      }
+      }  
       success
       message
-      data{
+      data {
         _id
-        title
-        image
+        existsVersionId
+        existsRecordId
+        panelCode
+        panelName
+        priority
+        priceGroup
+        billTo
+        clientName
+        invoiceAc
+        lab
+        price
+        fixedPrice
+        minSp
+        maxSp
+        anyScheme
+        speicalScheme
+        schemePrice
+        disOnScheme
+        enteredBy
+        status
         environment
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        dateOfEntry
+        lastUpdated
       }
     }
   }
