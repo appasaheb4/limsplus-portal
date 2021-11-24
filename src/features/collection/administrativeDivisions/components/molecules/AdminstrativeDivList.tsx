@@ -34,56 +34,62 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           {
             dataField: "country",
             text: "Country",
+            headerClasses: "textHeader1",
             sort: true,
             editorStyle : { textTransform : "uppercase"},
             style:{textTransform : "uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
             
           },
           {
             dataField: "state",
             text: "State",
+            headerClasses: "textHeader1",
             sort: true,
             editorStyle : { textTransform : "uppercase"},
             style:{textTransform : "uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
           },
           {
             dataField: "district",
             text: "District",
+            headerClasses: "textHeader1",
             sort: true,
             editorStyle : { textTransform : "uppercase"},
             style:{textTransform : "uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
           },
           {
             dataField: "city",
             text: "City",
+            headerClasses: "textHeader1",
             sort: true,
             editorStyle : { textTransform : "uppercase"},
             style:{textTransform : "uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
           },
           {
             dataField: "area",
             text: "Area",
+            headerClasses: "textHeader1",
             sort: true,
             editorStyle : { textTransform : "uppercase"},
             style:{textTransform : "uppercase"},
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
             
           },
           {
             dataField: "postalCode",
             text: "Postcode",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
+            
             formatter: (cellContent, row) => (   
               <>
                 <LibraryComponents.Atoms.List
@@ -109,6 +115,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           {
             dataField: "sbu",
             text: "SBU",
+            headerClasses: "textHeader",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -147,6 +154,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           {
             dataField: "zone",
             text: "Zone",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -184,6 +192,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

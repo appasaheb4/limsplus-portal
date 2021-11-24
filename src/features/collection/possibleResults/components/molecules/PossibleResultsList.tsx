@@ -74,6 +74,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "analyteName",
             text: "Analyte Name",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -81,6 +82,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "conclusionResult",
             text: "Conclusion Result",
+            headerClasses: "textHeader4",
             sort: true,
             formatter: (cellContent, row) => (
               <>
@@ -265,6 +267,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "defualtConclusion",
             text: "Defualt Conclusion",
+            headerClasses: "textHeader4",
             sort: true,
             formatter: (cellContent, row) => (
               <>
@@ -282,6 +285,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

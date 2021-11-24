@@ -36,7 +36,7 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: "departmentCode",
             text: "Department Code",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
