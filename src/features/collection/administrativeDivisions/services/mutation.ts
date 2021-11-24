@@ -50,10 +50,15 @@ export const UPDATE_RECORD = gql`
     }
   }
 `
-      
-export const FILTER_RECORD = gql`
-  mutation($filter: AdministrativeDevisionFilterInput!) {
-    filterAdministrativeDivision(filter: $filter) {
+  
+
+  
+export const FILTER = gql`
+  mutation($input: AdministrativeDevisionInput!) {
+    filterAdministrativeDivisions(input: $input) {
+      paginatorInfo {
+        count
+      }
       success
       message
       data{

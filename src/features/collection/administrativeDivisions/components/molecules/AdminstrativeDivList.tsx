@@ -15,6 +15,7 @@ interface AdminstrativeDivListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
@@ -88,8 +89,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Postcode",
             headerClasses: "textHeader1",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
+            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerStyle: { minWidth: "230px" },
             formatter: (cellContent, row) => (   
               <>
                 <LibraryComponents.Atoms.List
@@ -278,6 +279,9 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
         }}
         onPageSizeChange={(page, size) => {
           props.onPageSizeChange && props.onPageSizeChange(page, size)
+        }}
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
         }}
       />
     </div>

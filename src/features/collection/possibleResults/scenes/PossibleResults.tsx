@@ -554,6 +554,11 @@ export const PossibleResults = observer(() => {
               onPageSizeChange={(page, limit) => {
                 possibleResultsStore.fetchListPossibleResults(page, limit)
               }}
+              onFilter={(type, filter, page, limit) => {
+                possibleResultsStore.possibleResultsService.filter({
+                  input: { type, filter, page, limit },
+                })
+              }}
             />
           </div>
           <LibraryComponents.Molecules.ModalConfirm

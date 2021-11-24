@@ -15,6 +15,7 @@ interface PossibleResultsListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
   updatePossibleResults?: (values: any) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -34,6 +35,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "analyteCode",
             text: "Analyte Code",
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            headerClasses: "textHeader2",
             sort: true,
             editorRenderer: (
               editorProps,
@@ -265,9 +268,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             ),
           },
           {
-            dataField: "defualtConclusion",
+            dataField: "defaultConclusion",
             text: "Defualt Conclusion",
-            headerClasses: "textHeader4",
+            //headerClasses: "textHeader4",
             sort: true,
             formatter: (cellContent, row) => (
               <>
@@ -372,6 +375,9 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         }}
         onPageSizeChange={(page, size) => {
           props.onPageSizeChange && props.onPageSizeChange(page, size)
+        }}
+        onFilter={(type, filter, page, size) => {
+          props.onFilter && props.onFilter(type, filter, page, size)
         }}
       />
     </div>

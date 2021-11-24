@@ -1,14 +1,13 @@
-import { version, ignore } from "mobx-sync"
+
 import { makeObservable, action, observable, computed } from "mobx"
 import { Library } from "../models"
 import * as Services from "../services"
 
-@version(0.1)
 export class LibraryStore {
-  @ignore @observable library!: Library
-  @observable listLibrary: Library[] 
-  @observable listLibraryCount: number 
-  @ignore @observable checkExistsLabEnvCode: boolean 
+    library!: Library
+   listLibrary: Library[] 
+   listLibraryCount: number 
+    checkExistsLabEnvCode: boolean 
   
   constructor() {
     this.listLibrary = []
@@ -23,28 +22,39 @@ export class LibraryStore {
       listLibrary: observable,
       listLibraryCount: observable,
       checkExistsLabEnvCode: observable,
+
+      libraryService: computed,
+      fetchLibrary: action,
+      updateLibraryList: action,
+      updateLibrary: action,
+      updateExistsLabEnvCode: action
     })
   }
 
-  @computed get libraryService() {
+   get libraryService() {
     return new Services.MasterAnalyteService()
   }
 
-  @action fetchLibrary(page?,limit?) {
+   fetchLibrary(page?,limit?) {
     this.libraryService.listLibrary(page,limit)
   }
 
-  @action updateLibraryList(res: any){
+   updateLibraryList(res: any){
     if (!res.librarys.success) return alert(res.librarys.message)
     this.listLibrary = res.librarys.data
     this.listLibraryCount = res.librarys.paginatorInfo.count
   }
 
-  @action updateLibrary(library: Library) {
+  filterLibraryList(res: any){
+    this.listLibrary = res.filterLibrarys.data
+    this.listLibraryCount = res.filterLibrarys.paginatorInfo.count
+  }
+
+   updateLibrary(library: Library) {
     this.library = library
   }
 
-  @action updateExistsLabEnvCode = (status: boolean) => {
+   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExistsLabEnvCode = status
   }
 }

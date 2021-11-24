@@ -1,14 +1,12 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import { PossibleResults } from "../models"
 import * as Services from "../services"
 
-@version(0.1)
 export class PossibleResultsStore {
-  @observable listPossibleResults: PossibleResults[]
-  @observable listPossibleResultsCount: number
-  @ignore @observable possibleResults!: PossibleResults
-  @ignore @observable checkExistsEnvCode!: boolean
+  listPossibleResults: PossibleResults[]
+  listPossibleResultsCount: number
+  possibleResults!: PossibleResults
+  checkExistsEnvCode!: boolean
 
   constructor() {
     this.listPossibleResults = []
@@ -25,28 +23,39 @@ export class PossibleResultsStore {
       listPossibleResultsCount: observable,
       possibleResults: observable,
       checkExistsEnvCode: observable,
+
+      possibleResultsService: computed,
+      fetchListPossibleResults: action,
+      updatePossibleResultList: action,
+      updatePossibleResults: action,
+      updateExistsEnvCode: action,
     })
   }
-
-  @computed get possibleResultsService() {
+ 
+  get possibleResultsService() {
     return new Services.PossibleResultsService()
   }
-
-  @action fetchListPossibleResults(page?, limit?) {
+  
+  fetchListPossibleResults(page?, limit?) {
     this.possibleResultsService.listPossibleResults(page, limit)
   }
 
-  @action updatePossibleResultList(res: any) {
+  updatePossibleResultList(res: any) {
     if (!res.possibleResults.success) return alert(res.possibleResults.message)
     this.listPossibleResults = res.possibleResults.data
     this.listPossibleResultsCount = res.possibleResults.paginatorInfo.count
   }
-  
-  @action updatePossibleResults = (results: PossibleResults) => {
+
+  filterPossibleResult(res: any){
+    this.listPossibleResults = res.filterPossibleResult.data
+    this.listPossibleResultsCount = res.filterPossibleResult.paginatorInfo.count
+  }
+
+  updatePossibleResults = (results: PossibleResults) => {
     this.possibleResults = results
   }
 
-  @action updateExistsEnvCode(status: boolean) {
+  updateExistsEnvCode(status: boolean) {
     this.checkExistsEnvCode = status
   }
 }

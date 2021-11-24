@@ -77,3 +77,45 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: LibraryInput!) {
+    filterLibrarys(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        code
+        description
+        usageType
+        libraryType
+        commentType
+        lab
+        department
+        commentsTarget
+        details
+        parameter
+        action
+        results
+        value
+        reflex
+        analyte
+        rule
+        abNormal
+        status
+        organismGroup
+        organismClass
+        loAge
+        hiAge
+        sex
+        sexAction
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

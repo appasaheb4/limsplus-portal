@@ -95,3 +95,21 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: BannerInput!) {
+    filterBanners(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        title
+        image
+        environment
+      }
+    }
+  }
+`

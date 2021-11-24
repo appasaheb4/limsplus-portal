@@ -1,15 +1,13 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import dayjs from "dayjs"
 
-@version(0.1)
 export class PriceListStore {
-  @ignore @observable priceList!: Models.PriceList
-  @observable listPriceList: Models.PriceList[]
-  @observable listPriceListCount: number
-  @ignore @observable checkExitsPriceGEnvLabCode: boolean
+  priceList!: Models.PriceList
+  listPriceList: Models.PriceList[]
+  listPriceListCount: number
+  checkExitsPriceGEnvLabCode: boolean
 
   constructor() {
     this.listPriceList = []
@@ -30,28 +28,39 @@ export class PriceListStore {
       listPriceList: observable,
       listPriceListCount: observable,
       checkExitsPriceGEnvLabCode: observable,
+
+      priceListService: computed,
+      fetchListPriceList: action,
+      updatePriceListRecords: action,
+      updatePriceList: action,
+      updateExitsPriceGEnvLabCode: action,
     })
   }
 
-  @computed get priceListService() {
+  get priceListService() {
     return new Services.PriceListService()
   }
 
-  @action fetchListPriceList(page?, limit?) {
+  fetchListPriceList(page?, limit?) {
     this.priceListService.listPiceList(page, limit)
   }
 
-  @action updatePriceListRecords(res: any) {
+  updatePriceListRecords(res: any) {
     if (!res.priceLists.success) return alert(res.priceLists.message)
     this.listPriceList = res.priceLists.data
     this.listPriceListCount = res.priceLists.paginatorInfo.count
   }
 
-  @action updatePriceList(price: Models.PriceList) {
+  filterPriceList(res: any){
+    this.listPriceList = res.priceLists.data
+    this.listPriceListCount = res.priceLists.paginatorInfo.count
+  }
+
+  updatePriceList(price: Models.PriceList) {
     this.priceList = price
   }
 
-  @action updateExitsPriceGEnvLabCode = (status: boolean) => {
+  updateExitsPriceGEnvLabCode = (status: boolean) => {
     this.checkExitsPriceGEnvLabCode = status
   }
 }

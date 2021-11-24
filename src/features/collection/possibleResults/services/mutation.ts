@@ -67,3 +67,34 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: PossibleResultInput!) {
+    filterPossibleResult(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        analyteCode
+        analyteName
+        result
+        possibleValue
+        abNormal
+        critical
+        conclusionResult {
+          result
+          possibleValue
+          abNormal
+          critical
+        }
+        defaultConclusion
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

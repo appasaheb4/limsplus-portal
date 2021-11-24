@@ -59,3 +59,26 @@ export const EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: SalemTeamsInput!) {
+    filterSalesTeams(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        salesHierarchy
+        salesTerritory
+        empCode
+        empName
+        reportingTo
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

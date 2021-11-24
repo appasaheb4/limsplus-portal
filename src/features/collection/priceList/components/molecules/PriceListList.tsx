@@ -16,6 +16,7 @@ interface PriceListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page:number,totalSize:number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
   
 const MasterAnalyteList = (props: PriceListProps) => {
@@ -718,6 +719,9 @@ const MasterAnalyteList = (props: PriceListProps) => {
           }}
           onPageSizeChange={(page,limit)=>{
             props.onPageSizeChange &&  props.onPageSizeChange(page,limit)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>
