@@ -13,6 +13,7 @@ import {
   CREATE_RECORD,
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER
 } from "./mutation"
 
 export class PossibleResultsService {
@@ -86,6 +87,25 @@ export class PossibleResultsService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterPossibleResult.success) return this.listPossibleResults()
+          stores.possibleResultsStore.filterPossibleResult(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

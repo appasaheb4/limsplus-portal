@@ -12,9 +12,9 @@ import {
   REMOVE_RECORDS,
   CREATE_RECORD,
   UPDATE_RECORD,
-  FILTER_RECORD,
+  FILTER,
 } from "./mutation"
-import * as Models from '../models'
+import * as Models from "../models"
 
 class AdministrativeDivisionsService {
   listAdministrativeDivisions = (page = 0, limit = 10) =>
@@ -27,8 +27,8 @@ class AdministrativeDivisionsService {
           variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
-          console.log({response});
-          
+          console.log({ response })
+
           stores.administrativeDivisions.updateAdministrativeDivList(response.data)
           resolve(response.data)
         })
@@ -47,7 +47,9 @@ class AdministrativeDivisionsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.administrativeDivisions.updateAdministrativeDiv(new Models.AdministrativeDivisions({}))
+          stores.administrativeDivisions.updateAdministrativeDiv(
+            new Models.AdministrativeDivisions({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -77,22 +79,29 @@ class AdministrativeDivisionsService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.administrativeDivisions.updateAdministrativeDiv(new Models.AdministrativeDivisions({}))
+          stores.administrativeDivisions.updateAdministrativeDiv(
+            new Models.AdministrativeDivisions({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
 
-  filterRecord = (variables: any) =>
+
+
+  filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false)
       client
         .mutate({
-          mutation: FILTER_RECORD,
+          mutation: FILTER,
           variables,
-        })
+        })  
         .then((response: any) => {
+          if (!response.data.filterAdministrativeDivisions.success)
+            return this.listAdministrativeDivisions()
+          stores.administrativeDivisions.filterAdministrativeDivList(response.data)
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })

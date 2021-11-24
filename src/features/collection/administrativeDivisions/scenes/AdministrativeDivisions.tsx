@@ -18,7 +18,7 @@ export const AdministrativeDivisions = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, administrativeDivisions,routerStore } = useStores()
+  const { loginStore, administrativeDivisions, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
@@ -32,18 +32,21 @@ export const AdministrativeDivisions = observer(() => {
     }
   }, [stores.loginStore.login])
 
-    useEffect(()=>{
-      const environment = routerStore.lookupItems.find((fileds)=>{
-        return fileds.fieldName === 'ENVIRONMENT'
-      })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-      if(environment){
-        administrativeDivisions && administrativeDivisions.updateAdministrativeDiv({
+  useEffect(() => {
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      administrativeDivisions &&
+        administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
-          environment: environment.code as string
+          environment: environment.code as string,
         })
-        setValue("environment",environment.code as string)
-      }
-    },[routerStore.lookupItems])
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   const onSubmitAdministrativeDivision = () => {
     if (administrativeDivisions.administrativeDiv) {
       if (!administrativeDivisions.administrativeDiv.postalCode)
@@ -88,7 +91,7 @@ export const AdministrativeDivisions = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -525,6 +528,11 @@ export const AdministrativeDivisions = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               administrativeDivisions.fetchAdministrativeDiv(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              administrativeDivisions.administrativeDivisionsService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

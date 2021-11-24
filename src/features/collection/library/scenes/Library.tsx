@@ -1024,6 +1024,11 @@ export const Library = observer(() => {
             onPageSizeChange={(page, limit) => {
               libraryStore.fetchLibrary(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              libraryStore.libraryService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

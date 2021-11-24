@@ -979,6 +979,11 @@ export const PriceList = observer(() => {
             onPageSizeChange={(page,limit) => {
               priceListStore.fetchListPriceList(page,limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              priceListStore.priceListService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

@@ -16,6 +16,7 @@ interface LibraryListProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page:number,totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const LibraryList = (props: LibraryListProps) => {
@@ -410,12 +411,12 @@ export const LibraryList = (props: LibraryListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {
+            {  
               dataField: "reflex",
               text: "Reflex",
               headerClasses: "textHeader1",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
                 <>
                  <div className="flex flex-row">
@@ -727,6 +728,9 @@ export const LibraryList = (props: LibraryListProps) => {
           }}
           onPageSizeChange={(page,size)=>{
             props.onPageSizeChange && props.onPageSizeChange(page,size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

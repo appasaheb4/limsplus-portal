@@ -1,44 +1,54 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import { SalesTeamService } from "../services"
 
-@version(0.1)
 export class SalesTeamStore {
-  @observable listSalesTeam!: Models.SalesTeam[]
-  @ignore @observable salesTeam!: Models.SalesTeam
-  @observable listSalesTeamCount: number = 0
-  @ignore @observable checkExistsEnvCode?: boolean = false
-  
+  listSalesTeam!: Models.SalesTeam[]
+  salesTeam!: Models.SalesTeam
+  listSalesTeamCount: number = 0
+  checkExistsEnvCode?: boolean = false
+
   constructor() {
     this.listSalesTeam = []
     makeObservable<SalesTeamStore, any>(this, {
       listSalesTeam: observable,
       salesTeam: observable,
       listSalesTeamCount: observable,
-      checkExistsEnvCode: observable
+      checkExistsEnvCode: observable,
+
+      salesTeamService: computed,
+      fetchSalesTeam: action,
+      updateSalesTeamList: action,
+      updateSalesTeam: action,
+      updateExistsEnvCode: action,
+      filterSalesTeamList: action
     })
   }
 
-  @computed get salesTeamService() {
+  get salesTeamService() {
     return new SalesTeamService()
   }
 
-  @action fetchSalesTeam(page?, limit?) {
+  fetchSalesTeam(page?, limit?) {
     this.salesTeamService.listSalesTeam(page, limit)
   }
 
-  @action updateSalesTeamList(res: any){
+  updateSalesTeamList(res: any) {
     if (!res.salesTeams.success) return alert(res.salesTeams.message)
     this.listSalesTeam = res.salesTeams.data
     this.listSalesTeamCount = res.salesTeams.paginatorInfo.count
   }
 
-  @action updateSalesTeam(team: Models.SalesTeam) {
+  filterSalesTeamList(res: any){
+    this.listSalesTeam = res.filterSalesTeams.data
+    this.listSalesTeamCount = res.filterSalesTeams.paginatorInfo.count
+  }
+
+  updateSalesTeam(team: Models.SalesTeam) {
     this.salesTeam = team
   }
 
-  @action updateExistsEnvCode(status: boolean) {
+  updateExistsEnvCode(status: boolean) {
     this.checkExistsEnvCode = status
   }
 }

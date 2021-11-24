@@ -18,7 +18,7 @@ export const SalesTeam = observer(() => {
     userStore,
     salesTeamStore,
     administrativeDivisions,
-    routerStore
+    routerStore,
   } = useStores()
   const {
     control,
@@ -39,7 +39,7 @@ export const SalesTeam = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const environment = routerStore.lookupItems
       .find((fileds) => {
         return fileds.fieldName === "ENVIRONMENT"
@@ -47,13 +47,13 @@ export const SalesTeam = observer(() => {
       ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
     if (environment) {
       salesTeamStore &&
-      salesTeamStore.updateSalesTeam({
+        salesTeamStore.updateSalesTeam({
           ...salesTeamStore.salesTeam,
           environment: environment.code as string,
         })
       setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
   const onSubmitSalesTeam = () => {
     if (!salesTeamStore.checkExistsEnvCode) {
       salesTeamStore.salesTeamService
@@ -66,7 +66,7 @@ export const SalesTeam = observer(() => {
           }
           setTimeout(() => {
             window.location.reload()
-          }, 2000);
+          }, 2000)
         })
     } else {
       LibraryComponents.Atoms.Toast.warning({
@@ -92,7 +92,7 @@ export const SalesTeam = observer(() => {
       <div className=" mx-auto flex-wrap">
         <div
           className={
-            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "shown" : "shown")
+            "p-2 rounded-lg shadow-xl " + (hideAddSection ? "hidden" : "shown")
           }
         >
           <LibraryComponents.Atoms.Grid cols={2}>
@@ -398,10 +398,10 @@ export const SalesTeam = observer(() => {
             totalSize={salesTeamStore.listSalesTeamCount}
             extraData={{
               lookupItems: stores.routerStore.lookupItems,
-              listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv,
-              userList:userStore.userList,
-              userStore:userStore,
-              filterUsersItems:Utils.filterUsersItems
+              listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+              userList: userStore.userList,
+              userStore: userStore,
+              filterUsersItems: Utils.filterUsersItems,
             }}
             isDelete={RouterFlow.checkPermission(
               stores.routerStore.userPermission,
@@ -433,6 +433,11 @@ export const SalesTeam = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               salesTeamStore.fetchSalesTeam(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              salesTeamStore.salesTeamService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>

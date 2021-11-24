@@ -14,6 +14,7 @@ import {
   CREATE_RECORD,
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
 
 class MasterAnalyteService {
@@ -79,7 +80,7 @@ class MasterAnalyteService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
-  
+
   checkExistsLabEnvCode = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -88,6 +89,25 @@ class MasterAnalyteService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+  
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterLibrarys.success) return this.listLibrary()
+          stores.libraryStore.filterLibraryList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

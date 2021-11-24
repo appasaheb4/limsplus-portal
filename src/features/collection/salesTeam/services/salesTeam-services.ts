@@ -14,6 +14,7 @@ import {
   CREATE_RECORD,
   UPDATE_RECORD,
   EXISTS_RECORD,
+  FILTER
 } from "./mutation"
 
 export class SalesTeamService {
@@ -91,5 +92,24 @@ export class SalesTeamService {
       .catch((error) =>
         reject(new ServiceResponse<any>(0, error.message, undefined))
       )
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterSalesTeams.success) return this.listSalesTeam()
+          stores.salesTeamStore.filterSalesTeamList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
     })
 }
