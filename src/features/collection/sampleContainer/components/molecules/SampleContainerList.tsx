@@ -34,6 +34,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
         {
           dataField: "containerCode",
           text: "Container Code",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: false,
@@ -41,6 +42,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
         {
           dataField: "containerName",
           text: "Container Name",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: false,
@@ -48,6 +50,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
         {
           dataField: "description",
           text: "Description",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
         },
@@ -91,6 +94,7 @@ const SampleContainerList = (props: SampleContainerListProps) => {
         {
           dataField: "environment",
           text: "Environment",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
