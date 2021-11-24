@@ -17,6 +17,7 @@ interface ReferenceRangesProps {
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
   onPageSizeChange?: (page: number, totalSize:number) =>void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const ReferenceRangesList = (props: ReferenceRangesProps) => {
@@ -406,7 +407,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Age",
               headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -749,6 +750,9 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
           }}
           onPageSizeChange={(page,limit)=>{
             props.onPageSizeChange && props.onPageSizeChange(page,limit)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>
