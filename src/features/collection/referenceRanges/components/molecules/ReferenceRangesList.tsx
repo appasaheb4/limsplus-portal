@@ -40,7 +40,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "analyteCode",
               text: "Analyte Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -83,7 +83,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "analyteName",
               text: "Analayte Name",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -126,7 +126,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "department",
               text: "Department",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -284,7 +284,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "equipmentType",
               text: "Equipment Type",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
