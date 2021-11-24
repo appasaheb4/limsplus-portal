@@ -14,8 +14,9 @@ import {
   VERSION_UPGRADE,
   DUPLICATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
-import * as Models from '../models'
+import * as Models from "../models"
 export class ReferenceRangesService {
   listReferenceRanges = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -45,7 +46,9 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
+          stores.refernceRangesStore.updateReferenceRanges(
+            new Models.ReferenceRanges({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -78,7 +81,9 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
+          stores.refernceRangesStore.updateReferenceRanges(
+            new Models.ReferenceRanges({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -86,7 +91,7 @@ export class ReferenceRangesService {
     })
 
   duplicateReferenceRanges = (variables: any) =>
-    new Promise<any>((resolve, reject) => {  
+    new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: DUPLICATE_RECORD,
@@ -94,11 +99,13 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
+          stores.refernceRangesStore.updateReferenceRanges(
+            new Models.ReferenceRanges({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        )   
+        )
     })
 
   updateSingleFiled = (variables: any) =>
@@ -110,7 +117,9 @@ export class ReferenceRangesService {
         })
         .then((response: any) => {
           resolve(response.data)
-          stores.refernceRangesStore.updateReferenceRanges(new Models.ReferenceRanges({}))
+          stores.refernceRangesStore.updateReferenceRanges(
+            new Models.ReferenceRanges({})
+          )
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
@@ -131,4 +140,24 @@ export class ReferenceRangesService {
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )
     })
+  
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {  
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterReferenceRange.success)
+            return this.listReferenceRanges()
+          stores.refernceRangesStore.filterReferenceRangesList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })  
 }

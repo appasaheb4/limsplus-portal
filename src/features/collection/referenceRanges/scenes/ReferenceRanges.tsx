@@ -32,7 +32,7 @@ const ReferenceRanges = observer(() => {
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
-   
+
   useEffect(() => {
     if (loginStore.login && loginStore.login.role !== "SYSADMIN") {
       refernceRangesStore.updateReferenceRanges({
@@ -45,31 +45,34 @@ const ReferenceRanges = observer(() => {
     }
   }, [loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    refernceRangesStore && refernceRangesStore.updateReferenceRanges({
-        ...refernceRangesStore.referenceRanges,
-        status: status.code as string,
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    refernceRangesStore && refernceRangesStore.updateReferenceRanges({
-      ...refernceRangesStore.referenceRanges,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
-
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      refernceRangesStore &&
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      refernceRangesStore &&
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
 
   const onSubmitReferenceRanges = () => {
     if (!refernceRangesStore.checkExitsRecord) {
@@ -1187,7 +1190,7 @@ const ReferenceRanges = observer(() => {
               listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
               listDepartment: departmentStore.listDepartment,
               listLabs: labStore.listLabs,
-              listInterfaceManager:interfaceManagerStore.listInterfaceManager
+              listInterfaceManager: interfaceManagerStore.listInterfaceManager,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
@@ -1234,8 +1237,13 @@ const ReferenceRanges = observer(() => {
                 body: `Duplicate this record`,
               })
             }}
-            onPageSizeChange={(page,limit) => {
-              refernceRangesStore.fetchListReferenceRanges(page,limit)
+            onPageSizeChange={(page, limit) => {
+              refernceRangesStore.fetchListReferenceRanges(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              refernceRangesStore.referenceRangesService.filter({
+                input: { type, filter, page, limit },
+              })  
             }}
           />
         </div>

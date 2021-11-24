@@ -98,3 +98,48 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: ReferenceRangeInput!) {
+    filterReferenceRange(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        existsVersionId
+        existsRecordId
+        analyteCode
+        analyteName
+        department
+        species
+        sex
+        rangeSetOn
+        eqType
+        lab
+        rangType
+        age
+        ageUnit
+        low
+        high
+        alpha
+        enteredBy
+        status
+        environment
+        dateCreation
+        dateActive
+        dateExpire
+        version
+        deltarang_tetype
+        deltaInterval
+        intervalUnit
+        formatResultScript
+        reportDefault
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`
