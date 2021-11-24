@@ -49,11 +49,11 @@ export class PriceListStore {
     if (!res.priceLists.success) return alert(res.priceLists.message)
     this.listPriceList = res.priceLists.data
     this.listPriceListCount = res.priceLists.paginatorInfo.count
-  }
-
+  }  
+  
   filterPriceList(res: any){
-    this.listPriceList = res.priceLists.data
-    this.listPriceListCount = res.priceLists.paginatorInfo.count
+    this.listPriceList = res.filterPriceList.data
+    this.listPriceListCount = res.filterPriceList.paginatorInfo.count
   }
 
   updatePriceList(price: Models.PriceList) {
