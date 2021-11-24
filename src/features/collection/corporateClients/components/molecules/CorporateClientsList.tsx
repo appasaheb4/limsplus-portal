@@ -36,7 +36,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "corporateCode",
             text: "Corporate Code",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -44,7 +44,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "corporateName",
             text: "Corporate Name",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -52,14 +52,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "invoiceAc",
             text: "Invoice Ac",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "priceList",
             text: "Price List",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -94,14 +94,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "priceGroup",
             text: "Price Group",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "billingOn",
             text: "Billing On",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -143,7 +143,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "customerGroup",
             text: "Customer Group",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -182,7 +182,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "category",
             text: "Category",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -239,7 +239,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "telephone",
             text: "Telephone",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -298,7 +298,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "deliveryMethod",
             text: "Delivery Method",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -336,7 +336,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "salesTerritoRy",
             text: "Sales TerritoRy",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -395,7 +395,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "ediAddress",
             text: "EDI Address",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -429,7 +429,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "schedule",
             text: "Schedule",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -465,7 +465,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "reportFormat",
             text: "Report Format",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -479,7 +479,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "fyiLine",
             text: "FYI Line",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },

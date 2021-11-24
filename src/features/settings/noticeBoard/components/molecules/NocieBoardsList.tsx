@@ -42,6 +42,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
             {
               dataField: "lab",
               text: "Labs",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -75,6 +76,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
             {
               dataField: "header",
               text: "Header",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -83,7 +85,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               text: "Message",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader2",
               editorRenderer: (
                 editorProps,
                 value,
@@ -110,6 +112,7 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
             {
               dataField: "action",
               text: "Action",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

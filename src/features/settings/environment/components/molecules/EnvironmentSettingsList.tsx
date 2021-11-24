@@ -46,7 +46,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               text: "Labs",
               sort: true,
               //   filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -93,7 +93,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               text: "Users",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -164,7 +164,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               dataField: "department",
               text: "Departments",
               sort: true,
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -205,7 +205,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               text: "Variable",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
                 value,
@@ -246,14 +246,14 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
               text: "Value",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
             },
             {
               dataField: "description",
               text: "Description",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
                 value,
@@ -280,6 +280,7 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
             {
               dataField: "environment",
               text: "Environment",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

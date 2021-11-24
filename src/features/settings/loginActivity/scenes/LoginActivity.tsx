@@ -37,7 +37,7 @@ const LoginActivity = observer(() => {
                   text: "User name",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                   editable: false,
                 },
                 {
@@ -45,28 +45,28 @@ const LoginActivity = observer(() => {
                   text: "User Id",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                 },
                 {
                   dataField: "user.lab",
                   text: "Lab",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                 },
                 {
                   dataField: "user.role",
                   text: "Role",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                 },
                 {
                   dataField: "systemInfo",
                   text: "System info",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                   formatter: (cell, row) => {
                     return (
                       <div>
@@ -98,7 +98,7 @@ const LoginActivity = observer(() => {
                       }
                     },
                   }),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                   csvFormatter: (cell, row, rowIndex) =>
                     `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
                   formatter: (cell, row) => {
@@ -125,7 +125,7 @@ const LoginActivity = observer(() => {
                   text: "In",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerStyle: { minWidth: "200px" },
+                  headerClasses: "textHeader3",
                   formatter: (cell, row) => {
                     return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
