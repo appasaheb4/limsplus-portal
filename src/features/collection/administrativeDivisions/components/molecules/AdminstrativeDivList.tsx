@@ -193,7 +193,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

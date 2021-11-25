@@ -187,7 +187,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "collContainerCode",
               text: "Coll Container Code",
-              headerClasses: "textHeader4",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -230,7 +230,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "collContainerName",
               text: "Coll Container Name",
-              headerClasses: "textHeader4",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -273,7 +273,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "testContainerCode",
               text: "Test Container Code",
-              headerClasses: "textHeader4",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -316,7 +316,7 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
             {
               dataField: "testContainerName",
               text: "Test Container Name",
-              headerClasses: "textHeader4",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

@@ -108,7 +108,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "address",
             text: "Address",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -122,14 +122,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "state",
             text: "State",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "country",
             text: "Country",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -246,21 +246,21 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "mobileNo",
             text: "Mobile No",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "email",
             text: "Email",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "deliveryType",
             text: "Delivery Type",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -374,14 +374,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "area",
             text: "Area",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "zone",
             text: "Zone",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -422,7 +422,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "workHours",
             text: "Work Hours",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
@@ -486,14 +486,14 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "workLine",
             text: "Work Line",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "status",
             text: "Status",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -531,7 +531,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -621,7 +621,7 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "enteredBy",
             editable: false,
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             text: "Entered By",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),

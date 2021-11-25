@@ -89,7 +89,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "instrumentName",
           text: "Instrument Name",
-          headerClasses: "textHeader4",
+          headerClasses: "textHeader5",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -120,7 +120,6 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
           headerClasses: "textHeader5",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
-          headerStyle: { minWidth: "200px" },
           formatter: (cellContent, row) => (
             <>
               {row.dataFlowFrom && row.dataFlowFrom !== undefined
@@ -173,7 +172,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "communicationProtocol",
           text: "Communication Protocol",
-          headerClasses: "textHeader1",
+          headerClasses: "textHeader5",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -491,7 +490,7 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
         {
           dataField: "environment",
           text: "Environment",
-          headerClasses: "textHeader2",
+          headerClasses: "textHeader3",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (

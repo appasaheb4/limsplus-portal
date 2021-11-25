@@ -41,7 +41,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "code",
               text: "Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable:false,
@@ -49,7 +49,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "description",
               text: "Description",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -57,7 +57,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "usageType",
               text: "Usage Type",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -95,7 +95,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "libraryType",
               text: "Library Type",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -133,7 +133,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "commentType",
               text: "Comment Type",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -208,7 +208,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "department",
               text: "Department",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -247,7 +247,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "commentsTarget",
               text: "CommentsTarget",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -285,7 +285,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "details",
               text: "Details",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -293,7 +293,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "parameter",
               text: "Parameter",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -330,7 +330,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "action",
               text: "Action",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -368,7 +368,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "results",
               text: "Aesults",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -406,7 +406,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "value",
               text: "Value",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -414,7 +414,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {  
               dataField: "reflex",
               text: "Reflex",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
@@ -465,7 +465,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "analyte",
               text: "Analyte",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -473,7 +473,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "rule",
               text: "Rule",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -497,7 +497,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -535,7 +535,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "organismGroup",
               text: "Organism Group",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -543,7 +543,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "organismClass",
               text: "Organism Class",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -551,7 +551,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "loAge",
               text: "LO Age",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -559,7 +559,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "hiAge",
               text: "HI Age",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -567,7 +567,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "sex",
               text: "Sex",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -605,7 +605,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "sexAction",
               text: "Sex Action",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -643,7 +643,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

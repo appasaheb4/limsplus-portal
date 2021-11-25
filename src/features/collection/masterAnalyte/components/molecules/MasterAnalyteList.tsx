@@ -42,7 +42,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "lab",
               text: "Lab",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -57,7 +57,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const lab = e.target.value as string
                         props.onUpdateItem &&
@@ -80,7 +80,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteCode",
               text: "Analyte Code",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -88,7 +88,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteName",
               text: "Analyte Name",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -96,7 +96,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "description",
               text: "Description",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -142,7 +142,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteMethod",
               text: "Analyte Method",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -150,7 +150,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "shortName",
               text: "Short Name",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -208,7 +208,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "high",
               text: "High",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -216,7 +216,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "low",
               text: "Low",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -243,7 +243,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "resultType",
               text: "Result Type",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -258,7 +258,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Result Type">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const resultType = e.target.value
                         props.onUpdateItem &&
@@ -305,7 +305,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "analyteType",
               text: "Analyte Type",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -320,7 +320,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Type">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const analyteType = e.target.value
                         props.onUpdateItem &&
@@ -344,7 +344,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "units",
               text: "Units",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -359,7 +359,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Units">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const units = e.target.value as string
                         props.onUpdateItem &&
@@ -383,7 +383,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "usage",
               text: "Usage",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -398,7 +398,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Usage">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const usage = e.target.value as string
                         props.onUpdateItem &&
@@ -422,7 +422,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "picture",
               text: "picture",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -437,15 +437,15 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Picture">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
-                        const picture = e.target.value as "0" | "1" | "2" | "3"
+                        const picture = e.target.value as "0" | "1" | "4" | "3"
                         props.onUpdateItem &&
                           props.onUpdateItem(picture, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
-                      {["0", "1", "2", "3"].map((item: any, index: number) => (
+                      {["0", "1", "4", "3"].map((item: any, index: number) => (
                         <option key={index} value={item}>
                           {item}
                         </option>
@@ -569,7 +569,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //     <>
             //       <LibraryComponents.Atoms.Form.InputWrapper label="Workflow">
             //         <select
-            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const workflow = e.target.value as string
             //             props.onUpdateItem &&
@@ -610,7 +610,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //       >
             //         <select
             //           name="optionSampleTypes"
-            //           className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+            //           className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
             //           onChange={(e) => {
             //             const sampleType = e.target.value as string
             //             props.onUpdateItem &&
@@ -632,7 +632,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "calcyName",
               text: "Calcy Name",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -663,7 +663,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                     <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const status = e.target.value
                         props.onUpdateItem &&
@@ -688,7 +688,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: "enteredBy",
               editable: false,
               text: "Entered By",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
@@ -732,7 +732,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -747,7 +747,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   <LibraryComponents.Atoms.Form.InputWrapper label="Environment">
                     <select
                       value={row.environment}
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      className="leading-4 p-4 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
                       onChange={(e) => {
                         const environment = e.target.value
                         props.onUpdateItem &&
@@ -801,7 +801,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                     {row.status !== "I" && (
                       <>
                         <LibraryComponents.Atoms.Tooltip
-                          className="ml-2"
+                          className="ml-4"
                           tooltipText="Version Upgrade"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext
@@ -817,7 +817,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
                         <LibraryComponents.Atoms.Tooltip
-                          className="ml-2"
+                          className="ml-4"
                           tooltipText="Duplicate"
                         >
                           <LibraryComponents.Atoms.Icons.IconContext

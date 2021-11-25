@@ -32,7 +32,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "specimenId",
                   text: "Specimen Id",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -40,7 +40,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "pLab",
                   text: "PLab",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -48,7 +48,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "rLab",
                   text: "RLab",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -56,7 +56,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "outSourceLab",
                   text: "Out Source Lab",
-                  headerClasses: "textHeader2",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -64,7 +64,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "outSourceStatus",
                   text: "Out Source Status",
-                  headerClasses: "textHeader2",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -72,7 +72,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "department",
                   text: "Department",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -80,7 +80,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "section",
                   text: "Section",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -88,7 +88,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "containerId",
                   text: "Container Id",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -96,7 +96,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "sampleType",
                   text: "Sample Type",
-                  headerClasses: "textHeader2",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -104,7 +104,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "receivedDate",
                   text: "Received Date",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -112,7 +112,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "collectionDate",
                   text: "Collection Date",
-                  headerClasses: "textHeader2",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -120,7 +120,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "methodCollection",
                   text: "Method Collection",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -128,7 +128,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "dateCollection",
                   text: "Date Collection",
-                  headerClasses: "textHeader2",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -136,7 +136,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "status",
                   text: "Status",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
@@ -144,7 +144,7 @@ const PatientSampleList  = observer((props:PatientSampleListProps)=>{
                 {
                   dataField: "environment",
                   text: "Environment",
-                  headerClasses: "textHeader1",
+                  headerClasses: "textHeader4",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   
