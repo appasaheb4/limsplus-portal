@@ -904,19 +904,19 @@ const HostCommunication = observer(() => {
           <LibraryComponents.Molecules.ModalConfirm
             {...deleteItem}
             click={() => {
-              dataConversationStore.dataConversationService
-                .deletedepartment(deleteItem.id)
-                .then((res: any) => {
-                  if (res.status === 200) {
-                    LibraryComponents.Atoms.Toast.success({
-                      message: `😊 Department deleted.`,
-                    })
-                    setDeleteItem({ show: false })
-                    // rootStore.departmentStore.fetchListDepartment()
-                  }
-                })
+              // dataConversationStore.dataConversationService
+              //   .deletedepartment(deleteItem.id)
+              //   .then((res: any) => {
+              //     if (res.status === 200) {
+              //       LibraryComponents.Atoms.Toast.success({
+              //         message: `😊 Department deleted.`,
+              //       })
+              //       setDeleteItem({ show: false })
+              //       // rootStore.departmentStore.fetchListDepartment()
+              //     }
+              //   })
             }}
-          />
+          />  
         </div>
       <LibraryComponents.Atoms.ModalImportFile
         accept=".csv,.xlsx,.xls,.txt,.hl7"
