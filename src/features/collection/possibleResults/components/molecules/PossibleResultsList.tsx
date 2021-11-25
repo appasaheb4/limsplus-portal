@@ -36,7 +36,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             dataField: "analyteCode",
             text: "Analyte Code",
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader4",
             sort: true,
             editorRenderer: (
               editorProps,

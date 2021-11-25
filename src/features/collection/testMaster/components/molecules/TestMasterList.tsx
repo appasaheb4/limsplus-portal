@@ -42,7 +42,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "rLab",
               text: "RLab",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -79,7 +79,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "pLab",
               text: "PLab",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -115,7 +115,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "department",
               text: "Department",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -153,7 +153,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "section",
               text: "Section",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -195,7 +195,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "testCode",
               text: "Test Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -203,7 +203,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "testName",
               text: "Test Name",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -211,7 +211,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "description",
               text: "Description",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -239,7 +239,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "shortName",
               text: "Short Name",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -276,7 +276,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "schedule",
               text: "Schedule",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -292,7 +292,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "validationLevel",
               text: "Validation Level",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader4",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -334,7 +334,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "resultOrder",
               text: "Result Order",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -342,7 +342,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "processing",
               text: "Processing",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -383,7 +383,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "sampleRunOn",
               text: "Sample Run On",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -419,7 +419,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "workflow",
               text: "Workflow",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -459,7 +459,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "disease",
               text: "disease",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -498,7 +498,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "category",
               text: "Category",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -537,7 +537,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "testType",
               text: "Test Type",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -576,7 +576,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "workflowCode",
               text: "Workflow Code",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -718,7 +718,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "reportGroup",
               text: "Report Group",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -823,7 +823,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "tubeGroup",
               text: "Tube Group",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -832,7 +832,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "labelInstruction",
               text: "Label Instruction",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -841,7 +841,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "panelMethod",
               text: "Panel Method",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -850,7 +850,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "sampleType",
               text: "Sample Type",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -859,7 +859,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "worklistCode",
               text: "Worklist Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -925,7 +925,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "prefix",
               text: "Prefix",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -965,7 +965,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "sufix",
               text: "Sufix",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1004,7 +1004,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "speicalInstructions",
               text: "Speical Instructions",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1012,7 +1012,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "deleverySchedule",
               text: "Delevery Schedule",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1039,7 +1039,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "collectionContainer",
               text: "Collection Container",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1047,7 +1047,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "holdingDays",
               text: "Holding Days",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1055,7 +1055,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -1094,7 +1094,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "enteredBy",
               text: "Entered By",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -1126,7 +1126,7 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

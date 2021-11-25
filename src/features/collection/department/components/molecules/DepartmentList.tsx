@@ -73,7 +73,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "code",
             text: "Code",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -81,7 +81,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "name",
             text: "Name",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -89,7 +89,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "shortName",
             text: "Short Name",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -97,7 +97,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "hod",
             text: "HOD",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -135,7 +135,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "mobileNo",
             text: "Mobile No",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -143,7 +143,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "contactNo",
             text: "Contact No",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -233,21 +233,21 @@ const DepartmentList = (props: DepartmentListProps) => {
             dataField: "openingTime",
             text: "Opening Time",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            // filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "closingTime",
             text: "Closing Time",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            // filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
           {
             dataField: "fyiLine",
             text: "Fyi Line",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -255,7 +255,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "workLine",
             text: "Work Line",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -263,7 +263,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "status",
             text: "Status",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -302,7 +302,7 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

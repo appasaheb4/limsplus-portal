@@ -110,14 +110,14 @@ const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: "secoundCutofTime",
               text: "Secound Cutof Time",
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "processingType",
               text: "Processing Type",
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
