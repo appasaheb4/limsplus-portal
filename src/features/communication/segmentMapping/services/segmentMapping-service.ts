@@ -12,6 +12,7 @@ import {
   REMOVE_RECORD,
   UPDATE_RECORD,
   IMPORT_RECORDS,
+  FILTER
 } from "./mutation"
 import {MappingValues} from '../../models'
 
@@ -162,6 +163,26 @@ export class SegmentMappingService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterSegmentMappings.success)
+            return this.listSegmentMapping()
+          stores.segmentMappingStore.filterSegmentMappingList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

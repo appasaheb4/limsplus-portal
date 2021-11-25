@@ -7,7 +7,7 @@ import * as Models from "../../models"
 import { SegmentMapping as ModelSegmentMapping } from "../models"
 import * as XLSX from "xlsx"
 import * as Config from "@lp/config"
-import SegmentList from "../components/SegmentList"
+import { SegmentMappingList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 
 import { useStores } from "@lp/stores"
@@ -162,9 +162,9 @@ const SegmentMapping = observer(() => {
                 message: `😊 ${res.importSegmentMapping.success}`,
               })
               segmentMappingStore.fetchListSegmentMapping()
-            }   
+            }
           })
-      }  
+      }
     }
     reader.readAsBinaryString(file)
   }
@@ -179,18 +179,21 @@ const SegmentMapping = observer(() => {
     }
   }, [loginStore.login])
 
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      segmentMappingStore && segmentMappingStore.updateSegmentMapping({
-        ...segmentMappingStore.segmentMapping,
-        environment: environment.code as string
+  useEffect(() => {
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
       })
-      setValue("environment",environment.code as string)
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      segmentMappingStore &&
+        segmentMappingStore.updateSegmentMapping({
+          ...segmentMappingStore.segmentMapping,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
 
   const onSubmitSegmentMapiing = () => {
     if (segmentMappingStore.segmentMappingService) {
@@ -919,9 +922,10 @@ const SegmentMapping = observer(() => {
       </div>
 
       <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-        {/* <FeatureComponents.Molecules.SegmentMappingList
+        <SegmentMappingList
           data={segmentMappingStore.listSegmentMapping || []}
           totalSize={segmentMappingStore.listSegmentMappingCount}
+          extraData={{}}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
             "Delete"
@@ -930,45 +934,46 @@ const SegmentMapping = observer(() => {
             toJS(routerStore.userPermission),
             "Edit/Modify"
           )}
-          onDelete={(selectedUser) => setModalConfirm(selectedUser)}
-          onSelectedRow={(rows) => {
-            setModalConfirm({
-              show: true,
-              type: "Delete",
-              id: rows,
-              title: "Are you sure?",
-              body: `Delete selected items!`,
+          // onDelete={(selectedUser) => setModalConfirm(selectedUser)}
+          // onSelectedRow={(rows) => {
+          //   setModalConfirm({
+          //     show: true,
+          //     type: "Delete",
+          //     id: rows,
+          //     title: "Are you sure?",
+          //     body: `Delete selected items!`,
+          //   })
+          // }}
+          // onUpdateItem={(value: any, dataField: string, id: string) => {
+          //   setModalConfirm({
+          //     show: true,
+          //     type: "Update",
+          //     data: { value, dataField, id },
+          //     title: "Are you sure?",
+          //     body: `Update user!`,
+          //   })
+          // }}
+          duplicate={(item: ModelSegmentMapping) => {
+            setSaveTitle("Duplicate")
+            setHideAddSegmentMapping(false)
+            segmentMappingStore.updateSegmentMapping({
+              ...item,
+              dataFlowFrom:
+                item.dataFlowFrom !== undefined
+                  ? item.dataFlowFrom.split("&gt;").join(">")
+                  : "",
+              attachments: "",
+            })
+          }}  
+          onPageSizeChange={(page, limit) => {
+            segmentMappingStore.fetchListSegmentMapping(page, limit)
+          }}
+          onFilter={(type, filter, page, limit) => {
+            segmentMappingStore.segmentMappingService.filter({
+              input: { type, filter, page, limit },
             })
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            setModalConfirm({
-              show: true,
-              type: "Update",
-              data: { value, dataField, id },
-              title: "Are you sure?",
-              body: `Update user!`,
-            })
-          }}
-          onPageSizeChange={(page,limit)=>{
-            segmentMappingStore.fetchListSegmentMapping(page,limit)
-          }}
-        /> */}
-        <div>
-          <SegmentList
-            duplicate={(item: ModelSegmentMapping) => {
-              setSaveTitle("Duplicate")
-              setHideAddSegmentMapping(false)
-              segmentMappingStore.updateSegmentMapping({
-                ...item,
-                dataFlowFrom:
-                  item.dataFlowFrom !== undefined
-                    ? item.dataFlowFrom.split("&gt;").join(">")
-                    : "",
-                attachments: "",
-              })
-            }}
-          />
-        </div>
+        />
       </div>
       <LibraryComponents.Atoms.ModalImportFile
         accept=".csv,.xlsx,.xls"

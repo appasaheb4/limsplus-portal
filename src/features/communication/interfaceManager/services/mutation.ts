@@ -63,3 +63,31 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: InterfaceManagerInput!) {
+    filterInterfaceManagers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        interfaceType
+        instrumentType
+        instrumentName
+        dataFlowFrom
+        communicationProtocol
+        blockStart
+        blockEnd
+        filed
+        value
+        fileds
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

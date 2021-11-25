@@ -1,4 +1,3 @@
-import { ignore, version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
@@ -9,12 +8,11 @@ interface UpdateItem {
   id: string
 }
 
-@version(0.1)
 export class InterfaceManagerStore {
-  @ignore @observable interfaceManager!: Models.InterfaceManager
-  @observable listInterfaceManager: Models.InterfaceManager[]
-  @observable listInterfaceManagerCount: number
-  @ignore @observable updateItem!: UpdateItem
+  interfaceManager!: Models.InterfaceManager
+  listInterfaceManager: Models.InterfaceManager[]
+  listInterfaceManagerCount: number
+  updateItem!: UpdateItem
 
   constructor() {
     this.listInterfaceManager = []
@@ -24,27 +22,38 @@ export class InterfaceManagerStore {
       listInterfaceManager: observable,
       listInterfaceManagerCount: observable,
       updateItem: observable,
+
+      interfaceManagerService: computed,
+      fetchEncodeCharacter: action,
+      updateInterfaceManagerList: action,
+      updateInterfaceManager: action,
+      changeUpdateItem: action,
     })
   }
 
-  @computed get interfaceManagerService() {
+  get interfaceManagerService() {
     return new Services.InterfaceManagerService()
   }
-
-  @action fetchEncodeCharacter(page?, limit?) {
+  
+  fetchEncodeCharacter(page?, limit?) {
     this.interfaceManagerService.listInterfaceManager(page, limit)
   }
 
-  @action updateInterfaceManagerList(res: any) {
+  updateInterfaceManagerList(res: any) {
     if (!res.interfaceManagers.success) return alert(res.interfaceManagers.message)
     this.listInterfaceManager = res.interfaceManagers.data
     this.listInterfaceManagerCount = res.interfaceManagers.paginatorInfo.count
   }
 
-  @action updateInterfaceManager = (value: Models.InterfaceManager) => {
+  filterInterfaceManager(res: any){
+    this.listInterfaceManager = res.filterInterfaceManagers.data
+    this.listInterfaceManagerCount = res.filterInterfaceManagers.paginatorInfo.count
+  }
+  
+  updateInterfaceManager = (value: Models.InterfaceManager) => {
     this.interfaceManager = value
   }
-  @action changeUpdateItem = (item: UpdateItem) => {
+  changeUpdateItem = (item: UpdateItem) => {
     this.updateItem = item
   }
 }

@@ -276,6 +276,11 @@ const DataConversation = observer(() => {
             onPageSizeChange={(page, limit) => {
               dataConversationStore.fetchDataConversation(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              dataConversationStore.dataConversationService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
         </div>
         <LibraryComponents.Molecules.ModalConfirm

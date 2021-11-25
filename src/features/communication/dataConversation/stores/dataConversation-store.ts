@@ -1,4 +1,3 @@
-import { ignore, version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 
@@ -10,12 +9,11 @@ interface UpdateItem {
   id: string
 }
 
-@version(0.1)
 export class DataConversationStore {
-  @ignore @observable dataConversation!: Models.DataConversation
-  @observable listdataConversation: Models.DataConversation[]
-  @observable listdataConversationCount: number
-  @ignore @observable updateItem!: UpdateItem
+  dataConversation!: Models.DataConversation
+  listdataConversation: Models.DataConversation[]
+  listdataConversationCount: number
+  updateItem!: UpdateItem
 
   constructor() {
     this.listdataConversation = []
@@ -25,27 +23,38 @@ export class DataConversationStore {
       listdataConversation: observable,
       listdataConversationCount: observable,
       updateItem: observable,
+
+      dataConversationService: computed,
+      fetchDataConversation: action,
+      updateDataConversationList: action,
+      updateDataConversation: action,
+      changeUpdateItem: action,
     })
   }
 
-  @computed get dataConversationService() {
+  get dataConversationService() {
     return new Services.DataConversationService()
   }
-
-  @action fetchDataConversation(page?, limit?) {
+  
+  fetchDataConversation(page?, limit?) {
     this.dataConversationService.listDataConversation(page, limit)
   }
 
-  @action updateDataConversationList(res: any) {
+  updateDataConversationList(res: any) {
     if (!res.dataConversations.success) return alert(res.dataConversations.message)
     this.listdataConversation = res.dataConversations.data
     this.listdataConversationCount = res.dataConversations.paginatorInfo.count
   }
+  
+  filterDataConversationList(res: any){
+    this.listdataConversation = res.filterDataConversation.data
+    this.listdataConversationCount = res.filterDataConversation.paginatorInfo.count
+  }
 
-  @action updateDataConversation = (dataConversation: Models.DataConversation) => {
+  updateDataConversation = (dataConversation: Models.DataConversation) => {
     this.dataConversation = dataConversation
   }
-  @action changeUpdateItem = (item: UpdateItem) => {
+  changeUpdateItem = (item: UpdateItem) => {
     this.updateItem = item
   }
 }
