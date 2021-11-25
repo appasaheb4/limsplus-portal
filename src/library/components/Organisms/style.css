@@ -40,3 +40,6 @@ th {
 .react-bootstrap-table .textHeader5{
   min-width: 340px;
 }
+.react-bootstrap-table .textHeader6{
+  min-width: 360px;
+}

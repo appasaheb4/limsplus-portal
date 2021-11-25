@@ -32,18 +32,21 @@ const InterfaceManager = observer(() => {
     }
   }, [loginStore.login])
 
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      interfaceManagerStore && interfaceManagerStore.updateInterfaceManager({
-        ...interfaceManagerStore.interfaceManager,
-        environment: environment.code as string
+  useEffect(() => {
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
       })
-      setValue("environment",environment.code as string)
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      interfaceManagerStore &&
+        interfaceManagerStore.updateInterfaceManager({
+          ...interfaceManagerStore.interfaceManager,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
 
   const onSubmitInterfaceManager = () => {
     if (
@@ -496,8 +499,8 @@ const InterfaceManager = observer(() => {
             totalSize={interfaceManagerStore.listInterfaceManagerCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
-              updateInterfaceManager:interfaceManagerStore.updateInterfaceManager,
-              interfaceManager:interfaceManagerStore.interfaceManager
+              updateInterfaceManager: interfaceManagerStore.updateInterfaceManager,
+              interfaceManager: interfaceManagerStore.interfaceManager,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
@@ -529,8 +532,13 @@ const InterfaceManager = observer(() => {
             onPageSizeChange={(page, limit) => {
               interfaceManagerStore.fetchEncodeCharacter(page, limit)
             }}
+            onFilter={(type, filter, page, limit) => {
+              interfaceManagerStore.interfaceManagerService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
           />
-        </div>
+        </div>  
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type) => {

@@ -1,4 +1,3 @@
-import { ignore, version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import { Mapping } from "../../models"
@@ -10,14 +9,13 @@ interface UpdateItem {
   id: string
 }
 
-@version(0.1)
 export class SegmentMappingStore {
-  @ignore @observable segmentMapping!: Models.SegmentMapping
-  @observable listSegmentMapping: Models.SegmentMapping[]
-  @observable listSegmentMappingCount: number
-  @ignore @observable selectedItems: Models.SegmentMapping[]
-  @ignore @observable updateItem!: UpdateItem
-  @ignore @observable mapping: Mapping[]
+  segmentMapping!: Models.SegmentMapping
+  listSegmentMapping: Models.SegmentMapping[]
+  listSegmentMappingCount: number
+  selectedItems: Models.SegmentMapping[]
+  updateItem!: UpdateItem
+  mapping: Mapping[]
 
   constructor() {
     this.listSegmentMapping = []
@@ -31,43 +29,56 @@ export class SegmentMappingStore {
       selectedItems: observable,
       updateItem: observable,
       mapping: observable,
+
+      segmentMappingService: computed,
+      fetchListSegmentMapping: action,
+      updateListSegmentMapping: action,
+      fetchmappingList: action,
+      updateMappingList: action,
+      updateSegmentMapping: action,
+      updateSelectedItem: action,
+      changeUpdateItem: action,
+      filterSegmentMappingList: action,
     })
   }
 
-  @computed get segmentMappingService() {
+  get segmentMappingService() {
     return new Services.SegmentMappingService()
   }
 
-  @action fetchListSegmentMapping(page?, limit?) {
+  fetchListSegmentMapping(page?, limit?) {
     this.segmentMappingService.listSegmentMapping(page, limit)
   }
 
-  @action updateListSegmentMapping(res: any) {
-    console.log({ res })
-
+  updateListSegmentMapping(res: any) {
     if (!res.segmentMappings.success) return alert(res.segmentMappings.message)
     this.listSegmentMapping = res.segmentMappings.data
     this.listSegmentMappingCount = res.segmentMappings.paginatorInfo.count
   }
 
-  @action fetchmappingList() {
+  filterSegmentMappingList(res: any) {
+    this.listSegmentMapping = res.filterSegmentMappings.data
+    this.listSegmentMappingCount = res.filterSegmentMappings.paginatorInfo.count
+  }  
+
+  fetchmappingList() {
     this.segmentMappingService.mappingList()
   }
 
-  @action updateMappingList(res: any) {
+  updateMappingList(res: any) {
     if (!res.segmentMappings.success) return alert(res.segmentMappings.message)
     this.mapping = res.segmentMappings.data
   }
 
-  @action updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {
+  updateSegmentMapping = (segmentMapping: Models.SegmentMapping) => {
     this.segmentMapping = segmentMapping
   }
 
-  @action updateSelectedItem = (items: Models.SegmentMapping[]) => {
+  updateSelectedItem = (items: Models.SegmentMapping[]) => {
     this.selectedItems = items
   }
 
-  @action changeUpdateItem = (item: UpdateItem) => {
+  changeUpdateItem = (item: UpdateItem) => {
     this.updateItem = item
   }
 }

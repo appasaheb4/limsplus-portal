@@ -15,6 +15,7 @@ interface InterfaceManagerListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const InterfaceManagerList = observer((props: InterfaceManagerListProps) => {
@@ -169,10 +170,10 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
             </>
           ),
         },
-        {
+        {    
           dataField: "communicationProtocol",
           text: "Communication Protocol",
-          headerClasses: "textHeader5",
+          headerClasses: "textHeader6",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
@@ -575,6 +576,9 @@ export const InterfaceManagerList = observer((props: InterfaceManagerListProps) 
       }}
       onPageSizeChange={(page, size) => {
         props.onPageSizeChange && props.onPageSizeChange(page, size)
+      }}
+      onFilter={(type, filter, page, size) => {
+        props.onFilter && props.onFilter(type, filter, page, size)
       }}
     />
   )
