@@ -79,23 +79,6 @@ export class DataConversationService {
         )
     })
 
-  deletedepartment = (variables: any) =>
-    new Promise<any>((resolve, reject) => {
-      console.log({ variables })
-
-      //  client
-      //    .mutate({
-      //      mutation: REMOVE_RECORD,
-      //      variables,
-      //    })
-      //    .then((response: any) => {
-      //      resolve(response.data)
-      //    })
-      //    .catch((error) =>
-      //      reject(new ServiceResponse<any>(0, error.message, undefined))
-      //    )
-    })
-
   updateDataConversationUpdateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
