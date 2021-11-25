@@ -84,6 +84,7 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "fieldName",
             text: "Field Name",
+            headerClasses: "textHeader3",
             sort: true,
             style:{textTransform:"uppercase"},
             editorStyle:{textTransform:"uppercase"},
@@ -257,7 +258,7 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

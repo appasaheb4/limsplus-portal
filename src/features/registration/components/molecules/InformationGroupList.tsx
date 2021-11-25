@@ -36,7 +36,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "infoDate",
                             text: "Information Date",
-                            headerClasses: "textHeader",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -44,7 +44,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField:"infoRelatedTo",
                             text: "Informatiom Related To",
-                            headerClasses: "textHeader2",
+                            headerClasses: "textHeader5",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -83,7 +83,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "keyField",
                             text: "Key Field",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -91,7 +91,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "infoType",
                             text: "Information Type",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -129,7 +129,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "infoLookup",
                             text: "Information Lookup",
-                            headerClasses: "textHeader2",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -146,7 +146,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "lookupValue",
                             text: "LookupValue",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -154,7 +154,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "information",
                             text: "Information",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -162,7 +162,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "attachment",
                             text: "Attachment",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader4",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -198,7 +198,7 @@ const InformationGroupList = observer((props:InformationGroupProps)=>{
                         {
                             dataField: "environment",
                             text: "Environment",
-                            headerClasses: "textHeader1",
+                            headerClasses: "textHeader3",
                             sort: true,
                             filter: LibraryComponents.Organisms.Utils.textFilter(),
                             editable: (content, row, rowIndex, columnIndex) => editorCell(row),

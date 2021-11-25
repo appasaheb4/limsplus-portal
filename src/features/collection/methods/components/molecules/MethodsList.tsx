@@ -34,7 +34,7 @@ const MethodsList = (props: MethodsListProps) => {
         {
           dataField: "methodsCode",
           text: "Methods Code",
-          headerClasses: "textHeader3",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable:false
@@ -42,7 +42,7 @@ const MethodsList = (props: MethodsListProps) => {
         {
           dataField: "methodsName",
           text: "Methods Name",
-          headerClasses: "textHeader3",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editable: false,
@@ -50,7 +50,7 @@ const MethodsList = (props: MethodsListProps) => {
         {
           dataField: "description",
           text: "Description",
-          headerClasses: "textHeader3",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           style:{textTransform:"uppercase"},
@@ -59,7 +59,7 @@ const MethodsList = (props: MethodsListProps) => {
         {
           dataField: "status",
           text: "Status",
-          headerClasses: "textHeader3",
+          headerClasses: "textHeader2",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (
