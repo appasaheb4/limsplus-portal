@@ -36,6 +36,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
           {
             dataField: "sampleCode",
             text: "Sample Code",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -43,6 +44,7 @@ const SampleTypeList = (props: SampleTypeListProps) => {
           {
             dataField: "sampleType",
             text: "Sample Type",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -50,18 +52,21 @@ const SampleTypeList = (props: SampleTypeListProps) => {
           {
             dataField: "descriptions",
             text: "Descriptions",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "sampleGroup",
             text: "Sample Group",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
           },
           {
             dataField: "environment",
             text: "Environment",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

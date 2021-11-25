@@ -210,7 +210,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Validation Level",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               editorRenderer: (
                 editorProps,
                 value,
@@ -331,7 +331,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Marriage Anniversery Date",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
               },

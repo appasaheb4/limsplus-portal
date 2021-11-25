@@ -34,7 +34,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: "salesHierarchy",
             text: "Sales Hierarchy",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
@@ -112,7 +112,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: "empCode",
             text: "Employee Code",
-            headerClasses: "textHeader3",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -120,7 +120,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: "empName",
             text: "Employee Name",
-            headerClasses: "textHeader4",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -176,7 +176,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (

@@ -41,7 +41,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "panelCode",
               text: "Panel Code",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -84,7 +84,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "panelName",
               text: "Panel Name",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -127,7 +127,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "priority",
               text: "Priority",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -166,7 +166,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "priceGroup",
               text: "Price Group",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -205,7 +205,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "billTo",
               text: "Bill To",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -248,7 +248,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "clientName",
               text: "Client Name",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -291,7 +291,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "invoiceAc",
               text: "Invoice Ac",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -372,7 +372,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "price",
               text: "Price",
-              headerClasses: "textHeader",
+              // headerClasses: "textHeader",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -380,7 +380,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "fixedPrice",
               text: "Fixed Price",
-              headerClasses: "textHeader",
+              // headerClasses: "textHeader",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -388,7 +388,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "minSp",
               text: "Min Sp",
-              headerClasses: "textHeader",
+              // headerClasses: "textHeader",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -396,7 +396,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "maxSp",
               text: "Max Sp",
-              headerClasses: "textHeader",
+              // headerClasses: "textHeader",
               sort: true,
               //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -423,7 +423,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "specialScheme",
               text: "Special Scheme",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -466,7 +466,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "schemePrice",
               text: "Scheme Price",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -495,14 +495,14 @@ const MasterAnalyteList = (props: PriceListProps) => {
               dataField: "enteredBy",
               editable: false,
               text: "Entered By",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -541,7 +541,7 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),

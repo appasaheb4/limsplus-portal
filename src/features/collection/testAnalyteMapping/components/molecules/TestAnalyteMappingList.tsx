@@ -80,7 +80,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "testCode",
               text: "Test Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -88,7 +88,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "testName",
               text: "Test Name",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -96,7 +96,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "analyteCode",
               text: "Analyte Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -104,7 +104,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "analyteName",
               text: "Analyte Name",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -140,7 +140,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -180,7 +180,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "enteredBy",
               text: "Entered By",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -220,7 +220,7 @@ const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader3",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (

@@ -81,7 +81,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "panelCode",
               text: "Panel Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -120,7 +120,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "testCode",
               text: "Test Code",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -128,7 +128,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "testName",
               text: "Test Name",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
@@ -136,7 +136,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "description",
               text: "Description",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -163,7 +163,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "status",
               text: "Status",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -202,7 +202,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "environment",
               text: "Environment",
-              headerClasses: "textHeader1",
+              headerClasses: "textHeader5",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
@@ -241,7 +241,7 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             {
               dataField: "enteredBy",
               text: "Entered By",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader2",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,

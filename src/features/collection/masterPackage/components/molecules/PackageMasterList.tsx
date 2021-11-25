@@ -79,7 +79,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "packageCode",
             text: "Package Code",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -88,7 +88,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "packageName",
             text: "Package Name",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader4",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editor:false,
@@ -97,7 +97,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "panelCode",
             text: "Panel Code",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -105,7 +105,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "panelName",
             text: "Panel Name",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable:false
@@ -131,7 +131,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "status",
             text: "Status",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
@@ -167,7 +167,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "enteredBy",
             text: "Entered By",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader2",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: false,
@@ -200,7 +200,7 @@ const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: "environment",
             text: "Environment",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             editorRenderer: (
