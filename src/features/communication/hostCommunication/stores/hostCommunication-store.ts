@@ -1,31 +1,32 @@
-import { version, ignore } from "mobx-sync"
-import { makeAutoObservable,action, observable } from "mobx"
+import { makeObservable, action, observable } from "mobx"
 import * as Models from "../models"
-import {ConvertTo} from '../../models'
-import {InterfaceManager} from '../../interfaceManager/models'
+import { ConvertTo } from "../../models"
+import { InterfaceManager } from "../../interfaceManager/models"
 
-
-@version(0.1)
 export class HostCommunicationStore {
-  @observable hostCommuication!: Models.HostCommunication
-  @ignore @observable convertTo!: ConvertTo
-  @ignore @observable selectedInterfaceManager?: InterfaceManager
+  hostCommuication!: Models.HostCommunication
+  convertTo!: ConvertTo
+  selectedInterfaceManager?: InterfaceManager
   constructor() {
-    makeAutoObservable(this)
-}
+    makeObservable<HostCommunicationStore, any>(this, {
+      hostCommuication: observable,
+      convertTo: observable,
+      selectedInterfaceManager: observable,
 
-  @action updateHostCommuication = (
-    hostCommunication: Models.HostCommunication
-  ) => {
+      updateHostCommuication: action,
+      updateConvertTo: action,
+      updateSelectedInterfaceManager: action,
+    })
+  }
+
+  updateHostCommuication = (hostCommunication: Models.HostCommunication) => {
     this.hostCommuication = hostCommunication
-  }  
-  @action updateConvertTo(convertTo: ConvertTo) {
+  }
+  updateConvertTo(convertTo: ConvertTo) {
     this.convertTo = convertTo
   }
-  @action updateSelectedInterfaceManager(interfaceManager: InterfaceManager) {
+  updateSelectedInterfaceManager(interfaceManager: InterfaceManager) {
     console.log({ interfaceManager })
     this.selectedInterfaceManager = interfaceManager
   }
 }
-
-

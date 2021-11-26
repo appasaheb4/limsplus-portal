@@ -6,7 +6,13 @@
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
 //import * as Models from "../models"
-import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  FILTER,
+} from "./mutation"
 import { stores } from "@lp/stores"
 
 export class EnvironmentService {
@@ -18,10 +24,10 @@ export class EnvironmentService {
           variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
-          if (filter.type === "environmentVariable") {
+          if (filter.documentType === "environmentVariable") {
             stores.environmentStore.updateEnvVariableList(response.data)
           }
-          if (filter.type === "environmentSettings") {
+          if (filter.documentType === "environmentSettings") {
             stores.environmentStore.updateEnvSettingsList(response.data)
           }
           resolve(response.data)
@@ -78,5 +84,44 @@ export class EnvironmentService {
         )
     })
 
-    
+  filter = (variables: any, documentType) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterEnviroment.success)
+            return this.listEnvironment({ documentType })
+          if (documentType === "environmentVariable") {
+            const data = response.data.filterEnviroment.data.filter(
+              (data) => data.documentType === "environmentVariable"
+            )
+            stores.environmentStore.filterEnvVariableList({
+              filterEnviroment: {
+                ...response.data.filterEnviroment,
+                data,
+              },
+            })
+          }
+          if (documentType === "environmentSettings") {
+            const data = response.data.filterEnviroment.data.filter(
+              (data) => data.documentType === "environmentSettings"
+            )
+            stores.environmentStore.filterEnvSettingsList({
+              filterEnviroment: {
+                ...response.data.filterEnviroment,
+                data,
+              },
+            })
+          }
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
 }

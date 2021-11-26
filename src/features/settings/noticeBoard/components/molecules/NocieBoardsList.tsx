@@ -1,16 +1,10 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React from "react"
 import { observer } from "mobx-react"
-import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 
 import * as LibraryModels from "@lp/library/models"
-
-import * as Services from "../../services"
-
-import { Stores as LabStore } from "@lp/features/collection/labs/stores"
-
 
 interface NoticeBoardsListProps {
   data: any
@@ -21,7 +15,8 @@ interface NoticeBoardsListProps {
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void 
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void  
 }
 
 const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
@@ -137,8 +132,8 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                     {["login", "logout"].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
-                      </option>   
-                    ))}   
+                      </option>
+                    ))}
                   </select>
                 </>
               ),
@@ -152,7 +147,10 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -176,9 +174,9 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-             classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -191,9 +189,12 @@ const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
+          }}    
         />
       </div>
     </>

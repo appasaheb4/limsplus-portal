@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import "@lp/library/assets/css/accordion.css"
 import { useForm, Controller } from "react-hook-form"
-   
+
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -106,7 +106,7 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                       "ENVIRONMENT_VARIABLES_CATEGORY"
                     ).map((item: any, index: number) => (
                       <option key={index} value={item.code}>
-                         {LibraryUtils.lookupValue(item)}
+                        {LibraryUtils.lookupValue(item)}
                       </option>
                     ))}
                   </select>
@@ -230,7 +230,21 @@ export const EnvironmentVariable = observer((props: EnvironmentVariableProps) =>
                 body: `Update recoard!`,
               })
           }}
-          onPageSizeChange={(page, limit) => {}}
+          onPageSizeChange={(page, limit) => {   
+            environmentStore.fetchEnvironment(
+              { documentType: "environmentVariable" },
+              page,
+              limit
+            )
+          }}
+          onFilter={(type, filter, page, limit) => {
+            environmentStore.EnvironmentService.filter(
+              {
+                input: { type, filter, page, limit },
+              },
+              "environmentVariable"
+            )
+          }}
         />
       </div>
     </>

@@ -38,12 +38,33 @@ export const CREATE_RECORD = gql`
     }
   }
 `
-   
+
 export const UPDATE_RECORD = gql`
   mutation($input: UpdateNoticeBoardInput!) {
     updateNoticeBoard(input: $input) {
       success
       message
+    }
+  }
+`
+
+export const FILTER = gql`
+  mutation($input: NoticeBoardInput!) {
+    filterNoticeBoard(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        lab
+        header
+        message
+        action
+        dateOfEntry
+        lastUpdated
+      }
     }
   }
 `

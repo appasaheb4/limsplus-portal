@@ -14,7 +14,8 @@ interface EnvironmentVariableProps {
   onDelete?: (selectedUser: LibraryModels.Confirm) => void
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
   return (
@@ -34,17 +35,16 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
             {
               dataField: "environmentVariable",
               text: "Environment Variable",
+              headerClasses: "textHeader5",
               sort: true,
-               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
-              
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
             {
               dataField: "category",
               text: "Category",
+              headerClasses: "textHeader3",
               sort: true,
-               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editorRenderer: (
                 editorProps,
                 value,
@@ -54,42 +54,42 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                  
-                >
-                  <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                    onChange={(e) => {
-                      const category = e.target.value as string
-                      props.onUpdateItem && props.onUpdateItem(category,column.dataField,row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {LibraryUtils.lookupItems(
-                      props.extraData.lookupItems,
-                      "ENVIRONMENT_VARIABLES_CATEGORY"
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
+                      onChange={(e) => {
+                        const category = e.target.value as string
+                        props.onUpdateItem &&
+                          props.onUpdateItem(category, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT_VARIABLES_CATEGORY"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
-              
             },
             {
               dataField: "description",
               text: "Description",
+              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               sort: true,
-              headerStyle: { minWidth: "200px" },
             },
             {
               dataField: "enteredBy",
               text: "Entered By",
+              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               sort: true,
-              headerStyle: { minWidth: "200px" },  
             },
             {
               dataField: "opration",
@@ -100,7 +100,10 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -124,9 +127,9 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-             classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -139,8 +142,11 @@ const EnvironmentVariableList = observer((props: EnvironmentVariableProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

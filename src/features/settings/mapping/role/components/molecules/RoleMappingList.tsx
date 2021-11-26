@@ -1,17 +1,12 @@
 /* eslint-disable */
 import React, { useState } from "react"
 import { observer } from "mobx-react"
-import moment from "moment"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
-import * as Services from "../../services"
-
-import { Stores } from "../../stores"
-import { Stores as DeginisationStore } from "@lp/features/collection/deginisation/stores"
 import { stores } from "@lp/stores"
-
+  
 import { toJS } from "mobx"
 
 interface RoleMappingListProps {
@@ -23,7 +18,8 @@ interface RoleMappingListProps {
   onSelectedRow?: (selectedItem: any) => void
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onDuplicate?: (selectedItem: any) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 const RoleMappingList = observer((props: RoleMappingListProps) => {
@@ -44,9 +40,9 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
             {
               dataField: "role.description",
               text: "Role",
+              headerClasses: "textHeader",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerStyle: { minWidth: "200px" },
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
             },
             {
@@ -140,7 +136,7 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                           router,
                           id: row._id,
                           description: row.role.description,
-                          code: row.role.code
+                          code: row.role.code,
                         })
                     }}
                   >
@@ -149,7 +145,6 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                       size="medium"
                       color="#fff"
                     />
-                    Edit/Modify
                   </LibraryComponents.Atoms.Buttons.Button>
                   {props.isDelete && (
                     <>
@@ -174,17 +169,16 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
                           icon="trash-2-outline"
                           size="medium"
                           color="#fff"
-                        />  
-                        Delete
+                        />
                       </LibraryComponents.Atoms.Buttons.Button>
                     </>
                   )}
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-             classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -197,8 +191,11 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>

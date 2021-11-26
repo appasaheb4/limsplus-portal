@@ -413,7 +413,15 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               })
           }}
           onPageSizeChange={(page, limit) => {
-            environmentStore.fetchEnvironment({}, page, limit)
+            environmentStore.fetchEnvironment({documentType:'environmentSettings'}, page, limit)
+          }}
+          onFilter={(type, filter, page, limit) => {
+            environmentStore.EnvironmentService.filter(
+              {
+                input: { type, filter, page, limit },
+              },
+              "environmentSettings"
+            )
           }}
         />
       </div>

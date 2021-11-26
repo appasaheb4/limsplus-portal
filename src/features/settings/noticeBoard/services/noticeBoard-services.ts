@@ -5,9 +5,15 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { LIST, REMOVE_RECORD, CREATE_RECORD, UPDATE_RECORD } from "./mutation"
+import {
+  LIST,
+  REMOVE_RECORD,
+  CREATE_RECORD,
+  UPDATE_RECORD,
+  FILTER,
+} from "./mutation"
 import { stores } from "@lp/stores"
-   
+
 class NoticeBoardService {
   noticeBoardsList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
@@ -61,6 +67,26 @@ class NoticeBoardService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterNoticeBoard.success)
+            return this.noticeBoardsList()
+          stores.noticeBoardStore.filterNoticeBoardsList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

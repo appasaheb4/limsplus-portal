@@ -1091,6 +1091,11 @@ export const Users = observer(() => {
               onPageSizeChange={(page, limit) => {
                 userStore.loadUser(page, limit)
               }}
+              onFilter={(type, filter, page, limit) => {
+                userStore.UsersService.filter({
+                  input: { type, filter, page, limit },
+                })
+              }}
             />
           </div>
           <LibraryComponents.Molecules.ModalConfirm

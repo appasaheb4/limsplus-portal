@@ -12,8 +12,9 @@ import {
   REMOVE_RECORD,
   UPDATE_RECORD,
   CHECK_EXISTS_RECORD,
+  FILTER,
 } from "./mutation"
-import * as Model from '../models'
+import * as Model from "../models"
 
 export class RoleService {
   listRole = (page = 0, limit = 10) =>
@@ -31,11 +32,11 @@ export class RoleService {
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
-        )  
-    })   
+        )
+    })
 
   addrole = (variables: any) =>
-    new Promise<any>((resolve, reject) => {  
+    new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: CREATE_RECORD,
@@ -90,6 +91,25 @@ export class RoleService {
         .then((response: any) => {
           resolve(response.data)
           stores.roleStore.updateRole(new Model.Role({}))
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {  
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterRoles.success) return this.listRole()
+          stores.roleStore.filterRoleList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
         })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))

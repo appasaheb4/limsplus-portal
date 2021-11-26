@@ -6,7 +6,7 @@ import * as FeatureComponents from "../components"
 import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
-import {  useStores } from "@lp/stores"
+import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
 
@@ -17,7 +17,7 @@ const Role = observer(() => {
     handleSubmit,
     setValue,
   } = useForm()
-  const { loginStore, roleStore,routerStore } = useStores()
+  const { loginStore, roleStore, routerStore } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddRole, setHideAddRole] = useState<boolean>(true)
   useEffect(() => {
@@ -29,18 +29,21 @@ const Role = observer(() => {
       setValue("environment", loginStore.login.environment)
     }
   }, [loginStore.login])
-  useEffect(()=>{
-    const environment = routerStore.lookupItems.find((fileds)=>{
-      return fileds.fieldName === 'ENVIRONMENT'
-    })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-    if(environment){
-      roleStore && roleStore.updateRole({
-        ...roleStore.role,
-        environment: environment.code as string
+  useEffect(() => {
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
       })
-      setValue("environment",environment.code as string)
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      roleStore &&
+        roleStore.updateRole({
+          ...roleStore.role,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
   const onSubmitRoles = () => {
     if (!roleStore.checkExitsCode) {
       roleStore.RoleService.addrole({ input: { ...roleStore.role } }).then((res) => {
@@ -165,8 +168,7 @@ const Role = observer(() => {
                         errors.environment ? "border-red-500  " : "border-gray-300"
                       } rounded-md`}
                       disabled={
-                        loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? true
                           : false
                       }
@@ -193,8 +195,7 @@ const Role = observer(() => {
                       }}
                     >
                       <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== "SYSADMIN"
+                        {loginStore.login && loginStore.login.role !== "SYSADMIN"
                           ? `Select`
                           : roleStore.role?.environment || `Select`}
                       </option>
@@ -274,6 +275,11 @@ const Role = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               roleStore.fetchListRole(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              roleStore.RoleService.filter({
+                input: { type, filter, page, limit },
+              })
             }}
           />
         </div>
