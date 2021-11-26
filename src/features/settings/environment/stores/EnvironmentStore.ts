@@ -1,20 +1,18 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import { EnvironmentService } from "../services"
 import * as Models from "../models"
 
-@version(0.1)
 export class EnvironmentStore {
-  @ignore @observable environmentSettings!: Models.EnvironmentSettings
-  @ignore @observable environmentVariable!: Models.EnvironmentVariable
+  environmentSettings!: Models.EnvironmentSettings
+  environmentVariable!: Models.EnvironmentVariable
 
-  @observable environmentSettingsList: Models.EnvironmentSettings[]
-  @observable environmentSettingsListCount: number
+  environmentSettingsList: Models.EnvironmentSettings[]
+  environmentSettingsListCount: number
 
-  @observable environmentVariableList: Models.EnvironmentVariable[]
-  @observable environmentVariableListCount: number
+  environmentVariableList: Models.EnvironmentVariable[]
+  environmentVariableListCount: number
 
-  @ignore selectedItems!: Models.SelectedItems
+  selectedItems!: Models.SelectedItems
 
   constructor() {
     this.environmentSettingsList = []
@@ -29,53 +27,78 @@ export class EnvironmentStore {
       environmentVariableList: observable,
       environmentVariableListCount: observable,
       selectedItems: observable,
+
+      EnvironmentService: computed,
+      fetchEnvironment: action,
+      updateEnvVariableList: action,
+      updateEnvSettingsList: action,
+      updateEnvironmentSettings: action,
+      updateEnvironmentSettingsList: action,
+      updateEnvironmentSettingsCount: action,
+      updatEnvironmentVariable: action,
+      updatEnvironmentVariableList: action,
+      updateEnvironmentVariableCount: action,
+      updateSelectedItems: action,
+      filterEnvVariableList: action,
+      filterEnvSettingsList: action
     })
   }
-  @computed get EnvironmentService() {
+
+  get EnvironmentService() {
     return new EnvironmentService()
   }
 
-  @action fetchEnvironment(filter, page?, limit?) {
+  fetchEnvironment(filter, page?, limit?) {
     this.EnvironmentService.listEnvironment(filter, page, limit)
   }
 
-  @action updateEnvVariableList(res: any) {
+  updateEnvVariableList(res: any) {
     if (!res.enviroments.success) return alert(res.enviroments.message)
     this.environmentVariableList = res.enviroments.data
     this.environmentVariableListCount = res.enviroments.paginatorInfo.count
   }
 
-  @action updateEnvSettingsList(res: any) {
+  filterEnvVariableList(res: any) {
+    this.environmentVariableList = res.filterEnviroment.data
+    this.environmentVariableListCount = res.filterEnviroment.paginatorInfo.count
+  }
+
+  updateEnvSettingsList(res: any) {
     if (!res.enviroments.success) return alert(res.enviroments.message)
     this.environmentSettingsList = res.enviroments.data
     this.environmentSettingsListCount = res.enviroments.paginatorInfo.count
   }
+   
+  filterEnvSettingsList(res: any) {
+    this.environmentSettingsList = res.filterEnviroment.data
+    this.environmentSettingsListCount = res.filterEnviroment.paginatorInfo.count
+  }  
 
-  @action updateEnvironmentSettings(env: Models.EnvironmentSettings) {
+  updateEnvironmentSettings(env: Models.EnvironmentSettings) {
     this.environmentSettings = env
   }
 
-  @action updateEnvironmentSettingsList(list: Models.EnvironmentSettings[]) {
+  updateEnvironmentSettingsList(list: Models.EnvironmentSettings[]) {
     this.environmentSettingsList = list
   }
 
-  @action updateEnvironmentSettingsCount(count: number) {
+  updateEnvironmentSettingsCount(count: number) {
     this.environmentSettingsListCount = count
   }
 
-  @action updatEnvironmentVariable(environment: Models.EnvironmentVariable) {
+  updatEnvironmentVariable(environment: Models.EnvironmentVariable) {
     this.environmentVariable = environment
   }
 
-  @action updatEnvironmentVariableList(list: Models.EnvironmentVariable[]) {
+  updatEnvironmentVariableList(list: Models.EnvironmentVariable[]) {
     this.environmentVariableList = list
   }
 
-  @action updateEnvironmentVariableCount(count: number) {
+  updateEnvironmentVariableCount(count: number) {
     this.environmentVariableListCount = count
   }
 
-  @action updateSelectedItems(items: Models.SelectedItems){
+  updateSelectedItems(items: Models.SelectedItems) {
     this.selectedItems = items
   }
 }

@@ -1,12 +1,11 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Services from "../services"
 import * as Models from "../models"
-@version(0.1)
+
 export class NoticeBoardStore {
-  @ignore @observable noticeBoard!: Models.NoticeBoard
-  @observable noticeBoardList: Models.NoticeBoard[]
-  @observable noticeBoardListCount: number
+  noticeBoard!: Models.NoticeBoard
+  noticeBoardList: Models.NoticeBoard[]
+  noticeBoardListCount: number
 
   constructor() {
     this.noticeBoardList = []
@@ -15,25 +14,35 @@ export class NoticeBoardStore {
       noticeBoard: observable,
       noticeBoardList: observable,
       noticeBoardListCount: observable,
+
+      NoticeBoardService: computed,
+      fetchNoticeBoards: action,
+      updateNoticeBoardsList: action,
+      updateNoticeBoard: action,
     })
   }
 
-  @computed get NoticeBoardService() {
+  get NoticeBoardService() {
     return new Services.NoticeBoardService()
   }
 
-  @action fetchNoticeBoards(page?, limit?) {
+  fetchNoticeBoards(page?, limit?) {
     this.NoticeBoardService.noticeBoardsList(page, limit)
   }
 
-  @action updateNoticeBoardsList(res: any) {
+  updateNoticeBoardsList(res: any) {
     if (!res.noticeBoards.success) return alert(res.noticeBoards.message)
     this.noticeBoardList = res.noticeBoards.data
     this.noticeBoardListCount = res.noticeBoards.paginatorInfo.count
   }
+     
+  filterNoticeBoardsList(res: any) {
+    this.noticeBoardList = res.filterNoticeBoard.data
+    this.noticeBoardListCount = res.filterNoticeBoard.paginatorInfo.count
+  }
 
   // notice board
-  @action updateNoticeBoard(notice: Models.NoticeBoard) {
+  updateNoticeBoard(notice: Models.NoticeBoard) {
     this.noticeBoard = notice
   }
 }

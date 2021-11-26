@@ -5,7 +5,7 @@
  * @author limsplus
  */
 import { client, ServiceResponse } from "@lp/library/modules/apolloClient"
-import { LIST } from "./mutation"
+import { LIST,FILTER } from "./mutation"
 import { stores } from "@lp/stores"
 class LoginActivityService {
   listLoginActivity = (page = 0, limit = 10) =>
@@ -17,6 +17,24 @@ class LoginActivityService {
         })
         .then((response: any) => {
           stores.loginActivityStore.updateLoginActivityList(response.data)
+          resolve(response.data)
+        })
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {  
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterLoginActivitys.success) return this.listLoginActivity()
+          stores.loginActivityStore.filterLoginActivityList(response.data)
+          stores.uploadLoadingFlag(true)
           resolve(response.data)
         })
         .catch((error) =>

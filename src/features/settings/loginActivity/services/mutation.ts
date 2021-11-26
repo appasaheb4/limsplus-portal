@@ -54,3 +54,22 @@ export const EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: LoginActivityInput!) {
+    filterLoginActivitys(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        user
+        systemInfo
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

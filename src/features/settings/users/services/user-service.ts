@@ -21,6 +21,7 @@ import {
   CHANGE_PASSWORD_BY_ADMIN,
   SWITCH_ACCESS,
   FILTER_USERS_BY_KEY,
+  FILTER
 } from "./mutation"
 
 export class UserService {
@@ -233,6 +234,25 @@ export class UserService {
           stores.uploadLoadingFlag(true)
           resolve(response.data)
         })  
+        .catch((error) =>
+          reject(new ServiceResponse<any>(0, error.message, undefined))
+        )
+    })
+
+    filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {  
+      stores.uploadLoadingFlag(false)
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterUsers.success) return this.userList()
+          stores.userStore.filterUserList(response.data)
+          stores.uploadLoadingFlag(true)
+          resolve(response.data)
+        })
         .catch((error) =>
           reject(new ServiceResponse<any>(0, error.message, undefined))
         )

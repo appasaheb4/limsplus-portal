@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client"
- 
+
 export const LIST = gql`
   mutation($input: EnviromentInput!) {
     enviroments(input: $input) {
       paginatorInfo {
         count
-      }  
+      }
       success
       message
       data {
@@ -51,6 +51,33 @@ export const UPDATE_RECORD = gql`
     updateEnviroment(input: $input) {
       success
       message
+    }
+  }
+`
+
+export const FILTER = gql`
+  mutation($input: EnviromentInput!) {
+    filterEnviroment(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        lab
+        user
+        department
+        variable
+        value
+        descriptions
+        environment
+        environmentVariable
+        category
+        enteredBy
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
     }
   }
 `

@@ -55,3 +55,23 @@ export const CHECK_EXISTS_RECORD = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: RoleInput!) {
+    filterRoles(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        code
+        description
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

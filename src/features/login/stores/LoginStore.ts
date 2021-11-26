@@ -1,4 +1,3 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, runInAction, computed } from "mobx"
 import Session from "@lp/library/modules/session"
 import { Login, ForgotPassword } from "../models"
@@ -6,12 +5,11 @@ import * as Services from "../services"
 import { stores } from "@lp/stores"
 import Storage from "@lp/library/modules/storage"
 
-@version(0.1)
 export class LoginStore {
-  @ignore @observable inputLogin!: Login
-  @observable login!: Login
-  @observable loginFailedCount?: number
-  @ignore @observable forgotPassword!: ForgotPassword
+  inputLogin!: Login
+  login!: Login
+  loginFailedCount?: number
+  forgotPassword!: ForgotPassword
 
   constructor() {
     makeObservable<LoginStore, any>(this, {
@@ -19,6 +17,16 @@ export class LoginStore {
       login: observable,
       loginFailedCount: observable,
       forgotPassword: observable,
+
+      LoginService: computed,
+      saveLogin: action,
+      removeUser: action,
+      removeLocalSession: action,
+      updateInputUser: action,
+      clearInputUser: action,
+      updateLogin: action,
+      updateLoginFailedCount: action,
+      updateForgotPassword: action,
     })
     Session.initialize({ name: "limsplus" })
     runInAction(async () => {
@@ -30,18 +38,18 @@ export class LoginStore {
     })
   }
 
-  @computed get LoginService() {
+  get LoginService() {
     return new Services.LoginService()
   }
 
-  @action saveLogin = async (session) => {
+  saveLogin = async (session) => {
     localStorage.setItem("accessToken", session.accessToken)
     Session.saveSession(session)
     stores.rootStore.updateSesssion(session)
     this.login = session
   }
 
-  @action removeUser = (): Promise<any> => {
+  removeUser = (): Promise<any> => {
     return new Promise<any>((resolve) => {
       if (Session.hasSession) {
         this.LoginService.logout({
@@ -71,7 +79,7 @@ export class LoginStore {
     })
   }
 
-  @action removeLocalSession = (): Promise<boolean> => {
+  removeLocalSession = (): Promise<boolean> => {
     return new Promise<boolean>(async (resolve) => {
       await Storage.removeItem(`__persist_mobx_stores_loginStore__`)
       await Storage.removeItem(`__persist_mobx_stores_routerStore__`)
@@ -87,22 +95,22 @@ export class LoginStore {
     })
   }
 
-  @action updateInputUser(user: Login) {
+  updateInputUser(user: Login) {
     this.inputLogin = user
   }
 
-  @action clearInputUser() {
+  clearInputUser() {
     this.inputLogin = new Login({})
   }
 
-  @action updateLogin = async (login: Login) => {
+  updateLogin = async (login: Login) => {
     this.login = login
   }
 
-  @action updateLoginFailedCount(val: number) {
+  updateLoginFailedCount(val: number) {
     this.loginFailedCount = val
   }
-  @action updateForgotPassword(details?: ForgotPassword | undefined) {
+  updateForgotPassword(details?: ForgotPassword | undefined) {
     if (details) this.forgotPassword = details
     else this.forgotPassword = new ForgotPassword({})
   }

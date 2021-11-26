@@ -1,18 +1,16 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import dayjs from "dayjs"
 import { UserService } from "../services"
 
-@version(0.1)
 export class UserStore {
-  @ignore @observable user!: Models.Users
-  @observable userList!: Models.Users[]
-  @ignore userFilterList!: Models.Users[]
-  @observable userListCount: number = 0
-  @ignore @observable changePassword!: Models.ChangePassword
-  @ignore @observable checkExitsUserId: boolean
-  @ignore @observable checkExistsEmpCode: boolean
+  user!: Models.Users
+  userList!: Models.Users[]
+  userFilterList!: Models.Users[]
+  userListCount: number = 0
+  changePassword!: Models.ChangePassword
+  checkExitsUserId: boolean
+  checkExistsEmpCode: boolean
 
   constructor() {
     this.userList = []
@@ -30,14 +28,15 @@ export class UserStore {
         .format("YYYY-MM-DD HH:mm:ss"),
       confidential: false,
       confirguration: false,
-      systemInfo:{
-        accessInfo:{
+      systemInfo: {
+        accessInfo: {
           mobile: true,
-          desktop: true
-        }
+          desktop: true,
+        },
       },
       validationLevel: 0,
     })
+
     makeObservable<UserStore, any>(this, {
       user: observable,
       userList: observable,
@@ -46,47 +45,61 @@ export class UserStore {
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
       userFilterList: observable,
+
+      UsersService: computed,
+      loadUser: action,
+      updateUserList: action,
+      updateUser: action,
+      updateChangePassword: action,
+      setExitsUserId: action,
+      setExistsEmpCodeStatus: action,
+      updateUserFilterList: action,
+      filterUserList: action
     })
   }
 
-  @computed get UsersService() {
+  get UsersService() {
     return new UserService()
   }
 
-  @action loadUser(page?, limit?) {
+  loadUser(page?, limit?) {
     this.UsersService.userList(page, limit)
   }
 
-  @action updateUserList(res: any) {
+  updateUserList(res: any) {
     if (!res.users.success) alert(res.users.message)
     this.userList = res.users.data
     this.userFilterList = res.users.data
     this.userListCount = res.users.paginatorInfo.count
   }
+  
+  filterUserList(res: any) {
+    this.userList = res.filterUsers.data
+    this.userListCount = res.filterUsers.paginatorInfo.count
+  }
 
-  @action updateUser(user: Models.Users) {
+  updateUser(user: Models.Users) {
     this.user = user
   }
 
-  @action updateChangePassword(password: Models.ChangePassword) {
+  updateChangePassword(password: Models.ChangePassword) {
     this.changePassword = password
   }
 
-  @action setExitsUserId(status: boolean) {
+  setExitsUserId(status: boolean) {
     this.checkExitsUserId = status
   }
 
-  @action setExistsEmpCodeStatus(status: boolean) {
+  setExistsEmpCodeStatus(status: boolean) {
     this.checkExistsEmpCode = status
   }
 
-  @action updateUserFilterList(res: any){
-    if(!Array.isArray(res)){
+  updateUserFilterList(res: any) {
+    if (!Array.isArray(res)) {
       if (!res.usersFilterByKey.success) alert(res.usersFilterByKey.message)
       this.userFilterList = res.usersFilterByKey.data
-    }else{
+    } else {
       this.userFilterList = res
     }
-    
   }
 }

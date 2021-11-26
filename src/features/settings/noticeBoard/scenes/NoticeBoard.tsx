@@ -235,7 +235,7 @@ const NoticeBoard = observer(() => {
           data={noticeBoardStore.noticeBoardList}
           totalSize={noticeBoardStore.noticeBoardListCount}
           extraData={{
-            listLabs:labStore.listLabs
+            listLabs: labStore.listLabs,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -266,6 +266,11 @@ const NoticeBoard = observer(() => {
           }}
           onPageSizeChange={(page, limit) => {
             noticeBoardStore.fetchNoticeBoards(page, limit)
+          }}  
+          onFilter={(type, filter, page, limit) => {
+            noticeBoardStore.NoticeBoardService.filter({
+              input: { type, filter, page, limit },
+            })
           }}
         />
       </div>
@@ -291,7 +296,7 @@ const NoticeBoard = observer(() => {
                 _id: modalConfirm.data.id,
                 [modalConfirm.data.dataField]: modalConfirm.data.value,
               },
-            }).then((res: any) => {  
+            }).then((res: any) => {
               if (res.updateNoticeBoard.success) {
                 LibraryComponents.Atoms.Toast.success({
                   message: `😊 ${res.updateNoticeBoard.message}`,

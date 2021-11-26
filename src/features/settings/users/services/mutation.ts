@@ -116,3 +116,16 @@ export const FILTER_USERS_BY_KEY = gql`
     }
   }
 `
+
+export const FILTER = gql`
+  mutation($input: UserInput!) {
+    filterUsers(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data
+    }
+  }
+`

@@ -1,17 +1,15 @@
 import { makeObservable, action, observable } from "mobx"
-import { ignore, version } from "mobx-sync"
 interface ApplicationSetting {
   sideBarColor?: string
   shortCutBarColor?: string
   imageSideBarBgImage?: string
   isSideBarBgImage?: boolean
   isExpandScreen?: boolean
-}  
-// console.log()
-@version(1.0)
+}
+
 export class AppStore {
-  @observable applicationSetting!: ApplicationSetting
-  @ignore @observable loadApi: { count: number; path?: string }
+  applicationSetting!: ApplicationSetting
+  loadApi: { count: number; path?: string }
 
   constructor() {
     this.loadApi = { count: 0 }
@@ -21,15 +19,18 @@ export class AppStore {
     }
     makeObservable<AppStore, any>(this, {
       applicationSetting: observable,
-      loadApi: observable
+      loadApi: observable,
+
+      updateApplicationSetting: action,
+      updateLoadApi: action,
     })
   }
 
-  @action updateApplicationSetting(setting: ApplicationSetting) {
+  updateApplicationSetting(setting: ApplicationSetting) {
     this.applicationSetting = setting
   }
 
-  @action updateLoadApi = (value: { count; path? }) => {
+  updateLoadApi = (value: { count; path? }) => {
     this.loadApi = value
   }
 }

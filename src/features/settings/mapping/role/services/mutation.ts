@@ -47,3 +47,23 @@ export const UPDATE_RECORD = gql`
   }
 `
 
+
+export const FILTER = gql`
+  mutation($input: RoleMappingInput!) {
+    filterRoleMapping(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data{
+        _id
+        role
+        router
+        environment
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`

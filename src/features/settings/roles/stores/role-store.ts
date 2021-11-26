@@ -1,14 +1,12 @@
-import { version, ignore } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
-@version(0.1)
 export class RoleStore {
-  @observable listRole: Models.Role[] = []
-  @observable listRoleCount: number = 0
-  @ignore @observable role?: Models.Role
-  @ignore @observable checkExitsCode?: boolean = false
+  listRole: Models.Role[] = []
+  listRoleCount: number = 0
+  role?: Models.Role
+  checkExitsCode?: boolean = false
 
   constructor() {
     makeObservable<RoleStore, any>(this, {
@@ -16,29 +14,39 @@ export class RoleStore {
       listRoleCount: observable,
       role: observable,
       checkExitsCode: observable,
+
+      RoleService: computed,
+      fetchListRole: action,
+      updateRoleList: action,
+      setExitsCode: action,
+      updateRole: action,
     })
   }
 
-  @computed get RoleService() {
+  get RoleService() {
     return new Services.RoleService()
   }
 
-  @action fetchListRole(page?, limit?) {
+  fetchListRole(page?, limit?) {
     this.RoleService.listRole(page, limit)
   }
 
-  @action updateRoleList(res: any) {
+  updateRoleList(res: any) {
     if (!res.roles.success) return alert(res.roles.message)
     this.listRole = res.roles.data
     this.listRoleCount = res.roles.paginatorInfo.count
   }
 
-  @action setExitsCode(status: boolean) {
+  filterRoleList(res: any){
+    this.listRole = res.filterRoles.data
+    this.listRoleCount = res.filterRoles.paginatorInfo.count
+  }
+
+  setExitsCode(status: boolean) {
     this.checkExitsCode = status
   }
 
-  @action updateRole = (role: Models.Role) => {
+  updateRole = (role: Models.Role) => {
     this.role = role
   }
-
 }

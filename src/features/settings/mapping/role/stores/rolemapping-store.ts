@@ -1,15 +1,14 @@
-import { version, ignore } from "mobx-sync"
+
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 
-@version(0.1)
 export class RoleMappingStore {
-  @ignore @observable user!: Models.Role
-  @ignore @observable selectedRole!: Models.RoleMapping
-  @observable roleMappingList: Models.Role[]
-  @observable roleMappingListCount: number
-  @observable rolePermission: any
+   user!: Models.Role
+   selectedRole!: Models.RoleMapping
+  roleMappingList: Models.Role[]
+  roleMappingListCount: number
+  rolePermission: any
   constructor() {
     this.roleMappingList = []
     this.roleMappingListCount = 0
@@ -20,31 +19,43 @@ export class RoleMappingStore {
       roleMappingList: observable,
       roleMappingListCount: observable,
       rolePermission: observable,
+
+      roleMappingService: computed,
+      fetchRoleMappingList: action,
+      updateRoleMappingList: action,
+      updateUser: action,
+      updateRolePermission: action,
+      updateSelectedRole: action
     })
   }
 
-  @computed get roleMappingService() {
+   get roleMappingService() {
     return new Services.RoleMappingService()
   }
 
-  @action fetchRoleMappingList(page?, limit?) {
+   fetchRoleMappingList(page?, limit?) {
     this.roleMappingService.roleMappingList(page, limit)
   }
 
-  @action updateRoleMappingList(res: any) {
+   updateRoleMappingList(res: any) {
     if (!res.roleMappings.success) return alert(res.roleMappings.message)
     this.roleMappingList = res.roleMappings.data
     this.roleMappingListCount = res.roleMappings.paginatorInfo.count
   }
 
-  @action updateUser = (user: Models.Role) => {
+  filterRoleMappingList(res: any){
+    this.roleMappingList = res.filterRoleMapping.data
+    this.roleMappingListCount = res.filterRoleMapping.paginatorInfo.count
+  }
+
+   updateUser = (user: Models.Role) => {
     this.user = user
   }
 
-  @action updateRolePermission(permission: any) {
+   updateRolePermission(permission: any) {
     this.rolePermission = permission  
   }
-  @action updateSelectedRole(role: Models.RoleMapping) {
+   updateSelectedRole(role: Models.RoleMapping) {
     this.selectedRole = role
   }
 }

@@ -21,6 +21,7 @@ interface UserListProps {
   onUpdateImage?: (value: any, dataField: string, id: string) => void
   onChangePassword?: (id: string, userId: string, email: string) => void
   onPageSizeChange?: (page: number, totalSize: number) => void
+  onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const UserList = observer((props: UserListProps) => {
@@ -132,7 +133,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "deginisation",
               text: "Deginisation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -209,7 +210,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader5",
               editorRenderer: (
                 editorProps,
@@ -244,20 +245,20 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-            {
-              dataField: "workStation",
-              text: "Work Station",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
-            },
-            {
-              dataField: "ipAddress",
-              text: "IP Address",
-              sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
-            },
+            // {
+            //   dataField: "workStation",
+            //   text: "Work Station",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   headerClasses: "textHeader3",
+            // },
+            // {
+            //   dataField: "ipAddress",
+            //   text: "IP Address",
+            //   sort: true,
+            //   filter: LibraryComponents.Organisms.Utils.textFilter(),
+            //   headerClasses: "textHeader3",
+            // },
             {
               dataField: "fullName",
               text: "Full Name",
@@ -299,7 +300,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
@@ -330,7 +331,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader5",
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
@@ -361,7 +362,7 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format("YYYY-MM-DD")
@@ -451,7 +452,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               editable: false,
               formatter: (cell, row) => {
@@ -694,7 +695,6 @@ export const UserList = observer((props: UserListProps) => {
             {
               dataField: "opration",
               text: "Password Re-Send",
-              headerClasses: "textHeader3",
               editable: false,
               csvExport: false,
               formatter: (cellContent, row) => (
@@ -733,7 +733,6 @@ export const UserList = observer((props: UserListProps) => {
             {
               dataField: "opration",
               text: "Change Password",
-              headerClasses: "textHeader3",
               csvExport: false,
               editable: false,
               formatter: (cellContent, row) => (
@@ -803,6 +802,9 @@ export const UserList = observer((props: UserListProps) => {
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size)
+          }}
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size)
           }}
         />
       </div>
