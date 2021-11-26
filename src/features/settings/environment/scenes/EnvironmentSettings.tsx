@@ -105,7 +105,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
 
             {((environmentStore.selectedItems &&
               environmentStore.selectedItems?.users.length > 0) ||
-              userStore.userFilterList) && (
+              userStore.userList) && (
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -117,7 +117,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       loader={loading}
                       data={{
-                        list: userStore.userFilterList,
+                        list: userStore.userList,
                         selected: environmentStore.selectedItems?.users,
                         displayKey: "fullName",
                         findKey: "fullName",
@@ -130,15 +130,21 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           user: items,
                         })
-                        userStore.updateUserFilterList(userStore.userList)
+                        // userStore.updateUserFilterList(userStore.userList)
                       }}
                       onFilter={(value: string) => {
-                        userStore.UsersService.userFilterByKey({
-                          input: { filter: { key: "fullName", value } },
+                        userStore.UsersService.filter({
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["fullName"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },  
                         })
                       }}
                       onSelect={(item) => {
-                        console.log({ item })
                         let users = environmentStore.selectedItems?.users
                         if (!item.selected) {
                           if (users && users.length > 0) {
@@ -150,7 +156,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                             return items._id !== item._id
                           })
                         }
-                        console.log({ users })
                         environmentStore.updateSelectedItems({
                           ...environmentStore.selectedItems,
                           users,
@@ -164,7 +169,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                 defaultValue=""
               />
             )}
-
             <Controller
               control={control}
               render={({ field: { onChange } }) => (
@@ -365,19 +369,18 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
           totalSize={environmentStore.environmentSettingsListCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
-            selectedItems:environmentStore.selectedItems,
-            userFilterList:userStore.userFilterList,
-            updateEnvironmentSettings:environmentStore.updateEnvironmentSettings,
-            environmentSettings:environmentStore.environmentSettings,
-            updateUserFilterList:userStore.updateUserFilterList,
+            selectedItems: environmentStore.selectedItems,
+            userFilterList: userStore.userList,
+            updateEnvironmentSettings: environmentStore.updateEnvironmentSettings,
+            environmentSettings: environmentStore.environmentSettings,
+            updateUserFilterList: userStore.updateUserFilterList,
             userList: userStore.userList,
-            userFilterByKey:userStore.UsersService.userFilterByKey,
+            userFilterByKey: userStore.UsersService.userFilterByKey,
             loading: loading,
-            user:errors.user,
-            listLabs:labStore.listLabs,
-            listDepartment:departmentStore.listDepartment,
-            environmentVariableList:environmentStore.environmentVariableList
-
+            user: errors.user,
+            listLabs: labStore.listLabs,
+            listDepartment: departmentStore.listDepartment,
+            environmentVariableList: environmentStore.environmentVariableList,
           }}
           isDelete={RouterFlow.checkPermission(
             toJS(routerStore.userPermission),
@@ -391,8 +394,8 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)
           }
           onSelectedRow={(rows) => {
-            console.log({rows});
-            
+            console.log({ rows })
+
             props.onModalConfirm &&
               props.onModalConfirm({
                 show: true,
@@ -413,7 +416,11 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
               })
           }}
           onPageSizeChange={(page, limit) => {
-            environmentStore.fetchEnvironment({documentType:'environmentSettings'}, page, limit)
+            environmentStore.fetchEnvironment(
+              { documentType: "environmentSettings" },
+              page,
+              limit
+            )
           }}
           onFilter={(type, filter, page, limit) => {
             environmentStore.EnvironmentService.filter(

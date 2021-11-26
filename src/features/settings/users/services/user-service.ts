@@ -246,8 +246,10 @@ export class UserService {
         .mutate({
           mutation: FILTER,
           variables,
-        })
+        })     
         .then((response: any) => {
+          console.log({response});
+          
           if (!response.data.filterUsers.success) return this.userList()
           stores.userStore.filterUserList(response.data)
           stores.uploadLoadingFlag(true)

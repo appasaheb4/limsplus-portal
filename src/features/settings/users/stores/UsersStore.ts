@@ -6,7 +6,6 @@ import { UserService } from "../services"
 export class UserStore {
   user!: Models.Users
   userList!: Models.Users[]
-  userFilterList!: Models.Users[]
   userListCount: number = 0
   changePassword!: Models.ChangePassword
   checkExitsUserId: boolean
@@ -14,7 +13,6 @@ export class UserStore {
 
   constructor() {
     this.userList = []
-    this.userFilterList = []
     this.checkExitsUserId = false
     this.checkExistsEmpCode = false
     this.user = new Models.Users({
@@ -44,7 +42,6 @@ export class UserStore {
       changePassword: observable,
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
-      userFilterList: observable,
 
       UsersService: computed,
       loadUser: action,
@@ -69,7 +66,6 @@ export class UserStore {
   updateUserList(res: any) {
     if (!res.users.success) alert(res.users.message)
     this.userList = res.users.data
-    this.userFilterList = res.users.data
     this.userListCount = res.users.paginatorInfo.count
   }
   
@@ -97,9 +93,9 @@ export class UserStore {
   updateUserFilterList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.usersFilterByKey.success) alert(res.usersFilterByKey.message)
-      this.userFilterList = res.usersFilterByKey.data
+      this.userList = res.usersFilterByKey.data
     } else {
-      this.userFilterList = res
+      this.userList = res
     }
   }
 }
