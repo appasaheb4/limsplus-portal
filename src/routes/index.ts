@@ -391,8 +391,8 @@ const settingsRoutes = {
       icon: "LibraryComponents.Atoms.Icons.IconCg.CgShortcut",
       component: ShortcutMenu,
     },
-    {
-      path: "/settings/environmentSettings",
+    {  
+      path: "/settings/environment",
       name: "Environment",
       icon: "LibraryComponents.Atoms.Icons.Iconmd.MdSettingsInputComponent",
       component: Environment,

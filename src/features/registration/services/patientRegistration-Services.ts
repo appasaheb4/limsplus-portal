@@ -11,7 +11,7 @@ class PatientRegistrationService  {
   sessionManagementList = () =>
     new Promise<any[]>((resolve, reject) => {
       http
-        .get(`/settings/environmentSettings/listSessionManagement`)
+        .get(`/settings/environment/listSessionManagement`)
         .then((res: any) => {
           resolve(res.data.data)
         })
@@ -23,7 +23,7 @@ class PatientRegistrationService  {
     new Promise<any>((resolve, reject) => {
       session.documentType = "session"
       http
-        .post(`/settings/environmentSettings/addSessionManagement`, session)
+        .post(`/settings/environment/addSessionManagement`, session)
         .then((res) => {
           resolve(res)
         })
@@ -35,7 +35,7 @@ class PatientRegistrationService  {
   deleteEnvironmentSettings = (id: string) =>
     new Promise<any>((resolve, reject) => {
       http
-        .delete(`/settings/environmentSettings/deleteEnvironmentSettings/${id}`)
+        .delete(`/settings/environment/deleteEnvironmentSettings/${id}`)
         .then((res) => {
           resolve(res)
         })
@@ -48,7 +48,7 @@ class PatientRegistrationService  {
       console.log({newValue});
       
       http
-        .post(`/settings/environmentSettings/updateSingleFiled`, newValue)
+        .post(`/settings/environment/updateSingleFiled`, newValue)
         .then((res) => {
           resolve(res)
         })
