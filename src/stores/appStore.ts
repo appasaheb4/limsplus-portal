@@ -29,8 +29,8 @@ export class AppStore {
   updateApplicationSetting(setting: ApplicationSetting) {
     this.applicationSetting = setting
   }
-
-  updateLoadApi = (value: { count; path? }) => {
+  
+  updateLoadApi = (value: { count, path? }) => {
     this.loadApi = value
   }
 }

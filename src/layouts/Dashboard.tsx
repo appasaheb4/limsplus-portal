@@ -27,7 +27,7 @@ import * as Role from "@lp/features/settings/roles"
 import * as Department from "@lp/features/collection/department"
 import * as User from "@lp/features/settings/users"
 import * as RoleMappping from "@lp/features/settings/mapping/role"
-import * as EnvironmentSettings from "@lp/features/settings/environment"
+import * as Environment from "@lp/features/settings/environment"
 import * as Lookup from "@lp/features/collection/lookup"
 import * as MasterAnalyte from "@lp/features/collection/masterAnalyte"
 import * as TestMaster from "@lp/features/collection/testMaster"
@@ -67,6 +67,9 @@ const Dashboard = observer(({ children }) => {
     pathname = pathname || currentLocation.pathname
     //console.log({ pathname })
     if (pathname !== "/" && stores && loginStore.login) {
+
+      console.log({pathname});
+      
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -152,8 +155,8 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/priceList") await PriceList.startup()
       if (pathname === "/collection/referenceRanges") await ReferenceRanges.startup()
 
-      if (pathname === "/settings/environmentSettings")
-        await EnvironmentSettings.startup()
+      if (pathname === "/settings/environment")
+        await Environment.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (pathname === "/communication/interfaceManager")
         await InterfaceManager.startup()
@@ -216,6 +219,7 @@ const Dashboard = observer(({ children }) => {
       stores.rootStore.isLogin().then((isLogin) => {
         if (!isLogin && !isLogined) history.push("/")
         else {
+          console.log({count:stores.appStore.loadApi.count});
           if (stores.appStore.loadApi.count === 0) loadApi()
           history.listen(async (location, action) => {
             let pathname = location.pathname
