@@ -61,7 +61,6 @@ export class EnvironmentService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>

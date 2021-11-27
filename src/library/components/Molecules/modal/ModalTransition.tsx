@@ -1,11 +1,13 @@
-import React from "react";
-import { Transition } from "@headlessui/react";
+import React from "react"
+import { Transition } from "@headlessui/react"
 
 interface ModalProps {
-  show: boolean;
+  show: boolean
+  onClose: () => void
+  children: React.ReactNode
 }
-
-const ModalSlideIn: React.FunctionComponent<any> = (props) => (
+  
+export const ModalTransition: React.FunctionComponent<any> = (props: ModalProps) => (
   <div
     className={`fixed inset-0 overflow-hidden z-50 ${
       !props.show && "pointer-events-none"
@@ -25,7 +27,7 @@ const ModalSlideIn: React.FunctionComponent<any> = (props) => (
           className="absolute inset-0 bg-gray-600 bg-opacity-75 transition-opacity"
           aria-hidden="true"
           onClick={() => {
-            props.close && props.close();
+            props.onClose && props.onClose()
           }}
         ></div>
       </Transition>
@@ -46,7 +48,7 @@ const ModalSlideIn: React.FunctionComponent<any> = (props) => (
             <div className="absolute top-0 left-0 -ml-8 pt-4 pr-2 flex sm:-ml-10 sm:pr-4">
               <button
                 onClick={() => {
-                  props.close && props.close();
+                  props.onClose && props.onClose()
                 }}
                 className="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
               >
@@ -76,8 +78,4 @@ const ModalSlideIn: React.FunctionComponent<any> = (props) => (
       </section>
     </div>
   </div>
-);
-
-export default {
-  ModalSlideIn,
-};
+)

@@ -97,7 +97,7 @@ export class Stores extends Store {
   roleMappingStore!: RoleMappingStore
   shortcutMenuStore!: ShortcutMenuStore
   noticeBoardStore!: NoticeBoardStore
-     
+
   constructor() {
     super()
     this.rootStore = new RootStore()
@@ -148,7 +148,7 @@ export class Stores extends Store {
     this.noticeBoardStore = new NoticeBoardStore()
   }
 }
-
+   
 export const stores = new Stores()
 export const StoresContext = React.createContext(stores)
 export const useStores = () => React.useContext(StoresContext)

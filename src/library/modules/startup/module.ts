@@ -1,7 +1,7 @@
 import { AsyncTrunk } from "mobx-sync"
 //import * as localStorage from "@lp/library/clients/storage-client"
 import * as sessionStorage from "@lp/library/clients/session-client"
-
+  
 const hydrateStore = async (key: string, storeInstance: any) => {
   try {
     const trunk = new AsyncTrunk(storeInstance, {

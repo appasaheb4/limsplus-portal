@@ -1,13 +1,10 @@
 /* eslint-disable */
 import React from "react"
-import { observer } from "mobx-react"
-
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
-  
 import * as LibraryModels from "@lp/library/models"
-  
 import { toJS } from "mobx"
+import { AutoCompleteFilterMutiSelectUsers } from "../organisms"
 
 interface SessionManagementListProps {
   data: any
@@ -22,7 +19,9 @@ interface SessionManagementListProps {
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
-const EnvironmentSettingsList = observer((props: SessionManagementListProps) => {
+const EnvironmentSettingsList = (props: SessionManagementListProps) => {
+  // const userList = React.useMemo(()=> ,[])
+
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -103,50 +102,11 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
-                    loader={props.extraData.loading}
-                    data={{
-                      list: props.extraData.userFilterList,
-                      selected: props.extraData?.users,
-                      displayKey: "fullName",
-                      findKey: "fullName",
-                    }}
-                    hasError={props.extraData.user}
-                    onUpdate={(item) => {
-                      const items = props.extraData?.users
-                      // onChange(items)
-                      props.extraData.updateEnvironmentSettings({
-                        ...props.extraData.environmentSettings,
-                        user: items,
-                      })
-
-                      props.extraData.updateUserFilterList(props.extraData.userList)
-                    }}
-                    onFilter={(value: string) => {
-                      props.extraData.userFilterByKey({
-                        input: { filter: { key: "fullName", value } },
-                      })
-                    }}
-                    onSelect={(item) => {
-                      // console.log({ item })
-                      let users = row.users
-                      if (!item.selected) {
-                        if (users && users.length > 0) {
-                          users.push(item)
-                        }
-                        if (!users) users = [item]
-                      } else {
-                        users = users.filter((items) => {
-                          return items._id !== item._id
-                        })
-                      }
+                  <AutoCompleteFilterMutiSelectUsers
+                    selected={row.user}
+                    onUpdate={(items) => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(users, column.dataField, row._id)
-                      // console.log({ users })
-                      // props.extraData.updateSelectedItems({
-                      //   ...props.extraData.selectedItems,
-                      //   users,
-                      // })
+                        props.onUpdateItem(items, column.dataField, row._id)
                     }}
                   />
                 </>
@@ -369,6 +329,6 @@ const EnvironmentSettingsList = observer((props: SessionManagementListProps) => 
       </div>
     </>
   )
-})
+}
 
-export default EnvironmentSettingsList
+export default React.memo(EnvironmentSettingsList)

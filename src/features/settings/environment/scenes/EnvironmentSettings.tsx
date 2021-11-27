@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -62,6 +62,70 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     })
   }
 
+  const table = useMemo(
+    () => (
+      <FeatureComponents.Molecules.EnvironmentSettingsList
+        data={environmentStore.environmentSettingsList}
+        totalSize={environmentStore.environmentSettingsListCount}
+        extraData={{
+          lookupItems: routerStore.lookupItems,
+          selectedItems: environmentStore.selectedItems,
+          user: errors.user,
+          listLabs: labStore.listLabs,
+          listDepartment: departmentStore.listDepartment,
+          environmentVariableList: environmentStore.environmentVariableList,
+        }}
+        isDelete={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          "Delete"
+        )}
+        isEditModify={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          "Edit/Modify"
+        )}
+        onDelete={(selectedUser) =>
+          props.onModalConfirm && props.onModalConfirm(selectedUser)
+        }
+        onSelectedRow={(rows) => {
+          props.onModalConfirm &&
+            props.onModalConfirm({
+              show: true,
+              type: "delete",
+              id: rows,
+              title: "Are you sure?",
+              body: `Delete selected items!`,
+            })
+        }}
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          props.onModalConfirm &&
+            props.onModalConfirm({
+              show: true,
+              type: "update",
+              data: { value, dataField, id },
+              title: "Are you sure?",
+              body: `Update recoard!`,
+            })
+        }}
+        onPageSizeChange={(page, limit) => {
+          environmentStore.fetchEnvironment(
+            { documentType: "environmentSettings" },
+            page,
+            limit
+          )
+        }}
+        onFilter={(type, filter, page, limit) => {
+          environmentStore.EnvironmentService.filter(
+            {
+              input: { type, filter, page, limit },
+            },
+            "environmentSettings"
+          )
+        }}
+      />
+    ),
+    [environmentStore.environmentSettingsList]
+  )
+
   return (
     <>
       <div className="p-2 rounded-lg shadow-xl">
@@ -104,6 +168,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             />
 
             {((environmentStore.selectedItems &&
+              environmentStore.selectedItems?.users &&
               environmentStore.selectedItems?.users.length > 0) ||
               userStore.userList) && (
               <Controller
@@ -130,7 +195,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           user: items,
                         })
-                        // userStore.updateUserFilterList(userStore.userList)
                       }}
                       onFilter={(value: string) => {
                         userStore.UsersService.filter({
@@ -141,7 +205,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                             },
                             page: 0,
                             limit: 10,
-                          },  
+                          },
                         })
                       }}
                       onSelect={(item) => {
@@ -364,73 +428,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
         className="p-2 rounded-lg shadow-xl overflow-scroll"
         style={{ overflowX: "scroll" }}
       >
-        <FeatureComponents.Molecules.EnvironmentSettingsList
-          data={environmentStore.environmentSettingsList}
-          totalSize={environmentStore.environmentSettingsListCount}
-          extraData={{
-            lookupItems: routerStore.lookupItems,
-            selectedItems: environmentStore.selectedItems,
-            userFilterList: userStore.userList,
-            updateEnvironmentSettings: environmentStore.updateEnvironmentSettings,
-            environmentSettings: environmentStore.environmentSettings,
-            updateUserFilterList: userStore.updateUserFilterList,
-            userList: userStore.userList,
-            userFilterByKey: userStore.UsersService.userFilterByKey,
-            loading: loading,
-            user: errors.user,
-            listLabs: labStore.listLabs,
-            listDepartment: departmentStore.listDepartment,
-            environmentVariableList: environmentStore.environmentVariableList,
-          }}
-          isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
-            "Delete"
-          )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
-            "Edit/Modify"
-          )}
-          onDelete={(selectedUser) =>
-            props.onModalConfirm && props.onModalConfirm(selectedUser)
-          }
-          onSelectedRow={(rows) => {
-            console.log({ rows })
-
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-          }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: "update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update recoard!`,
-              })
-          }}
-          onPageSizeChange={(page, limit) => {
-            environmentStore.fetchEnvironment(
-              { documentType: "environmentSettings" },
-              page,
-              limit
-            )
-          }}
-          onFilter={(type, filter, page, limit) => {
-            environmentStore.EnvironmentService.filter(
-              {
-                input: { type, filter, page, limit },
-              },
-              "environmentSettings"
-            )
-          }}
-        />
+        {table}
       </div>
     </>
   )

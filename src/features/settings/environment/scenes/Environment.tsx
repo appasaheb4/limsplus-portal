@@ -60,8 +60,8 @@ const Environment = observer(() => {
                   message: `😊 ${res.removeEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                environmentStore.fetchEnvironment({ type: "environmentVariable" })
-                environmentStore.fetchEnvironment({ type: "environmentSettings" })
+                environmentStore.fetchEnvironment({ documentType: "environmentVariable" })
+                environmentStore.fetchEnvironment({ documentType: "environmentSettings" })
               }
             })
           } else if (type === "update") {
@@ -76,9 +76,9 @@ const Environment = observer(() => {
                   message: `😊 ${res.updateEnviroment.message}`,
                 })
                 setModalConfirm({ show: false })
-                environmentStore.fetchEnvironment({ type: "environmentVariable" })
-                environmentStore.fetchEnvironment({ type: "environmentSettings" })
-                
+                environmentStore.updateSelectedItems(undefined)  
+                environmentStore.fetchEnvironment({ documentType: "environmentVariable" })
+                environmentStore.fetchEnvironment({ documentType: "environmentSettings" })
               }
             })
           }

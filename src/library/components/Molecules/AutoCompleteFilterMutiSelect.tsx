@@ -7,10 +7,10 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteFilterMutiSelectProps {
-  loader: boolean
+  loader?: boolean
   placeholder?: string
   data: any
-  hasError: boolean
+  hasError?: boolean
   onFilter: (value: string) => void
   onUpdate: (item: any) => void
   onSelect: (item: any) => any
