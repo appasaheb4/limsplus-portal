@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import Wrapper from "./components/Wrapper"
@@ -67,9 +67,7 @@ const Dashboard = observer(({ children }) => {
     pathname = pathname || currentLocation.pathname
     //console.log({ pathname })
     if (pathname !== "/" && stores && loginStore.login) {
-
-      console.log({pathname});
-      
+      //      console.log({ pathname })
       // common use api
       await Deginisation.startup()
       await Lab.startup()
@@ -155,14 +153,13 @@ const Dashboard = observer(({ children }) => {
       if (pathname === "/collection/priceList") await PriceList.startup()
       if (pathname === "/collection/referenceRanges") await ReferenceRanges.startup()
 
-      if (pathname === "/settings/environment")
-        await Environment.startup()
+      if (pathname === "/settings/environment") await Environment.startup()
       if (pathname === "/settings/mapping/roleMapping") await RoleMappping.startup()
       if (pathname === "/communication/interfaceManager")
         await InterfaceManager.startup()
       if (pathname === "/communication/mapping/conversationMapping")
         await DataConveration.startup()
-      if (pathname === "/communication/mapping/segmentMapping"){
+      if (pathname === "/communication/mapping/segmentMapping") {
         await InterfaceManager.startup()
         await SegmentMapping.startup()
       }
@@ -171,7 +168,7 @@ const Dashboard = observer(({ children }) => {
     }
     stores.appStore.updateLoadApi({ count: 1 })
   }
-
+  
   const router = async () => {
     let router: any = toJS(loginStore.login)
     if (router && !stores.routerStore.userRouter) {
@@ -219,20 +216,21 @@ const Dashboard = observer(({ children }) => {
       stores.rootStore.isLogin().then((isLogin) => {
         if (!isLogin && !isLogined) history.push("/")
         else {
-          console.log({count:stores.appStore.loadApi.count});
-          if (stores.appStore.loadApi.count === 0) loadApi()
-          history.listen(async (location, action) => {
-            let pathname = location.pathname
-            if (
-              stores.appStore.loadApi.count === 1 &&
-              stores.appStore.loadApi.path != pathname
-            )
-              loadApi(pathname)
-            await stores.appStore.updateLoadApi({
-              ...stores.appStore.loadApi,
-              path: pathname,
-            })
-          })
+          // if (stores.appStore.loadApi.count === 0) loadApi()
+          // history.listen(async (location, action) => {
+          //   let pathname = location.pathname
+          //   console.log({ pathname })
+          //   if (
+          //     stores.appStore.loadApi.count === 1 &&
+          //     stores.appStore.loadApi.path != pathname
+          //   )
+          //     loadApi(pathname)
+          //   await stores.appStore.updateLoadApi({
+          //     ...stores.appStore.loadApi,
+          //     path: pathname,
+          //   })
+          //  })
+          loadApi()
         }
       })
     }, 1000)
@@ -259,28 +257,19 @@ const Dashboard = observer(({ children }) => {
       })
   }
 
-  // const handleOnActive = (event) => {
-  //   console.log("user is active", event)
-  //   console.log("time remaining", getRemainingTime())
-  // }
-
-  // const handleOnAction = (event) => {
-  //   console.log("user did something", event)
-  // }
   const { getLastActiveTime } = useIdleTimer({
     timeout: 1000 * 60 * (loginStore.login?.sessionTimeoutCount || 10),
     onIdle: handleOnIdle,
-    // onActive: handleOnActive,
-    // onAction: handleOnAction,
     debounce: 500,
   })
 
+   
   return (
     <React.Fragment>
       <Wrapper>
         <Sidebar />
         <Main className={null}>
-          <Navbar />
+        <Navbar />
           <Content>{children}</Content>
           <Footer />
         </Main>

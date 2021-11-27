@@ -18,8 +18,8 @@ const ModalAccount = observer((props: ModalAccountProps) => {
 
   return (
     <>
-      <LibraryComponents.Molecules.Modals.SlideIn
-        show={!!props.show} //
+      <LibraryComponents.Molecules.ModalTransition
+        show={!!props.show}
         onClose={() => props.onClose && props.onClose()}
       >
         <LibraryComponents.Atoms.Header>
@@ -134,7 +134,7 @@ const ModalAccount = observer((props: ModalAccountProps) => {
               )}
           </LibraryComponents.Atoms.List>
         </div>
-      </LibraryComponents.Molecules.Modals.SlideIn>
+      </LibraryComponents.Molecules.ModalTransition>
       <LibraryComponents.Molecules.ModalFileUpload
         {...modalFileUpload}
         onClick={(picture: any) => {

@@ -17,7 +17,7 @@ import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
 
 const App = observer(() => {
   const loader = async () => {
-    await hydrateStore("loginStore", stores.loginStore)
+      await hydrateStore("loginStore", stores.loginStore)
     await hydrateStore("routerStore", stores.routerStore)
     await hydrateStore("appStore", stores.appStore)
   }
@@ -40,7 +40,7 @@ const App = observer(() => {
             progressBar
             closeOnToastrClick
           />
-        </Provider>  
+        </Provider>
         <LibraryComponents.Atoms.ToastContainer />
         {stores.flagLoading && stores.loading && (
           <LibraryComponents.Atoms.ModelLoader />

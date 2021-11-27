@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
@@ -26,18 +26,24 @@ import {
 } from "reactstrap"
 
 const NavbarComponent = observer(({ dispatch }) => {
-  const { userStore, loginStore } = useStores()
+  const [userId, serUserId] = useState<string>('')
+  const { appStore, userStore, loginStore } = useStores()
   const history = useHistory()
   const [modalAccount, setModalAccount] = useState<any>()
-
   const [modalChangePassword, setModalChangePassword] = useState<any>()
   const [modalSessionAllowed, setModalSessionAllowed] = useState<any>()
+  // buz navbar items not display
+  useEffect(() => {
+    setTimeout(() => {
+      serUserId(loginStore.login.userId)
+    }, 100);
+   
+  }, [loginStore.login])
   return (
     <>
       <Navbar
         style={{
-          backgroundColor:
-            stores.appStore.applicationSetting?.shortCutBarColor || "white",
+          backgroundColor: appStore.applicationSetting?.shortCutBarColor || "white",
         }}
         light
         expand
@@ -117,8 +123,8 @@ const NavbarComponent = observer(({ dispatch }) => {
                 onClick={() => {
                   const elem: any = document.body
                   function openFullscreen() {
-                    stores.appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
+                    appStore.updateApplicationSetting({
+                      ...appStore.applicationSetting,
                       isExpandScreen: true,
                     })
                     if (elem.requestFullscreen) {
@@ -134,8 +140,8 @@ const NavbarComponent = observer(({ dispatch }) => {
                   function closeFullscreen() {
                     if (document.fullscreenElement) {
                       if (document.exitFullscreen) {
-                        stores.appStore.updateApplicationSetting({
-                          ...stores.appStore.applicationSetting,
+                        appStore.updateApplicationSetting({
+                          ...appStore.applicationSetting,
                           isExpandScreen: false,
                         })
                         document.exitFullscreen()
@@ -148,14 +154,14 @@ const NavbarComponent = observer(({ dispatch }) => {
               >
                 <LibraryComponents.Atoms.Tooltip
                   tooltipText={
-                    stores.appStore.applicationSetting?.isExpandScreen
+                    appStore.applicationSetting?.isExpandScreen
                       ? "Collapse"
                       : "Expand"
                   }
                 >
                   <LibraryComponents.Atoms.Icons.IconContext color="#000" size="22">
                     {LibraryComponents.Atoms.Icons.getIconTag(
-                      stores.appStore.applicationSetting?.isExpandScreen
+                      appStore.applicationSetting?.isExpandScreen
                         ? LibraryComponents.Atoms.Icons.IconCg.CgMinimize
                         : LibraryComponents.Atoms.Icons.Iconai.AiOutlineExpand
                     )}

@@ -40,7 +40,7 @@ export class EnvironmentStore {
       updateEnvironmentVariableCount: action,
       updateSelectedItems: action,
       filterEnvVariableList: action,
-      filterEnvSettingsList: action
+      filterEnvSettingsList: action,
     })
   }
 
@@ -68,11 +68,11 @@ export class EnvironmentStore {
     this.environmentSettingsList = res.enviroments.data
     this.environmentSettingsListCount = res.enviroments.paginatorInfo.count
   }
-   
+
   filterEnvSettingsList(res: any) {
     this.environmentSettingsList = res.filterEnviroment.data
     this.environmentSettingsListCount = res.filterEnviroment.paginatorInfo.count
-  }  
+  }
 
   updateEnvironmentSettings(env: Models.EnvironmentSettings) {
     this.environmentSettings = env
@@ -98,7 +98,8 @@ export class EnvironmentStore {
     this.environmentVariableListCount = count
   }
 
-  updateSelectedItems(items: Models.SelectedItems) {
-    this.selectedItems = items
+  updateSelectedItems(items: Models.SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new Models.SelectedItems({})
   }
 }

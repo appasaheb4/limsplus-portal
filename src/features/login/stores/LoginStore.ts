@@ -8,10 +8,12 @@ import Storage from "@lp/library/modules/storage"
 export class LoginStore {
   inputLogin!: Login
   login!: Login
-  loginFailedCount?: number
+  loginFailedCount: number
   forgotPassword!: ForgotPassword
 
   constructor() {
+    this.login = new Login({})
+    this.loginFailedCount = 0
     makeObservable<LoginStore, any>(this, {
       inputLogin: observable,
       login: observable,
@@ -27,6 +29,7 @@ export class LoginStore {
       updateLogin: action,
       updateLoginFailedCount: action,
       updateForgotPassword: action,
+      isLoggedIn: action
     })
     Session.initialize({ name: "limsplus" })
     runInAction(async () => {
@@ -114,4 +117,8 @@ export class LoginStore {
     if (details) this.forgotPassword = details
     else this.forgotPassword = new ForgotPassword({})
   }
+
+  isLoggedIn(): boolean {
+		return !!this.login.userId
+	}
 }

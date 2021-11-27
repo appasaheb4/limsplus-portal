@@ -44,4 +44,5 @@ export class Login {
     this.sessionAllowed = rawData.sessionAllowed
     this.environment = rawData.environment
   }
+
 }
