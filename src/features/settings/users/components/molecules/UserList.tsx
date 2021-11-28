@@ -25,6 +25,15 @@ interface UserListProps {
 }
 
 export const UserList = observer((props: UserListProps) => {
+  function priceFormatter(column, colIndex, { sortElement, filterElement }) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        {filterElement}
+        {column.text}
+        {sortElement}
+      </div>
+    )
+  }
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -53,7 +62,7 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
-              editable:false
+              editable: false,
             },
             {
               dataField: "defaultLab",
@@ -94,7 +103,8 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "lab",
               text: "Lab",
               sort: true,
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -128,12 +138,11 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-
             {
               dataField: "deginisation",
               text: "Deginisation",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               editorRenderer: (
                 editorProps,
@@ -171,6 +180,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "department",
               text: "Department",
               sort: true,
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
               formatter: (cellContent, row) => (
                 <>
@@ -210,7 +220,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader5",
               editorRenderer: (
                 editorProps,
@@ -265,8 +275,8 @@ export const UserList = observer((props: UserListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               headerClasses: "textHeader3",
-              style:{textTransform:"uppercase"},
-              editorStyle:{textTransform:"uppercase"}
+              style: { textTransform: "uppercase" },
+              editorStyle: { textTransform: "uppercase" },
             },
             {
               dataField: "mobileNo",
@@ -300,8 +310,17 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: { date: new Date() },
+                style: { display: "inline" },
+              }),
+              headerClasses: "textHeader6",
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
               },
@@ -331,8 +350,17 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader5",
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: { date: new Date() },
+                style: { display: "inline" },
+              }),
+              headerClasses: "textHeader10",
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
               },
@@ -412,23 +440,20 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Role"
-                      
-                    >
-                      <LibraryComponents.Molecules.AutocompleteCheck
-                        data={{
-                          defulatValues: toJS(row.role),
-                          list: props.extraData.listRole,
-                          displayKey: "description",
-                          findKey: "code",
-                        }}
-                        
-                        onUpdate={(items) => {
-                          props.onUpdateItem && props.onUpdateItem(items,column.dataField,row._id)
-                        }}
-                      />
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Role">
+                    <LibraryComponents.Molecules.AutocompleteCheck
+                      data={{
+                        defulatValues: toJS(row.role),
+                        list: props.extraData.listRole,
+                        displayKey: "description",
+                        findKey: "code",
+                      }}
+                      onUpdate={(items) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(items, column.dataField, row._id)
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -683,7 +708,7 @@ export const UserList = observer((props: UserListProps) => {
                                 },
                               },
                               "systemInfo",
-                              row._id  
+                              row._id
                             )
                         }}
                       />
@@ -760,7 +785,10 @@ export const UserList = observer((props: UserListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position='top'>
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -785,9 +813,9 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-             classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}

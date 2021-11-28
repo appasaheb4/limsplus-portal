@@ -1,9 +1,9 @@
 import React from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
-import { Provider } from "react-redux"
+import { Provider } from "react-redux"   
 import ReduxToastr from "react-redux-toastr"
-
+   
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 
@@ -16,14 +16,15 @@ import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
 
 const App = observer(() => {
+  
   const loader = async () => {
-      await hydrateStore("loginStore", stores.loginStore)
+    await hydrateStore("loginStore", stores.loginStore)
     await hydrateStore("routerStore", stores.routerStore)
     await hydrateStore("appStore", stores.appStore)
   }
 
   React.useEffect(() => {
-    loader()
+    loader()   
   }, [])
 
   return (
