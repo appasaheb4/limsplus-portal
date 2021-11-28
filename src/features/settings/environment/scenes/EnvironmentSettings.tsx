@@ -136,37 +136,72 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
             justify="stretch"
             fill
           >
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Lab"
-                  id="labs"
-                  hasError={errors.lab}
-                >
-                  <LibraryComponents.Molecules.AutocompleteCheck
-                    data={{
-                      defulatValues: [],
-                      list: labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "code",
-                    }}
+            {((environmentStore.selectedItems &&
+              environmentStore.selectedItems?.labs &&
+              environmentStore.selectedItems?.labs.length > 0) ||
+              labStore.listLabs) && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Labs"
+                    id="labs"
                     hasError={errors.lab}
-                    onUpdate={(items) => {
-                      onChange(items)
-                      environmentStore.updateEnvironmentSettings({
-                        ...environmentStore.environmentSettings,
-                        lab: items,
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="lab"
-              rules={{ required: true }}
-              defaultValue=""
-            />
-
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
+                      loader={loading}
+                      data={{
+                        list: labStore.listLabs,
+                        selected: environmentStore.selectedItems?.labs,
+                        displayKey: "name",
+                        findKey: "name",
+                      }}
+                      hasError={errors.labs}
+                      onUpdate={(item) => {
+                        const items = environmentStore.selectedItems?.labs
+                        onChange(items)
+                        environmentStore.updateEnvironmentSettings({
+                          ...environmentStore.environmentSettings,
+                          lab: items,
+                        })
+                      }}
+                      onFilter={(value: string) => {
+                        labStore.LabService.filter({
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        let labs = environmentStore.selectedItems?.labs
+                        if (!item.selected) {
+                          if (labs && labs.length > 0) {
+                            labs.push(item)
+                          }
+                          if (!labs) labs = [item]
+                        } else {
+                          labs = labs.filter((items) => {
+                            return items._id !== item._id
+                          })
+                        }
+                        environmentStore.updateSelectedItems({
+                          ...environmentStore.selectedItems,
+                          labs,
+                        })
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="lab"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
             {((environmentStore.selectedItems &&
               environmentStore.selectedItems?.users &&
               environmentStore.selectedItems?.users.length > 0) ||
@@ -233,36 +268,72 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                 defaultValue=""
               />
             )}
-            <Controller
-              control={control}
-              render={({ field: { onChange } }) => (
-                <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Department"
-                  id="department"
-                  hasError={errors.department}
-                >
-                  <LibraryComponents.Molecules.AutocompleteCheck
-                    data={{
-                      defulatValues: [],
-                      list: departmentStore.listDepartment,
-                      displayKey: "name",
-                      findKey: "code",
-                    }}
+            {((environmentStore.selectedItems &&
+              environmentStore.selectedItems?.department &&
+              environmentStore.selectedItems?.department.length > 0) ||
+              departmentStore.listDepartment) && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Department"
+                    id="department"
                     hasError={errors.department}
-                    onUpdate={(items) => {
-                      onChange(items)
-                      environmentStore.updateEnvironmentSettings({
-                        ...environmentStore.environmentSettings,
-                        department: items,
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
-              name="department"
-              rules={{ required: false }}
-              defaultValue=""
-            />
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
+                      loader={loading}
+                      data={{
+                        list: departmentStore.listDepartment,
+                        selected: environmentStore.selectedItems?.department,
+                        displayKey: "name",
+                        findKey: "name",
+                      }}
+                      hasError={errors.department}
+                      onUpdate={(item) => {
+                        const items = environmentStore.selectedItems?.department
+                        onChange(items)
+                        environmentStore.updateEnvironmentSettings({
+                          ...environmentStore.environmentSettings,
+                          department: items,
+                        })
+                      }}
+                      onFilter={(value: string) => {
+                        departmentStore.DepartmentService.filter({
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        })
+                      }}
+                      onSelect={(item) => {
+                        let department = environmentStore.selectedItems?.department
+                        if (!item.selected) {
+                          if (department && department.length > 0) {
+                            department.push(item)
+                          }
+                          if (!department) department = [item]
+                        } else {
+                          department = department.filter((items) => {
+                            return items._id !== item._id
+                          })
+                        }
+                        environmentStore.updateSelectedItems({
+                          ...environmentStore.selectedItems,
+                          department,
+                        })
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="department"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
 
             <Controller
               control={control}

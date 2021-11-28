@@ -1,3 +1,4 @@
+/* eslint-disable  */
 import React, { useState, useEffect, useRef } from "react"
 import { Spinner } from "react-bootstrap"
 import { observer } from "mobx-react"
@@ -9,7 +10,7 @@ interface AutoCompleteProps {
   onUpdate: (item: any) => void
 }
 
-export const AutoCompleteFilterMutiSelectLabs = observer(({selected,onUpdate}: AutoCompleteProps)=>{
+export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}: AutoCompleteProps)=>{
     const { loading, labStore, environmentStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
