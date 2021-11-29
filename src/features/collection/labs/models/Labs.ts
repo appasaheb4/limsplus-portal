@@ -74,8 +74,18 @@ export class Labs {
 
 export class SelectedItems {
     country: any[]
+    state: any[]
+    district: any[]
+    city: any[]
+    area: any[]
+    postalCode: any[]
     constructor(rawData: {[key in string]: any}){
         this.country = rawData.country
+        this.state = rawData.state
+        this.district = rawData.district
+        this.city = rawData.city
+        this.area = rawData.area
+        this.postalCode = rawData.postalCode
     }
 }
   
