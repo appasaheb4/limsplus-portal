@@ -3,8 +3,7 @@ import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryModels from "@lp/library/models"
-import { toJS } from "mobx"
-import { AutoCompleteFilterMutiSelectUsers } from "../organisms"
+import { AutoCompleteFilterMutiSelectUsers , AutoCompleteFilterMutiSelectLabs,AutoCompleteFilterMutiSelectDepartment } from "../organisms"
 
 interface SessionManagementListProps {
   data: any
@@ -60,21 +59,13 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="labs">
-                    <LibraryComponents.Molecules.AutocompleteCheck
-                      data={{
-                        defulatValues: [],
-                        list: props.extraData.listLabs,
-                        displayKey: "name",
-                        findKey: "code",
-                      }}
-                      // hasError={errors.lab}
-                      onUpdate={(items) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(items, column.dataField, row._id)
-                      }}
-                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterMutiSelectLabs
+                    selected={row.lab}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },
@@ -136,14 +127,8 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Molecules.AutoCompleteCheckTwoTitleKeys
-                    data={{
-                      defulatValues: toJS(row.department || []),
-                      list: props.extraData.listDepartment,
-                      displayKey: "name",
-                      findKey: "code",
-                    }}
-                    titleKey={{ key1: "code", key2: "name" }}
+                  <AutoCompleteFilterMutiSelectDepartment
+                    selected={row.department}
                     onUpdate={(items) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(items, column.dataField, row._id)

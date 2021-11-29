@@ -28,7 +28,11 @@ export class EnvironmentSettings {
 
 export class SelectedItems {
   users: any[]
+  labs: any[]
+  department: any[]
   constructor(rawData: { [key in string]: any }) {
     this.users = rawData.users
+    this.labs = rawData.labs
+    this.department = rawData.department
   }
 }
