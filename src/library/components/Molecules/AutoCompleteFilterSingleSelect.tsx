@@ -11,6 +11,7 @@ interface AutoCompleteFilterSingleSelectProps {
   placeholder?: string
   data: any
   hasError?: boolean
+  onFilter: (item: any) => void
   onSelect: (item: any) => any
 }
 
@@ -19,6 +20,7 @@ export const AutoCompleteFilterSingleSelect = ({
   placeholder = "Search...",
   data,
   hasError = false,
+  onFilter,
   onSelect,
 }: AutoCompleteFilterSingleSelectProps) => {
   const [value, setValue] = useState<string>("")
@@ -30,7 +32,6 @@ export const AutoCompleteFilterSingleSelect = ({
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isListOpen) {
-          
           setIsListOpen(false)
           setValue("")
         }
@@ -84,7 +85,6 @@ export const AutoCompleteFilterSingleSelect = ({
     }
   }
 
-
   return (
     <>
       <div ref={wrapperRef}>
@@ -95,11 +95,7 @@ export const AutoCompleteFilterSingleSelect = ({
         >
           <input
             placeholder={placeholder}
-            value={
-              !isListOpen
-                ? `${(data.selected && data.selected.length) || 0} Items`
-                : value
-            }
+            value={!isListOpen ? value : value}
             className={`w-full focus:outline-none bg-none`}
             onKeyUp={onKeyUp}
             onChange={onChange}
@@ -119,13 +115,19 @@ export const AutoCompleteFilterSingleSelect = ({
                 <ul>
                   {options?.map((item, index) => (
                     <>
-                      <li key={index} className="text-gray-400 flex items-center" onSelect={()=>onSelect(item)}>
-                        {/* <input type='text'  onChange={() => onSelect(item)} /> */}
+                      <li
+                        key={index}
+                        className="text-gray-400 flex items-center"
+                        onClick={() => {
+                          setValue(item[data.displayKey])
+                          setIsListOpen(false)
+                          onSelect(item)
+                        }}
+                      >
                         {" "}
                         <label className="ml-2 mt-1 text-black">
                           {" "}
-                          {/* <input type='text'   value={item[data.displayKey]} onChange={() => onSelect(item)} /> */}
-                            {item[data.displayKey]}
+                          {item[data.displayKey]}
                         </label>
                       </li>
                     </>

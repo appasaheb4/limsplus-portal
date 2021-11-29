@@ -19,7 +19,7 @@ const Lab = observer(() => {
     salesTeamStore,
     routerStore,
     administrativeDivisions,
-    loading
+    loading,
   } = useStores()
 
   const {
@@ -180,40 +180,55 @@ const Lab = observer(() => {
                 defaultValue=""
               />
               {((labStore.selectedItems &&
-              labStore.selectedItems?.country &&
-              labStore.selectedItems?.country.length > 0) ||
-              administrativeDivisions.listAdministrativeDiv) && (
-              <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Country"
-                    id="country"
-                    hasError={errors.country}
-                  >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                      loader={loading}
-                      data={{
-                        list: administrativeDivisions.listAdministrativeDiv,
-                        selected: labStore.selectedItems?.country,
-                        displayKey: "country",
-                        findKey: "country",
-                      }}
+                labStore.selectedItems?.country &&
+                labStore.selectedItems?.country.length > 0) ||
+                administrativeDivisions.listAdministrativeDiv) && (
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="Country"
+                      id="country"
                       hasError={errors.country}
-                      
-                     
-                      
-                      onSelect={(item) => {
-                        console.log({item})
-                      }}
-                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
-                )}
-                name="country"
-                rules={{ required: true }}
-                defaultValue=""
-              />
-            )}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.country,
+                          displayKey: "country",
+                          findKey: "country",
+                        }}
+                        hasError={errors.country}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["country"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.country)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            country: item.country.toUpperCase(),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
+                  )}
+                  name="country"
+                  rules={{ required: true }}
+                  defaultValue=""
+                />
+              )}
               {/* {administrativeDivisions.listAdministrativeDiv && (
                 <Controller
                   control={control}
@@ -1072,16 +1087,16 @@ const Lab = observer(() => {
             totalSize={labStore.listLabsCount}
             extraData={{
               lookupItems: routerStore.lookupItems,
-              listAdministrativeDiv:administrativeDivisions.listAdministrativeDiv,
-              country:labStore.labs.country,
-              stateList:Utils.stateList,
-              state:labStore.labs.state,
-              districtList:Utils.districtList,
-              district:labStore.labs.district,
-              cityList:Utils.cityList,
-              city:labStore.labs.city,
-              area:labStore.labs.area,
-              postCodeList:Utils.postCodeList
+              listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+              country: labStore.labs.country,
+              stateList: Utils.stateList,
+              state: labStore.labs.state,
+              districtList: Utils.districtList,
+              district: labStore.labs.district,
+              cityList: Utils.cityList,
+              city: labStore.labs.city,
+              area: labStore.labs.area,
+              postCodeList: Utils.postCodeList,
             }}
             isDelete={RouterFlow.checkPermission(
               toJS(routerStore.userPermission),
@@ -1121,7 +1136,7 @@ const Lab = observer(() => {
             }}
             onPageSizeChange={(page, limit) => {
               labStore.fetchListLab(page, limit)
-            }}  
+            }}
             onFilter={(type, filter, page, limit) => {
               labStore.LabService.filter({
                 input: { type, filter, page, limit },
