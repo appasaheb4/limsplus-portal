@@ -8,7 +8,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import { toJS } from "mobx"
-
+  
 interface UserListProps {
   data: any
   totalSize: number
@@ -34,6 +34,8 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     )
   }
+  console.log({extraData: props.extraData});
+  
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -385,13 +387,21 @@ export const UserList = observer((props: UserListProps) => {
                 </>
               ),
             },
-
             {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: { date: new Date() },
+                style: { display: "inline" },
+              }),
+              headerClasses: "textHeader6",
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format("YYYY-MM-DD")
               },
@@ -421,7 +431,8 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "role",
               text: "Role",
               sort: true,
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerClasses: "textHeader2",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
