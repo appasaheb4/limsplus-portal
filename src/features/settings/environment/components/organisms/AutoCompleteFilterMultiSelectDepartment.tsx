@@ -23,6 +23,7 @@ export const AutoCompleteFilterMutiSelectDepartment = observer(({ selected, onUp
             if (ref.current && !ref.current.contains(event.target) && isListOpen) {
               if (originalOptions && options) {
                 if (isListOpen) {
+                  departmentStore.updateDepartmentList(departmentStore.listDepartmentCopy)
                   onUpdate && onUpdate(environmentStore.selectedItems?.department)
                 }
               }

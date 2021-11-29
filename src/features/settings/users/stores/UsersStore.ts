@@ -6,6 +6,7 @@ import { UserService } from "../services"
 export class UserStore {
   user!: Models.Users
   userList!: Models.Users[]
+  userListCopy!: Models.Users[]
   userListCount: number = 0
   changePassword!: Models.ChangePassword
   checkExitsUserId: boolean
@@ -64,9 +65,15 @@ export class UserStore {
   }
 
   updateUserList(res: any) {
-    if (!res.users.success) alert(res.users.message)
-    this.userList = res.users.data
-    this.userListCount = res.users.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.users.success) alert(res.users.message)
+      this.userList = res.users.data
+      this.userListCopy = res.users.data
+      this.userListCount = res.users.paginatorInfo.count
+    }else{
+      this.userList = res;
+    }
+   
   }
   
   filterUserList(res: any) {

@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 export class DepartmentStore {
   listDepartment!: Models.Department[]
+  listDepartmentCopy!: Models.Department[]
   listDepartmentCount: number = 0
   department!: Models.Department
   checkExitsCode: boolean = false
@@ -49,9 +50,14 @@ export class DepartmentStore {
   }
 
   updateDepartmentList(res: any) {
-    if (!res.departments.success) return alert(res.departments.message)
-    this.listDepartment = res.departments.data
-    this.listDepartmentCount = res.departments.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.departments.success) return alert(res.departments.message)
+      this.listDepartment = res.departments.data
+      this.listDepartmentCopy = res.departments.data
+      this.listDepartmentCount = res.departments.paginatorInfo.count
+    } else {
+      this.listDepartment = res
+    }
   }
 
   filterDepartmentList(res: any) {

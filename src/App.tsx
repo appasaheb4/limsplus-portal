@@ -3,7 +3,8 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { Provider } from "react-redux"   
 import ReduxToastr from "react-redux-toastr"
-   
+import { configure } from "mobx";
+
 import store from "./redux/store/index"
 import Routes from "./routes/Routes"
 
@@ -14,6 +15,13 @@ import { stores } from "@lp/stores"
 
 import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
+
+
+configure({
+  reactionScheduler: (f): void => {
+    setTimeout(f, 1);
+  }
+});
 
 const App = observer(() => {
   

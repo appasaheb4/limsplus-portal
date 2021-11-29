@@ -7,6 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 @version(0.1)
 export class LabStore {
   listLabs!: Models.Labs[]
+  listLabsCopy!: Models.Labs[]
   listLabsCount: number = 0
   labs!: Models.Labs
   checkExitsEnvCode: boolean = false
@@ -43,9 +44,14 @@ export class LabStore {
   }
 
   updateLabList(res: any) {
-    if (!res.labs.success) return alert(res.labs.message)
-    this.listLabs = res.labs.data
-    this.listLabsCount = res.labs.paginatorInfo.count
+    if (!Array.isArray(res)) {
+      if (!res.labs.success) return alert(res.labs.message)
+      this.listLabs = res.labs.data
+      this.listLabsCopy = res.labs.data
+      this.listLabsCount = res.labs.paginatorInfo.count
+    } else {
+      this.listLabs = res
+    }
   }
 
   filterLabList(res: any) {

@@ -32,7 +32,6 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
     departmentStore,
     routerStore,
   } = useStores()
-
   useEffect(() => {
     if (loginStore.login) {
       environmentStore.updateEnvironmentSettings({
@@ -164,6 +163,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           lab: items,
                         })
+                        labStore.updateLabList(labStore.listLabsCopy)
                       }}
                       onFilter={(value: string) => {
                         labStore.LabService.filter({
@@ -230,6 +230,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           user: items,
                         })
+                        userStore.updateUserList(userStore.userListCopy)
                       }}
                       onFilter={(value: string) => {
                         userStore.UsersService.filter({
@@ -296,6 +297,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           department: items,
                         })
+                        departmentStore.updateDepartmentList(departmentStore.listDepartmentCopy)
                       }}
                       onFilter={(value: string) => {
                         departmentStore.DepartmentService.filter({

@@ -9,7 +9,7 @@ interface AutoCompleteProps {
   selected: any[]
   onUpdate: (item: any) => void
 }
-
+  
 export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}: AutoCompleteProps)=>{
     const { loading, labStore, environmentStore } = useStores()
     const [value, setValue] = useState<string>("")
@@ -23,6 +23,7 @@ export const AutoCompleteFilterMutiSelectLabs = observer(({ selected, onUpdate}:
             if (ref.current && !ref.current.contains(event.target) && isListOpen) {
               if (originalOptions && options) {
                 if (isListOpen) {
+                  labStore.updateLabList(labStore.listLabsCopy)
                   onUpdate && onUpdate(environmentStore.selectedItems?.labs)
                 }
               }
