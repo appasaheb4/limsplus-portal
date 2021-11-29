@@ -6,9 +6,10 @@ import * as LibraryUtils from "@lp/library/utils"
 
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { AutoCompleteFilterMutiSelectRoles } from "../organisms"
 
 import { toJS } from "mobx"
-  
+
 interface UserListProps {
   data: any
   totalSize: number
@@ -34,8 +35,6 @@ export const UserList = observer((props: UserListProps) => {
       </div>
     )
   }
-  console.log({extraData: props.extraData});
-  
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -451,20 +450,13 @@ export const UserList = observer((props: UserListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Role">
-                    <LibraryComponents.Molecules.AutocompleteCheck
-                      data={{
-                        defulatValues: toJS(row.role),
-                        list: props.extraData.listRole,
-                        displayKey: "description",
-                        findKey: "code",
-                      }}
-                      onUpdate={(items) => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(items, column.dataField, row._id)
-                      }}
-                    />
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterMutiSelectRoles
+                    selected={row.role}
+                    onUpdate={(items) => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(items, column.dataField, row._id)
+                    }}
+                  />
                 </>
               ),
             },

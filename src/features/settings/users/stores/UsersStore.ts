@@ -11,6 +11,7 @@ export class UserStore {
   changePassword!: Models.ChangePassword
   checkExitsUserId: boolean
   checkExistsEmpCode: boolean
+  selectedItems!: Models.SelectedItems
 
   constructor() {
     this.userList = []
@@ -35,15 +36,17 @@ export class UserStore {
       },
       validationLevel: 0,
     })
-
+  
     makeObservable<UserStore, any>(this, {
       user: observable,
       userList: observable,
+      userListCopy: observable,
       userListCount: observable,
       changePassword: observable,
       checkExitsUserId: observable,
       checkExistsEmpCode: observable,
-
+      selectedItems: observable,
+    
       UsersService: computed,
       loadUser: action,
       updateUserList: action,
@@ -52,7 +55,8 @@ export class UserStore {
       setExitsUserId: action,
       setExistsEmpCodeStatus: action,
       updateUserFilterList: action,
-      filterUserList: action
+      filterUserList: action,
+      updateSelectedItems: action,
     })
   }
 
@@ -65,17 +69,16 @@ export class UserStore {
   }
 
   updateUserList(res: any) {
-    if(!Array.isArray(res)){
+    if (!Array.isArray(res)) {
       if (!res.users.success) alert(res.users.message)
       this.userList = res.users.data
       this.userListCopy = res.users.data
       this.userListCount = res.users.paginatorInfo.count
-    }else{
-      this.userList = res;
+    } else {
+      this.userList = res
     }
-   
   }
-  
+
   filterUserList(res: any) {
     this.userList = res.filterUsers.data
     this.userListCount = res.filterUsers.paginatorInfo.count
@@ -104,5 +107,9 @@ export class UserStore {
     } else {
       this.userList = res
     }
+  }
+
+  updateSelectedItems(res: Models.SelectedItems) {
+    this.selectedItems = res
   }
 }
