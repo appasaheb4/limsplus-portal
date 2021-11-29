@@ -10,6 +10,7 @@ export class LabStore {
   listLabsCount: number = 0
   labs!: Models.Labs
   checkExitsEnvCode: boolean = false
+  selectedItems!: Models.SelectedItems
 
   constructor() {
     this.listLabs = []
@@ -24,6 +25,7 @@ export class LabStore {
       listLabsCount: observable,
       labs: observable,
       checkExitsEnvCode: observable,
+      selectedItems: observable,
 
       LabService: computed,
       fetchListLab: action,
@@ -59,5 +61,9 @@ export class LabStore {
 
   updateLabs = (labs: Models.Labs) => {
     this.labs = labs
+  }
+  updateSelectedItems(items: Models.SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new Models.SelectedItems({})
   }
 }
