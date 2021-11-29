@@ -19,6 +19,7 @@ const Lab = observer(() => {
     salesTeamStore,
     routerStore,
     administrativeDivisions,
+    loading
   } = useStores()
 
   const {
@@ -178,7 +179,42 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {administrativeDivisions.listAdministrativeDiv && (
+              {((labStore.selectedItems &&
+              labStore.selectedItems?.country &&
+              labStore.selectedItems?.country.length > 0) ||
+              administrativeDivisions.listAdministrativeDiv) && (
+              <Controller
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <LibraryComponents.Atoms.Form.InputWrapper
+                    label="Country"
+                    id="country"
+                    hasError={errors.country}
+                  >
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                      loader={loading}
+                      data={{
+                        list: administrativeDivisions.listAdministrativeDiv,
+                        selected: labStore.selectedItems?.country,
+                        displayKey: "country",
+                        findKey: "country",
+                      }}
+                      hasError={errors.country}
+                      
+                     
+                      
+                      onSelect={(item) => {
+                        console.log({item})
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
+                )}
+                name="country"
+                rules={{ required: true }}
+                defaultValue=""
+              />
+            )}
+              {/* {administrativeDivisions.listAdministrativeDiv && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -217,7 +253,7 @@ const Lab = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              )}
+              )} */}
               {(labStore.labs.country ||
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
