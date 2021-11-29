@@ -2,7 +2,7 @@ export class Labs {
     _id: string
     code: string
     name: string
-    country: string
+    country: any[]
     state: string
     district: string
     city: string
@@ -70,5 +70,12 @@ export class Labs {
         this.dateOfEntry = rawData.dateOfEntry
         this.lastUpdated = rawData.lastUpdated
     }
-  }
+}
+
+export class SelectedItems {
+    country: any[]
+    constructor(rawData: {[key in string]: any}){
+        this.country = rawData.country
+    }
+}
   
