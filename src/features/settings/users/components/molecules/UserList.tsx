@@ -480,8 +480,17 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: { date: new Date() },
+                style: { display: "inline" },
+              }),
+              headerClasses: "textHeader6",
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
