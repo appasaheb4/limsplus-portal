@@ -56,7 +56,7 @@ export const AutocompleteCheck = observer((props: AutocompleteCheckProps) => {
         count++
         return item
       })
-      //console.log({ finalList })
+      console.log({ finalList })
       list = finalList
     }
     return list
