@@ -75,3 +75,16 @@ export class Users {
     this.lastUpdated = rawData.lastUpdated
   }
 }
+
+
+export class SelectedItems {
+  roles: any[]
+  labs: any[]
+  department: any[]
+  constructor(rawData: { [key in string]: any }) {
+    this.roles = rawData.roles
+    this.labs = rawData.labs
+    this.department = rawData.department
+  }
+}
+

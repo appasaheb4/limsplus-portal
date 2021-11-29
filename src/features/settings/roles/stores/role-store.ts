@@ -4,6 +4,7 @@ import * as Services from "../services"
 
 export class RoleStore {
   listRole: Models.Role[] = []
+  listRoleCopy: Models.Role[] = []
   listRoleCount: number = 0
   role?: Models.Role
   checkExitsCode?: boolean = false
@@ -11,6 +12,7 @@ export class RoleStore {
   constructor() {
     makeObservable<RoleStore, any>(this, {
       listRole: observable,
+      listRoleCopy: observable,
       listRoleCount: observable,
       role: observable,
       checkExitsCode: observable,
@@ -31,13 +33,18 @@ export class RoleStore {
     this.RoleService.listRole(page, limit)
   }
 
-  updateRoleList(res: any) {
-    if (!res.roles.success) return alert(res.roles.message)
-    this.listRole = res.roles.data
-    this.listRoleCount = res.roles.paginatorInfo.count
+  updateRoleList(res: any) {  
+    if (!Array.isArray(res)) {
+      if (!res.roles.success) return alert(res.roles.message)
+      this.listRole = res.roles.data
+      this.listRoleCopy = res.roles.data
+      this.listRoleCount = res.roles.paginatorInfo.count
+    } else {
+      this.listRole = res
+    }
   }
 
-  filterRoleList(res: any){
+  filterRoleList(res: any) {
     this.listRole = res.filterRoles.data
     this.listRoleCount = res.filterRoles.paginatorInfo.count
   }
