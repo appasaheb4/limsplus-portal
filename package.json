@@ -33,6 +33,7 @@
     "mobx": "^6.2.0",
     "mobx-react": "^7.1.0",
     "mobx-session": "^1.0.0",
+    "mobx-shallow-undo": "^1.0.0",
     "mobx-sync": "^3.0.0",
     "moment": "^2.29.1",
     "numeral": "^2.0.6",

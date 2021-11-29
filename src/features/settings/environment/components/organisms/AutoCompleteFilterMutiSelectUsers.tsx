@@ -24,6 +24,7 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
           if (ref.current && !ref.current.contains(event.target) && isListOpen) {
             if (originalOptions && options) {
               if (isListOpen) {
+                userStore.updateUserList(userStore.userListCopy)
                 onUpdate && onUpdate(environmentStore.selectedItems?.users)
               }
             }
