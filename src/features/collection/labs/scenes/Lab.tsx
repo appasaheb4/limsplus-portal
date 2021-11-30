@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -89,6 +89,73 @@ const Lab = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    () => (
+      <FeatureComponents.Molecules.LabList
+        data={labStore.listLabs || []}
+        totalSize={labStore.listLabsCount}
+        extraData={{
+          lookupItems: routerStore.lookupItems,
+          listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+          country: labStore.labs.country,
+          stateList: Utils.stateList,
+          state: labStore.labs.state,
+          districtList: Utils.districtList,
+          district: labStore.labs.district,
+          cityList: Utils.cityList,
+          city: labStore.labs.city,
+          area: labStore.labs.area,
+          postCodeList: Utils.postCodeList,
+        }}
+        isDelete={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          "Delete"
+        )}
+        isEditModify={RouterFlow.checkPermission(
+          toJS(routerStore.userPermission),
+          "Edit/Modify"
+        )}
+        onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+        onSelectedRow={(rows) => {
+          setModalConfirm({
+            show: true,
+            type: "Delete",
+            id: rows,
+            title: "Are you sure?",
+            body: `Delete selected items!`,
+          })
+        }}
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          setModalConfirm({
+            show: true,
+            type: "Update",
+            data: { value, dataField, id },
+            title: "Are you sure?",
+            body: `Update lab!`,
+          })
+        }}
+        onUpdateImage={(value: any, dataField: string, id: string) => {
+          setModalConfirm({
+            show: true,
+            type: "UpdateImage",
+            data: { value, dataField, id },
+            title: "Are you sure?",
+            body: `Update lab!`,
+          })
+        }}
+        onPageSizeChange={(page, limit) => {
+          labStore.fetchListLab(page, limit)
+        }}
+        onFilter={(type, filter, page, limit) => {
+          labStore.LabService.filter({
+            input: { type, filter, page, limit },
+          })
+        }}
+      />
+    ),
+    [labStore.listLabs]
+  )
 
   return (
     <>
@@ -220,6 +287,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             country: item.country.toUpperCase(),
                           })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -229,101 +299,103 @@ const Lab = observer(() => {
                   defaultValue=""
                 />
               )}
-              
-              {(labStore.selectedItems &&
+
+              {((labStore.selectedItems &&
                 labStore.selectedItems?.state &&
-                labStore.selectedItems?.state.length > 0 && labStore.labs.state ||
+                labStore.selectedItems?.state.length > 0 &&
+                labStore.labs.state) ||
                 administrativeDivisions.listAdministrativeDiv) && (
-                  <Controller
+                <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                  label="State"
-                  id="state"
-                  hasError={errors.state}
-                >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list: administrativeDivisions.listAdministrativeDiv,
-                      selected: labStore.selectedItems?.state,
-                      displayKey: "state",
-                      findKey: "state",
-                    }}
-                    hasError={errors.state}
-                    onFilter={(value: string) => {
-                      administrativeDivisions.administrativeDivisionsService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["state"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.state)
-                      labStore.updateLabs({
-                        ...labStore.labs,
-                        state: item.state.toUpperCase(),
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                    <LibraryComponents.Atoms.Form.InputWrapper
+                      label="State"
+                      id="state"
+                      hasError={errors.state}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.state,
+                          displayKey: "state",
+                          findKey: "state",
+                        }}
+                        hasError={errors.state}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["state"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.state)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            state: item.state.toUpperCase(),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="state"
                   rules={{ required: false }}
                   defaultValue=""
                 />
               )}
-              {(labStore.selectedItems &&
+              {((labStore.selectedItems &&
                 labStore.selectedItems?.district &&
-                labStore.selectedItems?.district.length > 0&&  labStore.labs.district ||
+                labStore.selectedItems?.district.length > 0 &&
+                labStore.labs.district) ||
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                  label="District"
-                  id="district"
-                  hasError={errors.district}
-                >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list: administrativeDivisions.listAdministrativeDiv,
-                      selected: labStore.selectedItems?.district,
-                      displayKey: "district",
-                      findKey: "district",
-                    }}
-                    hasError={errors.district}
-                    onFilter={(value: string) => {
-                      administrativeDivisions.administrativeDivisionsService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["district"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.district)
-                      labStore.updateLabs({
-                        ...labStore.labs,
-                        district: item.district.toUpperCase(),
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      label="District"
+                      id="district"
+                      hasError={errors.district}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.district,
+                          displayKey: "district",
+                          findKey: "district",
+                        }}
+                        hasError={errors.district}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["district"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.district)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            district: item.district.toUpperCase(),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="district"
                   rules={{ required: false }}
@@ -336,42 +408,42 @@ const Lab = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                  label="City"
-                  id="city"
-                  hasError={errors.city}
-                >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list: administrativeDivisions.listAdministrativeDiv,
-                      selected: labStore.selectedItems?.city,
-                      displayKey: "city",
-                      findKey: "city",
-                    }}
-                    hasError={errors.city}
-                    onFilter={(value: string) => {
-                      administrativeDivisions.administrativeDivisionsService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["city"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.city)
-                      labStore.updateLabs({
-                        ...labStore.labs,
-                        city: item.city.toUpperCase(),
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      label="City"
+                      id="city"
+                      hasError={errors.city}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.city,
+                          displayKey: "city",
+                          findKey: "city",
+                        }}
+                        hasError={errors.city}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["city"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            city: item.city.toUpperCase(),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="city"
                   rules={{ required: false }}
@@ -384,42 +456,42 @@ const Lab = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Area"
-                  id="area"
-                  hasError={errors.area}
-                >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list: administrativeDivisions.listAdministrativeDiv,
-                      selected: labStore.selectedItems?.area,
-                      displayKey: "area",
-                      findKey: "area",
-                    }}
-                    hasError={errors.area}
-                    onFilter={(value: string) => {
-                      administrativeDivisions.administrativeDivisionsService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["area"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.city)
-                      labStore.updateLabs({
-                        ...labStore.labs,
-                        area: item.area.toUpperCase(),
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      label="Area"
+                      id="area"
+                      hasError={errors.area}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.area,
+                          displayKey: "area",
+                          findKey: "area",
+                        }}
+                        hasError={errors.area}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["area"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.city)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            area: item.area.toUpperCase(),
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="area "
                   rules={{ required: false }}
@@ -432,42 +504,42 @@ const Lab = observer(() => {
                   control={control}
                   render={({ field: { onChange } }) => (
                     <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Postal Code"
-                  id="postalCode"
-                  hasError={errors.postalCode}
-                >
-                  <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list: administrativeDivisions.listAdministrativeDiv,
-                      selected: labStore.selectedItems?.postalCode,
-                      displayKey: "postalCode",
-                      findKey: "postalCode",
-                    }}
-                    hasError={errors.postalCode}
-                    onFilter={(value: string) => {
-                      administrativeDivisions.administrativeDivisionsService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["postalCode"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.postalCode)
-                      labStore.updateLabs({
-                        ...labStore.labs,
-                        postalCode:item,
-                      })
-                    }}
-                  />
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                      label="Postal Code"
+                      id="postalCode"
+                      hasError={errors.postalCode}
+                    >
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                        loader={loading}
+                        data={{
+                          list: administrativeDivisions.listAdministrativeDiv,
+                          selected: labStore.selectedItems?.postalCode,
+                          displayKey: "postalCode",
+                          findKey: "postalCode",
+                        }}
+                        hasError={errors.postalCode}
+                        onFilter={(value: string) => {
+                          administrativeDivisions.administrativeDivisionsService.filter(
+                            {
+                              input: {
+                                filter: {
+                                  type: "search",
+                                  ["postalCode"]: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            }
+                          )
+                        }}
+                        onSelect={(item) => {
+                          onChange(item.postalCode)
+                          labStore.updateLabs({
+                            ...labStore.labs,
+                            postalCode: item,
+                          })
+                        }}
+                      />
+                    </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="postalCode "
                   rules={{ required: false }}
@@ -1076,69 +1148,7 @@ const Lab = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.LabList
-            data={labStore.listLabs || []}
-            totalSize={labStore.listLabsCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-              country: labStore.labs.country,
-              stateList: Utils.stateList,
-              state: labStore.labs.state,
-              districtList: Utils.districtList,
-              district: labStore.labs.district,
-              cityList: Utils.cityList,
-              city: labStore.labs.city,
-              area: labStore.labs.area,
-              postCodeList: Utils.postCodeList,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onUpdateImage={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "UpdateImage",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              labStore.fetchListLab(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              labStore.LabService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
-        </div>
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
