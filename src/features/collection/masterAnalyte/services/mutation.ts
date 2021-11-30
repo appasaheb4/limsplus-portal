@@ -149,7 +149,7 @@ export const FILTER = gql`
         high
         low
         repetition
-        picture
+        picture  
         units
         usage
         cptCode

@@ -18,7 +18,7 @@ interface GeneralFieldProps {
 }
 
 export const GeneralField = observer((props: GeneralFieldProps) => {
-  const { lookupStore,routerStore } = useStores()
+  const { lookupStore, routerStore } = useStores()
   const {
     control,
     handleSubmit,
@@ -26,32 +26,24 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
     setValue,
   } = useForm()
 
-  useEffect(() => {
-    if (stores.loginStore.login && stores.loginStore.login.role !== "SYSADMIN") {
-      lookupStore.LookupService.generalSettingsUpdate({
-        ...lookupStore.globalSettings,
-        environment: stores.loginStore.login.environment,
-      })
-      setValue("environment", stores.loginStore.login.environment)
-    }
-  }, [stores.loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const environment = routerStore.lookupItems
       .find((fileds) => {
         return fileds.fieldName === "ENVIRONMENT"
       })
       ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
     if (environment) {
-      lookupStore && lookupStore.updateGlobalSettings({
-        ...lookupStore.globalSettings,
-        environment: environment.code as string,
-      })
+      lookupStore &&
+        lookupStore.updateGlobalSettings({
+          ...lookupStore.globalSettings,
+          environment: environment.code as string,
+        })
       setValue("environment", environment.code as string)
     }
-  },[routerStore.lookupItems])
+  }, [routerStore.lookupItems])
 
-  const onSubmitGeneralFiled = (data: any) => {   
+  const onSubmitGeneralFiled = (data: any) => {
     lookupStore.LookupService.generalSettingsUpdate({
       input: {
         ...lookupStore.globalSettings,
@@ -162,7 +154,7 @@ export const GeneralField = observer((props: GeneralFieldProps) => {
                 name="code"
                 rules={{ required: false }}
                 defaultValue=""
-              />   
+              />
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (

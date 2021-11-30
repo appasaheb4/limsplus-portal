@@ -196,9 +196,15 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "postcode",
             text: "Postcode",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader6",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.numberFilter({
+              numberStyle: { marginLeft: "2px" },
+              style: { display: "inline" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -351,9 +357,15 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "workHours",
             text: "Work Hours",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader6",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.numberFilter({
+              numberStyle: { marginLeft: "2px" },
+              style: { display: "inline" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+            }),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -737,8 +749,19 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "dateCreation",
             text: "Date Creation",
+            headerClasses: "textHeader6",
             sort: true,
             editable: false,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
             },
@@ -746,8 +769,19 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "dateActiveFrom",
             text: "Date Active",
+            headerClasses: "textHeader6",
             sort: true,
             editable: false,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
             },
@@ -755,8 +789,19 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "dateExpire",
             text: "Date Expire",
+            headerClasses: "textHeader6",
             sort: true,
             editable: false,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
             },
@@ -764,8 +809,16 @@ const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: "version",
             text: "Version",
+            headerClasses: "textHeader4",
             sort: true,
             editable: false,
+            filter: LibraryComponents.Organisms.Utils.numberFilter({
+              numberStyle: { marginLeft: "2px" },
+              style: { display: "inline" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+            }),
           },
           {
             dataField: "enteredBy",
