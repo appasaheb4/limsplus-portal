@@ -7,6 +7,7 @@ import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { useStores } from "@lp/stores"
+import {AutoCompleteFilterSingleSelect} from '../organisms'
 
 interface LabListProps {
   data: any
@@ -71,31 +72,15 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {props.extraData.listAdministrativeDiv && (
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Country"
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                        onChange={(e) => {
-                          const country = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(country,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {_.uniq(
-                          _.map(
-                            props.extraData.listAdministrativeDiv,
-                            "country"
-                          )
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item}>
-                            {`${item}`}
-                          </option>
-                        ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-              )}
+                  
+                    <AutoCompleteFilterSingleSelect
+                      selected={row.country}
+                      onSelect={(items) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(items, column.dataField, row._id)
+                      }}
+                    />
+              
                 </>
               ),
             },
