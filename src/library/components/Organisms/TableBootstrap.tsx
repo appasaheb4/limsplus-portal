@@ -189,7 +189,7 @@ const TableBootstrap = ({
       setSelectedRow(rows)
     }
   }
-  
+
   const handleTableChange = (
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
@@ -210,13 +210,13 @@ const TableBootstrap = ({
         if (page * sizePerPage > totalSize)
           return alert("You have not more records.")
       }
-      let filter: any = {}
-      for (const [key, value] of Object.entries(filters)) {
-        const values: any = value
-        const object = { [key]: values.filterVal }
-        filter = Object.assign(filter, object)
-      }
-      onFilter && onFilter(type, filter, page, sizePerPage)
+        let filter: any = {}
+        for (const [key, value] of Object.entries(filters)) {
+          const values: any = value
+          const object = { [key]: values.filterVal }
+          filter = Object.assign(filter, object)
+        }
+        onFilter && onFilter(type, filter, (type === 'filter' && page === 1) ? 0 : page, sizePerPage)
     }
     if (type === "search") {
       setTimeout(() => {

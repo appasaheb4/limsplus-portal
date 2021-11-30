@@ -155,7 +155,7 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Section",
               headerClasses: "textHeader2",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               formatter: (cell, row) => {
                 return <>{`${row.section.code} -${row.section.name}`}</>
@@ -249,8 +249,15 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "price",
               text: "Price",
+              headerClasses: "textHeader4",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -292,9 +299,15 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "validationLevel",
               text: "Validation Level",
-              headerClasses: "textHeader4",
+              headerClasses: "textHeader7",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -1102,19 +1115,45 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "dateCreation",
               text: "Date Creation",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
-              dataField: "dateActive",
+              dataField: "dateActiveTo",
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateActiveTo).format("YYYY-MM-DD")}</>
               },
             },
             {

@@ -85,7 +85,9 @@ export class LookupService {
     })
   generalSettingsUpdate = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      client
+      console.log({variables});
+      
+      client  
         .mutate({
           mutation: GENERAL_SETTINGS_UPDATE,
           variables: variables,

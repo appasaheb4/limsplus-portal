@@ -50,9 +50,11 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "documentName",
             text: "Document Name",
+            headerClasses: "textHeader4",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
-              return <>{`${row.documentName.children.name}`}</>
+              return <>{`${row.documentName.children.title}`}</>
             },
             editorRenderer: (
               editorProps,
@@ -93,7 +95,9 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "arrValue",
             text: "Value & code",
+            headerClasses: "textHeader5",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -229,9 +233,9 @@ const LookupList = (props: LookupListProps) => {
           {
             dataField: "defaultItem",
             text: "Default Item",
-            headerClasses: "textHeader2",
+            headerClasses: "textHeader5",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
