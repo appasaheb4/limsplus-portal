@@ -72,16 +72,13 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  
                     <AutoCompleteFilterSingleSelect
-                      selected={row.country}
-                      onSelect={(items) => {
+                      onSelect={(item) => {  
                         props.onUpdateItem &&
-                          props.onUpdateItem(items, column.dataField, row._id)
+                          props.onUpdateItem(item.country, column.dataField, row._id)
                       }}
                     />
-              
-                </>
+               </>
               ),
             },
             {

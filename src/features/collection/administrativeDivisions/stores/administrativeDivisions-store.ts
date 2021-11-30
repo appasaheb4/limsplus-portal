@@ -12,6 +12,7 @@ export class AdministrativeDivisionsStore {
   administrativeDiv!: Models.AdministrativeDivisions
   listAdministrativeDivCount: number = 0
   listAdministrativeDiv!: Models.AdministrativeDivisions[]
+  listAdministrativeDivCopy!: Models.AdministrativeDivisions[]
   localState!: LocalState
 
   constructor() {
@@ -43,17 +44,24 @@ export class AdministrativeDivisionsStore {
   }
 
   updateAdministrativeDivList(res: any) {
-    if (!res.administrativeDivisions.success)
-      return alert(res.administrativeDivisions.message)
-    this.listAdministrativeDivCount = res.administrativeDivisions.paginatorInfo.count
-    this.listAdministrativeDiv = res.administrativeDivisions.data
-  }  
+    if (!Array.isArray(res)) {
+      if (!res.administrativeDivisions.success)
+        return alert(res.administrativeDivisions.message)
+      this.listAdministrativeDivCount =
+        res.administrativeDivisions.paginatorInfo.count
+      this.listAdministrativeDiv = res.administrativeDivisions.data
+      this.listAdministrativeDivCopy = res.administrativeDivisions.data
+    } else {
+      this.listAdministrativeDiv = res
+    }
+  }
 
-  filterAdministrativeDivList(res: any){
-    this.listAdministrativeDivCount = res.filterAdministrativeDivisions.paginatorInfo.count
+  filterAdministrativeDivList(res: any) {
+    this.listAdministrativeDivCount =
+      res.filterAdministrativeDivisions.paginatorInfo.count
     this.listAdministrativeDiv = res.filterAdministrativeDivisions.data
   }
-  
+
   updateAdministrativeDiv(administrative: Models.AdministrativeDivisions) {
     this.administrativeDiv = administrative
   }
