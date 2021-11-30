@@ -192,7 +192,7 @@ const CorporateClients = observer(() => {
                       errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
                     value={dayjs(
-                      corporateClientsStore.corporateClients?.dateActiveFrom
+                      corporateClientsStore.corporateClients?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
@@ -1297,7 +1297,7 @@ const CorporateClients = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("corporateCode", modalConfirm.data.corporateCode)
               setValue("corporateName", modalConfirm.data.corporateName)
@@ -1311,7 +1311,7 @@ const CorporateClients = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("corporateCode", modalConfirm.data.corporateCode)
               setValue("corporateName", modalConfirm.data.corporateName)

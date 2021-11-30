@@ -16,7 +16,7 @@ export class DoctorsStore {
     this.doctors = {
       ...this.doctors,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),
+      dateActive: new Date(),
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       confidential: false,

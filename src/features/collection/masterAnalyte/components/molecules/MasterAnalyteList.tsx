@@ -702,12 +702,12 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
             },
             {
-              dataField: "dateActiveFrom",
+              dataField: "dateActive",
               editable: false,
               text: "Date Active",
               sort: true,
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
             },
             {

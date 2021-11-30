@@ -414,9 +414,9 @@ export const LibraryList = (props: LibraryListProps) => {
             {  
               dataField: "reflex",
               text: "Reflex",
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader4",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
                 <>
                  <div className="flex flex-row">
@@ -551,17 +551,29 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: "loAge",
               text: "LO Age",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "hiAge",
               text: "HI Age",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {

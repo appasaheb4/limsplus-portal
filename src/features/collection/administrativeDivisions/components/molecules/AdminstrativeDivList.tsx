@@ -4,7 +4,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import "react-accessible-accordion/dist/fancy-example.css"
-   
+
 interface AdminstrativeDivListProps {
   data: any
   totalSize: number
@@ -37,67 +37,59 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             text: "Country",
             headerClasses: "textHeader1",
             sort: true,
-            editorStyle : { textTransform : "uppercase"},
-            style:{textTransform : "uppercase"},
+            editorStyle: { textTransform: "uppercase" },
+            style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
-            
           },
           {
             dataField: "state",
             text: "State",
             headerClasses: "textHeader1",
             sort: true,
-            editorStyle : { textTransform : "uppercase"},
-            style:{textTransform : "uppercase"},
+            editorStyle: { textTransform: "uppercase" },
+            style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
           },
           {
             dataField: "district",
             text: "District",
             headerClasses: "textHeader1",
             sort: true,
-            editorStyle : { textTransform : "uppercase"},
-            style:{textTransform : "uppercase"},
+            editorStyle: { textTransform: "uppercase" },
+            style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
           },
           {
             dataField: "city",
             text: "City",
             headerClasses: "textHeader1",
             sort: true,
-            editorStyle : { textTransform : "uppercase"},
-            style:{textTransform : "uppercase"},
+            editorStyle: { textTransform: "uppercase" },
+            style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
           },
           {
             dataField: "area",
             text: "Area",
             headerClasses: "textHeader1",
             sort: true,
-            editorStyle : { textTransform : "uppercase"},
-            style:{textTransform : "uppercase"},
+            editorStyle: { textTransform: "uppercase" },
+            style: { textTransform: "uppercase" },
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            
-            
           },
           {
             dataField: "postalCode",
             text: "Postcode",
-            headerClasses: "textHeader1",
+            headerClasses: "textHeader5",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
-            headerStyle: { minWidth: "230px" },
-            formatter: (cellContent, row) => (   
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
+            formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
                   space={2}
                   direction="row"
                   justify="center"
-                >  
+                >
                   {row.postalCode.map((item) => (
                     <div className="mb-2">
                       <LibraryComponents.Atoms.Buttons.Button
@@ -238,7 +230,10 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                  <LibraryComponents.Atoms.Tooltip
+                    tooltipText="Delete"
+                    position="top"
+                  >
                     <LibraryComponents.Atoms.Icons.IconContext
                       color="#fff"
                       size="20"
@@ -262,9 +257,9 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
               </>
             ),
             headerClasses: "sticky right-0  bg-gray-500 text-white",
-             classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+            classes: (cell, row, rowIndex, colIndex) => {
+              return "sticky right-0 bg-gray-500"
+            },
           },
         ]}
         isEditModify={props.isEditModify}

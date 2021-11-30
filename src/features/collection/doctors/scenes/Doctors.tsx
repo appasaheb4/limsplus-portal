@@ -181,18 +181,18 @@ const Doctors = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom
+                      errors.dateActive
                         ? "Please Enter DateActiveFrom"
                         : "DateActiveFrom"
                     }
-                    hasError={errors.dateActiveFrom}
-                    value={dayjs(doctorsStore.doctors?.dateActiveFrom).format(
+                    hasError={errors.dateActive}
+                    value={dayjs(doctorsStore.doctors?.dateActive).format(
                       "YYYY-MM-DD"
                     )}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1482,7 +1482,7 @@ const Doctors = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("doctorCode", modalConfirm.data.doctorCode)
               setValue("doctorName", modalConfirm.data.doctorName)
@@ -1496,7 +1496,7 @@ const Doctors = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("doctorCode", modalConfirm.data.doctorCode)
               setValue("doctorName", modalConfirm.data.doctorName)

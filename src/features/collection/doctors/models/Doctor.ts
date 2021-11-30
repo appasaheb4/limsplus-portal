@@ -3,7 +3,7 @@ export class Doctors {
     existsVersionId: string
     existsRecordId: string
     dateCreation: Date  
-    dateActiveFrom: Date  
+    dateActive: Date  
     dateExpire: Date 
     version: number
     enteredBy: string
@@ -53,7 +53,7 @@ export class Doctors {
         this.existsVersionId = rawData.existsVersionId
         this.existsRecordId = rawData.existsRecordId
         this.dateCreation = rawData.dateCreation
-        this.dateActiveFrom = rawData.dateActiveFrom
+        this.dateActive = rawData.dateActive
         this.dateExpire = rawData.dateExpire
         this.version = rawData.version
         this.enteredBy = rawData.enteredBy

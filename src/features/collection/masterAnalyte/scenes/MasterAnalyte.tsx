@@ -1011,16 +1011,16 @@ const MasterAnalyte = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom ? "Please Enter Date Active" : "Date Active"
+                      errors.dateActive ? "Please Enter Date Active" : "Date Active"
                     }
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     value={dayjs(
-                      masterAnalyteStore.masterAnalyte?.dateActiveFrom
+                      masterAnalyteStore.masterAnalyte?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1258,7 +1258,7 @@ const MasterAnalyte = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)
@@ -1272,7 +1272,7 @@ const MasterAnalyte = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: new Date(),
+                dateActive: new Date(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("analyteCode", modalConfirm.data.analyteCode)

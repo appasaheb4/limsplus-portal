@@ -3,6 +3,7 @@ import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
+import dayjs from 'dayjs'
 
 interface CorporateClientListProps {
   data: any
@@ -136,9 +137,15 @@ const CorporateClient = (props: CorporateClientListProps) => {
           {
             dataField: "postcode",
             text: "Postcode",
-            headerClasses: "textHeader",
+            headerClasses: "textHeader6",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.numberFilter({
+              numberStyle: { marginLeft: "2px" },
+              style: { display: "inline" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+            }),
           },
           {
             dataField: "customerGroup",
@@ -571,42 +578,78 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "dateCreation",
             editable: false,
             text: "Date Creation",
+            headerClasses: "textHeader6",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateCreation || 0)
+                  {dayjs(row.dateCreation || 0)
                     .format("YYYY-MM-DD")}
                 </>
               )
             },
           },
           {
-            dataField: "dateActiveFrom",
+            dataField: "dateActive",
             editable: false,
             text: "Date Active",
+            headerClasses: "textHeader6",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateActiveFrom || 0)
+                  {dayjs(row.dateActive || 0)
                     .format("YYYY-MM-DD")}
                 </>
               )
             },
           },
           {
-            dataField: "dateActiveTo",
+            dataField: "dateExpire",
             editable: false,
             text: "Date Expire",
+            headerClasses: "textHeader6",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.dateFilter({
+              comparators: [
+                LibraryComponents.Organisms.Utils.Comparator.EQ,
+                LibraryComponents.Organisms.Utils.Comparator.GE,
+                LibraryComponents.Organisms.Utils.Comparator.LT,
+              ],
+              dateStyle: { marginLeft: "2px" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+              style: { display: "inline" },
+            }),
             formatter: (cell, row) => {
               return (
                 <>
-                  {LibraryUtils.moment
-                    .unix(row.dateActiveTo || 0)
+                  {dayjs(row.dateExpire)
                     .format("YYYY-MM-DD")}
                 </>
               )
@@ -616,7 +659,15 @@ const CorporateClient = (props: CorporateClientListProps) => {
             dataField: "version",
             editable: false,
             text: "Version",
+            headerClasses: "textHeader4",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.numberFilter({
+              numberStyle: { marginLeft: "2px" },
+              style: { display: "inline" },
+              defaultValue: {
+                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              },
+            }),
           },
           {
             dataField: "enteredBy",
