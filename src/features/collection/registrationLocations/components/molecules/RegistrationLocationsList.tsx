@@ -92,9 +92,15 @@ const RegistrationLocationsList =
             {
               dataField: "postcode",
               text: "Postcode",
-              headerClasses: "textHeader2",
+              headerClasses: "textHeader5",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -412,9 +418,15 @@ const RegistrationLocationsList =
             {
               dataField: "workHrs",
               text: "Work Hrs",
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader5",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -719,8 +731,21 @@ const RegistrationLocationsList =
             {
               dataField: "dateCreation",
               text: "Date Creation",
+              headerClasses: "textHeader7",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -733,8 +758,21 @@ const RegistrationLocationsList =
             {
               dataField: "dateActiveFrom",
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -747,8 +785,21 @@ const RegistrationLocationsList =
             {
               dataField: "dateExpire",
               text: "Date Expire",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return (
                   <>
@@ -761,8 +812,16 @@ const RegistrationLocationsList =
             {
               dataField: "version",
               text: "Version",
+              headerClasses: "textHeader4",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "enteredBy",

@@ -405,9 +405,15 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "age",
               text: "Age",
-              // headerClasses: "textHeader",
+               headerClasses: "textHeader5",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -563,38 +569,81 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: "dateCreation",
               editable: false,
               text: "Date Creation",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
-              dataField: "dateActiveFrom",
+              dataField: "dateActive",
               editable: false,
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
+                return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
             },
             {
               dataField: "dateExpire",
               editable: false,
               text: "Date Expire",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
             },
-            {
+            {  
               dataField: "version",
               editable: false,
               text: "Version",
+              headerClasses: "textHeader4",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "deltaRangTeType",

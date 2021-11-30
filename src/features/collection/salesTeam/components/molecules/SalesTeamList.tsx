@@ -69,11 +69,12 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               </>
             ),
           },
-          {  
+          {
             dataField: "salesTerritory",
             text: "Sales Territory",
+            headerClasses: "textHeader5",
             sort: true,
-            //filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cell, row) => {
               return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
             },

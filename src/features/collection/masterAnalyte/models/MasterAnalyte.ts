@@ -3,7 +3,7 @@ export class MasterAnalyte {
   existsVersionId: string
   existsRecordId: string
   dateCreation: Date
-  dateActiveFrom: Date
+  dateActive: Date
   dateActiveTo: Date
   version: number
   enteredBy: string
@@ -46,7 +46,7 @@ export class MasterAnalyte {
     this.existsVersionId = rawData.existsVersionId 
     this.existsRecordId = rawData.existsRecordId 
     this.dateCreation = rawData.dateCreation 
-    this.dateActiveFrom = rawData.dateActiveFrom 
+    this.dateActive = rawData.dateActive 
     this.dateActiveTo = rawData.dateActiveTo 
     this.version = rawData.version 
     this.enteredBy = rawData.enteredBy 

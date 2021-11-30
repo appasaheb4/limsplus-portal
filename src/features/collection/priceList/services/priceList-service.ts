@@ -63,7 +63,6 @@ export class PriceListService {
           variables,
         })
         .then((response: any) => {
-          console.log({ response })
           resolve(response.data)
         })
         .catch((error) =>

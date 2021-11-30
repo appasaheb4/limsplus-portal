@@ -547,18 +547,18 @@ const MasterPackage = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom
+                      errors.dateActive
                         ? "Please Enter DateActiveFrom"
                         : "Date Active"
                     }
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     value={dayjs(
-                      masterPackageStore.masterPackage?.dateActiveFrom
+                      masterPackageStore.masterPackage?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -801,7 +801,7 @@ const MasterPackage = observer(() => {
                 existsVersionId: modalConfirm.data._id,
                 existsRecordId: undefined,
                 version: parseInt(modalConfirm.data.version + 1),
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActive: LibraryUtils.moment().unix(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("environment", modalConfirm.data.environment)
@@ -813,7 +813,7 @@ const MasterPackage = observer(() => {
                 existsVersionId: undefined,
                 existsRecordId: modalConfirm.data._id,
                 version: 1,
-                dateActiveFrom: LibraryUtils.moment().unix(),
+                dateActive: LibraryUtils.moment().unix(),
               })
               setValue("lab", modalConfirm.data.lab)
               setValue("environment", modalConfirm.data.environment)

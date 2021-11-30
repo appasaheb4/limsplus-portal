@@ -767,7 +767,7 @@ const DoctorsList = (props: DoctorsListProps) => {
             },
           },
           {
-            dataField: "dateActiveFrom",
+            dataField: "dateActive",
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
@@ -783,7 +783,7 @@ const DoctorsList = (props: DoctorsListProps) => {
               style: { display: "inline" },
             }),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
+              return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
             },
           },
           {

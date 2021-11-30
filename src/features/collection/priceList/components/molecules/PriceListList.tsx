@@ -3,6 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import dayjs from "dayjs"
 
 interface PriceListProps {
   data: any
@@ -15,10 +16,10 @@ interface PriceListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page:number,totalSize:number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
-  
+
 const MasterAnalyteList = (props: PriceListProps) => {
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
@@ -357,13 +358,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                       }}
                     >
                       <option selected>Select</option>
-                      {props.extraData.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
+                      {props.extraData.listLabs.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.name}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -372,33 +371,57 @@ const MasterAnalyteList = (props: PriceListProps) => {
             {
               dataField: "price",
               text: "Price",
-              // headerClasses: "textHeader",
+              headerClasses: "textHeader4",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "fixedPrice",
               text: "Fixed Price",
-              // headerClasses: "textHeader",
+              headerClasses: "textHeader6",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "minSp",
               text: "Min Sp",
-              // headerClasses: "textHeader",
+              headerClasses: "textHeader5",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
               dataField: "maxSp",
               text: "Max Sp",
-              // headerClasses: "textHeader",
+              headerClasses: "textHeader6",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -581,56 +604,81 @@ const MasterAnalyteList = (props: PriceListProps) => {
               dataField: "dateCreation",
               editable: false,
               text: "Date Creation",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateCreation || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
               },
             },
             {
               dataField: "dateActiveFrom",
               editable: false,
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveFrom || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateActiveFrom || 0).format("YYYY-MM-DD")}</>
               },
             },
             {
-              dataField: "dateActiveTo",
+              dataField: "dateExpire",
               editable: false,
               text: "Date Expire",
+              headerClasses: "textHeader6",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
-                return (
-                  <>
-                    {LibraryUtils.moment
-                      .unix(row.dateActiveTo || 0)
-                      .format("YYYY-MM-DD")}
-                  </>
-                )
+                return <>{dayjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
               },
             },
             {
               dataField: "version",
               editable: false,
               text: "Version",
+              headerClasses: "textHeader5",
               sort: true,
-              // filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "opration",
@@ -641,7 +689,10 @@ const MasterAnalyteList = (props: PriceListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -691,7 +742,8 @@ const MasterAnalyteList = (props: PriceListProps) => {
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                              LibraryComponents.Atoms.Icons.Iconio5
+                                .IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
@@ -701,9 +753,9 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -716,8 +768,8 @@ const MasterAnalyteList = (props: PriceListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,limit)=>{
-            props.onPageSizeChange &&  props.onPageSizeChange(page,limit)
+          onPageSizeChange={(page, limit) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, limit)
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)

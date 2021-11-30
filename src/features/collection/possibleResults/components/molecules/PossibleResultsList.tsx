@@ -87,6 +87,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             text: "Conclusion Result",
             headerClasses: "textHeader4",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
               <>
                 <LibraryComponents.Atoms.List
@@ -270,14 +271,15 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
           {
             dataField: "defaultConclusion",
             text: "Defualt Conclusion",
-            //headerClasses: "textHeader4",
+            headerClasses: "textHeader5",
             sort: true,
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             formatter: (cellContent, row) => (
               <>
                 {row.defaultConclusion && (
                   <label>
                     {`Result: ${row.defaultConclusion.result || ""} 
-                       PossibleValue: ${row.defaultConclusion.code || ""}
+                       PossibleValue: ${row.defaultConclusion.possibleValue|| ""}
                        Ab Normal: ${row.defaultConclusion.abNormal || false}
                        Critical: ${row.defaultConclusion.critical || false}`}
                   </label>
