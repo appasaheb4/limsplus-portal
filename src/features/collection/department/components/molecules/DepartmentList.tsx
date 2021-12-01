@@ -101,8 +101,8 @@ const DepartmentList = (props: DepartmentListProps) => {
             ) => (
               <>
                 <AutoCompleteFilterSingleSelectHod
-                onSelect={(item)=>{
-                  props.onUpdateItem && props.onUpdateItem(item.fullname,column.dataField,row._id)
+                  onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.fullName,column.dataField,row._id)
                 }}
                 />
               </>
