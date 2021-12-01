@@ -232,15 +232,17 @@ const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: "openingTime",
             text: "Opening Time",
+            headerClasses: "textHeader5",
             sort: true,
-            // filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
             dataField: "closingTime",
             text: "Closing Time",
+            headerClasses: "textHeader5",
             sort: true,
-            // filter: LibraryComponents.Organisms.Utils.textFilter(),
+            filter: LibraryComponents.Organisms.Utils.textFilter(),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 
@@ -391,7 +393,7 @@ const DepartmentList = (props: DepartmentListProps) => {
         }}
         onPageSizeChange={(page, size) => {
           props.onPageSizeChange && props.onPageSizeChange(page, size)
-        }}   
+        }}
         onFilter={(type, filter, page, size) => {
           props.onFilter && props.onFilter(type, filter, page, size)
         }}

@@ -535,19 +535,19 @@ const TestAnalyteMapping = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     placeholder={
-                      errors.dateActiveFrom
-                        ? "Please Enter dateActiveFrom"
+                      errors.dateActive
+                        ? "Please Enter dateActive"
                         : "Date Active"
                     }
                     value={dayjs(
-                      testAnalyteMappingStore.testAnalyteMapping?.dateActiveFrom
+                      testAnalyteMappingStore.testAnalyteMapping?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -557,24 +557,24 @@ const TestAnalyteMapping = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.dateActiveTo
-                        ? "Please Enter dateActiveTo"
+                      errors.dateExpire
+                        ? "Please Enter dateExpire"
                         : "Date Expire"
                     }
                     value={dayjs(
-                      testAnalyteMappingStore.testAnalyteMapping?.dateActiveTo
+                      testAnalyteMappingStore.testAnalyteMapping?.dateExpire
                     ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const dateActiveTo = new Date(e.target.value)
-                      onChange(dateActiveTo)
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
                       testAnalyteMappingStore.updateTestAnalyteMapping({
                         ...testAnalyteMappingStore.testAnalyteMapping,
-                        dateActiveTo,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="schedule"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />

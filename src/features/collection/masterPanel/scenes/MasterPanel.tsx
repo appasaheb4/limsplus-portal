@@ -1353,19 +1353,19 @@ const MasterPanel = observer(() => {
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     placeholder={
-                      errors.dateActiveFrom
-                        ? "Please Enter dateActiveFrom"
+                      errors.dateActive
+                        ? "Please Enter dateActive"
                         : "Date Active"
                     }
                     value={daysjs(
-                      masterPanelStore.masterPanel?.dateActiveFrom
+                      masterPanelStore.masterPanel?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />

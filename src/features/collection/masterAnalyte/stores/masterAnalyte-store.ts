@@ -17,7 +17,7 @@ export class MasterAnalyteStore {
       ...this.masterAnalyte,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateActiveTo: new Date(
+      dateExpire: new Date(
         dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
       ),
       version: 1,

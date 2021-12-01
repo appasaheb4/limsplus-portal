@@ -16,7 +16,6 @@ import { stores } from "@lp/stores"
 import hydrateStore from "@lp/library/modules/startup"
 import { ApolloProvider, client } from "@lp/library/modules/apolloClient"
 
-
 configure({
   reactionScheduler: (f): void => {
     setTimeout(f, 1);

@@ -250,22 +250,59 @@ const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               dataField: "dateCreation",
               editable: false,
               text: "Date Creation",
+              headerClasses: "textHeader6",
               sort: true,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
             {
-              dataField: "dateActive",
+              dataField: "dateActiveFrom",
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
+              formatter: (cell, row) => {
+                return <>{dayjs(row.dateActiveFrom).format("YYYY-MM-DD")}</>
+              },
             },
             { 
               dataField: "version",
               text: "Version",
+              headerClasses: "textHeader5",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "environment",

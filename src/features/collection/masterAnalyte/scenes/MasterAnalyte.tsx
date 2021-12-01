@@ -1034,13 +1034,13 @@ const MasterAnalyte = observer(() => {
                     }
                     hasError={errors.schedule}
                     value={dayjs(
-                      masterAnalyteStore.masterAnalyte?.dateActiveTo
+                      masterAnalyteStore.masterAnalyte?.dateExpire
                     ).format("YYYY-MM-DD")}
                     onChange={(e) => {
                       const schedule = new Date(e.target.value)
                       masterAnalyteStore.updateMasterAnalyte({
                         ...masterAnalyteStore.masterAnalyte,
-                        dateActiveTo: schedule,
+                        dateExpire: schedule,
                       })
                     }}
                   />

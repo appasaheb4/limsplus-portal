@@ -20,7 +20,7 @@ export class MasterPanelStore {
     this.masterPanel = {
       ...this.masterPanel,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),
+      dateActive: new Date(),
       dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
