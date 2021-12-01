@@ -5,12 +5,12 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
 
-interface AutoCompleteFilterSingleSelectProps {
+interface AutoCompleteFilterSingleSelectAreaProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteFilterSingleSelect = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectProps) => {
+export const AutoCompleteFilterSingleSelectArea = observer(
+  ({ onSelect }: AutoCompleteFilterSingleSelectAreaProps) => {
     const { loading, administrativeDivisions } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
@@ -43,7 +43,7 @@ export const AutoCompleteFilterSingleSelect = observer(
         input: {
           filter: {
             type: "search",
-            ["country"]: value,
+            ["area"]: value,
           },
           page: 0,
           limit: 10,
@@ -89,7 +89,7 @@ export const AutoCompleteFilterSingleSelect = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
+                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
                   <ul>
                     {options?.map((item, index) => (
                       <>
@@ -97,7 +97,7 @@ export const AutoCompleteFilterSingleSelect = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.country)
+                            setValue(item.area)
                             setIsListOpen(false)
                             administrativeDivisions.updateAdministrativeDivList(
                               administrativeDivisions.listAdministrativeDivCopy
@@ -108,7 +108,7 @@ export const AutoCompleteFilterSingleSelect = observer(
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.country}
+                            {item.area}
                           </label>
                         </li>
                       </>

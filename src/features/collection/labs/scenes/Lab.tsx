@@ -246,9 +246,7 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {((labStore.selectedItems &&
-                labStore.selectedItems?.country &&
-                labStore.selectedItems?.country.length > 0) ||
+              {(
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
@@ -261,8 +259,8 @@ const Lab = observer(() => {
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
-                          selected: labStore.selectedItems?.country,
+                          list:administrativeDivisions.listAdministrativeDiv,
+                          selected:labStore.selectedItems?.country,
                           displayKey: "country",
                           findKey: "country",
                         }}
@@ -300,10 +298,7 @@ const Lab = observer(() => {
                 />
               )}
 
-              {((labStore.selectedItems &&
-                labStore.selectedItems?.state &&
-                labStore.selectedItems?.state.length > 0 &&
-                labStore.labs.state) ||
+              {((labStore.labs.country ||
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
@@ -316,7 +311,7 @@ const Lab = observer(() => {
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
+                          list:administrativeDivisions.listAdministrativeDiv ,
                           selected: labStore.selectedItems?.state,
                           displayKey: "state",
                           findKey: "state",
@@ -350,7 +345,7 @@ const Lab = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              )}
+              ))}
               {((labStore.selectedItems &&
                 labStore.selectedItems?.district &&
                 labStore.selectedItems?.district.length > 0 &&
@@ -393,6 +388,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             district: item.district.toUpperCase(),
                           })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -441,6 +439,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             city: item.city.toUpperCase(),
                           })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -489,6 +490,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             area: item.area.toUpperCase(),
                           })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -537,6 +541,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             postalCode: item,
                           })
+                          administrativeDivisions.updateAdministrativeDivList(
+                            administrativeDivisions.listAdministrativeDivCopy
+                          )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>

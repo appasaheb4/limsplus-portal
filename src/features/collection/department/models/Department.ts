@@ -18,7 +18,7 @@ export class Department {
     status: string
     environment: string
     dateOfEntry: Date
-  lastUpdated: Date
+    lastUpdated: Date
 
     constructor(rawData: {[key in string]: any}){
         this._id = rawData._id 
@@ -43,4 +43,12 @@ export class Department {
         this.lastUpdated = rawData.lastUpdated
     }
   }
-  
+
+export class SelectedItems {
+  lab: any[]
+  hod: any[]
+  constructor(rawData: {[key in string]: any}){
+    this.lab = rawData.lab
+    this.hod = rawData.hod
+  }
+}
