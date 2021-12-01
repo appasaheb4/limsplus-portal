@@ -28,6 +28,8 @@ export const Department = observer(() => {
     setValue,
     reset,
   } = useForm()
+  
+  
 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
@@ -212,7 +214,7 @@ export const Department = observer(() => {
                       onChange(item.name)
                       departmentStore.updateDepartment({
                         ...departmentStore.department,
-                        lab:item.name.toUpperCase(),
+                        lab:item.code,
                       })
                       labStore.updateLabList(
                         labStore.listLabsCopy
