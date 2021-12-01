@@ -11,6 +11,7 @@ export class DepartmentStore {
   listDepartmentCount: number = 0
   department!: Models.Department
   checkExitsCode: boolean = false
+  selectedItems!: Models.SelectedItems
 
   constructor() {
     this.listDepartment = []
@@ -28,6 +29,7 @@ export class DepartmentStore {
       listDepartmentCount: observable,
       department: observable,
       checkExitsCode: observable,
+      selectedItems: observable,
 
       DepartmentService: computed,
       setExitsCode: action,
@@ -67,5 +69,9 @@ export class DepartmentStore {
 
   updateDepartment = (department: Models.Department) => {
     this.department = department
+  }
+  updateSelectedItems(items: Models.SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new Models.SelectedItems({})
   }
 }
