@@ -327,9 +327,15 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: "price",
               text: "Price",
-              // headerClasses: "textHeader2",
+              headerClasses: "textHeader5",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -968,8 +974,21 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: "dateCreation",
               text: "Date Creation",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -977,8 +996,21 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: "dateActive",
               text: "Date Active",
+              headerClasses: "textHeader6",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.dateFilter({
+                comparators: [
+                  LibraryComponents.Organisms.Utils.Comparator.EQ,
+                  LibraryComponents.Organisms.Utils.Comparator.GE,
+                  LibraryComponents.Organisms.Utils.Comparator.LT,
+                ],
+                dateStyle: { marginLeft: "2px" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+                style: { display: "inline" },
+              }),
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
               },
@@ -986,8 +1018,16 @@ const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: "version",
               text: "Version",
+              headerClasses: "textHeader5",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "environment",

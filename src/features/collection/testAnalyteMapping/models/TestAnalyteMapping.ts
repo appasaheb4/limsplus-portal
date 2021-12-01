@@ -3,8 +3,8 @@ export class TestAnalyteMapping {
   existsVersionId: string
   existsRecordId: string
   dateCreation: Date
-  dateActiveFrom: Date
-  dateActiveTo: Date
+  dateActive: Date
+  dateExpire: Date
   version: number
   enteredBy: string
   lab: string
@@ -24,8 +24,8 @@ export class TestAnalyteMapping {
     this.existsVersionId = rawData.existsVersionId 
     this.existsRecordId = rawData.existsRecordId 
     this.dateCreation = rawData.dateCreation 
-    this.dateActiveFrom = rawData.dateActiveFrom 
-    this.dateActiveTo = rawData.dateActiveTo
+    this.dateActive = rawData.dateActive 
+    this.dateExpire = rawData.dateExpire
     this.version = rawData.version 
     this.enteredBy = rawData.enteredBy 
     this.lab = rawData.lab 

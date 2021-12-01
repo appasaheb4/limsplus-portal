@@ -1117,13 +1117,13 @@ const TestMasterList = (props: TestMasterProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              editable: false,
+              editable: false, 
               filter: LibraryComponents.Organisms.Utils.dateFilter({
                 comparators: [
                   LibraryComponents.Organisms.Utils.Comparator.EQ,
                   LibraryComponents.Organisms.Utils.Comparator.GE,
                   LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
+                ],  
                 dateStyle: { marginLeft: "2px" },
                 defaultValue: {
                   comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
@@ -1159,8 +1159,16 @@ const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: "version",
               text: "Version",
+              headerClasses: "textHeader5",
               sort: true,
               editable: false,
+              filter: LibraryComponents.Organisms.Utils.numberFilter({
+                numberStyle: { marginLeft: "2px" },
+                style: { display: "inline" },
+                defaultValue: {
+                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                },
+              }),
             },
             {
               dataField: "environment",

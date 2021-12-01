@@ -2,6 +2,7 @@ import { version } from "mobx-sync"
 import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
+import dayjs from "dayjs"
 
 @version(0.1)
 export class TestAnalyteMappingStore {
@@ -10,13 +11,13 @@ export class TestAnalyteMappingStore {
   listTestAnalyteMappingCount: number = 0
   checkExitsLabEnvCode?: boolean = false
 
-  constructor() {
+  constructor() {   
     this.listTestAnalyteMapping = []
     this.testAnalyteMapping = {
       ...this.testAnalyteMapping,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),
-      dateActiveTo: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")),
       version: 1,
       bill: false,
     }
@@ -31,7 +32,7 @@ export class TestAnalyteMappingStore {
       updateTestAnalyteMappingList: action,
       updateTestAnalyteMapping: action,
       updateExistsLabEnvCode: action,
-      filterTestAnalyteMappingList: action
+      filterTestAnalyteMappingList: action,
     })
   }
   get testAnalyteMappingService() {
@@ -51,7 +52,8 @@ export class TestAnalyteMappingStore {
 
   filterTestAnalyteMappingList(res: any) {
     this.listTestAnalyteMapping = res.filterTestAnalyteMappings.data
-    this.listTestAnalyteMappingCount = res.filterTestAnalyteMappings.paginatorInfo.count
+    this.listTestAnalyteMappingCount =
+      res.filterTestAnalyteMappings.paginatorInfo.count
   }
 
   updateTestAnalyteMapping(testAnalyte: Models.TestAnalyteMapping) {
