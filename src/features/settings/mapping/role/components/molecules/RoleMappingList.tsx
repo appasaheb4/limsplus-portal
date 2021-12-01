@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 
 import { stores } from "@lp/stores"
-  
+
 import { toJS } from "mobx"
 
 interface RoleMappingListProps {
@@ -38,17 +38,27 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
               csvExport: false,
             },
             {
-              dataField: "role.description",
+              dataField: "role",
               text: "Role",
-              headerClasses: "textHeader",
+              headerClasses: "textHeader4",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <div>
+                    <h6>{`${row.role.description}`} </h6>
+                  </div>
+                )
+              },
             },
             {
               dataField: "router",
               text: "Role Permission",
               editable: false,
+              headerClasses: "textHeader4",
+              sort: true,
+              //filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
                 <>
                   {row.router && (
@@ -102,7 +112,6 @@ const RoleMappingList = observer((props: RoleMappingListProps) => {
               text: "Delete",
               editable: false,
               csvExport: false,
-
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Buttons.Button
