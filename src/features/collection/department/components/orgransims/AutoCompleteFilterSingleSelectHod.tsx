@@ -5,13 +5,13 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
 
-interface AutoCompleteFilterSingleSelectProps {
+interface AutoCompleteFilterSingleSelectHodProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteFilterSingleSelect = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectProps) => {
-    const { loading, administrativeDivisions } = useStores()
+export const AutoCompleteFilterSingleSelectHod = observer(
+  ({ onSelect }: AutoCompleteFilterSingleSelectHodProps) => {
+    const { loading, userStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -35,15 +35,15 @@ export const AutoCompleteFilterSingleSelect = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(administrativeDivisions.listAdministrativeDiv)
-    }, [administrativeDivisions.listAdministrativeDiv])
+      setOptions(userStore.userList)
+    }, [userStore.userList])
 
     const onFilter = (value: string) => {
-      administrativeDivisions.administrativeDivisionsService.filter({
+      userStore.UsersService.filter({
         input: {
           filter: {
             type: "search",
-            ["country"]: value,
+            ["fullName"]: value,
           },
           page: 0,
           limit: 10,
@@ -89,7 +89,7 @@ export const AutoCompleteFilterSingleSelect = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className="mt-1  bg-gray-100 p-2 rounded-sm z-50">
+                <div className="mt-1 absolute bg-gray-100 p-2 rounded-sm z-50">
                   <ul>
                     {options?.map((item, index) => (
                       <>
@@ -97,18 +97,18 @@ export const AutoCompleteFilterSingleSelect = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.country)
+                            setValue(item.fullName)
                             setIsListOpen(false)
-                            administrativeDivisions.updateAdministrativeDivList(
-                              administrativeDivisions.listAdministrativeDivCopy
-                            )
+                            userStore.updateUserList(
+                                userStore.userListCopy
+                              )
                             onSelect(item)
                           }}
                         >
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.country}
+                            {item.fullName}
                           </label>
                         </li>
                       </>
