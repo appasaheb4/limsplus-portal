@@ -7,7 +7,8 @@ import * as Utils from "../../util"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { useStores } from "@lp/stores"
-import {AutoCompleteFilterSingleSelect} from '../organisms'
+import {AutoCompleteFilterSingleSelect,AutoCompleteFilterSingleSelectState,AutoCompleteFilterSingleSelectDistrict
+,AutoCompleteFilterSingleSelectCity,AutoCompleteFilterSingleSelectArea,AutoCompleteFilterSingleSelectPostalCode} from '../organisms'
 
 interface LabListProps {
   data: any
@@ -96,32 +97,12 @@ const LabList = (props: LabListProps) => {
                 columnIndex
               ) => (
                 <>
-                  {(props.extraData.country || props.extraData.listAdministrativeDiv)  && (
-                
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="State"
-                     
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                        onChange={(e) => {
-                          const state = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(state,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listAdministrativeDiv &&
-                          props.extraData.stateList(
-                            props.extraData.listAdministrativeDiv,
-                            props.extraData.country
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {`${item}`}
-                            </option>
-                          ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  
+                  {(props.extraData.state || props.extraData.listAdministrativeDiv)  && (
+                    <AutoCompleteFilterSingleSelectState
+                      onSelect={(item)=>{
+                        props.onUpdateItem && props.onUpdateItem(item.state,column.dataField,row._id)
+                      }}
+                    />
               )}
                 </>
               ),
@@ -142,31 +123,12 @@ const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   {(props.extraData.state ||  props.extraData.listAdministrativeDiv) && (
-                
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="District"
-                     
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        onChange={(e) => {
-                          const district = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(district,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listAdministrativeDiv &&
-                          props.extraData.districtList(
-                            props.extraData.listAdministrativeDiv,
-                            props.extraData.country,
-                            props.extraData.state
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {`${item}`}
-                            </option>
-                          ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    <AutoCompleteFilterSingleSelectDistrict
+                    onSelect={(item)=>{
+                      props.onUpdateItem && props.onUpdateItem(item.district,column.dataField,row._id)
+                    }}
+                    />
+                    
                   
               )}
                 </>
@@ -188,33 +150,12 @@ const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   {(props.extraData.district || props.extraData.listAdministrativeDiv) && (
-                
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="City"
-                      
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        onChange={(e) => {
-                          const city = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(city,column.dataField,row._id)
-                          
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listAdministrativeDiv &&
-                          props.extraData.cityList(
-                            props.extraData.listAdministrativeDiv,
-                            props.extraData.country,
-                            props.extraData.state,
-                            props.extraData.district
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {`${item}`}
-                            </option>
-                          ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
+                    <AutoCompleteFilterSingleSelectCity
+                      onSelect={(item)=>{
+                        props.onUpdateItem && props.onUpdateItem(item.city,column.dataField,row._id)
+                      }}
+                    />
+                    
                   
               )}
                 </>
@@ -237,34 +178,11 @@ const LabList = (props: LabListProps) => {
                 <>
                   {(props.extraData.city || props.extraData.listAdministrativeDiv) && (
                 
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Area"
-                      
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        onChange={(e) => {
-                          const area = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(area,column.dataField,row._id)
-                          
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listAdministrativeDiv &&
-                          Utils.areaList(
-                            props.extraData.listAdministrativeDiv,
-                            props.extraData.country,
-                            props.extraData.state,
-                            props.extraData.district,
-                            props.extraData.city
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {`${item}`}
-                            </option>
-                          ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  
+                    <AutoCompleteFilterSingleSelectArea
+                      onSelect={(item)=>{
+                        props.onUpdateItem && props.onUpdateItem(item.area,column.dataField,row._id)
+                      }}
+                    />
               )}
                 </>
               ),
@@ -285,35 +203,11 @@ const LabList = (props: LabListProps) => {
               ) => (
                 <>
                  {(props.extraData.area || props.extraData.listAdministrativeDiv) && (
-                
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Postal Code"
-                     
-                    >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                        onChange={(e) => {
-                          const postalCode = e.target.value
-                          props.onUpdateItem && props.onUpdateItem(postalCode,column.dataField,row._id)
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {props.extraData.listAdministrativeDiv &&
-                          props.extraData.postCodeList(
-                            props.extraData.listAdministrativeDiv,
-                            props.extraData.country,
-                            props.extraData.state,
-                            props.extraData.district,
-                            props.extraData.city,
-                            props.extraData.area
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item}>
-                              {`${item}`}
-                            </option>
-                          ))}
-                      </select>
-                    </LibraryComponents.Atoms.Form.InputWrapper>
-                  
+                    <AutoCompleteFilterSingleSelectPostalCode
+                    onSelect={(item)=>{
+                      props.onUpdateItem && props.onUpdateItem(item.postalCode,column.dataField,row._id)
+                    }}
+                    />
               )}
                 </>
               ),

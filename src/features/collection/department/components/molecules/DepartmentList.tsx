@@ -3,6 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectHod} from '../orgransims'
 interface DepartmentListProps {
   data: any
   totalSize: number
@@ -49,24 +50,11 @@ const DepartmentList = (props: DepartmentListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Lab" id="lab">
-                  <select
-                    name="lab"
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(lab, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listLabs.map((item: any) => (
-                      <option key={item.name} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                <AutoCompleteFilterSingleSelectLabs
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                }}
+                />
               </>
             ),
           },
@@ -84,7 +72,7 @@ const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader1",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
           },
           {
             dataField: "shortName",
@@ -92,6 +80,8 @@ const DepartmentList = (props: DepartmentListProps) => {
             headerClasses: "textHeader3",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
+            style : {textTransform:"uppercase"},
+            editorStyle : {textTransform:"uppercase"},
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -110,25 +100,11 @@ const DepartmentList = (props: DepartmentListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="HOD">
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const hod = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(hod, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.userStore &&
-                      props.extraData.userList &&
-                      props.extraData.userList.map((item: any, key: number) => (
-                        <option key={key} value={item.fullName}>
-                          {item.fullName}
-                        </option>
-                      ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                <AutoCompleteFilterSingleSelectHod
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.fullname,column.dataField,row._id)
+                }}
+                />
               </>
             ),
           },
