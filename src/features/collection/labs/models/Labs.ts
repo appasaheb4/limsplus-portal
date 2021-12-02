@@ -2,7 +2,7 @@ export class Labs {
     _id: string
     code: string
     name: string
-    country: any[]
+    country: string
     state: string
     district: string
     city: string
