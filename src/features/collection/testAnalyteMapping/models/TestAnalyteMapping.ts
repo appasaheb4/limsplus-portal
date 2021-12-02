@@ -41,3 +41,9 @@ export class TestAnalyteMapping {
     this.lastUpdated = rawData.lastUpdated 
   }
 }
+export class SelectedItems {
+  lab: any[]
+  constructor(rawData: {[key in string]: any}){
+    this.lab = rawData.lab
+  }
+}
