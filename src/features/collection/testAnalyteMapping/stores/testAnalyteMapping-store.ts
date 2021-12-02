@@ -10,6 +10,7 @@ export class TestAnalyteMappingStore {
   listTestAnalyteMapping!: Models.TestAnalyteMapping[]
   listTestAnalyteMappingCount: number = 0
   checkExitsLabEnvCode?: boolean = false
+  selectedItems!: Models.SelectedItems
 
   constructor() {   
     this.listTestAnalyteMapping = []
@@ -26,6 +27,7 @@ export class TestAnalyteMappingStore {
       listTestAnalyteMapping: observable,
       listTestAnalyteMappingCount: observable,
       checkExitsLabEnvCode: observable,
+      selectedItems: observable,
 
       testAnalyteMappingService: computed,
       fetchTestAnalyteMapping: action,
@@ -62,5 +64,9 @@ export class TestAnalyteMappingStore {
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
+  }
+  updateSelectedItems(items: Models.SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new Models.SelectedItems({})
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import dayjs from "dayjs"
 import * as LibraryComponents from "@lp/library/components"
@@ -26,6 +26,7 @@ const TestAnalyteMapping = observer(() => {
     testMasterStore,
     masterAnalyteStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -139,6 +140,73 @@ const TestAnalyteMapping = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.TestAnalyteMappingList
+            data={testAnalyteMappingStore.listTestAnalyteMapping || []}
+            totalSize={testAnalyteMappingStore.listTestAnalyteMappingCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listsLabs: labStore.listLabs,
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              testAnalyteMappingStore.testAnalyteMappingService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [testAnalyteMappingStore.listTestAnalyteMapping]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -175,65 +243,72 @@ const TestAnalyteMapping = observer(() => {
                       label="Lab"
                       hasError={errors.lab}
                     >
-                      <select
-                        value={testAnalyteMappingStore.testAnalyteMapping?.lab}
-                        disabled={
-                          stores.loginStore.login &&
-                          stores.loginStore.login.role !== "SYSADMIN"
-                            ? true
-                            : false
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:labStore.listLabs,
+                      selected:testAnalyteMappingStore.selectedItems?.lab,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.lab ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const lab = e.target.value as string
-                          onChange(lab)
-                          testAnalyteMappingStore.updateTestAnalyteMapping({
-                            ...testAnalyteMappingStore.testAnalyteMapping,
-                            lab,
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      testAnalyteMappingStore.updateTestAnalyteMapping({
+                        ...testAnalyteMappingStore.testAnalyteMapping,
+                        lab:item.code
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      if (
+                        !testAnalyteMappingStore.testAnalyteMapping
+                          ?.existsVersionId
+                      ) {
+                        testAnalyteMappingStore.testAnalyteMappingService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code:
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  ?.testCode,
+                              env:
+                                testAnalyteMappingStore.testAnalyteMapping
+                                  ?.environment,
+                              lab:item.code,
+                            },
                           })
-                          if (
-                            !testAnalyteMappingStore.testAnalyteMapping
-                              ?.existsVersionId
-                          ) {
-                            testAnalyteMappingStore.testAnalyteMappingService
-                              .checkExitsLabEnvCode({
-                                input: {
-                                  code:
-                                    testAnalyteMappingStore.testAnalyteMapping
-                                      ?.testCode,
-                                  env:
-                                    testAnalyteMappingStore.testAnalyteMapping
-                                      ?.environment,
-                                  lab,
-                                },
+                          .then((res) => {
+                            if (
+                              res.checkTestAnalyteMappingsExistsRecord.success
+                            ) {
+                              testAnalyteMappingStore.updateExistsLabEnvCode(
+                                true
+                              )
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
                               })
-                              .then((res) => {
-                                if (
-                                  res.checkTestAnalyteMappingsExistsRecord.success
-                                ) {
-                                  testAnalyteMappingStore.updateExistsLabEnvCode(
-                                    true
-                                  )
-                                  LibraryComponents.Atoms.Toast.error({
-                                    message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
-                                  })
-                                } else
-                                  testAnalyteMappingStore.updateExistsLabEnvCode(
-                                    false
-                                  )
-                              })
-                          }
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {labStore.listLabs.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
+                            } else
+                              testAnalyteMappingStore.updateExistsLabEnvCode(
+                                false
+                              )
+                          })
+                      }
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="lab"
@@ -698,67 +773,7 @@ const TestAnalyteMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.TestAnalyteMappingList
-            data={testAnalyteMappingStore.listTestAnalyteMapping || []}
-            totalSize={testAnalyteMappingStore.listTestAnalyteMappingCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listsLabs: labStore.listLabs,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              testAnalyteMappingStore.fetchTestAnalyteMapping(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              testAnalyteMappingStore.testAnalyteMappingService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
