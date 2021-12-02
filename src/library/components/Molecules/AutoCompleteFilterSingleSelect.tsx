@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean
+  disable?: boolean
   placeholder?: string
   data: any
   hasError?: boolean
@@ -16,6 +17,7 @@ interface AutoCompleteFilterSingleSelectProps {
 }
 
 export const AutoCompleteFilterSingleSelect = ({
+  disable = false,
   loader = false,
   placeholder = "Search...",
   data,
@@ -25,7 +27,6 @@ export const AutoCompleteFilterSingleSelect = ({
 }: AutoCompleteFilterSingleSelectProps) => {
   const [value, setValue] = useState<string>("")
   const [options, setOptions] = useState<any[]>()
-  const [originalOptions, setOriginalOptions] = useState<any[]>()
   const [isListOpen, setIsListOpen] = useState<boolean>(false)
 
   const useOutsideAlerter = (ref) => {
@@ -45,31 +46,10 @@ export const AutoCompleteFilterSingleSelect = ({
 
   const wrapperRef = useRef(null)
   useOutsideAlerter(wrapperRef)
-  let count = 0
-  const getSelectedItem = (selectedItem: any[], list: any[], findKey: string) => {
-    if (count === 0) {
-      const finalList = list.filter((item, index) => {
-        item.selected = false
-        selectedItem && selectedItem.length > 0
-          ? selectedItem.find((sItem, index) => {
-              if (sItem._id === item._id) {
-                item.selected = true
-              }
-            })
-          : (item.selected = false)
-        count++
-        return item
-      })
-      list = finalList
-    }
-    return list
-  }
 
   useEffect(() => {
-    setOriginalOptions(getSelectedItem(data.selected, data.list, data.findKey))
-    setOptions(getSelectedItem(data.selected, data.list, data.findKey))
-    //console.log('renader');
-  }, [data, data.selected])
+    setOptions( data.list)
+  }, [data])
 
   const onChange = (e) => {
     const search = e.target.value
@@ -100,6 +80,7 @@ export const AutoCompleteFilterSingleSelect = ({
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
+            disabled={disable}
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (

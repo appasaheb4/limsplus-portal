@@ -19,7 +19,6 @@ const LoginActivity = observer(() => {
         <LibraryComponents.Atoms.PageHeadingLabDetails store={loginStore} />
       </LibraryComponents.Atoms.Header>
       <div className="mx-auto  flex-wrap">
-        <span className="text-red-500 mt-4">Note: Filter not working now</span>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
           <div style={{ position: "relative" }}>
             <LibraryComponents.Organisms.TableBootstrap
@@ -34,40 +33,29 @@ const LoginActivity = observer(() => {
                   csvExport: false,
                 },
                 {
-                  dataField: "user.fullName",
-                  text: "User name",
+                  dataField: "userId",
+                  text: "User details",
                   sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerClasses: "textHeader5",
                   editable: false,
-                },
-                {
-                  dataField: "user.userId",
-                  text: "User Id",
-                  sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
-                },
-                {
-                  dataField: "user.lab",
-                  text: "Lab",
-                  sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
-                },
-                {
-                  dataField: "user.role",
-                  text: "Role",
-                  sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
+                  formatter: (cell, row) => {
+                    return (
+                      <div>
+                        <h6>{`UserId: ${row.user.userId}`} </h6>
+                        <h6>{`User Name: ${row.user.fullName}`}</h6>
+                        <h6>{`Lab: ${row.user.lab}`}</h6>
+                        <h6>{`Role: ${row.user.role}`}</h6>
+                      </div>  
+                    )
+                  },
                 },
                 {
                   dataField: "systemInfo",
                   text: "System info",
                   sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
+                  headerClasses: "textHeader5",
                   formatter: (cell, row) => {
                     return (
                       <div>
@@ -87,18 +75,10 @@ const LoginActivity = observer(() => {
                   },
                 },
                 {
-                  dataField: "systemInfo.v4",
-                  text: "Ip Information",
-                  // filter: LibraryComponents.Organisms.Utils.textFilter({
-                  //   getFilter: (filter) => {
-                  //     // qualityFilter was assigned once the component has been mounted.
-                  //     //qualityFilter = filter;
-                  //   },
-                  //   onFilter: (filterValue) => {
-                  //     if (filterValue) {
-                  //     }
-                  //   },
-                  // }),
+                  dataField: "ipInfo",
+                  text: "Ip Information",  
+                  sort: true,
+                  filter: LibraryComponents.Organisms.Utils.textFilter(),
                   headerClasses: "textHeader3",
                   csvFormatter: (cell, row, rowIndex) =>
                     `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
@@ -118,15 +98,26 @@ const LoginActivity = observer(() => {
                           )}
                         </div>
                       </>
-                    )
+                    )  
                   },
                 },
                 {
                   dataField: "dateOfEntry",
                   text: "In",
+                  headerClasses: "textHeader4",
                   sort: true,
-                  //filter: LibraryComponents.Organisms.Utils.textFilter(),
-                  headerClasses: "textHeader3",
+                  filter: LibraryComponents.Organisms.Utils.dateFilter({
+                    comparators: [
+                      LibraryComponents.Organisms.Utils.Comparator.EQ,
+                      LibraryComponents.Organisms.Utils.Comparator.GE,
+                      LibraryComponents.Organisms.Utils.Comparator.LT,
+                    ],
+                    dateStyle: { marginLeft: "2px" },
+                    defaultValue: {
+                      comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                    },
+                    style: { display: "inline" },
+                  }),
                   formatter: (cell, row) => {
                     return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
@@ -134,7 +125,20 @@ const LoginActivity = observer(() => {
                 {
                   dataField: "lastUpdated",
                   text: "Out",
+                  headerClasses: "textHeader4",
                   sort: true,
+                  filter: LibraryComponents.Organisms.Utils.dateFilter({
+                    comparators: [
+                      LibraryComponents.Organisms.Utils.Comparator.EQ,
+                      LibraryComponents.Organisms.Utils.Comparator.GE,
+                      LibraryComponents.Organisms.Utils.Comparator.LT,
+                    ],
+                    dateStyle: { marginLeft: "2px" },
+                    defaultValue: {
+                      comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+                    },
+                    style: { display: "inline" },
+                  }),
                   formatter: (cell, row) => {
                     return row.lastUpdated
                       ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")
