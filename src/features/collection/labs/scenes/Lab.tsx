@@ -173,7 +173,7 @@ const Lab = observer(() => {
       )}
       <div className="mx-auto flex-wrap">
         <div
-          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "hidden" : "shown")}
+          className={"p-2 rounded-lg shadow-xl " + (hideAddLab ? "shown" : "shown")}
         >
           <LibraryComponents.Atoms.Grid cols={3}>
             <LibraryComponents.Atoms.List
@@ -285,9 +285,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             country: item.country.toUpperCase(),
                           })
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy
-                          )
+                          // administrativeDivisions.updateAdministrativeDivList(
+                          //   administrativeDivisions.listAdministrativeDivCopy
+                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -310,6 +310,7 @@ const Lab = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
+                        disable={!labStore.labs.country}
                         data={{
                           list:administrativeDivisions.listAdministrativeDiv ,
                           selected: labStore.selectedItems?.state,
