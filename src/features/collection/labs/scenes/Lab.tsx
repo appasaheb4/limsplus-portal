@@ -260,7 +260,6 @@ const Lab = observer(() => {
                         loader={loading}
                         data={{
                           list:administrativeDivisions.listAdministrativeDiv,
-                          selected:labStore.selectedItems?.country,
                           displayKey: "country",
                           findKey: "country",
                         }}
@@ -312,8 +311,7 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.country}
                         data={{
-                          list:administrativeDivisions.listAdministrativeDiv ,
-                          selected: labStore.selectedItems?.state,
+                          list:administrativeDivisions.listAdministrativeDiv,
                           displayKey: "state",
                           findKey: "state",
                         }}
