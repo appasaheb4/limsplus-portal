@@ -512,7 +512,6 @@ const RoleMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-        <span className="text-red-500 mt-4">Note: Filter not working now</span>
           <FeatureComponents.Molecules.RoleMappingList
             data={roleMappingStore.roleMappingList || []}
             totalSize={roleMappingStore.roleMappingListCount}
