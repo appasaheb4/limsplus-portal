@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { NumberFilter } from "@lp/library/components/Organisms"
 
 interface MasterAnalyteProps {
   data: any
@@ -723,7 +724,7 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
             },
-            {  
+            {
               dataField: "dateActive",
               editable: false,
               text: "Date Active",
@@ -773,13 +774,20 @@ const MasterAnalyteList = (props: MasterAnalyteProps) => {
               text: "Version",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
+              // filter: LibraryComponents.Organisms.Utils.numberFilter({
+              //   numberStyle: { marginLeft: "2px" },
+              //   style: { display: "inline" },
+              //   defaultValue: {
+              //     comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
+              //   },
+              // }),
+              filter: LibraryComponents.Organisms.Utils.customFilter({
                 numberStyle: { marginLeft: "2px" },
                 style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
               }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: "environment",
