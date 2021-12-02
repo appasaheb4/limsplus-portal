@@ -8,6 +8,7 @@ import * as LibraryUtils from "@lp/library/utils"
 
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean
+  disable?: boolean
   placeholder?: string
   data: any
   hasError?: boolean
@@ -16,6 +17,7 @@ interface AutoCompleteFilterSingleSelectProps {
 }
 
 export const AutoCompleteFilterSingleSelect = ({
+  disable = false,
   loader = false,
   placeholder = "Search...",
   data,
@@ -100,6 +102,7 @@ export const AutoCompleteFilterSingleSelect = ({
             onKeyUp={onKeyUp}
             onChange={onChange}
             onClick={() => setIsListOpen(true)}
+            disabled={disable}
           />
           {loader && <Spinner animation="border" className="mr-2 h-4 w-4" />}
           {isListOpen ? (

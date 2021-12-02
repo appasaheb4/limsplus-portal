@@ -3,7 +3,11 @@ import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryModels from "@lp/library/models"
-import { AutoCompleteFilterMutiSelectUsers , AutoCompleteFilterMutiSelectLabs,AutoCompleteFilterMutiSelectDepartment } from "../organisms"
+import {
+  AutoCompleteFilterMutiSelectUsers,
+  AutoCompleteFilterMutiSelectLabs,
+  AutoCompleteFilterMutiSelectDepartment,
+} from "../organisms"
 
 interface SessionManagementListProps {
   data: any
@@ -39,8 +43,8 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "lab",
               text: "Labs",
               sort: true,
-              //   filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -73,8 +77,8 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "user",
               text: "Users",
               sort: true,
-              //filter: LibraryComponents.Organisms.Utils.textFilter(),
-              headerClasses: "textHeader3",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
+              headerClasses: "textHeader4",
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
@@ -107,7 +111,8 @@ const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               dataField: "department",
               text: "Departments",
               sort: true,
-              headerClasses: "textHeader3",
+              headerClasses: "textHeader4",
+              filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
                 <>
                   <ul style={{ listStyle: "inside" }}>
