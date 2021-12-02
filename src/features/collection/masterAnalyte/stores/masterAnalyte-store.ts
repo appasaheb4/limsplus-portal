@@ -8,9 +8,10 @@ import dayjs from "dayjs"
 export class MasterAnalyteStore {
   masterAnalyte!: Models.MasterAnalyte
   listMasterAnalyte!: Models.MasterAnalyte[]
+  listMasterAnalyteCopy!: Models.MasterAnalyte[]
   listMasterAnalyteCount: number = 0
   checkExitsLabEnvCode: boolean = false
-
+  selectedItems!: Models.SelectedItems
   constructor() {
     this.listMasterAnalyte = []
     this.masterAnalyte = {
@@ -36,6 +37,7 @@ export class MasterAnalyteStore {
       listMasterAnalyte: observable,
       listMasterAnalyteCount: observable,
       checkExitsLabEnvCode: observable,
+      selectedItems: observable,
 
       masterAnalyteService: computed,
       fetchAnalyteMaster: action,
@@ -55,9 +57,15 @@ export class MasterAnalyteStore {
   }
 
   updateMasterAnalyteList(res: any) {
-    if (!res.analyteMasters.success) return alert(res.analyteMasters.message)
+    if(!Array.isArray(res)){
+      if (!res.analyteMasters.success) return alert(res.analyteMasters.message)
     this.listMasterAnalyte = res.analyteMasters.data
+    this.listMasterAnalyteCopy = res.analyteMasters.data
     this.listMasterAnalyteCount = res.analyteMasters.paginatorInfo.count
+    }else{
+      this.listMasterAnalyte = res
+    }
+    
   }
     
   filterMasterAnalyteList(res: any) {
@@ -71,5 +79,9 @@ export class MasterAnalyteStore {
 
   updateExistsLabEnvCode = (status: boolean) => {
     this.checkExitsLabEnvCode = status
+  }
+  updateSelectedItems(items: Models.SelectedItems | undefined) {
+    if (items) this.selectedItems = items
+    else this.selectedItems = new Models.SelectedItems({})
   }
 }

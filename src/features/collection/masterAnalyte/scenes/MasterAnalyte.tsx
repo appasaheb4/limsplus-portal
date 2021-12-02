@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -19,7 +19,7 @@ const MasterAnalyte = observer(() => {
     setValue,
     clearErrors,
   } = useForm()
-  const { loginStore, masterAnalyteStore, labStore,routerStore } = useStores()
+  const { loginStore, masterAnalyteStore, labStore,routerStore,loading } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
 
@@ -130,6 +130,74 @@ const MasterAnalyte = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.MasterAnalyteList
+            data={masterAnalyteStore.listMasterAnalyte || []}
+            totalSize={masterAnalyteStore.listMasterAnalyteCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listLabs: labStore.listLabs
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update item!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              masterAnalyteStore.fetchAnalyteMaster(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              masterAnalyteStore.masterAnalyteService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+      [masterAnalyteStore.listMasterAnalyte]
+  )
+
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -165,51 +233,58 @@ const MasterAnalyte = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={masterAnalyteStore.masterAnalyte?.lab}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        masterAnalyteStore.updateMasterAnalyte({
-                          ...masterAnalyteStore.masterAnalyte,
-                          lab,
-                        })
-                        if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
-                          masterAnalyteStore.masterAnalyteService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code: masterAnalyteStore.masterAnalyte?.analyteCode,
-                                env: masterAnalyteStore.masterAnalyte?.environment,
-                                lab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkAnalyteMasterExistsRecord.success) {
-                                masterAnalyteStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
-                                })
-                              } else masterAnalyteStore.updateExistsLabEnvCode(false)
-                            })
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:labStore.listLabs,
+                      selected:masterAnalyteStore.selectedItems?.lab,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      masterAnalyteStore.updateMasterAnalyte({
+                        ...masterAnalyteStore.masterAnalyte,
+                        lab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      if (!masterAnalyteStore.masterAnalyte?.existsVersionId) {
+                        masterAnalyteStore.masterAnalyteService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code: masterAnalyteStore.masterAnalyte?.analyteCode,
+                              env: masterAnalyteStore.masterAnalyte?.environment,
+                              lab:item.code,
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkAnalyteMasterExistsRecord.success) {
+                              masterAnalyteStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
+                              })
+                            } else masterAnalyteStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -1157,67 +1232,7 @@ const MasterAnalyte = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.MasterAnalyteList
-            data={masterAnalyteStore.listMasterAnalyte || []}
-            totalSize={masterAnalyteStore.listMasterAnalyteCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listLabs: labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update item!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              masterAnalyteStore.fetchAnalyteMaster(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              masterAnalyteStore.masterAnalyteService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
