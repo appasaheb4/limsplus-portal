@@ -233,6 +233,7 @@ interface ToggleProps extends InputWrapperProps {
   value?: boolean
   name?: string
   onChange?: (e: boolean) => void
+  style?: any
 }
 
 // const CheckedIcon = () => <>On</>
@@ -256,13 +257,6 @@ export const Toggle = (props: ToggleProps) => {
     }
   }
 
-  // const getIcon = (type) => {
-  //   const { icons } = props
-  //   if (!icons) {
-  //     return null
-  //   }
-  //   return icons[type] === undefined ? Toggle.defaultProps.icons[type] : icons[type]
-  // }
 
   const toggleClasses = classNames(
     "wrg-toggle ",
@@ -274,7 +268,7 @@ export const Toggle = (props: ToggleProps) => {
   )
 
   return (
-    <InputWrapper label={props.label} id={props.id}>
+    <InputWrapper label={props.label} id={props.id} style={props.style}>
       <div onClick={triggerToggle} className={toggleClasses}>
         <div
           className={
