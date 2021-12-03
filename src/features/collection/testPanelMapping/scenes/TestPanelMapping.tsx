@@ -500,18 +500,18 @@ const TestPanelMapping = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom
+                      errors.dateActive
                         ? "Please Enter DateActiveFrom"
                         : "Date Active"
                     }
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     value={dayjs(
-                      testPanelMappingStore.testPanelMapping?.dateActiveFrom
+                      testPanelMappingStore.testPanelMapping?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -521,25 +521,25 @@ const TestPanelMapping = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.dateActiveTo
-                        ? "Please Enter dateActiveTo"
+                      errors.dateExpire
+                        ? "Please Enter dateExpire"
                         : "Date Expire"
                     }
-                    hasError={errors.dateActiveTo}
+                    hasError={errors.dateExpire}
                     value={dayjs(
-                      testPanelMappingStore.testPanelMapping?.dateActiveTo
+                      testPanelMappingStore.testPanelMapping?.dateExpire
                     ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const dateActiveTo = new Date(e.target.value)
-                      onChange(dateActiveTo)
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
                       testPanelMappingStore.updateTestPanelMapping({
                         ...testPanelMappingStore.testPanelMapping,
-                        dateActiveTo,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="dateActiveTo"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />

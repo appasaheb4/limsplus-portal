@@ -4,7 +4,7 @@ export class MasterPackage {
   existsRecordId: string
   dateCreation: Date
   dateActive: Date
-  dateActiveTo: Date
+  dateExpire: Date
   version: number
   enteredBy: string
   lab: string
@@ -25,7 +25,7 @@ export class MasterPackage {
     this.existsRecordId = rawData.existsRecordId
     this.dateCreation = rawData.dateCreation
     this.dateActive = rawData.dateActive
-    this.dateActiveTo = rawData.dateActiveTo
+    this.dateExpire = rawData.dateExpire
     this.version = rawData.version
     this.enteredBy = rawData.enteredBy
     this.lab = rawData.lab

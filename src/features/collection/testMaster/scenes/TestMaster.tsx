@@ -26,7 +26,7 @@ const TestMater = observer(() => {
     labStore,
     departmentStore,
     deliveryScheduleStore,
-    routerStore
+    routerStore,
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -44,30 +44,34 @@ const TestMater = observer(() => {
     }
   }, [stores.loginStore.login])
 
-  useEffect(()=>{
+  useEffect(() => {
     const status = routerStore.lookupItems
-    .find((fileds) => {
-      return fileds.fieldName === "STATUS"
-    })
-    ?.arrValue?.find((statusItem) => statusItem.code === "A")
-  if (status) {
-    testMasterStore && testMasterStore.updateTestMaster({
-        ...testMasterStore.testMaster,
-        status: status.code as string,
+      .find((fileds) => {
+        return fileds.fieldName === "STATUS"
       })
-    setValue("status", status.code as string)
-  }
-  const environment = routerStore.lookupItems.find((fileds)=>{
-    return fileds.fieldName === 'ENVIRONMENT'
-  })?. arrValue?.find((environmentItem)=>environmentItem.code === 'P')
-  if(environment){
-    testMasterStore && testMasterStore.updateTestMaster({
-      ...testMasterStore.testMaster,
-      environment: environment.code as string
-    })
-    setValue("environment",environment.code as string)
-  }
-  },[routerStore.lookupItems])
+      ?.arrValue?.find((statusItem) => statusItem.code === "A")
+    if (status) {
+      testMasterStore &&
+        testMasterStore.updateTestMaster({
+          ...testMasterStore.testMaster,
+          status: status.code as string,
+        })
+      setValue("status", status.code as string)
+    }
+    const environment = routerStore.lookupItems
+      .find((fileds) => {
+        return fileds.fieldName === "ENVIRONMENT"
+      })
+      ?.arrValue?.find((environmentItem) => environmentItem.code === "P")
+    if (environment) {
+      testMasterStore &&
+        testMasterStore.updateTestMaster({
+          ...testMasterStore.testMaster,
+          environment: environment.code as string,
+        })
+      setValue("environment", environment.code as string)
+    }
+  }, [routerStore.lookupItems])
   const onSubmitTestMaster = () => {
     if (!testMasterStore.checkExitsLabEnvCode) {
       if (
@@ -546,16 +550,19 @@ const TestMater = observer(() => {
                   <LibraryComponents.Atoms.Form.InputWrapper
                     label="Validation Level"
                     hasError={errors.validationLevel}
-                  >  
+                  >
                     <select
-                    value={testMasterStore && testMasterStore.testMaster?.validationLevel}
+                      value={
+                        testMasterStore &&
+                        testMasterStore.testMaster?.validationLevel
+                      }
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                         errors.validationLevel
                           ? "border-red-500  "
                           : "border-gray-300"
-                      } rounded-md`}  
+                      } rounded-md`}
                       onChange={(e) => {
-                        const validationLevel: any = (e.target.value || 0 )  as number
+                        const validationLevel: any = (e.target.value || 0) as number
                         onChange(validationLevel)
                         testMasterStore.updateTestMaster({
                           ...testMasterStore.testMaster,
@@ -1442,18 +1449,16 @@ const TestMater = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom
-                        ? "Please Enter dateActiveFrom"
-                        : "Date Active"
+                      errors.dateActive ? "Please Enter dateActive" : "Date Active"
                     }
-                    hasError={errors.dateActiveFrom}
-                    value={dayjs(testMasterStore.testMaster?.dateActiveFrom).format(
+                    hasError={errors.dateActive}
+                    value={dayjs(testMasterStore.testMaster?.dateActive).format(
                       "YYYY-MM-DD"
                     )}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
@@ -1463,25 +1468,23 @@ const TestMater = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Expire"
                     placeholder={
-                      errors.dateActiveTo
-                        ? "Please Enter dateActiveTo"
-                        : "Date Expire"
+                      errors.dateExpire ? "Please Enter dateExpire" : "Date Expire"
                     }
-                    hasError={errors.dateActiveTo}
-                    value={dayjs(testMasterStore.testMaster?.dateActiveTo).format(
+                    hasError={errors.dateExpire}
+                    value={dayjs(testMasterStore.testMaster?.dateExpire).format(
                       "YYYY-MM-DD"
                     )}
                     onChange={(e) => {
-                      const dateActiveTo = new Date(e.target.value)
-                      onChange(dateActiveTo)
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
                       testMasterStore.updateTestMaster({
                         ...testMasterStore.testMaster,
-                        dateActiveTo,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="dateActiveTo"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />
