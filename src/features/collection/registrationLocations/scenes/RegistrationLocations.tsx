@@ -185,19 +185,19 @@ const RegistrationLocation = observer(() => {
                   <LibraryComponents.Atoms.Form.InputDate
                     label="Date Active"
                     placeholder={
-                      errors.dateActiveFrom
-                        ? "Please Enter Date Active"
+                      errors.dateActive
+                        ? "Please enter date Active"
                         : "Date Active"
                     }
-                    hasError={errors.dateActiveFrom}
+                    hasError={errors.dateActive}
                     value={dayjs(
                       registrationLocationsStore.registrationLocations
-                        ?.dateActiveFrom
+                        ?.dateActive
                     ).format("YYYY-MM-DD")}
                     disabled={true}
                   />
                 )}
-                name="dateActiveFrom"
+                name="dateActive"
                 rules={{ required: false }}
                 defaultValue=""
               />
