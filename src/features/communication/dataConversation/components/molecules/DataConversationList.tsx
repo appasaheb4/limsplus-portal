@@ -33,6 +33,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         {
           dataField: "hexadecimal",
           text: "Hexa Decimal",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           formatter: (cellContent, row) => (
@@ -54,6 +55,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         {
           dataField: "binary",
           text: "Binary",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           formatter: (cellContent, row) => (
@@ -75,6 +77,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         {
           dataField: "ascii",
           text: "ASCII",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           formatter: (cellContent, row) => (
@@ -96,6 +99,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         {
           dataField: "environment",
           text: "Environment",
+          headerClasses: "textHeader4",
           sort: true,
           filter: LibraryComponents.Organisms.Utils.textFilter(),
           editorRenderer: (

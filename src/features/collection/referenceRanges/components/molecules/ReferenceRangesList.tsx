@@ -4,6 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
 
 interface ReferenceRangesProps {
   data: any
@@ -16,7 +17,7 @@ interface ReferenceRangesProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page: number, totalSize:number) =>void
+  onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
@@ -257,15 +258,13 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Range Set On"
-                    
-                  >
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Range Set On">
                     <select
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                       onChange={(e) => {
                         const rangeSetOn = e.target.value as string
-                        props.onUpdateItem && props.onUpdateItem(rangeSetOn,column.dataField,row._id)
+                        props.onUpdateItem &&
+                          props.onUpdateItem(rangeSetOn, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
@@ -299,16 +298,13 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               ) => (
                 <>
                   {props.extraData.listInterfaceManager && (
-                
-                    <LibraryComponents.Atoms.Form.InputWrapper
-                      label="Equipment Type"
-                      
-                    >
+                    <LibraryComponents.Atoms.Form.InputWrapper label="Equipment Type">
                       <select
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                         onChange={(e) => {
                           const eqType = e.target.value as string
-                          props.onUpdateItem && props.onUpdateItem(eqType,column.dataField,row._id)
+                          props.onUpdateItem &&
+                            props.onUpdateItem(eqType, column.dataField, row._id)
                         }}
                       >
                         <option selected>Select</option>
@@ -322,8 +318,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           )}
                       </select>
                     </LibraryComponents.Atoms.Form.InputWrapper>
-                  
-              )}
+                  )}
                 </>
               ),
             },
@@ -405,15 +400,12 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
             {
               dataField: "age",
               text: "Age",
-               headerClasses: "textHeader5",
+              headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -571,18 +563,10 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Creation",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -593,18 +577,10 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Active",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
               },
@@ -615,35 +591,24 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               text: "Date Expire",
               headerClasses: "textHeader6",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
               },
             },
-            {  
+            {
               dataField: "version",
               editable: false,
               text: "Version",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: "deltaRangTeType",
@@ -659,7 +624,7 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
             },
-            {   
+            {
               dataField: "intervalUnit",
               text: "Interval Unit",
               headerClasses: "textHeader5",
@@ -721,7 +686,10 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -771,7 +739,8 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                             }
                           >
                             {LibraryComponents.Atoms.Icons.getIconTag(
-                              LibraryComponents.Atoms.Icons.Iconio5.IoDuplicateOutline
+                              LibraryComponents.Atoms.Icons.Iconio5
+                                .IoDuplicateOutline
                             )}
                           </LibraryComponents.Atoms.Icons.IconContext>
                         </LibraryComponents.Atoms.Tooltip>
@@ -784,7 +753,6 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
               classes: (cell, row, rowIndex, colIndex) => {
                 return "sticky right-0 bg-gray-500"
               },
-
             },
           ]}
           isEditModify={props.isEditModify}
@@ -797,8 +765,8 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,limit)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,limit)
+          onPageSizeChange={(page, limit) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, limit)
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)

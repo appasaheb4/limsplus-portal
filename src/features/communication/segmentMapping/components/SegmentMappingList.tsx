@@ -87,10 +87,10 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               </>
             ),
           },
-          {
+          {  
             dataField: "dataFlowFrom",
             text: "DATA FLOW FROM",
-            headerClasses: "textHeader4",
+            headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
             csvFormatter: (cell, row, rowIndex) =>
