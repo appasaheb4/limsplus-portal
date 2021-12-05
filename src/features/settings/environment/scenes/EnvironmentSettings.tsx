@@ -216,7 +216,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       loader={loading}
-                      placeholder="Search by name"
+                      placeholder="Search by name..."
                       data={{
                         list: userStore.userList,
                         selected: environmentStore.selectedItems?.users,
