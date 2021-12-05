@@ -216,6 +216,7 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterMutiSelect
                       loader={loading}
+                      placeholder="Search by name"
                       data={{
                         list: userStore.userList,
                         selected: environmentStore.selectedItems?.users,
@@ -235,9 +236,9 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                       onFilter={(value: string) => {
                         userStore.UsersService.filter({
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["fullName"]: value,
+                              fullName: value,
                             },
                             page: 0,
                             limit: 10,
@@ -297,7 +298,9 @@ export const EnvironmentSettings = observer((props: EnvironmentSettingsProps) =>
                           ...environmentStore.environmentSettings,
                           department: items,
                         })
-                        departmentStore.updateDepartmentList(departmentStore.listDepartmentCopy)
+                        departmentStore.updateDepartmentList(
+                          departmentStore.listDepartmentCopy
+                        )
                       }}
                       onFilter={(value: string) => {
                         departmentStore.DepartmentService.filter({
