@@ -201,7 +201,7 @@ export const Department = observer(() => {
                           input: {
                             type: "filter",
                             filter: {
-                              name: value,
+                          name: value,
                             },
                             page: 0,
                             limit: 10,
