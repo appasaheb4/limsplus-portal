@@ -6,6 +6,7 @@ import * as LibraryUtils from "@lp/library/utils"
 export class DeliveryScheduleStore {
   deliverySchedule!: Models.DeliverySchedule
   listDeliverySchedule: Models.DeliverySchedule[]
+  listDeliveryScheduleCopy!: Models.DeliverySchedule[]
   listDeliveryScheduleCount: number
   checkExistsEnvCode: boolean
 
@@ -49,10 +50,16 @@ export class DeliveryScheduleStore {
   }
 
   updateDeliveryScheduleList(res: any) {
-    if (!res.deliverySchdules.success) return alert(res.deliverySchdules.message)
-    this.listDeliverySchedule = res.deliverySchdules.data
-    this.listDeliveryScheduleCount = res.deliverySchdules.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.deliverySchdules.success) return alert(res.deliverySchdules.message)
+      this.listDeliverySchedule = res.deliverySchdules.data
+      this.listDeliveryScheduleCopy = res.deliverySchdules.data
+      this.listDeliveryScheduleCount = res.deliverySchdules.paginatorInfo.count
+  }else{
+    this.listDeliverySchedule = res
   }
+    }
+    
 
   filterDeliveryScheduleList(res: any){
     this.listDeliverySchedule = res.filterDeliverySchdule.data

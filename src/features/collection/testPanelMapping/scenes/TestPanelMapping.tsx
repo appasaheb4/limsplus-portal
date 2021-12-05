@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -27,6 +27,7 @@ const TestPanelMapping = observer(() => {
     testMasterStore,
     testPanelMappingStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -140,6 +141,75 @@ const TestPanelMapping = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.TestPanelMappingList
+      data={testPanelMappingStore.listTestPanelMapping || []}
+      totalSize={testPanelMappingStore.listTestPanelMappingCount}
+      extraData={{
+        lookupItems: stores.routerStore.lookupItems,
+        listLabs: labStore.listLabs,
+        listMasterPanel: masterPanelStore.listMasterPanel,
+      }}
+      isDelete={RouterFlow.checkPermission(
+        toJS(stores.routerStore.userPermission),
+        "Delete"
+      )}
+      isEditModify={RouterFlow.checkPermission(
+        toJS(stores.routerStore.userPermission),
+        "Edit/Modify"
+      )}
+      // isEditModify={false}
+      onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+      onSelectedRow={(rows) => {
+        setModalConfirm({
+          show: true,
+          type: "Delete",
+          id: rows,
+          title: "Are you sure?",
+          body: `Delete selected items!`,
+        })
+      }}
+      onUpdateItem={(value: any, dataField: string, id: string) => {
+        setModalConfirm({
+          show: true,
+          type: "Update",
+          data: { value, dataField, id },
+          title: "Are you sure?",
+          body: `Update lab!`,
+        })
+      }}
+      onVersionUpgrade={(item) => {
+        setModalConfirm({
+          show: true,
+          type: "versionUpgrade",
+          data: item,
+          title: "Are you version upgrade?",
+          body: `Version upgrade this record`,
+        })
+      }}
+      onDuplicate={(item) => {
+        setModalConfirm({
+          show: true,
+          type: "duplicate",
+          data: item,
+          title: "Are you duplicate?",
+          body: `Duplicate this record`,
+        })
+      }}
+      onPageSizeChange={(page, limit) => {
+        testPanelMappingStore.fetchTestPanelMapping(page, limit)
+      }}
+      onFilter={(type, filter, page, limit) => {
+        testPanelMappingStore.testPanelMappingService.filter({
+          input: { type, filter, page, limit },
+        })
+      }}  
+    />
+    ),
+    [testPanelMappingStore.listTestPanelMapping]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -175,57 +245,66 @@ const TestPanelMapping = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={testPanelMappingStore.testPanelMapping?.lab}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        testPanelMappingStore.updateTestPanelMapping({
-                          ...testPanelMappingStore.testPanelMapping,
-                          lab,
-                        })
-                        if (
-                          !testPanelMappingStore.testPanelMapping?.existsVersionId
-                        ) {
-                          testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code:
-                                  testPanelMappingStore.testPanelMapping?.panelCode,
-                                env:
-                                  testPanelMappingStore.testPanelMapping
-                                    ?.environment,
-                                lab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkTestPanelMappingsExistsRecord.success) {
-                                testPanelMappingStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                })
-                              } else
-                                testPanelMappingStore.updateExistsLabEnvCode(false)
-                            })
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      testPanelMappingStore.updateTestPanelMapping({
+                        ...testPanelMappingStore.testPanelMapping,
+                        lab:item.code,
+                      })
+                      if (
+                        !testPanelMappingStore.testPanelMapping?.existsVersionId
+                      ) {
+                        testPanelMappingStore.testPanelMappingService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code:
+                                testPanelMappingStore.testPanelMapping?.panelCode,
+                              env:
+                                testPanelMappingStore.testPanelMapping
+                                  ?.environment,
+                              lab:item.code,
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkTestPanelMappingsExistsRecord.success) {
+                              testPanelMappingStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
+                              })
+                            } else
+                              testPanelMappingStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -240,52 +319,41 @@ const TestPanelMapping = observer(() => {
                     label="Panel Code"
                     hasError-={errors.panelCode}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelCode ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const panelCode = e.target.value
-                        onChange(panelCode)
-                        testPanelMappingStore.updateTestPanelMapping({
-                          ...testPanelMappingStore.testPanelMapping,
-                          panelCode: panelCode,
+                   <AutoCompleteFilterSingleSelectPanelCode
+                   onSelect={(item)=>{
+                    onChange(item.panelName)
+                    testPanelMappingStore.updateTestPanelMapping({
+                      ...testPanelMappingStore.testPanelMapping,
+                      panelCode: item.panelCode,
+                    })
+                    masterPanelStore.updatePanelMasterList(
+                      masterPanelStore.listMasterPanelCopy
+                    )
+                    if (
+                      !testPanelMappingStore.testPanelMapping?.existsVersionId
+                    ) {
+                      testPanelMappingStore.testPanelMappingService
+                        .checkExitsLabEnvCode({
+                          input: {
+                            code: item.panelCode,
+                            env:
+                              testPanelMappingStore.testPanelMapping
+                                ?.environment,
+                            lab: testPanelMappingStore.testPanelMapping?.lab,
+                          },
                         })
-                        if (
-                          !testPanelMappingStore.testPanelMapping?.existsVersionId
-                        ) {
-                          testPanelMappingStore.testPanelMappingService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code: panelCode,
-                                env:
-                                  testPanelMappingStore.testPanelMapping
-                                    ?.environment,
-                                lab: testPanelMappingStore.testPanelMapping?.lab,
-                              },
+                        .then((res) => {
+                          if (res.checkTestPanelMappingsExistsRecord.success) {
+                            testPanelMappingStore.updateExistsLabEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
                             })
-                            .then((res) => {
-                              if (res.checkTestPanelMappingsExistsRecord.success) {
-                                testPanelMappingStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                })
-                              } else
-                                testPanelMappingStore.updateExistsLabEnvCode(false)
-                            })
-                        }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {masterPanelStore.listMasterPanel &&
-                        masterPanelStore.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.panelCode}>
-                              {`${item.panelName} - ${item.panelCode}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                          } else
+                            testPanelMappingStore.updateExistsLabEnvCode(false)
+                        })
+                    }
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelCode"
@@ -658,69 +726,7 @@ const TestPanelMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.TestPanelMappingList
-            data={testPanelMappingStore.listTestPanelMapping || []}
-            totalSize={testPanelMappingStore.listTestPanelMappingCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listLabs: labStore.listLabs,
-              listMasterPanel: masterPanelStore.listMasterPanel,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              testPanelMappingStore.fetchTestPanelMapping(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              testPanelMappingStore.testPanelMappingService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}  
-          />
+         {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

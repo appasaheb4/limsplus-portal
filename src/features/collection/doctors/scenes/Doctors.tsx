@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
@@ -19,7 +19,7 @@ const Doctors = observer(() => {
     formState: { errors },
     setValue,
   } = useForm()
-  const { loginStore, labStore, routerStore, doctorsStore } = useStores()
+  const { loginStore, labStore, routerStore, doctorsStore ,loading} = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
@@ -126,6 +126,74 @@ const Doctors = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.DoctorsList
+      data={doctorsStore.listDoctors || []}
+      totalSize={doctorsStore.listDoctorsCount}
+      extraData={{
+        lookupItems: routerStore.lookupItems,
+        listLabs: labStore.listLabs
+      }}
+      isDelete={RouterFlow.checkPermission(
+        routerStore.userPermission,
+        "Delete"
+      )}
+      isEditModify={RouterFlow.checkPermission(
+        routerStore.userPermission,
+        "Edit/Modify"
+      )}
+      // isEditModify={false}
+      onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+      onSelectedRow={(rows) => {
+        setModalConfirm({
+          show: true,
+          type: "Delete",
+          id: rows,
+          title: "Are you sure?",
+          body: `Delete selected items!`,
+        })
+      }}
+      onUpdateItem={(value: any, dataField: string, id: string) => {
+        setModalConfirm({
+          show: true,
+          type: "Update",
+          data: { value, dataField, id },
+          title: "Are you sure?",
+          body: `Update Section!`,
+        })
+      }}
+      onVersionUpgrade={(item) => {
+        setModalConfirm({
+          show: true,
+          type: "versionUpgrade",
+          data: item,
+          title: "Are you version upgrade?",
+          body: `Version upgrade this record`,
+        })
+      }}
+      onDuplicate={(item) => {
+        setModalConfirm({
+          show: true,
+          type: "duplicate",
+          data: item,
+          title: "Are you duplicate?",
+          body: `Duplicate this record`,
+        })
+      }}
+      onPageSizeChange={(page, limit) => {
+        doctorsStore.fetchDoctors(page, limit)
+      }}
+      onFilter={(type, filter, page, limit) => {
+        doctorsStore.doctorsService.filter({
+          input: { type, filter, page, limit },
+        })
+      }}
+    />
+    ),
+    [doctorsStore.listDoctors]
+  )
 
   return (
     <>
@@ -1049,45 +1117,58 @@ const Doctors = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={doctorsStore.doctors?.lab}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          lab,
-                        })
-                        if (!doctorsStore.doctors?.existsVersionId) {
-                          doctorsStore.doctorsService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code: doctorsStore.doctors?.doctorCode,
-                                env: doctorsStore.doctors?.environment,
-                                lab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkDoctorsExistsRecord.success) {
-                                doctorsStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkDoctorsExistsRecord.message}`,
-                                })
-                              } else doctorsStore.updateExistsLabEnvCode(false)
-                            })
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        lab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      if (!doctorsStore.doctors?.existsVersionId) {
+                        doctorsStore.doctorsService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code: doctorsStore.doctors?.doctorCode,
+                              env: doctorsStore.doctors?.environment,
+                              lab:item.code,
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkDoctorsExistsRecord.success) {
+                              doctorsStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkDoctorsExistsRecord.message}`,
+                              })
+                            } else doctorsStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -1101,27 +1182,41 @@ const Doctors = observer(() => {
                     label="Location"
                     hasError={errors.location}
                   >
-                    <select
-                      value={doctorsStore.doctors?.location}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.location ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const location = e.target.value as string
-                        onChange(location)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          location,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        location:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="location"
@@ -1135,27 +1230,41 @@ const Doctors = observer(() => {
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                    <select
-                      value={doctorsStore.doctors?.schedule}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const schedule = e.target.value as string
-                        onChange(schedule)
-                        doctorsStore.updateDoctors({
-                          ...doctorsStore.doctors,
-                          schedule,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      doctorsStore.updateDoctors({
+                        ...doctorsStore.doctors,
+                        schedule:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
@@ -1380,68 +1489,7 @@ const Doctors = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.DoctorsList
-            data={doctorsStore.listDoctors || []}
-            totalSize={doctorsStore.listDoctorsCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listLabs: labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update Section!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              doctorsStore.fetchDoctors(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              doctorsStore.doctorsService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+         {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

@@ -5,6 +5,7 @@ import * as Services from "../services"
 export class SampleContainerStore {
   sampleContainer!: Models.SampleContainer
   listSampleContainer!: Models.SampleContainer[]
+  listSampleContainerCopy!: Models.SampleContainer[]
   listSampleContainerCount!: number
   checkExitsEnvCode!: boolean
 
@@ -35,9 +36,14 @@ export class SampleContainerStore {
   }
 
   updateSampleContainerList(res: any) {
-    if (!res.sampleContainers.success) return alert(res.sampleContainers.message)
-    this.listSampleContainer = res.sampleContainers.data
-    this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.sampleContainers.success) return alert(res.sampleContainers.message)
+      this.listSampleContainer = res.sampleContainers.data
+      this.listSampleContainerCopy = res.sampleContainers.data
+      this.listSampleContainerCount = res.sampleContainers.paginatorInfo.count
+    }else{
+      this.listSampleContainer = res
+    }
   }
   
   filterSampleContainerList(res: any) {

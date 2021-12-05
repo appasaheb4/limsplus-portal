@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as FeatureComponents from "../components"
@@ -26,6 +26,7 @@ const TestSampleMapping = observer(() => {
     sampleContainerStore,
     testSampleMappingStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -73,6 +74,58 @@ const TestSampleMapping = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.TestSampleMappingList
+            data={testSampleMappingStore.listTestSampleMapping || []}
+            totalSize={testSampleMappingStore.listTestSampleMappingCount}
+            extraData={{
+              lookupItems: routerStore.lookupItems,
+              listTestMaster:testMasterStore.listTestMaster,
+              listSampleType:sampleTypeStore.listSampleType,
+              listSampleContainer:sampleContainerStore.listSampleContainer
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              testSampleMappingStore.fetchSampleTypeList(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              testSampleMappingStore.testSampleMappingService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [testSampleMappingStore.listTestSampleMapping]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -106,54 +159,65 @@ const TestSampleMapping = observer(() => {
                       label="Test Code"
                       hasError={errors.testCode}
                     >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.testCode ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const testCode = e.target.value as string
-                          onChange(testCode)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            testCode,
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:testMasterStore.listTestMaster,
+                      displayKey: "testCode",
+                      findKey: "testCode",
+                    }}
+                    hasError={errors.testCode}
+                    onFilter={(value: string) => {
+                     testMasterStore.testMasterService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["testCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.testCode)
+                    testSampleMappingStore.updateSampleType({
+                      ...testSampleMappingStore.testSampleMapping,
+                      testCode:item.testCode
+                    })
+                      testMasterStore.updateTestMasterList(
+                        testMasterStore.listTestMasterCopy
+                      )
+                      testSampleMappingStore.testSampleMappingService
+                      .checkExitsTestSampleEnvCode({
+                        input: {
+                          testCode:item.testCode,
+                          sampleCode:
+                            testSampleMappingStore.testSampleMapping
+                              ?.sampleCode,
+                          env:
+                            testSampleMappingStore.testSampleMapping
+                              ?.environment,
+                        },
+                      })
+                      .then((res) => {
+                        if (res.checkTestSampleMappingsExistsRecord.success) {
+                          testSampleMappingStore.updateExitsTestSampleEnvCode(
+                            true
+                          )
+                          LibraryComponents.Atoms.Toast.error({
+                            message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
                           })
-                          testSampleMappingStore.testSampleMappingService
-                            .checkExitsTestSampleEnvCode({
-                              input: {
-                                testCode,
-                                sampleCode:
-                                  testSampleMappingStore.testSampleMapping
-                                    ?.sampleCode,
-                                env:
-                                  testSampleMappingStore.testSampleMapping
-                                    ?.environment,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkTestSampleMappingsExistsRecord.success) {
-                                testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                  true
-                                )
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkTestSampleMappingsExistsRecord.message}`,
-                                })
-                              } else
-                                testSampleMappingStore.updateExitsTestSampleEnvCode(
-                                  false
-                                )
-                            })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {testMasterStore.listTestMaster &&
-                          testMasterStore.listTestMaster.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.testCode}>
-                                {item.testCode}
-                              </option>
-                            )
-                          )}
-                      </select>
+                        } else
+                          testSampleMappingStore.updateExitsTestSampleEnvCode(
+                            false
+                          )
+                      })
+                      
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="testCode"
@@ -175,23 +239,44 @@ const TestSampleMapping = observer(() => {
                       label="Sample Code"
                       hasError={errors.sampleCode}
                     >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.sampleCode ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const sampleCode = e.target.value as string
-                          onChange(sampleCode)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            sampleCode,
-                          })
-                          testSampleMappingStore.testSampleMappingService
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    
+                    data={{
+                      list:sampleTypeStore.listSampleType,
+                      displayKey: "sampleCode",
+                      findKey: "sampleCode",
+                    }}
+                    hasError={errors.sampleCode}
+                    onFilter={(value: string) => {
+                      sampleTypeStore.sampleTypeService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["sampleCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.sampleCode)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        sampleCode:item.sampleCode
+                      })
+                      sampleTypeStore.updateSampleTypeList(
+                        sampleTypeStore.listSampleTypeCopy
+                      )
+                      testSampleMappingStore.testSampleMappingService
                             .checkExitsTestSampleEnvCode({
                               input: {
                                 testCode:
                                   testSampleMappingStore.testSampleMapping?.testCode,
-                                sampleCode,
+                                sampleCode:item.sampleCode,
                                 env:
                                   testSampleMappingStore.testSampleMapping
                                     ?.environment,
@@ -210,18 +295,9 @@ const TestSampleMapping = observer(() => {
                                   false
                                 )
                             })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleTypeStore.listSampleType &&
-                          sampleTypeStore.listSampleType.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.sampleCode}>
-                                {item.sampleCode}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="sampleCode"
@@ -242,27 +318,39 @@ const TestSampleMapping = observer(() => {
                       label="Sample Type"
                       hasError={errors.sampleType}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const sampleType = e.target.value as string
-                          onChange(sampleType)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            sampleType,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleTypeStore.listSampleType &&
-                          sampleTypeStore.listSampleType.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.sampleType}>
-                                {item.sampleType}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleTypeStore.listSampleType,
+                      displayKey: "sampleType",
+                      findKey: "sampleType",
+                    }}
+                    hasError={errors.sampleType}
+                    onFilter={(value: string) => {
+                      sampleTypeStore.sampleTypeService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["sampleType"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.sampleType)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        sampleType:item.sampleType
+                      })
+                      sampleTypeStore.updateSampleTypeList(
+                        sampleTypeStore.listSampleTypeCopy
+                      ) 
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="sampleType"
@@ -279,27 +367,39 @@ const TestSampleMapping = observer(() => {
                       label="Sample Group"
                       hasError={errors.sampleGroup}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const sampleGroup = e.target.value as string
-                          onChange(sampleGroup)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            sampleGroup,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleTypeStore.listSampleType &&
-                          sampleTypeStore.listSampleType.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.sampleGroup}>
-                                {item.sampleGroup}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleTypeStore.listSampleType,
+                      displayKey: "sampleGroup",
+                      findKey: "sampleGroup",
+                    }}
+                    hasError={errors.sampleGroup}
+                    onFilter={(value: string) => {
+                      sampleTypeStore.sampleTypeService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["sampleGroup"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.sampleGroup)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        sampleGroup:item.sampleGroup
+                      })
+                      sampleTypeStore.updateSampleTypeList(
+                        sampleTypeStore.listSampleTypeCopy
+                      ) 
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="sampleGroup"
@@ -315,27 +415,39 @@ const TestSampleMapping = observer(() => {
                       label="Coll Container Code"
                       hasError={errors.collContainerCode}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const collContainerCode = e.target.value as string
-                          onChange(collContainerCode)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            collContainerCode,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleContainerStore.listSampleContainer &&
-                          sampleContainerStore.listSampleContainer.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.containerCode}>
-                                {item.containerCode}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleContainerStore.listSampleContainer,
+                      displayKey: "containerCode",
+                      findKey: "containerCode",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      sampleContainerStore.sampleContainerService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["containerCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.containerCode)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        collContainerCode:item.containerCode,
+                      })
+                      sampleContainerStore.updateSampleContainerList(
+                        sampleContainerStore.listSampleContainerCopy
+                      )
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="collContainerCode"
@@ -351,27 +463,39 @@ const TestSampleMapping = observer(() => {
                       label="Coll Container Name"
                       hasError={errors.collContainerName}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const collContainerName = e.target.value as string
-                          onChange(collContainerName)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            collContainerName,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleContainerStore.listSampleContainer &&
-                          sampleContainerStore.listSampleContainer.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.containerName}>
-                                {item.containerName}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleContainerStore.listSampleContainer,
+                      displayKey: "containerName",
+                      findKey: "containerName",
+                    }}
+                    hasError={errors.containerName}
+                    onFilter={(value: string) => {
+                      sampleContainerStore.sampleContainerService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["containerName"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.containerName)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        collContainerName:item.containerName,
+                      })
+                      sampleContainerStore.updateSampleContainerList(
+                        sampleContainerStore.listSampleContainerCopy
+                      )
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="collContainerName"
@@ -387,27 +511,39 @@ const TestSampleMapping = observer(() => {
                       label="Test Container Code"
                       hasError={errors.testContainerCode}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const testContainerCode = e.target.value as string
-                          onChange(testContainerCode)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            testContainerCode,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleContainerStore.listSampleContainer &&
-                          sampleContainerStore.listSampleContainer.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.containerCode}>
-                                {item.containerCode}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleContainerStore.listSampleContainer,
+                      displayKey: "containerCode",
+                      findKey: "containerCode",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      sampleContainerStore.sampleContainerService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["containerCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.containerCode)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        collContainerCode:item.containerCode,
+                      })
+                      sampleContainerStore.updateSampleContainerList(
+                        sampleContainerStore.listSampleContainerCopy
+                      )
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="testContainerCode"
@@ -423,27 +559,39 @@ const TestSampleMapping = observer(() => {
                       label="Test Container Name"
                       hasError={errors.testContainerName}
                     >
-                      <select
-                        className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                        onChange={(e) => {
-                          const testContainerName = e.target.value as string
-                          onChange(testContainerName)
-                          testSampleMappingStore.updateSampleType({
-                            ...testSampleMappingStore.testSampleMapping,
-                            testContainerName,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {sampleContainerStore.listSampleContainer &&
-                          sampleContainerStore.listSampleContainer.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.containerName}>
-                                {item.containerName}
-                              </option>
-                            )
-                          )}
-                      </select>
+                      <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:sampleContainerStore.listSampleContainer,
+                      displayKey: "containerName",
+                      findKey: "containerName",
+                    }}
+                    hasError={errors.containerName}
+                    onFilter={(value: string) => {
+                      sampleContainerStore.sampleContainerService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["containerName"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.containerName)
+                      testSampleMappingStore.updateSampleType({
+                        ...testSampleMappingStore.testSampleMapping,
+                        collContainerName:item.containerName,
+                      })
+                      sampleContainerStore.updateSampleContainerList(
+                        sampleContainerStore.listSampleContainerCopy
+                      )
+                    }}
+                    />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="testContainerName"
@@ -960,52 +1108,7 @@ const TestSampleMapping = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.TestSampleMappingList
-            data={testSampleMappingStore.listTestSampleMapping || []}
-            totalSize={testSampleMappingStore.listTestSampleMappingCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listTestMaster:testMasterStore.listTestMaster,
-              listSampleType:sampleTypeStore.listSampleType,
-              listSampleContainer:sampleContainerStore.listSampleContainer
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              testSampleMappingStore.fetchSampleTypeList(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              testSampleMappingStore.testSampleMappingService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -8,7 +8,7 @@ import { LibraryList } from "../components"
 import { useForm, Controller } from "react-hook-form"
 
 import { useStores } from "@lp/stores"
-
+import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -21,6 +21,7 @@ export const Library = observer(() => {
     masterPanelStore,
     lookupStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -89,6 +90,77 @@ export const Library = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    ()=>(
+      <LibraryList
+            data={libraryStore.listLibrary || []}
+            totalSize={libraryStore.listLibraryCount}
+            extraData={{
+              listLookup: lookupStore.listLookup,
+              library: libraryStore.library,
+              listLabs: labStore.listLabs,
+              listDepartment: departmentStore.listDepartment,
+              listMasterPanel: masterPanelStore.listMasterPanel,
+              updateLibraryStore: libraryStore.updateLibrary,
+              lookupItems: routerStore.lookupItems,
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update item!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              libraryStore.fetchLibrary(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              libraryStore.libraryService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),[libraryStore.listLibrary]
+  )
 
   return (
     <>
@@ -298,49 +370,62 @@ export const Library = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={libraryStore.library.lab}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value
-                        onChange(lab)
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          lab,
-                        })
-                        libraryStore.libraryService
-                          .checkExistsLabEnvCode({
-                            input: {
-                              code: libraryStore.library.code,
-                              env: libraryStore.library?.environment,
-                              lab,
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
                             },
-                          })
-                          .then((res) => {
-                            if (res.checkLibrarysExistsRecord.success) {
-                              libraryStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.checkLibrarysExistsRecord.message}`,
-                              })
-                            } else libraryStore.updateExistsLabEnvCode(false)
-                          })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs &&
-                        labStore.listLabs.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        ))}
-                    </select>
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      libraryStore.updateLibrary({
+                        ...libraryStore.library,
+                        lab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      libraryStore.libraryService
+                        .checkExistsLabEnvCode({
+                          input: {
+                            code: libraryStore.library.code,
+                            env: libraryStore.library?.environment,
+                            lab:item.code,
+                          },
+                        })
+                        .then((res) => {
+                          if (res.checkLibrarysExistsRecord.success) {
+                            libraryStore.updateExistsLabEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkLibrarysExistsRecord.message}`,
+                            })
+                          } else libraryStore.updateExistsLabEnvCode(false)
+                        })
+                      
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -354,29 +439,14 @@ export const Library = observer(() => {
                     label="Department"
                     hasError={errors.department}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const department = e.target.value
-                        onChange(department)
-                        libraryStore.updateLibrary({
-                          ...libraryStore.library,
-                          department,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment &&
-                        departmentStore.listDepartment.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.code} - ${item.name}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                     <AutoCompleteFilterSingleSelectDepartment
+                     onSelect={(item)=>{
+                       libraryStore.updateLibrary({
+                         ...libraryStore.library,
+                         department:item.code
+                       })
+                     }}
+                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="department"
@@ -964,72 +1034,7 @@ export const Library = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <LibraryList
-            data={libraryStore.listLibrary || []}
-            totalSize={libraryStore.listLibraryCount}
-            extraData={{
-              listLookup: lookupStore.listLookup,
-              library: libraryStore.library,
-              listLabs: labStore.listLabs,
-              listDepartment: departmentStore.listDepartment,
-              listMasterPanel: masterPanelStore.listMasterPanel,
-              updateLibraryStore: libraryStore.updateLibrary,
-              lookupItems: routerStore.lookupItems,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update item!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              libraryStore.fetchLibrary(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              libraryStore.libraryService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

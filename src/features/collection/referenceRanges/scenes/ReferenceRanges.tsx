@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -29,6 +29,7 @@ const ReferenceRanges = observer(() => {
     departmentStore,
     refernceRangesStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -142,6 +143,75 @@ const ReferenceRanges = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.ReferenceRanges
+            data={refernceRangesStore.listReferenceRanges || []}
+            totalSize={refernceRangesStore.listReferenceRangesCount}
+            extraData={{
+              lookupItems: routerStore.lookupItems,
+              listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
+              listDepartment: departmentStore.listDepartment,
+              listLabs: labStore.listLabs,
+              listInterfaceManager: interfaceManagerStore.listInterfaceManager,
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update item!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              refernceRangesStore.fetchListReferenceRanges(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              refernceRangesStore.referenceRangesService.filter({
+                input: { type, filter, page, limit },
+              })  
+            }}
+          />
+    ),[refernceRangesStore.listReferenceRanges]
+  )
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -174,25 +244,21 @@ const ReferenceRanges = observer(() => {
                     label="Analyte Code"
                     hasError={errors.analyteCode}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.analyteCode ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const analyte = JSON.parse(e.target.value) as any
-                        onChange(analyte.analyteCode)
-                        setValue("analyteName", analyte.analyteName)
+                    <AutoCompleteFilterSingleSelectAnalyteCode
+                    onSelect={(item)=>{
+                      onChange(item.analyteCode)
+                      setValue("analyteName", item.analyteName)
                         clearErrors("analyteName")
                         refernceRangesStore.updateReferenceRanges({
                           ...refernceRangesStore.referenceRanges,
-                          analyteCode: analyte.analyteCode,
-                          analyteName: analyte.analyteName,
+                          analyteCode: item.analyteCode,
+                          analyteName: item.analyteName,
                         })
                         if (!refernceRangesStore.referenceRanges?.existsVersionId) {
                           refernceRangesStore.referenceRangesService
                             .checkExitsRecord({
                               input: {
-                                analyteCode: analyte.analyteCode,
+                                analyteCode: item.analyteCode,
                                 species: refernceRangesStore.referenceRanges.species,
                                 rangeSetOn:
                                   refernceRangesStore.referenceRanges.rangeSetOn,
@@ -213,18 +279,8 @@ const ReferenceRanges = observer(() => {
                               } else refernceRangesStore.updateExistsRecord(false)
                             })
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {masterAnalyteStore.listMasterAnalyte &&
-                        masterAnalyteStore.listMasterAnalyte.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.analyteName} - ${item.analyteCode}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="analyteCode"
@@ -266,28 +322,14 @@ const ReferenceRanges = observer(() => {
                     label="Department"
                     hasError={errors.department}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const department = e.target.value as string
-                        onChange(department)
-                        refernceRangesStore.updateReferenceRanges({
-                          ...refernceRangesStore.referenceRanges,
-                          department,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
+                   <AutoCompleteFilterSingleSelectDepartment
+                   onSelect={(item)=>{
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        department:item.code
+                      })
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="department"
@@ -498,58 +540,75 @@ const ReferenceRanges = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={refernceRangesStore.referenceRanges?.lab}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        refernceRangesStore.updateReferenceRanges({
-                          ...refernceRangesStore.referenceRanges,
-                          lab,
-                        })
-                        if (!refernceRangesStore.referenceRanges?.existsVersionId) {
-                          refernceRangesStore.referenceRangesService
-                            .checkExitsRecord({
-                              input: {
-                                analyteCode:
-                                  refernceRangesStore.referenceRanges.analyteCode,
-                                species: refernceRangesStore.referenceRanges.species,
-                                rangeSetOn:
-                                  refernceRangesStore.referenceRanges.rangeSetOn,
-                                lab,
-                                age: refernceRangesStore.referenceRanges.age,
-                                ageUnit: refernceRangesStore.referenceRanges.ageUnit,
-                                rangType:
-                                  refernceRangesStore.referenceRanges.rangType,
-                                env: refernceRangesStore.referenceRanges.environment,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkReferenceRangeExistsRecord.success) {
-                                refernceRangesStore.updateExistsRecord(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
-                                })
-                              } else refernceRangesStore.updateExistsRecord(false)
-                            })
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                     refernceRangesStore.updateReferenceRanges({
+                       ...refernceRangesStore.referenceRanges,
+                       lab:item.code
+                     })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      refernceRangesStore.updateReferenceRanges({
+                        ...refernceRangesStore.referenceRanges,
+                        lab:item.code,
+                      })
+                      if (!refernceRangesStore.referenceRanges?.existsVersionId) {
+                        refernceRangesStore.referenceRangesService
+                          .checkExitsRecord({
+                            input: {
+                              analyteCode:
+                                refernceRangesStore.referenceRanges.analyteCode,
+                              species: refernceRangesStore.referenceRanges.species,
+                              rangeSetOn:
+                                refernceRangesStore.referenceRanges.rangeSetOn,
+                              lab:item.code,
+                              age: refernceRangesStore.referenceRanges.age,
+                              ageUnit: refernceRangesStore.referenceRanges.ageUnit,
+                              rangType:
+                                refernceRangesStore.referenceRanges.rangType,
+                              env: refernceRangesStore.referenceRanges.environment,
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkReferenceRangeExistsRecord.success) {
+                              refernceRangesStore.updateExistsRecord(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkReferenceRangeExistsRecord.message}`,
+                              })
+                            } else refernceRangesStore.updateExistsRecord(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -1182,70 +1241,7 @@ const ReferenceRanges = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.ReferenceRanges
-            data={refernceRangesStore.listReferenceRanges || []}
-            totalSize={refernceRangesStore.listReferenceRangesCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
-              listDepartment: departmentStore.listDepartment,
-              listLabs: labStore.listLabs,
-              listInterfaceManager: interfaceManagerStore.listInterfaceManager,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update item!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              refernceRangesStore.fetchListReferenceRanges(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              refernceRangesStore.referenceRangesService.filter({
-                input: { type, filter, page, limit },
-              })  
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

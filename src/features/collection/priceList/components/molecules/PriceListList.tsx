@@ -4,6 +4,9 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import dayjs from "dayjs"
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectBillTo,
+  AutoCompleteFilterSingleSelectCorporateName,AutoCompleteFilterSingleSelectInvoiceAc,
+  AutoCompleteFilterSingleSelectPanelCode,AutoCompleteFilterSingleSelectPanelName} from "../organsims"
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
    
 interface PriceListProps {   
@@ -56,30 +59,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const panel = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            panel.panelCode,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listMasterPanel &&
-                        props.extraData.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.panelCode} - ${item.panelName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectPanelCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.panelCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -99,30 +83,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Panel Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const panel = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            panel.panelName,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listMasterPanel &&
-                        props.extraData.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.panelName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectPanelName
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.panelName,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -220,30 +185,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const corporateClientsInfo = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            corporateClientsInfo.corporateCode,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listCorporateClients &&
-                        props.extraData.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateCode}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectBillTo
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.corporateCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -263,30 +209,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const corporateClientsInfo = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            corporateClientsInfo.corporateName,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listCorporateClients &&
-                        props.extraData.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectCorporateName
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.corporateName,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -306,30 +233,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2"
-                      onChange={(e) => {
-                        const corporateClientsInfo = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            corporateClientsInfo.invoiceAc,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listCorporateClients &&
-                        props.extraData.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.invoiceAc}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectInvoiceAc
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.invoiceAc,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -349,23 +257,11 @@ const MasterAnalyteList = (props: PriceListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(lab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectLabs
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
