@@ -17,9 +17,9 @@ export class TestPanelMappingStore {
     this.checkExitsLabEnvCode = false
     this.testPanelMapping = {
       ...this.testPanelMapping,
-      dateCreation: new Date(),
-      dateActiveFrom: new Date(),
-      dateActiveTo: new Date(
+      dateCreation: new Date(),  
+      dateActive: new Date(),
+      dateExpire: new Date(
         dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
       ),
       version: 1,

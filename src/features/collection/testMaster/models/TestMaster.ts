@@ -3,8 +3,8 @@ export class TestMaster {
     existsVersionId: string
     existsRecordId: string
     dateCreation: Date  
-    dateActiveFrom: Date  
-    dateActiveTo: Date  
+    dateActive: Date  
+    dateExpire: Date  
     version: number
     enteredBy: string
     rLab: string
@@ -66,8 +66,8 @@ export class TestMaster {
         this.existsVersionId = rawData.existsVersionId 
         this.existsRecordId = rawData.existsRecordId 
         this.dateCreation = rawData.dateCreation 
-        this.dateActiveFrom = rawData.dateActiveFrom 
-        this.dateActiveTo = rawData.dateActiveTo 
+        this.dateActive = rawData.dateActive 
+        this.dateExpire = rawData.dateExpire 
         this.version = rawData.version  
         this.enteredBy = rawData.enteredBy 
         this.rLab = rawData.rLab 

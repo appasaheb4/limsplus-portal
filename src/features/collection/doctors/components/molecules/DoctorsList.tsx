@@ -5,6 +5,8 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectLabs} from '../organsims'
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
 interface DoctorsListProps {
   data: any
   totalSize: number
@@ -198,13 +200,10 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -359,13 +358,10 @@ const DoctorsList = (props: DoctorsListProps) => {
             text: "Work Hours",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
           {
@@ -713,16 +709,10 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
             },
@@ -733,53 +723,38 @@ const DoctorsList = (props: DoctorsListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
             },
           },
           {
-            dataField: "dateExpire",
+            dataField: "dateExpire",  
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
             },
-          },  
+          },
           {
             dataField: "version",
             text: "Version",
             headerClasses: "textHeader4",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
           },
           {
             dataField: "enteredBy",
@@ -799,7 +774,10 @@ const DoctorsList = (props: DoctorsListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className="flex flex-row">
-                  <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                  <LibraryComponents.Atoms.Tooltip
+                    tooltipText="Delete"
+                    position="top"
+                  >
                     <LibraryComponents.Atoms.Icons.IconContext
                       color="#fff"
                       size="20"
@@ -857,9 +835,9 @@ const DoctorsList = (props: DoctorsListProps) => {
               </>
             ),
             headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+            classes: (cell, row, rowIndex, colIndex) => {
+              return "sticky right-0 bg-gray-500"
+            },
           },
         ]}
         isEditModify={props.isEditModify}

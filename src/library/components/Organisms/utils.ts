@@ -8,3 +8,4 @@ import {
 import { Type } from "react-bootstrap-table2-editor"
 
 export { textFilter, customFilter, Type, dateFilter, Comparator, numberFilter }
+

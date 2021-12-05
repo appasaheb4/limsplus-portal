@@ -5,6 +5,8 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../organsims'
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+  
 interface PanelMasterListProps {
   data: any
   totalSize: number
@@ -283,18 +285,15 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 textTransform: 'uppercase'
               }
             },
-            {
+            {  
               dataField: "price",
               text: "Price",
               headerClasses: "textHeader5",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
               editorRenderer: (
                 editorProps,
@@ -936,18 +935,10 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateCreation).format("YYYY-MM-DD")}</>
               },
@@ -958,20 +949,26 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader6",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               formatter: (cell, row) => {
                 return <>{daysjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
+              },
+            },
+            {
+              dataField: "dateExpire",
+              text: "Date Expire",
+              headerClasses: "textHeader6",
+              sort: true,
+              editable: false,
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return <>{daysjs(row.dateExpire || 0).format("YYYY-MM-DD")}</>
               },
             },
             {
@@ -980,13 +977,10 @@ const PanelMasterList = (props: PanelMasterListProps) => {
               headerClasses: "textHeader5",
               sort: true,
               editable: false,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
             },
             {
               dataField: "environment",

@@ -2,7 +2,7 @@ import { makeObservable, action, observable, computed } from "mobx"
 import * as Models from "../models"
 import * as Services from "../services"
 import * as ModelsSection from "@lp/features/collection/section/models"
-
+import dayjs from 'dayjs'
 
 export class TestMasterStore {
   testMaster!: Models.TestMaster
@@ -19,8 +19,10 @@ export class TestMasterStore {
     this.testMaster = {
       ...this.testMaster,
       dateCreation: new Date(),
-      dateActiveFrom: new Date(),
-      dateActiveTo: new Date(),
+      dateActive: new Date(),
+      dateExpire: new Date(
+        dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
+      ),
       version: 1,
       bill: false,
       autoFinish: false,

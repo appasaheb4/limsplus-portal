@@ -246,8 +246,7 @@ const Lab = observer(() => {
                 rules={{ required: true }}
                 defaultValue=""
               />
-              {(
-                administrativeDivisions.listAdministrativeDiv) && (
+              {administrativeDivisions.listAdministrativeDiv && (
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -259,7 +258,7 @@ const Lab = observer(() => {
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
                         data={{
-                          list:administrativeDivisions.listAdministrativeDiv,
+                          list: administrativeDivisions.listAdministrativeDiv,
                           displayKey: "country",
                           findKey: "country",
                         }}
@@ -297,7 +296,7 @@ const Lab = observer(() => {
                 />
               )}
 
-              {((labStore.labs.country ||
+              {(labStore.labs.country ||
                 administrativeDivisions.listAdministrativeDiv) && (
                 <Controller
                   control={control}
@@ -311,7 +310,9 @@ const Lab = observer(() => {
                         loader={loading}
                         disable={!labStore.labs.country}
                         data={{
-                          list:administrativeDivisions.listAdministrativeDiv,
+                          list: administrativeDivisions.listAdministrativeDiv.filter(
+                            (item) => item.country === labStore.labs.country
+                          ),
                           displayKey: "state",
                           findKey: "state",
                         }}
@@ -322,7 +323,8 @@ const Lab = observer(() => {
                               input: {
                                 filter: {
                                   type: "search",
-                                  ["state"]: value,
+                                  country: labStore.labs.country,
+                                  state: value,
                                 },
                                 page: 0,
                                 limit: 10,
@@ -344,7 +346,7 @@ const Lab = observer(() => {
                   rules={{ required: false }}
                   defaultValue=""
                 />
-              ))}
+              )}
               {((labStore.selectedItems &&
                 labStore.selectedItems?.district &&
                 labStore.selectedItems?.district.length > 0 &&
@@ -360,9 +362,13 @@ const Lab = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
+                        disable={!labStore.labs.state}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
-                          selected: labStore.selectedItems?.district,
+                          list: administrativeDivisions.listAdministrativeDiv.filter(
+                            (item) =>
+                              item.country === labStore.labs.country &&
+                              item.state === labStore.labs.state
+                          ),
                           displayKey: "district",
                           findKey: "district",
                         }}
@@ -373,7 +379,9 @@ const Lab = observer(() => {
                               input: {
                                 filter: {
                                   type: "search",
-                                  ["district"]: value,
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: value,
                                 },
                                 page: 0,
                                 limit: 10,
@@ -387,9 +395,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             district: item.district.toUpperCase(),
                           })
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy
-                          )
+                          // administrativeDivisions.updateAdministrativeDivList(
+                          //   administrativeDivisions.listAdministrativeDivCopy
+                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -411,9 +419,14 @@ const Lab = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
+                        disable={!labStore.labs.district}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
-                          selected: labStore.selectedItems?.city,
+                          list: administrativeDivisions.listAdministrativeDiv.filter(
+                            (item) =>
+                              item.country === labStore.labs.country &&
+                              item.state === labStore.labs.state &&
+                              item.district === labStore.labs.district
+                          ),
                           displayKey: "city",
                           findKey: "city",
                         }}
@@ -424,7 +437,10 @@ const Lab = observer(() => {
                               input: {
                                 filter: {
                                   type: "search",
-                                  ["city"]: value,
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: value,
                                 },
                                 page: 0,
                                 limit: 10,
@@ -438,9 +454,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             city: item.city.toUpperCase(),
                           })
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy
-                          )
+                          // administrativeDivisions.updateAdministrativeDivList(
+                          //   administrativeDivisions.listAdministrativeDivCopy
+                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -462,8 +478,15 @@ const Lab = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
+                        disable={!labStore.labs.city}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
+                          list: administrativeDivisions.listAdministrativeDiv.filter(
+                            (item) =>
+                              item.country === labStore.labs.country &&
+                              item.state === labStore.labs.state &&
+                              item.district === labStore.labs.district &&
+                              item.city === labStore.labs.city
+                          ),
                           selected: labStore.selectedItems?.area,
                           displayKey: "area",
                           findKey: "area",
@@ -475,7 +498,11 @@ const Lab = observer(() => {
                               input: {
                                 filter: {
                                   type: "search",
-                                  ["area"]: value,
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: labStore.labs.city,
+                                  area: value,
                                 },
                                 page: 0,
                                 limit: 10,
@@ -489,9 +516,9 @@ const Lab = observer(() => {
                             ...labStore.labs,
                             area: item.area.toUpperCase(),
                           })
-                          administrativeDivisions.updateAdministrativeDivList(
-                            administrativeDivisions.listAdministrativeDivCopy
-                          )
+                          // administrativeDivisions.updateAdministrativeDivList(
+                          //   administrativeDivisions.listAdministrativeDivCopy
+                          // )
                         }}
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
@@ -513,9 +540,16 @@ const Lab = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                         loader={loading}
+                        disable={!labStore.labs.area}
                         data={{
-                          list: administrativeDivisions.listAdministrativeDiv,
-                          selected: labStore.selectedItems?.postalCode,
+                          list: administrativeDivisions.listAdministrativeDiv.filter(
+                            (item) =>
+                              item.country === labStore.labs.country &&
+                              item.state === labStore.labs.state &&
+                              item.district === labStore.labs.district &&
+                              item.city === labStore.labs.city &&
+                              item.area === labStore.labs.area
+                          ),  
                           displayKey: "postalCode",
                           findKey: "postalCode",
                         }}
@@ -526,7 +560,12 @@ const Lab = observer(() => {
                               input: {
                                 filter: {
                                   type: "search",
-                                  ["postalCode"]: value,
+                                  country: labStore.labs.country,
+                                  state: labStore.labs.state,
+                                  district: labStore.labs.district,
+                                  city: labStore.labs.city,
+                                  area: labStore.labs.area,
+                                  postalCode: value,
                                 },
                                 page: 0,
                                 limit: 10,
@@ -547,7 +586,7 @@ const Lab = observer(() => {
                       />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
-                  name="postalCode "
+                  name="postalCode"
                   rules={{ required: false }}
                   defaultValue=""
                 />

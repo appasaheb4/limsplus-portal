@@ -653,19 +653,19 @@ const MasterPackage = observer(() => {
                     }
                     hasError={errors.dateExpire}
                     value={dayjs(
-                      masterPackageStore.masterPackage?.dateActiveTo
+                      masterPackageStore.masterPackage?.dateExpire
                     ).format("YYYY-MM-DD")}
                     onChange={(e) => {
-                      const dateActiveTo = new Date(e.target.value)
-                      onChange(dateActiveTo)
+                      const dateExpire = new Date(e.target.value)
+                      onChange(dateExpire)
                       masterPackageStore.updateMasterPackage({
                         ...masterPackageStore.masterPackage,
-                        dateActiveTo,
+                        dateExpire,
                       })
                     }}
                   />
                 )}
-                name="dateActiveTo"
+                name="dateExpire"
                 rules={{ required: false }}
                 defaultValue=""
               />
