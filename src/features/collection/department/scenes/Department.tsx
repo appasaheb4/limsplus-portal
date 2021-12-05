@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect,useMemo } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -28,8 +28,6 @@ export const Department = observer(() => {
     setValue,
     reset,
   } = useForm()
-  
-  
 
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddDepartment, setHideAddDepartment] = useState<boolean>(true)
@@ -102,52 +100,49 @@ export const Department = observer(() => {
     }
   }
   const tableView = useMemo(
-    ()=> (
+    () => (
       <FeatureComponents.Molecules.DepartmentList
-      data={departmentStore.listDepartment || []}
-      totalSize={departmentStore.listDepartmentCount}
-      extraData={{
-        lookupItems: routerStore.lookupItems,
-        listLabs: labStore.listLabs,
-        userStore: userStore,
-        userList: userStore.userList,
-      }}
-      isDelete={RouterFlow.checkPermission(
-        routerStore.userPermission,
-        "Delete"
-      )}
-      isEditModify={RouterFlow.checkPermission(
-        routerStore.userPermission,
-        "Edit/Modify"
-      )}
-      onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-      onSelectedRow={(rows) => {
-        setModalConfirm({
-          show: true,
-          type: "Delete",
-          id: rows,
-          title: "Are you sure?",
-          body: `Delete selected items!`,
-        })
-      }}
-      onUpdateItem={(value: any, dataField: string, id: string) => {
-        setModalConfirm({
-          show: true,
-          type: "Update",
-          data: { value, dataField, id },
-          title: "Are you sure?",
-          body: `Update department!`,
-        })
-      }}
-      onPageSizeChange={(page, limit) => {
-        departmentStore.fetchListDepartment(page, limit)
-      }}  
-      onFilter={(type, filter, page, limit) => {
-        departmentStore.DepartmentService.filter({
-          input: { type, filter, page, limit },
-        })
-      }}
-    />
+        data={departmentStore.listDepartment || []}
+        totalSize={departmentStore.listDepartmentCount}
+        extraData={{
+          lookupItems: routerStore.lookupItems,
+          listLabs: labStore.listLabs,
+          userStore: userStore,
+          userList: userStore.userList,
+        }}
+        isDelete={RouterFlow.checkPermission(routerStore.userPermission, "Delete")}
+        isEditModify={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          "Edit/Modify"
+        )}
+        onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+        onSelectedRow={(rows) => {
+          setModalConfirm({
+            show: true,
+            type: "Delete",
+            id: rows,
+            title: "Are you sure?",
+            body: `Delete selected items!`,
+          })
+        }}
+        onUpdateItem={(value: any, dataField: string, id: string) => {
+          setModalConfirm({
+            show: true,
+            type: "Update",
+            data: { value, dataField, id },
+            title: "Are you sure?",
+            body: `Update department!`,
+          })
+        }}
+        onPageSizeChange={(page, limit) => {
+          departmentStore.fetchListDepartment(page, limit)
+        }}
+        onFilter={(type, filter, page, limit) => {
+          departmentStore.DepartmentService.filter({
+            input: { type, filter, page, limit },
+          })
+        }}
+      />
     ),
     [departmentStore.listDepartment]
   )
@@ -183,72 +178,66 @@ export const Department = observer(() => {
                 control={control}
                 render={({ field: { onChange } }) => (
                   <LibraryComponents.Atoms.Form.InputWrapper
-                  label="Lab"
-                  id="lab"
-                  hasError={errors.lab}
+                    label="Lab"
+                    id="lab"
+                    hasError={errors.lab}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    disable={
-                      loginStore.login &&
-                      loginStore.login.role !== "SYSADMIN"
-                        ? true
-                        : false
-                    }
-                    data={{
-                      list:labStore.listLabs,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      labStore.LabService.filter(
-                        {
+                      loader={loading}
+                      placeholder="Search by name"
+                      disable={
+                        loginStore.login && loginStore.login.role !== "SYSADMIN"
+                          ? true
+                          : false
+                      }  
+                      data={{
+                        list: labStore.listLabs,
+                        displayKey: "name",
+                        findKey: "name",
+                      }}
+                      hasError={errors.name}
+                      onFilter={(value: string) => {
+                        labStore.LabService.filter({
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
-                      departmentStore.updateDepartment({
-                        ...departmentStore.department,
-                        lab:item.code,
-                      })
-                      labStore.updateLabList(
-                        labStore.listLabsCopy
-                      )
-                      departmentStore.DepartmentService.checkExitsLabEnvCode({
-                        input: {
-                          code: departmentStore.department?.code,
-                          env: departmentStore.department?.environment,
-                          lab:item.code,
-                        },
-                      }).then((res) => {
-                        if (res.checkDepartmentExistsRecord.success) {
-                          departmentStore.setExitsCode(true)
-                          LibraryComponents.Atoms.Toast.error({
-                            message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                          })
-                        } else departmentStore.setExitsCode(false)
-                      })
-                      
-                    }}
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.name)
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
+                          lab: item.code,
+                        })
+                        labStore.updateLabList(labStore.listLabsCopy)
+                        departmentStore.DepartmentService.checkExitsLabEnvCode({
+                          input: {
+                            code: departmentStore.department?.code,
+                            env: departmentStore.department?.environment,
+                            lab: item.code,
+                          },
+                        }).then((res) => {
+                          if (res.checkDepartmentExistsRecord.success) {
+                            departmentStore.setExitsCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkDepartmentExistsRecord.message}`,
+                            })
+                          } else departmentStore.setExitsCode(false)
+                        })
+                      }}
                     />
-
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
                 rules={{ required: true }}
                 defaultValue=""
               />
-              
+
               <Controller
                 control={control}
                 render={({ field: { onChange } }) => (
@@ -347,16 +336,15 @@ export const Department = observer(() => {
                     hasError={errors.hod}
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list:userStore.userList,
-                      displayKey: "fullName",
-                      findKey: "fullName",
-                    }}
-                    hasError={errors.fullName}
-                    onFilter={(value: string) => {
-                      userStore.UsersService.filter(
-                        {
+                      loader={loading}
+                      data={{
+                        list: userStore.userList,
+                        displayKey: "fullName",
+                        findKey: "fullName",
+                      }}
+                      hasError={errors.fullName}
+                      onFilter={(value: string) => {
+                        userStore.UsersService.filter({
                           input: {
                             filter: {
                               type: "search",
@@ -365,22 +353,18 @@ export const Department = observer(() => {
                             page: 0,
                             limit: 10,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.fullName)
-                      departmentStore.updateDepartment({
-                        ...departmentStore.department,
-                        hod:item.fullName.toUpperCase(),
-                      })
-                      
-                     userStore.updateUserList(
-                       userStore.userListCopy
-                     )
-                    }}
+                        })
+                      }}
+                      onSelect={(item) => {
+                        onChange(item.fullName)
+                        departmentStore.updateDepartment({
+                          ...departmentStore.department,
+                          hod: item.fullName.toUpperCase(),
+                        })
+
+                        userStore.updateUserList(userStore.userListCopy)
+                      }}
                     />
-                   
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="hod"
@@ -737,9 +721,7 @@ export const Department = observer(() => {
             </LibraryComponents.Atoms.Buttons.Button>
           </LibraryComponents.Atoms.List>
         </div>
-        <div className="p-2 rounded-lg shadow-xl overflow-auto">
-         {tableView}
-        </div>
+        <div className="p-2 rounded-lg shadow-xl overflow-auto">{tableView}</div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
           click={(type?: string) => {
