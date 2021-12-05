@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -8,7 +8,7 @@ import { PossibleResultsList } from "../components/molecules"
 import { Container } from "reactstrap"
 import { dashboardRouter as dashboardRoutes } from "@lp/routes"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectAnalyteCode} from "../components/organsims"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -28,6 +28,7 @@ export const PossibleResults = observer(() => {
     possibleResultsStore,
     masterAnalyteStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLookup, setHideAddLookup] = useState<boolean>(true)
@@ -89,6 +90,57 @@ export const PossibleResults = observer(() => {
       })
     }
   }
+  
+  const tableView = useMemo(() =>(
+    <PossibleResultsList
+              data={possibleResultsStore.listPossibleResults || []}
+              totalSize={possibleResultsStore.listPossibleResultsCount}
+              extraData={{
+                listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
+                possibleResults: possibleResultsStore.possibleResults,
+                lookupItems: routerStore.lookupItems,
+                possibleResultsStore,
+              }}
+              updatePossibleResults={(values)=>{
+                possibleResultsStore.updatePossibleResults(values)
+              }}
+              isDelete={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                "Delete"
+              )}
+              isEditModify={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                "Edit/Modify"
+              )}
+              onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+              onSelectedRow={(rows) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Delete",
+                  id: rows,
+                  title: "Are you sure?",
+                  body: `Delete selected items!`,
+                })
+              }}
+              onUpdateItem={(value: any, dataField: string, id: string) => {
+                setModalConfirm({
+                  show: true,
+                  type: "Update",
+                  data: { value, dataField, id },
+                  title: "Are you sure?",
+                  body: `Update Lookup!`,
+                })
+              }}
+              onPageSizeChange={(page, limit) => {
+                possibleResultsStore.fetchListPossibleResults(page, limit)
+              }}
+              onFilter={(type, filter, page, limit) => {
+                possibleResultsStore.possibleResultsService.filter({
+                  input: { type, filter, page, limit },
+                })
+              }}
+            />
+  ), [possibleResultsStore.listPossibleResults])
 
   return (
     <>
@@ -124,46 +176,35 @@ export const PossibleResults = observer(() => {
                       label="Analyte Code"
                       hasError={errors.analyte}
                     >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.analyte ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const analyte = JSON.parse(e.target.value)
-                          onChange(analyte)
-                          possibleResultsStore.updatePossibleResults({
-                            ...possibleResultsStore.possibleResults,
-                            analyteCode: analyte.analyteCode,
-                            analyteName: analyte.analyteName,
-                          })
-                          possibleResultsStore.possibleResultsService
-                            .checkExistsEnvCode({
-                              input: {
-                                code: analyte.analyteCode,
-                                env:
-                                  possibleResultsStore.possibleResults?.environment,
-                              },
+                     <AutoCompleteFilterSingleSelectAnalyteCode
+                     onSelect={(item)=>{
+                      onChange(item.analyteCode)
+                      possibleResultsStore.updatePossibleResults({
+                        ...possibleResultsStore.possibleResults,
+                        analyteCode: item.analyteCode,
+                        analyteName: item.analyteName,
+                      })
+                      masterAnalyteStore.updateMasterAnalyteList(
+                        masterAnalyteStore.listMasterAnalyteCopy
+                      )
+                      possibleResultsStore.possibleResultsService
+                        .checkExistsEnvCode({
+                          input: {
+                            code: item.analyteCode,
+                            env:
+                              possibleResultsStore.possibleResults?.environment,
+                          },
+                        })
+                        .then((res) => {
+                          if (res.checkPossibleResultExistsRecord.success) {
+                            possibleResultsStore.updateExistsEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
                             })
-                            .then((res) => {
-                              if (res.checkPossibleResultExistsRecord.success) {
-                                possibleResultsStore.updateExistsEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
-                                })
-                              } else possibleResultsStore.updateExistsEnvCode(false)
-                            })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {masterAnalyteStore.listMasterAnalyte &&
-                          masterAnalyteStore.listMasterAnalyte.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={JSON.stringify(item)}>
-                                {`${item.analyteCode} - ${item.analyteName}`}
-                              </option>
-                            )
-                          )}
-                      </select>
+                          } else possibleResultsStore.updateExistsEnvCode(false)
+                        })
+                     }}
+                     />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="analyte"
@@ -512,54 +553,7 @@ export const PossibleResults = observer(() => {
             </LibraryComponents.Atoms.List>
           </div>
           <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-            <PossibleResultsList
-              data={possibleResultsStore.listPossibleResults || []}
-              totalSize={possibleResultsStore.listPossibleResultsCount}
-              extraData={{
-                listMasterAnalyte: masterAnalyteStore.listMasterAnalyte,
-                possibleResults: possibleResultsStore.possibleResults,
-                lookupItems: routerStore.lookupItems,
-                possibleResultsStore,
-              }}
-              updatePossibleResults={(values)=>{
-                possibleResultsStore.updatePossibleResults(values)
-              }}
-              isDelete={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                "Delete"
-              )}
-              isEditModify={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                "Edit/Modify"
-              )}
-              onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-              onSelectedRow={(rows) => {
-                setModalConfirm({
-                  show: true,
-                  type: "Delete",
-                  id: rows,
-                  title: "Are you sure?",
-                  body: `Delete selected items!`,
-                })
-              }}
-              onUpdateItem={(value: any, dataField: string, id: string) => {
-                setModalConfirm({
-                  show: true,
-                  type: "Update",
-                  data: { value, dataField, id },
-                  title: "Are you sure?",
-                  body: `Update Lookup!`,
-                })
-              }}
-              onPageSizeChange={(page, limit) => {
-                possibleResultsStore.fetchListPossibleResults(page, limit)
-              }}
-              onFilter={(type, filter, page, limit) => {
-                possibleResultsStore.possibleResultsService.filter({
-                  input: { type, filter, page, limit },
-                })
-              }}
-            />
+            {tableView}
           </div>
           <LibraryComponents.Molecules.ModalConfirm
             {...modalConfirm}

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import { SalesTeamList } from "../components/molecules"
@@ -8,7 +8,11 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as Utils from "../util"
 import { useForm, Controller } from "react-hook-form"
 import { stores, useStores } from "@lp/stores"
-
+import {AutoCompleteFilterSingleSelectSalesTerrority
+  ,AutoCompleteFilterSingleSelectEmpolyeCode,
+  AutoCompleteFilterSingleSelectReportingTo
+} 
+from "../components/organsims"
 import { RouterFlow } from "@lp/flows"
 import { toJS } from "mobx"
 
@@ -19,6 +23,7 @@ export const SalesTeam = observer(() => {
     salesTeamStore,
     administrativeDivisions,
     routerStore,
+    loading
   } = useStores()
   const {
     control,
@@ -74,6 +79,60 @@ export const SalesTeam = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    ()=>(
+      <SalesTeamList
+            data={salesTeamStore.listSalesTeam || []}
+            totalSize={salesTeamStore.listSalesTeamCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
+              userList: userStore.userList,
+              userStore: userStore,
+              filterUsersItems: Utils.filterUsersItems,
+            }}
+            isDelete={RouterFlow.checkPermission(
+              stores.routerStore.userPermission,
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              stores.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update Section!`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              salesTeamStore.fetchSalesTeam(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              salesTeamStore.salesTeamService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),[salesTeamStore.listSalesTeam]
+  )
+
+
 
   return (
     <>
@@ -145,31 +204,14 @@ export const SalesTeam = observer(() => {
                     label="Sales Territory"
                     hasError={errors.salesTerritory}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.salesTerritory
-                          ? "border-red-500  "
-                          : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const salesTerritory = JSON.parse(e.target.value)
-                        onChange(salesTerritory)
-                        salesTeamStore.updateSalesTeam({
-                          ...salesTeamStore.salesTeam,
-                          salesTerritory,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {administrativeDivisions.listAdministrativeDiv &&
-                        administrativeDivisions.listAdministrativeDiv.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.country}-${item.state}-${item.district}-${item.city}-${item.area}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    <AutoCompleteFilterSingleSelectSalesTerrority
+                    onSelect={(item)=>{
+                      salesTeamStore.updateSalesTeam({
+                        ...salesTeamStore.salesTeam,
+                        salesTerritory:item.country
+                      })
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="salesTerritory"
@@ -185,23 +227,19 @@ export const SalesTeam = observer(() => {
                       label="Employee code"
                       hasError={errors.empDetails}
                     >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.empDetails ? "border-red-500" : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const userDetials = JSON.parse(e.target.value) as any
-                          onChange(userDetials)
-                          setValue("empName", userDetials.empName)
+                      <AutoCompleteFilterSingleSelectEmpolyeCode
+                      onSelect={(item)=>{
+                        onChange(item.empCode)
+                          setValue("empName", item.fullName)
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
-                            empCode: userDetials.empCode,
-                            empName: userDetials.empName,
+                            empCode: item.empCode,
+                            empName: item.fullName,
                           })
                           salesTeamStore.salesTeamService
                             .checkExistsEnvCode({
                               input: {
-                                code: userDetials.empCode,
+                                code: item.empCode,
                                 env: salesTeamStore.salesTeam?.environment,
                               },
                             })
@@ -213,20 +251,8 @@ export const SalesTeam = observer(() => {
                                 })
                               } else salesTeamStore.updateExistsEnvCode(false)
                             })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {Utils.filterUsersItems(
-                          toJS(userStore && userStore.userList),
-                          "role",
-                          "code",
-                          "SALES"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.empCode} -${item.empName}`}
-                          </option>
-                        ))}
-                      </select>
+                      }}
+                      />
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="empDetails"
@@ -275,33 +301,15 @@ export const SalesTeam = observer(() => {
                     label="Reporting To"
                     hasError={errors.userDetials}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.userDetials ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const userDetials = JSON.parse(e.target.value) as any
-                        onChange(userDetials)
-                        salesTeamStore.updateSalesTeam({
-                          ...salesTeamStore.salesTeam,
-                          reportingTo: userDetials.empCode,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {userStore &&
-                        userStore.userList &&
-                        Utils.filterUsersItems(
-                          userStore.userList,
-                          "role",
-                          "code",
-                          "SALES"
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.empCode} -${item.empName}`}
-                          </option>
-                        ))}
-                    </select>
+                   <AutoCompleteFilterSingleSelectReportingTo
+                   onSelect={(item)=>{
+                    onChange(item.code)
+                    salesTeamStore.updateSalesTeam({
+                      ...salesTeamStore.salesTeam,
+                      reportingTo:item.empCode
+                    })
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="userDetials"
@@ -393,53 +401,7 @@ export const SalesTeam = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-scroll">
-          <SalesTeamList
-            data={salesTeamStore.listSalesTeam || []}
-            totalSize={salesTeamStore.listSalesTeamCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listAdministrativeDiv: administrativeDivisions.listAdministrativeDiv,
-              userList: userStore.userList,
-              userStore: userStore,
-              filterUsersItems: Utils.filterUsersItems,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update Section!`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              salesTeamStore.fetchSalesTeam(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              salesTeamStore.salesTeamService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

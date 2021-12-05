@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import * as LibraryComponents from "@lp/library/components"
@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components/molecules"
-
+import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -20,7 +20,7 @@ const Section = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, sectionStore, departmentStore,routerStore } = useStores()
+  const { loginStore, sectionStore, departmentStore,routerStore,loading } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
   useEffect(() => {
@@ -83,6 +83,55 @@ const Section = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <SectionList
+            data={sectionStore.listSection || []}
+            totalSize={sectionStore.listSectionCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listDepartment:departmentStore.listDepartment
+            }}
+            isDelete={RouterFlow.checkPermission(
+              stores.routerStore.userPermission,
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              stores.routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update Section!`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              sectionStore.fetchSections(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              sectionStore.sectionService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [sectionStore.listSection]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -117,29 +166,18 @@ const Section = observer(() => {
                     label="Department Code"
                     hasError={errors.departmentCode}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.departmentCode ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const departmentCode = e.target.value as string
-                        onChange(departmentCode)
-                        sectionStore.updateSection({
-                          ...sectionStore.section,
-                          departmentCode,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment &&
-                        departmentStore.listDepartment.map(
-                          (item: any, key: number) => (
-                            <option key={key} value={item.code}>
-                              {`${item.code} - ${item.name}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    <AutoCompleteFilterSingleSelectDepartment
+                    onSelect={(item)=>{
+                      onChange(item.name)
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
+                        departmentCode:item.code
+                      })
+                        departmentStore.updateDepartmentList(
+                          departmentStore.listDepartmentCopy
+                        )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="departmentCode"
@@ -486,49 +524,7 @@ const Section = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <SectionList
-            data={sectionStore.listSection || []}
-            totalSize={sectionStore.listSectionCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listDepartment:departmentStore.listDepartment
-            }}
-            isDelete={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              stores.routerStore.userPermission,
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update Section!`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              sectionStore.fetchSections(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              sectionStore.sectionService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

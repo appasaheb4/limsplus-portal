@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectDepartment } from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -27,6 +27,7 @@ const TestMater = observer(() => {
     departmentStore,
     deliveryScheduleStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -142,6 +143,77 @@ const TestMater = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.TestMasterList
+            data={testMasterStore.listTestMaster || []}
+            totalSize={testMasterStore.listTestMasterCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              labList: loginStore.login?.labList,
+              listLabs: labStore.listLabs,
+              listDepartment: departmentStore.listDepartment,
+              sectionListByDeptCode: testMasterStore.sectionListByDeptCode,
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              testMasterStore.fetchTestMaster(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              testMasterStore.testMasterService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [testMasterStore.listTestMaster]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -237,33 +309,45 @@ const TestMater = observer(() => {
                     label="PLab"
                     hasError={errors.pLab}
                   >
-                    <select
-                      value={testMasterStore.testMaster?.pLab}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.pLab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const pLab = e.target.value as string
-                        onChange(pLab)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          pLab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      stores.loginStore.login &&
+                      stores.loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      testMasterStore.updateTestMaster({
+                        ...testMasterStore.testMaster,
+                        pLab:item.code
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="pLab"
@@ -278,29 +362,19 @@ const TestMater = observer(() => {
                     label="Department"
                     hasError={errors.department}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const department = e.target.value as string
-                        onChange(department)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          department,
-                        })
-                        testMasterStore.findSectionListByDeptCode(department)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
+                   <AutoCompleteFilterSingleSelectDepartment
+                   onSelect={(item)=>{
+                    onChange(item.name)
+                    testMasterStore.updateTestMaster({
+                      ...testMasterStore.testMaster,
+                      department:item.code
+                    })
+                     departmentStore.updateDepartmentList(
+                       departmentStore.listDepartmentCopy
+                     )
+                     testMasterStore.findSectionListByDeptCode(item.code)
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="department"
@@ -494,30 +568,39 @@ const TestMater = observer(() => {
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const schedule = e.target.value as string
-                        onChange(schedule)
-                        testMasterStore.updateTestMaster({
-                          ...testMasterStore.testMaster,
-                          schedule,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {deliveryScheduleStore.listDeliverySchedule &&
-                        deliveryScheduleStore.listDeliverySchedule?.length > 0 &&
-                        deliveryScheduleStore.listDeliverySchedule?.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.schCode}>
-                              {`${item.schCode}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:deliveryScheduleStore.listDeliverySchedule,
+                      displayKey: "schCode",
+                      findKey: "schCode",
+                    }}
+                    hasError={errors.schCode}
+                    onFilter={(value: string) => {
+                     deliveryScheduleStore.deliveryScheduleService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["schCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.schCode)
+                     testMasterStore.updateTestMaster({
+                       ...testMasterStore.testMaster,
+                       schedule:item.schCode
+                     })
+                      deliveryScheduleStore.updateDeliveryScheduleList(
+                        deliveryScheduleStore.listDeliveryScheduleCopy
+                      )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
@@ -1716,71 +1799,7 @@ const TestMater = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.TestMasterList
-            data={testMasterStore.listTestMaster || []}
-            totalSize={testMasterStore.listTestMasterCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              labList: loginStore.login?.labList,
-              listLabs: labStore.listLabs,
-              listDepartment: departmentStore.listDepartment,
-              sectionListByDeptCode: testMasterStore.sectionListByDeptCode,
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              testMasterStore.fetchTestMaster(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              testMasterStore.testMasterService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

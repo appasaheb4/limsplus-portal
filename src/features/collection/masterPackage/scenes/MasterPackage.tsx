@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
@@ -20,7 +20,7 @@ const MasterPackage = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, masterPackageStore, labStore, masterPanelStore,routerStore } = useStores()
+  const { loginStore, masterPackageStore, labStore, masterPanelStore,routerStore,loading} = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
   const [arrPackageItems, setArrPackageItems] = useState<Array<any>>()
@@ -142,6 +142,74 @@ const MasterPackage = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.PackageMasterList
+            data={masterPackageStore.listMasterPackage || []}
+            totalSize={masterPackageStore.listMasterPackageCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              listLabs:labStore.listLabs
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              masterPackageStore.fetchPackageMaster(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              masterPackageStore.masterPackageService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [masterPackageStore.listMasterPackage]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -177,51 +245,63 @@ const MasterPackage = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={masterPackageStore.masterPackage?.lab}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        masterPackageStore.updateMasterPackage({
-                          ...masterPackageStore.masterPackage,
-                          lab,
-                        })
-                        if (!masterPackageStore.masterPackage?.existsVersionId) {
-                          masterPackageStore.masterPackageService
-                            .checkExitsLabEnvCode({
-                              input: {
-                                code: masterPackageStore.masterPackage?.packageCode,
-                                env: masterPackageStore.masterPackage?.environment,
-                                lab,
-                              },
-                            })
-                            .then((res) => {
-                              if (res.checkPackageMasterExistsRecord.success) {
-                                masterPackageStore.updateExistsLabEnvCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                })
-                              } else masterPackageStore.updateExistsLabEnvCode(false)
-                            })
+                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      masterPackageStore.updateMasterPackage({
+                        ...masterPackageStore.masterPackage,
+                        lab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      if (!masterPackageStore.masterPackage?.existsVersionId) {
+                        masterPackageStore.masterPackageService
+                          .checkExitsLabEnvCode({
+                            input: {
+                              code: masterPackageStore.masterPackage?.packageCode,
+                              env: masterPackageStore.masterPackage?.environment,
+                              lab:item.code,
+                            },
+                          })
+                          .then((res) => {
+                            if (res.checkPackageMasterExistsRecord.success) {
+                              masterPackageStore.updateExistsLabEnvCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
+                              })
+                            } else masterPackageStore.updateExistsLabEnvCode(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -698,68 +778,7 @@ const MasterPackage = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.PackageMasterList
-            data={masterPackageStore.listMasterPackage || []}
-            totalSize={masterPackageStore.listMasterPackageCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              listLabs:labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              masterPackageStore.fetchPackageMaster(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              masterPackageStore.masterPackageService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

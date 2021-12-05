@@ -4,6 +4,7 @@ import daysjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import {AutoCompleteFilterSingleSelectPlabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod} from '../organsims'
 import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
   
 interface PanelMasterListProps {
@@ -94,25 +95,11 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="PLab">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const pLab = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(pLab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listLabs.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectPlabs
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -133,25 +120,11 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Department">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const department = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(department, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectDepartment
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -292,24 +265,11 @@ const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper
-                    label="Panel Method"
-                  >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                      onChange={(e) => {
-                        const panelMethod = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(panelMethod,column.dataField,row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listMethods.map((item: any, index: number) => (
-                        <option key={index} value={item.methodsCode}>
-                          {`${item.methodsCode} - ${item.methodsName}`}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectPanelMethod
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.methodsName,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },

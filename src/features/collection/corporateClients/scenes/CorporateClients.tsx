@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import _ from "lodash"
 import dayjs from "dayjs"
@@ -21,7 +21,7 @@ const CorporateClients = observer(() => {
     setValue,
   } = useForm()
 
-  const { loginStore, labStore, corporateClientsStore, routerStore } = useStores()
+  const { loginStore, labStore, corporateClientsStore, routerStore,loading } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddSection, setHideAddSection] = useState<boolean>(true)
 
@@ -132,6 +132,74 @@ const CorporateClients = observer(() => {
       })
     }
   }
+
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.CorporateClient
+            data={corporateClientsStore.listCorporateClients || []}
+            totalSize={corporateClientsStore.listCoporateClientsCount}
+            extraData={{
+              lookupItems: routerStore.lookupItems,
+              listLabs:labStore.listLabs
+            }}
+            isDelete={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update Section!`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              corporateClientsStore.fetchCorporateClients(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              corporateClientsStore.corporateClientsService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),
+    [corporateClientsStore.listCorporateClients]
+  )
 
   return (
     <>
@@ -951,27 +1019,41 @@ const CorporateClients = observer(() => {
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                    <select
-                      value={corporateClientsStore.corporateClients?.schedule}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const schedule = e.target.value as string
-                        onChange(schedule)
-                        corporateClientsStore.updateCorporateClients({
-                          ...corporateClientsStore.corporateClients,
-                          schedule,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                     corporateClientsStore.updateCorporateClients({
+                       ...corporateClientsStore.corporateClients,
+                       schedule:item.code
+                     })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
@@ -1195,68 +1277,7 @@ const CorporateClients = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.CorporateClient
-            data={corporateClientsStore.listCorporateClients || []}
-            totalSize={corporateClientsStore.listCoporateClientsCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listLabs:labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              routerStore.userPermission,
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update Section!`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              corporateClientsStore.fetchCorporateClients(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              corporateClientsStore.corporateClientsService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}
