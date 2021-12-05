@@ -3,7 +3,9 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import {AutoCompleteFilterSingleSelectTestCode
+,AutoCompleteFilterSingleSelectSampleCode,AutoCompleteFilterSingleSelectSampleType
+,AutoCompleteFilterSingleSelectSampleGroup,AutoCompleteFilterSingleSelectContainerCode,AutoCompleteFilterSingleSelectContainerName} from "../orgransims"
 interface TestSampleMappingListProps {
   data: any
   totalSize: number
@@ -47,26 +49,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Test Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const testCode = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(testCode, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listTestMaster &&
-                        props.extraData.listTestMaster.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.testCode}>
-                              {item.testCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectTestCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.testCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -85,26 +72,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Sample Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const sampleCode = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sampleCode, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listSampleType &&
-                        props.extraData.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleCode}>
-                              {item.sampleCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectSampleCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.sampleCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -123,26 +95,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Sample Type">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const sampleType = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sampleType, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listSampleType &&
-                        props.extraData.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleType}>
-                              {item.sampleType}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectSampleType
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.sampleType,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -161,26 +118,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Sample Group">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const sampleGroup = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(sampleGroup, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listSampleType &&
-                        props.extraData.listSampleType.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.sampleGroup}>
-                              {item.sampleGroup}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectSampleGroup
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.sampleGroup,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -199,31 +141,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const collContainerCode = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            collContainerCode,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData
-                        .listSampleContainer &&
-                        props.extraData.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerCode}>
-                              {item.containerCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectContainerCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.containerCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -242,31 +164,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Coll Container Name">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const collContainerName = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            collContainerName,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData
-                        .listSampleContainer &&
-                        props.extraData.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerName}>
-                              {item.containerName}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                 <AutoCompleteFilterSingleSelectContainerName
+                 onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.containerName,column.dataField,row._id)
+                 }} 
+                 />
                 </>
               ),
             },
@@ -285,31 +187,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Code">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const testContainerCode = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            testContainerCode,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData
-                        .listSampleContainer &&
-                        props.extraData.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerCode}>
-                              {item.containerCode}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectContainerCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.containerCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -328,31 +210,11 @@ const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Test Container Name">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-00 rounded-md"
-                      onChange={(e) => {
-                        const testContainerName = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            testContainerName,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData
-                        .listSampleContainer &&
-                        props.extraData.listSampleContainer.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.containerName}>
-                              {item.containerName}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectContainerName
+                 onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.containerName,column.dataField,row._id)
+                 }} 
+                 />
                 </>
               ),
             },

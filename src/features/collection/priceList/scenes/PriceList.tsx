@@ -1,12 +1,12 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState,useMemo } from "react"
 import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
 import dayjs from "dayjs"
-
+import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
 import { useStores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -27,6 +27,7 @@ export const PriceList = observer(() => {
     masterPanelStore,
     priceListStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -135,6 +136,74 @@ export const PriceList = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=>(
+      <FeatureComponents.Molecules.PriceList
+            data={priceListStore.listPriceList || []}
+            totalSize={priceListStore.listPriceListCount}
+            extraData={{
+              lookupItems: routerStore.lookupItems,
+              listCorporateClients: corporateClientsStore.listCorporateClients,
+              listMasterPanel:masterPanelStore.listMasterPanel,
+              listLabs:labStore.listLabs
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update item!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page,limit) => {
+              priceListStore.fetchListPriceList(page,limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              priceListStore.priceListService.filter({
+                input: { type, filter, page, limit },
+              })
+            }}
+          />
+    ),[priceListStore.listPriceList]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -167,20 +236,18 @@ export const PriceList = observer(() => {
                     label="Panel Code"
                     hasError={errors.panelCode}
                   >
-                    <select
-                      value={priceListStore.priceList.panelCode}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelCode ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const panel = JSON.parse(e.target.value) as any
-                        onChange(panel)
-                        setValue("panelName", panel.panelName)
+                    <AutoCompleteFilterSingleSelectPanelCode
+                    onSelect={(item)=>{
+                      onChange(item.panelName)
+                      setValue("panelName", item.panelName)
                         priceListStore.updatePriceList({
                           ...priceListStore.priceList,
-                          panelCode: panel.panelCode,
-                          panelName: panel.panelName,
+                          panelCode: item.panelCode,
+                          panelName: item.panelName,
                         })
+                        masterPanelStore.updatePanelMasterList(
+                          masterPanelStore.listMasterPanelCopy
+                        )
                         if (!priceListStore.priceList?.existsVersionId) {
                           priceListStore.priceListService
                             .checkExitsPriceGEnvLabCode({
@@ -188,7 +255,7 @@ export const PriceList = observer(() => {
                                 priceGroup: priceListStore.priceList.priceGroup,
                                 env: priceListStore.priceList.environment,
                                 lab: priceListStore.priceList?.lab,
-                                code: panel.panelCode,
+                                code: item.panelCode,
                               },
                             })
                             .then((res) => {
@@ -202,20 +269,8 @@ export const PriceList = observer(() => {
                                 priceListStore.updateExitsPriceGEnvLabCode(false)
                             })
                         }
-                      }}
-                    >
-                      <option selected>
-                        {priceListStore.priceList.panelCode || "Select"}
-                      </option>
-                      {masterPanelStore.listMasterPanel &&
-                        masterPanelStore.listMasterPanel.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.panelName} - ${item.panelCode}  `}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelCode"
@@ -349,33 +404,42 @@ export const PriceList = observer(() => {
                     label="Bill To"
                     hasError={errors.billTo}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.billTo ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const corporateClientsInfo = JSON.parse(e.target.value)
-                        onChange(corporateClientsInfo.corporateCode)
-                        console.log({ corporateClientsInfo })
-
-                        priceListStore.updatePriceList({
-                          ...priceListStore.priceList,
-                          billTo: corporateClientsInfo.corporateCode,
-                          clientName: corporateClientsInfo.corporateName,
-                          invoiceAc: corporateClientsInfo.invoiceAc,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {corporateClientsStore.listCorporateClients &&
-                        corporateClientsStore.listCorporateClients.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.corporateCode} - ${item.corporateName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                  
+                    data={{
+                      list:corporateClientsStore.listCorporateClients,
+                      displayKey: "corporateCode",
+                      findKey: "corporateCode",
+                    }}
+                    hasError={errors.corporateName}
+                    onFilter={(value: string) => {
+                      corporateClientsStore.corporateClientsService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["corporateName"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.corporateName)
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        billTo: item.corporateCode,
+                        clientName: item.corporateName,
+                        invoiceAc: item.invoiceAc,
+                      })
+                      corporateClientsStore.updateCorporateClientsList(
+                        corporateClientsStore.listCorporateClientsCopy
+                      )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="billTo"
@@ -427,53 +491,66 @@ export const PriceList = observer(() => {
                     label="Lab"
                     hasError={errors.lab}
                   >
-                    <select
-                      value={priceListStore.priceList?.lab}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.lab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        onChange(lab)
-                        priceListStore.updatePriceList({
-                          ...priceListStore.priceList,
-                          lab,
-                        })
-                        if (!priceListStore.priceList?.existsVersionId) {
-                          priceListStore.priceListService
-                            .checkExitsPriceGEnvLabCode({
-                              input: {
-                                priceGroup: priceListStore.priceList.priceGroup,
-                                env: priceListStore.priceList.environment,
-                                lab,
-                                code: priceListStore.priceList.panelCode,
-                              },
-                            })
-                            .then((res) => {
-                              console.log({ res })
-                              if (res.checkPriceListExistsRecord.success) {
-                                priceListStore.updateExitsPriceGEnvLabCode(true)
-                                LibraryComponents.Atoms.Toast.error({
-                                  message: `😔 ${res.checkPriceListExistsRecord.message}`,
-                                })
-                              } else
-                                priceListStore.updateExitsPriceGEnvLabCode(false)
-                            })
+                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      priceListStore.updatePriceList({
+                        ...priceListStore.priceList,
+                        lab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                      if (!priceListStore.priceList?.existsVersionId) {
+                        priceListStore.priceListService
+                          .checkExitsPriceGEnvLabCode({
+                            input: {
+                              priceGroup: priceListStore.priceList.priceGroup,
+                              env: priceListStore.priceList.environment,
+                              lab:item.code,
+                              code: priceListStore.priceList.panelCode,
+                            },
+                          })
+                          .then((res) => {
+                            console.log({ res })
+                            if (res.checkPriceListExistsRecord.success) {
+                              priceListStore.updateExitsPriceGEnvLabCode(true)
+                              LibraryComponents.Atoms.Toast.error({
+                                message: `😔 ${res.checkPriceListExistsRecord.message}`,
+                              })
+                            } else
+                              priceListStore.updateExitsPriceGEnvLabCode(false)
+                          })
+                      }
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="lab"
@@ -922,69 +999,7 @@ export const PriceList = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.PriceList
-            data={priceListStore.listPriceList || []}
-            totalSize={priceListStore.listPriceListCount}
-            extraData={{
-              lookupItems: routerStore.lookupItems,
-              listCorporateClients: corporateClientsStore.listCorporateClients,
-              listMasterPanel:masterPanelStore.listMasterPanel,
-              listLabs:labStore.listLabs
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update item!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page,limit) => {
-              priceListStore.fetchListPriceList(page,limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              priceListStore.priceListService.filter({
-                input: { type, filter, page, limit },
-              })
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

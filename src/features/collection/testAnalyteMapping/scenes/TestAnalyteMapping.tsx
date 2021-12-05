@@ -245,9 +245,14 @@ const TestAnalyteMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
                     data={{
                       list:labStore.listLabs,
-                      selected:testAnalyteMappingStore.selectedItems?.lab,
                       displayKey: "name",
                       findKey: "name",
                     }}
@@ -349,18 +354,35 @@ const TestAnalyteMapping = observer(() => {
                     label="Test Name"
                     hasError={errors.testName}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.testName ? "border-red-500  " : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const testMasteritem = JSON.parse(e.target.value)
-                        onChange(testMasteritem.testName)
-                        setValue("testCode", testMasteritem.testCode)
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:testMasterStore.listTestMaster,
+                      displayKey: "testName",
+                      findKey: "testName",
+                    }}
+                    hasError={errors.testName}
+                    onFilter={(value: string) => {
+                      testMasterStore.testMasterService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["testName"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.testName)
+                      setValue("testCode", item.testCode)
                         testAnalyteMappingStore.updateTestAnalyteMapping({
                           ...testAnalyteMappingStore.testAnalyteMapping,
-                          testName: testMasteritem.testName,
-                          testCode: testMasteritem.testCode,
+                          testName: item.testName,
+                          testCode: item.testCode,
                         })
                         if (
                           !testAnalyteMappingStore.testAnalyteMapping
@@ -369,7 +391,7 @@ const TestAnalyteMapping = observer(() => {
                           testAnalyteMappingStore.testAnalyteMappingService
                             .checkExitsLabEnvCode({
                               input: {
-                                code: testMasteritem.testCode,
+                                code: item.testCode,
                                 env:
                                   testAnalyteMappingStore.testAnalyteMapping
                                     ?.environment,
@@ -386,18 +408,8 @@ const TestAnalyteMapping = observer(() => {
                                 testAnalyteMappingStore.updateExistsLabEnvCode(false)
                             })
                         }
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {testMasterStore.listTestMaster &&
-                        testMasterStore.listTestMaster.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.testName} - ${item.testCode}`}
-                            </option>
-                          )
-                        )}
-                    </select>
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="testName"
@@ -423,6 +435,20 @@ const TestAnalyteMapping = observer(() => {
                         list: masterAnalyteStore.listMasterAnalyte || [],
                         displayKey: ["analyteName", "analyteCode"],
                         findKey: ["analyteName", "analyteCode"],
+                      }}
+                      onFilter={(value: string) => {
+                        masterAnalyteStore.masterAnalyteService.filter(
+                          {
+                            input: {
+                              filter: {
+                                type: "search",
+                                ["analyteName"]: value,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          }
+                        )
                       }}
                       onUpdate={(items) => {
                         onChange(items)

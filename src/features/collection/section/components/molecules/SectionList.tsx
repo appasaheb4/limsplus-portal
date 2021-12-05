@@ -3,6 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
+import {AutoCompleteFilterSingleSelectDepartment} from '../organsims'
 interface SectionListProps {
   data: any
   totalSize: number
@@ -49,26 +50,11 @@ export const SectionList = (props: SectionListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Department Code">
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const departmentCode = e.target.value as string
-                      props.onUpdateItem &&
-                        props.onUpdateItem(departmentCode, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listDepartment &&
-                      props.extraData.listDepartment.map(
-                        (item: any, key: number) => (
-                          <option key={key} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+               <AutoCompleteFilterSingleSelectDepartment
+               onSelect={(item)=>{
+                props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+               }}
+               />
               </>
             ),
           },

@@ -9,6 +9,7 @@ import dayjs from "dayjs"
 export class MasterPanelStore {
   masterPanel!: Models.MasterPanel
   listMasterPanel: Models.MasterPanel[]
+  listMasterPanelCopy!: Models.MasterPanel[]
   listMasterPanelCount!: number
   checkExitsLabEnvCode!: boolean
   sectionListByDeptCode!: ModelsSection.Section[]
@@ -64,9 +65,15 @@ export class MasterPanelStore {
   }
   
   updatePanelMasterList(res: any) {
-    if (!res.panelMasters.success) return alert(res.panelMasters.message)
-    this.listMasterPanel = res.panelMasters.data
-    this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.panelMasters.success) return alert(res.panelMasters.message)
+       this.listMasterPanel = res.panelMasters.data
+       this.listMasterPanelCopy = res.panelMasters.data
+        this.listMasterPanelCount = res.panelMasters.paginatorInfo.count
+    }else{
+      this.listMasterPanel = res
+    }
+    
   }  
          
   filterPanelMasterList(res: any) {

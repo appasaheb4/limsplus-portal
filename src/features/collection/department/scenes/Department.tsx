@@ -189,9 +189,14 @@ export const Department = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
                     data={{
                       list:labStore.listLabs,
-                      selected:departmentStore.selectedItems?.lab,
                       displayKey: "name",
                       findKey: "name",
                     }}
@@ -345,7 +350,6 @@ export const Department = observer(() => {
                     loader={loading}
                     data={{
                       list:userStore.userList,
-                      selected:departmentStore.selectedItems?.hod,
                       displayKey: "fullName",
                       findKey: "fullName",
                     }}

@@ -4,7 +4,7 @@ import dayjs from "dayjs"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import {AutoCompleteFilterSingleSelectLabs,AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectAnalyteCode,AutoCompleteFilterSingleSelectAnalyteName} from "../organsims"
 interface ReferenceRangesProps {
   data: any
   totalSize: number
@@ -54,30 +54,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const analyte = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            analyte.analyteCode,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listMasterAnalyte &&
-                        props.extraData.listMasterAnalyte.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.analyteCode} - ${item.analyteName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectAnalyteCode
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.analyteCode,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -97,30 +78,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const analyte = JSON.parse(e.target.value)
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            analyte.analyteName,
-                            column.dataField,
-                            row._id
-                          )
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listMasterAnalyte &&
-                        props.extraData.listMasterAnalyte.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {`${item.analyteName}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectAnalyteName
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.analyteName,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -140,26 +102,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper>
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const department = e.target.value
-                        props.onUpdateItem &&
-                          props.onUpdateItem(department, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listDepartment &&
-                        props.extraData.listDepartment.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {`${item.code} - ${item.name}`}
-                            </option>
-                          )
-                        )}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectDepartment
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },
@@ -343,23 +290,11 @@ const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                    <select
-                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                      onChange={(e) => {
-                        const lab = e.target.value as string
-                        props.onUpdateItem &&
-                          props.onUpdateItem(lab, column.dataField, row._id)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {props.extraData.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </LibraryComponents.Atoms.Form.InputWrapper>
+                  <AutoCompleteFilterSingleSelectLabs
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
+                  }}
+                  />
                 </>
               ),
             },

@@ -7,6 +7,7 @@ export class CorporateClientsStore {
   corporateClients!: Models.CorporateClients
   listCoporateClientsCount: number
   listCorporateClients: Models.CorporateClients[]
+  listCorporateClientsCopy!: Models.CorporateClients[]
   checkExistsEnvCode: boolean
 
   constructor() {
@@ -46,9 +47,15 @@ export class CorporateClientsStore {
   }
 
   updateCorporateClientsList(res: any) {
-    if (!res.corporateClients.success) return alert(res.corporateClients.message)
-    this.listCoporateClientsCount = res.corporateClients.paginatorInfo.count
-    this.listCorporateClients = res.corporateClients.data
+    if(!Array.isArray(res)){
+      if (!res.corporateClients.success) return alert(res.corporateClients.message)
+      this.listCoporateClientsCount = res.corporateClients.paginatorInfo.count
+      this.listCorporateClients = res.corporateClients.data
+      this.listCorporateClientsCopy = res.corporateClients.data
+    }else{
+      this.listCorporateClients = res
+    }
+    
   }
 
   filterCorporateClientsList(res: any){

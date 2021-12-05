@@ -16,6 +16,7 @@ interface AutoCompleteCheckMultiFilterKeysProps {
   }
   defaultData?: any[]
   onUpdate?: (item: any) => void
+  onFilter?: (value: string) => void
 }
 
 export const AutoCompleteCheckMultiFilterKeys = observer(
@@ -102,40 +103,40 @@ export const AutoCompleteCheckMultiFilterKeys = observer(
       setOptions(options)
     }
 
-    const filter = (search, data) => {
-      if (search) {
-        const filterArray = data.filter((item) => {
-          const filed: any = props.data?.findKey?.filter((findKey) => {
-            const value = item[findKey]
-            return value.toLowerCase().indexOf(search.toLowerCase()) > -1
-          })
-          const value = item[filed[0]]
-          console.log({ value })
-          if (value) {
-            return value.toLowerCase().indexOf(search.toLowerCase()) > -1
-          } else {
-            return
-          }
-        })
+    // const filter = (search, data) => {
+    //   if (search) {
+    //     const filterArray = data.filter((item) => {
+    //       const filed: any = props.data?.findKey?.filter((findKey) => {
+    //         const value = item[findKey]
+    //         return value.toLowerCase().indexOf(search.toLowerCase()) > -1
+    //       })
+    //       const value = item[filed[0]]
+    //       console.log({ value })
+    //       if (value) {
+    //         return value.toLowerCase().indexOf(search.toLowerCase()) > -1
+    //       } else {
+    //         return
+    //       }
+    //     })
 
-        console.log({ filterArray })
-        setOptions(filterArray)
-      } else {
-        setOptions(originalOptions)
-      }
-    }
+    //     console.log({ filterArray })
+    //     setOptions(filterArray)
+    //   } else {
+    //     setOptions(originalOptions)
+    //   }
+    // }
 
     const onChange = (e) => {
       const search = e.target.value
       setValue(search)
-      filter(search, options)
+      props.onFilter && props.onFilter(search)
     }
 
     const onKeyUp = (e) => {
       const charCode = e.which ? e.which : e.keyCode
       if (charCode === 8) {
         const search = e.target.value
-        filter(search, originalOptions)
+        props.onFilter && props.onFilter(search)
       }
     }
 
