@@ -61,12 +61,12 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
       return list
     }
 
-    useEffect(()=>{
-        environmentStore.updateSelectedItems({
-            ...environmentStore.selectedItems,
-            users:selected,
-          })
-    },[selected])
+    useEffect(() => {
+      environmentStore.updateSelectedItems({
+        ...environmentStore.selectedItems,
+        users: selected,
+      })
+    }, [selected])
 
     useEffect(() => {
       setOriginalOptions(
@@ -84,13 +84,13 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
         )
       )
     }, [userStore.userList, environmentStore.selectedItems?.users])
-
+   
     const onFilter = (value: string) => {
       userStore.UsersService.filter({
         input: {
+          type: "filter",
           filter: {
-            type: "search",
-            ["fullName"]: value,
+            fullName: value,
           },
           page: 0,
           limit: 10,
@@ -115,7 +115,6 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
       })
     }
 
-
     const onChange = (e) => {
       const search = e.target.value
       setValue(search)
@@ -137,7 +136,7 @@ export const AutoCompleteFilterMutiSelectUsers = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search..."
+              placeholder="Search by name..."
               value={
                 !isListOpen
                   ? `${
