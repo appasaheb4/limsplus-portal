@@ -108,7 +108,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.panelName}
+                            {item.panelCode} -  {item.panelName}
                           </label>
                         </li>
                       </>

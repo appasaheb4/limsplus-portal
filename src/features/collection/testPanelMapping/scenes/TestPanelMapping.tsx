@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectPanelCode} from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -319,63 +319,41 @@ const TestPanelMapping = observer(() => {
                     label="Panel Code"
                     hasError-={errors.panelCode}
                   >
-                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    // disable={}
-                    data={{
-                      list:masterPanelStore.listMasterPanel,
-                      displayKey: "panelName",
-                      findKey: "panelName",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      masterPanelStore.masterPanelService.filter(
-                        {
+                   <AutoCompleteFilterSingleSelectPanelCode
+                   onSelect={(item)=>{
+                    onChange(item.panelName)
+                    testPanelMappingStore.updateTestPanelMapping({
+                      ...testPanelMappingStore.testPanelMapping,
+                      panelCode: item.panelCode,
+                    })
+                    masterPanelStore.updatePanelMasterList(
+                      masterPanelStore.listMasterPanelCopy
+                    )
+                    if (
+                      !testPanelMappingStore.testPanelMapping?.existsVersionId
+                    ) {
+                      testPanelMappingStore.testPanelMappingService
+                        .checkExitsLabEnvCode({
                           input: {
-                            filter: {
-                              type: "search",
-                              ["panelName"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
+                            code: item.panelCode,
+                            env:
+                              testPanelMappingStore.testPanelMapping
+                                ?.environment,
+                            lab: testPanelMappingStore.testPanelMapping?.lab,
                           },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.panelName)
-                      testPanelMappingStore.updateTestPanelMapping({
-                        ...testPanelMappingStore.testPanelMapping,
-                        panelCode: item.panelCode,
-                      })
-                      masterPanelStore.updatePanelMasterList(
-                        masterPanelStore.listMasterPanelCopy
-                      )
-                      if (
-                        !testPanelMappingStore.testPanelMapping?.existsVersionId
-                      ) {
-                        testPanelMappingStore.testPanelMappingService
-                          .checkExitsLabEnvCode({
-                            input: {
-                              code: item.panelCode,
-                              env:
-                                testPanelMappingStore.testPanelMapping
-                                  ?.environment,
-                              lab: testPanelMappingStore.testPanelMapping?.lab,
-                            },
-                          })
-                          .then((res) => {
-                            if (res.checkTestPanelMappingsExistsRecord.success) {
-                              testPanelMappingStore.updateExistsLabEnvCode(true)
-                              LibraryComponents.Atoms.Toast.error({
-                                message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                              })
-                            } else
-                              testPanelMappingStore.updateExistsLabEnvCode(false)
-                          })
-                      }
-                    }}
-                    />
+                        })
+                        .then((res) => {
+                          if (res.checkTestPanelMappingsExistsRecord.success) {
+                            testPanelMappingStore.updateExistsLabEnvCode(true)
+                            LibraryComponents.Atoms.Toast.error({
+                              message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
+                            })
+                          } else
+                            testPanelMappingStore.updateExistsLabEnvCode(false)
+                        })
+                    }
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelCode"

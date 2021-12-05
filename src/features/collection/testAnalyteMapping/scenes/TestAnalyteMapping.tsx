@@ -6,7 +6,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectTestName} from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -354,29 +354,8 @@ const TestAnalyteMapping = observer(() => {
                     label="Test Name"
                     hasError={errors.testName}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list:testMasterStore.listTestMaster,
-                      displayKey: "testName",
-                      findKey: "testName",
-                    }}
-                    hasError={errors.testName}
-                    onFilter={(value: string) => {
-                      testMasterStore.testMasterService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["testName"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
+                    <AutoCompleteFilterSingleSelectTestName
+                    onSelect={(item)=>{
                       onChange(item.testName)
                       setValue("testCode", item.testCode)
                         testAnalyteMappingStore.updateTestAnalyteMapping({

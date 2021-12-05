@@ -5,13 +5,13 @@ import { observer } from "mobx-react"
 import { useStores } from "@lp/stores"
 import * as LibraryComponents from "@lp/library/components"
 
-interface AutoCompleteFilterSingleSelectLabsProps {
+interface AutoCompleteFilterSingleSelectTestNameProps {
   onSelect: (item: any) => void
 }
 
-export const AutoCompleteFilterSingleSelectLabs = observer(
-  ({ onSelect }: AutoCompleteFilterSingleSelectLabsProps) => {
-    const { loading, labStore } = useStores()
+export const AutoCompleteFilterSingleSelectTestName = observer(
+  ({ onSelect }: AutoCompleteFilterSingleSelectTestNameProps) => {
+    const { loading, testMasterStore } = useStores()
     const [value, setValue] = useState<string>("")
     const [options, setOptions] = useState<any[]>()
     const [isListOpen, setIsListOpen] = useState<boolean>(false)
@@ -35,15 +35,15 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
     useOutsideAlerter(wrapperRef)
 
     useEffect(() => {
-      setOptions(labStore.listLabs)
-    }, [labStore.listLabs])
+      setOptions(testMasterStore.listTestMaster)
+    }, [testMasterStore.listTestMaster])
 
     const onFilter = (value: string) => {
-      labStore.LabService.filter({
+        testMasterStore.testMasterService.filter({
         input: {
           filter: {
             type: "search",
-            ["name"]: value,
+            ["testName"]: value,
           },
           page: 0,
           limit: 10,
@@ -97,10 +97,10 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
                           key={index}
                           className="text-gray-400 flex items-center"
                           onClick={() => {
-                            setValue(item.name)
+                            setValue(item.testName)
                             setIsListOpen(false)
-                            labStore.updateLabList(
-                              labStore.listLabsCopy
+                            testMasterStore.updateTestMasterList(
+                                testMasterStore.listTestMasterCopy
                             )
                             onSelect(item)
                           }}
@@ -108,7 +108,7 @@ export const AutoCompleteFilterSingleSelectLabs = observer(
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.name}
+                            {item.testCode} - {item.testName}
                           </label>
                         </li>
                       </>

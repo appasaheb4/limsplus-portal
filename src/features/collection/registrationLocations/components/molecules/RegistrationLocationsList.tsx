@@ -527,13 +527,13 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-<<<<<<< HEAD
                  <AutoCompleteFilterSingleSelectLabs
                  onSelect={(item)=>{
                   props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
                  }}
                  />       
-              </>,
+              </>
+            )
             },
             {
               dataField: "location",
@@ -575,59 +575,8 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-=======
-                <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                  <select
-                    value={
-                      Stores.registrationLocationsStore.registrationLocations?.lab
-                    }
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const lab = e.target.value as string
-                      props.onUpdateItem &&
-                        props.onUpdateItem(lab, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            ),
-          },
-          {
-            dataField: "location",
-            text: "Location",
-            headerClasses: "textHeader2",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "neverBill",
-            text: "Never Bill",
-            sort: true,
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            formatter: (cell, row) => {
-              return (
-                <>
-                  {" "}
-                  <LibraryComponents.Atoms.Form.Toggle
-                    value={row.neverBill}
-                    onChange={(neverBill) => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(neverBill, "neverBill", row._id)
-                    }}
-                  />
-                </>
-              )
->>>>>>> dev
             },
-          },
+          
           {
             dataField: "edi",
             text: "EDI",
@@ -681,13 +630,13 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
               columnIndex
             ) => (
               <>
-<<<<<<< HEAD
                 <AutoCompleteFilterSingleSelectLabs
                  onSelect={(item)=>{
                   props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
                  }}
                  />        
-              </>,
+              </>
+            )
             },
             {
               dataField: "reportFormat",
@@ -735,77 +684,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                 column,
                 rowIndex,
                 columnIndex
-              ) => 
-=======
-                <LibraryComponents.Atoms.Form.InputWrapper label="Schedule">
-                  <select
-                    value={row.schedule}
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const schedule = e.target.value as string
-                      props.onUpdateItem &&
-                        props.onUpdateItem(schedule, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
-              </>
-            ),
-          },
-          {
-            dataField: "reportFormat",
-            text: "Report Format",
-            headerClasses: "textHeader3",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "info",
-            text: "Info",
-            headerClasses: "textHeader",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "fyiLine",
-            text: "FYI Line",
-            headerClasses: "textHeader3",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "workLine",
-            text: "Work Line",
-            headerClasses: "textHeader3",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          },
-          {
-            dataField: "status",
-            text: "Status",
-            headerClasses: "textHeader2",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex
-            ) => (
->>>>>>> dev
+              ) => (
               <>
                 <LibraryComponents.Atoms.Form.InputWrapper label="Status">
                   <select
@@ -828,7 +707,7 @@ const RegistrationLocationsList = (props: RegistrationLocationsListProps) => {
                   </select>
                 </LibraryComponents.Atoms.Form.InputWrapper>
               </>
-            ),
+            )
           },
           {
             dataField: "environment",
