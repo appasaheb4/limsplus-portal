@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectDepartment } from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -362,40 +362,19 @@ const TestMater = observer(() => {
                     label="Department"
                     hasError={errors.department}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list:departmentStore.listDepartment,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      departmentStore.DepartmentService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["name"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
-                      onChange(item.name)
-                     testMasterStore.updateTestMaster({
-                       ...testMasterStore.testMaster,
-                       department:item.code
-                     })
-                      departmentStore.updateDepartmentList(
-                        departmentStore.listDepartmentCopy
-                      )
-                      testMasterStore.findSectionListByDeptCode(item.code)
-                    }}
-                    />
+                   <AutoCompleteFilterSingleSelectDepartment
+                   onSelect={(item)=>{
+                    onChange(item.name)
+                    testMasterStore.updateTestMaster({
+                      ...testMasterStore.testMaster,
+                      department:item.code
+                    })
+                     departmentStore.updateDepartmentList(
+                       departmentStore.listDepartmentCopy
+                     )
+                     testMasterStore.findSectionListByDeptCode(item.code)
+                   }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="department"

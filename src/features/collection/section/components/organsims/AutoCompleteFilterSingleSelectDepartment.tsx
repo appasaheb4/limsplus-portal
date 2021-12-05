@@ -108,7 +108,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
                           {" "}
                           <label className="ml-2 mt-1 text-black">
                             {" "}
-                            {item.name}
+                            {item.code} -  {item.name}
                           </label>
                         </li>
                       </>

@@ -7,7 +7,7 @@ import * as LibraryUtils from "@lp/library/utils"
 import { useForm, Controller } from "react-hook-form"
 
 import { SectionList } from "../components/molecules"
-
+import {AutoCompleteFilterSingleSelectDepartment} from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -166,38 +166,16 @@ const Section = observer(() => {
                     label="Department Code"
                     hasError={errors.departmentCode}
                   >
-                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
-                    loader={loading}
-                    data={{
-                      list:departmentStore.listDepartment,
-                      displayKey: "name",
-                      findKey: "name",
-                    }}
-                    hasError={errors.name}
-                    onFilter={(value: string) => {
-                      departmentStore.DepartmentService.filter(
-                        {
-                          input: {
-                            filter: {
-                              type: "search",
-                              ["name"]: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }
-                      )
-                    }}
-                    onSelect={(item) => {
+                    <AutoCompleteFilterSingleSelectDepartment
+                    onSelect={(item)=>{
                       onChange(item.name)
-                    sectionStore.updateSection({
-                      ...sectionStore.section,
-                      departmentCode:item.code
-                    })
-                      departmentStore.updateDepartmentList(
-                        departmentStore.listDepartmentCopy
-                      )
-                      
+                      sectionStore.updateSection({
+                        ...sectionStore.section,
+                        departmentCode:item.code
+                      })
+                        departmentStore.updateDepartmentList(
+                          departmentStore.listDepartmentCopy
+                        )
                     }}
                     />
                   </LibraryComponents.Atoms.Form.InputWrapper>
