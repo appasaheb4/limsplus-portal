@@ -19,7 +19,7 @@ export class MasterPackageStore {
       ...this.masterPackage,
       dateCreation: new Date(),
       dateActive: new Date(),
-      dateActiveTo: new Date(
+      dateExpire: new Date(
         dayjs(new Date()).add(365, "days").format("YYYY-MM-DD")
       ),
       version: 1,

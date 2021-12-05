@@ -193,8 +193,8 @@ const TableBootstrap = ({
   const handleTableChange = (
     type,
     { data, cellEdit, page, sizePerPage, filters, sortField, sortOrder, searchText }
-  ) => {
-    //console.log({ type, sortField, sortOrder })
+  ) => {  
+    console.log({ type, filters })
     if (type === "cellEdit" && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId)

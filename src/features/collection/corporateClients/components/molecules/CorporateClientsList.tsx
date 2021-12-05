@@ -3,8 +3,10 @@ import React from "react"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
-import dayjs from 'dayjs'
 import {AutoCompleteFilterSingleSelectLabs} from "../organsims"
+import dayjs from "dayjs"
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
 interface CorporateClientListProps {
   data: any
   totalSize: number
@@ -139,13 +141,10 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Postcode",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
           },
           {
             dataField: "customerGroup",
@@ -425,14 +424,6 @@ const CorporateClient = (props: CorporateClientListProps) => {
               )
             },
           },
-
-          {
-            dataField: "workHours",
-            text: "Work Hours",
-            headerClasses: "textHeader3",
-            sort: true,
-            filter: LibraryComponents.Organisms.Utils.textFilter(),
-          },
           {
             dataField: "schedule",
             text: "Schedule",
@@ -567,52 +558,26 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
-              return (
-                <>
-                  {dayjs(row.dateCreation || 0)
-                    .format("YYYY-MM-DD")}
-                </>
-              )
+              return <>{dayjs(row.dateCreation || 0).format("YYYY-MM-DD")}</>
             },
           },
-          {
+          {  
             dataField: "dateActive",
             editable: false,
             text: "Date Active",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
-              return (
-                <>
-                  {dayjs(row.dateActive || 0)
-                    .format("YYYY-MM-DD")}
-                </>
-              )
+              return <>{dayjs(row.dateActive || 0).format("YYYY-MM-DD")}</>
             },
           },
           {
@@ -621,25 +586,12 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Date Expire",
             headerClasses: "textHeader6",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
-              return (
-                <>
-                  {dayjs(row.dateExpire)
-                    .format("YYYY-MM-DD")}
-                </>
-              )
+              return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
             },
           },
           {
@@ -648,13 +600,10 @@ const CorporateClient = (props: CorporateClientListProps) => {
             text: "Version",
             headerClasses: "textHeader4",
             sort: true,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
           },
           {
             dataField: "enteredBy",

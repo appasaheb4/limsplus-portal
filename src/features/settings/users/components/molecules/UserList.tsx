@@ -7,7 +7,8 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import { AutoCompleteFilterMutiSelectRoles } from "../organisms"
-
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+  
 import { toJS } from "mobx"
 
 interface UserListProps {
@@ -221,13 +222,10 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "validationLevel",
               text: "Validation Level",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),  
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               headerClasses: "textHeader7",
               editorRenderer: (
                 editorProps,
@@ -317,16 +315,10 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfBirth",
               text: "Date Of Birth",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],   
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               headerClasses: "textHeader6",
               formatter: (cell, row) => {
                 return dayjs(row.dateOfBirth).format("YYYY-MM-DD")
@@ -357,16 +349,10 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "marriageAnniversary",
               text: "Marriage Anniversery Date",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               headerClasses: "textHeader10",
               formatter: (cell, row) => {
                 return dayjs(row.marriageAnniversary).format("YYYY-MM-DD")
@@ -396,16 +382,10 @@ export const UserList = observer((props: UserListProps) => {
               text: "Exipre Date",
               dataField: "exipreDate",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               headerClasses: "textHeader6",
               formatter: (cell, row) => {
                 return dayjs(row.exipreDate).format("YYYY-MM-DD")
@@ -486,22 +466,16 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "dateOfEntry",
               text: "Date Creation",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.dateFilter({
-                comparators: [
-                  LibraryComponents.Organisms.Utils.Comparator.EQ,
-                  LibraryComponents.Organisms.Utils.Comparator.GE,
-                  LibraryComponents.Organisms.Utils.Comparator.LT,
-                ],
-                dateStyle: { marginLeft: "2px" },
-                defaultValue: { comparator: LibraryComponents.Organisms.Utils.Comparator.EQ },
-                style: { display: "inline" },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
               headerClasses: "textHeader6",
               editable: false,
               formatter: (cell, row) => {
                 return <>{dayjs(row.dateOfEntry).format("YYYY-MM-DD")}</>
               },
-            },
+            },  
             {
               dataField: "createdBy",
               text: "Created  By",
@@ -739,7 +713,7 @@ export const UserList = observer((props: UserListProps) => {
               dataField: "opration",
               text: "Password Re-Send",
               editable: false,
-              csvExport: false,
+              csvExport: false,  
               formatter: (cellContent, row) => (
                 <>
                   <LibraryComponents.Atoms.Buttons.Button

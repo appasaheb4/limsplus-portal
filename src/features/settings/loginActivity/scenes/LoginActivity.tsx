@@ -4,6 +4,7 @@ import { observer } from "mobx-react"
 import * as LibraryComponents from "@lp/library/components"
 import dayjs from "dayjs"
 import { useStores } from "@lp/stores"
+import { DateFilter } from "@lp/library/components/Organisms"
 
 const LoginActivity = observer(() => {
   const { loginStore, loginActivityStore, routerStore } = useStores()
@@ -46,7 +47,7 @@ const LoginActivity = observer(() => {
                         <h6>{`User Name: ${row.user.fullName}`}</h6>
                         <h6>{`Lab: ${row.user.lab}`}</h6>
                         <h6>{`Role: ${row.user.role}`}</h6>
-                      </div>  
+                      </div>
                     )
                   },
                 },
@@ -76,7 +77,7 @@ const LoginActivity = observer(() => {
                 },
                 {
                   dataField: "ipInfo",
-                  text: "Ip Information",  
+                  text: "Ip Information",
                   sort: true,
                   filter: LibraryComponents.Organisms.Utils.textFilter(),
                   headerClasses: "textHeader3",
@@ -98,7 +99,7 @@ const LoginActivity = observer(() => {
                           )}
                         </div>
                       </>
-                    )  
+                    )
                   },
                 },
                 {
@@ -106,18 +107,10 @@ const LoginActivity = observer(() => {
                   text: "In",
                   headerClasses: "textHeader4",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.dateFilter({
-                    comparators: [
-                      LibraryComponents.Organisms.Utils.Comparator.EQ,
-                      LibraryComponents.Organisms.Utils.Comparator.GE,
-                      LibraryComponents.Organisms.Utils.Comparator.LT,
-                    ],
-                    dateStyle: { marginLeft: "2px" },
-                    defaultValue: {
-                      comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                    },
-                    style: { display: "inline" },
-                  }),
+                  filter: LibraryComponents.Organisms.Utils.customFilter(),
+                  filterRenderer: (onFilter, column) => (
+                    <DateFilter onFilter={onFilter} column={column} />
+                  ),
                   formatter: (cell, row) => {
                     return dayjs(row.dateOfEntry).format("YYYY-MM-DD h:mm:ss a")
                   },
@@ -127,18 +120,10 @@ const LoginActivity = observer(() => {
                   text: "Out",
                   headerClasses: "textHeader4",
                   sort: true,
-                  filter: LibraryComponents.Organisms.Utils.dateFilter({
-                    comparators: [
-                      LibraryComponents.Organisms.Utils.Comparator.EQ,
-                      LibraryComponents.Organisms.Utils.Comparator.GE,
-                      LibraryComponents.Organisms.Utils.Comparator.LT,
-                    ],
-                    dateStyle: { marginLeft: "2px" },
-                    defaultValue: {
-                      comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                    },
-                    style: { display: "inline" },
-                  }),
+                  filter: LibraryComponents.Organisms.Utils.customFilter(),
+                  filterRenderer: (onFilter, column) => (
+                    <DateFilter onFilter={onFilter} column={column} />
+                  ),
                   formatter: (cell, row) => {
                     return row.lastUpdated
                       ? dayjs(row.lastUpdated).format("YYYY-MM-DD h:mm:ss a")

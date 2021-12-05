@@ -4,10 +4,12 @@ import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../organsims"
+import { NumberFilter } from "@lp/library/components/Organisms"  
+
 interface LibraryListProps {
   data: any
   totalSize: number
-  extraData:any
+  extraData: any
   isDelete?: boolean
   isEditModify?: boolean
   onDelete?: (selectedItem: LibraryModels.Confirm) => void
@@ -15,12 +17,11 @@ interface LibraryListProps {
   onUpdateItem?: (value: any, dataField: string, id: string) => void
   onVersionUpgrade?: (item: any) => void
   onDuplicate?: (item: any) => void
-  onPageSizeChange?: (page:number,totalSize: number) => void
+  onPageSizeChange?: (page: number, totalSize: number) => void
   onFilter?: (type: string, filter: any, page: number, totalSize: number) => void
 }
 
 export const LibraryList = (props: LibraryListProps) => {
- 
   const editorCell = (row: any) => {
     return row.status !== "I" ? true : false
   }
@@ -44,7 +45,7 @@ export const LibraryList = (props: LibraryListProps) => {
               headerClasses: "textHeader1",
               sort: true,
               filter: LibraryComponents.Organisms.Utils.textFilter(),
-              editable:false,
+              editable: false,
             },
             {
               dataField: "description",
@@ -71,24 +72,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Usage Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const usageType = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(usageType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "USAGE_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const usageType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(usageType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "USAGE_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -108,25 +110,26 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                 <LibraryComponents.Atoms.Form.InputWrapper label="Library Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const libraryType = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(libraryType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "LIBRARY_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Library Type">
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const libraryType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(libraryType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "LIBRARY_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -147,24 +150,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Comment Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const commentType = e.target.value
-                      props.onUpdateItem && 
-                        props.onUpdateItem(commentType,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "COMMENT_TYPE").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const commentType = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(commentType, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "COMMENT_TYPE"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -233,24 +237,29 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Comments Target">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const commentsTarget = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(commentsTarget,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "COMMENTS_TARGET").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const commentsTarget = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            commentsTarget,
+                            column.dataField,
+                            row._id
+                          )
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "COMMENTS_TARGET"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -278,24 +287,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Parameter">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const parameter = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(parameter,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "PARAMETER").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const parameter = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(parameter, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "PARAMETER"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -316,24 +326,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Action">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const action = e.target.value
-                    props.onUpdateItem &&
-                      props.onUpdateItem(action,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "ACTION").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const action = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(action, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ACTION"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -354,24 +365,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Results">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const results = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(results,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "RESULTS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const results = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(results, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "RESULTS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -383,7 +395,7 @@ export const LibraryList = (props: LibraryListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
-            {  
+            {
               dataField: "reflex",
               text: "Reflex",
               headerClasses: "textHeader4",
@@ -391,7 +403,7 @@ export const LibraryList = (props: LibraryListProps) => {
               filter: LibraryComponents.Organisms.Utils.textFilter(),
               formatter: (cellContent, row) => (
                 <>
-                 <div className="flex flex-row">
+                  <div className="flex flex-row">
                     {row.reflex.map((item) => (
                       <div className="mb-2 ml-2">
                         <LibraryComponents.Atoms.Buttons.Button
@@ -404,7 +416,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         </LibraryComponents.Atoms.Buttons.Button>
                       </div>
                     ))}
-                    </div>
+                  </div>
                 </>
               ),
               editorRenderer: (
@@ -416,21 +428,21 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                   <LibraryComponents.Atoms.Form.InputWrapper label="Reflex">
-                <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
-                  placeholder="Search by panel name or panel code"
-                  data={{
-                    defulatValues: [],
-                    list: props.extraData.listMasterPanel || [],
-                    displayKey: ["panelName", "panelCode"],
-                    findKey: ["panelName", "panelCode"],
-                  }}
-                  onUpdate={(items) => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(items,column.dataField,row._id)
-                  }}
-                />
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                  <LibraryComponents.Atoms.Form.InputWrapper label="Reflex">
+                    <LibraryComponents.Molecules.AutoCompleteCheckMultiFilterKeys
+                      placeholder="Search by panel name or panel code"
+                      data={{
+                        defulatValues: [],
+                        list: props.extraData.listMasterPanel || [],
+                        displayKey: ["panelName", "panelCode"],
+                        findKey: ["panelName", "panelCode"],
+                      }}
+                      onUpdate={(items) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(items, column.dataField, row._id)
+                      }}
+                    />
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -455,16 +467,19 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "AbNormal",
               sort: true,
               formatter: (cell, row) => {
-                return <>  <LibraryComponents.Atoms.Form.Toggle
-               
-                value={row.abNormal}
-                onChange={(abNormal) => {
-                  props.onUpdateItem &&
-                    props.onUpdateItem(abNormal,'abNormal',row._id)
-                }}
-              /></>
+                return (
+                  <>
+                    {" "}
+                    <LibraryComponents.Atoms.Form.Toggle
+                      value={row.abNormal}
+                      onChange={(abNormal) => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(abNormal, "abNormal", row._id)
+                      }}
+                    />
+                  </>
+                )
               },
-             
             },
             {
               dataField: "status",
@@ -483,24 +498,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Status">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const status = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(status,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "STATUS").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const status = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(status, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "STATUS"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -525,13 +541,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "LO Age",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -539,13 +552,10 @@ export const LibraryList = (props: LibraryListProps) => {
               text: "HI Age",
               headerClasses: "textHeader4",
               sort: true,
-              filter: LibraryComponents.Organisms.Utils.numberFilter({
-                numberStyle: { marginLeft: "2px" },
-                style: { display: "inline" },
-                defaultValue: {
-                  comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-                },
-              }),
+              filter: LibraryComponents.Organisms.Utils.customFilter(),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
               editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             },
             {
@@ -565,24 +575,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Sex">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sex = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(sex,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SEX").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const sex = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(sex, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SEX"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -603,24 +614,25 @@ export const LibraryList = (props: LibraryListProps) => {
               ) => (
                 <>
                   <LibraryComponents.Atoms.Form.InputWrapper label="Sex Action">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sexAction = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(sexAction,column.dataField,row._id)
-                  }}
-                >
-                  <option selected>Select</option>
-                  {LibraryUtils.lookupItems(props.extraData.lookupItems, "SEX_ACTION").map(
-                    (item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.value} - ${item.code}`}
-                      </option>
-                    )
-                  )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                    <select
+                      className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                      onChange={(e) => {
+                        const sexAction = e.target.value
+                        props.onUpdateItem &&
+                          props.onUpdateItem(sexAction, column.dataField, row._id)
+                      }}
+                    >
+                      <option selected>Select</option>
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "SEX_ACTION"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
+                    </select>
+                  </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
               ),
             },
@@ -645,18 +657,19 @@ export const LibraryList = (props: LibraryListProps) => {
                       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
                       onChange={(e) => {
                         const environment = e.target.value
-                        props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
-                        
+                        props.onUpdateItem &&
+                          props.onUpdateItem(environment, column.dataField, row._id)
                       }}
                     >
                       <option selected>Select</option>
-                      {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.value} - ${item.code}`}
-                          </option>
-                        )
-                      )}
+                      {LibraryUtils.lookupItems(
+                        props.extraData.lookupItems,
+                        "ENVIRONMENT"
+                      ).map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {`${item.value} - ${item.code}`}
+                        </option>
+                      ))}
                     </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 </>
@@ -671,7 +684,10 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className="flex flex-row">
-                    <LibraryComponents.Atoms.Tooltip tooltipText="Delete" position="top">
+                    <LibraryComponents.Atoms.Tooltip
+                      tooltipText="Delete"
+                      position="top"
+                    >
                       <LibraryComponents.Atoms.Icons.IconContext
                         color="#fff"
                         size="20"
@@ -695,9 +711,9 @@ export const LibraryList = (props: LibraryListProps) => {
                 </>
               ),
               headerClasses: "sticky right-0  bg-gray-500 text-white",
-          classes: (cell, row, rowIndex, colIndex) => {
-            return "sticky right-0 bg-gray-500"
-          },
+              classes: (cell, row, rowIndex, colIndex) => {
+                return "sticky right-0 bg-gray-500"
+              },
             },
           ]}
           isEditModify={props.isEditModify}
@@ -710,8 +726,8 @@ export const LibraryList = (props: LibraryListProps) => {
           onUpdateItem={(value: any, dataField: string, id: string) => {
             props.onUpdateItem && props.onUpdateItem(value, dataField, id)
           }}
-          onPageSizeChange={(page,size)=>{
-            props.onPageSizeChange && props.onPageSizeChange(page,size)
+          onPageSizeChange={(page, size) => {
+            props.onPageSizeChange && props.onPageSizeChange(page, size)
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size)

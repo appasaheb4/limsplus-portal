@@ -13,8 +13,8 @@ export const LIST = gql`
         existsVersionId
         existsRecordId
         dateCreation
-        dateActiveFrom
-        dateActiveTo
+        dateActive
+        dateExpire
         version
         enteredBy
         rLab
@@ -142,8 +142,8 @@ export const FILTER = gql`
         existsVersionId
         existsRecordId
         dateCreation
-        dateActiveFrom
-        dateActiveTo
+        dateActive
+        dateExpire
         version
         enteredBy
         rLab

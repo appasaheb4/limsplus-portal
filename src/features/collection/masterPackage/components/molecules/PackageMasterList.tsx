@@ -5,6 +5,8 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
 import * as LibraryUtils from "@lp/library/utils"
 import {AutoCompleteFilterSingleSelectLabs} from '../orgransims'
+import { NumberFilter, DateFilter } from "@lp/library/components/Organisms"
+
 interface PackageMasterListProps {
   data: any
   totalSize: number
@@ -167,18 +169,10 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             text: "Date Creation",
             headerClasses: "textHeader6",
             sort: true,  
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateCreation).format("YYYY-MM-DD")}</>
             },
@@ -189,20 +183,26 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader6",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.dateFilter({
-              comparators: [
-                LibraryComponents.Organisms.Utils.Comparator.EQ,
-                LibraryComponents.Organisms.Utils.Comparator.GE,
-                LibraryComponents.Organisms.Utils.Comparator.LT,
-              ],
-              dateStyle: { marginLeft: "2px" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-              style: { display: "inline" },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActive).format("YYYY-MM-DD")}</>
+            },
+          },
+          {
+            dataField: "dateExpire",
+            editable: false,
+            text: "Date Expire",
+            headerClasses: "textHeader11",
+            sort: true,
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <DateFilter onFilter={onFilter} column={column} />
+            ),
+            formatter: (cell, row) => {
+              return <>{dayjs(row.dateExpire).format("YYYY-MM-DD")}</>
             },
           },
           {
@@ -211,13 +211,10 @@ const PackageMasterList = (props: PackageMasterListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             editable: false,
-            filter: LibraryComponents.Organisms.Utils.numberFilter({
-              numberStyle: { marginLeft: "2px" },
-              style: { display: "inline" },
-              defaultValue: {
-                comparator: LibraryComponents.Organisms.Utils.Comparator.EQ,
-              },
-            }),
+            filter: LibraryComponents.Organisms.Utils.customFilter(),
+            filterRenderer: (onFilter, column) => (
+              <NumberFilter onFilter={onFilter} column={column} />
+            ),
           },
           {
             dataField: "environment",
