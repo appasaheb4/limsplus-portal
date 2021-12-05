@@ -235,9 +235,14 @@ const MasterAnalyte = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
                     data={{
                       list:labStore.listLabs,
-                      selected:masterAnalyteStore.selectedItems?.lab,
                       displayKey: "name",
                       findKey: "name",
                     }}

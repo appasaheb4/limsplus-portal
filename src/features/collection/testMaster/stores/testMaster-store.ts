@@ -7,6 +7,7 @@ import * as ModelsSection from "@lp/features/collection/section/models"
 export class TestMasterStore {
   testMaster!: Models.TestMaster
   listTestMaster!: Models.TestMaster[]
+  listTestMasterCopy!: Models.TestMaster[]
   listTestMasterCount!: number
   checkExitsLabEnvCode!: boolean
   sectionListByDeptCode!: ModelsSection.Section[]
@@ -66,9 +67,15 @@ export class TestMasterStore {
   }
 
    updateTestMasterList(res: any) {
-    if (!res.testMasters.success) return alert(res.testMasters.message)
+     if(!Array.isArray(res)){
+      if (!res.testMasters.success) return alert(res.testMasters.message)
     this.listTestMaster = res.testMasters.data
+    this.listTestMasterCopy = res.testMasters.data
     this.listTestMasterCount = res.testMasters.paginatorInfo.count
+     }else{
+       this.listTestMaster = res
+     }
+    
   }
 
   filterTestMasterList(res: any) {

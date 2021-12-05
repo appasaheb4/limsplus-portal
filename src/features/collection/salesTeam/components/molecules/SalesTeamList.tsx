@@ -3,7 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import {AutoCompleteFilterSingleSelectSalesTerrority,AutoCompleteFilterSingleSelectReportingTo} from "../organsims"
 interface SalesTeamListProps {
   data: any
   totalSize: number
@@ -75,9 +75,9 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerClasses: "textHeader5",
             sort: true,
             filter: LibraryComponents.Organisms.Utils.textFilter(),
-            formatter: (cell, row) => {
-              return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
-            },
+            // formatter: (cell, row) => {
+            //   return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
+            // },
             editorRenderer: (
               editorProps,
               value,
@@ -87,26 +87,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Sales Territory">
-                  <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md`}
-                    onChange={(e) => {
-                      const salesTerritory = JSON.parse(e.target.value)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(salesTerritory, column.dataField, row._id)
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listAdministrativeDiv &&
-                      props.extraData.listAdministrativeDiv.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.country}-${item.state}-${item.district}-${item.city}-${item.area}`}
-                          </option>
-                        )
-                      )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+               <AutoCompleteFilterSingleSelectSalesTerrority
+               onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.country,column.dataField,row._id)
+               }}
+               />
               </>
             ),
           },
@@ -141,36 +126,11 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Reporting To">
-                  <select
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-                    onChange={(e) => {
-                      const userDetials = JSON.parse(e.target.value) as any
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          userDetials.empName,
-                          column.dataField,
-                          row._id
-                        )
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.userStore &&
-                      props.extraData.userList &&
-                      props.extraData
-                        .filterUsersItems(
-                          props.extraData.userList,
-                          "role",
-                          "code",
-                          "SALES"
-                        )
-                        .map((item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.empCode} -${item.empName}`}
-                          </option>
-                        ))}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                <AutoCompleteFilterSingleSelectReportingTo
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.fullName,column.dataField,row._id)
+                }}
+                />
               </>
             ),
           },

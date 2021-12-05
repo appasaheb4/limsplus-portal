@@ -5,6 +5,7 @@ import * as Services from "../services"
 export class MethodsStore {
   methods!: Models.Methods
   listMethods: Models.Methods[]
+  listMethodsCopy!: Models.Methods[]
   listMethodsCount: number
   checkExitsEnvCode: boolean
 
@@ -36,10 +37,16 @@ export class MethodsStore {
   }
 
   updateMethodsList(res: any) {
-    if (!res.methods.success) return alert(res.methods.message)
-    this.listMethodsCount = res.methods.paginatorInfo.count
-    this.listMethods = res.methods.data
+    if(!Array.isArray(res)){
+      if (!res.methods.success) return alert(res.methods.message)
+      this.listMethodsCount = res.methods.paginatorInfo.count
+      this.listMethods = res.methods.data
+      this.listMethodsCopy = res.methods.data
+  }else{
+    this.listMethods = res
   }
+    }
+    
   
   filterMethodsList(res: any){
     this.listMethodsCount = res.filterMethods.paginatorInfo.count

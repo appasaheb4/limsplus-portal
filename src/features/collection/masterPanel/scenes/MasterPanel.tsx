@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect,useMemo } from "react"
 import { observer } from "mobx-react"
 import daysjs from "dayjs"
 import _ from "lodash"
@@ -7,7 +7,7 @@ import * as LibraryComponents from "@lp/library/components"
 import * as LibraryUtils from "@lp/library/utils"
 import * as FeatureComponents from "../components"
 import { useForm, Controller } from "react-hook-form"
-
+import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPanelMethod } from "../components/organsims"
 import { useStores, stores } from "@lp/stores"
 
 import { RouterFlow } from "@lp/flows"
@@ -29,6 +29,7 @@ const MasterPanel = observer(() => {
     methodsStore,
     deliveryScheduleStore,
     routerStore,
+    loading
   } = useStores()
   const [modalConfirm, setModalConfirm] = useState<any>()
   const [hideAddLab, setHideAddLab] = useState<boolean>(true)
@@ -144,6 +145,78 @@ const MasterPanel = observer(() => {
     }
   }
 
+  const tableView = useMemo(
+    ()=> (
+      <FeatureComponents.Molecules.PanelMasterList
+            data={masterPanelStore.listMasterPanel || []}
+            totalSize={masterPanelStore.listMasterPanelCount}
+            extraData={{
+              lookupItems: stores.routerStore.lookupItems,
+              labList:loginStore.login?.labList,
+              listLabs:labStore.listLabs,
+              listDepartment:departmentStore.listDepartment,
+              listDeliverySchedule:deliveryScheduleStore.listDeliverySchedule,
+              listMethods:methodsStore.listMethods
+            }}
+            isDelete={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Delete"
+            )}
+            isEditModify={RouterFlow.checkPermission(
+              toJS(stores.routerStore.userPermission),
+              "Edit/Modify"
+            )}
+            // isEditModify={false}
+            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
+            onSelectedRow={(rows) => {
+              setModalConfirm({
+                show: true,
+                type: "Delete",
+                id: rows,
+                title: "Are you sure?",
+                body: `Delete selected items!`,
+              })
+            }}
+            onUpdateItem={(value: any, dataField: string, id: string) => {
+              setModalConfirm({
+                show: true,
+                type: "Update",
+                data: { value, dataField, id },
+                title: "Are you sure?",
+                body: `Update lab!`,
+              })
+            }}
+            onVersionUpgrade={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "versionUpgrade",
+                data: item,
+                title: "Are you version upgrade?",
+                body: `Version upgrade this record`,
+              })
+            }}
+            onDuplicate={(item) => {
+              setModalConfirm({
+                show: true,
+                type: "duplicate",
+                data: item,
+                title: "Are you duplicate?",
+                body: `Duplicate this record`,
+              })
+            }}
+            onPageSizeChange={(page, limit) => {
+              masterPanelStore.fetchPanelMaster(page, limit)
+            }}
+            onFilter={(type, filter, page, limit) => {
+              masterPanelStore.masterPanelService.filter({
+                input: { type, filter, page, limit },
+              })  
+            }}
+          />
+    ),
+    [masterPanelStore.listMasterPanel]
+  )
+
   return (
     <>
       <LibraryComponents.Atoms.Header>
@@ -179,7 +252,7 @@ const MasterPanel = observer(() => {
                     label="RLab"
                     hasError={errors.rLab}
                   >
-                    <select
+                   <select
                       value={masterPanelStore.masterPanel?.rLab}
                       disabled={
                         stores.loginStore.login &&
@@ -216,15 +289,15 @@ const MasterPanel = observer(() => {
                             })
                         }
                       }}
-                    >
-                      <option selected>Select</option>
-                      {loginStore.login?.labList &&
-                        loginStore.login?.labList.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {item.name}
-                          </option>
-                        ))}
-                    </select>
+                      >
+                        <option selected>Select</option>
+                        {loginStore.login?.labList &&
+                          loginStore.login?.labList.map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {item.name}
+                            </option>
+                          ))}
+                      </select>
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="rLab"
@@ -239,33 +312,45 @@ const MasterPanel = observer(() => {
                     label="PLab"
                     hasError={errors.pLab}
                   >
-                    <select
-                      value={masterPanelStore.masterPanel?.pLab}
-                      disabled={
-                        stores.loginStore.login &&
-                        stores.loginStore.login.role !== "SYSADMIN"
-                          ? true
-                          : false
-                      }
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.pLab ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const pLab = e.target.value as string
-                        onChange(pLab)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          pLab,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {labStore.listLabs.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
+                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    disable={
+                      loginStore.login &&
+                      loginStore.login.role !== "SYSADMIN"
+                        ? true
+                        : false
+                    }
+                    data={{
+                      list:labStore.listLabs,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      labStore.LabService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        pLab:item.code,
+                      })
+                      labStore.updateLabList(
+                        labStore.listLabsCopy
+                      )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="pLab"
@@ -280,29 +365,19 @@ const MasterPanel = observer(() => {
                     label="Department"
                     hasError={errors.department}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.department ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const department = e.target.value as string
-                        onChange(department)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          department,
-                        })
-                        masterPanelStore.findSectionListByDeptCode(department)
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {departmentStore.listDepartment.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {`${item.code} - ${item.name}`}
-                          </option>
-                        )
-                      )}
-                    </select>
+                   <AutoCompleteFilterSingleSelectDepartment
+                    onSelect={(item)=>{
+                      onChange(item.name)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        department:item.code,
+                      })
+                      departmentStore.updateDepartmentList(
+                        departmentStore.listDepartmentCopy
+                      )
+                      masterPanelStore.findSectionListByDeptCode(item.code)
+                    }}
+                   />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="department"
@@ -318,29 +393,37 @@ const MasterPanel = observer(() => {
                       label="Section"
                       hasError={errors.section}
                     >
-                      <select
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.section ? "border-red-500  " : "border-gray-300"
-                        } rounded-md`}
-                        onChange={(e) => {
-                          const section = JSON.parse(e.target.value)
-                          onChange(section)
-                          masterPanelStore.updateMasterPanel({
-                            ...masterPanelStore.masterPanel,
-                            section,
-                          })
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {masterPanelStore.sectionListByDeptCode &&
-                          masterPanelStore.sectionListByDeptCode.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={JSON.stringify(item)}>
-                                {`${item.code} -${item.name}`}
-                              </option>
-                            )
-                          )}
-                      </select>
+                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:masterPanelStore.sectionListByDeptCode,
+                      displayKey: "name",
+                      findKey: "name",
+                    }}
+                    hasError={errors.name}
+                    onFilter={(value: string) => {
+                      masterPanelStore.masterPanelService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["name"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.name)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        section:item.name,
+                      })
+                      
+                    }}
+                    /> 
                     </LibraryComponents.Atoms.Form.InputWrapper>
                   )}
                   name="section"
@@ -491,26 +574,15 @@ const MasterPanel = observer(() => {
                     label="Panel Method"
                     hasError={errors.panelMethod}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.panelMethod ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const panelMethod = e.target.value
-                        onChange(panelMethod)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          panelMethod,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {methodsStore.listMethods.map((item: any, index: number) => (
-                        <option key={index} value={item.methodsCode}>
-                          {`${item.methodsCode} - ${item.methodsName}`}
-                        </option>
-                      ))}
-                    </select>
+                    <AutoCompleteFilterSingleSelectPanelMethod
+                    onSelect={(item)=>{
+                      onChange(item.methodsCode)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        panelMethod:item.methodsCode
+                      })
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="panelMethod"
@@ -571,28 +643,39 @@ const MasterPanel = observer(() => {
                     label="Schedule"
                     hasError={errors.schedule}
                   >
-                    <select
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.schedule ? "border-red-500" : "border-gray-300"
-                      } rounded-md`}
-                      onChange={(e) => {
-                        const schedule = e.target.value
-                        onChange(schedule)
-                        masterPanelStore.updateMasterPanel({
-                          ...masterPanelStore.masterPanel,
-                          schedule,
-                        })
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {deliveryScheduleStore.listDeliverySchedule.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.schCode}>
-                            {`${item.schCode}`}
-                          </option>
-                        )
-                      )}
-                    </select>
+                   <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
+                    loader={loading}
+                    data={{
+                      list:deliveryScheduleStore.listDeliverySchedule,
+                      displayKey: "schCode",
+                      findKey: "schCode",
+                    }}
+                    hasError={errors.schCode}
+                    onFilter={(value: string) => {
+                     deliveryScheduleStore.deliveryScheduleService.filter(
+                        {
+                          input: {
+                            filter: {
+                              type: "search",
+                              ["schCode"]: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        }
+                      )
+                    }}
+                    onSelect={(item) => {
+                      onChange(item.schCode)
+                      masterPanelStore.updateMasterPanel({
+                        ...masterPanelStore.masterPanel,
+                        schedule:item.schCode,
+                      })
+                      deliveryScheduleStore.updateDeliveryScheduleList(
+                        deliveryScheduleStore.listDeliveryScheduleCopy
+                      )
+                    }}
+                    />
                   </LibraryComponents.Atoms.Form.InputWrapper>
                 )}
                 name="schedule"
@@ -1522,72 +1605,7 @@ const MasterPanel = observer(() => {
           </LibraryComponents.Atoms.List>
         </div>
         <div className="p-2 rounded-lg shadow-xl overflow-auto">
-          <FeatureComponents.Molecules.PanelMasterList
-            data={masterPanelStore.listMasterPanel || []}
-            totalSize={masterPanelStore.listMasterPanelCount}
-            extraData={{
-              lookupItems: stores.routerStore.lookupItems,
-              labList:loginStore.login?.labList,
-              listLabs:labStore.listLabs,
-              listDepartment:departmentStore.listDepartment,
-              listDeliverySchedule:deliveryScheduleStore.listDeliverySchedule,
-              listMethods:methodsStore.listMethods
-            }}
-            isDelete={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Delete"
-            )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(stores.routerStore.userPermission),
-              "Edit/Modify"
-            )}
-            // isEditModify={false}
-            onDelete={(selectedItem) => setModalConfirm(selectedItem)}
-            onSelectedRow={(rows) => {
-              setModalConfirm({
-                show: true,
-                type: "Delete",
-                id: rows,
-                title: "Are you sure?",
-                body: `Delete selected items!`,
-              })
-            }}
-            onUpdateItem={(value: any, dataField: string, id: string) => {
-              setModalConfirm({
-                show: true,
-                type: "Update",
-                data: { value, dataField, id },
-                title: "Are you sure?",
-                body: `Update lab!`,
-              })
-            }}
-            onVersionUpgrade={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "versionUpgrade",
-                data: item,
-                title: "Are you version upgrade?",
-                body: `Version upgrade this record`,
-              })
-            }}
-            onDuplicate={(item) => {
-              setModalConfirm({
-                show: true,
-                type: "duplicate",
-                data: item,
-                title: "Are you duplicate?",
-                body: `Duplicate this record`,
-              })
-            }}
-            onPageSizeChange={(page, limit) => {
-              masterPanelStore.fetchPanelMaster(page, limit)
-            }}
-            onFilter={(type, filter, page, limit) => {
-              masterPanelStore.masterPanelService.filter({
-                input: { type, filter, page, limit },
-              })  
-            }}
-          />
+          {tableView}
         </div>
         <LibraryComponents.Molecules.ModalConfirm
           {...modalConfirm}

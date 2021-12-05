@@ -3,7 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import {AutoCompleteFilterSingleSelectAnalyteCode}  from "../organsims"
 interface PossibleResultsListProps {
   data: Array<any>
   totalSize: number
@@ -47,30 +47,11 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
               columnIndex
             ) => (
               <>
-                <LibraryComponents.Atoms.Form.InputWrapper label="Analyte Code">
-                  <select
-                    className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                    onChange={(e) => {
-                      const analyte = JSON.parse(e.target.value)
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          analyte.analyteCode,
-                          column.dataField,
-                          row._id
-                        )
-                    }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listMasterAnalyte &&
-                      props.extraData.listMasterAnalyte.map(
-                        (item: any, index: number) => (
-                          <option key={index} value={JSON.stringify(item)}>
-                            {`${item.analyteCode} - ${item.analyteName}`}
-                          </option>
-                        )
-                      )}
-                  </select>
-                </LibraryComponents.Atoms.Form.InputWrapper>
+                <AutoCompleteFilterSingleSelectAnalyteCode
+                onSelect={(item)=>{
+                  props.onUpdateItem && props.onUpdateItem(item.analyteCode,column.dataField,row._id)
+                }}
+                />
               </>
             ),
           },

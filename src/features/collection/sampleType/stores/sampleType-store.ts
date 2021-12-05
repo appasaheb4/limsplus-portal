@@ -4,6 +4,7 @@ import * as Services from "../services"
 
 export class SampleTypeStore {
   listSampleType!: Models.SampleType[]
+  listSampleTypeCopy!: Models.SampleType[]
   listSampleTypeCount!: number
   sampleType!: Models.SampleType
   checkExitsEnvCode: boolean
@@ -37,9 +38,14 @@ export class SampleTypeStore {
   }
 
   updateSampleTypeList(res: any) {
-    if (!res.sampleTypes.success) return alert(res.sampleTypes.message)
-    this.listSampleType = res.sampleTypes.data
-    this.listSampleTypeCount = res.sampleTypes.paginatorInfo.count
+    if(!Array.isArray(res)){
+      if (!res.sampleTypes.success) return alert(res.sampleTypes.message)
+      this.listSampleType = res.sampleTypes.data
+      this.listSampleTypeCopy = res.sampleTypes.data
+      this.listSampleTypeCount = res.sampleTypes.paginatorInfo.count
+    }else{
+      this.listSampleType = res
+    }
   }
   
   filterSampleTypeList(res: any){

@@ -3,7 +3,7 @@ import React from "react"
 import * as LibraryUtils from "@lp/library/utils"
 import * as LibraryComponents from "@lp/library/components"
 import * as LibraryModels from "@lp/library/models"
-
+import {AutoCompleteFilterSingleSelectDepartment,AutoCompleteFilterSingleSelectPlabs} from "../organsims"
 interface LibraryListProps {
   data: any
   totalSize: number
@@ -184,24 +184,11 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Lab">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const lab = e.target.value
-                      props.onUpdateItem &&
-                        props.onUpdateItem(lab,column.dataField,row._id)
+                  <AutoCompleteFilterSingleSelectPlabs
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
                   }}
-                >
-                  <option selected>Select</option>
-                  {props.extraData.listLabs &&
-                    props.extraData.listLabs.map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {`${item.code} - ${item.name}`}
-                      </option>
-                    ))}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                  />
                 </>
               ),
             },
@@ -221,26 +208,11 @@ export const LibraryList = (props: LibraryListProps) => {
                 columnIndex
               ) => (
                 <>
-                  <LibraryComponents.Atoms.Form.InputWrapper label="Department">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const department = e.target.value
-                      props.onUpdateItem && 
-                      props.onUpdateItem(department,column.dataField,row._id)
+                  <AutoCompleteFilterSingleSelectDepartment
+                  onSelect={(item)=>{
+                    props.onUpdateItem && props.onUpdateItem(item.code,column.dataField,row._id)
                   }}
-                >
-                  <option selected>Select</option>
-                  {props.extraData.listDepartment &&
-                   props.extraData.listDepartment.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {`${item.code} - ${item.name}`}
-                        </option>
-                      )
-                    )}
-                </select>
-              </LibraryComponents.Atoms.Form.InputWrapper>
+                  />
                 </>
               ),
             },
