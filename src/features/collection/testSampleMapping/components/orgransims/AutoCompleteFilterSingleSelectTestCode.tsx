@@ -41,9 +41,10 @@ export const AutoCompleteFilterSingleSelectTestCode = observer(
     const onFilter = (value: string) => {
         testMasterStore.testMasterService.filter({
         input: {
+          type: "filter",
           filter: {
-            type: "search",
-            ["testCode"]: value,
+            
+            testCode: value,
           },
           page: 0,
           limit: 10,
@@ -72,7 +73,7 @@ export const AutoCompleteFilterSingleSelectTestCode = observer(
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md`}
           >
             <input
-              placeholder="Search...."
+              placeholder="Search by code"
               value={!isListOpen ? value : value}
               className={`w-full focus:outline-none bg-none`}
               onKeyUp={onKeyUp}

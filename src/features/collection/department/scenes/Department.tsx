@@ -337,6 +337,7 @@ export const Department = observer(() => {
                   >
                     <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                       loader={loading}
+                      placeholder="Search by name"
                       data={{
                         list: userStore.userList,
                         displayKey: "fullName",
@@ -346,9 +347,9 @@ export const Department = observer(() => {
                       onFilter={(value: string) => {
                         userStore.UsersService.filter({
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["fullName"]: value,
+                              fullName: value
                             },
                             page: 0,
                             limit: 10,

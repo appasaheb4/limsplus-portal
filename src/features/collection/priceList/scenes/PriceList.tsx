@@ -406,7 +406,7 @@ export const PriceList = observer(() => {
                   >
                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                  
+                    placeholder="Search by code"
                     data={{
                       list:corporateClientsStore.listCorporateClients,
                       displayKey: "corporateCode",
@@ -417,9 +417,10 @@ export const PriceList = observer(() => {
                       corporateClientsStore.corporateClientsService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["corporateName"]: value,
+                              
+                              corporateCode: value,
                             },
                             page: 0,
                             limit: 10,
@@ -493,6 +494,7 @@ export const PriceList = observer(() => {
                   >
                    <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
+                    placeholder="Search by name"
                     disable={
                       loginStore.login &&
                       loginStore.login.role !== "SYSADMIN"
@@ -509,9 +511,9 @@ export const PriceList = observer(() => {
                       labStore.LabService.filter(
                         {
                           input: {
+                            type: "filter",
                             filter: {
-                              type: "search",
-                              ["name"]: value,
+                              name: value,
                             },
                             page: 0,
                             limit: 10,
