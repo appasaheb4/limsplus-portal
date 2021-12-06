@@ -246,7 +246,7 @@ const TestSampleMapping = observer(() => {
                     placeholder="Search by Code"
                     data={{
                       list:sampleTypeStore.listSampleType,
-                      displayKey: "sampleCode",
+                      displayKey: "sample code",
                       findKey: "sampleCode",
                     }}
                     hasError={errors.sampleCode}
@@ -322,7 +322,7 @@ const TestSampleMapping = observer(() => {
                     >
                       <LibraryComponents.Molecules.AutoCompleteFilterSingleSelect
                     loader={loading}
-                    placeholder="Search by sampletype"
+                    placeholder="Search by sample type"
                     data={{
                       list:sampleTypeStore.listSampleType,
                       displayKey: "sampleType",
@@ -376,7 +376,7 @@ const TestSampleMapping = observer(() => {
                     placeholder="Search by SampleGroup"
                     data={{
                       list:sampleTypeStore.listSampleType,
-                      displayKey: "sampleGroup",
+                      displayKey: "sample group",
                       findKey: "sampleGroup",
                     }}
                     hasError={errors.sampleGroup}
