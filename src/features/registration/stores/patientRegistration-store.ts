@@ -3,7 +3,7 @@ import * as Services from "../services"
 import * as Models from "../models"
 
 class PatientRegistrationStore {
-  patientManger?: Models.PatientManger
+  patientManger!: Models.PatientManger
   patientVisit?: Models.PatientVisit
   patientOrder?: Models.PatientOrder
   patientResult?: Models.PatientResult

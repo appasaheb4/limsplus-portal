@@ -48,6 +48,9 @@ import { RoleMappingStore } from "@lp/features/settings/mapping/role/stores/role
 import { ShortcutMenuStore } from "@lp/features/settings/shortcutMenu/stores/shortcutMenu-store"
 import { NoticeBoardStore } from "@lp/features/settings/noticeBoard/stores/noticeBoard-store"
 
+// registation
+import { PatientManagerStore } from "@lp/features/registration/stores/patientManager-store"
+
 import { Store } from "./Store"
 export class Stores extends Store {
   rootStore!: RootStore
@@ -98,6 +101,9 @@ export class Stores extends Store {
   shortcutMenuStore!: ShortcutMenuStore
   noticeBoardStore!: NoticeBoardStore
 
+  // registation
+  patientManagerStore!: PatientManagerStore
+
   constructor() {
     super()
     this.rootStore = new RootStore()
@@ -146,9 +152,12 @@ export class Stores extends Store {
     this.roleMappingStore = new RoleMappingStore()
     this.shortcutMenuStore = new ShortcutMenuStore()
     this.noticeBoardStore = new NoticeBoardStore()
+
+    // registation
+    this.patientManagerStore = new PatientManagerStore()
   }
 }
-   
+
 export const stores = new Stores()
 export const StoresContext = React.createContext(stores)
 export const useStores = () => React.useContext(StoresContext)
